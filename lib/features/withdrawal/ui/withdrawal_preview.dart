@@ -79,9 +79,7 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
       loading: store.previewLoader,
       customLoader: store.withdrawalType == WithdrawalType.nft
           ? store.previewIsProcessing
-              ? WaitingScreen(
-                  onSkip: () {},
-                )
+              ? const WaitingScreen()
               : null
           : null,
       header: SSmallHeader(

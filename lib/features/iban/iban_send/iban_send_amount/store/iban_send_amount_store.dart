@@ -110,7 +110,11 @@ abstract class _IbanSendAmountStoreBase with Store {
       ).maxAmount;
 
   @action
-  void init(AddressBookContactModel value, SimpleBankingAccount bankingAccount, bool isCJ) {
+  void init(
+    AddressBookContactModel value,
+    SimpleBankingAccount bankingAccount,
+    bool isCJ,
+  ) {
     contact = value;
     account = bankingAccount;
     isCJAcc = isCJ;

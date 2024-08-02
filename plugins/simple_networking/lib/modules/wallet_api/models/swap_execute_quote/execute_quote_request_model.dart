@@ -15,15 +15,10 @@ class ExecuteQuoteRequestModel with _$ExecuteQuoteRequestModel {
     @DecimalSerialiser() required Decimal price,
     @JsonKey(name: 'fromAsset') required String fromAssetSymbol,
     @JsonKey(name: 'toAsset') required String toAssetSymbol,
-    @DecimalSerialiser()
-    @JsonKey(name: 'fromAssetVolume')
-    Decimal? fromAssetAmount,
-    @DecimalSerialiser()
-    @JsonKey(name: 'toAssetVolume')
-    required Decimal? toAssetAmount,
+    @DecimalSerialiser() @JsonKey(name: 'fromAssetVolume') Decimal? fromAssetAmount,
+    @DecimalSerialiser() @JsonKey(name: 'toAssetVolume') required Decimal? toAssetAmount,
     RecurringBuyInfoModel? recurringBuyInfo,
   }) = _ExecuteQuoteRequestModel;
 
-  factory ExecuteQuoteRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$ExecuteQuoteRequestModelFromJson(json);
+  factory ExecuteQuoteRequestModel.fromJson(Map<String, dynamic> json) => _$ExecuteQuoteRequestModelFromJson(json);
 }

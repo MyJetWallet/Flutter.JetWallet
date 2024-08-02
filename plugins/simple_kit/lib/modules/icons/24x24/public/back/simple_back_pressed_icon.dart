@@ -9,8 +9,6 @@ class SBackPressedIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? const SimpleLightBackPressedIcon()
-        : const SimpleLightBackPressedIcon();
+    return sKit.currentTheme == STheme.dark ? const SimpleLightBackPressedIcon() : const SimpleLightBackPressedIcon();
   }
 }

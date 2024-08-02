@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:simple_kit/core/simple_kit.dart';
 import 'package:simple_kit/modules/buttons/simple_icon_button.dart';
 import 'package:simple_kit/modules/shared/simple_spacers.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_kit_updated/widgets/shared/simple_skeleton_loader.dart';
 

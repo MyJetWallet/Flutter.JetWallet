@@ -5,9 +5,7 @@ import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 List<CurrencyModel> nonIndicesWithBalanceFrom(
   List<CurrencyModel> currenciesWithBalance,
 ) {
-  final nonIndicesWithBalance = currenciesWithBalance
-      .where((currency) => currency.type != AssetType.indices)
-      .toList();
+  final nonIndicesWithBalance = currenciesWithBalance.where((currency) => currency.type != AssetType.indices).toList();
   sortCurrencies(currenciesWithBalance);
 
   return nonIndicesWithBalance;

@@ -31,6 +31,7 @@ class _CreateBankingScreenState extends State<CreateBankingScreen> {
   var isClicked = false;
   final loading = StackLoaderStore();
 
+  // ignore: unused_field
   late Timer _timer;
 
   void _startTimer() {

@@ -12,8 +12,7 @@ class SimpleLightNumericKeyboardEraseIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SimpleBaseSvg24X24(
-      assetName:
-          'assets/icons/light/102x56/numeric_keyboard_erase/numeric_keyboard_erase.svg',
+      assetName: 'assets/icons/light/102x56/numeric_keyboard_erase/numeric_keyboard_erase.svg',
       color: color,
     );
   }

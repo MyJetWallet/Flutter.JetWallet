@@ -200,13 +200,25 @@ class StartupService {
     final kyc = getIt.get<KycService>();
 
     var analyticsKyc = 0;
-    if (checkKycPassed(kyc.depositStatus, kyc.tradeStatus, kyc.withdrawalStatus)) {
+    if (checkKycPassed(
+      kyc.depositStatus,
+      kyc.tradeStatus,
+      kyc.withdrawalStatus,
+    )) {
       analyticsKyc = 2;
     }
-    if (kycInProgress(kyc.depositStatus, kyc.tradeStatus, kyc.withdrawalStatus)) {
+    if (kycInProgress(
+      kyc.depositStatus,
+      kyc.tradeStatus,
+      kyc.withdrawalStatus,
+    )) {
       analyticsKyc = 1;
     }
-    if (checkKycBlocked(kyc.depositStatus, kyc.tradeStatus, kyc.withdrawalStatus)) {
+    if (checkKycBlocked(
+      kyc.depositStatus,
+      kyc.tradeStatus,
+      kyc.withdrawalStatus,
+    )) {
       analyticsKyc = 4;
     }
     sAnalytics.setKYCDepositStatus = analyticsKyc;

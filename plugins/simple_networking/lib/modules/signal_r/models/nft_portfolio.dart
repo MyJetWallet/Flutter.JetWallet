@@ -9,6 +9,5 @@ class NftPortfolio with _$NftPortfolio {
     List<String>? nfts,
   }) = _NftPortfolio;
 
-  factory NftPortfolio.fromJson(Map<String, dynamic> json) =>
-      _$NftPortfolioFromJson(json);
+  factory NftPortfolio.fromJson(Map<String, dynamic> json) => _$NftPortfolioFromJson(json);
 }

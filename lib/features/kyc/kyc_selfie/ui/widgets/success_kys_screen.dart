@@ -6,9 +6,11 @@ import 'package:jetwallet/core/services/simple_networking/simple_networking.dart
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/utils/store/timer_store.dart';
-import 'package:jetwallet/widgets/result_screens/success_screen/widgets/success_animation.dart';
 import 'package:provider/provider.dart';
+import 'package:rive/rive.dart';
 import 'package:simple_kit/simple_kit.dart';
+
+import '../../../../../utils/constants.dart';
 
 @RoutePage(name: 'SuccessKycScreenRoute')
 class SuccessKycScreen extends StatelessWidget {
@@ -74,8 +76,12 @@ class _SuccessKycScreenBodyState extends State<_SuccessKycScreenBody> {
       child: Column(
         children: [
           const Spacer(),
-          SuccessAnimation(
-            widgetSize: widgetSizeFrom(deviceSize),
+          SizedBox(
+            width: widgetSizeFrom(deviceSize) == SWidgetSize.small ? 160 : 320,
+            height: widgetSizeFrom(deviceSize) == SWidgetSize.small ? 160 : 320,
+            child: const RiveAnimation.asset(
+              successAnimationAsset,
+            ),
           ),
           Baseline(
             baseline: 136.0,

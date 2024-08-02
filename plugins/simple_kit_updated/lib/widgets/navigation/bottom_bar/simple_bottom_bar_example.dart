@@ -14,7 +14,7 @@ SBottomBar simpleBottomBar1Example(BuildContext context) {
     onChanged: (p0) {},
     items: [
       SBottomItemModel(
-        type: BottomItemType.wallets,
+        type: BottomItemType.home,
         icon: Assets.svg.large.card,
         text: 'Section',
       ),
@@ -32,17 +32,17 @@ SBottomBar simpleBottomBar3Example(BuildContext context) {
     onChanged: (p0) {},
     items: [
       SBottomItemModel(
-        type: BottomItemType.wallets,
+        type: BottomItemType.home,
         icon: Assets.svg.large.card,
         text: 'Section',
       ),
       SBottomItemModel(
-        type: BottomItemType.wallets,
+        type: BottomItemType.home,
         icon: Assets.svg.large.card,
         text: 'Section',
       ),
       SBottomItemModel(
-        type: BottomItemType.wallets,
+        type: BottomItemType.home,
         icon: Assets.svg.large.card,
         text: 'Section',
       ),
@@ -60,27 +60,27 @@ SBottomBar simpleBottomBar5Example(BuildContext context) {
     onChanged: (p0) {},
     items: [
       SBottomItemModel(
-        type: BottomItemType.wallets,
+        type: BottomItemType.home,
         icon: Assets.svg.large.card,
         text: 'Section',
       ),
       SBottomItemModel(
-        type: BottomItemType.wallets,
+        type: BottomItemType.home,
         icon: Assets.svg.large.card,
         text: 'Section',
       ),
       SBottomItemModel(
-        type: BottomItemType.wallets,
+        type: BottomItemType.home,
         icon: Assets.svg.large.card,
         text: 'Section',
       ),
       SBottomItemModel(
-        type: BottomItemType.wallets,
+        type: BottomItemType.home,
         icon: Assets.svg.large.card,
         text: 'Section',
       ),
       SBottomItemModel(
-        type: BottomItemType.wallets,
+        type: BottomItemType.home,
         icon: Assets.svg.large.card,
         text: 'Section',
       ),

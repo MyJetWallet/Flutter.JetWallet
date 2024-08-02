@@ -10,8 +10,7 @@ class GooglePayConfig with _$GooglePayConfig {
     required GooglePayConfigData data,
   }) = _GooglePayConfig;
 
-  factory GooglePayConfig.fromJson(Map<String, dynamic> json) =>
-      _$GooglePayConfigFromJson(json);
+  factory GooglePayConfig.fromJson(Map<String, dynamic> json) => _$GooglePayConfigFromJson(json);
 }
 
 @freezed
@@ -25,13 +24,11 @@ class GooglePayConfigData with _$GooglePayConfigData {
     required GooglePayConfigTransactionInfo transactionInfo,
   }) = _GooglePayConfigData;
 
-  factory GooglePayConfigData.fromJson(Map<String, dynamic> json) =>
-      _$GooglePayConfigDataFromJson(json);
+  factory GooglePayConfigData.fromJson(Map<String, dynamic> json) => _$GooglePayConfigDataFromJson(json);
 }
 
 @freezed
-class GooglePayConfigAllowedPaymentMethod
-    with _$GooglePayConfigAllowedPaymentMethod {
+class GooglePayConfigAllowedPaymentMethod with _$GooglePayConfigAllowedPaymentMethod {
   factory GooglePayConfigAllowedPaymentMethod({
     required String type,
     required GooglePayConfigTokenizationSpec tokenizationSpecification,
@@ -51,8 +48,7 @@ class GooglePayConfigParameters with _$GooglePayConfigParameters {
     required List<String> allowedCardNetworks,
   }) = _GooglePayConfigParameters;
 
-  factory GooglePayConfigParameters.fromJson(Map<String, dynamic> json) =>
-      _$GooglePayConfigParametersFromJson(json);
+  factory GooglePayConfigParameters.fromJson(Map<String, dynamic> json) => _$GooglePayConfigParametersFromJson(json);
 }
 
 @freezed
@@ -73,8 +69,7 @@ class GooglePayConfigTokenSpecP with _$GooglePayConfigTokenSpecP {
     required String gatewayMerchantId,
   }) = _GooglePayConfigTokenSpecP;
 
-  factory GooglePayConfigTokenSpecP.fromJson(Map<String, dynamic> json) =>
-      _$GooglePayConfigTokenSpecPFromJson(json);
+  factory GooglePayConfigTokenSpecP.fromJson(Map<String, dynamic> json) => _$GooglePayConfigTokenSpecPFromJson(json);
 }
 
 @freezed

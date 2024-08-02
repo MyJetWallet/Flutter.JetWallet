@@ -9,8 +9,6 @@ class SSupportIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? const SimpleLightSupportIcon()
-        : const SimpleLightSupportIcon();
+    return sKit.currentTheme == STheme.dark ? const SimpleLightSupportIcon() : const SimpleLightSupportIcon();
   }
 }

@@ -10,6 +10,5 @@ class ChangePasswordRequestModel with _$ChangePasswordRequestModel {
     required String newPassword,
   }) = _ChangePasswordRequestModel;
 
-  factory ChangePasswordRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$ChangePasswordRequestModelFromJson(json);
+  factory ChangePasswordRequestModel.fromJson(Map<String, dynamic> json) => _$ChangePasswordRequestModelFromJson(json);
 }

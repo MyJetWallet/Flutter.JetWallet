@@ -11,8 +11,7 @@ class BasePricesModel with _$BasePricesModel {
     @JsonKey(name: 'P') required List<BasePriceModel> prices,
   }) = _BasePricesModel;
 
-  factory BasePricesModel.fromJson(Map<String, dynamic> json) =>
-      _$BasePricesModelFromJson(json);
+  factory BasePricesModel.fromJson(Map<String, dynamic> json) => _$BasePricesModelFromJson(json);
 
   /// Takes previous snapshot of basePrices and
   /// applies the new update to them
@@ -55,6 +54,5 @@ class BasePriceModel with _$BasePriceModel {
     @JsonKey(name: 'S') required String assetSymbol,
   }) = _PeriodPriceModel;
 
-  factory BasePriceModel.fromJson(Map<String, dynamic> json) =>
-      _$BasePriceModelFromJson(json);
+  factory BasePriceModel.fromJson(Map<String, dynamic> json) => _$BasePriceModelFromJson(json);
 }

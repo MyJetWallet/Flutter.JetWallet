@@ -10,8 +10,7 @@ class PaymentInfoResponseModel with _$PaymentInfoResponseModel {
     required PaymentStatus status,
   }) = _PaymentInfoResponseModel;
 
-  factory PaymentInfoResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$PaymentInfoResponseModelFromJson(json);
+  factory PaymentInfoResponseModel.fromJson(Map<String, dynamic> json) => _$PaymentInfoResponseModelFromJson(json);
 }
 
 enum PaymentStatus {

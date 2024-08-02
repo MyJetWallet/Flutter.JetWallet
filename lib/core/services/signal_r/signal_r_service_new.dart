@@ -84,13 +84,6 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
     //await run(event: SignalREvents.setIconsApi, data: iconApi);
   }
 
-  // Isolates
-  static SignalRBackEnd _launch(BackendArgument<void> argument) {
-    return SignalRBackEnd(
-      argument: argument,
-    );
-  }
-
   @override
   void initActions() {
     whenEventCome(SignalREvents.getCurrencyModelsData).run(getCurrencyDataFunc);
@@ -282,7 +275,9 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
     for (var i = 0; i < clientDetail.clientBlockers.length; i++) {
       clientDetail.clientBlockers[i] = clientDetail.clientBlockers[i].copyWith(
         expireDateTime: DateTime.now().add(
-          getDurationFromBlocker(clientDetail.clientBlockers[i].timespanToExpire),
+          getDurationFromBlocker(
+            clientDetail.clientBlockers[i].timespanToExpire,
+          ),
         ),
       );
     }
@@ -296,13 +291,25 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
     final kyc = getIt.get<KycService>();
 
     var analyticsKyc = 0;
-    if (checkKycPassed(kyc.depositStatus, kyc.tradeStatus, kyc.withdrawalStatus)) {
+    if (checkKycPassed(
+      kyc.depositStatus,
+      kyc.tradeStatus,
+      kyc.withdrawalStatus,
+    )) {
       analyticsKyc = 2;
     }
-    if (kycInProgress(kyc.depositStatus, kyc.tradeStatus, kyc.withdrawalStatus)) {
+    if (kycInProgress(
+      kyc.depositStatus,
+      kyc.tradeStatus,
+      kyc.withdrawalStatus,
+    )) {
       analyticsKyc = 1;
     }
-    if (checkKycBlocked(kyc.depositStatus, kyc.tradeStatus, kyc.withdrawalStatus)) {
+    if (checkKycBlocked(
+      kyc.depositStatus,
+      kyc.tradeStatus,
+      kyc.withdrawalStatus,
+    )) {
       analyticsKyc = 4;
     }
     sAnalytics.setKYCDepositStatus = analyticsKyc;
@@ -505,7 +512,10 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
   }
 
   @action
-  void getCurrencyDataFunc({required SignalREvents event, required List<CurrencyModel> data}) {
+  void getCurrencyDataFunc({
+    required SignalREvents event,
+    required List<CurrencyModel> data,
+  }) {
     currenciesList = ObservableList.of(data);
 
     getIt.get<SimpleLoggerService>().log(
@@ -516,7 +526,10 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
   }
 
   @action
-  void getCurrenciesWithHiddenListDataFunc({required SignalREvents event, required List<CurrencyModel> data}) {
+  void getCurrenciesWithHiddenListDataFunc({
+    required SignalREvents event,
+    required List<CurrencyModel> data,
+  }) {
     currenciesWithHiddenList = ObservableList.of(data);
   }
 
@@ -558,7 +571,10 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
   }
 
   @action
-  void updateBalancesData({required SignalREvents event, required List<CurrencyModel> data}) {
+  void updateBalancesData({
+    required SignalREvents event,
+    required List<CurrencyModel> data,
+  }) {
     currenciesList = ObservableList.of(data);
 
     //log(data.where((element) => element.symbol == 'EUR').first.assetBalance.toJson());
@@ -614,17 +630,26 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
   }
 
   @action
-  void updateBasePricesData({required SignalREvents event, required List<CurrencyModel> data}) {
+  void updateBasePricesData({
+    required SignalREvents event,
+    required List<CurrencyModel> data,
+  }) {
     currenciesList = ObservableList.of(data);
   }
 
   @action
-  void updateBasePricesHiddenListData({required SignalREvents event, required List<CurrencyModel> data}) {
+  void updateBasePricesHiddenListData({
+    required SignalREvents event,
+    required List<CurrencyModel> data,
+  }) {
     currenciesWithHiddenList = ObservableList.of(data);
   }
 
   @action
-  void updateBlockchainsData({required SignalREvents event, required List<CurrencyModel> data}) {
+  void updateBlockchainsData({
+    required SignalREvents event,
+    required List<CurrencyModel> data,
+  }) {
     currenciesList = ObservableList.of(data);
   }
 
@@ -737,12 +762,18 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
   }
 
   @action
-  void updateAssetsWithdrawalFeesData({required SignalREvents event, required List<CurrencyModel> data}) {
+  void updateAssetsWithdrawalFeesData({
+    required SignalREvents event,
+    required List<CurrencyModel> data,
+  }) {
     currenciesList = ObservableList.of(data);
   }
 
   @action
-  void updateAssetPaymentMethodsNewData({required SignalREvents event, required List<CurrencyModel> data}) {
+  void updateAssetPaymentMethodsNewData({
+    required SignalREvents event,
+    required List<CurrencyModel> data,
+  }) {
     currenciesList = ObservableList.of(data);
   }
 
@@ -925,7 +956,9 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
     //run(event: SignalREvents.updateAssetPaymentMethodsNew, data: value);
     for (final currency in currenciesList) {
       final buyMethods = (value.buy ?? [])
-          .where((buyMethod) => buyMethod.allowedForSymbols?.contains(currency.symbol) ?? false)
+          .where(
+            (buyMethod) => buyMethod.allowedForSymbols?.contains(currency.symbol) ?? false,
+          )
           .map(setCategoryForBuyMethods)
           .toList();
 
@@ -937,11 +970,16 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
           .toList();
 
       final receiveMethods = (value.receive ?? [])
-          .where((receiveMethod) => receiveMethod.symbols?.contains(currency.symbol) ?? false)
+          .where(
+            (receiveMethod) => receiveMethod.symbols?.contains(currency.symbol) ?? false,
+          )
           .toList();
 
-      final sellMethods =
-          (value.sell ?? []).where((sellMethod) => sellMethod.symbols?.contains(currency.symbol) ?? false).toList();
+      final sellMethods = (value.sell ?? [])
+          .where(
+            (sellMethod) => sellMethod.symbols?.contains(currency.symbol) ?? false,
+          )
+          .toList();
 
       if (buyMethods.isNotEmpty) {
         buyMethods.sort((a, b) => (a.orderId ?? 0).compareTo(b.orderId ?? 0));

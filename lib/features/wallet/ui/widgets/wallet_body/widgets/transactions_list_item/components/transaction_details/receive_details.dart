@@ -24,8 +24,7 @@ class ReceiveDetails extends StatelessObserverWidget {
   Widget build(BuildContext context) {
     final colors = sKit.colors;
     final senderName = transactionListItem.receiveByPhoneInfo!.senderName ?? '';
-    final fromPhoneNumber =
-        transactionListItem.receiveByPhoneInfo?.fromPhoneNumber ?? '';
+    final fromPhoneNumber = transactionListItem.receiveByPhoneInfo?.fromPhoneNumber ?? '';
 
     return SPaddingH24(
       child: Column(
@@ -74,8 +73,7 @@ class ReceiveDetails extends StatelessObserverWidget {
                     ),
                   ),
                 ],
-                if (fromPhoneNumber.isNotEmpty && senderName.isNotEmpty)
-                  const SpaceH12(),
+                if (fromPhoneNumber.isNotEmpty && senderName.isNotEmpty) const SpaceH12(),
               ],
             ),
           ),

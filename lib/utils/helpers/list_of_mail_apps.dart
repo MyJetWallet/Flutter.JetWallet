@@ -43,8 +43,7 @@ class _MailOptions extends StatefulObserverWidget {
   State<_MailOptions> createState() => _MailOptionsBodyState();
 }
 
-class _MailOptionsBodyState extends State<_MailOptions>
-    with WidgetsBindingObserver {
+class _MailOptionsBodyState extends State<_MailOptions> with WidgetsBindingObserver {
   var checked = false;
   late Widget icon;
 

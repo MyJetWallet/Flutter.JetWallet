@@ -19,11 +19,11 @@ import 'package:jetwallet/features/market/market_details/ui/widgets/balance_bloc
 import 'package:jetwallet/features/market/market_details/ui/widgets/cpower_block/cpower_block.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/index_allocation_block/index_allocation_block.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/market_info_loader_block/market_info_loader_block.dart';
-import 'package:jetwallet/features/market/market_details/ui/widgets/market_news_block/market_news_block.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/market_stats_block/market_stats_block.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/return_rates_block/return_rates_block.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/features/market/store/watchlist_store.dart';
+import 'package:jetwallet/features/my_wallets/widgets/news_dashboard_section.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -98,11 +98,20 @@ class _MarketDetailsBody extends StatefulObserverWidget {
 class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
   Future<MarketInfoResponseModel?>? marketInfo;
 
+  final _controller = ScrollController();
+
   @override
   void initState() {
     super.initState();
 
     marketInfo = getMarketInfo(widget.marketItem.associateAsset);
+
+    _controller.addListener(() {
+      if (_controller.offset >= _controller.position.maxScrollExtent) {
+        final newsStore = MarketNewsStore.of(context);
+        newsStore.loadMoreNews();
+      }
+    });
   }
 
   @override
@@ -147,7 +156,9 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
               }
             },
             onBackButtonTap: () {
-              sAnalytics.tapOnTheBackButtonFromMarketAssetScreen(asset: widget.marketItem.symbol);
+              sAnalytics.tapOnTheBackButtonFromMarketAssetScreen(
+                asset: widget.marketItem.symbol,
+              );
               sRouter.maybePop();
             },
           ),
@@ -164,6 +175,7 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
                 child: Material(
                   color: colors.white,
                   child: SingleChildScrollView(
+                    controller: _controller,
                     child: Column(
                       children: [
                         if (chart.union != const ChartUnion.loading())
@@ -257,28 +269,8 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
                             child: CpowerBlock(),
                           ),
                         ],
-                        if (widget.marketItem.symbol != 'CPWR') ...[
-                          if (news.isNewsLoaded) ...[
-                            MarketNewsBlock(
-                              news: news.news,
-                              assetId: widget.marketItem.associateAsset,
-                            ),
-                          ] else ...[
-                            const SPaddingH24(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SpaceH40(),
-                                  SSkeletonTextLoader(
-                                    height: 16,
-                                    width: 133,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ],
-                        const SpaceH53(),
+                        const NewsDashboardSection(),
+                        const SpaceH120(),
                       ],
                     ),
                   ),
@@ -326,7 +318,9 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
                           accuracy: widget.marketItem.assetAccuracy,
                         ),
                   onTap: () {
-                    sAnalytics.tapOnTheBalanceButtonOnMarketAssetScreen(asset: widget.marketItem.symbol);
+                    sAnalytics.tapOnTheBalanceButtonOnMarketAssetScreen(
+                      asset: widget.marketItem.symbol,
+                    );
 
                     onMarketItemTap(
                       context: context,

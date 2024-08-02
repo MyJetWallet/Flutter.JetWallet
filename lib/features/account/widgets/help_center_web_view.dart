@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -24,64 +26,39 @@ class HelpCenterWebView extends StatefulWidget {
 class _HelpCenterWebViewState extends State<HelpCenterWebView> {
   late WebViewController controller;
 
-  bool isBackBottonPressed = false;
+  @override
+  void initState() {
+    super.initState();
+    if (Platform.isAndroid) WebView.platform = AndroidWebView();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      onPopInvoked: (_) {
-        if (isBackBottonPressed) {
-          isBackBottonPressed = false;
-          return;
-        }
-
-        _onWillPop();
-      },
-      child: SPageFrame(
-        loaderText: intl.register_pleaseWait,
-        header: SPaddingH24(
-          child: SSmallHeader(
-            title: widget.title ?? intl.helpCenterWebView,
-            onBackButtonTap: () {
-              isBackBottonPressed = true;
-              _onWillPop();
-            },
-          ),
-        ),
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            var width = 700.0;
-            final height = constraints.maxHeight;
-            width = (constraints.maxWidth > width) ? width : constraints.maxWidth;
-            if (height <= width) {
-              width = height * 0.6;
+    return SPageFrame(
+      loaderText: intl.register_pleaseWait,
+      header: SPaddingH24(
+        child: SSmallHeader(
+          title: widget.title ?? intl.helpCenterWebView,
+          onBackButtonTap: () {
+            if (context.mounted) {
+              Navigator.pop(context);
             }
-
-            return WebView(
-              gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{}
-                ..add(Factory<VerticalDragGestureRecognizer>(() => VerticalDragGestureRecognizer())),
-              initialUrl: widget.link,
-              gestureNavigationEnabled: true,
-              javascriptMode: JavascriptMode.unrestricted,
-              onWebViewCreated: (controller) {
-                this.controller = controller;
-              },
-            );
           },
         ),
       ),
+      child: WebView(
+        gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{}..add(
+            Factory<VerticalDragGestureRecognizer>(
+              () => VerticalDragGestureRecognizer(),
+            ),
+          ),
+        initialUrl: widget.link,
+        gestureNavigationEnabled: true,
+        javascriptMode: JavascriptMode.unrestricted,
+        onWebViewCreated: (controller) {
+          this.controller = controller;
+        },
+      ),
     );
-  }
-
-  Future<bool> _onWillPop() async {
-    if (await controller.canGoBack()) {
-      await controller.goBack();
-    } else {
-      if (context.mounted) {
-        Navigator.pop(context);
-      }
-    }
-
-    return Future.value(false);
   }
 }

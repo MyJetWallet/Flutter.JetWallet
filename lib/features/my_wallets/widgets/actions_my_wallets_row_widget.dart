@@ -35,7 +35,12 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
               ? const SPaddingH24(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [_LoadingButton(), _LoadingButton(), _LoadingButton(), _LoadingButton()],
+                    children: [
+                      _LoadingButton(),
+                      _LoadingButton(),
+                      _LoadingButton(),
+                      _LoadingButton(),
+                    ],
                   ),
                 )
               : Row(
@@ -43,44 +48,46 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
                   children: [
                     CircleActionBuy(
                       onTap: () {
-                        sAnalytics.tapOnTheBuyWalletButton(source: 'Wallets - Buy');
-                        if (myWalletsSrore.isReordering) {
-                          myWalletsSrore.endReorderingImmediately();
-                        } else {
-                          showBuyAction(context: context);
-                        }
+                        sAnalytics.tapOnTheBuyWalletButton(
+                          source: 'Wallets - Buy',
+                        );
+
+                        myWalletsSrore.endReorderingImmediately();
+
+                        showBuyAction(context: context);
                       },
                     ),
                     CircleActionSell(
                       onTap: () {
                         sAnalytics.tapOnTheSellButtonOnWalletsScr();
-                        if (myWalletsSrore.isReordering) {
-                          myWalletsSrore.endReorderingImmediately();
-                        } else {
-                          showSellAction(context);
-                        }
+
+                        myWalletsSrore.endReorderingImmediately();
+
+                        showSellAction(context);
                       },
                     ),
                     CircleActionSend(
                       onTap: () {
-                        sAnalytics.tabOnTheSendButton(source: 'My Assets - Send');
-                        if (myWalletsSrore.isReordering) {
-                          myWalletsSrore.endReorderingImmediately();
-                        } else {
-                          showSendAction(context);
-                        }
+                        sAnalytics.tabOnTheSendButton(
+                          source: 'My Assets - Send',
+                        );
+
+                        myWalletsSrore.endReorderingImmediately();
+
+                        showSendAction(context);
                       },
                       isDisabled: isEmptyBalanse,
                     ),
                     CircleActionAddCash(
                       onTap: () {
                         sAnalytics.tapOnTheButtonAddCashWalletsOnWalletsScreen();
-                        sAnalytics.tapOnTheDepositButton(source: 'Wallets - Deposit');
-                        if (myWalletsSrore.isReordering) {
-                          myWalletsSrore.endReorderingImmediately();
-                        } else {
-                          showSelectAccountForAddCash(context);
-                        }
+                        sAnalytics.tapOnTheDepositButton(
+                          source: 'Wallets - Deposit',
+                        );
+
+                        myWalletsSrore.endReorderingImmediately();
+
+                        showSelectAccountForAddCash(context);
                       },
                     ),
                   ],

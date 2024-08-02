@@ -239,7 +239,10 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                       for (final instrument in listToShow) ...[
                         if (instrument.qty! > Decimal.one) ...[
                           InvestLine(
-                            currency: currencyFrom(currencies, getInstrumentBySymbol(instrument.symbol!)?.name ?? ''),
+                            currency: currencyFrom(
+                              currencies,
+                              getInstrumentBySymbol(instrument.symbol!)?.name ?? '',
+                            ),
                             price: Decimal.zero,
                             operationType: Direction.undefined,
                             isPending: false,
@@ -252,7 +255,11 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                             accuracy: getInstrumentBySymbol(instrument.symbol!)?.priceAccuracy ?? 2,
                             onTap: () {
                               sRouter.push(
-                                InvestHistoryPageRouter(instrument: getInstrumentBySymbol(instrument.symbol!)!),
+                                InvestHistoryPageRouter(
+                                  instrument: getInstrumentBySymbol(
+                                    instrument.symbol!,
+                                  )!,
+                                ),
                               );
                             },
                           ),
@@ -285,7 +292,10 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                       for (final instrument in listToShow) ...[
                         if (instrument.qty == Decimal.one) ...[
                           InvestLine(
-                            currency: currencyFrom(currencies, getInstrumentBySymbol(instrument.symbol!)?.name ?? ''),
+                            currency: currencyFrom(
+                              currencies,
+                              getInstrumentBySymbol(instrument.symbol!)?.name ?? '',
+                            ),
                             price: Decimal.zero,
                             operationType: Direction.undefined,
                             isPending: false,
@@ -298,7 +308,11 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                             accuracy: getInstrumentBySymbol(instrument.symbol!)?.priceAccuracy ?? 2,
                             onTap: () {
                               sRouter.push(
-                                InvestHistoryPageRouter(instrument: getInstrumentBySymbol(instrument.symbol!)!),
+                                InvestHistoryPageRouter(
+                                  instrument: getInstrumentBySymbol(
+                                    instrument.symbol!,
+                                  )!,
+                                ),
                               );
                             },
                           ),

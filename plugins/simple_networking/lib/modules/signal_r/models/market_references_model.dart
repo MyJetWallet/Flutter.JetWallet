@@ -10,8 +10,7 @@ class MarketReferencesModel with _$MarketReferencesModel {
     required List<MarketReferenceModel> references,
   }) = _MarketReferencesModel;
 
-  factory MarketReferencesModel.fromJson(Map<String, dynamic> json) =>
-      _$MarketReferencesModelFromJson(json);
+  factory MarketReferencesModel.fromJson(Map<String, dynamic> json) => _$MarketReferencesModelFromJson(json);
 }
 
 @freezed
@@ -30,8 +29,7 @@ class MarketReferenceModel with _$MarketReferenceModel {
     required MarketType type,
   }) = _MarketReferenceModel;
 
-  factory MarketReferenceModel.fromJson(Map<String, dynamic> json) =>
-      _$MarketReferenceModelFromJson(json);
+  factory MarketReferenceModel.fromJson(Map<String, dynamic> json) => _$MarketReferenceModelFromJson(json);
 }
 
 enum MarketType {

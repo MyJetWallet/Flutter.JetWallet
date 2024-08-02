@@ -13,6 +13,5 @@ class AddLogModel with _$AddLogModel {
     String? token,
   }) = _AddLogModel;
 
-  factory AddLogModel.fromJson(Map<String, dynamic> json) =>
-      _$AddLogModelFromJson(json);
+  factory AddLogModel.fromJson(Map<String, dynamic> json) => _$AddLogModelFromJson(json);
 }

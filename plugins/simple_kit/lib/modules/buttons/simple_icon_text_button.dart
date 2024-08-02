@@ -31,6 +31,7 @@ class SIconTextButton extends StatefulWidget {
 
 class _SIconTextButtonState extends State<SIconTextButton> {
   var isClicked = false;
+  // ignore: unused_field
   late Timer _timer;
 
   void _startTimer() {
@@ -63,7 +64,7 @@ class _SIconTextButtonState extends State<SIconTextButton> {
         ),
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
       ).copyWith(
-        overlayColor: MaterialStateProperty.all(colors.grey4),
+        overlayColor: WidgetStateProperty.all(colors.grey4),
       ),
       onPressed: () {
         if (!isClicked) {

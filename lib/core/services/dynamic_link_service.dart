@@ -1,9 +1,13 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/deep_link_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:logger/logger.dart';
 
+
+// TODO (Yaroslav): this service is dipricated
 class DynamicLinkService {
   //getIt.get<DeepLinkService>().handle
   final _firebaseDynamicLinks = FirebaseDynamicLinks.instance;

@@ -23,7 +23,7 @@ Future<String> getUserAgent() async {
   if (sRouter.navigatorKey.currentContext != null) {
     final mediaQuery = MediaQuery.of(sRouter.navigatorKey.currentContext!);
 
-    final deviceSize = mediaQuery.size;
+    final deviceSize = 'Size(${mediaQuery.size.width}, ${mediaQuery.size.height})';
     final devicePixelRatio = mediaQuery.devicePixelRatio;
 
     return '$appVersion;${packageInfo.buildNumber};$deviceType;$deviceSize;'

@@ -14,8 +14,6 @@ class SCryptoIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? SimpleLightCryptoIcon(color: color)
-        : SimpleLightCryptoIcon(color: color);
+    return sKit.currentTheme == STheme.dark ? SimpleLightCryptoIcon(color: color) : SimpleLightCryptoIcon(color: color);
   }
 }

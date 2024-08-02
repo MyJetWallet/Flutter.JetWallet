@@ -6,6 +6,7 @@ import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/core/services/internet_checker_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/refresh_token_service.dart';
+import 'package:jetwallet/core/services/remote_config/remote_config.dart';
 import 'package:jetwallet/core/services/startup_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/app/store/global_loader.dart';
@@ -91,11 +92,11 @@ class _AppBuilderBodyState extends State<AppBuilderBody> with WidgetsBindingObse
         );
       }
 
-      //getIt<SignalRService>().signalR.reconnectSignalR();
-
       if (getIt.isRegistered<InternetCheckerService>()) {
         getIt<InternetCheckerService>().checkFromForeground();
       }
+
+      getIt.get<RemoteConfig>().pingRemoutConfig();
     }
   }
 
@@ -121,7 +122,7 @@ class _AppBuilderBodyState extends State<AppBuilderBody> with WidgetsBindingObse
         onShoulNavigate: (_) {},
         child: MediaQuery(
           data: widget.reactiveMediaQuery.copyWith(
-            textScaler: const TextScaler.linear(1.0),
+            textScaler: TextScaler.noScaling,
           ),
           child: GlobalLoaderWidget(
             child: widget.child,

@@ -8,7 +8,6 @@ import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/earn/store/earn_withdrawal_order_summary_store.dart';
 import 'package:jetwallet/features/wallet/helper/format_date_to_hm.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
-import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
@@ -48,14 +47,7 @@ class EarnWithdrawOrderSummaryScreen extends StatelessWidget {
         return SPageFrameWithPadding(
           loading: store.loader,
           loaderText: intl.register_pleaseWait,
-          customLoader: store.showProcessing
-              ? WaitingScreen(
-                  primaryText: intl.buy_confirmation_local_p2p_processing_title,
-                  onSkip: () {
-                    navigateToRouter();
-                  },
-                )
-              : null,
+          customLoader: store.showProcessing ? const WaitingScreen() : null,
           header: SSmallHeader(
             onBackButtonTap: () {
               sAnalytics.tapOnTheBackFromEarnWithdrawOrderSummaryButton(
@@ -103,7 +95,10 @@ class _EarnWithdrawOrderSummaruBody extends StatelessWidget {
                 fromAssetDescription: intl.earn_earn,
                 fromAssetValue: isBalanceHide
                     ? '**** ${store.currency.symbol}'
-                    : volumeFormat(decimal: store.amount, symbol: store.currency.symbol),
+                    : volumeFormat(
+                        decimal: store.amount,
+                        symbol: store.currency.symbol,
+                      ),
                 fromAssetBaseAmount: isBalanceHide
                     ? '**** ${sSignalRModules.baseCurrency.symbol}'
                     : '≈${marketFormat(decimal: store.baseAmount, symbol: sSignalRModules.baseCurrency.symbol, accuracy: store.baseCurrency.accuracy)}',
@@ -111,7 +106,10 @@ class _EarnWithdrawOrderSummaruBody extends StatelessWidget {
                 toAssetDescription: intl.earn_crypto_wallet,
                 toAssetValue: isBalanceHide
                     ? '**** ${store.currency.symbol}'
-                    : volumeFormat(decimal: store.amount, symbol: store.currency.symbol),
+                    : volumeFormat(
+                        decimal: store.amount,
+                        symbol: store.currency.symbol,
+                      ),
                 toAssetBaseAmount: isBalanceHide
                     ? '**** ${sSignalRModules.baseCurrency.symbol}'
                     : '≈${marketFormat(decimal: store.baseAmount, symbol: sSignalRModules.baseCurrency.symbol, accuracy: store.baseCurrency.accuracy)}',
@@ -128,14 +126,20 @@ class _EarnWithdrawOrderSummaruBody extends StatelessWidget {
                   label: intl.earn_basis_amount,
                   value: isBalanceHide
                       ? '**** ${store.currency.symbol}'
-                      : volumeFormat(decimal: store.earnPosition.baseAmount, symbol: store.currency.symbol),
+                      : volumeFormat(
+                          decimal: store.earnPosition.baseAmount,
+                          symbol: store.currency.symbol,
+                        ),
                   needHorizontalPadding: false,
                 ),
                 TwoColumnCell(
                   label: intl.earn_revenue,
                   value: isBalanceHide
                       ? '**** ${store.currency.symbol}'
-                      : volumeFormat(decimal: store.earnPosition.incomeAmount, symbol: store.currency.symbol),
+                      : volumeFormat(
+                          decimal: store.earnPosition.incomeAmount,
+                          symbol: store.currency.symbol,
+                        ),
                   needHorizontalPadding: false,
                 ),
               ],
@@ -161,8 +165,11 @@ class _EarnWithdrawOrderSummaruBody extends StatelessWidget {
               if (store.earnPosition.withdrawType == WithdrawType.lock)
                 Builder(
                   builder: (context) {
-                    final closeDate =
-                        DateTime.now().add(Duration(days: store.earnPosition.offers.first.lockPeriod ?? 0));
+                    final closeDate = DateTime.now().add(
+                      Duration(
+                        days: store.earnPosition.offers.first.lockPeriod ?? 0,
+                      ),
+                    );
                     final formatedData = formatDateToDMYFromDate(closeDate.toString());
 
                     final days = store.earnPosition.offers.first.lockPeriod ?? 1;

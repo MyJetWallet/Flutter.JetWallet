@@ -28,7 +28,6 @@ class SimpleTableAccount extends HookWidget {
     this.buttonLabel,
     this.buttonTap,
     this.customRightWidget,
-    this.onTableTap,
   });
 
   final Widget? assetIcon;
@@ -53,14 +52,14 @@ class SimpleTableAccount extends HookWidget {
   final VoidCallback? buttonTap;
   final String? buttonLabel;
 
-  final VoidCallback? onTableTap;
-
   @override
   Widget build(BuildContext context) {
     final isHighlated = useState(false);
 
     return SafeGesture(
-      onTap: onTableTap,
+      onTap: () {
+        onTableAssetTap?.call();
+      },
       highlightColor: SColorsLight().gray2,
       onHighlightChanged: (p0) {
         isHighlated.value = p0;
@@ -73,7 +72,7 @@ class SimpleTableAccount extends HookWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             SimpleTableAsset(
-              onTableAssetTap: onTableAssetTap,
+              onTableAssetTap: null,
               isCard: isCard,
               assetIcon: assetIcon,
               needPadding: false,

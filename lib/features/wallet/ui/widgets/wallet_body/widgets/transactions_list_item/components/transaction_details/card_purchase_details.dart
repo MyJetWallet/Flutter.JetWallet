@@ -52,10 +52,14 @@ class CardPurchaseDetails extends StatelessObserverWidget {
             value: Row(
               children: [
                 TransactionDetailsNewValueText(
-                  text: shortTxhashFrom(transactionListItem.cardPurchaseInfo!.transactionId ?? ''),
+                  text: shortTxhashFrom(
+                    transactionListItem.cardPurchaseInfo!.transactionId ?? '',
+                  ),
                 ),
                 const SpaceW10(),
-                HistoryCopyIcon(transactionListItem.cardPurchaseInfo!.transactionId ?? ''),
+                HistoryCopyIcon(
+                  transactionListItem.cardPurchaseInfo!.transactionId ?? '',
+                ),
               ],
             ),
           ),
@@ -91,7 +95,9 @@ class CardPurchaseDetails extends StatelessObserverWidget {
                   child: SizedBox(
                     width: 16,
                     height: 16,
-                    child: getSimpleNetworkIcon(transactionListItem.cardPurchaseInfo!.cardType),
+                    child: getSimpleNetworkIcon(
+                      transactionListItem.cardPurchaseInfo!.cardType,
+                    ),
                   ),
                 ),
                 const SpaceW8(),
@@ -211,7 +217,10 @@ class CardPurchaseDetailsHeader extends StatelessWidget {
                 : transactionListItem.status == Status.completed
                     ? SBadgeStatus.success
                     : SBadgeStatus.error,
-            text: transactionDetailsStatusText(transactionListItem.status, isPending: true),
+            text: transactionDetailsStatusText(
+              transactionListItem.status,
+              isPending: true,
+            ),
           ),
           const SizedBox(height: 24),
         ],

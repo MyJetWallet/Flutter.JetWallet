@@ -16,14 +16,15 @@ class BanersListMessage with _$BanersListMessage {
 class BanerModel with _$BanerModel {
   const factory BanerModel({
     required String bannerId,
-    @Default('') String title,
-    @Default('') String description,
+    String? title,
+    String? description,
     String? cta,
     String? image,
     @Default(0.5) double align,
     String? action,
     @Default(BanerType.unclosable) @JsonKey(unknownEnumValue: BanerType.unclosable) BanerType type,
     required int order,
+    @Default(BanerGroupType.unknown) @JsonKey(unknownEnumValue: BanerGroupType.unknown) BanerGroupType group,
   }) = _BanerModel;
 
   factory BanerModel.fromJson(Map<String, dynamic> json) => _$BanerModelFromJson(json);
@@ -34,4 +35,15 @@ enum BanerType {
   closable,
   @JsonValue(2)
   unclosable,
+}
+
+enum BanerGroupType {
+  @JsonValue(0)
+  marketing,
+  @JsonValue(1)
+  profile,
+  @JsonValue(2)
+  product,
+  @JsonValue(3)
+  unknown,
 }

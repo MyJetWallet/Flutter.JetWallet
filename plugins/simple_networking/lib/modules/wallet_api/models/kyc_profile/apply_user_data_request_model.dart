@@ -13,6 +13,5 @@ class ApplyUseDataRequestModel with _$ApplyUseDataRequestModel {
     required String? referralCode,
   }) = _ApplyUseDataRequestModel;
 
-  factory ApplyUseDataRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$ApplyUseDataRequestModelFromJson(json);
+  factory ApplyUseDataRequestModel.fromJson(Map<String, dynamic> json) => _$ApplyUseDataRequestModelFromJson(json);
 }

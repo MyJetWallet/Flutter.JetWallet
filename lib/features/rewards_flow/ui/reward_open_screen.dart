@@ -123,7 +123,11 @@ abstract class _RewardOpenStoreBase with Store {
   AnimationController? lastController;
 
   @action
-  Future<void> openCard(int index, AnimationController controller, String source) async {
+  Future<void> openCard(
+    int index,
+    AnimationController controller,
+    String source,
+  ) async {
     lastIndex = index;
     lastController = controller;
     showBackgroundStars = true;
@@ -214,6 +218,7 @@ abstract class _RewardOpenStoreBase with Store {
 
     final currency = currencyFrom(
       sSignalRModules.currenciesWithHiddenList,
+      //TODO Anna Bielikh need refactoring
       spinData != null ? spinData?.assetSymbol ?? 'BTC' : 'BTC',
     );
 
@@ -418,7 +423,9 @@ class _RewardOpenScreenBodyState extends State<_RewardOpenScreenBody> with Ticke
                     SPrimaryButton1(
                       active: true,
                       onTap: () async {
-                        sAnalytics.rewardsClickNextReward(source: widget.source);
+                        sAnalytics.rewardsClickNextReward(
+                          source: widget.source,
+                        );
 
                         store.nextReward();
                       },
@@ -436,7 +443,9 @@ class _RewardOpenScreenBodyState extends State<_RewardOpenScreenBody> with Ticke
                     SPrimaryButton1(
                       active: true,
                       onTap: () async {
-                        sAnalytics.rewardsCloseFlowAfterCardFlip(source: widget.source);
+                        sAnalytics.rewardsCloseFlowAfterCardFlip(
+                          source: widget.source,
+                        );
 
                         await sRouter.maybePop();
                       },

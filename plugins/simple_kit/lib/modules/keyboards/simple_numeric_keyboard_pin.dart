@@ -38,8 +38,7 @@ class _SNumericKeyboardPinState extends State<SNumericKeyboardPin> {
 
       setState(() {
         biometricIcon = _iconBasedOnBiometricStatus(biometricStatusData);
-        biometricPressedIcon =
-            _iconPressedBasedOnBiometricStatus(biometricStatusData);
+        biometricPressedIcon = _iconPressedBasedOnBiometricStatus(biometricStatusData);
         biometricIconValue = _realValueOfBiometricButton(biometricStatusData);
         biometricHide = widget.hideBiometricButton;
       });

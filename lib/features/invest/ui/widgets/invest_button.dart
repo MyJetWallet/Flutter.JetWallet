@@ -34,8 +34,7 @@ class SIButton extends StatefulWidget {
   final Color inactiveNameColor;
 
   @override
-  State<SIButton> createState() =>
-      _SimpleInvestButtonState();
+  State<SIButton> createState() => _SimpleInvestButtonState();
 }
 
 class _SimpleInvestButtonState extends State<SIButton> {
@@ -78,7 +77,11 @@ class _SimpleInvestButtonState extends State<SIButton> {
           border: widget.borderColor != null ? Border.all(color: widget.borderColor!) : null,
         ),
         child: Baseline(
-          baseline: widget.isSecondary ? 21.5 : widget.description == null ? 27.5 : 23,
+          baseline: widget.isSecondary
+              ? 21.5
+              : widget.description == null
+                  ? 27.5
+                  : 23,
           baselineType: TextBaseline.alphabetic,
           child: SPaddingH24(
             child: Row(
@@ -95,11 +98,13 @@ class _SimpleInvestButtonState extends State<SIButton> {
                     children: [
                       Text(
                         widget.name,
-                        style: widget.isSecondary ? sBody1InvestSMStyle.copyWith(
-                          color: currentNameColor,
-                        ) : sButtonTextInvestStyle.copyWith(
-                          color: currentNameColor,
-                        ),
+                        style: widget.isSecondary
+                            ? sBody1InvestSMStyle.copyWith(
+                                color: currentNameColor,
+                              )
+                            : sButtonTextInvestStyle.copyWith(
+                                color: currentNameColor,
+                              ),
                       ),
                       if (widget.description != null)
                         Text(

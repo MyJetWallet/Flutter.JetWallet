@@ -48,8 +48,7 @@ class IndexAllocationBlock extends StatelessObserverWidget {
 
   IndexModel? _indexDetailsFrom(List<IndexModel> indicesDetails) {
     if (indicesDetails.isNotEmpty) {
-      return indicesDetails
-          .firstWhere((element) => element.symbol == marketItem.symbol);
+      return indicesDetails.firstWhere((element) => element.symbol == marketItem.symbol);
     }
 
     return null;

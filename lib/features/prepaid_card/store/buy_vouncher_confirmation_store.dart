@@ -13,7 +13,6 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
-import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
@@ -199,10 +198,6 @@ abstract class _BuyVouncherConfirmationStoreBase with Store {
         FailureScreenRouter(
           primaryText: intl.previewBuyWithAsset_failure,
           secondaryText: error,
-          primaryButtonName: intl.previewBuyWithAsset_close,
-          onPrimaryButtonTap: () {
-            navigateToRouter();
-          },
         ),
       ),
     );
@@ -302,8 +297,6 @@ abstract class _BuyVouncherConfirmationStoreBase with Store {
                   accuracy: buyCurrency.accuracy,
                 ),
         ),
-        buttonText: intl.previewBuyWithUmlimint_saveCard,
-        showProgressBar: true,
         onSuccess: (_) async {
           sRouter.popUntilRouteWithName(PrepaidCardServiceRouter.name);
         },

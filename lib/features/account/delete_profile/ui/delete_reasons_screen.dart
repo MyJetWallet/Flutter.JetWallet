@@ -82,9 +82,7 @@ class DeleteReasonsScreen extends StatelessObserverWidget {
                         ),
                         const Spacer(),
                         SCompleteIcon(
-                          color: store.isAlreadySelected(index)
-                              ? colors.blue
-                              : colors.grey1,
+                          color: store.isAlreadySelected(index) ? colors.blue : colors.grey1,
                         ),
                       ],
                     ),

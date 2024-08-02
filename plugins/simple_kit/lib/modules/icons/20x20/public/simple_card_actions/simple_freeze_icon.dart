@@ -14,8 +14,6 @@ class SFreezeIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? SimpleLightFreezeIcon(color: color)
-        : SimpleLightFreezeIcon(color: color);
+    return sKit.currentTheme == STheme.dark ? SimpleLightFreezeIcon(color: color) : SimpleLightFreezeIcon(color: color);
   }
 }

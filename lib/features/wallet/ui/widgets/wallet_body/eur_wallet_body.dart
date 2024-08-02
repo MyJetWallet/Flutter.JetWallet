@@ -15,7 +15,6 @@ import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_create_response.dart';
@@ -190,8 +189,9 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                   ),
                 ],
                 if (userInfo.isSimpleCardAvailable) ...[
-                  for (final el in (simpleCardStore.allCards ?? <CardDataModel>[])
-                      .where((element) => element.status != AccountStatusCard.unsupported))
+                  for (final el in (simpleCardStore.allCards ?? <CardDataModel>[]).where(
+                    (element) => element.status != AccountStatusCard.unsupported,
+                  ))
                     SliverToBoxAdapter(
                       child: SimpleTableAsset(
                         label: el.label ?? intl.eur_wallet_simple_card,
@@ -258,7 +258,9 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                             child: SButtonContext(
                               type: SButtonContextType.iconedSmall,
                               onTap: () {
-                                sAnalytics.tapOnGetSimpleCard(source: 'eur wallet');
+                                sAnalytics.tapOnGetSimpleCard(
+                                  source: 'eur wallet',
+                                );
                                 showGetSimpleCardModal(context: context);
                               },
                               text: intl.simple_card_get_card.capitalize(),
@@ -377,9 +379,9 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                                   sAnalytics.eurWalletAddAccountEur();
                                   sAnalytics.eurWalletPersonalEURAccount();
 
-                                  sRouter
-                                      .push(const CreateBankingRoute())
-                                      .then((value) => sAnalytics.eurWalletBackOnPersonalAccount());
+                                  sRouter.push(const CreateBankingRoute()).then(
+                                        (value) => sAnalytics.eurWalletBackOnPersonalAccount(),
+                                      );
                                 },
                               ),
                             ],

@@ -49,8 +49,7 @@ class SmsAuthenticator extends StatelessObserverWidget {
                 } else {
                   sRouter.push(
                     SetPhoneNumberRouter(
-                      successText:
-                          intl.kycAlertHandler_factorVerificationEnabled,
+                      successText: intl.kycAlertHandler_factorVerificationEnabled,
                     ),
                   );
                 }

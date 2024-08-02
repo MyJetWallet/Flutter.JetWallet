@@ -14,7 +14,6 @@ import 'package:jetwallet/core/services/simple_networking/simple_networking.dart
 import 'package:jetwallet/features/currency_buy/models/preview_buy_with_circle_input.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/preview_buy_with_circle/show_circle_cvv_bottom_sheet.dart';
 import 'package:jetwallet/utils/constants.dart';
-import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
@@ -34,8 +33,7 @@ import '../../../utils/formatting/base/volume_format.dart';
 
 part 'preview_buy_with_circle_store.g.dart';
 
-class PreviewBuyWithCircleStore extends _PreviewBuyWithCircleStoreBase
-    with _$PreviewBuyWithCircleStore {
+class PreviewBuyWithCircleStore extends _PreviewBuyWithCircleStoreBase with _$PreviewBuyWithCircleStore {
   PreviewBuyWithCircleStore(super.input);
 
   static _PreviewBuyWithCircleStoreBase of(BuildContext context) =>
@@ -132,7 +130,7 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
     loader.startLoadingImmediately();
 
     final model = CardBuyCreateRequestModel(
-       buyFixed: true,
+      buyFixed: true,
       paymentMethod: CirclePaymentMethod.circle,
       paymentAmount: amountToPay,
       buyAsset: input.currency.symbol,
@@ -143,8 +141,7 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
     );
 
     try {
-      final response =
-          await sNetwork.getWalletModule().postCardBuyCreate(model);
+      final response = await sNetwork.getWalletModule().postCardBuyCreate(model);
 
       response.pick(
         onData: (data) {
@@ -367,12 +364,9 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
               data.status == CardBuyPaymentStatus.waitForPayment;
           final complete = data.status == CardBuyPaymentStatus.success;
           final failed = data.status == CardBuyPaymentStatus.fail;
-          final actionRequired =
-              data.status == CardBuyPaymentStatus.requireAction;
+          final actionRequired = data.status == CardBuyPaymentStatus.requireAction;
 
-          if (pending ||
-              (actionRequired &&
-                  lastAction == data.clientAction!.checkoutUrl)) {
+          if (pending || (actionRequired && lastAction == data.clientAction!.checkoutUrl)) {
             await Future.delayed(const Duration(seconds: 1));
             await _requestPaymentInfo(onAction, lastAction);
           } else if (complete) {
@@ -464,10 +458,6 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
       FailureScreenRouter(
         primaryText: intl.previewBuyWithAsset_failure,
         secondaryText: error,
-        primaryButtonName: intl.previewBuyWithAsset_close,
-        onPrimaryButtonTap: () {
-          navigateToRouter();
-        },
       ),
     );
   }
@@ -501,8 +491,8 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
         FailureScreenRouter(
           primaryText: intl.previewBuyWithCircle_failure,
           secondaryText: intl.previewBuyWithCircle_failureDescription,
-          primaryButtonName: intl.previewBuyWithCircle_failureAnotherCard,
-          onPrimaryButtonTap: () {
+          secondaryButtonName: intl.previewBuyWithCircle_failureAnotherCard,
+          onSecondaryButtonTap: () {
             sRouter.navigate(
               AddCircleCardRouter(
                 onCardAdded: (card) {
@@ -512,12 +502,6 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
                 },
               ),
             );
-          },
-          secondaryButtonName: intl.previewBuyWithCircle_failureCancel,
-          onSecondaryButtonTap: () {
-            sRouter.maybePop();
-            sRouter.maybePop();
-            sRouter.maybePop();
           },
         ),
       );

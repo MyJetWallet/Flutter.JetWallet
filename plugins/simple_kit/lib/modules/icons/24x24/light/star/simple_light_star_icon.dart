@@ -19,7 +19,6 @@ class SimpleLightStarIcon extends StatelessWidget {
   }
 }
 
-
 class SimpleFullLightStarIcon extends StatelessWidget {
   const SimpleFullLightStarIcon({
     super.key,

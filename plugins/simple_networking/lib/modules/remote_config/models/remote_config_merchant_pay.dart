@@ -12,6 +12,5 @@ class RemoteConfigMerchantPay with _$RemoteConfigMerchantPay {
     String? countryCode,
   }) = _RemoteConfigMerchantPay;
 
-  factory RemoteConfigMerchantPay.fromJson(Map<String, dynamic> json) =>
-      _$RemoteConfigMerchantPayFromJson(json);
+  factory RemoteConfigMerchantPay.fromJson(Map<String, dynamic> json) => _$RemoteConfigMerchantPayFromJson(json);
 }

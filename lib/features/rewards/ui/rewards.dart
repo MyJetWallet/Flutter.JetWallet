@@ -58,8 +58,7 @@ class _RewardsBody extends StatelessObserverWidget {
 
     final state = RewardStore.of(context);
     final deepLinkService = getIt.get<DeepLinkService>();
-    final viewedRewards =
-        sSignalRModules.keyValue.viewedRewards?.value ?? <String>[];
+    final viewedRewards = sSignalRModules.keyValue.viewedRewards?.value ?? <String>[];
     if (!actualRewards.contains('referral')) {
       getIt.get<KeyValuesService>().addToKeyValue(
             KeyValueRequestModel(
@@ -106,14 +105,11 @@ class _RewardsBody extends StatelessObserverWidget {
         padding: EdgeInsets.zero,
         children: [
           const SpaceH20(),
-          if (state.sortedCampaigns.isNotEmpty)
-            const SPaddingH24(child: SDivider()),
+          if (state.sortedCampaigns.isNotEmpty) const SPaddingH24(child: SDivider()),
           for (final item in state.sortedCampaigns) ...[
             if (_displayRewardBanner(item)) ...[
               SRewardBanner(
-                color: !viewedRewards.contains(item.campaign!.campaignId)
-                    ? colors.grey5
-                    : Colors.transparent,
+                color: !viewedRewards.contains(item.campaign!.campaignId) ? colors.grey5 : Colors.transparent,
                 primaryText: item.campaign!.title,
                 secondaryText: item.campaign!.description,
                 imageUrl: item.campaign!.imageUrl,
@@ -183,8 +179,7 @@ class _RewardsBody extends StatelessObserverWidget {
                   referralInvited: item.referralState!.referralInvited,
                   referralActivated: item.referralState!.referralActivated,
                   bonusEarned: item.referralState!.bonusEarned.toDouble(),
-                  commissionEarned:
-                      item.referralState!.commissionEarned.toDouble(),
+                  commissionEarned: item.referralState!.commissionEarned.toDouble(),
                   total: item.referralState!.total.toDouble(),
                   showReadMore: item.referralState!.descriptionLink.isNotEmpty,
                   onInfoTap: () {
@@ -217,8 +212,7 @@ class _RewardsBody extends StatelessObserverWidget {
     }
 
     return item.campaign!.conditions != null &&
-        (item.campaign!.conditions != null &&
-            item.campaign!.conditions!.isNotEmpty);
+        (item.campaign!.conditions != null && item.campaign!.conditions!.isNotEmpty);
   }
 
   bool _displayRewardBanner(CampaignOrReferralModel item) {
@@ -227,8 +221,7 @@ class _RewardsBody extends StatelessObserverWidget {
     }
 
     return item.campaign!.conditions == null ||
-        (item.campaign!.conditions != null &&
-            item.campaign!.conditions!.isEmpty);
+        (item.campaign!.conditions != null && item.campaign!.conditions!.isEmpty);
   }
 
   bool _displayReferralStats(CampaignOrReferralModel item) {

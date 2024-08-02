@@ -35,7 +35,7 @@ class WalletsButton extends StatelessWidget {
         borderRadius: !isIos ? BorderRadius.circular(25) : null,
         icon: Image.asset(
           isIos ? 'assets/images/wallet_apple.png' : 'assets/images/wallet_google.png',
-          height: isIos ?  20 : 24,
+          height: isIos ? 20 : 24,
         ),
         callback: () {
           isIos
@@ -46,8 +46,9 @@ class WalletsButton extends StatelessWidget {
             context,
             textAlign: TextAlign.start,
             primaryText: intl.wallets_redirecting,
-            secondaryText:
-                intl.wallets_modal_info(isIos ? intl.wallets_add_to_apple_wallet : intl.wallets_add_to_google_wallet),
+            secondaryText: intl.wallets_modal_info(
+              isIos ? intl.wallets_add_to_apple_wallet : intl.wallets_add_to_google_wallet,
+            ),
             primaryButtonName: intl.wallets_continue,
             image: Image.asset(
               disclaimerAsset,

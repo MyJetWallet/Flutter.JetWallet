@@ -32,10 +32,10 @@ class KChartWidget extends StatefulWidget {
 
   final Function(ChartInfoModel?) onCandleSelected;
   final String Function({
-  required bool onlyFullPart,
-  required Decimal decimal,
-  required int accuracy,
-  required String symbol,
+    required bool onlyFullPart,
+    required Decimal decimal,
+    required int accuracy,
+    required String symbol,
   }) formatPrice;
 
   final String prefix;
@@ -51,8 +51,7 @@ class KChartWidget extends StatefulWidget {
   _KChartWidgetState createState() => _KChartWidgetState();
 }
 
-class _KChartWidgetState extends State<KChartWidget>
-    with TickerProviderStateMixin {
+class _KChartWidgetState extends State<KChartWidget> with TickerProviderStateMixin {
   double _scaleX = 1.0;
   double _scrollX = 0.0;
   double _selectX = 0.0;
@@ -72,8 +71,7 @@ class _KChartWidgetState extends State<KChartWidget>
       duration: const Duration(milliseconds: 850),
       vsync: this,
     );
-    _animation = Tween(begin: 0.9, end: 0.1).animate(_controller)
-      ..addListener(reRenderView);
+    _animation = Tween(begin: 0.9, end: 0.1).animate(_controller)..addListener(reRenderView);
     _scrollXController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 500),
@@ -98,8 +96,7 @@ class _KChartWidgetState extends State<KChartWidget>
       }
     });
     _scrollXController.addStatusListener((status) {
-      if (status == AnimationStatus.completed ||
-          status == AnimationStatus.dismissed) {
+      if (status == AnimationStatus.completed || status == AnimationStatus.dismissed) {
         isDrag = false;
         reRenderView();
       }
@@ -183,8 +180,7 @@ class _KChartWidgetState extends State<KChartWidget>
 
         isLongPress = true;
         if (_selectX != details.globalPosition.dx) {
-          _selectX =
-              details.globalPosition.dx - (widget.selectedCandlePadding ?? 0);
+          _selectX = details.globalPosition.dx - (widget.selectedCandlePadding ?? 0);
           reRenderView();
         }
       },
@@ -192,8 +188,7 @@ class _KChartWidgetState extends State<KChartWidget>
         HapticFeedback.selectionClick();
 
         if (_selectX != details.globalPosition.dx) {
-          _selectX =
-              details.globalPosition.dx - (widget.selectedCandlePadding ?? 0);
+          _selectX = details.globalPosition.dx - (widget.selectedCandlePadding ?? 0);
           reRenderView();
         }
       },

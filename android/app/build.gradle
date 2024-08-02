@@ -1,14 +1,17 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
+    id "com.google.gms.google-services"
+    id "com.google.firebase.crashlytics"
+}
+
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
 if (localPropertiesFile.exists()) {
     localPropertiesFile.withReader('UTF-8') { reader ->
         localProperties.load(reader)
     }
-}
-
-def flutterRoot = localProperties.getProperty('flutter.sdk')
-if (flutterRoot == null) {
-    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
 }
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
@@ -37,14 +40,10 @@ if (project.hasProperty('dart-defines')) {
       }
 }
 
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
-
 android {
     compileSdkVersion 34
-    ndkVersion flutter.ndkVersion
     buildToolsVersion "34.0.0"
+    ndkVersion "26.3.11579264"
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -67,12 +66,6 @@ android {
         versionName flutterVersionName
         buildConfigField 'String', 'INTERCOM_APP_ID', "\"${dartEnvironmentVariables.INTERCOM_APP_ID}\""
         buildConfigField 'String', 'INTERCOM_ANDROID_KEY', "\"${dartEnvironmentVariables.INTERCOM_ANDROID_KEY}\""
-    }
-    
-    // TODO: Remove when below fix is available in stable channel.
-    // https://github.com/flutter/flutter/pull/82309
-    lintOptions {
-        checkReleaseBuilds false
     }
 
     signingConfigs {
@@ -113,11 +106,11 @@ android {
         release {
             signingConfig signingConfigs.release
             minifyEnabled true
-            // useProguard true
             proguardFiles getDefaultProguardFile('proguard-android.txt')
         }
         debug {
             signingConfig signingConfigs.debug
+            minifyEnabled true
         }
     }
 }
@@ -127,14 +120,9 @@ flutter {
 }
 
 dependencies {
-    implementation 'com.google.firebase:firebase-analytics:19.0.0'
-    implementation 'com.google.firebase:firebase-messaging:22.0.0'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation platform('com.google.firebase:firebase-bom:28.0.1')
-    //  ↓ fix Amplitude (unable to load android socket classes) ↓
-    implementation "com.squareup.okhttp3:okhttp:4.9.1"
-    implementation "com.google.android.gms:play-services-wallet:18.0.0"
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-messaging")
+    implementation(platform("com.google.firebase:firebase-bom:33.1.1"))
+    implementation "com.squareup.okhttp3:okhttp:4.12.0"
+    implementation 'com.google.android.gms:play-services-wallet:19.4.0'
 }
-
-apply plugin: 'com.google.gms.google-services'
-apply plugin: 'com.google.firebase.crashlytics'

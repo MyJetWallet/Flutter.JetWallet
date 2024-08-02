@@ -16,6 +16,5 @@ class CreatePaymentRequestModel with _$CreatePaymentRequestModel {
     required String encryptedData,
   }) = _CreatePaymentRequestModel;
 
-  factory CreatePaymentRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$CreatePaymentRequestModelFromJson(json);
+  factory CreatePaymentRequestModel.fromJson(Map<String, dynamic> json) => _$CreatePaymentRequestModelFromJson(json);
 }

@@ -13,100 +13,81 @@ import 'package:simple_networking/modules/signal_r/models/referral_stats_respons
 import 'package:simple_networking/modules/signal_r/models/signalr_log.dart';
 //import 'package:simple_networking/modules/signal_r/models/signalr_log.dart';
 
-class ObservableEarnOfferModelListConverter
-    implements JsonConverter<ObservableList<EarnOfferModel>, List<dynamic>> {
+class ObservableEarnOfferModelListConverter implements JsonConverter<ObservableList<EarnOfferModel>, List<dynamic>> {
   const ObservableEarnOfferModelListConverter();
 
   @override
-  ObservableList<EarnOfferModel> fromJson(List<dynamic> json) =>
-      ObservableList.of(
+  ObservableList<EarnOfferModel> fromJson(List<dynamic> json) => ObservableList.of(
         json.cast<Map<String, dynamic>>().map(EarnOfferModel.fromJson),
       );
 
   @override
-  List<Map<String, dynamic>> toJson(ObservableList<EarnOfferModel> list) =>
-      list.map((e) => e.toJson()).toList();
+  List<Map<String, dynamic>> toJson(ObservableList<EarnOfferModel> list) => list.map((e) => e.toJson()).toList();
 }
 
 class ObservableRecurringBuysModelListConverter
-    implements
-        JsonConverter<ObservableList<RecurringBuysModel>, List<dynamic>> {
+    implements JsonConverter<ObservableList<RecurringBuysModel>, List<dynamic>> {
   const ObservableRecurringBuysModelListConverter();
 
   @override
-  ObservableList<RecurringBuysModel> fromJson(List<dynamic> json) =>
-      ObservableList.of(
+  ObservableList<RecurringBuysModel> fromJson(List<dynamic> json) => ObservableList.of(
         json.cast<Map<String, dynamic>>().map(RecurringBuysModel.fromJson),
       );
 
   @override
-  List<Map<String, dynamic>> toJson(ObservableList<RecurringBuysModel> list) =>
-      list.map((e) => e.toJson()).toList();
+  List<Map<String, dynamic>> toJson(ObservableList<RecurringBuysModel> list) => list.map((e) => e.toJson()).toList();
 }
 
-class ObservableKycCountryModelListConverter
-    implements JsonConverter<ObservableList<KycCountryModel>, List<dynamic>> {
+class ObservableKycCountryModelListConverter implements JsonConverter<ObservableList<KycCountryModel>, List<dynamic>> {
   const ObservableKycCountryModelListConverter();
 
   @override
-  ObservableList<KycCountryModel> fromJson(List<dynamic> json) =>
-      ObservableList.of(
+  ObservableList<KycCountryModel> fromJson(List<dynamic> json) => ObservableList.of(
         json.cast<Map<String, dynamic>>().map(KycCountryModel.fromJson),
       );
 
   @override
-  List<Map<String, dynamic>> toJson(ObservableList<KycCountryModel> list) =>
-      list.map((e) => e.toJson()).toList();
+  List<Map<String, dynamic>> toJson(ObservableList<KycCountryModel> list) => list.map((e) => e.toJson()).toList();
 }
 
-class ObservableCampaignModelListConverter
-    implements JsonConverter<ObservableList<CampaignModel>, List<dynamic>> {
+class ObservableCampaignModelListConverter implements JsonConverter<ObservableList<CampaignModel>, List<dynamic>> {
   const ObservableCampaignModelListConverter();
 
   @override
-  ObservableList<CampaignModel> fromJson(List<dynamic> json) =>
-      ObservableList.of(
+  ObservableList<CampaignModel> fromJson(List<dynamic> json) => ObservableList.of(
         json.cast<Map<String, dynamic>>().map(CampaignModel.fromJson),
       );
 
   @override
-  List<Map<String, dynamic>> toJson(ObservableList<CampaignModel> list) =>
-      list.map((e) => e.toJson()).toList();
+  List<Map<String, dynamic>> toJson(ObservableList<CampaignModel> list) => list.map((e) => e.toJson()).toList();
 }
 
 class ObservableReferralStatsModelListConverter
-    implements
-        JsonConverter<ObservableList<ReferralStatsModel>, List<dynamic>> {
+    implements JsonConverter<ObservableList<ReferralStatsModel>, List<dynamic>> {
   const ObservableReferralStatsModelListConverter();
 
   @override
-  ObservableList<ReferralStatsModel> fromJson(List<dynamic> json) =>
-      ObservableList.of(
+  ObservableList<ReferralStatsModel> fromJson(List<dynamic> json) => ObservableList.of(
         json.cast<Map<String, dynamic>>().map(ReferralStatsModel.fromJson),
       );
 
   @override
-  List<Map<String, dynamic>> toJson(ObservableList<ReferralStatsModel> list) =>
-      list.map((e) => e.toJson()).toList();
+  List<Map<String, dynamic>> toJson(ObservableList<ReferralStatsModel> list) => list.map((e) => e.toJson()).toList();
 }
 
-class ObservableMarketItemModelListConverter
-    implements JsonConverter<ObservableList<MarketItemModel>, List<dynamic>> {
+class ObservableMarketItemModelListConverter implements JsonConverter<ObservableList<MarketItemModel>, List<dynamic>> {
   const ObservableMarketItemModelListConverter();
 
   @override
-  ObservableList<MarketItemModel> fromJson(List<dynamic> json) =>
-      ObservableList.of(
+  ObservableList<MarketItemModel> fromJson(List<dynamic> json) => ObservableList.of(
         json.cast<Map<String, dynamic>>().map(MarketItemModel.fromJson),
       );
 
   @override
-  List<Map<String, dynamic>> toJson(ObservableList<MarketItemModel> list) =>
-      list.map((e) => e.toJson()).toList();
+  List<Map<String, dynamic>> toJson(ObservableList<MarketItemModel> list) => list.map((e) => e.toJson()).toList();
 }
 
-class ObservableIndexModelListConverter
-    implements JsonConverter<ObservableList<IndexModel>, List<dynamic>> {
+class ObservableIndexModelListConverter implements JsonConverter<ObservableList<IndexModel>, List<dynamic>> {
   const ObservableIndexModelListConverter();
 
   @override
@@ -115,27 +96,22 @@ class ObservableIndexModelListConverter
       );
 
   @override
-  List<Map<String, dynamic>> toJson(ObservableList<IndexModel> list) =>
-      list.map((e) => e.toJson()).toList();
+  List<Map<String, dynamic>> toJson(ObservableList<IndexModel> list) => list.map((e) => e.toJson()).toList();
 }
 
-class ObservablePriceAccuracyListConverter
-    implements JsonConverter<ObservableList<PriceAccuracy>, List<dynamic>> {
+class ObservablePriceAccuracyListConverter implements JsonConverter<ObservableList<PriceAccuracy>, List<dynamic>> {
   const ObservablePriceAccuracyListConverter();
 
   @override
-  ObservableList<PriceAccuracy> fromJson(List<dynamic> json) =>
-      ObservableList.of(
+  ObservableList<PriceAccuracy> fromJson(List<dynamic> json) => ObservableList.of(
         json.cast<Map<String, dynamic>>().map(PriceAccuracy.fromJson),
       );
 
   @override
-  List<Map<String, dynamic>> toJson(ObservableList<PriceAccuracy> list) =>
-      list.map((e) => e.toJson()).toList();
+  List<Map<String, dynamic>> toJson(ObservableList<PriceAccuracy> list) => list.map((e) => e.toJson()).toList();
 }
 
-class ObservableNftModelListConverter
-    implements JsonConverter<ObservableList<NftModel>, List<dynamic>> {
+class ObservableNftModelListConverter implements JsonConverter<ObservableList<NftModel>, List<dynamic>> {
   const ObservableNftModelListConverter();
 
   @override
@@ -144,12 +120,10 @@ class ObservableNftModelListConverter
       );
 
   @override
-  List<Map<String, dynamic>> toJson(ObservableList<NftModel> list) =>
-      list.map((e) => e.toJson()).toList();
+  List<Map<String, dynamic>> toJson(ObservableList<NftModel> list) => list.map((e) => e.toJson()).toList();
 }
 
-class ObservableNftMarketListConverter
-    implements JsonConverter<ObservableList<NftMarket>, List<dynamic>> {
+class ObservableNftMarketListConverter implements JsonConverter<ObservableList<NftMarket>, List<dynamic>> {
   const ObservableNftMarketListConverter();
 
   @override
@@ -158,12 +132,10 @@ class ObservableNftMarketListConverter
       );
 
   @override
-  List<Map<String, dynamic>> toJson(ObservableList<NftMarket> list) =>
-      list.map((e) => e.toJson()).toList();
+  List<Map<String, dynamic>> toJson(ObservableList<NftMarket> list) => list.map((e) => e.toJson()).toList();
 }
 
-class ObservableSignalRLogsListConverter
-    implements JsonConverter<ObservableList<SignalrLog>, List<dynamic>> {
+class ObservableSignalRLogsListConverter implements JsonConverter<ObservableList<SignalrLog>, List<dynamic>> {
   const ObservableSignalRLogsListConverter();
 
   @override
@@ -172,6 +144,5 @@ class ObservableSignalRLogsListConverter
       );
 
   @override
-  List<Map<String, dynamic>> toJson(ObservableList<SignalrLog> list) =>
-      list.map((e) => e.toJson()).toList();
+  List<Map<String, dynamic>> toJson(ObservableList<SignalrLog> list) => list.map((e) => e.toJson()).toList();
 }

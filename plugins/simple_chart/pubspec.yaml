@@ -6,15 +6,15 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=3.3.0 <4.0.0"
+  sdk: ">=3.4.3 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
 
-  cupertino_icons: ^1.0.6
+  cupertino_icons: ^1.0.8
   intl: ^0.19.0
-  decimal: ^2.3.3 # deal with decimal numbers without losing precision
+  decimal: ^3.0.2 # deal with decimal numbers without losing precision
 
 dev_dependencies:
   flutter_test:
@@ -24,9 +24,8 @@ dev_dependencies:
   lint: ^2.3.0
 
   # AUTOGEN:
-  freezed: ^2.4.7 # generation for immutable classes that has a simple syntax/API
-  build_runner: ^2.4.8 # generating files using Dart code
-  json_serializable: ^6.7.1 # dart build system builders for handling JSON
+  build_runner: ^2.4.11 # generating files using Dart code
+  json_serializable: ^6.8.0 # dart build system builders for handling JSON
 
 flutter:
   generate: true

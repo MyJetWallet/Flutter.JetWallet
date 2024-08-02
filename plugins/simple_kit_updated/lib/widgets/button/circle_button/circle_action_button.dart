@@ -33,6 +33,7 @@ class _SimpleCircleButtonState extends State<SimpleCircleButton> {
   bool highlighted = false;
 
   var isClicked = false;
+  // ignore: unused_field
   late Timer _timer;
 
   void _startTimer() {

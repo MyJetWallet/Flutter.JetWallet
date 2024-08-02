@@ -24,7 +24,6 @@ class SecondarySwitch extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final colors = sKit.colors;
 
     void changeActiveTab(int newValue) {
@@ -36,9 +35,7 @@ class SecondarySwitch extends StatelessObserverWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 2),
         child: Row(
-          mainAxisAlignment: fromRight
-            ? MainAxisAlignment.end
-            : MainAxisAlignment.start,
+          mainAxisAlignment: fromRight ? MainAxisAlignment.end : MainAxisAlignment.start,
           children: [
             if (fullWidth) ...[
               if (tabs.length > 3)

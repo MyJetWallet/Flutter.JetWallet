@@ -6,7 +6,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/earn/widgets/basic_header.dart';
-import 'package:jetwallet/features/earn/widgets/chips_suggestion_m.dart';
+import 'package:jetwallet/features/earn/widgets/earn_offer_item.dart';
 import 'package:jetwallet/features/earn/widgets/offers_overlay_content.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -52,13 +52,17 @@ class OffersListWidget extends StatelessWidget {
                 orElse: () => CurrencyModel.empty(),
               );
 
-              if (!currencyOffers.any((element) => element.status == EarnOfferStatus.activeShow)) {
+              if (!currencyOffers.any(
+                (element) => element.status == EarnOfferStatus.activeShow,
+              )) {
                 return const Offstage();
               }
 
-              return ChipsSuggestionM(
+              return EarnOfferItem(
                 isSingleOffer: currencyOffers.length == 1,
-                percentage: formatApyRate(highestApyOffers[currencyDescription]?.apyRate),
+                percentage: formatApyRate(
+                  highestApyOffers[currencyDescription]?.apyRate,
+                ),
                 cryptoName: currency.description,
                 trailingIcon: SNetworkSvg(
                   url: currency.iconUrl,
@@ -70,7 +74,12 @@ class OffersListWidget extends StatelessWidget {
                     assetName: currencyOffers.first.assetId,
                     sourse: 'Main earns',
                   );
-                  if (currencyOffers.where((element) => element.status == EarnOfferStatus.activeShow).length > 1) {
+                  if (currencyOffers
+                          .where(
+                            (element) => element.status == EarnOfferStatus.activeShow,
+                          )
+                          .length >
+                      1) {
                     sShowBasicModalBottomSheet(
                       context: context,
                       scrollable: true,

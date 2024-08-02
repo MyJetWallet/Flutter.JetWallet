@@ -9,6 +9,5 @@ class ServerTimeModel with _$ServerTimeModel {
     required double now,
   }) = _ServerTimeModel;
 
-  factory ServerTimeModel.fromJson(Map<String, dynamic> json) =>
-      _$ServerTimeModelFromJson(json);
+  factory ServerTimeModel.fromJson(Map<String, dynamic> json) => _$ServerTimeModelFromJson(json);
 }

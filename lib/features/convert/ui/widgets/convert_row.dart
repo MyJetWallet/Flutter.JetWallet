@@ -113,10 +113,7 @@ class ConvertRow extends StatelessObserverWidget {
                         value: value,
                         enabled: enabled,
                       ),
-                      if (enabled)
-                        const ConvertAmountCursor()
-                      else
-                        const ConvertAmountCursorPlaceholder(),
+                      if (enabled) const ConvertAmountCursor() else const ConvertAmountCursorPlaceholder(),
                     ],
                   ),
                 ),
@@ -126,9 +123,7 @@ class ConvertRow extends StatelessObserverWidget {
                   child: Row(
                     children: [
                       const SpaceW34(),
-                      if (!enabled ||
-                          inputError == null ||
-                          inputError == InputError.none)
+                      if (!enabled || inputError == null || inputError == InputError.none)
                         Text(
                           '${intl.convertRow_available}:'
                           ' ${swipeCurrency.volumeAssetBalance}',
@@ -187,8 +182,7 @@ class _ActionConvert extends StatelessObserverWidget {
       builder: (context) {
         return Column(
           children: [
-            for (final item
-                in getIt.get<ActionSearchStore>().convertCurrenciesWithBalance)
+            for (final item in getIt.get<ActionSearchStore>().convertCurrenciesWithBalance)
               SAssetItem(
                 isSelected: currency.symbol == item.symbol,
                 icon: SNetworkSvg24(
@@ -198,11 +192,7 @@ class _ActionConvert extends StatelessObserverWidget {
                 name: item.description,
                 description: item.symbol,
                 amount: item.volumeBaseBalance(baseCurrency),
-                removeDivider: item ==
-                    getIt
-                        .get<ActionSearchStore>()
-                        .convertCurrenciesWithBalance
-                        .last,
+                removeDivider: item == getIt.get<ActionSearchStore>().convertCurrenciesWithBalance.last,
                 onTap: () {
                   if (currency == item) {
                     Navigator.pop(context);
@@ -217,9 +207,7 @@ class _ActionConvert extends StatelessObserverWidget {
                 color: sKit.colors.grey3,
               ),
               const SpaceH11(),
-              for (final item in getIt
-                  .get<ActionSearchStore>()
-                  .convertCurrenciesWithoutBalance)
+              for (final item in getIt.get<ActionSearchStore>().convertCurrenciesWithoutBalance)
                 SAssetItem(
                   isSelected: currency.symbol == item.symbol,
                   icon: SNetworkSvg24(
@@ -229,11 +217,7 @@ class _ActionConvert extends StatelessObserverWidget {
                   name: item.description,
                   description: item.symbol,
                   amount: item.volumeBaseBalance(baseCurrency),
-                  removeDivider: item ==
-                      getIt
-                          .get<ActionSearchStore>()
-                          .convertCurrenciesWithoutBalance
-                          .last,
+                  removeDivider: item == getIt.get<ActionSearchStore>().convertCurrenciesWithoutBalance.last,
                   onTap: () {
                     if (currency == item) {
                       Navigator.pop(context);

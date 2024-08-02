@@ -25,8 +25,7 @@ class RecurringBuysModel with _$RecurringBuysModel {
     required String toAsset,
   }) = _RecurringBuysModel;
 
-  factory RecurringBuysModel.fromJson(Map<String, dynamic> json) =>
-      _$RecurringBuysModelFromJson(json);
+  factory RecurringBuysModel.fromJson(Map<String, dynamic> json) => _$RecurringBuysModelFromJson(json);
 }
 
 enum RecurringBuysStatus {

@@ -5,7 +5,6 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/return_to_wallet/model/preview_return_to_wallet_input.dart';
 import 'package:jetwallet/features/return_to_wallet/model/preview_return_to_wallet_union.dart';
-import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
@@ -135,8 +134,6 @@ abstract class _PreviewReturnToWalletStoreBase with Store {
       FailureScreenRouter(
         primaryText: intl.failure_preview_return_to_wallet_message,
         secondaryText: error.cause,
-        primaryButtonName: intl.failure_preview_return_to_wallet_close,
-        onPrimaryButtonTap: () => navigateToRouter(),
       ),
     );
   }

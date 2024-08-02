@@ -83,7 +83,9 @@ class WalletHeader extends StatelessWidget {
                         ),
                       if (!isEurWallet)
                         Text(
-                          curr.volumeBaseBalance(getIt.get<FormatService>().baseCurrency),
+                          curr.volumeBaseBalance(
+                            getIt.get<FormatService>().baseCurrency,
+                          ),
                           style: sTextH2Style.copyWith(
                             color: sKit.colors.black,
                           ),

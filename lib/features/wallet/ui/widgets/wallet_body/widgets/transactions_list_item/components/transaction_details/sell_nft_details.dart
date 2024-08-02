@@ -66,8 +66,7 @@ class SellNftDetails extends StatelessObserverWidget {
           TransactionDetailsItem(
             text: intl.buySellDetails_yourReceived,
             value: TransactionDetailsValueText(
-              text:
-                  '''${transactionListItem.swapInfo!.buyAmount - transactionListItem.swapInfo!.feeAmount}'''
+              text: '''${transactionListItem.swapInfo!.buyAmount - transactionListItem.swapInfo!.feeAmount}'''
                   ' ${buyCurrency.symbol}',
             ),
           ),

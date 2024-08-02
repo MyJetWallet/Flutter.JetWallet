@@ -32,7 +32,6 @@ void sShowMenuActionSheet({
     onDissmis: onDissmis,
     whenColmplete: whenComplete,
     removePinnedPadding: true,
-    onWillPop: () => Future.value(true),
     transitionAnimationController: transitionAnimationController,
     children: [
       if (isNotEmptyBalance && isBuyAvailable)

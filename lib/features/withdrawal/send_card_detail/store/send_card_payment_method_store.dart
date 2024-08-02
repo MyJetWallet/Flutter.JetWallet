@@ -7,8 +7,7 @@ import 'package:simple_networking/modules/signal_r/models/global_send_methods_mo
 
 part 'send_card_payment_method_store.g.dart';
 
-class SendCardPaymentMethodStore extends _SendCardPaymentMethodStoreBase
-    with _$SendCardPaymentMethodStore {
+class SendCardPaymentMethodStore extends _SendCardPaymentMethodStoreBase with _$SendCardPaymentMethodStore {
   SendCardPaymentMethodStore() : super();
 
   static SendCardPaymentMethodStore of(BuildContext context) =>
@@ -23,12 +22,10 @@ abstract class _SendCardPaymentMethodStoreBase with Store {
   bool get showSearch => globalSendMethods.length >= 7;
 
   @observable
-  ObservableList<GlobalSendMethodsModelMethods> globalSendMethods =
-      ObservableList.of([]);
+  ObservableList<GlobalSendMethodsModelMethods> globalSendMethods = ObservableList.of([]);
 
   @observable
-  ObservableList<GlobalSendMethodsModelMethods> filtedGlobalSendMethods =
-      ObservableList.of([]);
+  ObservableList<GlobalSendMethodsModelMethods> filtedGlobalSendMethods = ObservableList.of([]);
 
   @action
   void init(String countryCode) {
@@ -60,17 +57,10 @@ List<GlobalSendMethodsModelMethods> getCountryMethodsList(String countryCode) {
 
   for (var i = 0; i < sSignalRModules.globalSendMethods!.methods!.length; i++) {
     if (sSignalRModules.globalSendMethods!.methods![i].countryCodes != null &&
-        sSignalRModules
-            .globalSendMethods!.methods![i].countryCodes!.isNotEmpty) {
-      for (var q = 0;
-          q <
-              sSignalRModules
-                  .globalSendMethods!.methods![i].countryCodes!.length;
-          q++) {
-        if (sSignalRModules
-                .globalSendMethods!.methods![i].countryCodes![q].isNotEmpty &&
-            sSignalRModules.globalSendMethods!.methods![i].countryCodes![q] ==
-                countryCode) {
+        sSignalRModules.globalSendMethods!.methods![i].countryCodes!.isNotEmpty) {
+      for (var q = 0; q < sSignalRModules.globalSendMethods!.methods![i].countryCodes!.length; q++) {
+        if (sSignalRModules.globalSendMethods!.methods![i].countryCodes![q].isNotEmpty &&
+            sSignalRModules.globalSendMethods!.methods![i].countryCodes![q] == countryCode) {
           globalSendMethods.add(
             sSignalRModules.globalSendMethods!.methods![i],
           );

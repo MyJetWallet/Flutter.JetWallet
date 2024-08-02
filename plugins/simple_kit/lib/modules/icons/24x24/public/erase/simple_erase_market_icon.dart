@@ -12,7 +12,7 @@ class SEraseMarketIcon extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     return sKit.currentTheme == STheme.dark
-        ?  SimpleLightEraseMarketIcon(color: color)
-        :  SimpleLightEraseMarketIcon(color: color);
+        ? SimpleLightEraseMarketIcon(color: color)
+        : SimpleLightEraseMarketIcon(color: color);
   }
 }

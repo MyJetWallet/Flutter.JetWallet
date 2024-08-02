@@ -151,7 +151,10 @@ class _InstrumentScreenState extends State<InstrumentScreen> {
                                           title: intl.invest_alert_in_progress,
                                           subtitle: intl.invest_alert_in_progress_description,
                                         );
-                                        investPositionsStore.closeAllActive(context, widget.instrument.symbol);
+                                        investPositionsStore.closeAllActive(
+                                          context,
+                                          widget.instrument.symbol,
+                                        );
                                       },
                                       primaryButtonName: intl.invest_alert_cancel,
                                       secondaryButtonName: intl.invest_alert_close_all,
@@ -187,7 +190,9 @@ class _InstrumentScreenState extends State<InstrumentScreen> {
                                 name: intl.invest_list_new_invest,
                                 onTap: () {
                                   sRouter.push(
-                                    NewInvestPageRouter(instrument: widget.instrument),
+                                    NewInvestPageRouter(
+                                      instrument: widget.instrument,
+                                    ),
                                   );
                                 },
                               ),
@@ -238,7 +243,10 @@ class _InstrumentScreenState extends State<InstrumentScreen> {
                                       title: intl.invest_alert_in_progress,
                                       subtitle: intl.invest_alert_in_progress_description,
                                     );
-                                    investPositionsStore.cancelAllPending(context, widget.instrument.symbol);
+                                    investPositionsStore.cancelAllPending(
+                                      context,
+                                      widget.instrument.symbol,
+                                    );
                                   },
                                   primaryButtonName: intl.invest_alert_cancel,
                                   secondaryButtonName: intl.invest_alert_delete_all,
@@ -264,7 +272,9 @@ class _InstrumentScreenState extends State<InstrumentScreen> {
                             name: intl.invest_list_new_invest,
                             onTap: () {
                               sRouter.push(
-                                NewInvestPageRouter(instrument: widget.instrument),
+                                NewInvestPageRouter(
+                                  instrument: widget.instrument,
+                                ),
                               );
                             },
                           ),

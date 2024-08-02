@@ -9,6 +9,5 @@ class SetupPinRequestModel with _$SetupPinRequestModel {
     required String pin,
   }) = _SetupPinRequestModel;
 
-  factory SetupPinRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$SetupPinRequestModelFromJson(json);
+  factory SetupPinRequestModel.fromJson(Map<String, dynamic> json) => _$SetupPinRequestModelFromJson(json);
 }

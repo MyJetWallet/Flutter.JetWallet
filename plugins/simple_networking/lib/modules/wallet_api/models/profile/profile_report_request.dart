@@ -9,6 +9,5 @@ class ProfileReportRequest with _$ProfileReportRequest {
     required String messageId,
   }) = _ProfileReportRequest;
 
-  factory ProfileReportRequest.fromJson(Map<String, dynamic> json) =>
-      _$ProfileReportRequestFromJson(json);
+  factory ProfileReportRequest.fromJson(Map<String, dynamic> json) => _$ProfileReportRequestFromJson(json);
 }

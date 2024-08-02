@@ -91,7 +91,9 @@ class IbanSendDetails extends StatelessObserverWidget {
                       ),
                       child: TransactionDetailsValueText(
                         textAlign: TextAlign.end,
-                        text: splitIban((transactionListItem.ibanWithdrawalInfo?.toIban ?? '').trim()),
+                        text: splitIban(
+                          (transactionListItem.ibanWithdrawalInfo?.toIban ?? '').trim(),
+                        ),
                         color: sKit.colors.grey1,
                       ),
                     ),
@@ -194,10 +196,10 @@ class IbanSendDetailsHeader extends StatelessWidget {
           fromAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${asset.symbol}'
               : volumeFormat(
-            symbol: asset.symbol,
-            accuracy: asset.accuracy,
-            decimal: (transactionListItem.ibanWithdrawalInfo?.withdrawalAmount ?? Decimal.zero).abs(),
-          ),
+                  symbol: asset.symbol,
+                  accuracy: asset.accuracy,
+                  decimal: (transactionListItem.ibanWithdrawalInfo?.withdrawalAmount ?? Decimal.zero).abs(),
+                ),
           fromAssetCustomIcon: Assets.svg.other.medium.bankAccount.simpleSvg(
             width: 32,
           ),
@@ -206,10 +208,10 @@ class IbanSendDetailsHeader extends StatelessWidget {
           toAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${transactionListItem.ibanWithdrawalInfo?.receiveAsset ?? ''}'
               : volumeFormat(
-            symbol: transactionListItem.ibanWithdrawalInfo?.receiveAsset ?? '',
-            accuracy: asset.accuracy,
-            decimal: transactionListItem.ibanWithdrawalInfo?.receiveAmount ?? Decimal.zero,
-          ),
+                  symbol: transactionListItem.ibanWithdrawalInfo?.receiveAsset ?? '',
+                  accuracy: asset.accuracy,
+                  decimal: transactionListItem.ibanWithdrawalInfo?.receiveAmount ?? Decimal.zero,
+                ),
           isError: transactionListItem.status == Status.declined,
           isSmallerVersion: true,
         ),

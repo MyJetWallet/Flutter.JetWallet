@@ -12,7 +12,7 @@ class BottomBarStore = _BottomBarStoreBase with _$BottomBarStore;
 
 abstract class _BottomBarStoreBase with Store {
   @observable
-  BottomItemType homeTab = BottomItemType.wallets;
+  BottomItemType homeTab = BottomItemType.home;
   @action
   void setHomeTab(BottomItemType value) {
     homeTab = value;
@@ -34,14 +34,17 @@ abstract class _BottomBarStoreBase with Store {
 
   @computed
   ObservableList<BottomItemType> get bottomBarItems => ObservableList.of([
-        BottomItemType.wallets,
+        BottomItemType.home,
         BottomItemType.market,
-        if ((sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
-            .any((element) => element.id == AssetPaymentProductsEnum.earnProgram)) ...[
+        if ((sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
+          (element) => element.id == AssetPaymentProductsEnum.earnProgram,
+        )) ...[
           BottomItemType.earn,
         ],
         if ((sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
-            .where((element) => element.id == AssetPaymentProductsEnum.investProgram)
+            .where(
+              (element) => element.id == AssetPaymentProductsEnum.investProgram,
+            )
             .isNotEmpty) ...[
           BottomItemType.invest,
         ],
@@ -49,7 +52,9 @@ abstract class _BottomBarStoreBase with Store {
           BottomItemType.card,
         ],
         if ((sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
-            .where((element) => element.id == AssetPaymentProductsEnum.rewardsOnboardingProgram)
+            .where(
+              (element) => element.id == AssetPaymentProductsEnum.rewardsOnboardingProgram,
+            )
             .isNotEmpty) ...[
           BottomItemType.rewards,
         ],

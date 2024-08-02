@@ -977,9 +977,8 @@ abstract class _WithdrawalStoreBase with Store {
       FailureScreenRouter(
         primaryText: intl.showNoResponseScreen_text,
         secondaryText: intl.showNoResponseScreen_text2,
-        primaryButtonName: intl.serverCode0_ok,
-        onPrimaryButtonTap: () {
-          sRouter.popUntilRoot();
+        secondaryButtonName: intl.withdraw_failure_screen_secondary_button_name,
+        onSecondaryButtonTap: () {
           sRouter.push(
             WithdrawRouter(
               withdrawal: withdrawalInputModel!,
@@ -1018,17 +1017,14 @@ abstract class _WithdrawalStoreBase with Store {
       FailureScreenRouter(
         primaryText: intl.withdrawalPreview_failure,
         secondaryText: error.cause,
-        primaryButtonName: intl.withdrawalPreview_editOrder,
-        onPrimaryButtonTap: () {
-          sRouter.popUntilRoot();
+        secondaryButtonName: intl.withdrawalPreview_editOrder,
+        onSecondaryButtonTap: () {
           sRouter.push(
             WithdrawRouter(
               withdrawal: withdrawalInputModel!,
             ),
           );
         },
-        secondaryButtonName: intl.withdrawalPreview_close,
-        onSecondaryButtonTap: () => sRouter.popUntilRoot(),
       ),
     );
   }
@@ -1112,9 +1108,9 @@ abstract class _WithdrawalStoreBase with Store {
       FailureScreenRouter(
         primaryText: intl.withdrawalConfirm_failure,
         secondaryText: '''${intl.withdrawalConfirm_failedTo} ${intl.withdrawal_send_verb.toLowerCase()}''',
-        primaryButtonName:
+        secondaryButtonName:
             withdrawalType == WithdrawalType.asset ? intl.withdrawalConfirm_editOrder : intl.send_timer_alert_ok,
-        onPrimaryButtonTap: () {
+        onSecondaryButtonTap: () {
           if (withdrawalType == WithdrawalType.asset) {
             sRouter.replaceAll([
               const HomeRouter(
@@ -1128,8 +1124,6 @@ abstract class _WithdrawalStoreBase with Store {
             sRouter.popUntilRoot();
           }
         },
-        secondaryButtonName: withdrawalType == WithdrawalType.asset ? intl.withdrawalConfirm_close : null,
-        onSecondaryButtonTap: () => sRouter.popUntilRoot(),
       ),
     );
   }

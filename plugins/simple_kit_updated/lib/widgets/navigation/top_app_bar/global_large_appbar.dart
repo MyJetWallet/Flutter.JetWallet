@@ -10,7 +10,7 @@ class SimpleLargeAppbar extends StatelessWidget {
   const SimpleLargeAppbar({
     super.key,
     required this.title,
-     this.titleMaxLines,
+    this.titleMaxLines,
     this.hasLeftIcon = true,
     this.leftIcon,
     this.hasRightIcon = false,

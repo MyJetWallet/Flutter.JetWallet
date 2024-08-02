@@ -9,8 +9,6 @@ class SCheckboxIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? const SimpleLightCheckboxIcon()
-        : const SimpleLightCheckboxIcon();
+    return sKit.currentTheme == STheme.dark ? const SimpleLightCheckboxIcon() : const SimpleLightCheckboxIcon();
   }
 }

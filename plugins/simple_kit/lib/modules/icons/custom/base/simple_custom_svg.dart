@@ -26,7 +26,7 @@ class SimpleCustomSvg extends StatelessWidget {
       ),
       child: SvgPicture.asset(
         assetName,
-        color: color,
+        colorFilter: color != null ? ColorFilter.mode(color!, BlendMode.srcIn) : null,
         package: 'simple_kit',
       ),
     );

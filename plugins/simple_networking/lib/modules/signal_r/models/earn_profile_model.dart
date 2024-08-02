@@ -16,6 +16,5 @@ class EarnProfileModel with _$EarnProfileModel {
     required bool earnEnabled,
   }) = _EarnProfileModel;
 
-  factory EarnProfileModel.fromJson(Map<String, dynamic> json) =>
-      _$EarnProfileModelFromJson(json);
+  factory EarnProfileModel.fromJson(Map<String, dynamic> json) => _$EarnProfileModelFromJson(json);
 }

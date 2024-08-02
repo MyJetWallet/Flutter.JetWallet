@@ -66,10 +66,14 @@ class AddCashDetails extends StatelessObserverWidget {
             value: Row(
               children: [
                 TransactionDetailsValueText(
-                  text: shortTxhashFrom(transactionListItem.ibanDepositInfo?.fromIban ?? ''),
+                  text: shortTxhashFrom(
+                    transactionListItem.ibanDepositInfo?.fromIban ?? '',
+                  ),
                 ),
                 const SpaceW10(),
-                HistoryCopyIcon(transactionListItem.ibanDepositInfo?.fromIban ?? ''),
+                HistoryCopyIcon(
+                  transactionListItem.ibanDepositInfo?.fromIban ?? '',
+                ),
               ],
             ),
           ),
@@ -144,12 +148,12 @@ class _AddCashDetailsHeader extends StatelessWidget {
           fromAssetIconUrl: paymentAsset.iconUrl,
           fromAssetDescription: transactionListItem.ibanDepositInfo?.accountLabel ?? '',
           fromAssetValue: getIt<AppStore>().isBalanceHide
-            ? '**** ${paymentAsset.symbol}'
-            : volumeFormat(
-              symbol: paymentAsset.symbol,
-              accuracy: paymentAsset.accuracy,
-              decimal: transactionListItem.balanceChange.abs(),
-            ),
+              ? '**** ${paymentAsset.symbol}'
+              : volumeFormat(
+                  symbol: paymentAsset.symbol,
+                  accuracy: paymentAsset.accuracy,
+                  decimal: transactionListItem.balanceChange.abs(),
+                ),
           fromAssetCustomIcon: Assets.svg.other.medium.bankAccount.simpleSvg(
             width: 32,
           ),

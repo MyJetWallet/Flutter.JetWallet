@@ -26,14 +26,7 @@ class NftModel with _$NftModel {
     int? order,
   }) = _NftModel;
 
-  factory NftModel.fromJson(Map<String, dynamic> json) =>
-      _$NftModelFromJson(json);
+  factory NftModel.fromJson(Map<String, dynamic> json) => _$NftModelFromJson(json);
 }
 
-enum NftCollectionCategoryEnum {
-  CelebsAndFanClubs,
-  MusicAndArt,
-  GamesAndMeaverse,
-  Startup,
-  ShopsClubsCafes
-}
+enum NftCollectionCategoryEnum { CelebsAndFanClubs, MusicAndArt, GamesAndMeaverse, Startup, ShopsClubsCafes }

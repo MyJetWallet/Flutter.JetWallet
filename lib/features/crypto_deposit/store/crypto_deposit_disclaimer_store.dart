@@ -12,7 +12,5 @@ Future<CryptoDepositDisclaimer> getcryptoDepositDisclaimer(
 
   final disclaimer = await storageService.getValue(assetSymbol);
 
-  return disclaimer == null
-      ? CryptoDepositDisclaimer.notAccepted
-      : CryptoDepositDisclaimer.accepted;
+  return disclaimer == null ? CryptoDepositDisclaimer.notAccepted : CryptoDepositDisclaimer.accepted;
 }

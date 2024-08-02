@@ -198,19 +198,19 @@ class _GiftSendDetailsHeader extends StatelessWidget {
           fromAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${paymentAsset.symbol}'
               : volumeFormat(
-            symbol: paymentAsset.symbol,
-            accuracy: paymentAsset.accuracy,
-            decimal: transactionListItem.balanceChange.abs(),
-          ),
+                  symbol: paymentAsset.symbol,
+                  accuracy: paymentAsset.accuracy,
+                  decimal: transactionListItem.balanceChange.abs(),
+                ),
           toAssetIconUrl: buyAsset.iconUrl,
           toAssetDescription: buyAsset.description,
           toAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${buyAsset.symbol}'
               : volumeFormat(
-            symbol: buyAsset.symbol,
-            accuracy: buyAsset.accuracy,
-            decimal: (transactionListItem.giftSendInfo?.receiveAmount ?? Decimal.zero).abs(),
-          ),
+                  symbol: buyAsset.symbol,
+                  accuracy: buyAsset.accuracy,
+                  decimal: (transactionListItem.giftSendInfo?.receiveAmount ?? Decimal.zero).abs(),
+                ),
           isError: transactionListItem.status == Status.declined,
         ),
         const SizedBox(height: 24),

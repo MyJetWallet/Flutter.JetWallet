@@ -216,7 +216,9 @@ abstract class _EarnStoreBase with Store {
   List<EarnOfferClientModel> get earnOffers {
     final offers = sSignalRModules.activeEarnOffersMessage?.offers.toList() ?? [];
 
-    offers.sort((a, b) => (b.apyRate ?? Decimal.zero).compareTo(a.apyRate ?? Decimal.zero));
+    offers.sort(
+      (a, b) => (b.apyRate ?? Decimal.zero).compareTo(a.apyRate ?? Decimal.zero),
+    );
 
     return offers;
   }
@@ -233,7 +235,10 @@ abstract class _EarnStoreBase with Store {
       offersGroupedByCurrency
           .map((currencyDescription, List<EarnOfferClientModel> offers) {
             final anyPromotionalOfferExists = offers.any((offer) => offer.promotion);
-            return MapEntry(currencyDescription, anyPromotionalOfferExists ? offers : <EarnOfferClientModel>[]);
+            return MapEntry(
+              currencyDescription,
+              anyPromotionalOfferExists ? offers : <EarnOfferClientModel>[],
+            );
           })
           .entries
           .where((entry) => entry.value.isNotEmpty)

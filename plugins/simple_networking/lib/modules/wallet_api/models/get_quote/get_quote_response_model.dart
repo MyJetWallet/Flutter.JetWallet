@@ -16,21 +16,14 @@ class GetQuoteResponseModel with _$GetQuoteResponseModel {
     @DecimalSerialiser() required Decimal price,
     @JsonKey(name: 'fromAsset') required String fromAssetSymbol,
     @JsonKey(name: 'toAsset') required String toAssetSymbol,
-    @DecimalSerialiser()
-    @JsonKey(name: 'fromAssetVolume')
-    required Decimal fromAssetAmount,
-    @DecimalSerialiser()
-    @JsonKey(name: 'toAssetVolume')
-    required Decimal toAssetAmount,
+    @DecimalSerialiser() @JsonKey(name: 'fromAssetVolume') required Decimal fromAssetAmount,
+    @DecimalSerialiser() @JsonKey(name: 'toAssetVolume') required Decimal toAssetAmount,
     @JsonKey(name: 'actualTimeInSecond') required int expirationTime,
     @DecimalSerialiser() required Decimal feeAmount,
-    @DecimalSerialiser()
-    @JsonKey(name: 'feePercentage')
-    required Decimal feePercent,
+    @DecimalSerialiser() @JsonKey(name: 'feePercentage') required Decimal feePercent,
   }) = _GetQuoteResponseModel;
 
-  factory GetQuoteResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$GetQuoteResponseModelFromJson(json);
+  factory GetQuoteResponseModel.fromJson(Map<String, dynamic> json) => _$GetQuoteResponseModelFromJson(json);
 }
 
 @freezed
@@ -40,6 +33,5 @@ class RecurringBuyInfoModel with _$RecurringBuyInfoModel {
     required String nextExecutionTime,
   }) = _RecurringBuyInfoModel;
 
-  factory RecurringBuyInfoModel.fromJson(Map<String, dynamic> json) =>
-      _$RecurringBuyInfoModelFromJson(json);
+  factory RecurringBuyInfoModel.fromJson(Map<String, dynamic> json) => _$RecurringBuyInfoModelFromJson(json);
 }

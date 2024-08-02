@@ -41,7 +41,9 @@ abstract class _TransferFromToStoreBase with Store {
         : _fromType == CredentialsType.unlimitCard
             ? []
             : sSignalRModules.bankingProfileData?.banking?.cards
-                    ?.where((element) => element.status == AccountStatusCard.active && element.cardId != _skipId)
+                    ?.where(
+                      (element) => element.status == AccountStatusCard.active && element.cardId != _skipId,
+                    )
                     .toList() ??
                 [];
   }

@@ -28,6 +28,5 @@ abstract class _SimpleKitBase with Store {
   }
 
   @computed
-  SimpleColors get colors =>
-      currentTheme == STheme.dark ? SColorsDark() : SColorsLight();
+  SimpleColors get colors => currentTheme == STheme.dark ? SColorsDark() : SColorsLight();
 }

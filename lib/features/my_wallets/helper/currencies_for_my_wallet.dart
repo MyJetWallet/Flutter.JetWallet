@@ -21,11 +21,13 @@ ObservableList<CurrencyModel> currenciesForMyWallet({
   activeCurrencies.sort((a, b) => (a.walletOrder ?? 1).compareTo(b.walletOrder ?? 1));
 
   if (!isShowEUR) {
-    activeCurrencies = ObservableList.of(activeCurrencies
-        .where(
-          (currency) => currency.symbol != 'EUR',
-        )
-        .toList(),);
+    activeCurrencies = ObservableList.of(
+      activeCurrencies
+          .where(
+            (currency) => currency.symbol != 'EUR',
+          )
+          .toList(),
+    );
   }
 
   return ObservableList.of(activeCurrencies);

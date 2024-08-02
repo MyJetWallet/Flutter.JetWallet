@@ -13,6 +13,5 @@ class PaymentPreviewRequestModel with _$PaymentPreviewRequestModel {
     @JsonKey(name: 'currency') required String currencySymbol,
   }) = _PaymentPreviewRequestModel;
 
-  factory PaymentPreviewRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$PaymentPreviewRequestModelFromJson(json);
+  factory PaymentPreviewRequestModel.fromJson(Map<String, dynamic> json) => _$PaymentPreviewRequestModelFromJson(json);
 }

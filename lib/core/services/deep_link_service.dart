@@ -54,7 +54,6 @@ import 'user_info/user_info_service.dart';
 const _code = 'jw_code';
 const _command = 'jw_command';
 const _operationId = 'jw_operation_id';
-const _email = 'jw_email';
 const _utmSource = 'utm_source';
 
 // when parameters come in "/" format as part of the link
@@ -294,7 +293,9 @@ class DeepLinkService {
     Future<void> openRewards() async {
       if (getIt.get<AppStore>().authStatus == const AuthorizationUnion.authorized() &&
           (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
-              .where((element) => element.id == AssetPaymentProductsEnum.rewardsOnboardingProgram)
+              .where(
+                (element) => element.id == AssetPaymentProductsEnum.rewardsOnboardingProgram,
+              )
               .isNotEmpty) {
         sRouter.popUntilRoot();
         getIt<BottomBarStore>().setHomeTab(BottomItemType.rewards);
@@ -360,7 +361,7 @@ class DeepLinkService {
     Future<void> openProfile() async {
       await Future.delayed(const Duration(milliseconds: 100));
       sRouter.popUntilRoot();
-      getIt<BottomBarStore>().setHomeTab(BottomItemType.wallets);
+      getIt<BottomBarStore>().setHomeTab(BottomItemType.home);
       unawaited(sRouter.push(const AccountRouter()));
       await sRouter.push(
         TransactionHistoryRouter(
@@ -692,8 +693,9 @@ class DeepLinkService {
       getIt<RouteQueryService>().addToQuery(
         RouteQueryModel(
           func: () async {
-            final isEarnAvailable = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
-                .any((element) => element.id == AssetPaymentProductsEnum.earnProgram);
+            final isEarnAvailable = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
+              (element) => element.id == AssetPaymentProductsEnum.earnProgram,
+            );
 
             if (!isEarnAvailable) return;
 
@@ -796,8 +798,9 @@ class DeepLinkService {
   Future<void> poshToScreenInProfileScreen(String? pageSympol) async {
     switch (pageSympol) {
       case '1':
-        final isPrepaidCardAvaible = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
-            .any((element) => element.id == AssetPaymentProductsEnum.prepaidCard);
+        final isPrepaidCardAvaible = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
+          (element) => element.id == AssetPaymentProductsEnum.prepaidCard,
+        );
 
         if (!isPrepaidCardAvaible) return;
 
@@ -985,12 +988,16 @@ class DeepLinkService {
       final showState = sSignalRModules.bankingProfileData?.showState == BankingShowState.accountList;
 
       sRouter.popUntilRoot();
-      getIt<BottomBarStore>().setHomeTab(BottomItemType.wallets);
+      getIt<BottomBarStore>().setHomeTab(BottomItemType.home);
 
       if (currency != null && context != null && currency.symbol != 'EUR') {
         navigateToWallet(context, currency, isSinglePage: true);
       } else if (currency != null && context != null && currency.symbol == 'EUR' && accountIsActive && showState) {
-        navigateToEurWallet(context: context, currency: currency, isSinglePage: true);
+        navigateToEurWallet(
+          context: context,
+          currency: currency,
+          isSinglePage: true,
+        );
       }
     }
 
@@ -1016,7 +1023,9 @@ class DeepLinkService {
 
     final currentUtm = await storageService.getValue(utmSourceKey);
 
-    if (currentUtm == null) await storageService.setString(utmSourceKey, encodedUtm);
+    if (currentUtm == null) {
+      await storageService.setString(utmSourceKey, encodedUtm);
+    }
   }
 
   Future<void> _pushMySimpleCoinsScreen(
@@ -1026,19 +1035,21 @@ class DeepLinkService {
         getIt.get<AppStore>().remoteConfigStatus is Success &&
         getIt.get<AppStore>().authorizedStatus is Home &&
         getIt<TimerService>().isPinScreenOpen == false) {
-      final isSimpleCoinAvaible = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
-          .any((element) => element.id == AssetPaymentProductsEnum.simpleTapToken);
+      final isSimpleCoinAvaible = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
+        (element) => element.id == AssetPaymentProductsEnum.simpleTapToken,
+      );
       if (isSimpleCoinAvaible) {
         sRouter.popUntilRoot();
-        getIt<BottomBarStore>().setHomeTab(BottomItemType.wallets);
+        getIt<BottomBarStore>().setHomeTab(BottomItemType.home);
         await sRouter.push(const MySimpleCoinsRouter());
       }
     } else {
       getIt<RouteQueryService>().addToQuery(
         RouteQueryModel(
           func: () async {
-            final isSimpleCoinAvaible = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
-                .any((element) => element.id == AssetPaymentProductsEnum.simpleTapToken);
+            final isSimpleCoinAvaible = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
+              (element) => element.id == AssetPaymentProductsEnum.simpleTapToken,
+            );
             if (isSimpleCoinAvaible) {
               await sRouter.push(const MySimpleCoinsRouter());
             }

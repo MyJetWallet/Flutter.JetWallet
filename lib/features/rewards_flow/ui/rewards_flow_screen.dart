@@ -10,11 +10,11 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/rewards_flow/store/rewards_flow_store.dart';
 import 'package:jetwallet/features/rewards_flow/ui/widgets/reward_share_card.dart';
 import 'package:jetwallet/features/rewards_flow/ui/widgets/rewards_balances_cell.dart';
-import 'package:jetwallet/features/rewards_flow/ui/widgets/rewards_header.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/rewards_profile_model.dart';
 
 import '../../app/store/app_store.dart';
@@ -63,7 +63,12 @@ class _RewardsFlowScreenBodyState extends State<_RewardsFlowScreenBody> {
 
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
-      header: const RewardsHeader(),
+      header: SimpleLargeAltAppbar(
+        title: intl.rewards_flow_tab_title,
+        showLabelIcon: false,
+        hasRightIcon: false,
+        hasTopPart: false,
+      ),
       child: CustomScrollView(
         slivers: [
           SliverFillRemaining(
@@ -110,7 +115,10 @@ class _RewardsFlowScreenBodyState extends State<_RewardsFlowScreenBody> {
                                 gradient: LinearGradient(
                                   begin: Alignment(0.51, -0.86),
                                   end: Alignment(-0.51, 0.86),
-                                  colors: [Color(0xFFCBB9FF), Color(0xFF9575F3)],
+                                  colors: [
+                                    Color(0xFFCBB9FF),
+                                    Color(0xFF9575F3),
+                                  ],
                                 ),
                                 shape: OvalBorder(),
                               ),

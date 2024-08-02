@@ -50,8 +50,7 @@ class SignalrDebugInfo extends StatelessWidget {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: sSignalRModules.signalRLogs.length,
-                separatorBuilder: (context, index) =>
-                    const SizedBox(height: 12),
+                separatorBuilder: (context, index) => const SizedBox(height: 12),
                 itemBuilder: (context, index) => InkWell(
                   onTap: () {
                     sShowBasicModalBottomSheet(
@@ -80,9 +79,7 @@ class SignalrDebugInfo extends StatelessWidget {
                       children: [
                         Text(
                           formatDateToDMonthYHmFromDate(
-                            (sSignalRModules.signalRLogs[index].sessionTime ??
-                                    DateTime.now())
-                                .toString(),
+                            (sSignalRModules.signalRLogs[index].sessionTime ?? DateTime.now()).toString(),
                           ),
                           style: const TextStyle(fontWeight: FontWeight.w500),
                         ),
@@ -155,9 +152,7 @@ class _SignalRLogDetailState extends State<SignalRLogDetail> {
                   setState(() {
                     filtredLogs = widget.log.logs!
                         .where(
-                          (element) =>
-                              element.type != SLogType.ping &&
-                              element.type != SLogType.pong,
+                          (element) => element.type != SLogType.ping && element.type != SLogType.pong,
                         )
                         .toList();
                   });
@@ -184,9 +179,7 @@ class _SignalRLogDetailState extends State<SignalRLogDetail> {
                   Text(
                     'Action: ${filtredLogs[index].type}',
                     style: sBodyText1Style.copyWith(
-                      color: filtredLogs[index].type == SLogType.error
-                          ? sKit.colors.red
-                          : sKit.colors.black,
+                      color: filtredLogs[index].type == SLogType.error ? sKit.colors.red : sKit.colors.black,
                     ),
                   ),
                   Text(

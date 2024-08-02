@@ -62,7 +62,9 @@ void showConvertToBottomSheet({
 
           for (final symbol in watchListIds) {
             if (currencyFiltered.any((element) => element.symbol == symbol)) {
-              favAssets.add(currencyFiltered.firstWhere((element) => element.symbol == symbol));
+              favAssets.add(
+                currencyFiltered.firstWhere((element) => element.symbol == symbol),
+              );
               currencyFiltered.removeWhere((element) => element.symbol == symbol);
             }
           }

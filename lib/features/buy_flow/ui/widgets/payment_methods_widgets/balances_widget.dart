@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
@@ -34,9 +33,8 @@ class BalancesWidget extends StatelessWidget {
             onTableAssetTap: () {
               onTap(account);
             },
-            rightValue: getIt<AppStore>().isBalanceHide
-              ? '**** ${account.currency}'
-              : '${account.balance} ${account.currency}',
+            rightValue:
+                getIt<AppStore>().isBalanceHide ? '**** ${account.currency}' : '${account.balance} ${account.currency}',
           ),
       ],
     );

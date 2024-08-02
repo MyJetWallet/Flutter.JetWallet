@@ -16,8 +16,7 @@ class TransactionDetailsItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      crossAxisAlignment:
-          fromStart ? CrossAxisAlignment.start : CrossAxisAlignment.center,
+      crossAxisAlignment: fromStart ? CrossAxisAlignment.start : CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         TransactionDetailsNameText(

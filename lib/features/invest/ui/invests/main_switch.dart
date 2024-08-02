@@ -17,7 +17,6 @@ class MainSwitch extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final colors = sKit.colors;
 
     void changeActiveTab(int newValue) {

@@ -12,7 +12,6 @@ import 'package:jetwallet/features/home/store/bottom_bar_store.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/bottom_sheets/components/simple_shade_animation_stack.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../utils/helpers/check_kyc_status.dart';
@@ -45,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
         final bottomBarItems = store.bottomBarItems;
 
         final screens = <PageRouteInfo<dynamic>>[
-          if (bottomBarItems.contains(BottomItemType.wallets)) const MyWalletsRouter(),
+          if (bottomBarItems.contains(BottomItemType.home)) const MyWalletsRouter(),
           if (bottomBarItems.contains(BottomItemType.market)) const MarketRouter(),
           if (bottomBarItems.contains(BottomItemType.earn)) const EarnRouter(),
           if (bottomBarItems.contains(BottomItemType.invest)) const InvestPageRouter(),
@@ -78,11 +77,11 @@ class _HomeScreenState extends State<HomeScreen> {
             return SBottomBar(
               selectedIndex: store.cerrentIndex,
               items: [
-                if (bottomBarItems.contains(BottomItemType.wallets))
+                if (bottomBarItems.contains(BottomItemType.home))
                   SBottomItemModel(
-                    type: BottomItemType.wallets,
-                    text: intl.bottom_bar_wallets,
-                    icon: Assets.svg.large.wallets,
+                    type: BottomItemType.home,
+                    text: intl.bottom_bar_home,
+                    icon: Assets.svg.large.home,
                   ),
                 if (bottomBarItems.contains(BottomItemType.market))
                   SBottomItemModel(
@@ -119,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
               onChanged: (int val) {
                 switch (bottomBarItems[val]) {
-                  case BottomItemType.wallets:
+                  case BottomItemType.home:
                     sAnalytics.tapOnTheTabWalletsInTabBar();
                   case BottomItemType.rewards:
                     sAnalytics.rewardsTapOnTheTabBar();
@@ -134,7 +133,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 if (bottomBarItems[val] == store.homeTab) {
                   switch (bottomBarItems[val]) {
-                    case BottomItemType.wallets:
+                    case BottomItemType.home:
                       getIt.get<EventBus>().fire(ResetScrollMyWallets());
                     case BottomItemType.market:
                       getIt.get<EventBus>().fire(ResetScrollMarket());

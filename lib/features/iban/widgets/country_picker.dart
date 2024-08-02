@@ -89,8 +89,7 @@ class _CountryAccountFieldState extends State<CountryAccountField> {
               SStandardField(
                 hideClearButton: true,
                 readOnly: true,
-                controller: TextEditingController()
-                  ..text = activeCountry != null ? ' ' : '',
+                controller: TextEditingController()..text = activeCountry != null ? ' ' : '',
                 labelText: intl.user_data_country,
               ),
             ],

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class CollapsedMainscreenAppbar extends HookWidget {
@@ -15,9 +14,9 @@ class CollapsedMainscreenAppbar extends HookWidget {
     required this.isLabelIconShow,
     this.onLabelIconTap,
     this.onProfileTap,
-    this.profileNotificationsCount = 0,
     this.isLoading = false,
     this.onOnChatTap,
+    required this.userAvatar,
   });
 
   final ScrollController scrollController;
@@ -34,11 +33,12 @@ class CollapsedMainscreenAppbar extends HookWidget {
   final VoidCallback? onLabelIconTap;
 
   final VoidCallback? onProfileTap;
-  final int profileNotificationsCount;
 
   final VoidCallback? onOnChatTap;
 
   final bool isLoading;
+
+  final Widget userAvatar;
 
   @override
   Widget build(BuildContext context) {
@@ -71,9 +71,12 @@ class CollapsedMainscreenAppbar extends HookWidget {
         onLabelIconTap: onLabelIconTap,
         isLabelIconShow: isLabelIconShow,
         onProfileTap: onProfileTap,
-        profileNotificationsCount: profileNotificationsCount,
         isLoading: isLoading,
         onOnChatTap: onOnChatTap,
+        userAvatar: userAvatar,
+        onUserAvatarTap: () {
+          onProfileTap?.call();
+        },
         child: child,
       ),
       secondChild: Material(
@@ -81,17 +84,16 @@ class CollapsedMainscreenAppbar extends HookWidget {
         child: GlobalBasicAppBar(
           title: mainHeaderCollapsedTitle,
           subtitle: mainHeaderCollapsedSubtitle,
-          hasLeftIcon: false,
+          hasLeftIcon: true,
+          leftIcon: userAvatar,
+          onLeftIconTap: () {
+            onProfileTap?.call();
+          },
           hasRightIcon: true,
-          rightIcon: UserNotyIcon(
-            onTap: onProfileTap ?? () {},
-            notificationsCount: profileNotificationsCount,
+          rightIcon: SafeGesture(
+            onTap: onOnChatTap,
+            child: Assets.svg.medium.chat.simpleSvg(),
           ),
-          hasSecondIcon: true,
-          secondIcon: SafeGesture(
-              onTap: onOnChatTap,
-              child: Assets.svg.medium.chat.simpleSvg(),
-            ),
         ),
       ),
       crossFadeState: isTopPosition.value ? CrossFadeState.showFirst : CrossFadeState.showSecond,

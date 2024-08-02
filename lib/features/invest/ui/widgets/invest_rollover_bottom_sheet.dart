@@ -77,7 +77,7 @@ void showInvestRolloverBottomSheet(
       InvestList(
         position: position,
         instrument: instrument,
-      )
+      ),
     ],
   );
 }

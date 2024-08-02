@@ -21,7 +21,5 @@ String actualInProcessOperationName(
 
 // Counter of transactions
 int counterOfOperationInProgressTransactions(CurrencyModel currency) {
-  return currency.transfersInProcessCount +
-      currency.buysInProcessCount +
-      currency.earnInProcessCount;
+  return currency.transfersInProcessCount + currency.buysInProcessCount + currency.earnInProcessCount;
 }

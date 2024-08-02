@@ -11,12 +11,10 @@ import 'package:simple_networking/modules/signal_r/models/campaign_response_mode
 
 part 'reward_campaign_store.g.dart';
 
-class RewardCampaignStore extends _RewardCampaignStoreBase
-    with _$RewardCampaignStore {
+class RewardCampaignStore extends _RewardCampaignStoreBase with _$RewardCampaignStore {
   RewardCampaignStore(super.isFilterEnabled);
 
-  static _RewardCampaignStoreBase of(BuildContext context) =>
-      Provider.of<RewardCampaignStore>(context, listen: false);
+  static _RewardCampaignStoreBase of(BuildContext context) => Provider.of<RewardCampaignStore>(context, listen: false);
 }
 
 abstract class _RewardCampaignStoreBase with Store {
@@ -48,10 +46,7 @@ abstract class _RewardCampaignStoreBase with Store {
     _logger.log(notifier, 'updateCampaigns');
 
     final validCampaigns = <CampaignModel>[
-      if (isFilterEnabled)
-        ...await _filteredBanners(newCampaigns)
-      else
-        ...newCampaigns,
+      if (isFilterEnabled) ...await _filteredBanners(newCampaigns) else ...newCampaigns,
     ];
 
     campaigns = ObservableList.of(validCampaigns);

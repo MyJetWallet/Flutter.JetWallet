@@ -4,8 +4,7 @@ part 'phone_verification_verify_request_model.freezed.dart';
 part 'phone_verification_verify_request_model.g.dart';
 
 @freezed
-class PhoneVerificationVerifyRequestModel
-    with _$PhoneVerificationVerifyRequestModel {
+class PhoneVerificationVerifyRequestModel with _$PhoneVerificationVerifyRequestModel {
   const factory PhoneVerificationVerifyRequestModel({
     required String code,
     required String phoneBody,

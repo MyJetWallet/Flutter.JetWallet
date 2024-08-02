@@ -251,7 +251,9 @@ class CardWidgetState extends State<CardWidget> with TickerProviderStateMixin {
                                               width: 48,
                                               height: 48,
                                               child: Center(
-                                                child: getNetworkIcon(widget.card.cardType),
+                                                child: getNetworkIcon(
+                                                  widget.card.cardType,
+                                                ),
                                               ),
                                             ),
                                           ],
@@ -308,12 +310,12 @@ class CardWidgetState extends State<CardWidget> with TickerProviderStateMixin {
 
 Widget getNetworkIcon(SimpleCardNetwork? network) {
   switch (network) {
-    case SimpleCardNetwork.VISA:
+    case SimpleCardNetwork.visa:
       return const SVisaCardBigIcon(
         width: 40,
         height: 25,
       );
-    case SimpleCardNetwork.MASTERCARD:
+    case SimpleCardNetwork.mastercard:
       return const SMasterCardBigIcon(
         width: 40,
         height: 25,

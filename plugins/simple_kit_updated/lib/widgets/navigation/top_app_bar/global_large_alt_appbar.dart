@@ -21,6 +21,9 @@ class SimpleLargeAltAppbar extends StatelessWidget {
     this.labelIcon,
     this.onLabelIconTap,
     this.isLoading = false,
+    this.hasLeftIcon = false,
+    this.leftIcon,
+    this.hasTopPart = true,
   });
 
   final String title;
@@ -34,23 +37,50 @@ class SimpleLargeAltAppbar extends StatelessWidget {
   final bool hasSecondIcon;
   final Widget? secondIcon;
 
+  final bool hasLeftIcon;
+  final Widget? leftIcon;
+
   final bool hasRightIcon;
   final Widget? rightIcon;
 
   final bool isLoading;
 
+  final bool hasTopPart;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(
-        top: 53 + 10, //отступ шторки (53) + отступ аппбара (10)
+        top: 53 + 8, //отступ шторки (53) + отступ аппбара (8)
         bottom: 10,
         left: 24,
         right: 24,
       ),
-      child: Stack(
-        clipBehavior: Clip.none,
+      child: Column(
         children: [
+          if (hasTopPart) ...[
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (hasLeftIcon) ...[
+                  leftIcon ?? Assets.svg.medium.user.simpleSvg(),
+                ],
+                const Spacer(),
+                if (hasSecondIcon) ...[
+                  const Gap(24),
+                  secondIcon ?? Assets.svg.medium.user.simpleSvg(),
+                ],
+                if (hasRightIcon) ...[
+                  const Gap(24),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 5.5),
+                    child: rightIcon ?? Assets.svg.medium.user.simpleSvg(),
+                  ),
+                ]
+              ],
+            ),
+            const SizedBox(height: 20),
+          ],
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,26 +128,6 @@ class SimpleLargeAltAppbar extends StatelessWidget {
                 ],
               ),
             ],
-          ),
-          Positioned(
-            right: 0,
-            top: -8,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (hasSecondIcon) ...[
-                  const Gap(24),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: secondIcon ?? Assets.svg.medium.user.simpleSvg(),
-                  ),
-                ],
-                if (hasRightIcon) ...[
-                  const Gap(24),
-                  rightIcon ?? Assets.svg.medium.user.simpleSvg(),
-                ]
-              ],
-            ),
           ),
         ],
       ),

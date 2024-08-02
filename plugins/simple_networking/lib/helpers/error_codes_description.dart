@@ -1,23 +1,18 @@
-/// @Refactor
+// TODO (Yaroslav): Refactor
 
 final errorCodesDescriptionEn = {
   'InternalServerError': 'Something went wrong. Please try again later.',
   'WalletDoNotExist': 'Wallet is not found.',
-  'CannotProcessWithdrawal':
-      'Withdrawal request failed. Please try again later.',
+  'CannotProcessWithdrawal': 'Withdrawal request failed. Please try again later.',
   'AddressIsNotValid': 'Invalid address.',
   'AssetDoNotFound': 'Asset is not found.',
-  'AssetIsDisabled':
-      'Trading is not available for this asset now. Please try again later.',
+  'AssetIsDisabled': 'Trading is not available for this asset now. Please try again later.',
   'AmountIsSmall': 'Your amount is too small.',
   'InvalidInstrument': 'Asset is not supported.',
-  'KycNotPassed':
-      'Your account is not verified. Complete KYC verification now.',
-  'AssetDoNotSupported':
-      'Trading is not available for this asset now. Please try again later.',
+  'KycNotPassed': 'Your account is not verified. Complete KYC verification now.',
+  'AssetDoNotSupported': 'Trading is not available for this asset now. Please try again later.',
   'AmountToLarge': 'Amount to large',
-  'NotSupported':
-      'There was a problem loading wallet address. Try again in a moment.',
+  'NotSupported': 'There was a problem loading wallet address. Try again in a moment.',
   'PaymentFailed': 'Payment failed. Please try again later or contact support.',
   'InvalidCode': 'The code you entered is incorrect',
   'UnsuccessfulSend': 'Something went wrong',
@@ -53,30 +48,23 @@ final errorCodesDescriptionEn = {
 };
 
 final errorCodesDescriptionRu = {
-  'InternalServerError':
-      'Что-то пошло не так. Пожалуйста, повторите попытку позже.',
+  'InternalServerError': 'Что-то пошло не так. Пожалуйста, повторите попытку позже.',
   'WalletDoNotExist': 'Кошелек не найден.',
-  'CannotProcessWithdrawal':
-      'Запрос на вывод средств не выполнен. Пожалуйста, повторите попытку'
-          ' позже.',
+  'CannotProcessWithdrawal': 'Запрос на вывод средств не выполнен. Пожалуйста, повторите попытку'
+      ' позже.',
   'AddressIsNotValid': 'Неверный адрес.',
   'AssetDoNotFound': 'Актив не найден.',
-  'AssetIsDisabled':
-      'Торговля этим активом сейчас недоступна. Пожалуйста, повторите попытку'
-          ' позже.',
+  'AssetIsDisabled': 'Торговля этим активом сейчас недоступна. Пожалуйста, повторите попытку'
+      ' позже.',
   'AmountIsSmall': 'Ваша сумма слишком мала.',
   'InvalidInstrument': 'Актив не поддерживается.',
-  'KycNotPassed':
-      'Ваш аккаунт не подтвержден. Завершите проверку KYC прямо сейчас.',
-  'AssetDoNotSupported':
-      'Торговля этим активом сейчас недоступна. Пожалуйста, повторите попытку'
-          ' позже.',
+  'KycNotPassed': 'Ваш аккаунт не подтвержден. Завершите проверку KYC прямо сейчас.',
+  'AssetDoNotSupported': 'Торговля этим активом сейчас недоступна. Пожалуйста, повторите попытку'
+      ' позже.',
   'AmountToLarge': 'Сумма большая',
-  'NotSupported':
-      'Не удалось загрузить адрес кошелька. Повторите попытку через мгновение.',
-  'PaymentFailed':
-      'Платеж не прошел. Повторите попытку позже или обратитесь в службу'
-          ' поддержки.',
+  'NotSupported': 'Не удалось загрузить адрес кошелька. Повторите попытку через мгновение.',
+  'PaymentFailed': 'Платеж не прошел. Повторите попытку позже или обратитесь в службу'
+      ' поддержки.',
 
   //Auth
   'InvalidUserNameOrPassword': 'Неправильный логин или пароль',
@@ -88,8 +76,7 @@ final errorCodesDescriptionRu = {
   'SocialNetworkNotAvailable': 'Социальная сеть недоступна для авторизации',
   'BrandNotFound': 'Что-то пошло не так. Пожалуйста, попробуйте еще раз',
   'InvalidToken': 'Неверный токен. Пожалуйста, войдите снова',
-  'RecaptchaFailed':
-      'Проверка CAPTCHA не удалась. Пожалуйста, попробуйте еще раз',
+  'RecaptchaFailed': 'Проверка CAPTCHA не удалась. Пожалуйста, попробуйте еще раз',
 
   //Circle, Cards
   'InvalidBillingName': 'Неправильное имя',
@@ -105,8 +92,7 @@ final errorCodesDescriptionRu = {
   'InvalidCardNumber': 'Инвалидная карта',
 };
 
-const emailPasswordIncorrectEn =
-    'The email or password you entered is incorrect';
+const emailPasswordIncorrectEn = 'The email or password you entered is incorrect';
 
 const pinIncorrectFinalEn = 'Wrong code. Too many attempts. Try again later';
 

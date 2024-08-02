@@ -9,8 +9,6 @@ class SStarSelectedIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? const SimpleLightStarSelectedIcon()
-        : const SimpleLightStarSelectedIcon();
+    return sKit.currentTheme == STheme.dark ? const SimpleLightStarSelectedIcon() : const SimpleLightStarSelectedIcon();
   }
 }

@@ -21,9 +21,7 @@ Color setRewardDescriptionStyle(
       }
     }
     if (condition.type == conditionTypeSwitch(ConditionType.kYCCondition)) {
-      return (condition.parameters!.passed == 'false')
-          ? colors.blue
-          : colors.black;
+      return (condition.parameters!.passed == 'false') ? colors.blue : colors.black;
     } else {
       final currentIndexCondition = conditions.indexOf(condition);
       if (currentIndexCondition > 0) {

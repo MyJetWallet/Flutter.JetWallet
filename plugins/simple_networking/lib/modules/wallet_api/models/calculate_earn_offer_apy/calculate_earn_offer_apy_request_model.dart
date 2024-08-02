@@ -6,8 +6,7 @@ part 'calculate_earn_offer_apy_request_model.freezed.dart';
 part 'calculate_earn_offer_apy_request_model.g.dart';
 
 @freezed
-class CalculateEarnOfferApyRequestModel
-    with _$CalculateEarnOfferApyRequestModel {
+class CalculateEarnOfferApyRequestModel with _$CalculateEarnOfferApyRequestModel {
   const factory CalculateEarnOfferApyRequestModel({
     required String offerId,
     required String assetSymbol,

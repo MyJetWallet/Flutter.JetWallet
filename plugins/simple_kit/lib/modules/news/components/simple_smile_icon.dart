@@ -17,8 +17,6 @@ class SSmileIcon extends StatelessWidget {
       return const SSmileGoodIcon();
     }
 
-    return sentiment == SColorsLight().yellowLight
-        ? const SSmileNeutralIcon()
-        : const SSmileBadIcon();
+    return sentiment == SColorsLight().yellowLight ? const SSmileNeutralIcon() : const SSmileBadIcon();
   }
 }

@@ -6,8 +6,7 @@ part 'nft_market_is_valid_promo_response_model.freezed.dart';
 part 'nft_market_is_valid_promo_response_model.g.dart';
 
 @freezed
-class NftMarketIsValidPromoResponseModel
-    with _$NftMarketIsValidPromoResponseModel {
+class NftMarketIsValidPromoResponseModel with _$NftMarketIsValidPromoResponseModel {
   factory NftMarketIsValidPromoResponseModel({
     final bool? isValid,
     @DecimalSerialiser() required Decimal discount,

@@ -68,22 +68,24 @@ class _EarnView extends StatefulWidget {
 }
 
 class _EarnViewState extends State<_EarnView> {
-  bool showBanner = true;
+  bool showBanner = false;
   final storageService = getIt.get<LocalStorageService>();
 
   @override
   void initState() {
-    _checkBannerVisibility();
     super.initState();
   }
 
-  Future<void> _checkBannerVisibility() async {
-    final showInfoBanner = await storageService.getValue(showInfoBannerOnEarnScreenKey);
-    if (showInfoBanner != null) {
-      setState(() {
-        showBanner = false;
-      });
-    }
+  void _showBanner() {
+    setState(() {
+      showBanner = true;
+    });
+  }
+
+  void _closeBanner() {
+    setState(() {
+      showBanner = false;
+    });
   }
 
   @override
@@ -98,12 +100,13 @@ class _EarnViewState extends State<_EarnView> {
         title: intl.earn_earn,
         showLabelIcon: false,
         hasRightIcon: false,
+        hasTopPart: false,
       ),
       child: Observer(
         builder: (context) {
           return CustomScrollView(
             slivers: [
-              if (store.earnPositions.isNotEmpty && showBanner)
+              if (showBanner)
                 SliverToBoxAdapter(
                   child: SBannerBasic(
                     text: intl.earn_funds_are_calculated_based_on_the_current_value,
@@ -128,6 +131,14 @@ class _EarnViewState extends State<_EarnView> {
                       symbol: sSignalRModules.baseCurrency.symbol,
                       accuracy: 2,
                     ) : '**** ${sSignalRModules.baseCurrency.symbol}'}',
+                  lableIcon: SafeGesture(
+                    onTap: _showBanner,
+                    child: Assets.svg.small.info.simpleSvg(
+                      width: 16,
+                      height: 16,
+                      color: SColorsLight().gray10,
+                    ),
+                  ),
                 ),
               ),
               SliverToBoxAdapter(
@@ -150,12 +161,5 @@ class _EarnViewState extends State<_EarnView> {
         },
       ),
     );
-  }
-
-  Future<void> _closeBanner() async {
-    setState(() {
-      showBanner = false;
-    });
-    await storageService.setString(showInfoBannerOnEarnScreenKey, 'false');
   }
 }

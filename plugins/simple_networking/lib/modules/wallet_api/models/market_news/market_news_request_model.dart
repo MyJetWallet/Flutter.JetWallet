@@ -7,11 +7,10 @@ part 'market_news_request_model.g.dart';
 class MarketNewsRequestModel with _$MarketNewsRequestModel {
   const factory MarketNewsRequestModel({
     required String assetId,
-    required String lastSeen,
+    required DateTime lastSeen,
     @JsonKey(name: 'lang') required String language,
     @JsonKey(name: 'take') required int amount,
   }) = _MarketNewsRequestModel;
 
-  factory MarketNewsRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$MarketNewsRequestModelFromJson(json);
+  factory MarketNewsRequestModel.fromJson(Map<String, dynamic> json) => _$MarketNewsRequestModelFromJson(json);
 }

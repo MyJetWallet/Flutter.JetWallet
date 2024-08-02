@@ -10,8 +10,7 @@ class AssetPaymentMethods with _$AssetPaymentMethods {
     @Default(false) bool showCardsInProfile,
   }) = _AssetPaymentMethods;
 
-  factory AssetPaymentMethods.fromJson(Map<String, dynamic> json) =>
-      _$AssetPaymentMethodsFromJson(json);
+  factory AssetPaymentMethods.fromJson(Map<String, dynamic> json) => _$AssetPaymentMethodsFromJson(json);
 }
 
 @freezed
@@ -23,23 +22,19 @@ class AssetPaymentInfo with _$AssetPaymentInfo {
     required List<PaymentMethod> withdrawalMethods,
   }) = _AssetPaymentInfo;
 
-  factory AssetPaymentInfo.fromJson(Map<String, dynamic> json) =>
-      _$AssetPaymentInfoFromJson(json);
+  factory AssetPaymentInfo.fromJson(Map<String, dynamic> json) => _$AssetPaymentInfoFromJson(json);
 }
 
 @freezed
 class PaymentMethod with _$PaymentMethod {
   const factory PaymentMethod({
-    @PaymentTypeSerialiser()
-    @JsonKey(name: 'name')
-    required PaymentMethodType type,
+    @PaymentTypeSerialiser() @JsonKey(name: 'name') required PaymentMethodType type,
     required double minAmount,
     required double maxAmount,
     required double availableAmount,
   }) = _PaymentMethod;
 
-  factory PaymentMethod.fromJson(Map<String, dynamic> json) =>
-      _$PaymentMethodFromJson(json);
+  factory PaymentMethod.fromJson(Map<String, dynamic> json) => _$PaymentMethodFromJson(json);
 }
 
 enum PaymentMethodCategory {
@@ -142,8 +137,7 @@ extension _PaymentMethodTypeExtension on PaymentMethodType {
   }
 }
 
-class PaymentTypeSerialiser
-    implements JsonConverter<PaymentMethodType, dynamic> {
+class PaymentTypeSerialiser implements JsonConverter<PaymentMethodType, dynamic> {
   const PaymentTypeSerialiser();
 
   @override
@@ -168,7 +162,7 @@ class PaymentTypeSerialiser
       return PaymentMethodType.googlePay;
     } else if (value == 'IbanTransferUnlimint') {
       return PaymentMethodType.ibanTransferUnlimint;
-    }  else if (value == 'GlobalSend') {
+    } else if (value == 'GlobalSend') {
       return PaymentMethodType.globalSend;
     } else if (value == 'DepositExpressBrasil') {
       return PaymentMethodType.depositExpressBrasil;

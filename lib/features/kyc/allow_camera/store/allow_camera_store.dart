@@ -81,8 +81,6 @@ abstract class _AllowCameraStoreBase with Store {
 
     final status = await Permission.camera.status;
 
-    print('handleCameraPermissionAfterSettingsChange');
-
     if (status == PermissionStatus.granted) {
       then();
 

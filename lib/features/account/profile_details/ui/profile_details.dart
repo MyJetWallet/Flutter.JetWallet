@@ -40,8 +40,9 @@ class _ProfileDetailsState extends State<ProfileDetails> {
     }
 
     String getTextLocale() {
-      final langIndex =
-          availableLanguages.indexWhere((element) => element.langCode == getIt.get<AppStore>().locale?.languageCode);
+      final langIndex = availableLanguages.indexWhere(
+        (element) => element.langCode == getIt.get<AppStore>().locale?.languageCode,
+      );
 
       return langIndex != -1 ? availableLanguages[langIndex].label : availableLanguages[0].label;
     }

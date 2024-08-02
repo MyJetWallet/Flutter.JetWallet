@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:simple_kit/core/simple_kit.dart';
-import 'package:simple_kit/modules/shared/simple_paddings.dart';
 import 'package:simple_kit/modules/shared/stack_loader/stack_loader.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 

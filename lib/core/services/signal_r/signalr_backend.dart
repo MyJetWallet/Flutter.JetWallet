@@ -1,11 +1,14 @@
 import 'package:collection/collection.dart';
 import 'package:decimal/decimal.dart';
 import 'package:isolator/isolator.dart';
+import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/utils/helpers/calculate_base_balance.dart';
 import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:jetwallet/utils/helpers/set_category_for_buy_methods.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:logger/logger.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_withdrawal_fee_model.dart';
@@ -62,16 +65,25 @@ class SignalRBackEnd extends Backend {
   final List<String> paymentMethods = [];
 
   BaseCurrencyModel baseCurrency = const BaseCurrencyModel();
-  Future<void> setBaseCurrency({required BaseCurrencyModel data, required SignalREvents event}) async {
+  Future<void> setBaseCurrency({
+    required BaseCurrencyModel data,
+    required SignalREvents event,
+  }) async {
     baseCurrency = data;
   }
 
-  Future<void> setAssets({required AssetsModel data, required SignalREvents event}) async {
+  Future<void> setAssets({
+    required AssetsModel data,
+    required SignalREvents event,
+  }) async {
     currenciesList.clear();
     currenciesWithHiddenList.clear();
   }
 
-  Future<void> getCurrencyModels({required AssetsModel data, required SignalREvents event}) async {
+  Future<void> getCurrencyModels({
+    required AssetsModel data,
+    required SignalREvents event,
+  }) async {
     try {
       for (final asset in data.assets) {
         if (!asset.hideInTerminal) {
@@ -134,7 +146,11 @@ class SignalRBackEnd extends Backend {
         }
       }
     } catch (e) {
-      print('ERROR: $e');
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.error,
+            place: 'SignalRBackEnd',
+            message: 'Error: $e',
+          );
     }
 
     await send(
@@ -143,7 +159,10 @@ class SignalRBackEnd extends Backend {
     );
   }
 
-  Future<void> getCurrenciesWithHiddenListModels({required AssetsModel data, required SignalREvents event}) async {
+  Future<void> getCurrenciesWithHiddenListModels({
+    required AssetsModel data,
+    required SignalREvents event,
+  }) async {
     try {
       for (final asset in data.assets) {
         currenciesWithHiddenList.add(
@@ -193,7 +212,11 @@ class SignalRBackEnd extends Backend {
         );
       }
     } catch (e) {
-      print('HIDDEM ERROR: $e');
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.error,
+            place: 'SignalRBackEnd',
+            message: 'Error: $e',
+          );
     }
 
     await send(
@@ -204,7 +227,10 @@ class SignalRBackEnd extends Backend {
 
   ///
 
-  void _updateAssetsWithdrawalFeesEvent({required AssetWithdrawalFeeModel data, required SignalREvents event}) {
+  void _updateAssetsWithdrawalFeesEvent({
+    required AssetWithdrawalFeeModel data,
+    required SignalREvents event,
+  }) {
     updateAssetsWithdrawalFees(data);
   }
 
@@ -230,24 +256,33 @@ class SignalRBackEnd extends Backend {
 
   ///
 
-  void _updateAssetPaymentMethodsNew({required AssetPaymentMethodsNew data, required SignalREvents event}) {
+  void _updateAssetPaymentMethodsNew({
+    required AssetPaymentMethodsNew data,
+    required SignalREvents event,
+  }) {
     updateAssetPaymentMethodsNew(data);
   }
 
   void updateAssetPaymentMethodsNew(AssetPaymentMethodsNew value) {
     for (final currency in currenciesList) {
       final buyMethods = (value.buy ?? [])
-          .where((buyMethod) => buyMethod.allowedForSymbols?.contains(currency.symbol) ?? false)
+          .where(
+            (buyMethod) => buyMethod.allowedForSymbols?.contains(currency.symbol) ?? false,
+          )
           .map(setCategoryForBuyMethods)
           .toList();
 
       final sendMethods = (value.send ?? [])
-          .where((sendMethod) =>
-              sendMethod.symbolNetworkDetails?.any((element) => element.symbol == currency.symbol) ?? false,)
+          .where(
+            (sendMethod) =>
+                sendMethod.symbolNetworkDetails?.any((element) => element.symbol == currency.symbol) ?? false,
+          )
           .toList();
 
       final receiveMethods = (value.receive ?? [])
-          .where((receiveMethod) => receiveMethod.symbols?.contains(currency.symbol) ?? false)
+          .where(
+            (receiveMethod) => receiveMethod.symbols?.contains(currency.symbol) ?? false,
+          )
           .toList();
 
       if (buyMethods.isNotEmpty) {
@@ -269,9 +304,10 @@ class SignalRBackEnd extends Backend {
 
   ///
 
-  void _updateBalances({required BalancesModel data, required SignalREvents event}) {
-    print(currenciesList.length);
-
+  void _updateBalances({
+    required BalancesModel data,
+    required SignalREvents event,
+  }) {
     if (currenciesList.isNotEmpty) {
       for (final balance in data.balances) {
         final currency = currenciesList.firstWhereOrNull((c) => c.symbol == balance.assetId);
@@ -314,11 +350,17 @@ class SignalRBackEnd extends Backend {
 
   ///
 
-  void _updateBasePricesCurrenciesList({required BasePricesModel data, required SignalREvents event}) {
+  void _updateBasePricesCurrenciesList({
+    required BasePricesModel data,
+    required SignalREvents event,
+  }) {
     updateBasePricesCurrenciesList(data);
   }
 
-  void _updateBasePricesHiddenCurrenciesList({required BasePricesModel data, required SignalREvents event}) {
+  void _updateBasePricesHiddenCurrenciesList({
+    required BasePricesModel data,
+    required SignalREvents event,
+  }) {
     updateBasePricesHiddenCurrenciesList(data);
   }
 
@@ -416,7 +458,10 @@ class SignalRBackEnd extends Backend {
 
   ///
 
-  void _updateBlockchains({required BlockchainsModel data, required SignalREvents event}) {
+  void _updateBlockchains({
+    required BlockchainsModel data,
+    required SignalREvents event,
+  }) {
     updateBlockchains(data);
   }
 

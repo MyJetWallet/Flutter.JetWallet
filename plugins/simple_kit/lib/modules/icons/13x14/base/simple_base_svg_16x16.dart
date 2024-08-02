@@ -4,11 +4,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 class SimpleBaseSvg13X14 extends StatelessWidget {
   const SimpleBaseSvg13X14({
     super.key,
-    this.color,
     required this.assetName,
   });
 
-  final Color? color;
   final String assetName;
 
   @override
@@ -22,7 +20,6 @@ class SimpleBaseSvg13X14 extends StatelessWidget {
       ),
       child: SvgPicture.asset(
         assetName,
-        color: color,
         package: 'simple_kit',
       ),
     );

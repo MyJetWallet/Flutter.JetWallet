@@ -19,6 +19,5 @@ class WithdrawRequestModel with _$WithdrawRequestModel {
     String? lang,
   }) = _WithdrawRequestModel;
 
-  factory WithdrawRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$WithdrawRequestModelFromJson(json);
+  factory WithdrawRequestModel.fromJson(Map<String, dynamic> json) => _$WithdrawRequestModelFromJson(json);
 }

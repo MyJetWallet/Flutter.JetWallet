@@ -9,8 +9,7 @@ class MarketNewsResponseModel with _$MarketNewsResponseModel {
     required List<MarketNewsModel> news,
   }) = _MarketNewsResponseModel;
 
-  factory MarketNewsResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$MarketNewsResponseModelFromJson(json);
+  factory MarketNewsResponseModel.fromJson(Map<String, dynamic> json) => _$MarketNewsResponseModelFromJson(json);
 }
 
 @freezed
@@ -18,15 +17,17 @@ class MarketNewsModel with _$MarketNewsModel {
   const factory MarketNewsModel({
     required String source,
     required String topic,
+    required String description,
     required String lang,
-    required String timestamp,
+    required DateTime timestamp,
     required String urlAddress,
-    required Sentiment sentiment,
     required List<String> associatedAssets,
+    String? imageUrl,
+    required Sentiment sentiment,
+    required String integrationSource,
   }) = _MarketNewsModel;
 
-  factory MarketNewsModel.fromJson(Map<String, dynamic> json) =>
-      _$MarketNewsModelFromJson(json);
+  factory MarketNewsModel.fromJson(Map<String, dynamic> json) => _$MarketNewsModelFromJson(json);
 }
 
 enum Sentiment {

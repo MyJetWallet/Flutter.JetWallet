@@ -27,6 +27,5 @@ class SendToBankRequestModel with _$SendToBankRequestModel {
     required String pin,
   }) = _SendToBankRequestModel;
 
-  factory SendToBankRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$SendToBankRequestModelFromJson(json);
+  factory SendToBankRequestModel.fromJson(Map<String, dynamic> json) => _$SendToBankRequestModelFromJson(json);
 }

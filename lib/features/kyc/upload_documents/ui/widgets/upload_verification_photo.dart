@@ -93,9 +93,7 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
         );
       },
       child: SPageFrame(
-        loaderText: (store.loaderSuccess.loading)
-            ? intl.uploadKycDocuments_done
-            : intl.uploadKycDocuments_pleaseWait,
+        loaderText: (store.loaderSuccess.loading) ? intl.uploadKycDocuments_done : intl.uploadKycDocuments_pleaseWait,
         loading: store.loader,
         loadSuccess: store.loaderSuccess,
         header: SLargeHeader(
@@ -249,24 +247,19 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
 
                   if (status == PermissionStatus.granted) {
                     await store.documentPageViewLogic(
-                      isSelfie
-                          ? KycDocumentType.selfieWithCard
-                          : KycDocumentType.creditCard,
+                      isSelfie ? KycDocumentType.selfieWithCard : KycDocumentType.creditCard,
                       cardId,
                       onSuccess,
                     );
                   } else {
                     await sRouter.push(
                       AllowCameraRoute(
-                        permissionDescription:
-                            '''${intl.chooseDocuments_permissionDescriptionText1} '''
+                        permissionDescription: '''${intl.chooseDocuments_permissionDescriptionText1} '''
                             '${intl.chooseDocument_camera}',
                         then: () async {
                           Navigator.pop(context);
                           await store.documentPageViewLogic(
-                            isSelfie
-                                ? KycDocumentType.selfieWithCard
-                                : KycDocumentType.creditCard,
+                            isSelfie ? KycDocumentType.selfieWithCard : KycDocumentType.creditCard,
                             cardId,
                             onSuccess,
                           );
@@ -277,9 +270,7 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
                 },
                 name: store.buttonName(isSelfie: isSelfie, isCard: !isSelfie),
                 active: true,
-                icon: store.buttonIcon
-                    ? const SArrowUpIcon()
-                    : const SWhitePhotoIcon(),
+                icon: store.buttonIcon ? const SArrowUpIcon() : const SWhitePhotoIcon(),
               ),
             ),
           ],

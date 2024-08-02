@@ -74,10 +74,10 @@ class _ReferralDetailsHeader extends StatelessWidget {
           fromAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${paymentAsset?.symbol}'
               : volumeFormat(
-            symbol: transactionListItem.assetId,
-            accuracy: paymentAsset?.accuracy ?? 1,
-            decimal: transactionListItem.balanceChange,
-          ),
+                  symbol: transactionListItem.assetId,
+                  accuracy: paymentAsset?.accuracy ?? 1,
+                  decimal: transactionListItem.balanceChange,
+                ),
           hasSecondAsset: false,
           isError: transactionListItem.status == Status.declined,
           isSmallerVersion: true,

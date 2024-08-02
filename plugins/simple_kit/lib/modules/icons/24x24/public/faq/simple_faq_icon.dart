@@ -9,8 +9,6 @@ class SFaqIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? const SimpleLightFaqIcon()
-        : const SimpleLightFaqIcon();
+    return sKit.currentTheme == STheme.dark ? const SimpleLightFaqIcon() : const SimpleLightFaqIcon();
   }
 }

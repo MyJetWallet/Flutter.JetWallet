@@ -7,7 +7,11 @@ import 'package:simple_analytics/simple_analytics.dart';
 import '../ui/widgets/wallet_body/eur_wallet_body.dart';
 import '../ui/widgets/wallet_body/wallet_body.dart';
 
-void navigateToWallet(BuildContext context, CurrencyModel currency, {bool isSinglePage = false}) {
+void navigateToWallet(
+  BuildContext context,
+  CurrencyModel currency, {
+  bool isSinglePage = false,
+}) {
   final savedCurrencies = currenciesForMyWallet();
 
   final isCurrencySaved = savedCurrencies.any((element) => element.symbol == currency.symbol);
@@ -46,7 +50,11 @@ void navigateToWallet(BuildContext context, CurrencyModel currency, {bool isSing
   }
 }
 
-void navigateToEurWallet({required BuildContext context, required CurrencyModel currency, bool isSinglePage = false}) {
+void navigateToEurWallet({
+  required BuildContext context,
+  required CurrencyModel currency,
+  bool isSinglePage = false,
+}) {
   sAnalytics.cryptoFavouriteWalletScreen(
     openedAsset: currency.symbol,
   );

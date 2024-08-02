@@ -4,42 +4,42 @@ description: Network layer for Simple App
 publish_to: "none"
 
 environment:
-  sdk: ">=3.3.0 <4.0.0"
-  flutter: ">=3.19.2"
+  sdk: ">=3.4.3 <4.0.0"
+  flutter: ">=3.22.2"
 
 dependencies:
   flutter:
     sdk: flutter
 
   # Network
-  dio: 5.4.1
-  http: 0.13.5
-  signalr_core: ^1.1.1
+  dio: 5.5.0+1
+  http: 1.2.2
+  signalr_core: ^1.1.2
 
   # Logging
   logging: ^1.2.0
 
   # Util
-  decimal: ^2.3.3
+  decimal: ^3.0.2
   data_channel: ^2.0.0+1
-  logger: ^2.1.0
-  uuid: ^4.3.3
+  logger: ^2.4.0
+  uuid: ^4.4.2
 
   # Models
-  freezed_annotation: 2.4.1
-  json_annotation: 4.8.1
+  freezed_annotation: 2.4.4
+  json_annotation: 4.9.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   # Lint
-  flutter_lints: ^2.0.3
+  flutter_lints: ^4.0.0
 
   # Runner
-  build_runner: 2.4.8
-  freezed: 2.4.7
-  json_serializable: 6.7.1
+  build_runner: 2.4.11
+  freezed: 2.5.2
+  json_serializable: 6.8.0
 
 flutter:
   uses-material-design: true

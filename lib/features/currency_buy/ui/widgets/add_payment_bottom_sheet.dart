@@ -72,8 +72,7 @@ void showAddPaymentBottomSheet({
                   color: colors.blue,
                 ),
                 name: intl.curencyBuy_unlimint,
-                description:
-                    intl.curencyBuy_actionItemDescriptionWithoutApplePay,
+                description: intl.curencyBuy_actionItemDescriptionWithoutApplePay,
                 onTap: () {
                   Navigator.pop(context, method);
                   Navigator.pop(context, method);
@@ -89,8 +88,7 @@ void showAddPaymentBottomSheet({
                   color: colors.blue,
                 ),
                 name: intl.curencyBuy_unlimint,
-                description:
-                    intl.curencyBuy_actionItemDescriptionWithoutApplePay,
+                description: intl.curencyBuy_actionItemDescriptionWithoutApplePay,
                 onTap: () {
                   Navigator.pop(context, method);
                   Navigator.pop(context, method);

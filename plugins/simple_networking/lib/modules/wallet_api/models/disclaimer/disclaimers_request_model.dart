@@ -10,8 +10,7 @@ class DisclaimersRequestModel with _$DisclaimersRequestModel {
     required List<DisclaimerAnswersModel> answers,
   }) = _DisclaimersRequestModel;
 
-  factory DisclaimersRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$DisclaimersRequestModelFromJson(json);
+  factory DisclaimersRequestModel.fromJson(Map<String, dynamic> json) => _$DisclaimersRequestModelFromJson(json);
 }
 
 @freezed
@@ -23,6 +22,5 @@ class DisclaimerAnswersModel with _$DisclaimerAnswersModel {
     required bool result,
   }) = _DisclaimerAnswersModel;
 
-  factory DisclaimerAnswersModel.fromJson(Map<String, dynamic> json) =>
-      _$DisclaimerAnswersModelFromJson(json);
+  factory DisclaimerAnswersModel.fromJson(Map<String, dynamic> json) => _$DisclaimerAnswersModelFromJson(json);
 }

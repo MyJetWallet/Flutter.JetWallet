@@ -140,7 +140,7 @@ class SignalRModuleNew {
 
     transport.createNewSessionLog();
 
-    disconnectSocket('From openConnection');
+    await disconnectSocket('From openConnection');
 
     try {
       final url = getUrlForConnectin();
@@ -237,7 +237,6 @@ class SignalRModuleNew {
 
   Future<void> simulateError() async {
     await _hubConnection?.stop();
-    print('object');
   }
 
   void _startPing() {

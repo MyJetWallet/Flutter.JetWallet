@@ -11,12 +11,14 @@ class SPriceHeader extends StatelessWidget {
     this.baseValue,
     super.key,
     this.icon,
+    this.lableIcon,
   });
 
   final String? lable;
   final String? value;
   final String? baseValue;
   final Widget? icon;
+  final Widget? lableIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -33,11 +35,19 @@ class SPriceHeader extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (lable != null)
-            Text(
-              lable ?? '',
-              style: STStyles.subtitle1.copyWith(
-                color: colors.black,
-              ),
+            Row(
+              children: [
+                Text(
+                  lable ?? '',
+                  style: STStyles.subtitle1.copyWith(
+                    color: colors.black,
+                  ),
+                ),
+                if (lableIcon != null) ...[
+                  const SizedBox(width: 4),
+                  lableIcon ?? const SizedBox(),
+                ],
+              ],
             ),
           if (value != null)
             Row(

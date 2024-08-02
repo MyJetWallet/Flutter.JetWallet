@@ -9,6 +9,5 @@ class TransferInfoRequestModel with _$TransferInfoRequestModel {
     @JsonKey(name: 'transferId') required String operationId,
   }) = _TransferInfoRequestModel;
 
-  factory TransferInfoRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$TransferInfoRequestModelFromJson(json);
+  factory TransferInfoRequestModel.fromJson(Map<String, dynamic> json) => _$TransferInfoRequestModelFromJson(json);
 }

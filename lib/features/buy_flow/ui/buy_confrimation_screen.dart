@@ -9,7 +9,6 @@ import 'package:jetwallet/features/buy_flow/store/buy_confirmation_store.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/confirmation_widgets/confirmation_info_grid.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
-import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/helpers/split_iban.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
@@ -79,14 +78,11 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
       loaderText: intl.register_pleaseWait,
       customLoader: store.showProcessing
           ? WaitingScreen(
-              wasAction: store.wasAction,
-              primaryText: intl.buy_confirmation_local_p2p_processing_title,
               secondaryText: store.getProcessingText,
               onSkip: () {
                 store.skipProcessing();
-
-                navigateToRouter();
               },
+              isCanClouse: store.isWebViewAlredyShoved || store.category != PaymentMethodCategory.cards,
             )
           : null,
       header: SSmallHeader(

@@ -16,7 +16,6 @@ import 'package:jetwallet/widgets/texts/resend_in_text.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:universal_io/io.dart';
 
@@ -131,7 +130,7 @@ class __EmailVerificationBodyState extends State<_EmailVerificationBody> with Wi
         rightIcon: SafeGesture(
           onTap: () async {
             if (showZendesk) {
-               await getIt.get<IntercomService>().login();
+              await getIt.get<IntercomService>().login();
               await getIt.get<IntercomService>().showMessenger();
             } else {
               await sRouter.push(

@@ -26,14 +26,16 @@ void showBuyAction({
 
   final isCardsAvailable = sSignalRModules.buyMethods.any((element) => element.id == PaymentMethodType.bankCard);
 
-  final isSimpleAccountAvaible =
-      (sSignalRModules.paymentProducts?.any((element) => element.id == AssetPaymentProductsEnum.simpleIbanAccount) ??
-              false) &&
-          sSignalRModules.bankingProfileData?.simple?.account != null;
+  final isSimpleAccountAvaible = (sSignalRModules.paymentProducts?.any(
+            (element) => element.id == AssetPaymentProductsEnum.simpleIbanAccount,
+          ) ??
+          false) &&
+      sSignalRModules.bankingProfileData?.simple?.account != null;
 
-  final isBankingAccountsAvaible =
-      (sSignalRModules.buyMethods.any((element) => element.id == PaymentMethodType.ibanTransferUnlimint)) &&
-          (sSignalRModules.bankingProfileData?.banking?.accounts ?? []).isNotEmpty;
+  final isBankingAccountsAvaible = (sSignalRModules.buyMethods.any(
+        (element) => element.id == PaymentMethodType.ibanTransferUnlimint,
+      )) &&
+      (sSignalRModules.bankingProfileData?.banking?.accounts ?? []).isNotEmpty;
 
   final isBuyAvaible = isCardsAvailable || isSimpleAccountAvaible || isBankingAccountsAvaible;
 

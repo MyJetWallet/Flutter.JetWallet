@@ -9,8 +9,6 @@ class SFingerprintIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? const SimpleLightFingerprintIcon()
-        : const SimpleLightFingerprintIcon();
+    return sKit.currentTheme == STheme.dark ? const SimpleLightFingerprintIcon() : const SimpleLightFingerprintIcon();
   }
 }

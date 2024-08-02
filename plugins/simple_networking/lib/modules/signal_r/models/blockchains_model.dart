@@ -11,8 +11,7 @@ class BlockchainsModel with _$BlockchainsModel {
     required List<BlockchainModel> blockchains,
   }) = _BlockchainsModel;
 
-  factory BlockchainsModel.fromJson(Map<String, dynamic> json) =>
-      _$BlockchainsModelFromJson(json);
+  factory BlockchainsModel.fromJson(Map<String, dynamic> json) => _$BlockchainsModelFromJson(json);
 }
 
 @freezed
@@ -24,6 +23,5 @@ class BlockchainModel with _$BlockchainModel {
     @Default('') String blockchainExplorerUrlTemplate,
   }) = _BlockchainModel;
 
-  factory BlockchainModel.fromJson(Map<String, dynamic> json) =>
-      _$BlockchainModelFromJson(json);
+  factory BlockchainModel.fromJson(Map<String, dynamic> json) => _$BlockchainModelFromJson(json);
 }

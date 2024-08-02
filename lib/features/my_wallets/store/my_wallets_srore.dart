@@ -73,7 +73,10 @@ abstract class _MyWalletsSroreBase with Store {
       a.removeWhere((element) => element.symbol == justDeletedAsset);
 
       return currenciesForMyWallet(currencies: a);
-    } else if (!_listsAreEqual(reorderingCurrencies, currenciesForMyWallet(currencies: _allAssets))) {
+    } else if (!_listsAreEqual(
+      reorderingCurrencies,
+      currenciesForMyWallet(currencies: _allAssets),
+    )) {
       return reorderingCurrencies.length != currenciesForMyWallet(currencies: _allAssets).length
           ? currenciesForMyWallet()
           : reorderingCurrencies;
@@ -120,7 +123,7 @@ abstract class _MyWalletsSroreBase with Store {
   @action
   void endReorderingImmediately() {
     isReordering = false;
-    reorderingCurrencies = currencies;
+    reorderingCurrencies = currenciesForMyWallet(currencies: _allAssets);
   }
 
   @action
@@ -382,9 +385,10 @@ abstract class _MyWalletsSroreBase with Store {
 
   @action
   Future<void> createSimpleAccount() async {
-    final isSimpleAccountMethodAvaible =
-        sSignalRModules.paymentProducts?.any((element) => element.id == AssetPaymentProductsEnum.simpleIbanAccount) ??
-            false;
+    final isSimpleAccountMethodAvaible = sSignalRModules.paymentProducts?.any(
+          (element) => element.id == AssetPaymentProductsEnum.simpleIbanAccount,
+        ) ??
+        false;
     if (!isSimpleAccountMethodAvaible) {
       sNotification.showError(
         intl.operation_bloked_text,

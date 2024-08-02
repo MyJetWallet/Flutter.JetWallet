@@ -5,7 +5,6 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/simple_card/ui/set_up_password_screen.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../../core/di/di.dart';
@@ -54,7 +53,9 @@ class _CardSettings extends StatelessObserverWidget {
           label: intl.simple_card_spending_limits,
           hasRightValue: false,
           onTableAssetTap: () {
-            sAnalytics.tapOnTheSpendingVirtualCardLimitsButton(cardID: simpleCardStore.cardFull?.cardId ?? '');
+            sAnalytics.tapOnTheSpendingVirtualCardLimitsButton(
+              cardID: simpleCardStore.cardFull?.cardId ?? '',
+            );
             sRouter
                 .push(
               SimpleCardLimitsRouter(
@@ -83,7 +84,9 @@ class _CardSettings extends StatelessObserverWidget {
           supplement: intl.simple_card_online_purchases,
           hasRightValue: false,
           onTableAssetTap: () {
-            sAnalytics.tapOnSetPassword(cardID: simpleCardStore.cardFull?.cardId ?? '');
+            sAnalytics.tapOnSetPassword(
+              cardID: simpleCardStore.cardFull?.cardId ?? '',
+            );
             sAnalytics.viewSetupPassword(
               cardID: simpleCardStore.cardFull?.cardId ?? '',
             );

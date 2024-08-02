@@ -24,8 +24,7 @@ class CardLimitsModel with _$CardLimitsModel {
     required int leftHours,
   }) = _CardLimitsModel;
 
-  factory CardLimitsModel.fromJson(Map<String, dynamic> json) =>
-      _$CardLimitsModelFromJson(json);
+  factory CardLimitsModel.fromJson(Map<String, dynamic> json) => _$CardLimitsModelFromJson(json);
 }
 
 enum StateLimitType {

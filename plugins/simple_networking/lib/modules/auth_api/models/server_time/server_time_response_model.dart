@@ -9,6 +9,5 @@ class ServerTimeResponseModel with _$ServerTimeResponseModel {
     @JsonKey(name: 'serverTime') required String time,
   }) = _ServerTimeResponseModel;
 
-  factory ServerTimeResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$ServerTimeResponseModelFromJson(json);
+  factory ServerTimeResponseModel.fromJson(Map<String, dynamic> json) => _$ServerTimeResponseModelFromJson(json);
 }

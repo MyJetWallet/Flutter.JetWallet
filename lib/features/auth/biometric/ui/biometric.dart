@@ -141,20 +141,15 @@ class _BiometricBody extends StatelessObserverWidget {
                         );
                         if (userInfoN.isJustLogged) {
                           sAnalytics.signInFlowVerificationPassed();
-                          final appsFlyerService =
-                              getIt.get<AppsFlyerService>();
+                          final appsFlyerService = getIt.get<AppsFlyerService>();
                           final userInfo = getIt.get<UserInfoService>();
 
-                          final appsFlyerID = await appsFlyerService
-                              .appsflyerSdk
-                              .getAppsFlyerUID();
+                          final appsFlyerID = await appsFlyerService.appsflyerSdk.getAppsFlyerUID();
                           final bytes = utf8.encode(userInfo.email);
                           final hashEmail = sha256.convert(bytes).toString();
-                          appsFlyerService.appsflyerSdk
-                              .setCustomerUserId(hashEmail);
+                          appsFlyerService.appsflyerSdk.setCustomerUserId(hashEmail);
 
-                          await appsFlyerService.appsflyerSdk
-                              .logEvent('af_registration_finished', {
+                          await appsFlyerService.appsflyerSdk.logEvent('af_registration_finished', {
                             'IsTechAcc': '${userInfo.isTechClient}',
                             'Customer User iD': hashEmail,
                             'Appsflyer ID': appsFlyerID,
@@ -181,19 +176,14 @@ class _BiometricBody extends StatelessObserverWidget {
                         final userInfoN = getIt.get<UserInfoService>();
                         if (userInfoN.isJustLogged) {
                           sAnalytics.signInFlowVerificationPassed();
-                          final appsFlyerService =
-                              getIt.get<AppsFlyerService>();
+                          final appsFlyerService = getIt.get<AppsFlyerService>();
                           final userInfo = getIt.get<UserInfoService>();
 
-                          final appsFlyerID = await appsFlyerService
-                              .appsflyerSdk
-                              .getAppsFlyerUID();
+                          final appsFlyerID = await appsFlyerService.appsflyerSdk.getAppsFlyerUID();
                           final bytes = utf8.encode(userInfo.email);
                           final hashEmail = sha256.convert(bytes).toString();
-                          appsFlyerService.appsflyerSdk
-                              .setCustomerUserId(hashEmail);
-                          await appsFlyerService.appsflyerSdk
-                              .logEvent('af_registration_finished', {
+                          appsFlyerService.appsflyerSdk.setCustomerUserId(hashEmail);
+                          await appsFlyerService.appsflyerSdk.logEvent('af_registration_finished', {
                             'IsTechAcc': '${userInfo.isTechClient}',
                             'Customer User iD': hashEmail,
                             'Appsflyer ID': appsFlyerID,

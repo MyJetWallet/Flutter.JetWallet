@@ -10,6 +10,5 @@ class ChangePinRequestModel with _$ChangePinRequestModel {
     required String newPin,
   }) = _ChangePinRequestModel;
 
-  factory ChangePinRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$ChangePinRequestModelFromJson(json);
+  factory ChangePinRequestModel.fromJson(Map<String, dynamic> json) => _$ChangePinRequestModelFromJson(json);
 }

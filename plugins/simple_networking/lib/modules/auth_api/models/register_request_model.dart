@@ -19,6 +19,5 @@ class RegisterRequestModel with _$RegisterRequestModel {
     @JsonKey(name: 'application') required int platform,
   }) = _RegisterRequestModel;
 
-  factory RegisterRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$RegisterRequestModelFromJson(json);
+  factory RegisterRequestModel.fromJson(Map<String, dynamic> json) => _$RegisterRequestModelFromJson(json);
 }

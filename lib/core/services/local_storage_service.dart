@@ -54,7 +54,6 @@ const isCardBannerClosed = 'isCardBannerClosed';
 const earnTermsAndConditionsWasChecked = 'earnTermsAndConditionsWasChecked';
 const isPerapaidCardBannerClosed = 'isPerapaidCardBannerClosed';
 const spareDeviceId = 'spareDeviceId';
-const showInfoBannerOnEarnScreenKey = 'showInfoBannerOnEarnScreen';
 const utmSourceKey = 'utm_source';
 
 final sLocalStorageService = getIt.get<LocalStorageService>();
@@ -124,7 +123,10 @@ class LocalStorageService {
     await _storage.write(key: lastUsedMail, value: userMail);
     await _storage.write(key: activeSlot, value: slot);
     await _storage.write(key: deviceId, value: deviceIdUsed);
-    await _storage.write(key: isCardBannerClosed, value: isCardBannerClosedUsed);
+    await _storage.write(
+      key: isCardBannerClosed,
+      value: isCardBannerClosedUsed,
+    );
     await _storage.write(key: userLocale, value: userLocaleTemp);
     await _storage.write(key: showRateUp, value: showRateUpTemp);
     await _storage.write(key: rateUpCount, value: rateUpCountTemp);
@@ -179,7 +181,10 @@ class LocalStorageService {
       await _storage.write(key: lastUsedMail, value: userMail);
       await _storage.write(key: activeSlot, value: slot);
       await _storage.write(key: deviceId, value: deviceIdUsed);
-      await _storage.write(key: isCardBannerClosed, value: isCardBannerClosedUsed);
+      await _storage.write(
+        key: isCardBannerClosed,
+        value: isCardBannerClosedUsed,
+      );
       await _storage.write(key: userLocale, value: userLocaleTemp);
       await _storage.write(key: showRateUp, value: showRateUpTemp);
       await _storage.write(key: rateUpCount, value: rateUpCountTemp);

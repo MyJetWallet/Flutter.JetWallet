@@ -84,17 +84,20 @@ class BalanceActionButtons extends StatelessObserverWidget {
 
               final isCardsAvailable = currency.buyMethods.any((element) => element.id == PaymentMethodType.bankCard);
 
-              final isSimpleAccountAvaible = sSignalRModules.paymentProducts
-                      ?.any((element) => element.id == AssetPaymentProductsEnum.simpleIbanAccount) ??
+              final isSimpleAccountAvaible = sSignalRModules.paymentProducts?.any(
+                    (element) => element.id == AssetPaymentProductsEnum.simpleIbanAccount,
+                  ) ??
                   false;
 
-              final isBankingAccountsAvaible =
-                  currency.buyMethods.any((element) => element.id == PaymentMethodType.ibanTransferUnlimint);
+              final isBankingAccountsAvaible = currency.buyMethods.any(
+                (element) => element.id == PaymentMethodType.ibanTransferUnlimint,
+              );
 
               final isBuyAvaible = isCardsAvailable || isSimpleAccountAvaible || isBankingAccountsAvaible;
 
-              final isDepositBlocker = sSignalRModules.clientDetail.clientBlockers
-                  .any((element) => element.blockingType == BlockingType.deposit);
+              final isDepositBlocker = sSignalRModules.clientDetail.clientBlockers.any(
+                (element) => element.blockingType == BlockingType.deposit,
+              );
 
               if (kycState.tradeStatus == kycOperationStatus(KycStatus.blocked) || !isBuyAvaible) {
                 sNotification.showError(
@@ -212,7 +215,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
                 }
               } else {
                 sRouter.popUntilRoot();
-                getIt<BottomBarStore>().setHomeTab(BottomItemType.wallets);
+                getIt<BottomBarStore>().setHomeTab(BottomItemType.home);
               }
             },
             onSend: () {

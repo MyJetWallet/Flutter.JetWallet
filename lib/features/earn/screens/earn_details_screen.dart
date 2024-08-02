@@ -88,13 +88,18 @@ class _EarnsDetailsScreenState extends State<EarnsDetailsScreen> {
                         sort: false,
                         elements: store.positionAuditsList,
                         groupBy: (positionAudit) {
-                          return formatDate(DateFormat('yyyy-MM-dd HH:mm').format(positionAudit.timestamp!));
+                          return formatDate(
+                            DateFormat('yyyy-MM-dd HH:mm').format(positionAudit.timestamp!),
+                          );
                         },
                         groupSeparatorBuilder: (String date) {
                           return TransactionMonthSeparator(text: date);
                         },
                         itemBuilder: (context, positionAudit) {
-                          final currency = currencyFrom(currencies, positionAudit.assetId ?? '');
+                          final currency = currencyFrom(
+                            currencies,
+                            positionAudit.assetId ?? '',
+                          );
                           if (positionAudit.auditEventType == AuditEventType.positionCloseRequest) {
                             return const SizedBox.shrink();
                           }
@@ -120,7 +125,9 @@ class _EarnsDetailsScreenState extends State<EarnsDetailsScreen> {
                               accuracy: currency.accuracy,
                               symbol: currency.symbol,
                             ),
-                            icon: _transactionLabelIcon(type: positionAudit.auditEventType),
+                            icon: _transactionLabelIcon(
+                              type: positionAudit.auditEventType,
+                            ),
                             labele: positionAudit.assetId ?? '',
                             status: Status.completed,
                             timeStamp: positionAudit.timestamp != null

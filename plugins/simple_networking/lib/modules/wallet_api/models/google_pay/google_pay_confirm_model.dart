@@ -10,6 +10,5 @@ class GooglePayConfirmModel with _$GooglePayConfirmModel {
     final String? redirectUrl,
   }) = _GooglePayConfirmModel;
 
-  factory GooglePayConfirmModel.fromJson(Map<String, dynamic> json) =>
-      _$GooglePayConfirmModelFromJson(json);
+  factory GooglePayConfirmModel.fromJson(Map<String, dynamic> json) => _$GooglePayConfirmModelFromJson(json);
 }

@@ -5,9 +5,9 @@ import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class TransactionDaySeparator extends StatelessObserverWidget {
   const TransactionDaySeparator({
-    Key? key,
+    super.key,
     required this.text,
-  }) : super(key: key);
+  });
 
   final String text;
 

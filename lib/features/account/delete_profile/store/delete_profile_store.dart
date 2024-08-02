@@ -54,12 +54,8 @@ abstract class _DeleteProfileStoreBase with Store {
   void selectDeleteReason(int index) {
     if (isAlreadySelected(index)) {
       selectedDeleteReason.removeWhere((element) => element == deleteReason[index]);
-
-      selectedDeleteReason = selectedDeleteReason;
     } else {
       selectedDeleteReason.add(deleteReason[index]);
-
-      selectedDeleteReason = selectedDeleteReason;
     }
   }
 

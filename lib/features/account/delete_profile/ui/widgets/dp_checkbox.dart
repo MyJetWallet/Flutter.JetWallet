@@ -23,9 +23,7 @@ class DPCheckbox extends StatelessObserverWidget {
 
     final store = getIt.get<DeleteProfileStore>();
 
-    icon = store.confitionCheckbox
-        ? const SCheckboxSelectedIcon()
-        : const SCheckboxIcon();
+    icon = store.confitionCheckbox ? const SCheckboxSelectedIcon() : const SCheckboxIcon();
 
     return Container(
       padding: const EdgeInsets.only(left: 2.0),

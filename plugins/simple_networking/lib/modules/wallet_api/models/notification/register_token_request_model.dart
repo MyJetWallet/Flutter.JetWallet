@@ -10,6 +10,5 @@ class RegisterTokenRequestModel with _$RegisterTokenRequestModel {
     @JsonKey(name: 'userLocale') required String locale,
   }) = _RegisterTokenRequestModel;
 
-  factory RegisterTokenRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$RegisterTokenRequestModelFromJson(json);
+  factory RegisterTokenRequestModel.fromJson(Map<String, dynamic> json) => _$RegisterTokenRequestModelFromJson(json);
 }

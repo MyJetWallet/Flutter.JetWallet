@@ -82,6 +82,7 @@ class EarnPositionActiveScreen extends StatelessWidget {
                 earnWithdrawalType: earnPosition.withdrawType.name,
                 revenue: earnPosition.incomeAmount.toString(),
               );
+              Navigator.pop(context);
             },
             title: currency.description,
             rightIcon: Assets.svg.medium.history.simpleSvg(),
@@ -124,7 +125,9 @@ class EarnPositionActiveScreen extends StatelessWidget {
                                 earnAPYrate:
                                     earnPosition.offers.firstOrNull?.apyRate?.toString() ?? Decimal.zero.toString(),
                                 earnDepositAmount: earnPosition.baseAmount.toString(),
-                                earnOfferStatus: getTextForStatusAnalytics(earnPosition.status),
+                                earnOfferStatus: getTextForStatusAnalytics(
+                                  earnPosition.status,
+                                ),
                                 earnPlanName: earnPosition.offers.firstOrNull?.description ?? '',
                                 earnWithdrawalType: earnPosition.withdrawType.name,
                                 revenue: earnPosition.incomeAmount.toString(),
@@ -147,7 +150,9 @@ class EarnPositionActiveScreen extends StatelessWidget {
                                 earnAPYrate:
                                     earnPosition.offers.firstOrNull?.apyRate?.toString() ?? Decimal.zero.toString(),
                                 earnDepositAmount: earnPosition.baseAmount.toString(),
-                                earnOfferStatus: getTextForStatusAnalytics(earnPosition.status),
+                                earnOfferStatus: getTextForStatusAnalytics(
+                                  earnPosition.status,
+                                ),
                                 earnPlanName: earnPosition.offers.firstOrNull?.description ?? '',
                                 earnWithdrawalType: earnPosition.withdrawType.name,
                                 revenue: earnPosition.incomeAmount.toString(),

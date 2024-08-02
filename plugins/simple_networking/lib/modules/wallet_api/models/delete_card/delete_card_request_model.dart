@@ -9,6 +9,5 @@ class DeleteCardRequestModel with _$DeleteCardRequestModel {
     required String cardId,
   }) = _DeleteCardRequestModel;
 
-  factory DeleteCardRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$DeleteCardRequestModelFromJson(json);
+  factory DeleteCardRequestModel.fromJson(Map<String, dynamic> json) => _$DeleteCardRequestModelFromJson(json);
 }

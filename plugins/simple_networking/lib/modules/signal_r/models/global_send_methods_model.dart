@@ -12,8 +12,7 @@ class GlobalSendMethodsModel with _$GlobalSendMethodsModel {
     final List<GlobalSendMethodsModelDescription>? descriptions,
   }) = _GlobalSendMethodsModel;
 
-  factory GlobalSendMethodsModel.fromJson(Map<String, dynamic> json) =>
-      _$GlobalSendMethodsModelFromJson(json);
+  factory GlobalSendMethodsModel.fromJson(Map<String, dynamic> json) => _$GlobalSendMethodsModelFromJson(json);
 }
 
 @freezed
@@ -35,8 +34,7 @@ class GlobalSendMethodsModelMethods with _$GlobalSendMethodsModelMethods {
 }
 
 @Freezed(makeCollectionsUnmodifiable: false)
-class GlobalSendMethodsModelDescription
-    with _$GlobalSendMethodsModelDescription {
+class GlobalSendMethodsModelDescription with _$GlobalSendMethodsModelDescription {
   factory GlobalSendMethodsModelDescription({
     final int? type,
     final List<FieldInfo>? fields,
@@ -56,8 +54,7 @@ class FieldInfo with _$FieldInfo {
     final int? weight,
   }) = _FieldInfo;
 
-  factory FieldInfo.fromJson(Map<String, dynamic> json) =>
-      _$FieldInfoFromJson(json);
+  factory FieldInfo.fromJson(Map<String, dynamic> json) => _$FieldInfoFromJson(json);
 }
 
 enum FieldInfoId {

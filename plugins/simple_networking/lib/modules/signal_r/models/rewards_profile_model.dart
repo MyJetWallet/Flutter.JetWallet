@@ -18,8 +18,7 @@ class RewardsProfileModel with _$RewardsProfileModel {
     final List<RewardsBalance>? balances,
   }) = _RewardsProfileModel;
 
-  factory RewardsProfileModel.fromJson(Map<String, dynamic> json) =>
-      _$RewardsProfileModelFromJson(json);
+  factory RewardsProfileModel.fromJson(Map<String, dynamic> json) => _$RewardsProfileModelFromJson(json);
 }
 
 @freezed
@@ -29,6 +28,5 @@ class RewardsBalance with _$RewardsBalance {
     @DecimalSerialiser() required Decimal amount,
   }) = _RewardsBalance;
 
-  factory RewardsBalance.fromJson(Map<String, dynamic> json) =>
-      _$RewardsBalanceFromJson(json);
+  factory RewardsBalance.fromJson(Map<String, dynamic> json) => _$RewardsBalanceFromJson(json);
 }

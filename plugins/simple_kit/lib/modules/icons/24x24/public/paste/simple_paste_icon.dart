@@ -9,8 +9,6 @@ class SPasteIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? const SimpleLightPasteIcon()
-        : const SimpleLightPasteIcon();
+    return sKit.currentTheme == STheme.dark ? const SimpleLightPasteIcon() : const SimpleLightPasteIcon();
   }
 }

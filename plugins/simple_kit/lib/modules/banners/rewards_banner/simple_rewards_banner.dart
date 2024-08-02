@@ -63,9 +63,7 @@ class SRewardBanner extends StatelessWidget {
                 ),
                 const SpaceW16(),
                 Column(
-                  mainAxisAlignment: (secondaryText != null)
-                      ? MainAxisAlignment.start
-                      : MainAxisAlignment.center,
+                  mainAxisAlignment: (secondaryText != null) ? MainAxisAlignment.start : MainAxisAlignment.center,
                   children: [
                     SizedBox(
                       width: MediaQuery.of(context).size.width - 116,

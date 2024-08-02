@@ -11,7 +11,7 @@ class SignalRConecrionUrlService {
   var _currentIndex = 0;
 
   String getUrl() {
-    if (_currentIndex >= _urls.length ) {
+    if (_currentIndex >= _urls.length) {
       _currentIndex = 0;
     }
     final result = _urls[_currentIndex];

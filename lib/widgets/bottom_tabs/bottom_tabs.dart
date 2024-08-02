@@ -39,8 +39,7 @@ class BottomTabs extends StatelessObserverWidget {
                       color: colors.black,
                     ),
                   ),
-                  indicatorPadding:
-                      const EdgeInsets.only(top: 10, bottom: 10, right: 10),
+                  indicatorPadding: const EdgeInsets.only(top: 10, bottom: 10, right: 10),
                   labelPadding: EdgeInsets.zero,
                   labelColor: colors.black,
                   labelStyle: sBodyText1Style,

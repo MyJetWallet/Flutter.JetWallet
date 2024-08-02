@@ -10,6 +10,5 @@ class WalletHistoryResponseModel with _$WalletHistoryResponseModel {
     required Map<String, double> graph,
   }) = _WalletHistoryResponseModel;
 
-  factory WalletHistoryResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$WalletHistoryResponseModelFromJson(json);
+  factory WalletHistoryResponseModel.fromJson(Map<String, dynamic> json) => _$WalletHistoryResponseModelFromJson(json);
 }

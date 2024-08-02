@@ -47,8 +47,7 @@ class SAddressFieldWithCopy extends StatefulObserverWidget {
   State<SAddressFieldWithCopy> createState() => _SAddressFieldWithCopyState();
 }
 
-class _SAddressFieldWithCopyState extends State<SAddressFieldWithCopy>
-    with SingleTickerProviderStateMixin {
+class _SAddressFieldWithCopyState extends State<SAddressFieldWithCopy> with SingleTickerProviderStateMixin {
   late AnimationController animationController;
   late Animation<Offset> scaleAnimation;
   String copiedText = '';
@@ -64,9 +63,7 @@ class _SAddressFieldWithCopyState extends State<SAddressFieldWithCopy>
     );
     scaleAnimation = Tween<Offset>(
       begin: const Offset(0.0, 0.0),
-      end: widget.expanded
-          ? const Offset(0.0, -112.0)
-          : const Offset(0.0, -64.0),
+      end: widget.expanded ? const Offset(0.0, -112.0) : const Offset(0.0, -64.0),
     ).animate(
       CurvedAnimation(
         parent: animationController,
@@ -186,9 +183,7 @@ class _SAddressFieldWithCopyState extends State<SAddressFieldWithCopy>
                                 baseline: 16.0,
                                 baselineType: TextBaseline.alphabetic,
                                 child: AutoSizeText(
-                                  widget.needFormatURL
-                                      ? _shortReferralLink(value)
-                                      : value,
+                                  widget.needFormatURL ? _shortReferralLink(value) : value,
                                   textAlign: TextAlign.start,
                                   minFontSize: 4.0,
                                   maxLines: widget.longString ? 2 : 1,

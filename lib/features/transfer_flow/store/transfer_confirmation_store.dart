@@ -11,7 +11,6 @@ import 'package:jetwallet/features/phone_verification/ui/phone_verification.dart
 import 'package:jetwallet/utils/device_binding_required_flow/show_device_binding_required_flow.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/country_code_by_user_register.dart';
-import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
 import 'package:mobx/mobx.dart';
@@ -308,10 +307,6 @@ abstract class _TransferConfirmationStoreBase with Store {
         FailureScreenRouter(
           primaryText: intl.previewBuyWithAsset_failure,
           secondaryText: error,
-          primaryButtonName: intl.previewBuyWithAsset_close,
-          onPrimaryButtonTap: () {
-            navigateToRouter();
-          },
         ),
       ),
     );
@@ -335,18 +330,6 @@ abstract class _TransferConfirmationStoreBase with Store {
             symbol: eurCurrency.symbol,
           ),
         ),
-        buttonText: intl.previewBuyWithUmlimint_saveCard,
-        showProgressBar: true,
-        showCloseButton: true,
-        onCloseButton: () {
-          sRouter.replaceAll([
-            const HomeRouter(
-              children: [
-                MyWalletsRouter(),
-              ],
-            ),
-          ]);
-        },
       ),
     )
         .then((value) {

@@ -39,8 +39,7 @@ class _UploadKycDocumentsBody extends StatelessObserverWidget {
     final store = UploadKycDocumentsStore.of(context);
     final colors = sKit.colors;
 
-    final activeDocument =
-        getIt.get<ChooseDocumentsStore>().getActiveDocument();
+    final activeDocument = getIt.get<ChooseDocumentsStore>().getActiveDocument();
 
     final banners = createKycBannersList(
       documentFirstSide: store.documentFirstSide,
@@ -74,9 +73,7 @@ class _UploadKycDocumentsBody extends StatelessObserverWidget {
         );
       },
       child: SPageFrame(
-        loaderText: (store.loaderSuccess.loading)
-            ? intl.uploadKycDocuments_done
-            : intl.uploadKycDocuments_pleaseWait,
+        loaderText: (store.loaderSuccess.loading) ? intl.uploadKycDocuments_done : intl.uploadKycDocuments_pleaseWait,
         loading: store.loader,
         loadSuccess: store.loaderSuccess,
         header: SPaddingH24(
@@ -126,18 +123,12 @@ class _UploadKycDocumentsBody extends StatelessObserverWidget {
                       const SpaceH10(),
                       SPaddingH24(
                         child: SDocumentsRecommendations(
-                          primaryText1:
-                              intl.sDocumentRecommendation_primaryText1,
-                          primaryText2:
-                              intl.sDocumentRecommendation_primaryText2,
-                          primaryText3:
-                              intl.sDocumentRecommendation_primaryText3,
-                          primaryText4:
-                              intl.sDocumentRecommendation_primaryText4,
-                          primaryText5:
-                              intl.sDocumentRecommendation_primaryText5,
-                          primaryText6:
-                              intl.sDocumentRecommendation_primaryText6,
+                          primaryText1: intl.sDocumentRecommendation_primaryText1,
+                          primaryText2: intl.sDocumentRecommendation_primaryText2,
+                          primaryText3: intl.sDocumentRecommendation_primaryText3,
+                          primaryText4: intl.sDocumentRecommendation_primaryText4,
+                          primaryText5: intl.sDocumentRecommendation_primaryText5,
+                          primaryText6: intl.sDocumentRecommendation_primaryText6,
                         ),
                       ),
                       const SpaceH120(),
@@ -157,9 +148,7 @@ class _UploadKycDocumentsBody extends StatelessObserverWidget {
                 },
                 name: store.buttonName(),
                 active: store.activeScanButton(),
-                icon: store.buttonIcon
-                    ? const SArrowUpIcon()
-                    : const SWhitePhotoIcon(),
+                icon: store.buttonIcon ? const SArrowUpIcon() : const SWhitePhotoIcon(),
               ),
             ),
           ],

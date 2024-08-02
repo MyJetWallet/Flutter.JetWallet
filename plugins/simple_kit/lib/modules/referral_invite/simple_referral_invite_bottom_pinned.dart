@@ -15,12 +15,10 @@ class SReferralInviteBottomPinned extends StatefulWidget {
   final String text;
 
   @override
-  State<SReferralInviteBottomPinned> createState() =>
-      _SReferralInviteBottomPinnedState();
+  State<SReferralInviteBottomPinned> createState() => _SReferralInviteBottomPinnedState();
 }
 
-class _SReferralInviteBottomPinnedState
-    extends State<SReferralInviteBottomPinned> {
+class _SReferralInviteBottomPinnedState extends State<SReferralInviteBottomPinned> {
   bool canTapShare = true;
 
   @override

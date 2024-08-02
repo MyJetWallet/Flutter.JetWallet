@@ -14,8 +14,6 @@ class SRewardIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? SimpleLightRewardIcon(color: color)
-        : SimpleLightRewardIcon(color: color);
+    return sKit.currentTheme == STheme.dark ? SimpleLightRewardIcon(color: color) : SimpleLightRewardIcon(color: color);
   }
 }

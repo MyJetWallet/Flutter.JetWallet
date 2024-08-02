@@ -10,8 +10,7 @@ class NewsResponseModel with _$NewsResponseModel {
     required List<NewsModel> news,
   }) = _NewsResponseModel;
 
-  factory NewsResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$NewsResponseModelFromJson(json);
+  factory NewsResponseModel.fromJson(Map<String, dynamic> json) => _$NewsResponseModelFromJson(json);
 }
 
 @freezed
@@ -26,6 +25,5 @@ class NewsModel with _$NewsModel {
     required List<String> associatedAssets,
   }) = _NewsModel;
 
-  factory NewsModel.fromJson(Map<String, dynamic> json) =>
-      _$NewsModelFromJson(json);
+  factory NewsModel.fromJson(Map<String, dynamic> json) => _$NewsModelFromJson(json);
 }

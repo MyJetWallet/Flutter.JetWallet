@@ -24,7 +24,7 @@ class SimpleCardLimitsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     sAnalytics.spendingVirtualCardLimitsScreenView(cardID: cardId);
-    
+
     return Provider(
       create: (context) => SimpleCardLimitsStore()..init(cardId),
       child: _SimpleCardLimitsScreenBody(
@@ -61,10 +61,10 @@ class _SimpleCardLimitsScreenBody extends StatelessWidget {
               offsetToArmed: 75,
               onRefresh: store.refreshData,
               builder: (
-                  BuildContext context,
-                  Widget child,
-                  IndicatorController controller,
-                  ) {
+                BuildContext context,
+                Widget child,
+                IndicatorController controller,
+              ) {
                 return Stack(
                   alignment: Alignment.topCenter,
                   children: <Widget>[

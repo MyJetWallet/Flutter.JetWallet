@@ -10,6 +10,5 @@ class DepositAddressRequestModel with _$DepositAddressRequestModel {
     required String blockchain,
   }) = _DepositAddressRequestModel;
 
-  factory DepositAddressRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$DepositAddressRequestModelFromJson(json);
+  factory DepositAddressRequestModel.fromJson(Map<String, dynamic> json) => _$DepositAddressRequestModelFromJson(json);
 }
