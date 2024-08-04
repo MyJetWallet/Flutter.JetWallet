@@ -1,28 +1,41 @@
 import 'package:decimal/decimal.dart';
-
-import '../formatting.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 
 extension DecimalExtension on Decimal {
-  String toMarketFormat({
+  String toFormatCount({
     required int accuracy,
     required String symbol,
   }) {
-    return marketFormat(
+    final asset = AssetFormatter(
+      decimal: this,
       accuracy: accuracy,
       symbol: symbol,
-      decimal: this,
     );
+    return asset.formatCount();
   }
 
-  String toVolumeFormat({
+  String toFormatSum({
     required int accuracy,
     required String symbol,
   }) {
-    return volumeFormat(
+    final asset = AssetFormatter(
+      decimal: this,
       accuracy: accuracy,
       symbol: symbol,
-      decimal: this,
     );
+    return asset.formatSum();
+  }
+
+  String toFormatPrice({
+    required int accuracy,
+    required String prefix,
+  }) {
+    final asset = AssetFormatter(
+      decimal: this,
+      accuracy: accuracy,
+      prefix: prefix,
+    );
+    return asset.formatSum();
   }
 
   Decimal get negative {
