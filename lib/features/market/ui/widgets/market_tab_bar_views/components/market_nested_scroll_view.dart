@@ -273,8 +273,8 @@ class __MarketNestedScrollViewBodyState extends State<_MarketNestedScrollViewBod
                               url: item.iconUrl,
                             ),
                             name: item.name,
-                            price: item.lastPrice.toFormatSum(
-                              symbol: baseCurrency.symbol,
+                            price: item.lastPrice.toFormatPrice(
+                              prefix: baseCurrency.prefix,
                               accuracy: item.priceAccuracy,
                             ),
                             ticker: item.symbol,
@@ -328,8 +328,8 @@ class __MarketNestedScrollViewBodyState extends State<_MarketNestedScrollViewBod
                     url: item.iconUrl,
                   ),
                   name: item.name,
-                  price: item.lastPrice.toFormatSum(
-                    symbol: baseCurrency.symbol,
+                  price: item.lastPrice.toFormatPrice(
+                    prefix: baseCurrency.prefix,
                     accuracy: item.priceAccuracy,
                   ),
                   ticker: item.symbol,

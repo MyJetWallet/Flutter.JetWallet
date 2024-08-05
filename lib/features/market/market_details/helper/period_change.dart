@@ -27,16 +27,16 @@ List<String> periodChange({
 
     return marketItem != null
         ? [
-            Decimal.parse(periodPriceChange.toString()).toFormatSum(
+            Decimal.parse(periodPriceChange.toString()).toFormatPrice(
               accuracy: marketItem.priceAccuracy,
-              symbol: baseCurrency.symbol,
+              prefix: baseCurrency.prefix,
             ),
             periodPercentChangeString,
           ]
         : [
-            Decimal.parse(periodPriceChange.toString()).toFormatCount(
+            Decimal.parse(periodPriceChange.toString()).toFormatPrice(
               accuracy: baseCurrency.accuracy,
-              symbol: baseCurrency.symbol,
+              prefix: baseCurrency.prefix,
             ),
             periodPercentChangeString,
           ];

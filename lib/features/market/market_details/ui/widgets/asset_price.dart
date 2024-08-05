@@ -56,12 +56,12 @@ class AssetPrice extends StatelessObserverWidget {
     MarketItemModel currency,
   ) {
     return chart.selectedCandle != null
-        ? Decimal.parse(chart.selectedCandle!.close.toString()).toFormatSum(
+        ? Decimal.parse(chart.selectedCandle!.close.toString()).toFormatPrice(
             accuracy: marketItem.priceAccuracy,
-            symbol: baseCurrency.symbol,
+            prefix: baseCurrency.prefix,
           )
-        : currency.lastPrice.toFormatSum(
-            symbol: baseCurrency.symbol,
+        : currency.lastPrice.toFormatPrice(
+            prefix: baseCurrency.prefix,
             accuracy: currency.priceAccuracy,
           );
   }
