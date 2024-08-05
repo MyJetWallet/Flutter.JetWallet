@@ -3,8 +3,7 @@ import 'package:decimal/decimal.dart';
 import 'package:jetwallet/features/chart/model/chart_state.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/utils/constants.dart';
-import 'package:jetwallet/utils/formatting/base/market_format.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'percent_change.dart';
 
@@ -28,16 +27,14 @@ List<String> periodChange({
 
     return marketItem != null
         ? [
-            marketFormat(
-              decimal: Decimal.parse(periodPriceChange.toString()),
+            Decimal.parse(periodPriceChange.toString()).toFormatSum(
               accuracy: marketItem.priceAccuracy,
               symbol: baseCurrency.symbol,
             ),
             periodPercentChangeString,
           ]
         : [
-            volumeFormat(
-              decimal: Decimal.parse(periodPriceChange.toString()),
+            Decimal.parse(periodPriceChange.toString()).toFormatCount(
               accuracy: baseCurrency.accuracy,
               symbol: baseCurrency.symbol,
             ),

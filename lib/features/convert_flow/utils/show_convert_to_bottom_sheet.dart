@@ -8,8 +8,8 @@ import 'package:jetwallet/features/actions/store/action_search_store.dart';
 import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
 import 'package:jetwallet/features/convert_flow/utils/show_convert_to_fiat_bottom_sheet.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
+import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
 import 'package:jetwallet/utils/formatting/base/format_percent.dart';
-import 'package:jetwallet/utils/formatting/base/market_format.dart';
 import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
@@ -94,9 +94,9 @@ void showConvertToBottomSheet({
                         url: currency.iconUrl,
                       ),
                       label: currency.description,
-                      rightValue: marketFormat(
-                        decimal: baseCurrency.symbol == currency.symbol ? Decimal.one : currency.currentPrice,
-                        symbol: baseCurrency.symbol,
+                      rightValue:
+                          (baseCurrency.symbol == currency.symbol ? Decimal.one : currency.currentPrice).toFormatPrice(
+                        prefix: baseCurrency.prefix,
                         accuracy: marketItem.priceAccuracy,
                       ),
                       supplement: isEurAsset ? null : currency.symbol,

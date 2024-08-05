@@ -11,7 +11,7 @@ import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
@@ -219,8 +219,7 @@ abstract class _OfferOrderSummaryStoreBase with Store {
         .push(
       SuccessScreenRouter(
         secondaryText: intl.earn_transfer_of(
-          volumeFormat(
-            decimal: selectedAmount,
+          selectedAmount.toFormatCount(
             symbol: selectedCurrency.symbol,
             accuracy: selectedCurrency.accuracy,
           ),

@@ -11,6 +11,7 @@ import 'package:jetwallet/features/chart/helper/format_merge_candles_count.dart'
 import 'package:jetwallet/features/chart/helper/format_resolution.dart';
 import 'package:jetwallet/features/chart/model/chart_union.dart';
 import 'package:jetwallet/features/invest/ui/invests/data_line.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/modules/shared/simple_spacers.dart';
@@ -26,7 +27,6 @@ import '../../../../core/l10n/i10n.dart';
 import '../../../../core/router/app_router.dart';
 import '../../../../core/services/notification_service.dart';
 import '../../../../core/services/simple_networking/simple_networking.dart';
-import '../../../../utils/formatting/base/volume_format.dart';
 import '../../ui/widgets/invest_alert_bottom_sheet.dart';
 import 'invest_dashboard_store.dart';
 
@@ -175,11 +175,7 @@ abstract class _InvestNewStoreBase with Store {
                 Decimal.fromJson(
                   '${((openFee + closeFee) / volume).toDouble()}',
                 ));
-    tpPriceController.text = 'est. ${volumeFormat(
-      decimal: tpPriceValue,
-      symbol: '',
-      accuracy: instrument?.priceAccuracy ?? 2,
-    )}';
+    tpPriceController.text = 'est. ${tpPriceValue.toFormatCount(accuracy: instrument?.priceAccuracy ?? 2)}';
   }
 
   @action
@@ -195,11 +191,7 @@ abstract class _InvestNewStoreBase with Store {
     tpAmountValue = isBuyMode
         ? (investPositionTakeProfitPrice - marketPrice) * volumeBase - openFee - closeFee
         : -(investPositionTakeProfitPrice - marketPrice) * volumeBase - openFee - closeFee;
-    tpAmountController.text = 'est. ${volumeFormat(
-      decimal: tpAmountValue,
-      symbol: '',
-      accuracy: 2,
-    )}';
+    tpAmountController.text = 'est. ${tpAmountValue.toFormatCount(accuracy: 2)}';
   }
 
   @action
@@ -232,11 +224,7 @@ abstract class _InvestNewStoreBase with Store {
                   '${((openFee + closeFee) / volume).toDouble()}',
                 ));
 
-    slPriceController.text = 'est. ${volumeFormat(
-      decimal: slPriceValue,
-      symbol: '',
-      accuracy: instrument?.priceAccuracy ?? 2,
-    )}';
+    slPriceController.text = 'est. ${slPriceValue.toFormatCount(accuracy: instrument?.priceAccuracy ?? 2)}';
   }
 
   @action
@@ -251,11 +239,7 @@ abstract class _InvestNewStoreBase with Store {
     slAmountValue = isBuyMode
         ? (investPositionStopLossPrice - marketPrice) * volumeBase - openFee - closeFee
         : -(investPositionStopLossPrice - marketPrice) * volumeBase - openFee - closeFee;
-    slAmountController.text = 'est. ${volumeFormat(
-      decimal: slAmountValue,
-      symbol: '',
-      accuracy: 2,
-    )}';
+    slAmountController.text = 'est. ${slAmountValue.toFormatCount(accuracy: 2)}';
   }
 
   @observable
@@ -330,47 +314,15 @@ abstract class _InvestNewStoreBase with Store {
   void setIsSLTPPrice(bool newValue) {
     isSLTPPrice = newValue;
     if (newValue) {
-      slAmountController.text = 'est. ${volumeFormat(
-        decimal: slAmountValue,
-        symbol: '',
-        accuracy: 2,
-      )}';
-      tpAmountController.text = 'est. ${volumeFormat(
-        decimal: tpAmountValue,
-        symbol: '',
-        accuracy: 2,
-      )}';
-      slPriceController.text = volumeFormat(
-        decimal: slPriceValue,
-        symbol: '',
-        accuracy: instrument?.priceAccuracy ?? 2,
-      ).replaceAll(' ', '');
-      tpPriceController.text = volumeFormat(
-        decimal: tpPriceValue,
-        symbol: '',
-        accuracy: instrument?.priceAccuracy ?? 2,
-      ).replaceAll(' ', '');
+      slAmountController.text = 'est. ${slAmountValue.toFormatCount(accuracy: 2)}';
+      tpAmountController.text = 'est. ${tpAmountValue.toFormatCount(accuracy: 2)}';
+      slPriceController.text = slPriceValue.toFormatCount(accuracy: instrument?.priceAccuracy ?? 2).replaceAll(' ', '');
+      tpPriceController.text = tpPriceValue.toFormatCount(accuracy: instrument?.priceAccuracy ?? 2).replaceAll(' ', '');
     } else {
-      slPriceController.text = 'est. ${volumeFormat(
-        decimal: slPriceValue,
-        symbol: '',
-        accuracy: instrument?.priceAccuracy ?? 2,
-      )}';
-      tpPriceController.text = 'est. ${volumeFormat(
-        decimal: tpPriceValue,
-        symbol: '',
-        accuracy: instrument?.priceAccuracy ?? 2,
-      )}';
-      slAmountController.text = volumeFormat(
-        decimal: slAmountValue,
-        symbol: '',
-        accuracy: 2,
-      ).replaceAll(' ', '');
-      tpAmountController.text = volumeFormat(
-        decimal: tpAmountValue,
-        symbol: '',
-        accuracy: 2,
-      ).replaceAll(' ', '');
+      slPriceController.text = 'est. ${slPriceValue.toFormatCount(accuracy: instrument?.priceAccuracy ?? 2)}';
+      tpPriceController.text = 'est. ${tpPriceValue.toFormatCount(accuracy: instrument?.priceAccuracy ?? 2)}';
+      slAmountController.text = slAmountValue.toFormatCount(accuracy: 2).replaceAll(' ', '');
+      tpAmountController.text = tpAmountValue.toFormatCount(accuracy: 2).replaceAll(' ', '');
     }
   }
 
@@ -523,8 +475,7 @@ abstract class _InvestNewStoreBase with Store {
                   mainText: intl.invest_amount,
                   secondaryText: isBalanceHide
                       ? '**** USDT'
-                      : volumeFormat(
-                          decimal: model.amount,
+                      : model.amount.toFormatCount(
                           symbol: 'USDT',
                           accuracy: 2,
                         ),
@@ -539,11 +490,11 @@ abstract class _InvestNewStoreBase with Store {
                   mainText: intl.invest_pending_price,
                   secondaryText: isBalanceHide
                       ? '****'
-                      : volumeFormat(
-                          decimal: model.targetPrice,
-                          symbol: '',
-                          accuracy: instrument?.priceAccuracy ?? 2,
-                        ).trim(),
+                      : model.targetPrice
+                          .toFormatCount(
+                            accuracy: instrument?.priceAccuracy ?? 2,
+                          )
+                          .trim(),
                 ),
                 const SpaceH16(),
                 Row(
@@ -554,8 +505,7 @@ abstract class _InvestNewStoreBase with Store {
                       mainText: intl.invest_open_fee,
                       secondaryText: isBalanceHide
                           ? '**** USDT'
-                          : volumeFormat(
-                              decimal: openFee,
+                          : openFee.toFormatCount(
                               symbol: 'USDT',
                               accuracy: 2,
                             ),
@@ -614,8 +564,7 @@ abstract class _InvestNewStoreBase with Store {
                   mainText: intl.invest_amount,
                   secondaryText: isBalanceHide
                       ? '**** USDT'
-                      : volumeFormat(
-                          decimal: model.amount,
+                      : model.amount.toFormatCount(
                           symbol: 'USDT',
                           accuracy: 2,
                         ),
@@ -630,11 +579,7 @@ abstract class _InvestNewStoreBase with Store {
                   mainText: intl.invest_pending_price,
                   secondaryText: isBalanceHide
                       ? '****'
-                      : volumeFormat(
-                          decimal: model.targetPrice,
-                          symbol: '',
-                          accuracy: instrument?.priceAccuracy ?? 2,
-                        ).trim(),
+                      : model.targetPrice.toFormatCount(accuracy: instrument?.priceAccuracy ?? 2).trim(),
                 ),
                 const SpaceH16(),
                 Row(
@@ -645,8 +590,7 @@ abstract class _InvestNewStoreBase with Store {
                       mainText: intl.invest_open_fee,
                       secondaryText: isBalanceHide
                           ? '**** USDT'
-                          : volumeFormat(
-                              decimal: openFee,
+                          : openFee.toFormatCount(
                               symbol: 'USDT',
                               accuracy: 2,
                             ),
@@ -719,8 +663,7 @@ abstract class _InvestNewStoreBase with Store {
                     mainText: intl.invest_amount,
                     secondaryText: isBalanceHide
                         ? '**** USDT'
-                        : volumeFormat(
-                            decimal: response.data!.position!.amount!,
+                        : response.data!.position!.amount!.toFormatCount(
                             symbol: 'USDT',
                             accuracy: 2,
                           ),
@@ -733,8 +676,7 @@ abstract class _InvestNewStoreBase with Store {
                   const SpaceH8(),
                   DataLine(
                     mainText: intl.invest_open_price,
-                    secondaryText: volumeFormat(
-                      decimal: marketPrice,
+                    secondaryText: marketPrice.toFormatCount(
                       symbol: 'USDT',
                       accuracy: 2,
                     ),
@@ -748,8 +690,7 @@ abstract class _InvestNewStoreBase with Store {
                         mainText: intl.invest_open_fee,
                         secondaryText: isBalanceHide
                             ? '**** USDT'
-                            : volumeFormat(
-                                decimal: response.data!.position?.openFee ?? Decimal.zero,
+                            : (response.data!.position?.openFee ?? Decimal.zero).toFormatCount(
                                 symbol: 'USDT',
                                 accuracy: 2,
                               ),
@@ -854,17 +795,14 @@ abstract class _InvestNewStoreBase with Store {
                     secondaryText: response.data!.position!.takeProfitType == TPSLType.amount
                         ? isBalanceHide
                             ? '**** USDT'
-                            : volumeFormat(
-                                decimal: response.data!.position!.takeProfitAmount ?? Decimal.zero,
+                            : (response.data!.position!.takeProfitAmount ?? Decimal.zero).toFormatCount(
                                 accuracy: 2,
                                 symbol: 'USDT',
                               )
                         : isBalanceHide
                             ? '**** USDT'
-                            : volumeFormat(
-                                decimal: response.data!.position!.takeProfitPrice ?? Decimal.zero,
+                            : (response.data!.position!.takeProfitPrice ?? Decimal.zero).toFormatCount(
                                 accuracy: instrument?.priceAccuracy ?? 2,
-                                symbol: '',
                               ),
                   ),
                 ],
@@ -877,15 +815,12 @@ abstract class _InvestNewStoreBase with Store {
                     secondaryText: response.data!.position!.stopLossType == TPSLType.amount
                         ? isBalanceHide
                             ? '**** USDT'
-                            : volumeFormat(
-                                decimal: response.data!.position!.stopLossAmount ?? Decimal.zero,
+                            : (response.data!.position!.stopLossAmount ?? Decimal.zero).toFormatCount(
                                 accuracy: 2,
                                 symbol: 'USDT',
                               )
-                        : volumeFormat(
-                            decimal: response.data!.position!.stopLossPrice ?? Decimal.zero,
+                        : (response.data!.position!.stopLossPrice ?? Decimal.zero).toFormatCount(
                             accuracy: instrument?.priceAccuracy ?? 2,
-                            symbol: '',
                           ),
                   ),
                 ],

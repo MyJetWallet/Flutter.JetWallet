@@ -1,8 +1,7 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
-
-import '../../../utils/formatting/base/market_format.dart';
 
 Widget percentIcon(Decimal percent) {
   return percent == Decimal.zero
@@ -25,8 +24,8 @@ String formatPercent(Decimal percent) {
   if (percent == Decimal.zero) {
     return '0.00%';
   } else if (percent < Decimal.zero) {
-    return '${marketFormat(decimal: percent, accuracy: 2, symbol: '').replaceAll(' ', '')}%';
+    return '${percent.toFormatSum(accuracy: 2).replaceAll(' ', '')}%';
   } else {
-    return '+${marketFormat(decimal: percent, accuracy: 2, symbol: '').replaceAll(' ', '')}%';
+    return '+${percent.toFormatSum(accuracy: 2).replaceAll(' ', '')}%';
   }
 }

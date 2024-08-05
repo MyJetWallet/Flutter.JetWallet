@@ -6,7 +6,6 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/features/transaction_history/widgets/history_copy_icon.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
@@ -115,14 +114,12 @@ class CardRefundDetails extends StatelessObserverWidget {
               return TransactionDetailsNewItem(
                 text: intl.iban_send_history_payment_fee,
                 showInfoIcon: true,
-                fee: volumeFormat(
-                  decimal: transactionListItem.cardRefundInfo?.paymentFeeAmount ?? Decimal.zero,
+                fee: (transactionListItem.cardRefundInfo?.paymentFeeAmount ?? Decimal.zero).toFormatCount(
                   accuracy: currency.accuracy,
                   symbol: currency.symbol,
                 ),
                 value: TransactionDetailsNewValueText(
-                  text: volumeFormat(
-                    decimal: transactionListItem.cardRefundInfo?.paymentFeeAmount ?? Decimal.zero,
+                  text: (transactionListItem.cardRefundInfo?.paymentFeeAmount ?? Decimal.zero).toFormatCount(
                     accuracy: currency.accuracy,
                     symbol: currency.symbol,
                   ),
@@ -135,9 +132,9 @@ class CardRefundDetails extends StatelessObserverWidget {
             value: TransactionDetailsNewValueText(
               text: getIt<AppStore>().isBalanceHide
                   ? '**** ${currency.symbol}'
-                  : volumeFormat(
-                      decimal: (transactionListItem.cardRefundInfo?.paymentFeeAmount ?? Decimal.zero) +
-                          transactionListItem.balanceChange.abs(),
+                  : ((transactionListItem.cardRefundInfo?.paymentFeeAmount ?? Decimal.zero) +
+                          transactionListItem.balanceChange.abs())
+                      .toFormatCount(
                       accuracy: currency.accuracy,
                       symbol: currency.symbol,
                     ),
@@ -174,16 +171,14 @@ class CardRefundDetailsHeader extends StatelessWidget {
             assetDescription: eurAsset.description,
             assetValue: getIt<AppStore>().isBalanceHide
                 ? '**** ${eurAsset.symbol}'
-                : volumeFormat(
+                : transactionListItem.balanceChange.toFormatCount(
                     symbol: 'EUR',
-                    decimal: transactionListItem.balanceChange,
                   ),
             assetBaseAmount: transactionListItem.cardRefundInfo?.paymentAssetId != 'EUR'
                 ? getIt<AppStore>().isBalanceHide
                     ? '**** ${transactionListItem.cardRefundInfo?.paymentAssetId}'
-                    : volumeFormat(
+                    : (transactionListItem.cardRefundInfo?.paymentAmount ?? Decimal.zero).toFormatCount(
                         symbol: transactionListItem.cardRefundInfo?.paymentAssetId ?? '',
-                        decimal: transactionListItem.cardRefundInfo?.paymentAmount ?? Decimal.zero,
                       )
                 : null,
             isError: transactionListItem.status == Status.declined,

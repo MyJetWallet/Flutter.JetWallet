@@ -9,6 +9,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/invest/stores/dashboard/invest_dashboard_store.dart';
 import 'package:jetwallet/features/invest/ui/invests/data_line.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/widgets/button/invest_buttons/invest_button.dart';
@@ -17,7 +18,6 @@ import 'package:simple_networking/modules/signal_r/models/invest_positions_model
 import 'package:simple_networking/modules/wallet_api/models/invest/new_invest_request_model.dart';
 
 import '../../../../core/services/signal_r/signal_r_service_new.dart';
-import '../../../../utils/formatting/base/market_format.dart';
 import '../../../../utils/helpers/currency_from.dart';
 import '../../stores/dashboard/invest_new_store.dart';
 import '../../stores/dashboard/invest_positions_store.dart';
@@ -203,8 +203,7 @@ class _InvestListScreenState extends State<InvestList> {
                   mainText: intl.invest_report_rollover,
                   secondaryText: isBalanceHide
                       ? '**** USDT'
-                      : marketFormat(
-                          decimal: item.rollOverAmount,
+                      : item.rollOverAmount.toFormatSum(
                           accuracy: 2,
                           symbol: 'USDT',
                         ),

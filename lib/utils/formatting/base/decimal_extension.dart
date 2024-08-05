@@ -3,8 +3,8 @@ import 'package:jetwallet/utils/formatting/formatting.dart';
 
 extension DecimalExtension on Decimal {
   String toFormatCount({
-    required int accuracy,
-    required String symbol,
+    int? accuracy,
+    String? symbol,
   }) {
     final asset = AssetFormatter(
       decimal: this,
@@ -15,8 +15,8 @@ extension DecimalExtension on Decimal {
   }
 
   String toFormatSum({
-    required int accuracy,
-    required String symbol,
+    int? accuracy,
+    String? symbol,
   }) {
     final asset = AssetFormatter(
       decimal: this,
@@ -27,15 +27,15 @@ extension DecimalExtension on Decimal {
   }
 
   String toFormatPrice({
-    required int accuracy,
-    required String prefix,
+    int? accuracy,
+    String? prefix,
   }) {
     final asset = AssetFormatter(
       decimal: this,
       accuracy: accuracy,
       prefix: prefix,
     );
-    return asset.formatSum();
+    return asset.formatPrice();
   }
 
   Decimal get negative {

@@ -6,7 +6,6 @@ import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from_all.dart';
-import 'package:jetwallet/utils/formatting/base/base_currencies_format.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 
@@ -231,27 +230,6 @@ String formatCurrencyStringAmount({
   final amountPart = beforeDecimal ? wholePart3 : '$wholePart3.$decimalPart';
 
   return symbol != null ? '$amountPart $symbol' : amountPart;
-}
-
-String convertToUsd(
-  Decimal assetPriceInUsd,
-  Decimal balance,
-  BaseCurrencyModel baseCurrency,
-) {
-  final usd = assetPriceInUsd * balance;
-  if (usd < Decimal.zero) {
-    final plusValue = usd.toString().split('-').last;
-
-    return '≈ ${baseCurrenciesFormat(
-      text: Decimal.parse(plusValue).toStringAsFixed(2),
-      symbol: baseCurrency.symbol,
-    )}';
-  }
-
-  return '≈ ${baseCurrenciesFormat(
-    text: usd.toStringAsFixed(2),
-    symbol: baseCurrency.symbol,
-  )}';
 }
 
 Decimal basePrice(

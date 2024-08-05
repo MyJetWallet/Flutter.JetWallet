@@ -87,8 +87,7 @@ class ClaimSimplecoin {
       },
     );
 
-    final formatedAmount = volumeFormat(
-      decimal: amount,
+    final formatedAmount = amount.toFormatCount(
       symbol: 'SMPL',
     );
 

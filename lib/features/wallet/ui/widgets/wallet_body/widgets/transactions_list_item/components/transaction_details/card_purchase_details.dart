@@ -7,7 +7,6 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/features/transaction_history/widgets/history_copy_icon.dart';
 import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -115,15 +114,13 @@ class CardPurchaseDetails extends StatelessObserverWidget {
               return TransactionDetailsNewItem(
                 text: intl.iban_send_history_payment_fee,
                 showInfoIcon: true,
-                fee: volumeFormat(
-                  decimal: transactionListItem.cardPurchaseInfo?.paymentFeeAmount ?? Decimal.zero,
+                fee: (transactionListItem.cardPurchaseInfo?.paymentFeeAmount ?? Decimal.zero).toFormatCount(
                   symbol: transactionListItem.cardPurchaseInfo?.paymentFeeAssetId ??
                       transactionListItem.cardPurchaseInfo?.paymentAssetId ??
                       'EUR',
                 ),
                 value: TransactionDetailsNewValueText(
-                  text: volumeFormat(
-                    decimal: transactionListItem.cardPurchaseInfo?.paymentFeeAmount ?? Decimal.zero,
+                  text: (transactionListItem.cardPurchaseInfo?.paymentFeeAmount ?? Decimal.zero).toFormatCount(
                     symbol: transactionListItem.cardPurchaseInfo?.paymentFeeAssetId ??
                         transactionListItem.cardPurchaseInfo?.paymentAssetId ??
                         'EUR',
@@ -137,8 +134,7 @@ class CardPurchaseDetails extends StatelessObserverWidget {
             value: TransactionDetailsNewValueText(
               text: getIt<AppStore>().isBalanceHide
                   ? '**** ${currency.symbol}'
-                  : volumeFormat(
-                      decimal: transactionListItem.cardPurchaseInfo?.paymentAmount ?? Decimal.zero,
+                  : (transactionListItem.cardPurchaseInfo?.paymentAmount ?? Decimal.zero).toFormatCount(
                       symbol: transactionListItem.cardPurchaseInfo?.paymentAssetId ?? 'EUR',
                     ),
             ),
@@ -196,16 +192,14 @@ class CardPurchaseDetailsHeader extends StatelessWidget {
             assetDescription: eurAsset.description,
             assetValue: getIt<AppStore>().isBalanceHide
                 ? '**** ${eurAsset.symbol}'
-                : volumeFormat(
+                : transactionListItem.balanceChange.toFormatCount(
                     symbol: 'EUR',
-                    decimal: transactionListItem.balanceChange,
                   ),
             assetBaseAmount: transactionListItem.cardRefundInfo?.paymentAssetId != 'EUR'
                 ? getIt<AppStore>().isBalanceHide
                     ? '**** ${transactionListItem.cardPurchaseInfo?.paymentAssetId}'
-                    : volumeFormat(
+                    : assetBaseAmount.negative.toFormatCount(
                         symbol: transactionListItem.cardPurchaseInfo?.paymentAssetId ?? '',
-                        decimal: assetBaseAmount.negative,
                       )
                 : null,
             isError: transactionListItem.status == Status.declined,

@@ -102,8 +102,7 @@ class _SimpleCoinTransactionHistoryScreenState extends State<SimpleCoinTransacti
                               onTap: () {},
                               balanceChange: getIt<AppStore>().isBalanceHide
                                   ? '**** SMPL'
-                                  : volumeFormat(
-                                      decimal: positionAudit.amount,
+                                  : positionAudit.amount.toFormatCount(
                                       symbol: 'SMPL',
                                     ),
                               icon: Assets.svg.medium.arrowDown.simpleSvg(

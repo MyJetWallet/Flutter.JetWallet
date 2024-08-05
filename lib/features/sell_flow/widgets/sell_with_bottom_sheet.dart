@@ -8,7 +8,7 @@ import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
 import 'package:jetwallet/features/convert_flow/widgets/convert_to_choose_asset_bottom_sheet.dart';
 import 'package:jetwallet/features/sell_flow/store/sell_payment_method_store.dart';
 import 'package:jetwallet/utils/balances/crypto_balance.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -152,8 +152,7 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
                 supplement: intl.internal_exchange,
                 rightValue: getIt<AppStore>().isBalanceHide
                     ? '**** ${card.currency ?? 'EUR'}'
-                    : volumeFormat(
-                        decimal: card.balance ?? Decimal.zero,
+                    : (card.balance ?? Decimal.zero).toFormatCount(
                         accuracy: 2,
                         symbol: card.currency ?? 'EUR',
                       ),

@@ -7,7 +7,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/store/send_globally_amount_store.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/utils/send_globally_limits.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
@@ -21,7 +21,6 @@ import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_request_model.dart';
 
 import '../../../core/di/di.dart';
-import '../../../utils/formatting/base/market_format.dart';
 import '../../app/store/app_store.dart';
 import 'widgets/payment_method_card.dart';
 
@@ -95,8 +94,7 @@ class _SendGloballyAmountScreenBodyState extends State<SendGloballyAmountScreenB
       header: GlobalBasicAppBar(
         title: intl.send_globally,
         subtitle: '${intl.withdrawalAmount_available}: '
-            '${getIt<AppStore>().isBalanceHide ? '**** ${store.sendCurrency!.symbol}' : volumeFormat(
-                decimal: store.availableBalabce,
+            '${getIt<AppStore>().isBalanceHide ? '**** ${store.sendCurrency!.symbol}' : store.availableBalabce.toFormatCount(
                 accuracy: store.sendCurrency!.accuracy,
                 symbol: store.sendCurrency!.symbol,
               )}',
@@ -117,9 +115,8 @@ class _SendGloballyAmountScreenBodyState extends State<SendGloballyAmountScreenB
                 value: store.withAmount,
                 symbol: store.sendCurrency!.symbol,
               ),
-              helper: '≈ ${marketFormat(
+              helper: '≈ ${Decimal.parse(store.baseConversionValue).toFormatSum(
                 accuracy: store.baseCurrency.accuracy,
-                decimal: Decimal.parse(store.baseConversionValue),
                 symbol: store.baseCurrency.symbol,
               )}',
               error: store.withAmmountInputError == InputError.limitError

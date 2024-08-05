@@ -8,7 +8,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/send_gift/model/send_gift_info_model.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -67,22 +67,22 @@ class _GiftOrderSummuryState extends State<GiftOrderSummury> {
                         isLoading: false,
                         assetIconUrl: sendGiftStore.currency.iconUrl,
                         assetDescription: sendGiftStore.currency.description,
-                        assetValue: volumeFormat(
-                          decimal: sendGiftStore.amount,
+                        assetValue: sendGiftStore.amount.toFormatCount(
                           accuracy: sendGiftStore.currency.accuracy,
                           symbol: sendGiftStore.currency.symbol,
                         ),
-                        assetBaseAmount: volumeFormat(
-                          decimal: formatService.convertOneCurrencyToAnotherOne(
-                            fromCurrency: sendGiftStore.currency.symbol,
-                            fromCurrencyAmmount: sendGiftStore.amount,
-                            toCurrency: sSignalRModules.baseCurrency.symbol,
-                            baseCurrency: sSignalRModules.baseCurrency.symbol,
-                            isMin: false,
-                          ),
-                          accuracy: sSignalRModules.baseCurrency.accuracy,
-                          symbol: sSignalRModules.baseCurrency.symbol,
-                        ),
+                        assetBaseAmount: formatService
+                            .convertOneCurrencyToAnotherOne(
+                              fromCurrency: sendGiftStore.currency.symbol,
+                              fromCurrencyAmmount: sendGiftStore.amount,
+                              toCurrency: sSignalRModules.baseCurrency.symbol,
+                              baseCurrency: sSignalRModules.baseCurrency.symbol,
+                              isMin: false,
+                            )
+                            .toFormatCount(
+                              accuracy: sSignalRModules.baseCurrency.accuracy,
+                              symbol: sSignalRModules.baseCurrency.symbol,
+                            ),
                       ),
                     ),
                     const SDivider(),
@@ -99,16 +99,14 @@ class _GiftOrderSummuryState extends State<GiftOrderSummury> {
                     ),
                     TwoColumnCell(
                       label: intl.operationName_sent,
-                      value: volumeFormat(
-                        decimal: sendGiftStore.amount,
+                      value: sendGiftStore.amount.toFormatCount(
                         accuracy: sendGiftStore.currency.accuracy,
                         symbol: sendGiftStore.currency.symbol,
                       ),
                       needHorizontalPadding: false,
                     ),
                     ProcessingFeeRowWidget(
-                      fee: volumeFormat(
-                        decimal: sendGiftStore.currency.fees.withdrawalFee?.size ?? Decimal.zero,
+                      fee: (sendGiftStore.currency.fees.withdrawalFee?.size ?? Decimal.zero).toFormatCount(
                         accuracy: sendGiftStore.currency.accuracy,
                         symbol: sendGiftStore.currency.symbol,
                       ),
@@ -127,8 +125,7 @@ class _GiftOrderSummuryState extends State<GiftOrderSummury> {
                           giftSubmethod: sendGiftStore.selectedContactType.name,
                           asset: sendGiftStore.currency.symbol,
                           totalSendAmount: sendGiftStore.amount.toString(),
-                          paymentFee: volumeFormat(
-                            decimal: sendGiftStore.currency.fees.withdrawalFee?.size ?? Decimal.zero,
+                          paymentFee: (sendGiftStore.currency.fees.withdrawalFee?.size ?? Decimal.zero).toFormatCount(
                             accuracy: sendGiftStore.currency.accuracy,
                             symbol: sendGiftStore.currency.symbol,
                           ),

@@ -1,12 +1,12 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 
 import '../../../../core/l10n/i10n.dart';
-import '../../../../utils/formatting/base/volume_format.dart';
 
 class ActiveInvestLine extends StatelessObserverWidget {
   const ActiveInvestLine({
@@ -56,7 +56,7 @@ class ActiveInvestLine extends StatelessObserverWidget {
               ),
               const SpaceW4(),
               Text(
-                volumeFormat(decimal: amount, accuracy: 2, symbol: 'USDT'),
+                amount.toFormatCount(accuracy: 2, symbol: 'USDT'),
                 style: STStyles.body3InvestSM.copyWith(
                   color: colors.black,
                 ),
@@ -73,11 +73,7 @@ class ActiveInvestLine extends StatelessObserverWidget {
               ),
             ),
             Text(
-              volumeFormat(
-                decimal: profit,
-                accuracy: 2,
-                symbol: '',
-              ),
+              profit.toFormatCount(accuracy: 2),
               style: STStyles.body2InvestB.copyWith(
                 color: profit == Decimal.zero
                     ? SColorsLight().grey3

@@ -8,7 +8,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/store/send_globally_confirm_store.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
@@ -94,15 +94,13 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                     isLoading: false,
                     fromAssetIconUrl: state.sendCurrency!.iconUrl,
                     fromAssetDescription: state.sendCurrency!.symbol,
-                    fromAssetValue: volumeFormat(
+                    fromAssetValue: (data.amount ?? Decimal.zero).toFormatCount(
                       symbol: state.sendCurrency!.symbol,
                       accuracy: state.sendCurrency!.accuracy,
-                      decimal: data.amount ?? Decimal.zero,
                     ),
                     toAssetIconUrl: receiveAsset.iconUrl,
                     toAssetDescription: receiveAsset.symbol,
-                    toAssetValue: volumeFormat(
-                      decimal: data.estimatedReceiveAmount ?? Decimal.zero,
+                    toAssetValue: (data.estimatedReceiveAmount ?? Decimal.zero).toFormatCount(
                       accuracy: receiveAsset.accuracy,
                       symbol: receiveAsset.symbol,
                     ),
@@ -158,16 +156,14 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                   ),
                   TwoColumnCell(
                     label: intl.global_send_history_sent,
-                    value: volumeFormat(
-                      decimal: (data.amount ?? Decimal.zero) - (data.feeAmount ?? Decimal.zero),
+                    value: ((data.amount ?? Decimal.zero) - (data.feeAmount ?? Decimal.zero)).toFormatCount(
                       accuracy: state.sendCurrency!.accuracy,
                       symbol: state.sendCurrency!.symbol,
                     ),
                     needHorizontalPadding: false,
                   ),
                   ProcessingFeeRowWidget(
-                    fee: volumeFormat(
-                      decimal: data.feeAmount ?? Decimal.zero,
+                    fee: (data.feeAmount ?? Decimal.zero).toFormatCount(
                       accuracy: state.sendCurrency!.accuracy,
                       symbol: state.sendCurrency!.symbol,
                     ),
@@ -207,8 +203,7 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                           name: intl.global_send_total_pay,
                           contentLoading: state.loader.loading,
                           valueColor: colors.blue,
-                          value: volumeFormat(
-                            decimal: data.amount ?? Decimal.zero,
+                          value: (data.amount ?? Decimal.zero).toFormatCount(
                             accuracy: state.sendCurrency!.accuracy,
                             symbol: state.sendCurrency!.symbol,
                           ),

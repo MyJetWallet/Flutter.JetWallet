@@ -4,11 +4,11 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/actions/store/action_search_store.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../core/services/signal_r/signal_r_service_new.dart';
-import '../../../utils/formatting/base/market_format.dart';
 import '../../../widgets/empty_search_result.dart';
 
 void showCryptoSearch(BuildContext context) {
@@ -70,8 +70,7 @@ class _ActionCryptoSearch extends StatelessObserverWidget {
                 url: currency.iconUrl,
               ),
               name: currency.name,
-              price: marketFormat(
-                decimal: currency.lastPrice,
+              price: currency.lastPrice.toFormatSum(
                 symbol: baseCurrency.symbol,
                 accuracy: currency.priceAccuracy,
               ),
@@ -94,8 +93,7 @@ class _ActionCryptoSearch extends StatelessObserverWidget {
                 url: state.filteredMarketCurrencies[i].iconUrl,
               ),
               name: state.filteredMarketCurrencies[i].name,
-              price: marketFormat(
-                decimal: state.filteredMarketCurrencies[i].lastPrice,
+              price: state.filteredMarketCurrencies[i].lastPrice.toFormatSum(
                 symbol: baseCurrency.symbol,
                 accuracy: state.filteredMarketCurrencies[i].priceAccuracy,
               ),

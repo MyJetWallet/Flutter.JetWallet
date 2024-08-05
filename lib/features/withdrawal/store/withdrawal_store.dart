@@ -17,7 +17,7 @@ import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart
 import 'package:jetwallet/features/withdrawal/model/withdrawal_confirm_model.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/enum.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/calculate_base_balance.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
@@ -815,16 +815,13 @@ abstract class _WithdrawalStoreBase with Store {
       );
     }
     if (minLimit != null && minLimit! > value) {
-      limitError = '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
-        decimal: minLimit!,
+      limitError = '${intl.currencyBuy_paymentInputErrorText1} ${minLimit?.toFormatCount(
         accuracy: withdrawalInputModel?.currency?.accuracy ?? 0,
         symbol: withdrawalInputModel?.currency?.symbol ?? '',
       )}';
     } else if (maxLimit != null && maxLimit! < value) {
-      limitError = '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
-        decimal: maxLimit!,
+      limitError = '${intl.currencyBuy_paymentInputErrorText2} ${maxLimit?.toFormatCount(
         accuracy: withdrawalInputModel?.currency?.accuracy ?? 0,
-        symbol: withdrawalInputModel?.currency?.symbol ?? '',
       )}';
     } else {
       limitError = '';

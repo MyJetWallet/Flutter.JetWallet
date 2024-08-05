@@ -13,7 +13,7 @@ import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/simple_card/ui/widgets/show_simple_card_deposit_by_bottom_sheet.dart';
 import 'package:jetwallet/utils/balances/crypto_balance.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -142,8 +142,7 @@ class _ShowSelectAccountForAddCash extends StatelessObserverWidget {
             rightValue: simpleAccount.status == AccountStatus.active
                 ? getIt<AppStore>().isBalanceHide
                     ? '**** ${eurCurrency.symbol}'
-                    : volumeFormat(
-                        decimal: simpleAccount.balance ?? Decimal.zero,
+                    : (simpleAccount.balance ?? Decimal.zero).toFormatSum(
                         accuracy: eurCurrency.accuracy,
                         symbol: eurCurrency.symbol,
                       )
@@ -176,8 +175,7 @@ class _ShowSelectAccountForAddCash extends StatelessObserverWidget {
               rightValue: bankAccounts[index].status == AccountStatus.active
                   ? getIt<AppStore>().isBalanceHide
                       ? '**** ${eurCurrency.symbol}'
-                      : volumeFormat(
-                          decimal: bankAccounts[index].balance ?? Decimal.zero,
+                      : (bankAccounts[index].balance ?? Decimal.zero).toFormatSum(
                           accuracy: eurCurrency.accuracy,
                           symbol: eurCurrency.symbol,
                         )
@@ -193,8 +191,7 @@ class _ShowSelectAccountForAddCash extends StatelessObserverWidget {
               supplement: '${card.cardType?.frontName} ••• ${card.last4NumberCharacters}',
               rightValue: getIt<AppStore>().isBalanceHide
                   ? '**** ${card.currency ?? 'EUR'}'
-                  : volumeFormat(
-                      decimal: card.balance ?? Decimal.zero,
+                  : (card.balance ?? Decimal.zero).toFormatSum(
                       accuracy: 2,
                       symbol: card.currency ?? 'EUR',
                     ),

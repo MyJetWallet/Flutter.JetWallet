@@ -31,7 +31,7 @@ import 'package:jetwallet/features/my_wallets/widgets/profile_banners_section.da
 import 'package:jetwallet/features/my_wallets/widgets/top_movers_dashboard_section.dart';
 import 'package:jetwallet/features/my_wallets/widgets/user_avatar_widget.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/currencies_with_balance_from.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
@@ -597,8 +597,7 @@ String _price(
     totalBalance += item.baseBalance;
   }
 
-  return volumeFormat(
-    decimal: totalBalance,
+  return totalBalance.toFormatSum(
     accuracy: baseCurrency.accuracy,
     symbol: baseCurrency.symbol,
   );

@@ -9,7 +9,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/cj_banking_accounts/widgets/actions_account_row_widget.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list/transactions_list.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/transaction_list_item.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
@@ -75,8 +75,7 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
             showTicker: false,
             mainTitle: getIt<AppStore>().isBalanceHide
                 ? '**** ${widget.eurCurrency.symbol}'
-                : volumeFormat(
-                    decimal: widget.bankingAccount.balance ?? Decimal.zero,
+                : (widget.bankingAccount.balance ?? Decimal.zero).toFormatSum(
                     accuracy: widget.eurCurrency.accuracy,
                     symbol: widget.eurCurrency.symbol,
                   ),
@@ -84,8 +83,7 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
             mainHeaderSubtitle: widget.isCJAccount ? intl.wallet_simple_account : intl.eur_wallet_personal_account,
             mainHeaderCollapsedTitle: getIt<AppStore>().isBalanceHide
                 ? '**** ${widget.eurCurrency.symbol}'
-                : volumeFormat(
-                    decimal: widget.bankingAccount.balance ?? Decimal.zero,
+                : (widget.bankingAccount.balance ?? Decimal.zero).toFormatSum(
                     accuracy: widget.eurCurrency.accuracy,
                     symbol: widget.eurCurrency.symbol,
                   ),

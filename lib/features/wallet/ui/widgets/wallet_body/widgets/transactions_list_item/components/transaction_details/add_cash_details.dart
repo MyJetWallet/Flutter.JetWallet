@@ -6,7 +6,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/features/transaction_history/widgets/history_copy_icon.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
@@ -88,8 +88,7 @@ class AddCashDetails extends StatelessObserverWidget {
               );
 
               return PaymentFeeRowWidget(
-                fee: volumeFormat(
-                  decimal: transactionListItem.ibanDepositInfo?.paymentFeeAmount ?? Decimal.zero,
+                fee: (transactionListItem.ibanDepositInfo?.paymentFeeAmount ?? Decimal.zero).toFormatCount(
                   accuracy: currency.accuracy,
                   symbol: currency.symbol,
                 ),
@@ -107,8 +106,7 @@ class AddCashDetails extends StatelessObserverWidget {
               );
 
               return ProcessingFeeRowWidget(
-                fee: volumeFormat(
-                  decimal: transactionListItem.ibanDepositInfo?.processingFeeAmount ?? Decimal.zero,
+                fee: (transactionListItem.ibanDepositInfo?.processingFeeAmount ?? Decimal.zero).toFormatCount(
                   accuracy: currency.accuracy,
                   symbol: currency.symbol,
                 ),
@@ -149,11 +147,10 @@ class _AddCashDetailsHeader extends StatelessWidget {
           fromAssetDescription: transactionListItem.ibanDepositInfo?.accountLabel ?? '',
           fromAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${paymentAsset.symbol}'
-              : volumeFormat(
-                  symbol: paymentAsset.symbol,
-                  accuracy: paymentAsset.accuracy,
-                  decimal: transactionListItem.balanceChange.abs(),
-                ),
+              : transactionListItem.balanceChange.abs().toFormatCount(
+                    symbol: paymentAsset.symbol,
+                    accuracy: paymentAsset.accuracy,
+                  ),
           fromAssetCustomIcon: Assets.svg.other.medium.bankAccount.simpleSvg(
             width: 32,
           ),

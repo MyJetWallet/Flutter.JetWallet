@@ -7,7 +7,7 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/features/transaction_history/widgets/history_copy_icon.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/split_iban.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
@@ -133,8 +133,7 @@ class IbanSendDetails extends StatelessObserverWidget {
               );
 
               return PaymentFeeRowWidget(
-                fee: volumeFormat(
-                  decimal: transactionListItem.ibanWithdrawalInfo?.paymentFeeAmount ?? Decimal.zero,
+                fee: (transactionListItem.ibanWithdrawalInfo?.paymentFeeAmount ?? Decimal.zero).toFormatCount(
                   accuracy: currency.accuracy,
                   symbol: currency.symbol,
                 ),
@@ -152,8 +151,7 @@ class IbanSendDetails extends StatelessObserverWidget {
               );
 
               return ProcessingFeeRowWidget(
-                fee: volumeFormat(
-                  decimal: transactionListItem.ibanWithdrawalInfo?.processingFeeAmount ?? Decimal.zero,
+                fee: (transactionListItem.ibanWithdrawalInfo?.processingFeeAmount ?? Decimal.zero).toFormatCount(
                   accuracy: currency.accuracy,
                   symbol: currency.symbol,
                 ),
@@ -195,11 +193,10 @@ class IbanSendDetailsHeader extends StatelessWidget {
           fromAssetDescription: transactionListItem.ibanWithdrawalInfo?.accountLabel ?? '',
           fromAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${asset.symbol}'
-              : volumeFormat(
-                  symbol: asset.symbol,
-                  accuracy: asset.accuracy,
-                  decimal: (transactionListItem.ibanWithdrawalInfo?.withdrawalAmount ?? Decimal.zero).abs(),
-                ),
+              : (transactionListItem.ibanWithdrawalInfo?.withdrawalAmount ?? Decimal.zero).abs().toFormatCount(
+                    symbol: asset.symbol,
+                    accuracy: asset.accuracy,
+                  ),
           fromAssetCustomIcon: Assets.svg.other.medium.bankAccount.simpleSvg(
             width: 32,
           ),
@@ -207,10 +204,9 @@ class IbanSendDetailsHeader extends StatelessWidget {
           toAssetDescription: asset.description,
           toAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${transactionListItem.ibanWithdrawalInfo?.receiveAsset ?? ''}'
-              : volumeFormat(
+              : (transactionListItem.ibanWithdrawalInfo?.receiveAmount ?? Decimal.zero).toFormatCount(
                   symbol: transactionListItem.ibanWithdrawalInfo?.receiveAsset ?? '',
                   accuracy: asset.accuracy,
-                  decimal: transactionListItem.ibanWithdrawalInfo?.receiveAmount ?? Decimal.zero,
                 ),
           isError: transactionListItem.status == Status.declined,
           isSmallerVersion: true,

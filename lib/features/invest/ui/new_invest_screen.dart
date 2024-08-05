@@ -18,7 +18,7 @@ import 'package:jetwallet/features/invest/ui/invests/symbol_info_without_chart.d
 import 'package:jetwallet/features/invest/ui/widgets/invest_input.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_market_watch_bottom_sheet.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_slider_input.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/localized_chart_resolution_button.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
@@ -186,7 +186,17 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
                   },
                   onChartTypeChanged: (type) {},
                   candleResolution: investNewStore.resolution,
-                  formatPrice: volumeFormat,
+                  formatPrice: ({
+                    required int accuracy,
+                    required Decimal decimal,
+                    required bool onlyFullPart,
+                    required String symbol,
+                  }) {
+                    return decimal.toFormatSum(
+                      accuracy: accuracy,
+                      symbol: symbol,
+                    );
+                  },
                   candles: investNewStore.candles[investNewStore.resolution],
                   onCandleSelected: (value) {},
                   chartHeight: 240,

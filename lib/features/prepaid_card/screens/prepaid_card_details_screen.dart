@@ -315,8 +315,7 @@ class _InfoGrid extends StatelessWidget {
           label: intl.prepaid_card_card_balance,
           value: getIt<AppStore>().isBalanceHide
               ? '**** ${voucher?.cardAsset ?? ''}'
-              : marketFormat(
-                  decimal: voucher?.cardAmount ?? Decimal.zero,
+              : (voucher?.cardAmount ?? Decimal.zero).toFormatSum(
                   symbol: voucher?.cardAsset ?? '',
                   accuracy: 2,
                 ),
@@ -344,8 +343,7 @@ class _InfoGrid extends StatelessWidget {
               ? '**** ${voucher?.feeAsset ?? ''}'
               : (voucher?.feeAmount ?? Decimal.zero) == Decimal.zero
                   ? intl.prepaid_card_free
-                  : marketFormat(
-                      decimal: voucher?.feeAmount ?? Decimal.zero,
+                  : (voucher?.feeAmount ?? Decimal.zero).toFormatSum(
                       symbol: voucher?.feeAsset ?? '',
                       accuracy: 2,
                     ),

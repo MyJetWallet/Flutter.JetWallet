@@ -95,7 +95,7 @@ class _EarnWithdrawalAmountBody extends StatelessWidget {
               showSwopButton: false,
               errorText: store.errorText,
               optionText: store.cryptoInputValue == '0'
-                  ? '''${intl.earn_max} ${getIt<AppStore>().isBalanceHide ? '**** ${store.cryptoSymbol}' : volumeFormat(decimal: store.buyAllValue, accuracy: store.brandCurrency.accuracy, symbol: store.fiatSymbol)}'''
+                  ? '''${intl.earn_max} ${getIt<AppStore>().isBalanceHide ? '**** ${store.cryptoSymbol}' : store.buyAllValue.toFormatCount(accuracy: store.brandCurrency.accuracy, symbol: store.fiatSymbol)}'''
                   : null,
               optionOnTap: () {
                 store.onBuyAll();

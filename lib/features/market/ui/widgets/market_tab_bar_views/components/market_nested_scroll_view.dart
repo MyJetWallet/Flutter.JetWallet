@@ -14,7 +14,7 @@ import 'package:jetwallet/features/market/store/market_filter_store.dart';
 import 'package:jetwallet/features/market/ui/widgets/market_not_loaded.dart';
 import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/components/market_separator.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
-import 'package:jetwallet/utils/formatting/base/market_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
@@ -273,8 +273,7 @@ class __MarketNestedScrollViewBodyState extends State<_MarketNestedScrollViewBod
                               url: item.iconUrl,
                             ),
                             name: item.name,
-                            price: marketFormat(
-                              decimal: item.lastPrice,
+                            price: item.lastPrice.toFormatSum(
                               symbol: baseCurrency.symbol,
                               accuracy: item.priceAccuracy,
                             ),
@@ -329,8 +328,7 @@ class __MarketNestedScrollViewBodyState extends State<_MarketNestedScrollViewBod
                     url: item.iconUrl,
                   ),
                   name: item.name,
-                  price: marketFormat(
-                    decimal: item.lastPrice,
+                  price: item.lastPrice.toFormatSum(
                     symbol: baseCurrency.symbol,
                     accuracy: item.priceAccuracy,
                   ),

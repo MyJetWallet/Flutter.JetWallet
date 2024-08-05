@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/transfer_flow/store/transfer_from_to_store.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
@@ -71,8 +71,7 @@ class _TransferFromToBody extends StatelessWidget {
                   account.isClearjuctionAccount ? intl.eur_wallet_simple_account : intl.eur_wallet_personal_account,
               rightValue: getIt<AppStore>().isBalanceHide
                   ? '**** ${account.currency ?? 'EUR'}'
-                  : volumeFormat(
-                      decimal: account.balance ?? Decimal.zero,
+                  : (account.balance ?? Decimal.zero).toFormatSum(
                       accuracy: 2,
                       symbol: account.currency ?? 'EUR',
                     ),
@@ -93,8 +92,7 @@ class _TransferFromToBody extends StatelessWidget {
               supplement: '${card.cardType?.frontName} ••• ${card.last4NumberCharacters}',
               rightValue: getIt<AppStore>().isBalanceHide
                   ? '**** ${card.currency ?? 'EUR'}'
-                  : volumeFormat(
-                      decimal: card.balance ?? Decimal.zero,
+                  : (card.balance ?? Decimal.zero).toFormatSum(
                       accuracy: 2,
                       symbol: card.currency ?? 'EUR',
                     ),

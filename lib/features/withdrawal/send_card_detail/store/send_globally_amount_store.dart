@@ -7,7 +7,7 @@ import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/calculate_base_balance.dart';
 import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
@@ -218,14 +218,12 @@ abstract class _SendGloballyAmountStoreBase with Store {
     final value = Decimal.parse(withAmount);
 
     if (minLimitAmount > value) {
-      limitError = '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
-        decimal: minLimitAmount,
+      limitError = '${intl.currencyBuy_paymentInputErrorText1} ${minLimitAmount.toFormatCount(
         accuracy: sendCurrency!.accuracy,
         symbol: sendCurrency!.symbol,
       )}';
     } else if (maxLimitAmount < value) {
-      limitError = '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
-        decimal: maxLimitAmount,
+      limitError = '${intl.currencyBuy_paymentInputErrorText2} ${maxLimitAmount.toFormatCount(
         accuracy: sendCurrency!.accuracy,
         symbol: sendCurrency!.symbol,
       )}';

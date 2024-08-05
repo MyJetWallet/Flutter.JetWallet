@@ -4,7 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/buy_flow/store/buy_confirmation_store.dart';
 import 'package:jetwallet/features/buy_flow/ui/buy_tab_body.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -179,13 +179,11 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid> with Single
               ),
               const SizedBox(width: 8),
               Text(
-                '${volumeFormat(
+                '${Decimal.one.toFormatCount(
                   accuracy: widget.asset.accuracy,
-                  decimal: Decimal.one,
                   symbol: widget.asset.symbol,
-                )} = ${volumeFormat(
+                )} = ${(store.rate ?? Decimal.zero).toFormatCount(
                   accuracy: store.rate?.scale ?? 0,
-                  decimal: store.rate ?? Decimal.zero,
                   symbol: widget.paymentCurrency.symbol,
                 )}',
                 style: sSubtitle3Style,

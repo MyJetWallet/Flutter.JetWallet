@@ -7,7 +7,7 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/features/transaction_history/widgets/history_copy_icon.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/components/transaction_details_name_text.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
@@ -105,8 +105,7 @@ class WithdrawDetails extends StatelessObserverWidget {
               );
 
               return ProcessingFeeRowWidget(
-                fee: volumeFormat(
-                  decimal: transactionListItem.withdrawalInfo!.feeAmount,
+                fee: transactionListItem.withdrawalInfo!.feeAmount.toFormatCount(
                   accuracy: currency.accuracy,
                   symbol: currency.symbol,
                 ),
@@ -154,19 +153,17 @@ class _WithdrawDetailsHeader extends StatelessWidget {
           fromAssetDescription: paymentAsset.description,
           fromAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${paymentAsset.symbol}'
-              : volumeFormat(
+              : (transactionListItem.withdrawalInfo?.withdrawalAmount.abs() ?? Decimal.zero).toFormatCount(
                   symbol: paymentAsset.symbol,
                   accuracy: paymentAsset.accuracy,
-                  decimal: transactionListItem.withdrawalInfo?.withdrawalAmount.abs() ?? Decimal.zero,
                 ),
           toAssetIconUrl: buyAsset.iconUrl,
           toAssetDescription: buyAsset.description,
           toAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${buyAsset.symbol}'
-              : volumeFormat(
+              : (transactionListItem.withdrawalInfo?.receiveAmount?.abs() ?? Decimal.zero).toFormatCount(
                   symbol: buyAsset.symbol,
                   accuracy: buyAsset.accuracy,
-                  decimal: transactionListItem.withdrawalInfo?.receiveAmount?.abs() ?? Decimal.zero,
                 ),
           isError: transactionListItem.status == Status.declined,
           isSmallerVersion: true,

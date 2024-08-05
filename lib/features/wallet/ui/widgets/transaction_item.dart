@@ -4,14 +4,12 @@ import 'package:jetwallet/features/wallet/store/transaction_cancel_store.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/add_cash_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/buy_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/buy_p2p_details.dart';
-import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/buy_simplex_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/buy_vouncher_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/card_purchase_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/card_refund_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/card_withdrawal_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/components/common_transaction_details_block.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/deposit_details.dart';
-import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/deposit_nft_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/earn_send_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/gift_receive_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/gift_send_details.dart';
@@ -22,7 +20,6 @@ import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transac
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/swap_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/transfer_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/withdraw_details.dart';
-import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/withdraw_nft_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/transaction_list_item.dart';
 import 'package:jetwallet/utils/helpers/find_blockchain_by_descr.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -34,7 +31,6 @@ import '../../../../core/services/notification_service.dart';
 import '../../../../utils/helpers/widget_size_from.dart';
 import '../../helper/is_operation_support_copy.dart';
 import 'wallet_body/widgets/transactions_list_item/components/transaction_details/iban_send_details.dart';
-import 'wallet_body/widgets/transactions_list_item/components/transaction_details/sell_nft_details.dart';
 import 'wallet_body/widgets/transactions_list_item/components/transaction_details/send_globally_details.dart';
 
 class TransactionItem extends StatefulWidget {
@@ -298,21 +294,6 @@ class _TransactionItemState extends State<TransactionItem> with SingleTickerProv
                     ),
                   ),
                 ],
-                if (widget.transactionListItem.operationType == OperationType.simplexBuy) ...[
-                  Material(
-                    color: colors.white,
-                    child: BuySimplexDetails(
-                      transactionListItem: widget.transactionListItem,
-                      onCopyAction: (String text) {
-                        setState(() {
-                          copiedText = text;
-                        });
-
-                        onCopyAction();
-                      },
-                    ),
-                  ),
-                ],
                 if (widget.transactionListItem.operationType == OperationType.swapBuy ||
                     widget.transactionListItem.operationType == OperationType.swapSell) ...[
                   Material(
@@ -348,52 +329,6 @@ class _TransactionItemState extends State<TransactionItem> with SingleTickerProv
                   Material(
                     color: colors.white,
                     child: AddCashDetails(
-                      transactionListItem: widget.transactionListItem,
-                      onCopyAction: (String text) {
-                        setState(() {
-                          copiedText = text;
-                        });
-
-                        onCopyAction();
-                      },
-                    ),
-                  ),
-                ],
-                if (widget.transactionListItem.operationType == OperationType.nftSell) ...[
-                  Material(
-                    color: colors.white,
-                    child: SellNftDetails(
-                      transactionListItem: widget.transactionListItem,
-                      onCopyAction: (String text) {
-                        setState(() {
-                          copiedText = text;
-                        });
-
-                        onCopyAction();
-                      },
-                    ),
-                  ),
-                ],
-                if (widget.transactionListItem.operationType == OperationType.nftWithdrawal ||
-                    widget.transactionListItem.operationType == OperationType.nftWithdrawalFee) ...[
-                  Material(
-                    color: colors.white,
-                    child: WithdrawNftDetails(
-                      transactionListItem: widget.transactionListItem,
-                      onCopyAction: (String text) {
-                        setState(() {
-                          copiedText = text;
-                        });
-
-                        onCopyAction();
-                      },
-                    ),
-                  ),
-                ],
-                if (widget.transactionListItem.operationType == OperationType.nftDeposit) ...[
-                  Material(
-                    color: colors.white,
-                    child: DepositNftDetails(
                       transactionListItem: widget.transactionListItem,
                       onCopyAction: (String text) {
                         setState(() {

@@ -14,7 +14,7 @@ import 'package:jetwallet/features/market/market_details/helper/currency_from.da
 import 'package:jetwallet/features/wallet/helper/format_date.dart';
 import 'package:jetwallet/features/wallet/helper/format_date_to_hm.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transaction_month_separator.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 import 'package:simple_kit/core/simple_kit.dart';
@@ -215,8 +215,7 @@ String positionAuditClientModelBalanceChange({
     amount = positionAudit.positionIncomeAmountChange;
   }
 
-  return volumeFormat(
-    decimal: showNegative ? amount : amount.abs(),
+  return (showNegative ? amount : amount.abs()).toFormatCount(
     accuracy: accuracy,
     symbol: symbol,
   );

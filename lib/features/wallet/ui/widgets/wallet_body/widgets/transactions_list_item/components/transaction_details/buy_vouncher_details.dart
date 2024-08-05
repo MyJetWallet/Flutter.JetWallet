@@ -8,7 +8,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/prepaid_card/utils/show_commision_explanation_bottom_sheet.dart';
 import 'package:jetwallet/features/transaction_history/widgets/history_copy_icon.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
@@ -110,8 +110,8 @@ class BuyVouncherDetails extends StatelessObserverWidget {
               value: TransactionDetailsValueText(
                 text: getIt<AppStore>().isBalanceHide
                     ? '**** ${transactionListItem.mobileGiftCardOperationInfo?.mobileCardAsset ?? ''}'
-                    : volumeFormat(
-                        decimal: transactionListItem.mobileGiftCardOperationInfo?.mobileCardBalance ?? Decimal.zero,
+                    : (transactionListItem.mobileGiftCardOperationInfo?.mobileCardBalance ?? Decimal.zero)
+                        .toFormatCount(
                         symbol: transactionListItem.mobileGiftCardOperationInfo?.mobileCardAsset ?? '',
                         accuracy: buyAsset.accuracy,
                       ),
@@ -145,8 +145,7 @@ class BuyVouncherDetails extends StatelessObserverWidget {
               label: intl.prepaid_card_commission,
               value: getIt<AppStore>().isBalanceHide
                   ? '**** ${transactionListItem.assetId}'
-                  : volumeFormat(
-                      decimal: Decimal.zero,
+                  : Decimal.zero.toFormatCount(
                       symbol: transactionListItem.assetId,
                     ),
               needHorizontalPadding: false,
@@ -225,19 +224,19 @@ class _SellDetailsHeader extends StatelessWidget {
           fromAssetDescription: asset.description,
           fromAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${asset.symbol}'
-              : volumeFormat(
+              : (transactionListItem.mobileGiftCardOperationInfo?.mobileCardBalance?.abs() ?? Decimal.zero)
+                  .toFormatCount(
                   symbol: asset.symbol,
                   accuracy: asset.accuracy,
-                  decimal: transactionListItem.mobileGiftCardOperationInfo?.mobileCardBalance?.abs() ?? Decimal.zero,
                 ),
           toAssetIconUrl: buyAsset.iconUrl,
           toAssetDescription: intl.prepaid_card_prepaid_card_voucher,
           toAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${asset.symbol}'
-              : volumeFormat(
+              : (transactionListItem.mobileGiftCardOperationInfo?.mobileCardBalance?.abs() ?? Decimal.zero)
+                  .toFormatCount(
                   symbol: buyAsset.symbol,
                   accuracy: buyAsset.accuracy,
-                  decimal: transactionListItem.mobileGiftCardOperationInfo?.mobileCardBalance?.abs() ?? Decimal.zero,
                 ),
           isError: transactionListItem.status == Status.declined,
           isSmallerVersion: true,

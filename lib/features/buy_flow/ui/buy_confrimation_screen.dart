@@ -7,7 +7,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/features/buy_flow/store/buy_confirmation_store.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/confirmation_widgets/confirmation_info_grid.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:jetwallet/utils/helpers/split_iban.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
@@ -103,34 +103,29 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                   isLoading: !store.isDataLoaded,
                   fromAssetIconUrl: store.payCurrency.iconUrl,
                   fromAssetDescription: store.payCurrency.symbol,
-                  fromAssetValue: volumeFormat(
-                    symbol: store.payCurrency.symbol,
+                  fromAssetValue: (store.paymentAmount ?? Decimal.zero).toFormatCount(
                     accuracy: store.payCurrency.accuracy,
-                    decimal: store.paymentAmount ?? Decimal.zero,
+                    symbol: store.payCurrency.symbol,
                   ),
                   toAssetIconUrl: store.buyCurrency.iconUrl,
                   toAssetDescription: store.buyCurrency.description,
-                  toAssetValue: volumeFormat(
-                    decimal: store.buyAmount ?? Decimal.zero,
+                  toAssetValue: (store.buyAmount ?? Decimal.zero).toFormatCount(
                     accuracy: store.buyCurrency.accuracy,
                     symbol: store.buyCurrency.symbol,
                   ),
                 ),
                 ConfirmationInfoGrid(
-                  paymentFee: volumeFormat(
-                    decimal: store.depositFeeAmount ?? Decimal.zero,
+                  paymentFee: (store.depositFeeAmount ?? Decimal.zero).toFormatCount(
                     accuracy: store.depositFeeCurrency.accuracy,
                     symbol: store.depositFeeCurrency.symbol,
                   ),
-                  ourFee: volumeFormat(
-                    decimal: store.tradeFeeAmount ?? Decimal.zero,
+                  ourFee: (store.tradeFeeAmount ?? Decimal.zero).toFormatCount(
                     accuracy: store.tradeFeeCurreny.accuracy,
                     symbol: store.tradeFeeCurreny.symbol,
                   ),
-                  totalValue: volumeFormat(
+                  totalValue: (store.paymentAmount ?? Decimal.zero).toFormatCount(
                     symbol: store.payCurrency.symbol,
                     accuracy: store.payCurrency.accuracy,
-                    decimal: store.paymentAmount ?? Decimal.zero,
                   ),
                   paymentCurrency: store.payCurrency,
                   asset: store.buyCurrency,
@@ -141,7 +136,7 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                   Builder(
                     builder: (context) {
                       final text =
-                          '''${intl.buy_confirm_with_unlimit_1_part} ${volumeFormat(symbol: store.payCurrency.symbol, accuracy: store.payCurrency.accuracy, decimal: store.paymentAmount ?? Decimal.zero)} ${intl.buy_confirm_with_unlimit_2_part} ${splitIban(store.ibanBuyDestination.trim())} ${intl.buy_confirm_with_unlimit_3_part} ${store.ibanBuyBeneficiary}''';
+                          '''${intl.buy_confirm_with_unlimit_1_part} ${(store.paymentAmount ?? Decimal.zero).toFormatCount(symbol: store.payCurrency.symbol, accuracy: store.payCurrency.accuracy)} ${intl.buy_confirm_with_unlimit_2_part} ${splitIban(store.ibanBuyDestination.trim())} ${intl.buy_confirm_with_unlimit_3_part} ${store.ibanBuyBeneficiary}''';
 
                       return Text(
                         text,

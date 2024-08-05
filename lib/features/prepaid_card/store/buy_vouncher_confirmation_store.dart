@@ -145,10 +145,9 @@ abstract class _BuyVouncherConfirmationStoreBase with Store {
         onData: (data) {
           prewievResponce = data;
           sAnalytics.orderSummaryBuyVoucherScreenView(
-            amount: volumeFormat(
+            amount: amount.toFormatCount(
               symbol: payCurrency.symbol,
               accuracy: payCurrency.accuracy,
-              decimal: amount,
             ),
             country: country?.isoCode ?? '',
             isAvailableAppleGooglePay: prewievResponce?.brand.isMobile ?? false,
@@ -184,10 +183,9 @@ abstract class _BuyVouncherConfirmationStoreBase with Store {
     }
 
     sAnalytics.failedPrepaidPurchaseScreenView(
-      amount: volumeFormat(
+      amount: amount.toFormatCount(
         symbol: payCurrency.symbol,
         accuracy: payCurrency.accuracy,
-        decimal: amount,
       ),
       country: country?.isoCode ?? '',
       isAvailableAppleGooglePay: prewievResponce?.brand.isMobile ?? false,
@@ -277,10 +275,9 @@ abstract class _BuyVouncherConfirmationStoreBase with Store {
   @action
   Future<void> _showSuccessScreen() {
     sAnalytics.successPrepaidPurchaseScreenView(
-      amount: volumeFormat(
+      amount: amount.toFormatCount(
         symbol: payCurrency.symbol,
         accuracy: payCurrency.accuracy,
-        decimal: amount,
       ),
       country: country?.isoCode ?? '',
       isAvailableAppleGooglePay: prewievResponce?.brand.isMobile ?? false,
@@ -291,8 +288,7 @@ abstract class _BuyVouncherConfirmationStoreBase with Store {
         secondaryText: intl.prepaid_card_success(
           getIt<AppStore>().isBalanceHide
               ? '**** ${payCurrency.symbol}'
-              : volumeFormat(
-                  decimal: amount,
+              : amount.toFormatCount(
                   symbol: buyCurrency.symbol,
                   accuracy: buyCurrency.accuracy,
                 ),

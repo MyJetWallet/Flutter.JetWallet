@@ -20,7 +20,7 @@ import 'package:jetwallet/features/currency_buy/models/preview_buy_with_bank_car
 import 'package:jetwallet/features/currency_buy/ui/screens/show_bank_card_cvv_bottom_sheet.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:jetwallet/utils/device_binding_required_flow/show_device_binding_required_flow.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
 import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:logger/logger.dart';
@@ -605,7 +605,7 @@ abstract class _BuyConfirmationStoreBase with Store {
       }
 
       if (account?.accountId == 'clearjuction_account') {
-        unawaited(_showSuccessScreen(false));
+        unawaited(_showSuccessScreen());
       } else {
         await _requestPaymentInfo(
           (_, __, ___, ____, _____) {},
@@ -773,7 +773,7 @@ abstract class _BuyConfirmationStoreBase with Store {
             if (data.buyInfo != null) {
               buyAmount = data.buyInfo!.buyAmount;
             }
-            unawaited(_showSuccessScreen(false));
+            unawaited(_showSuccessScreen());
 
             skippedWaiting();
           } else if (failed) {
@@ -830,7 +830,7 @@ abstract class _BuyConfirmationStoreBase with Store {
   }
 
   @action
-  Future<void> _showSuccessScreen(bool isGoogle) {
+  Future<void> _showSuccessScreen() {
     sAnalytics.successBuyEndScreenView(
       pmType: pmType,
       buyPM: buyPM,
@@ -843,20 +843,8 @@ abstract class _BuyConfirmationStoreBase with Store {
     return sRouter
         .push(
       SuccessScreenRouter(
-        secondaryText: isGoogle
-            ? '${intl.successScreen_youBought} '
-                '${volumeFormat(
-                decimal: buyAmount ?? Decimal.zero,
-                accuracy: buyCurrency.accuracy,
-                symbol: buyCurrency.symbol,
-              )}'
-                '\n${intl.paid_with_gpay}'
-            : '${intl.successScreen_youBought} '
-                '${volumeFormat(
-                decimal: buyAmount ?? Decimal.zero,
-                accuracy: buyCurrency.accuracy,
-                symbol: buyCurrency.symbol,
-              )}',
+        secondaryText:
+            '${intl.successScreen_youBought} ${(buyAmount ?? Decimal.zero).toFormatCount(accuracy: buyCurrency.accuracy, symbol: buyCurrency.symbol)}',
         onCloseButton: () {
           sAnalytics.tapOnTheCloseButtonOnSuccessBuyEndScreen(
             pmType: pmType,

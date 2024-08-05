@@ -5,7 +5,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/transaction_history/widgets/history_copy_icon.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
@@ -278,14 +278,13 @@ class SendGloballyDetails extends StatelessObserverWidget {
             text: intl.send_globally_con_rate,
             value: TransactionDetailsValueText(
               text:
-                  '''1 ${transactionListItem.withdrawalInfo?.feeAssetId ?? transactionListItem.withdrawalInfo?.withdrawalAssetId} = ${volumeFormat(symbol: transactionListItem.withdrawalInfo?.receiveAsset ?? '', decimal: transactionListItem.withdrawalInfo?.receiveRate ?? Decimal.zero)}''',
+                  '''1 ${transactionListItem.withdrawalInfo?.feeAssetId ?? transactionListItem.withdrawalInfo?.withdrawalAssetId} = ${(transactionListItem.withdrawalInfo?.receiveRate ?? Decimal.zero).toFormatCount(symbol: transactionListItem.withdrawalInfo?.receiveAsset ?? '')}''',
             ),
           ),
           if (transactionListItem.status != Status.declined) ...[
             const SpaceH18(),
             PaymentFeeRowWidget(
-              fee: volumeFormat(
-                decimal: transactionListItem.withdrawalInfo?.paymentFeeAmount ?? Decimal.zero,
+              fee: (transactionListItem.withdrawalInfo?.paymentFeeAmount ?? Decimal.zero).toFormatCount(
                 symbol: transactionListItem.withdrawalInfo?.paymentFeeAssetId ?? '',
               ),
             ),
@@ -293,8 +292,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
           if (transactionListItem.status != Status.declined) ...[
             const SpaceH18(),
             ProcessingFeeRowWidget(
-              fee: volumeFormat(
-                decimal: transactionListItem.withdrawalInfo?.feeAmount ?? Decimal.zero,
+              fee: (transactionListItem.withdrawalInfo?.feeAmount ?? Decimal.zero).toFormatCount(
                 symbol: transactionListItem.withdrawalInfo?.feeAssetId ?? '',
               ),
             ),
@@ -311,8 +309,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
                   textAlign: TextAlign.end,
                   text: getIt<AppStore>().isBalanceHide
                       ? '**** ${transactionListItem.withdrawalInfo?.sendAsset ?? ''}'
-                      : volumeFormat(
-                          decimal: transactionListItem.withdrawalInfo?.sendAmount ?? Decimal.zero,
+                      : (transactionListItem.withdrawalInfo?.sendAmount ?? Decimal.zero).toFormatCount(
                           symbol: transactionListItem.withdrawalInfo?.sendAsset ?? '',
                         ),
                 ),
@@ -360,19 +357,17 @@ class _BuyDetailsHeader extends StatelessWidget {
           fromAssetDescription: paymentAsset.description,
           fromAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${paymentAsset.symbol}'
-              : volumeFormat(
-                  symbol: paymentAsset.symbol,
-                  accuracy: paymentAsset.accuracy,
-                  decimal: transactionListItem.balanceChange.abs(),
-                ),
+              : transactionListItem.balanceChange.abs().toFormatCount(
+                    symbol: paymentAsset.symbol,
+                    accuracy: paymentAsset.accuracy,
+                  ),
           toAssetIconUrl: buyAsset.iconUrl,
           toAssetDescription: buyAsset.description,
           toAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${buyAsset.symbol}'
-              : volumeFormat(
+              : (transactionListItem.withdrawalInfo?.receiveAmount ?? Decimal.zero).toFormatCount(
                   symbol: buyAsset.symbol,
                   accuracy: buyAsset.accuracy,
-                  decimal: transactionListItem.withdrawalInfo?.receiveAmount ?? Decimal.zero,
                 ),
           isError: transactionListItem.status == Status.declined,
           isSmallerVersion: true,

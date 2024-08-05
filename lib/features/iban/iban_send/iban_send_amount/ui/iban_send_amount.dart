@@ -6,7 +6,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/features/iban/iban_send/iban_send_amount/helpers/show_reference_sheet.dart';
 import 'package:jetwallet/features/iban/iban_send/iban_send_amount/store/iban_send_amount_store.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
@@ -67,8 +67,7 @@ class IbanSendAmountBody extends StatelessObserverWidget {
       header: SPaddingH24(
         child: SSmallHeader(
           title: intl.withdraw,
-          subTitle: '${intl.withdrawalAmount_available}: ${volumeFormat(
-            decimal: store.availableCurrency,
+          subTitle: '${intl.withdrawalAmount_available}: ${store.availableCurrency.toFormatCount(
             accuracy: store.eurCurrency.accuracy,
             symbol: store.eurCurrency.symbol,
           )}',
@@ -133,8 +132,7 @@ class IbanSendAmountBody extends StatelessObserverWidget {
                   store.updateAmount(store.availableCurrency.toString());
                 },
                 child: Text(
-                  '${intl.withdrawAll} ${volumeFormat(
-                    decimal: store.availableCurrency,
+                  '${intl.withdrawAll} ${store.availableCurrency.toFormatCount(
                     accuracy: store.eurCurrency.accuracy,
                     symbol: store.eurCurrency.symbol,
                   )}',

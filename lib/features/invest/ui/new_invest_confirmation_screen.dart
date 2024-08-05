@@ -10,6 +10,7 @@ import 'package:jetwallet/features/invest/stores/dashboard/invest_dashboard_stor
 import 'package:jetwallet/features/invest/stores/dashboard/invest_new_store.dart';
 import 'package:jetwallet/features/invest/ui/dashboard/invest_header.dart';
 import 'package:jetwallet/features/invest/ui/invests/symbol_info_without_chart.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/localized_chart_resolution_button.dart';
 import 'package:simple_kit/core/simple_kit.dart';
 import 'package:simple_kit/modules/shared/page_frames/simple_page_frame.dart';
@@ -25,7 +26,6 @@ import 'package:simple_networking/modules/signal_r/models/invest_instruments_mod
 import '../../../core/di/di.dart';
 import '../../../core/l10n/i10n.dart';
 import '../../../core/services/signal_r/signal_r_service_new.dart';
-import '../../../utils/formatting/base/volume_format.dart';
 import '../../../utils/helpers/currency_from.dart';
 import 'dashboard/new_invest_header.dart';
 import 'invests/data_line.dart';
@@ -111,10 +111,10 @@ class _NewInvestConfirmationScreenState extends State<NewInvestConfirmationScree
                     mainText: intl.invest_open_fee,
                     secondaryText: isBalanceHide
                         ? '**** USDT'
-                        : volumeFormat(
-                            decimal: investNewStore.amountValue *
+                        : (investNewStore.amountValue *
                                 Decimal.fromInt(investNewStore.multiplicator) *
-                                (widget.instrument.openFee ?? Decimal.one),
+                                (widget.instrument.openFee ?? Decimal.one))
+                            .toFormatCount(
                             accuracy: 2,
                             symbol: 'USDT',
                           ),
@@ -124,8 +124,7 @@ class _NewInvestConfirmationScreenState extends State<NewInvestConfirmationScree
                     mainText: intl.invest_volume,
                     secondaryText: isBalanceHide
                         ? '**** USDT'
-                        : volumeFormat(
-                            decimal: investNewStore.amountValue * Decimal.fromInt(investNewStore.multiplicator),
+                        : (investNewStore.amountValue * Decimal.fromInt(investNewStore.multiplicator)).toFormatCount(
                             accuracy: 2,
                             symbol: 'USDT',
                           ),
@@ -206,7 +205,17 @@ class _NewInvestConfirmationScreenState extends State<NewInvestConfirmationScree
                 },
                 onChartTypeChanged: (type) {},
                 candleResolution: investNewStore.resolution,
-                formatPrice: volumeFormat,
+                formatPrice: ({
+                  required int accuracy,
+                  required Decimal decimal,
+                  required bool onlyFullPart,
+                  required String symbol,
+                }) {
+                  return decimal.toFormatSum(
+                    accuracy: accuracy,
+                    symbol: symbol,
+                  );
+                },
                 candles: investNewStore.candles[investNewStore.resolution],
                 onCandleSelected: (value) {},
                 chartHeight: 243,
@@ -232,8 +241,7 @@ class _NewInvestConfirmationScreenState extends State<NewInvestConfirmationScree
               mainText: intl.invest_amount,
               secondaryText: isBalanceHide
                   ? '**** USDT'
-                  : volumeFormat(
-                      decimal: investNewStore.amountValue,
+                  : investNewStore.amountValue.toFormatCount(
                       accuracy: 2,
                       symbol: 'USDT',
                     ),
@@ -267,8 +275,7 @@ class _NewInvestConfirmationScreenState extends State<NewInvestConfirmationScree
                   mainText: intl.invest_limits_take_profit,
                   secondaryText: isBalanceHide
                       ? '**** USDT'
-                      : volumeFormat(
-                          decimal: investNewStore.tpAmountValue,
+                      : investNewStore.tpAmountValue.toFormatCount(
                           accuracy: 2,
                           symbol: 'USDT',
                         ),
@@ -284,8 +291,7 @@ class _NewInvestConfirmationScreenState extends State<NewInvestConfirmationScree
                   mainText: intl.invest_limits_stop_loss,
                   secondaryText: isBalanceHide
                       ? '**** USDT'
-                      : volumeFormat(
-                          decimal: investNewStore.slAmountValue,
+                      : investNewStore.slAmountValue.toFormatCount(
                           accuracy: 2,
                           symbol: 'USDT',
                         ),

@@ -14,7 +14,7 @@ import 'package:jetwallet/core/services/simple_networking/simple_networking.dart
 import 'package:jetwallet/features/currency_buy/models/preview_buy_with_bank_card_input.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/show_bank_card_cvv_bottom_sheet.dart';
 import 'package:jetwallet/utils/constants.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
@@ -402,20 +402,11 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
     return sRouter
         .push(
           SuccessScreenRouter(
-            secondaryText: isGoogle
-                ? '${intl.successScreen_youBought} '
-                    '${volumeFormat(
-                    decimal: buyAmount ?? Decimal.zero,
-                    accuracy: input.currency.accuracy,
-                    symbol: input.currency.symbol,
-                  )}'
-                    '\n${intl.paid_with_gpay}'
-                : '${intl.successScreen_youBought} '
-                    '${volumeFormat(
-                    decimal: buyAmount ?? Decimal.zero,
-                    accuracy: input.currency.accuracy,
-                    symbol: input.currency.symbol,
-                  )}',
+            secondaryText: '${intl.successScreen_youBought} '
+                '${(buyAmount ?? Decimal.zero).toFormatCount(
+              accuracy: input.currency.accuracy,
+              symbol: input.currency.symbol,
+            )}',
           ),
         )
         .then(

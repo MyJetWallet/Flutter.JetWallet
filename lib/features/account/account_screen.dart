@@ -16,10 +16,11 @@ import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
-import 'package:jetwallet/features/simple_space/widgets/account_screen_banner.dart';
+import 'package:jetwallet/features/prepaid_card/widgets/prepaid_card_profile_banner.dart';
 import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 
 import '../../core/services/deep_link_service.dart';
 import '../../core/services/signal_r/signal_r_service_new.dart';
@@ -61,6 +62,10 @@ class _AccountScreenState extends State<AccountScreen> with SingleTickerProvider
           (element) => element.deepLink.contains('InviteFriend'),
         )
         .toList();
+
+    final isPrepaidCardAvaible = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
+      (element) => element.id == AssetPaymentProductsEnum.prepaidCard,
+    );
 
     return Material(
       color: colors.white,
@@ -152,9 +157,11 @@ class _AccountScreenState extends State<AccountScreen> with SingleTickerProvider
                     );
                   },
                 ),
-                const SPaddingH24(
-                  child: AccountScreenBanner(),
-                ),
+                if (isPrepaidCardAvaible)
+                  const Padding(
+                    padding: EdgeInsets.only(bottom: 16, left: 24, right: 24),
+                    child: PrepaidCardProfileBanner(),
+                  ),
                 Column(
                   children: <Widget>[
                     AccountButtonWidget(

@@ -7,7 +7,7 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/iban/store/iban_store.dart';
 import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/components/market_separator.dart';
 import 'package:jetwallet/features/wallet/helper/navigate_to_wallet.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
@@ -75,8 +75,7 @@ class IbanSend extends StatelessObserverWidget {
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      volumeFormat(
-                        decimal: eurCurrency.assetBalance,
+                      eurCurrency.assetBalance.toFormatCount(
                         accuracy: eurCurrency.accuracy,
                         symbol: eurCurrency.symbol,
                       ),
