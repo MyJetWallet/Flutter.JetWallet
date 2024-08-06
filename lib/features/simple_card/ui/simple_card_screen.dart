@@ -156,7 +156,7 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                           child: Text(
                             getIt<AppStore>().isBalanceHide
                                 ? '**** ${eurCurrency.symbol}'
-                                : (simpleCardStore.cardFull?.balance ?? Decimal.zero).toFormatCount(
+                                : (simpleCardStore.cardFull?.balance ?? Decimal.zero).toFormatSum(
                                     accuracy: eurCurrency.accuracy,
                                     symbol: eurCurrency.symbol,
                                   ),

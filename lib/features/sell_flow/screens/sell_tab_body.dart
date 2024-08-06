@@ -96,9 +96,11 @@ class _SellAmountScreenBodyState extends State<SellAmountTabBody> with Automatic
                                 ),
                                 primarySymbol: store.primarySymbol,
                                 secondaryAmount: store.asset != null
-                                    ? '${intl.earn_est} ${Decimal.parse(
+                                    ? '${intl.earn_est} ${store.isFiatEntering ? Decimal.parse(
                                         store.secondaryAmount,
-                                      ).toFormatCount(accuracy: store.secondaryAccuracy)}'
+                                      ).toFormatCount(accuracy: store.secondaryAccuracy) : Decimal.parse(
+                                        store.secondaryAmount,
+                                      ).toFormatSum(accuracy: store.secondaryAccuracy)}'
                                     : null,
                                 secondarySymbol: store.asset != null ? store.secondarySymbol : null,
                                 onSwap: () {
@@ -178,8 +180,8 @@ class _SellAmountScreenBodyState extends State<SellAmountTabBody> with Automatic
                                   subTitle: intl.amount_screen_sell_to,
                                   trailing: getIt<AppStore>().isBalanceHide
                                       ? '**** ${store.account?.currency}'
-                                      : (store.account?.balance ?? Decimal.zero).toFormatCount(
-                                          accuracy: store.asset?.accuracy ?? 1,
+                                      : (store.account?.balance ?? Decimal.zero).toFormatSum(
+                                          accuracy: store.fiatAccuracy,
                                           symbol: store.account?.currency ?? '',
                                         ),
                                   icon: Container(
@@ -228,8 +230,8 @@ class _SellAmountScreenBodyState extends State<SellAmountTabBody> with Automatic
                                   subTitle: intl.amount_screen_sell_to,
                                   trailing: getIt<AppStore>().isBalanceHide
                                       ? '**** ${store.card?.currency}'
-                                      : (store.card?.balance ?? Decimal.zero).toFormatCount(
-                                          accuracy: store.asset?.accuracy ?? 1,
+                                      : (store.card?.balance ?? Decimal.zero).toFormatSum(
+                                          accuracy: store.fiatAccuracy,
                                           symbol: store.card?.currency ?? '',
                                         ),
                                   icon: Assets.svg.assets.fiat.cardAlt.simpleSvg(

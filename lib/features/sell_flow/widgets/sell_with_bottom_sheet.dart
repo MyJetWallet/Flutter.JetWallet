@@ -142,7 +142,7 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
               },
               rightValue: getIt<AppStore>().isBalanceHide
                   ? '**** ${account.currency}'
-                  : '${account.balance} ${account.currency}',
+                  : '${account.balance?.toFormatSum(symbol: account.currency, accuracy: 2)} ',
             ),
           if (store.isCardsAvaible && store.cards.isNotEmpty) ...[
             STextDivider(intl.deposit_by_cards),
@@ -152,7 +152,7 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
                 supplement: intl.internal_exchange,
                 rightValue: getIt<AppStore>().isBalanceHide
                     ? '**** ${card.currency ?? 'EUR'}'
-                    : (card.balance ?? Decimal.zero).toFormatCount(
+                    : (card.balance ?? Decimal.zero).toFormatSum(
                         accuracy: 2,
                         symbol: card.currency ?? 'EUR',
                       ),

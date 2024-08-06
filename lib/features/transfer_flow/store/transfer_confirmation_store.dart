@@ -147,13 +147,13 @@ abstract class _TransferConfirmationStoreBase with Store {
         onData: (data) {
           fromAmount = data.fromAmount;
           toAmount = data.toAmount;
-          paymentFee = (data.paymentFeeAmount ?? Decimal.zero).toFormatCount(
+          paymentFee = (data.paymentFeeAmount ?? Decimal.zero).toFormatSum(
             symbol: eurCurrency.symbol,
             accuracy: eurCurrency.accuracy,
           );
           deviceBindingRequired = data.deviceBindingRequired;
           smsVerificationRequired = data.smsVerificationRequired;
-          processingFee = (data.simpleFeeAmount ?? Decimal.zero).toFormatCount(
+          processingFee = (data.simpleFeeAmount ?? Decimal.zero).toFormatSum(
             symbol: eurCurrency.symbol,
             accuracy: eurCurrency.accuracy,
           );

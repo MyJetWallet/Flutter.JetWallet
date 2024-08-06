@@ -102,7 +102,7 @@ class _ConvertConfirmationScreenBody extends StatelessObserverWidget {
                   fromAssetBaseAmount: calculateBaseBalanceWithReader(
                     assetSymbol: store.payCurrency.symbol,
                     assetBalance: store.paymentAmount ?? Decimal.zero,
-                  ).toFormatCount(
+                  ).toFormatSum(
                     symbol: baseCurrency.symbol,
                     accuracy: baseCurrency.accuracy,
                   ),
@@ -115,7 +115,7 @@ class _ConvertConfirmationScreenBody extends StatelessObserverWidget {
                   toAssetBaseAmount: calculateBaseBalanceWithReader(
                     assetSymbol: store.buyCurrency.symbol,
                     assetBalance: store.buyAmount ?? Decimal.zero,
-                  ).toFormatCount(
+                  ).toFormatSum(
                     symbol: baseCurrency.symbol,
                     accuracy: baseCurrency.accuracy,
                   ),

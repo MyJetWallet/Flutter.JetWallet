@@ -117,7 +117,7 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
                           baseCurrency: sSignalRModules.baseCurrency.symbol,
                           isMin: false,
                         )
-                        .toFormatCount(
+                        .toFormatSum(
                           accuracy: sSignalRModules.baseCurrency.accuracy,
                           symbol: sSignalRModules.baseCurrency.symbol,
                         ),

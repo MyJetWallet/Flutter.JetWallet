@@ -108,9 +108,13 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
                                 ),
                                 primarySymbol: store.primarySymbol,
                                 secondaryAmount: store.asset != null
-                                    ? '${intl.earn_est} ${Decimal.parse(
+                                    ? '${intl.earn_est} ${store.isFiatEntering ? Decimal.parse(
                                         store.secondaryAmount,
                                       ).toFormatCount(
+                                        accuracy: store.secondaryAccuracy,
+                                      ) : Decimal.parse(
+                                        store.secondaryAmount,
+                                      ).toFormatSum(
                                         accuracy: store.secondaryAccuracy,
                                       )}'
                                     : null,
@@ -185,8 +189,8 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
                                   subTitle: intl.amount_screen_pay_with,
                                   trailing: getIt<AppStore>().isBalanceHide
                                       ? '**** ${store.account?.currency}'
-                                      : (store.account?.balance ?? Decimal.zero).toFormatCount(
-                                          accuracy: store.asset?.accuracy,
+                                      : (store.account?.balance ?? Decimal.zero).toFormatSum(
+                                          accuracy: store.fiatAccuracy,
                                           symbol: store.account?.currency,
                                         ),
                                   icon: Container(

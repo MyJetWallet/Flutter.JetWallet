@@ -115,7 +115,7 @@ class _BuyVouncherConfirmationBody extends StatelessObserverWidget {
                     toAssetDescription: intl.prepaid_card_prepaid_card_voucher,
                     toAssetValue: getIt<AppStore>().isBalanceHide
                         ? '**** ${store.buyCurrency.symbol}'
-                        : store.amount.toFormatCount(
+                        : store.amount.toFormatSum(
                             accuracy: store.buyCurrency.accuracy,
                             symbol: store.buyCurrency.symbol,
                           ),

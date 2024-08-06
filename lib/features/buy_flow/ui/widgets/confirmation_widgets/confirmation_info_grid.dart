@@ -182,9 +182,9 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid> with Single
                 '${Decimal.one.toFormatCount(
                   accuracy: widget.asset.accuracy,
                   symbol: widget.asset.symbol,
-                )} = ${(store.rate ?? Decimal.zero).toFormatCount(
+                )} = ${(store.rate ?? Decimal.zero).toFormatPrice(
                   accuracy: store.rate?.scale ?? 0,
-                  symbol: widget.paymentCurrency.symbol,
+                  prefix: widget.paymentCurrency.prefixSymbol,
                 )}',
                 style: sSubtitle3Style,
               ),

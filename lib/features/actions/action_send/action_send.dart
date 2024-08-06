@@ -22,6 +22,7 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
@@ -362,19 +363,17 @@ class _ActionSend extends StatelessObserverWidget {
         for (final currency in currencyFiltered)
           if (currency.isAssetBalanceNotEmpty)
             if (currency.supportsCryptoWithdrawal)
-              SWalletItem(
-                decline: currency.dayPercentChange.isNegative,
-                icon: SNetworkSvg24(
+              SimpleTableAccount(
+                assetIcon: SNetworkSvg24(
                   url: currency.iconUrl,
                 ),
-                primaryText: currency.description,
-                removeDivider: currency == currencyFiltered.last,
-                amount: getIt<AppStore>().isBalanceHide
+                label: currency.description,
+                rightValue: getIt<AppStore>().isBalanceHide
                     ? '**** ${baseCurrency.symbol}'
                     : currency.volumeBaseBalance(baseCurrency),
-                secondaryText:
+                supplement:
                     getIt<AppStore>().isBalanceHide ? '******* ${currency.symbol}' : currency.volumeAssetBalance,
-                onTap: () {
+                onTableAssetTap: () {
                   Navigator.pop(context);
 
                   sRouter.push(
@@ -385,7 +384,6 @@ class _ActionSend extends StatelessObserverWidget {
                     ),
                   );
                 },
-                hideBalance: getIt<AppStore>().isBalanceHide,
               ),
         const SpaceH42(),
       ],
@@ -588,26 +586,16 @@ class _GlobalSendSelectCurrency extends StatelessObserverWidget {
               for (final currency in state.fCurrencies)
                 if (currency.type == AssetType.crypto)
                   if (currency.supportsGlobalSend && currency.isAssetBalanceNotEmpty)
-                    SWalletItem(
-                      icon: SNetworkSvg24(
+                    SimpleTableAccount(
+                      assetIcon: SNetworkSvg24(
                         url: currency.iconUrl,
                       ),
-                      primaryText: currency.description,
-                      secondaryText: currency.symbol,
-                      removeDivider: currency ==
-                          state.fCurrencies
-                              .where(
-                                (element) =>
-                                    element.type == AssetType.crypto &&
-                                    element.supportsGlobalSend &&
-                                    element.isAssetBalanceNotEmpty,
-                              )
-                              .last,
-                      onTap: () {
+                      label: currency.description,
+                      supplement: currency.symbol,
+                      onTableAssetTap: () {
                         Navigator.pop(context);
                         showSendGlobally(context, currency);
                       },
-                      hideBalance: getIt<AppStore>().isBalanceHide,
                     ),
             ],
           ),
@@ -617,26 +605,16 @@ class _GlobalSendSelectCurrency extends StatelessObserverWidget {
               for (final currency in state.fCurrencies)
                 if (currency.type == AssetType.fiat)
                   if (currency.supportsGlobalSend && currency.isAssetBalanceNotEmpty)
-                    SWalletItem(
-                      icon: SNetworkSvg24(
+                    SimpleTableAccount(
+                      assetIcon: SNetworkSvg24(
                         url: currency.iconUrl,
                       ),
-                      primaryText: currency.description,
-                      secondaryText: currency.symbol,
-                      removeDivider: currency ==
-                          state.fCurrencies
-                              .where(
-                                (element) =>
-                                    element.type == AssetType.fiat &&
-                                    element.supportsGlobalSend &&
-                                    element.isAssetBalanceNotEmpty,
-                              )
-                              .last,
-                      onTap: () {
+                      label: currency.description,
+                      supplement: currency.symbol,
+                      onTableAssetTap: () {
                         Navigator.pop(context);
                         showSendGlobally(context, currency);
                       },
-                      hideBalance: getIt<AppStore>().isBalanceHide,
                     ),
               const SpaceH42(),
             ],

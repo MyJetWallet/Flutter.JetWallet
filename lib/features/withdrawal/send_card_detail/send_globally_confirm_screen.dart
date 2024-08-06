@@ -100,7 +100,7 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                     ),
                     toAssetIconUrl: receiveAsset.iconUrl,
                     toAssetDescription: receiveAsset.symbol,
-                    toAssetValue: (data.estimatedReceiveAmount ?? Decimal.zero).toFormatCount(
+                    toAssetValue: (data.estimatedReceiveAmount ?? Decimal.zero).toFormatSum(
                       accuracy: receiveAsset.accuracy,
                       symbol: receiveAsset.symbol,
                     ),

@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
 @RoutePage(name: 'SellConfirmationRoute')
@@ -122,14 +123,24 @@ class _SellConfirmationScreenBody extends StatelessObserverWidget {
                   ),
                 ),
                 SellConfirmationInfoGrid(
-                  paymentFee: (store.depositFeeAmount ?? Decimal.zero).toFormatCount(
-                    accuracy: store.depositFeeCurrency.accuracy,
-                    symbol: store.depositFeeCurrency.symbol,
-                  ),
-                  ourFee: (store.tradeFeeAmount ?? Decimal.zero).toFormatCount(
-                    accuracy: store.tradeFeeCurreny.accuracy,
-                    symbol: store.tradeFeeCurreny.symbol,
-                  ),
+                  paymentFee: store.depositFeeCurrency.type == AssetType.crypto
+                      ? (store.depositFeeAmount ?? Decimal.zero).toFormatCount(
+                          accuracy: store.depositFeeCurrency.accuracy,
+                          symbol: store.depositFeeCurrency.symbol,
+                        )
+                      : (store.depositFeeAmount ?? Decimal.zero).toFormatSum(
+                          accuracy: store.depositFeeCurrency.accuracy,
+                          symbol: store.depositFeeCurrency.symbol,
+                        ),
+                  ourFee: store.tradeFeeCurreny.type == AssetType.crypto
+                      ? (store.tradeFeeAmount ?? Decimal.zero).toFormatCount(
+                          accuracy: store.tradeFeeCurreny.accuracy,
+                          symbol: store.tradeFeeCurreny.symbol,
+                        )
+                      : (store.tradeFeeAmount ?? Decimal.zero).toFormatSum(
+                          accuracy: store.tradeFeeCurreny.accuracy,
+                          symbol: store.tradeFeeCurreny.symbol,
+                        ),
                   totalValue: (store.paymentAmount ?? Decimal.zero).toFormatCount(
                     symbol: store.payCurrency.symbol,
                     accuracy: store.payCurrency.accuracy,

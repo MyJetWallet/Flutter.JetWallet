@@ -79,7 +79,7 @@ class _GiftOrderSummuryState extends State<GiftOrderSummury> {
                               baseCurrency: sSignalRModules.baseCurrency.symbol,
                               isMin: false,
                             )
-                            .toFormatCount(
+                            .toFormatSum(
                               accuracy: sSignalRModules.baseCurrency.accuracy,
                               symbol: sSignalRModules.baseCurrency.symbol,
                             ),

@@ -61,7 +61,7 @@ class AssetFormatter {
   /// 6. zeros must not be truncated
   ///    Example when accuracy is 3: 1 000.000 => 1 000.000
   ///    Example when accuracy is 3: 1 000.100 => 1 000.100
-  /// 7. zero case: 0 => 0.00, 0.00 => 0.00
+  /// 7. zero case: 0 => 0, 0.00 => 0
   String formatPrice() {
     final formatted = _formatNumber(number: decimal, accuracy: accuracy, fillAccuracy: true);
     final formattedWithSignum = decimal.signum.isNegative ? '-$formatted' : formatted;
@@ -88,7 +88,7 @@ class AssetFormatter {
   /// 7. zeros must not be truncated
   ///    Example when accuracy is 3: 1 000.000 => 1 000.000
   ///    Example when accuracy is 3: 1 000.100 => 1 000.100
-  /// 8. zero case: 0 => 0.00, 0.00 => 0.00
+  /// 8. zero case: 0 => 0, 0.00 => 0
   String formatSum() {
     final formatted = _formatNumber(number: decimal, accuracy: accuracy, fillAccuracy: true);
     final formattedWithSymbol = '$formatted ${symbol ?? ''}'.trim();
@@ -96,6 +96,8 @@ class AssetFormatter {
   }
 
   String _formatNumber({required Decimal number, int? accuracy, required bool fillAccuracy}) {
+    if (number == Decimal.zero) return '0';
+
     final absNumber = number.abs();
     final rounded = accuracy != null ? absNumber.round(scale: accuracy) : absNumber;
 
