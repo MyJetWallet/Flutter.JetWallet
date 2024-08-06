@@ -17,6 +17,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_card_response.dart';
 
@@ -151,7 +152,7 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                   TwoColumnCell(
                     label: intl.send_globally_con_rate,
                     value:
-                        '''1 ${state.sendCurrency!.symbol} = ${data.estimatedPrice?.toFormatPrice(prefix: receiveAsset.prefixSymbol, accuracy: receiveAsset.accuracy)}''',
+                        '''${state.sendCurrency!.type == AssetType.crypto ? Decimal.one.toFormatCount(accuracy: state.sendCurrency?.accuracy, symbol: state.sendCurrency!.symbol) : Decimal.one.toFormatPrice(accuracy: state.sendCurrency?.accuracy, prefix: state.sendCurrency!.prefixSymbol)} = ${data.estimatedPrice?.toFormatPrice(prefix: receiveAsset.prefixSymbol, accuracy: receiveAsset.accuracy)}''',
                     needHorizontalPadding: false,
                   ),
                   TwoColumnCell(
