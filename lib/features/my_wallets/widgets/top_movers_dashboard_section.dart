@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -27,7 +29,7 @@ class TopMoversDashboardSection extends StatelessWidget {
 
         marketItems.sort((a, b) => b.dayPercentChange.compareTo(a.dayPercentChange));
 
-        final topMoverslist = marketItems.sublist(0, 4);
+        final topMoverslist = marketItems.sublist(0, min(4, marketItems.length));
 
         return Column(
           children: [
