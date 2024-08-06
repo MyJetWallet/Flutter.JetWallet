@@ -15,6 +15,7 @@ import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/helpers/icons_extension.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 import '../../../../../../../../../core/di/di.dart';
 import '../../../../../../../../app/store/app_store.dart';
@@ -122,10 +123,15 @@ class SellDetails extends StatelessObserverWidget {
               );
 
               return PaymentFeeRowWidget(
-                fee: (transactionListItem.sellCryptoInfo?.paymentFeeAmount ?? Decimal.zero).toFormatCount(
-                  accuracy: currency.accuracy,
-                  symbol: transactionListItem.sellCryptoInfo?.paymentFeeAssetId ?? '',
-                ),
+                fee: currency.type == AssetType.crypto
+                    ? (transactionListItem.sellCryptoInfo?.paymentFeeAmount ?? Decimal.zero).toFormatCount(
+                        accuracy: currency.accuracy,
+                        symbol: transactionListItem.sellCryptoInfo?.paymentFeeAssetId ?? '',
+                      )
+                    : (transactionListItem.sellCryptoInfo?.paymentFeeAmount ?? Decimal.zero).toFormatSum(
+                        accuracy: currency.accuracy,
+                        symbol: transactionListItem.sellCryptoInfo?.paymentFeeAssetId ?? '',
+                      ),
               );
             },
           ),
@@ -138,10 +144,15 @@ class SellDetails extends StatelessObserverWidget {
               );
 
               return ProcessingFeeRowWidget(
-                fee: (transactionListItem.sellCryptoInfo?.feeAmount ?? Decimal.zero).toFormatCount(
-                  accuracy: currency.accuracy,
-                  symbol: transactionListItem.sellCryptoInfo?.feeAssetId ?? '',
-                ),
+                fee: currency.type == AssetType.crypto
+                    ? (transactionListItem.sellCryptoInfo?.feeAmount ?? Decimal.zero).toFormatCount(
+                        accuracy: currency.accuracy,
+                        symbol: transactionListItem.sellCryptoInfo?.feeAssetId ?? '',
+                      )
+                    : (transactionListItem.sellCryptoInfo?.feeAmount ?? Decimal.zero).toFormatSum(
+                        accuracy: currency.accuracy,
+                        symbol: transactionListItem.sellCryptoInfo?.feeAssetId ?? '',
+                      ),
               );
             },
           ),

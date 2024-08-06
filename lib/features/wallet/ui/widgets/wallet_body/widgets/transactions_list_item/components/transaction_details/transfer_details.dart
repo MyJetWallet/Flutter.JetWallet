@@ -97,14 +97,16 @@ class TransferDetails extends StatelessObserverWidget {
           ),
           const SpaceH18(),
           PaymentFeeRowWidget(
-            fee: (transactionListItem.ibanTransferInfo?.paymentFeeAmount ?? Decimal.zero).toFormatCount(
+            fee: (transactionListItem.ibanTransferInfo?.paymentFeeAmount ?? Decimal.zero).toFormatSum(
               symbol: transactionListItem.ibanTransferInfo?.paymentFeeAssetId ?? 'EUR',
+              accuracy: 2,
             ),
           ),
           const SpaceH18(),
           ProcessingFeeRowWidget(
-            fee: (transactionListItem.ibanTransferInfo?.simpleFeeAmount ?? Decimal.zero).toFormatCount(
+            fee: (transactionListItem.ibanTransferInfo?.simpleFeeAmount ?? Decimal.zero).toFormatSum(
               symbol: transactionListItem.ibanTransferInfo?.simpleFeeAssetId ?? 'EUR',
+              accuracy: 2,
             ),
           ),
           const SpaceH18(),

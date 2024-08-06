@@ -16,6 +16,7 @@ import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/helpers/icons_extension.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 import '../../../../../../../../../core/di/di.dart';
 import '../../../../../../../../app/store/app_store.dart';
@@ -151,10 +152,15 @@ class IbanSendDetails extends StatelessObserverWidget {
               );
 
               return ProcessingFeeRowWidget(
-                fee: (transactionListItem.ibanWithdrawalInfo?.processingFeeAmount ?? Decimal.zero).toFormatCount(
-                  accuracy: currency.accuracy,
-                  symbol: currency.symbol,
-                ),
+                fee: currency.type == AssetType.crypto
+                    ? (transactionListItem.ibanWithdrawalInfo?.processingFeeAmount ?? Decimal.zero).toFormatCount(
+                        accuracy: currency.accuracy,
+                        symbol: currency.symbol,
+                      )
+                    : (transactionListItem.ibanWithdrawalInfo?.processingFeeAmount ?? Decimal.zero).toFormatSum(
+                        accuracy: currency.accuracy,
+                        symbol: currency.symbol,
+                      ),
               );
             },
           ),

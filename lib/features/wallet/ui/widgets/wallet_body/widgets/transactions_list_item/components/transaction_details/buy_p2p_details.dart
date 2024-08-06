@@ -18,6 +18,7 @@ import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/helpers/icons_extension.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 import '../../../../../../../../../core/di/di.dart';
 import '../../../../../../../../app/store/app_store.dart';
@@ -126,10 +127,15 @@ class BuyP2PDetails extends StatelessObserverWidget {
               );
 
               return PaymentFeeRowWidget(
-                fee: (transactionListItem.cryptoBuyInfo?.depositFeeAmount ?? Decimal.zero).toFormatCount(
-                  accuracy: currency.accuracy,
-                  symbol: currency.symbol,
-                ),
+                fee: currency.type == AssetType.crypto
+                    ? (transactionListItem.cryptoBuyInfo?.depositFeeAmount ?? Decimal.zero).toFormatCount(
+                        accuracy: currency.accuracy,
+                        symbol: currency.symbol,
+                      )
+                    : (transactionListItem.cryptoBuyInfo?.depositFeeAmount ?? Decimal.zero).toFormatSum(
+                        accuracy: currency.accuracy,
+                        symbol: currency.symbol,
+                      ),
               );
             },
           ),
@@ -144,10 +150,15 @@ class BuyP2PDetails extends StatelessObserverWidget {
               );
 
               return ProcessingFeeRowWidget(
-                fee: (transactionListItem.cryptoBuyInfo?.tradeFeeAmount ?? Decimal.zero).toFormatCount(
-                  accuracy: currency.accuracy,
-                  symbol: currency.symbol,
-                ),
+                fee: currency.type == AssetType.crypto
+                    ? (transactionListItem.cryptoBuyInfo?.tradeFeeAmount ?? Decimal.zero).toFormatCount(
+                        accuracy: currency.accuracy,
+                        symbol: currency.symbol,
+                      )
+                    : (transactionListItem.cryptoBuyInfo?.tradeFeeAmount ?? Decimal.zero).toFormatSum(
+                        accuracy: currency.accuracy,
+                        symbol: currency.symbol,
+                      ),
               );
             },
           ),
