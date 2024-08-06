@@ -167,8 +167,9 @@ class SellDetails extends StatelessObserverWidget {
     CurrencyModel currency1,
     CurrencyModel currency2,
   ) {
-    final base = (transactionListItem.sellCryptoInfo?.baseRate ?? Decimal.zero).toFormatCount(
-      symbol: currency1.symbol,
+    final base = (transactionListItem.sellCryptoInfo?.baseRate ?? Decimal.zero).toFormatPrice(
+      prefix: currency1.prefixSymbol,
+      accuracy: currency1.accuracy,
     );
 
     final quote = (transactionListItem.sellCryptoInfo?.quoteRate ?? Decimal.zero).toFormatCount(

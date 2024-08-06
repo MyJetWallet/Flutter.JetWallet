@@ -151,7 +151,7 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                   TwoColumnCell(
                     label: intl.send_globally_con_rate,
                     value:
-                        '''${state.sendCurrency!.prefixSymbol ?? ''} 1 ${state.sendCurrency!.prefixSymbol == null ? state.sendCurrency!.symbol : ''} = ${data.estimatedPrice} ${data.receiveAsset}''',
+                        '''1 ${state.sendCurrency!.symbol} = ${data.estimatedPrice?.toFormatPrice(prefix: receiveAsset.prefixSymbol, accuracy: receiveAsset.accuracy)}''',
                     needHorizontalPadding: false,
                   ),
                   TwoColumnCell(

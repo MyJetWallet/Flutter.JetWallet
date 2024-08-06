@@ -204,8 +204,9 @@ class BuyP2PDetails extends StatelessObserverWidget {
       symbol: currency1.symbol,
     );
 
-    final quote = transactionListItem.cryptoBuyInfo!.quoteRate.toFormatCount(
-      symbol: currency2.symbol,
+    final quote = transactionListItem.cryptoBuyInfo!.quoteRate.toFormatPrice(
+      prefix: currency2.prefixSymbol,
+      accuracy: currency2.accuracy,
     );
 
     return '$base = $quote';
