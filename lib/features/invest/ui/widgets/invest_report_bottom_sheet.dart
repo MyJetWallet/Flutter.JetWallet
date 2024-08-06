@@ -10,7 +10,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/invest/stores/dashboard/invest_dashboard_store.dart';
 import 'package:jetwallet/features/invest/ui/invests/data_line.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/widgets/button/invest_buttons/invest_button.dart';
@@ -19,7 +19,6 @@ import 'package:simple_networking/modules/signal_r/models/invest_positions_model
 import 'package:simple_networking/modules/wallet_api/models/invest/new_invest_request_model.dart';
 
 import '../../../../core/services/signal_r/signal_r_service_new.dart';
-import '../../../../utils/formatting/base/market_format.dart';
 import '../../../../utils/helpers/currency_from.dart';
 import '../../stores/dashboard/invest_new_store.dart';
 import '../../stores/dashboard/invest_positions_store.dart';
@@ -202,10 +201,8 @@ class _InvestListScreenState extends State<InvestList> {
               if (widget.position.status != PositionStatus.cancelled) ...[
                 DataLine(
                   mainText: intl.invest_open_price,
-                  secondaryText: marketFormat(
-                    decimal: widget.position.openPrice ?? Decimal.zero,
+                  secondaryText: (widget.position.openPrice ?? Decimal.zero).toFormatSum(
                     accuracy: widget.instrument.priceAccuracy ?? 2,
-                    symbol: '',
                   ),
                 ),
                 const SpaceH8(),
@@ -227,10 +224,8 @@ class _InvestListScreenState extends State<InvestList> {
               ] else ...[
                 DataLine(
                   mainText: intl.invest_report_order_price,
-                  secondaryText: marketFormat(
-                    decimal: widget.position.pendingPrice ?? Decimal.zero,
+                  secondaryText: (widget.position.pendingPrice ?? Decimal.zero).toFormatSum(
                     accuracy: widget.instrument.priceAccuracy ?? 2,
-                    symbol: '',
                   ),
                 ),
                 const SpaceH8(),
@@ -255,11 +250,7 @@ class _InvestListScreenState extends State<InvestList> {
               const SpaceH8(),
               DataLine(
                 mainText: '${intl.invest_report_amount} ${widget.position.amountAssetId}',
-                secondaryText: marketFormat(
-                  decimal: widget.position.amount ?? Decimal.zero,
-                  accuracy: 2,
-                  symbol: '',
-                ),
+                secondaryText: (widget.position.amount ?? Decimal.zero).toFormatSum(accuracy: 2),
               ),
               const SpaceH8(),
               DataLine(
@@ -269,21 +260,13 @@ class _InvestListScreenState extends State<InvestList> {
               const SpaceH8(),
               DataLine(
                 mainText: '${intl.invest_report_volume} ${widget.position.amountAssetId}',
-                secondaryText: marketFormat(
-                  decimal: widget.position.volume ?? Decimal.zero,
-                  accuracy: 2,
-                  symbol: '',
-                ),
+                secondaryText: (widget.position.volume ?? Decimal.zero).toFormatSum(accuracy: 2),
               ),
               if (widget.position.status != PositionStatus.cancelled) ...[
                 const SpaceH8(),
                 DataLine(
                   mainText: '${intl.invest_report_volume} ${widget.instrument.name}',
-                  secondaryText: marketFormat(
-                    decimal: widget.position.volumeBase ?? Decimal.zero,
-                    accuracy: currency.accuracy,
-                    symbol: '',
-                  ),
+                  secondaryText: (widget.position.volumeBase ?? Decimal.zero).toFormatSum(accuracy: currency.accuracy),
                 ),
                 const SpaceH8(),
               ],
@@ -297,15 +280,12 @@ class _InvestListScreenState extends State<InvestList> {
                     dotColor: colors.green,
                     mainText: intl.invest_limits_take_profit,
                     secondaryText: widget.position.takeProfitType == TPSLType.amount
-                        ? volumeFormat(
-                            decimal: widget.position.takeProfitAmount ?? Decimal.zero,
+                        ? (widget.position.takeProfitAmount ?? Decimal.zero).toFormatCount(
                             accuracy: 2,
                             symbol: 'USDT',
                           )
-                        : volumeFormat(
-                            decimal: widget.position.takeProfitPrice ?? Decimal.zero,
+                        : (widget.position.takeProfitPrice ?? Decimal.zero).toFormatCount(
                             accuracy: widget.instrument.priceAccuracy ?? 2,
-                            symbol: '',
                           ),
                   ),
                   if (widget.position.stopLossType == TPSLType.undefined) const SpaceH8(),
@@ -319,15 +299,12 @@ class _InvestListScreenState extends State<InvestList> {
                   dotColor: colors.red,
                   mainText: intl.invest_limits_stop_loss,
                   secondaryText: widget.position.stopLossType == TPSLType.amount
-                      ? volumeFormat(
-                          decimal: (widget.position.stopLossAmount ?? Decimal.zero) * Decimal.fromInt(-1),
+                      ? ((widget.position.stopLossAmount ?? Decimal.zero) * Decimal.fromInt(-1)).toFormatCount(
                           accuracy: 2,
                           symbol: 'USDT',
                         )
-                      : volumeFormat(
-                          decimal: (widget.position.stopLossPrice ?? Decimal.zero) * Decimal.fromInt(-1),
+                      : ((widget.position.stopLossPrice ?? Decimal.zero) * Decimal.fromInt(-1)).toFormatCount(
                           accuracy: widget.instrument.priceAccuracy ?? 2,
-                          symbol: '',
                         ),
                 ),
                 const SpaceH8(),
@@ -338,19 +315,17 @@ class _InvestListScreenState extends State<InvestList> {
                 mainText: intl.invest_report_market_pl,
                 secondaryText: isBalanceHide
                     ? '**** USDT'
-                    : marketFormat(
-                        decimal: investStore.getMarketPLByPosition(widget.position),
-                        accuracy: investNewStore.assetUSDT?.accuracy ?? 2,
-                        symbol: 'USDT',
-                      ),
+                    : investStore.getMarketPLByPosition(widget.position).toFormatSum(
+                          accuracy: investNewStore.assetUSDT?.accuracy ?? 2,
+                          symbol: 'USDT',
+                        ),
               ),
               const SpaceH8(),
               DataLine(
                 mainText: intl.invest_report_open_fee,
                 secondaryText: isBalanceHide
                     ? '**** USDT'
-                    : marketFormat(
-                        decimal: (widget.position.openFee ?? Decimal.zero) * Decimal.parse('-1'),
+                    : ((widget.position.openFee ?? Decimal.zero) * Decimal.parse('-1')).toFormatSum(
                         accuracy: investNewStore.assetUSDT?.accuracy ?? 2,
                         symbol: 'USDT',
                       ),
@@ -361,8 +336,7 @@ class _InvestListScreenState extends State<InvestList> {
                   mainText: intl.invest_report_close_fee,
                   secondaryText: isBalanceHide
                       ? '**** USDT'
-                      : marketFormat(
-                          decimal: (widget.position.closeFee ?? Decimal.zero) * Decimal.parse('-1'),
+                      : ((widget.position.closeFee ?? Decimal.zero) * Decimal.parse('-1')).toFormatSum(
                           accuracy: investNewStore.assetUSDT?.accuracy ?? 2,
                           symbol: 'USDT',
                         ),
@@ -373,8 +347,7 @@ class _InvestListScreenState extends State<InvestList> {
                 mainText: intl.invest_report_rollover,
                 secondaryText: isBalanceHide
                     ? '**** USDT'
-                    : marketFormat(
-                        decimal: widget.position.rollOver ?? Decimal.zero,
+                    : (widget.position.rollOver ?? Decimal.zero).toFormatSum(
                         accuracy: investNewStore.assetUSDT?.accuracy ?? 2,
                         symbol: 'USDT',
                       ),
@@ -387,10 +360,8 @@ class _InvestListScreenState extends State<InvestList> {
                   const SpaceH8(),
                   DataLine(
                     mainText: intl.invest_report_close_price,
-                    secondaryText: marketFormat(
-                      decimal: widget.position.closePrice ?? Decimal.zero,
+                    secondaryText: (widget.position.closePrice ?? Decimal.zero).toFormatSum(
                       accuracy: widget.instrument.priceAccuracy ?? 2,
-                      symbol: '',
                     ),
                   ),
                   const SpaceH8(),
@@ -417,10 +388,8 @@ class _InvestListScreenState extends State<InvestList> {
                   const SpaceH8(),
                   DataLine(
                     mainText: intl.invest_liquidation_price,
-                    secondaryText: marketFormat(
-                      decimal: widget.position.stopOutPrice ?? Decimal.zero,
+                    secondaryText: (widget.position.stopOutPrice ?? Decimal.zero).toFormatSum(
                       accuracy: widget.instrument.priceAccuracy ?? 2,
-                      symbol: '',
                     ),
                   ),
                   const SpaceH8(),

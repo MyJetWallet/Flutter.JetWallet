@@ -95,24 +95,20 @@ class _EarnWithdrawOrderSummaruBody extends StatelessWidget {
                 fromAssetDescription: intl.earn_earn,
                 fromAssetValue: isBalanceHide
                     ? '**** ${store.currency.symbol}'
-                    : volumeFormat(
-                        decimal: store.amount,
-                        symbol: store.currency.symbol,
-                      ),
+                    : store.amount.toFormatCount(symbol: store.currency.symbol),
                 fromAssetBaseAmount: isBalanceHide
                     ? '**** ${sSignalRModules.baseCurrency.symbol}'
-                    : '≈${marketFormat(decimal: store.baseAmount, symbol: sSignalRModules.baseCurrency.symbol, accuracy: store.baseCurrency.accuracy)}',
+                    : '≈${store.baseAmount.toFormatSum(symbol: sSignalRModules.baseCurrency.symbol, accuracy: store.baseCurrency.accuracy)}',
                 toAssetIconUrl: store.currency.iconUrl,
                 toAssetDescription: intl.earn_crypto_wallet,
                 toAssetValue: isBalanceHide
                     ? '**** ${store.currency.symbol}'
-                    : volumeFormat(
-                        decimal: store.amount,
+                    : store.amount.toFormatCount(
                         symbol: store.currency.symbol,
                       ),
                 toAssetBaseAmount: isBalanceHide
                     ? '**** ${sSignalRModules.baseCurrency.symbol}'
-                    : '≈${marketFormat(decimal: store.baseAmount, symbol: sSignalRModules.baseCurrency.symbol, accuracy: store.baseCurrency.accuracy)}',
+                    : '≈${store.baseAmount.toFormatSum(symbol: sSignalRModules.baseCurrency.symbol, accuracy: store.baseCurrency.accuracy)}',
               ),
               const SDivider(),
               const SizedBox(height: 19),
@@ -126,20 +122,14 @@ class _EarnWithdrawOrderSummaruBody extends StatelessWidget {
                   label: intl.earn_basis_amount,
                   value: isBalanceHide
                       ? '**** ${store.currency.symbol}'
-                      : volumeFormat(
-                          decimal: store.earnPosition.baseAmount,
-                          symbol: store.currency.symbol,
-                        ),
+                      : store.earnPosition.baseAmount.toFormatCount(symbol: store.currency.symbol),
                   needHorizontalPadding: false,
                 ),
                 TwoColumnCell(
                   label: intl.earn_revenue,
                   value: isBalanceHide
                       ? '**** ${store.currency.symbol}'
-                      : volumeFormat(
-                          decimal: store.earnPosition.incomeAmount,
-                          symbol: store.currency.symbol,
-                        ),
+                      : store.earnPosition.incomeAmount.toFormatCount(symbol: store.currency.symbol),
                   needHorizontalPadding: false,
                 ),
               ],

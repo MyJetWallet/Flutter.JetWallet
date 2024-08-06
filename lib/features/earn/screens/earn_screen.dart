@@ -120,17 +120,16 @@ class _EarnViewState extends State<_EarnView> {
                 child: SPriceHeader(
                   lable: intl.rewards_total,
                   value: store.isBalanceHide
-                      ? marketFormat(
-                          decimal: store.positionsTotalValueInVaseCurrency,
+                      ? store.positionsTotalValueInVaseCurrency.toFormatSum(
                           symbol: sSignalRModules.baseCurrency.symbol,
-                          accuracy: 2,
+                          accuracy: sSignalRModules.baseCurrency.accuracy,
                         )
                       : '**** ${sSignalRModules.baseCurrency.symbol}',
-                  baseValue: '${intl.earn_revenue} ${store.isBalanceHide ? marketFormat(
-                      decimal: store.positionsTotalRevenueInVaseCurrency,
-                      symbol: sSignalRModules.baseCurrency.symbol,
-                      accuracy: 2,
-                    ) : '**** ${sSignalRModules.baseCurrency.symbol}'}',
+                  baseValue:
+                      '${intl.earn_revenue} ${store.isBalanceHide ? store.positionsTotalRevenueInVaseCurrency.toFormatSum(
+                          symbol: sSignalRModules.baseCurrency.symbol,
+                          accuracy: sSignalRModules.baseCurrency.accuracy,
+                        ) : '**** ${sSignalRModules.baseCurrency.symbol}'}',
                   lableIcon: SafeGesture(
                     onTap: _showBanner,
                     child: Assets.svg.small.info.simpleSvg(

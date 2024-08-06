@@ -5,7 +5,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/transaction_history/widgets/history_copy_icon.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
@@ -97,16 +97,16 @@ class TransferDetails extends StatelessObserverWidget {
           ),
           const SpaceH18(),
           PaymentFeeRowWidget(
-            fee: volumeFormat(
-              decimal: transactionListItem.ibanTransferInfo?.paymentFeeAmount ?? Decimal.zero,
+            fee: (transactionListItem.ibanTransferInfo?.paymentFeeAmount ?? Decimal.zero).toFormatSum(
               symbol: transactionListItem.ibanTransferInfo?.paymentFeeAssetId ?? 'EUR',
+              accuracy: 2,
             ),
           ),
           const SpaceH18(),
           ProcessingFeeRowWidget(
-            fee: volumeFormat(
-              decimal: transactionListItem.ibanTransferInfo?.simpleFeeAmount ?? Decimal.zero,
+            fee: (transactionListItem.ibanTransferInfo?.simpleFeeAmount ?? Decimal.zero).toFormatSum(
               symbol: transactionListItem.ibanTransferInfo?.simpleFeeAssetId ?? 'EUR',
+              accuracy: 2,
             ),
           ),
           const SpaceH18(),
@@ -143,10 +143,9 @@ class _TransferDetailsHeader extends StatelessWidget {
           fromAssetDescription: transactionListItem.ibanTransferInfo?.fromAccountLabel ?? 'Account 1',
           fromAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${euroAsset.symbol}'
-              : volumeFormat(
+              : (transactionListItem.ibanTransferInfo?.withdrawalAmount?.abs() ?? Decimal.zero).toFormatCount(
                   symbol: euroAsset.symbol,
                   accuracy: euroAsset.accuracy,
-                  decimal: transactionListItem.ibanTransferInfo?.withdrawalAmount?.abs() ?? Decimal.zero,
                 ),
           fromAssetCustomIcon: transactionListItem.ibanTransferInfo?.fromAccountType == IbanAccountType.bankCard
               ? Assets.svg.assets.fiat.card.simpleSvg(
@@ -159,10 +158,9 @@ class _TransferDetailsHeader extends StatelessWidget {
           toAssetDescription: transactionListItem.ibanTransferInfo?.toAccountLabel ?? 'Account 1',
           toAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${euroAsset.symbol}'
-              : volumeFormat(
+              : (transactionListItem.ibanTransferInfo?.receiveAmount?.abs() ?? Decimal.zero).toFormatCount(
                   symbol: euroAsset.symbol,
                   accuracy: euroAsset.accuracy,
-                  decimal: transactionListItem.ibanTransferInfo?.receiveAmount?.abs() ?? Decimal.zero,
                 ),
           toAssetCustomIcon: transactionListItem.ibanTransferInfo?.toAccountType == IbanAccountType.bankCard
               ? Assets.svg.assets.fiat.card.simpleSvg(

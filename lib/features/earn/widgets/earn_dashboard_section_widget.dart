@@ -18,7 +18,7 @@ import 'package:jetwallet/features/earn/widgets/earn_offers_list.dart';
 import 'package:jetwallet/features/earn/widgets/offers_overlay_content.dart';
 import 'package:jetwallet/features/home/store/bottom_bar_store.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
-import 'package:jetwallet/utils/formatting/base/market_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -176,10 +176,9 @@ class _EarnSectionDefaultState extends StatelessWidget {
                     child: _GrayBlocWidget(
                       title: intl.earn_section_earned,
                       value: store.isBalanceHide
-                          ? marketFormat(
-                              decimal: store.positionsTotalValueInVaseCurrency,
+                          ? store.positionsTotalValueInVaseCurrency.toFormatSum(
                               symbol: sSignalRModules.baseCurrency.symbol,
-                              accuracy: 2,
+                              accuracy: sSignalRModules.baseCurrency.accuracy,
                             )
                           : '**** ${sSignalRModules.baseCurrency.symbol}',
                       description: intl.earn_section_total,
@@ -190,10 +189,9 @@ class _EarnSectionDefaultState extends StatelessWidget {
                     child: _GrayBlocWidget(
                       title: intl.earn_revenue,
                       value: store.isBalanceHide
-                          ? marketFormat(
-                              decimal: store.positionsTotalRevenueInVaseCurrency,
+                          ? store.positionsTotalRevenueInVaseCurrency.toFormatSum(
                               symbol: sSignalRModules.baseCurrency.symbol,
-                              accuracy: 2,
+                              accuracy: sSignalRModules.baseCurrency.accuracy,
                             )
                           : '**** ${sSignalRModules.baseCurrency.symbol}',
                       description: intl.earn_section_all_time,

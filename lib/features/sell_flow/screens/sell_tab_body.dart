@@ -10,7 +10,7 @@ import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/sugges
 import 'package:jetwallet/features/sell_flow/store/sell_amount_store.dart';
 import 'package:jetwallet/features/sell_flow/widgets/sell_choose_asset_bottom_sheet.dart';
 import 'package:jetwallet/features/sell_flow/widgets/sell_with_bottom_sheet.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
@@ -96,13 +96,11 @@ class _SellAmountScreenBodyState extends State<SellAmountTabBody> with Automatic
                                 ),
                                 primarySymbol: store.primarySymbol,
                                 secondaryAmount: store.asset != null
-                                    ? '${intl.earn_est} ${volumeFormat(
-                                        decimal: Decimal.parse(
-                                          store.secondaryAmount,
-                                        ),
-                                        symbol: '',
-                                        accuracy: store.secondaryAccuracy,
-                                      )}'
+                                    ? '${intl.earn_est} ${store.isFiatEntering ? Decimal.parse(
+                                        store.secondaryAmount,
+                                      ).toFormatCount(accuracy: store.secondaryAccuracy) : Decimal.parse(
+                                        store.secondaryAmount,
+                                      ).toFormatSum(accuracy: store.secondaryAccuracy)}'
                                     : null,
                                 secondarySymbol: store.asset != null ? store.secondarySymbol : null,
                                 onSwap: () {
@@ -113,7 +111,7 @@ class _SellAmountScreenBodyState extends State<SellAmountTabBody> with Automatic
                                 optionText: store.cryptoInputValue == '0' &&
                                         (store.account != null || store.card != null) &&
                                         store.asset != null
-                                    ? '''${intl.sell_amount_sell_all} ${getIt<AppStore>().isBalanceHide ? '**** ${store.cryptoSymbol}' : volumeFormat(decimal: store.sellAllValue, accuracy: store.asset?.accuracy ?? 1, symbol: store.cryptoSymbol)}'''
+                                    ? '''${intl.sell_amount_sell_all} ${getIt<AppStore>().isBalanceHide ? '**** ${store.cryptoSymbol}' : store.sellAllValue.toFormatCount(accuracy: store.asset?.accuracy ?? 1, symbol: store.cryptoSymbol)}'''
                                     : null,
                                 optionOnTap: () {
                                   sAnalytics.tapOnTheSellAll();
@@ -182,9 +180,8 @@ class _SellAmountScreenBodyState extends State<SellAmountTabBody> with Automatic
                                   subTitle: intl.amount_screen_sell_to,
                                   trailing: getIt<AppStore>().isBalanceHide
                                       ? '**** ${store.account?.currency}'
-                                      : volumeFormat(
-                                          decimal: store.account?.balance ?? Decimal.zero,
-                                          accuracy: store.asset?.accuracy ?? 1,
+                                      : (store.account?.balance ?? Decimal.zero).toFormatSum(
+                                          accuracy: store.fiatAccuracy,
                                           symbol: store.account?.currency ?? '',
                                         ),
                                   icon: Container(
@@ -233,9 +230,8 @@ class _SellAmountScreenBodyState extends State<SellAmountTabBody> with Automatic
                                   subTitle: intl.amount_screen_sell_to,
                                   trailing: getIt<AppStore>().isBalanceHide
                                       ? '**** ${store.card?.currency}'
-                                      : volumeFormat(
-                                          decimal: store.card?.balance ?? Decimal.zero,
-                                          accuracy: store.asset?.accuracy ?? 1,
+                                      : (store.card?.balance ?? Decimal.zero).toFormatSum(
+                                          accuracy: store.fiatAccuracy,
                                           symbol: store.card?.currency ?? '',
                                         ),
                                   icon: Assets.svg.assets.fiat.cardAlt.simpleSvg(

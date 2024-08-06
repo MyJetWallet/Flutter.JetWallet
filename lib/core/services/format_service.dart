@@ -32,8 +32,8 @@ abstract class _FormatServiceBase with Store {
     final priceInBaseCurrency = usdCurrencyAsset.currentPrice * priceInUSD;
 
     return operationAsset == baseCurrency.symbol
-        ? '''≈ ${volumeFormat(decimal: operationAmount, accuracy: baseCurrency.accuracy, symbol: baseCurrency.symbol)}'''
-        : '''≈ ${volumeFormat(decimal: priceInBaseCurrency, accuracy: baseCurrency.accuracy, symbol: baseCurrency.symbol)}''';
+        ? '''≈ ${operationAmount.toFormatSum(accuracy: baseCurrency.accuracy, symbol: baseCurrency.symbol)}'''
+        : '''≈ ${priceInBaseCurrency.toFormatSum(accuracy: baseCurrency.accuracy, symbol: baseCurrency.symbol)}''';
   }
 
   CurrencyModel findCurrency({

@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/invest/stores/dashboard/invest_positions_store.dart';
-import 'package:jetwallet/utils/formatting/base/market_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/config/constants.dart';
@@ -411,11 +411,7 @@ abstract class _InvestDashboardStoreBase with Store {
       return '-';
     }
 
-    return marketFormat(
-      decimal: price[0].lastPrice!,
-      symbol: '',
-      accuracy: instrument[0].priceAccuracy!,
-    );
+    return price[0].lastPrice!.toFormatSum(accuracy: instrument[0].priceAccuracy);
   }
 
   @action

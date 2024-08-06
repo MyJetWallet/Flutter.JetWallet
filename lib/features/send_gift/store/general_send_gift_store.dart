@@ -2,6 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/features/send_gift/model/send_gift_info_model.dart';
 import 'package:jetwallet/features/send_gift/store/receiver_datails_store.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/decompose_phone_number.dart';
 import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
 import 'package:mobx/mobx.dart';
@@ -12,7 +13,6 @@ import '../../../core/di/di.dart';
 import '../../../core/l10n/i10n.dart';
 import '../../../core/router/app_router.dart';
 import '../../../core/services/simple_networking/simple_networking.dart';
-import '../../../utils/formatting/base/volume_format.dart';
 import '../../../utils/models/currency_model.dart';
 import '../widgets/share_gift_result_bottom_sheet.dart';
 
@@ -161,8 +161,7 @@ abstract class GeneralSendGiftStoreBase with Store {
 
     return sRouter.push(
       SuccessScreenRouter(
-        secondaryText: '${intl.send_gift_you_sent} ${volumeFormat(
-          decimal: amount,
+        secondaryText: '${intl.send_gift_you_sent} ${amount.toFormatCount(
           accuracy: currency.accuracy,
           symbol: currency.symbol,
         )}\n${intl.send_gift_success_message_2}',

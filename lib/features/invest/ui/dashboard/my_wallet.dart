@@ -4,7 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/helpers/icons_extension.dart';
@@ -40,8 +40,7 @@ class MyWallet extends StatelessObserverWidget {
           Text(
             getIt<AppStore>().isBalanceHide
                 ? '**** ${currency.symbol}'
-                : volumeFormat(
-                    decimal: sSignalRModules.investWalletData?.balance ?? Decimal.zero,
+                : (sSignalRModules.investWalletData?.balance ?? Decimal.zero).toFormatCount(
                     accuracy: 2,
                     symbol: currency.symbol,
                   ),

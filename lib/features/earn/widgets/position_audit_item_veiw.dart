@@ -9,7 +9,7 @@ import 'package:jetwallet/features/transaction_history/widgets/history_copy_icon
 import 'package:jetwallet/features/wallet/helper/format_date_to_hm.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/components/transaction_details_item.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/components/transaction_details_value_text.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
@@ -93,8 +93,7 @@ class PositionAuditItemView extends StatelessObserverWidget {
             TransactionDetailsItem(
               text: intl.earn_base_amount,
               value: TransactionDetailsValueText(
-                text: volumeFormat(
-                  decimal: positionAudit.positionBaseAmount,
+                text: positionAudit.positionBaseAmount.toFormatCount(
                   accuracy: asset.accuracy,
                   symbol: asset.symbol,
                 ),
@@ -112,8 +111,7 @@ class PositionAuditItemView extends StatelessObserverWidget {
           Builder(
             builder: (context) {
               return ProcessingFeeRowWidget(
-                fee: volumeFormat(
-                  decimal: Decimal.zero,
+                fee: Decimal.zero.toFormatCount(
                   accuracy: asset.accuracy,
                   symbol: asset.symbol,
                 ),

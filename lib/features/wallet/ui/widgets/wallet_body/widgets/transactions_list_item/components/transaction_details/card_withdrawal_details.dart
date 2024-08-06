@@ -114,15 +114,13 @@ class CardWithdrawalDetails extends StatelessObserverWidget {
               return TransactionDetailsNewItem(
                 text: intl.iban_send_history_payment_fee,
                 showInfoIcon: true,
-                fee: volumeFormat(
-                  decimal: transactionListItem.cardWithdrawalInfo?.paymentFeeAmount ?? Decimal.zero,
+                fee: (transactionListItem.cardWithdrawalInfo?.paymentFeeAmount ?? Decimal.zero).toFormatSum(
                   symbol: transactionListItem.cardWithdrawalInfo?.paymentFeeAssetId ??
                       transactionListItem.cardWithdrawalInfo?.paymentAssetId ??
                       'EUR',
                 ),
                 value: TransactionDetailsNewValueText(
-                  text: volumeFormat(
-                    decimal: transactionListItem.cardWithdrawalInfo?.paymentFeeAmount ?? Decimal.zero,
+                  text: (transactionListItem.cardWithdrawalInfo?.paymentFeeAmount ?? Decimal.zero).toFormatSum(
                     symbol: transactionListItem.cardWithdrawalInfo?.paymentFeeAssetId ??
                         transactionListItem.cardWithdrawalInfo?.paymentAssetId ??
                         'EUR',
@@ -136,8 +134,7 @@ class CardWithdrawalDetails extends StatelessObserverWidget {
             value: TransactionDetailsNewValueText(
               text: getIt<AppStore>().isBalanceHide
                   ? '**** ${currency.symbol}'
-                  : volumeFormat(
-                      decimal: transactionListItem.cardWithdrawalInfo?.paymentAmount ?? Decimal.zero,
+                  : (transactionListItem.cardWithdrawalInfo?.paymentAmount ?? Decimal.zero).toFormatCount(
                       symbol: transactionListItem.cardWithdrawalInfo?.paymentAssetId ?? 'EUR',
                     ),
             ),
@@ -179,16 +176,14 @@ class CardWithdrawalDetailsHeader extends StatelessWidget {
             assetDescription: eurAsset.description,
             assetValue: getIt<AppStore>().isBalanceHide
                 ? '**** ${eurAsset.symbol}'
-                : volumeFormat(
+                : transactionListItem.balanceChange.toFormatCount(
                     symbol: 'EUR',
-                    decimal: transactionListItem.balanceChange,
                   ),
             assetBaseAmount: transactionListItem.cardWithdrawalInfo?.paymentAssetId != 'EUR'
                 ? getIt<AppStore>().isBalanceHide
                     ? '**** ${transactionListItem.cardWithdrawalInfo?.paymentAssetId}'
-                    : volumeFormat(
+                    : assetBaseAmount.negative.toFormatCount(
                         symbol: transactionListItem.cardWithdrawalInfo?.paymentAssetId ?? '',
-                        decimal: assetBaseAmount.negative,
                       )
                 : null,
             isError: transactionListItem.status == Status.declined,

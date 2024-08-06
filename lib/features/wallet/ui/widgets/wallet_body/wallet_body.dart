@@ -16,7 +16,7 @@ import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/sell_flow/widgets/sell_with_bottom_sheet.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list/transactions_list.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/transaction_list_item.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -101,8 +101,7 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
             mainTitle: widget.currency.symbol == 'EUR'
                 ? getIt<AppStore>().isBalanceHide
                     ? '**** ${widget.currency.symbol}'
-                    : volumeFormat(
-                        decimal: sSignalRModules.totalEurWalletBalance,
+                    : sSignalRModules.totalEurWalletBalance.toFormatSum(
                         accuracy: widget.currency.accuracy,
                         symbol: widget.currency.symbol,
                       )
@@ -127,8 +126,7 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
             mainHeaderCollapsedTitle: widget.currency.symbol == 'EUR'
                 ? getIt<AppStore>().isBalanceHide
                     ? '**** ${widget.currency.symbol}'
-                    : volumeFormat(
-                        decimal: sSignalRModules.totalEurWalletBalance,
+                    : sSignalRModules.totalEurWalletBalance.toFormatSum(
                         accuracy: widget.currency.accuracy,
                         symbol: widget.currency.symbol,
                       )

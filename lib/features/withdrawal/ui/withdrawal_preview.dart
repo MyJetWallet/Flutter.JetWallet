@@ -10,7 +10,7 @@ import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/features/withdrawal/store/withdrawal_store.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -68,12 +68,10 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
       amount: Decimal.parse(store.withAmount),
     );
 
-    final feeSizeWithSymbol = volumeFormat(
-      decimal: feeSize,
+    final feeSizeWithSymbol = feeSize.toFormatCount(
       symbol: store.withdrawalInputModel?.currency?.symbol ?? '',
       accuracy: store.withdrawalInputModel?.currency?.accuracy ?? 2,
     );
-
     return SPageFrameWithPadding(
       loaderText: intl.register_pleaseWait,
       loading: store.previewLoader,
@@ -101,29 +99,28 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
                     assetIconUrl: store.withdrawalInputModel!.currency!.iconUrl,
                     assetDescription: store.withdrawalInputModel!.currency!.description,
                     assetValue: store.addressIsInternal
-                        ? volumeFormat(
-                            decimal: Decimal.parse(store.withAmount),
+                        ? Decimal.parse(store.withAmount).toFormatCount(
                             accuracy: store.withdrawalInputModel!.currency!.accuracy,
                             symbol: store.withdrawalInputModel!.currency!.symbol,
                           )
-                        : volumeFormat(
-                            decimal: Decimal.parse(store.withAmount) - feeSize,
+                        : (Decimal.parse(store.withAmount) - feeSize).toFormatCount(
                             accuracy: store.withdrawalInputModel!.currency!.accuracy,
                             symbol: store.withdrawalInputModel!.currency!.symbol,
                           ),
-                    assetBaseAmount: volumeFormat(
-                      decimal: formatService.convertOneCurrencyToAnotherOne(
-                        fromCurrency: store.withdrawalInputModel!.currency!.symbol,
-                        fromCurrencyAmmount: store.addressIsInternal
-                            ? Decimal.parse(store.withAmount)
-                            : Decimal.parse(store.withAmount) - feeSize,
-                        toCurrency: sSignalRModules.baseCurrency.symbol,
-                        baseCurrency: sSignalRModules.baseCurrency.symbol,
-                        isMin: false,
-                      ),
-                      accuracy: sSignalRModules.baseCurrency.accuracy,
-                      symbol: sSignalRModules.baseCurrency.symbol,
-                    ),
+                    assetBaseAmount: formatService
+                        .convertOneCurrencyToAnotherOne(
+                          fromCurrency: store.withdrawalInputModel!.currency!.symbol,
+                          fromCurrencyAmmount: store.addressIsInternal
+                              ? Decimal.parse(store.withAmount)
+                              : Decimal.parse(store.withAmount) - feeSize,
+                          toCurrency: sSignalRModules.baseCurrency.symbol,
+                          baseCurrency: sSignalRModules.baseCurrency.symbol,
+                          isMin: false,
+                        )
+                        .toFormatSum(
+                          accuracy: sSignalRModules.baseCurrency.accuracy,
+                          symbol: sSignalRModules.baseCurrency.symbol,
+                        ),
                   ),
                 ),
                 const SDivider(),

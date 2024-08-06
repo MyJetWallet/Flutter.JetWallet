@@ -6,7 +6,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/features/transaction_history/widgets/history_copy_icon.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
@@ -18,6 +18,7 @@ import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/helpers/icons_extension.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 import '../../../../../../../../../core/di/di.dart';
 import '../../../../../../../../app/store/app_store.dart';
@@ -126,11 +127,15 @@ class BuyP2PDetails extends StatelessObserverWidget {
               );
 
               return PaymentFeeRowWidget(
-                fee: volumeFormat(
-                  decimal: transactionListItem.cryptoBuyInfo?.depositFeeAmount ?? Decimal.zero,
-                  accuracy: currency.accuracy,
-                  symbol: currency.symbol,
-                ),
+                fee: currency.type == AssetType.crypto
+                    ? (transactionListItem.cryptoBuyInfo?.depositFeeAmount ?? Decimal.zero).toFormatCount(
+                        accuracy: currency.accuracy,
+                        symbol: currency.symbol,
+                      )
+                    : (transactionListItem.cryptoBuyInfo?.depositFeeAmount ?? Decimal.zero).toFormatSum(
+                        accuracy: currency.accuracy,
+                        symbol: currency.symbol,
+                      ),
               );
             },
           ),
@@ -145,11 +150,15 @@ class BuyP2PDetails extends StatelessObserverWidget {
               );
 
               return ProcessingFeeRowWidget(
-                fee: volumeFormat(
-                  decimal: transactionListItem.cryptoBuyInfo?.tradeFeeAmount ?? Decimal.zero,
-                  accuracy: currency.accuracy,
-                  symbol: currency.symbol,
-                ),
+                fee: currency.type == AssetType.crypto
+                    ? (transactionListItem.cryptoBuyInfo?.tradeFeeAmount ?? Decimal.zero).toFormatCount(
+                        accuracy: currency.accuracy,
+                        symbol: currency.symbol,
+                      )
+                    : (transactionListItem.cryptoBuyInfo?.tradeFeeAmount ?? Decimal.zero).toFormatSum(
+                        accuracy: currency.accuracy,
+                        symbol: currency.symbol,
+                      ),
               );
             },
           ),
@@ -191,14 +200,13 @@ class BuyP2PDetails extends StatelessObserverWidget {
     CurrencyModel currency1,
     CurrencyModel currency2,
   ) {
-    final base = volumeFormat(
-      decimal: transactionListItem.cryptoBuyInfo!.baseRate,
+    final base = transactionListItem.cryptoBuyInfo!.baseRate.toFormatCount(
       symbol: currency1.symbol,
     );
 
-    final quote = volumeFormat(
-      decimal: transactionListItem.cryptoBuyInfo!.quoteRate,
-      symbol: currency2.symbol,
+    final quote = transactionListItem.cryptoBuyInfo!.quoteRate.toFormatPrice(
+      prefix: currency2.prefixSymbol,
+      accuracy: currency2.accuracy,
     );
 
     return '$base = $quote';
@@ -239,19 +247,17 @@ class _BuyDetailsHeader extends StatelessWidget {
           fromAssetDescription: '${paymentAsset.description} (${paymentAsset.symbol})',
           fromAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${paymentAsset.symbol}'
-              : volumeFormat(
+              : (transactionListItem.cryptoBuyInfo?.paymentAmount ?? Decimal.zero).toFormatCount(
                   symbol: paymentAsset.symbol,
                   accuracy: paymentAsset.accuracy,
-                  decimal: transactionListItem.cryptoBuyInfo?.paymentAmount ?? Decimal.zero,
                 ),
           toAssetIconUrl: buyAsset.iconUrl,
           toAssetDescription: buyAsset.description,
           toAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${buyAsset.symbol}'
-              : volumeFormat(
+              : (transactionListItem.cryptoBuyInfo?.buyAmount ?? Decimal.zero).toFormatCount(
                   symbol: buyAsset.symbol,
                   accuracy: buyAsset.accuracy,
-                  decimal: transactionListItem.cryptoBuyInfo?.buyAmount ?? Decimal.zero,
                 ),
           isError: transactionListItem.status == Status.declined,
           isSmallerVersion: true,

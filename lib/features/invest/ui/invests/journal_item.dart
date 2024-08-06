@@ -5,14 +5,13 @@ import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:jetwallet/features/invest/ui/invests/data_line.dart';
 import 'package:jetwallet/features/invest/ui/invests/rollover_line.dart';
-import 'package:jetwallet/utils/formatting/base/market_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/invest/new_invest_request_model.dart';
 
 import '../../../../core/l10n/i10n.dart';
-import '../../../../utils/formatting/base/volume_format.dart';
 import '../../../../utils/helpers/icon_url_from.dart';
 import '../../helpers/operation_name.dart';
 import 'instrument_data_line.dart';
@@ -63,22 +62,14 @@ class JournalItem extends StatelessObserverWidget {
         if (item.closeReason != PositionCloseReason.undefined) ...[
           DataLine(
             mainText: intl.invest_close_price,
-            secondaryText: marketFormat(
-              decimal: item.closePrice,
-              accuracy: instrument.priceAccuracy ?? 2,
-              symbol: '',
-            ),
+            secondaryText: item.closePrice.toFormatSum(accuracy: instrument.priceAccuracy ?? 2),
           ),
         ],
         if (item.auditEvent == PositionAuditEvent.marketOpeningToOpened ||
             item.auditEvent == PositionAuditEvent.pendingToOpened) ...[
           DataLine(
             mainText: intl.invest_open_price,
-            secondaryText: marketFormat(
-              decimal: item.openPrice,
-              accuracy: instrument.priceAccuracy ?? 2,
-              symbol: '',
-            ),
+            secondaryText: item.openPrice.toFormatSum(accuracy: instrument.priceAccuracy ?? 2),
           ),
           const SpaceH8(),
         ],
@@ -92,15 +83,12 @@ class JournalItem extends StatelessObserverWidget {
                 dotColor: colors.green,
                 mainText: intl.invest_limits_take_profit,
                 secondaryText: item.takeProfitType == TPSLType.amount
-                    ? volumeFormat(
-                        decimal: item.takeProfitAmount,
+                    ? item.takeProfitAmount.toFormatCount(
                         accuracy: 2,
                         symbol: 'USDT',
                       )
-                    : volumeFormat(
-                        decimal: item.takeProfitPrice,
+                    : item.takeProfitPrice.toFormatCount(
                         accuracy: instrument.priceAccuracy ?? 2,
-                        symbol: '',
                       ),
               ),
               const SpaceH8(),
@@ -111,15 +99,12 @@ class JournalItem extends StatelessObserverWidget {
                 dotColor: colors.red,
                 mainText: intl.invest_limits_stop_loss,
                 secondaryText: item.stopLossType == TPSLType.amount
-                    ? volumeFormat(
-                        decimal: item.stopLossAmount * Decimal.fromInt(-1),
+                    ? (item.stopLossAmount * Decimal.fromInt(-1)).toFormatCount(
                         accuracy: 2,
                         symbol: 'USDT',
                       )
-                    : volumeFormat(
-                        decimal: item.stopLossPrice * Decimal.fromInt(-1),
+                    : (item.stopLossPrice * Decimal.fromInt(-1)).toFormatCount(
                         accuracy: instrument.priceAccuracy ?? 2,
-                        symbol: '',
                       ),
               ),
               const SpaceH8(),

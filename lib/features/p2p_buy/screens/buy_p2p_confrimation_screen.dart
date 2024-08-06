@@ -9,7 +9,7 @@ import 'package:jetwallet/core/services/remote_config/remote_config_values.dart'
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/p2p_buy/store/buy_p2p_confirmation_store.dart';
 import 'package:jetwallet/features/p2p_buy/widgets/buy_p2p_confirmation_info_grid.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
@@ -101,21 +101,18 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                   fromAssetDescription: store.buyCurrency.description,
                   fromAssetValue: getIt<AppStore>().isBalanceHide
                       ? '**** ${store.buyCurrency.symbol}'
-                      : volumeFormat(
+                      : (store.buyAmount ?? Decimal.zero).toFormatCount(
                           symbol: store.buyCurrency.symbol,
                           accuracy: store.buyCurrency.accuracy,
-                          decimal: store.buyAmount ?? Decimal.zero,
                         ),
                   hasSecondAsset: false,
                 ),
                 BuyP2PConfirmationInfoGrid(
-                  paymentFee: volumeFormat(
-                    decimal: store.depositFeeAmount ?? Decimal.zero,
+                  paymentFee: (store.depositFeeAmount ?? Decimal.zero).toFormatCount(
                     accuracy: store.depositFeeCurrency.accuracy,
                     symbol: store.depositFeeCurrency.symbol,
                   ),
-                  ourFee: volumeFormat(
-                    decimal: store.tradeFeeAmount ?? Decimal.zero,
+                  ourFee: (store.tradeFeeAmount ?? Decimal.zero).toFormatCount(
                     accuracy: store.tradeFeeCurreny.accuracy,
                     symbol: store.tradeFeeCurreny.symbol,
                   ),

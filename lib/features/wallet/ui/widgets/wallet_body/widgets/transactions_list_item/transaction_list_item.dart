@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
@@ -283,8 +282,7 @@ class TransactionListItem extends StatelessWidget {
         ? transactionListItem.balanceChange.abs()
         : transactionListItem.balanceChange;
 
-    return volumeFormat(
-      decimal: amount,
+    return amount.toFormatCount(
       accuracy: accuracy,
       symbol: symbol,
     );
@@ -298,80 +296,68 @@ class TransactionListItem extends StatelessWidget {
   }) {
     if (transactionListItem.operationType == OperationType.swapSell) {
       return '${intl.transactionListItem_forText} '
-          '${getIt<AppStore>().isBalanceHide ? '**** ${transactionListItem.swapInfo?.buyAssetId ?? ''}' : volumeFormat(
-              decimal: transactionListItem.swapInfo!.buyAmount,
+          '${getIt<AppStore>().isBalanceHide ? '**** ${transactionListItem.swapInfo?.buyAssetId ?? ''}' : transactionListItem.swapInfo!.buyAmount.toFormatCount(
               symbol: transactionListItem.swapInfo!.buyAssetId,
             )}';
     }
     if (transactionListItem.operationType == OperationType.swapBuy) {
-      return '${intl.history_with} ${getIt<AppStore>().isBalanceHide ? '**** ${transactionListItem.swapInfo?.sellAssetId ?? ''}' : volumeFormat(
-          decimal: transactionListItem.swapInfo!.sellAmount,
+      return '${intl.history_with} ${getIt<AppStore>().isBalanceHide ? '**** ${transactionListItem.swapInfo?.sellAssetId ?? ''}' : transactionListItem.swapInfo!.sellAmount.toFormatCount(
           symbol: transactionListItem.swapInfo!.sellAssetId ?? '',
         )}';
     }
     if (transactionListItem.operationType == OperationType.simplexBuy) {
       return '${intl.history_with} '
-          '${getIt<AppStore>().isBalanceHide ? '**** ${transactionListItem.swapInfo?.sellAssetId ?? ''}' : volumeFormat(
-              decimal: transactionListItem.buyInfo!.sellAmount,
+          '${getIt<AppStore>().isBalanceHide ? '**** ${transactionListItem.swapInfo?.sellAssetId ?? ''}' : transactionListItem.buyInfo!.sellAmount.toFormatCount(
               symbol: transactionListItem.buyInfo!.sellAssetId,
             )}';
     }
     if (transactionListItem.operationType == OperationType.recurringBuy) {
-      return '${intl.history_with} ${getIt<AppStore>().isBalanceHide ? '**** ${transactionListItem.recurringBuyInfo?.sellAssetId ?? ''}' : volumeFormat(
-          decimal: transactionListItem.recurringBuyInfo!.sellAmount,
-          symbol: transactionListItem.recurringBuyInfo!.sellAssetId!,
+      return '${intl.history_with} ${getIt<AppStore>().isBalanceHide ? '**** ${transactionListItem.recurringBuyInfo?.sellAssetId ?? ''}' : transactionListItem.recurringBuyInfo!.sellAmount.toFormatCount(
+          symbol: transactionListItem.recurringBuyInfo!.sellAssetId,
         )}';
     }
     if (transactionListItem.operationType == OperationType.earningDeposit &&
         transactionListItem.earnInfo?.totalBalance == transactionListItem.balanceChange.abs()) {
-      return ' ${getIt<AppStore>().isBalanceHide ? '**** ${baseCurrency.symbol}' : volumeFormat(
-          decimal: transactionListItem.earnInfo!.totalBalance * currency.currentPrice,
+      return ' ${getIt<AppStore>().isBalanceHide ? '**** ${baseCurrency.symbol}' : (transactionListItem.earnInfo!.totalBalance * currency.currentPrice).toFormatCount(
           symbol: baseCurrency.symbol,
         )}';
     }
     if (transactionListItem.operationType == OperationType.cryptoBuy) {
-      return '${intl.history_with} ${getIt<AppStore>().isBalanceHide ? '**** ${transactionListItem.cryptoBuyInfo?.paymentAssetId ?? ''}' : volumeFormat(
-          decimal: transactionListItem.cryptoBuyInfo?.paymentAmount ?? Decimal.zero,
+      return '${intl.history_with} ${getIt<AppStore>().isBalanceHide ? '**** ${transactionListItem.cryptoBuyInfo?.paymentAssetId ?? ''}' : (transactionListItem.cryptoBuyInfo?.paymentAmount ?? Decimal.zero).toFormatCount(
           symbol: transactionListItem.cryptoBuyInfo?.paymentAssetId ?? '',
         )}';
     }
     if (transactionListItem.operationType == OperationType.bankingBuy && source != TransactionItemSource.eurAccount) {
-      return '${intl.history_with} ${getIt<AppStore>().isBalanceHide ? '**** ${transactionListItem.cryptoBuyInfo?.paymentAssetId ?? ''}' : volumeFormat(
-          decimal: transactionListItem.cryptoBuyInfo?.paymentAmount ?? Decimal.zero,
+      return '${intl.history_with} ${getIt<AppStore>().isBalanceHide ? '**** ${transactionListItem.cryptoBuyInfo?.paymentAssetId ?? ''}' : (transactionListItem.cryptoBuyInfo?.paymentAmount ?? Decimal.zero).toFormatCount(
           symbol: transactionListItem.cryptoBuyInfo?.paymentAssetId ?? '',
         )}';
     }
     if (transactionListItem.operationType == OperationType.bankingBuy && source == TransactionItemSource.eurAccount) {
-      return '${intl.history_for} ${getIt<AppStore>().isBalanceHide ? '**** ${transactionListItem.cryptoBuyInfo?.buyAssetId ?? ''}' : volumeFormat(
-          decimal: transactionListItem.cryptoBuyInfo?.buyAmount ?? Decimal.zero,
+      return '${intl.history_for} ${getIt<AppStore>().isBalanceHide ? '**** ${transactionListItem.cryptoBuyInfo?.buyAssetId ?? ''}' : (transactionListItem.cryptoBuyInfo?.buyAmount ?? Decimal.zero).toFormatCount(
           symbol: transactionListItem.cryptoBuyInfo?.buyAssetId ?? '',
         )}';
     }
     if ((transactionListItem.operationType == OperationType.bankingSell ||
             transactionListItem.operationType == OperationType.cardBankingSell) &&
         source != TransactionItemSource.cryptoAccount) {
-      return '${intl.history_with} ${getIt<AppStore>().isBalanceHide ? '**** ${transactionListItem.sellCryptoInfo?.sellAssetId ?? ''}' : volumeFormat(
-          decimal: transactionListItem.sellCryptoInfo?.sellAmount ?? Decimal.zero,
+      return '${intl.history_with} ${getIt<AppStore>().isBalanceHide ? '**** ${transactionListItem.sellCryptoInfo?.sellAssetId ?? ''}' : (transactionListItem.sellCryptoInfo?.sellAmount ?? Decimal.zero).toFormatCount(
           symbol: transactionListItem.sellCryptoInfo?.sellAssetId ?? '',
         )}';
     }
     if ((transactionListItem.operationType == OperationType.bankingSell ||
             transactionListItem.operationType == OperationType.cardBankingSell) &&
         source == TransactionItemSource.cryptoAccount) {
-      return '${intl.history_for} ${getIt<AppStore>().isBalanceHide ? '**** ${transactionListItem.sellCryptoInfo?.buyAssetId ?? ''}' : volumeFormat(
-          decimal: transactionListItem.sellCryptoInfo?.buyAmount ?? Decimal.zero,
+      return '${intl.history_for} ${getIt<AppStore>().isBalanceHide ? '**** ${transactionListItem.sellCryptoInfo?.buyAssetId ?? ''}' : (transactionListItem.sellCryptoInfo?.buyAmount ?? Decimal.zero).toFormatCount(
           symbol: transactionListItem.sellCryptoInfo?.buyAssetId ?? '',
         )}';
     }
     if (transactionListItem.operationType == OperationType.sendGlobally) {
-      return '${intl.history_for} ${getIt<AppStore>().isBalanceHide ? '**** ${transactionListItem.withdrawalInfo?.receiveAsset ?? ''}' : volumeFormat(
-          decimal: transactionListItem.withdrawalInfo?.receiveAmount ?? Decimal.zero,
+      return '${intl.history_for} ${getIt<AppStore>().isBalanceHide ? '**** ${transactionListItem.withdrawalInfo?.receiveAsset ?? ''}' : (transactionListItem.withdrawalInfo?.receiveAmount ?? Decimal.zero).toFormatCount(
           symbol: transactionListItem.withdrawalInfo?.receiveAsset ?? '',
         )}';
     }
     if (transactionListItem.operationType == OperationType.p2pBuy) {
-      return '${intl.history_with} ${getIt<AppStore>().isBalanceHide ? '**** ${transactionListItem.cryptoBuyInfo?.paymentAssetId ?? ''}' : volumeFormat(
-          decimal: transactionListItem.cryptoBuyInfo?.paymentAmount ?? Decimal.zero,
+      return '${intl.history_with} ${getIt<AppStore>().isBalanceHide ? '**** ${transactionListItem.cryptoBuyInfo?.paymentAssetId ?? ''}' : (transactionListItem.cryptoBuyInfo?.paymentAmount ?? Decimal.zero).toFormatCount(
           symbol: transactionListItem.cryptoBuyInfo?.paymentAssetId ?? '',
         )}';
     }

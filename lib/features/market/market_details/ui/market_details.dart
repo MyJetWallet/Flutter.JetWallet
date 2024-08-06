@@ -24,16 +24,17 @@ import 'package:jetwallet/features/market/market_details/ui/widgets/return_rates
 import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/features/market/store/watchlist_store.dart';
 import 'package:jetwallet/features/my_wallets/widgets/news_dashboard_section.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/market_info/market_info_response_model.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../../core/di/di.dart';
 import '../../../../core/services/prevent_duplication_events_servise.dart';
-import '../../../../utils/formatting/base/volume_format.dart';
 import '../../../../utils/models/currency_model.dart';
 import '../../../app/store/app_store.dart';
 import '../../../wallet/helper/navigate_to_wallet.dart';
@@ -293,31 +294,24 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
               child: Material(
                 color: colors.white,
                 borderRadius: BorderRadius.circular(16),
-                child: SWalletItem(
-                  isRounded: true,
-                  currencyPrefix: baseCurrency.prefix,
-                  currencySymbol: baseCurrency.symbol,
-                  decline: widget.marketItem.dayPercentChange.isNegative,
-                  icon: SNetworkSvg24(
+                child: SimpleTableAccount(
+                  assetIcon: SNetworkSvg24(
                     url: widget.marketItem.iconUrl,
                   ),
-                  primaryText: intl.portfolioHeader_balance,
-                  amount: getIt<AppStore>().isBalanceHide
+                  label: intl.portfolioHeader_balance,
+                  rightValue: getIt<AppStore>().isBalanceHide
                       ? '**** ${baseCurrency.symbol}'
-                      : volumeFormat(
-                          decimal: widget.marketItem.baseBalance,
+                      : widget.marketItem.baseBalance.toFormatSum(
                           symbol: baseCurrency.symbol,
                           accuracy: baseCurrency.accuracy,
                         ),
-                  amountDecimal: double.parse('${widget.marketItem.baseBalance}'),
-                  secondaryText: getIt<AppStore>().isBalanceHide
+                  supplement: getIt<AppStore>().isBalanceHide
                       ? '******* ${widget.marketItem.symbol}'
-                      : volumeFormat(
-                          decimal: widget.marketItem.assetBalance,
+                      : widget.marketItem.assetBalance.toFormatCount(
                           symbol: widget.marketItem.symbol,
                           accuracy: widget.marketItem.assetAccuracy,
                         ),
-                  onTap: () {
+                  onTableAssetTap: () {
                     sAnalytics.tapOnTheBalanceButtonOnMarketAssetScreen(
                       asset: widget.marketItem.symbol,
                     );
@@ -327,12 +321,6 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
                       currency: currency,
                     );
                   },
-                  removeDivider: true,
-                  leftBlockTopPadding: widget.marketItem.isBalanceEmpty ? 30 : 20,
-                  rightBlockTopPadding: 20,
-                  showSecondaryText: !widget.marketItem.isBalanceEmpty,
-                  fullSizeBalance: true,
-                  hideBalance: getIt<AppStore>().isBalanceHide,
                 ),
               ),
             ),

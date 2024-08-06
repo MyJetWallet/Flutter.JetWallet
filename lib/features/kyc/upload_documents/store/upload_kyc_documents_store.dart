@@ -526,9 +526,7 @@ abstract class _UploadKycDocumentsStoreBase with Store {
         secondaryText: intl.cardVerification_cardBlockedDescription,
         secondaryButtonName: intl.cardVerification_choosePaymentMethod,
         onSecondaryButtonTap: () {
-          sRouter.removeUntil(
-            (route) => route.name == CurrencyBuyRouter.name,
-          );
+          sRouter.popUntilRoot();
         },
       ),
     );

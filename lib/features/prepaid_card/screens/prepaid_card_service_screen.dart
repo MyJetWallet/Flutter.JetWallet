@@ -325,8 +325,7 @@ class _VouncherItem extends StatelessWidget {
           : voucher.voucherCode ?? '',
       balanceChange: getIt<AppStore>().isBalanceHide
           ? '**** ${currency.symbol}'
-          : marketFormat(
-              decimal: voucher.cardAmount,
+          : voucher.cardAmount.toFormatSum(
               accuracy: currency.accuracy,
               symbol: currency.symbol,
             ),

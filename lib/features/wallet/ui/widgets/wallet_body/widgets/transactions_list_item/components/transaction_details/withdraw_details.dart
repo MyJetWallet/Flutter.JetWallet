@@ -7,12 +7,13 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/features/transaction_history/widgets/history_copy_icon.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/components/transaction_details_name_text.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 import '../../../../../../../../../core/di/di.dart';
 import '../../../../../../../../app/store/app_store.dart';
@@ -105,11 +106,15 @@ class WithdrawDetails extends StatelessObserverWidget {
               );
 
               return ProcessingFeeRowWidget(
-                fee: volumeFormat(
-                  decimal: transactionListItem.withdrawalInfo!.feeAmount,
-                  accuracy: currency.accuracy,
-                  symbol: currency.symbol,
-                ),
+                fee: currency.type == AssetType.crypto
+                    ? transactionListItem.withdrawalInfo!.feeAmount.toFormatCount(
+                        accuracy: currency.accuracy,
+                        symbol: currency.symbol,
+                      )
+                    : transactionListItem.withdrawalInfo!.feeAmount.toFormatSum(
+                        accuracy: currency.accuracy,
+                        symbol: currency.symbol,
+                      ),
               );
             },
           ),
@@ -154,19 +159,17 @@ class _WithdrawDetailsHeader extends StatelessWidget {
           fromAssetDescription: paymentAsset.description,
           fromAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${paymentAsset.symbol}'
-              : volumeFormat(
+              : (transactionListItem.withdrawalInfo?.withdrawalAmount.abs() ?? Decimal.zero).toFormatCount(
                   symbol: paymentAsset.symbol,
                   accuracy: paymentAsset.accuracy,
-                  decimal: transactionListItem.withdrawalInfo?.withdrawalAmount.abs() ?? Decimal.zero,
                 ),
           toAssetIconUrl: buyAsset.iconUrl,
           toAssetDescription: buyAsset.description,
           toAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${buyAsset.symbol}'
-              : volumeFormat(
+              : (transactionListItem.withdrawalInfo?.receiveAmount?.abs() ?? Decimal.zero).toFormatCount(
                   symbol: buyAsset.symbol,
                   accuracy: buyAsset.accuracy,
-                  decimal: transactionListItem.withdrawalInfo?.receiveAmount?.abs() ?? Decimal.zero,
                 ),
           isError: transactionListItem.status == Status.declined,
           isSmallerVersion: true,

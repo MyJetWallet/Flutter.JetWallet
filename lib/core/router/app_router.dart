@@ -36,20 +36,10 @@ import 'package:jetwallet/features/convert/ui/convert.dart';
 import 'package:jetwallet/features/convert/ui/preview_convert.dart';
 import 'package:jetwallet/features/convert_flow/screens/convetr_confrimation_screen.dart';
 import 'package:jetwallet/features/crypto_deposit/crypto_deposit_screen.dart';
-import 'package:jetwallet/features/currency_buy/models/preview_buy_with_asset_input.dart';
-import 'package:jetwallet/features/currency_buy/models/preview_buy_with_unlimint_input.dart';
-import 'package:jetwallet/features/currency_buy/ui/curency_buy.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/add_bank_card.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/pay_with_bottom_sheet.dart';
-import 'package:jetwallet/features/currency_buy/ui/screens/preview_buy_with_asset.dart';
-import 'package:jetwallet/features/currency_buy/ui/screens/preview_buy_with_bank_card.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/preview_buy_with_circle/circle_3d_secure_web_view/circle_3d_secure_web_view.dart';
-import 'package:jetwallet/features/currency_buy/ui/screens/preview_buy_with_circle/preview_buy_with_circle/preview_buy_with_circle.dart';
-import 'package:jetwallet/features/currency_buy/ui/screens/preview_buy_with_unlimint.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/simplex_web_view.dart';
-import 'package:jetwallet/features/currency_sell/model/preview_sell_input.dart';
-import 'package:jetwallet/features/currency_sell/ui/currency_sell.dart';
-import 'package:jetwallet/features/currency_sell/ui/preview_sell.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
 import 'package:jetwallet/features/debug_info/debug_history.dart';
 import 'package:jetwallet/features/debug_info/debug_info.dart';
@@ -110,9 +100,6 @@ import 'package:jetwallet/features/prepaid_card/screens/pre_buy_tabs_screen.dart
 import 'package:jetwallet/features/prepaid_card/screens/prepaid_card_details_screen.dart';
 import 'package:jetwallet/features/prepaid_card/screens/prepaid_card_service_screen.dart';
 import 'package:jetwallet/features/receive_gift/progres_screen.dart';
-import 'package:jetwallet/features/return_to_wallet/model/preview_return_to_wallet_input.dart';
-import 'package:jetwallet/features/return_to_wallet/ui/preview_return_to_wallet.dart';
-import 'package:jetwallet/features/return_to_wallet/ui/return_to_wallet.dart';
 import 'package:jetwallet/features/rewards/ui/rewards.dart';
 import 'package:jetwallet/features/rewards_flow/store/rewards_flow_store.dart';
 import 'package:jetwallet/features/rewards_flow/ui/reward_open_screen.dart';
@@ -125,7 +112,6 @@ import 'package:jetwallet/features/simple_card/ui/simple_card_limits_screen.dart
 import 'package:jetwallet/features/simple_card/ui/simple_card_screen.dart';
 import 'package:jetwallet/features/simple_coin/screens/my_simple_coins_screen.dart';
 import 'package:jetwallet/features/simple_coin/screens/simple_coin_transaction_history_screen.dart';
-import 'package:jetwallet/features/simple_space/screens/simple_space_screen.dart';
 import 'package:jetwallet/features/sms_autheticator/sms_authenticator.dart';
 import 'package:jetwallet/features/transaction_history/ui/transaction_hisotry_screen.dart';
 import 'package:jetwallet/features/transfer_flow/screens/transfer_confrimation_screen.dart';
@@ -154,10 +140,8 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:simple_kit/modules/account/phone_number/simple_number.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
-import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
-import 'package:simple_networking/modules/signal_r/models/earn_offers_model.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
@@ -166,7 +150,6 @@ import 'package:simple_networking/modules/wallet_api/models/address_book/address
 import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_preview_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_preview_response.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
-import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/p2p_methods/p2p_methods_responce_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/prepaid_card/buy_prepaid_card_intention_dto_list_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/prepaid_card/purchase_card_brand_list_response_model.dart';
@@ -174,10 +157,7 @@ import 'package:simple_networking/modules/wallet_api/models/send_globally/send_t
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_request_model.dart';
 
 import '../../features/auth/splash/splash_screen.dart';
-import '../../features/currency_buy/models/preview_buy_with_bank_card_input.dart';
-import '../../features/currency_buy/models/preview_buy_with_circle_input.dart';
 import '../../features/currency_buy/ui/screens/choose_asset_screen.dart';
-import '../../features/currency_buy/ui/screens/payment_method_screen.dart';
 import '../../features/debug_info/logs_screen.dart';
 import '../../features/iban/iban_screen.dart';
 import '../../features/iban/widgets/iban_billing_address.dart';
@@ -355,16 +335,8 @@ class AppRouter extends _$AppRouter {
       page: KycVerifyYourProfileRouter.page,
     ),
     AutoRoute(
-      path: '/currency_buy',
-      page: CurrencyBuyRouter.page,
-    ),
-    AutoRoute(
       path: '/choose_asset',
       page: ChooseAssetRouter.page,
-    ),
-    AutoRoute(
-      path: '/payment_method',
-      page: PaymentMethodRouter.page,
     ),
     AutoRoute(
       path: '/crypto_deposit',
@@ -508,10 +480,6 @@ class AppRouter extends _$AppRouter {
       page: InvestUIKITRouter.page,
     ),
     AutoRoute(
-      path: '/currency_sell',
-      page: CurrencySellRouter.page,
-    ),
-    AutoRoute(
       path: '/wallet',
       page: WalletRouter.page,
     ),
@@ -520,20 +488,8 @@ class AppRouter extends _$AppRouter {
       page: SimpleCardRouter.page,
     ),
     AutoRoute(
-      path: '/return_to_wallet',
-      page: ReturnToWalletRouter.page,
-    ),
-    AutoRoute(
-      path: '/preview_return_to_wallet',
-      page: PreviewReturnToWalletRouter.page,
-    ),
-    AutoRoute(
       path: '/success_kyc',
       page: SuccessKycScreenRoute.page,
-    ),
-    AutoRoute(
-      path: '/preview_buy_with_bank_card',
-      page: PreviewBuyWithBankCardRouter.page,
     ),
     AutoRoute(
       path: '/circle_3d_secure',
@@ -542,22 +498,6 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/simples_webview',
       page: SimplexWebViewRouter.page,
-    ),
-    AutoRoute(
-      path: '/preview_buy_with_unlimit',
-      page: PreviewBuyWithUnlimintRouter.page,
-    ),
-    AutoRoute(
-      path: '/preview_buy_with_asset',
-      page: PreviewBuyWithAssetRouter.page,
-    ),
-    AutoRoute(
-      path: '/preview_buy_with_circle',
-      page: PreviewBuyWithCircleRouter.page,
-    ),
-    AutoRoute(
-      path: '/preview_sell_router',
-      page: PreviewSellRouter.page,
     ),
     AutoRoute(
       path: '/delete_reasons_screen',
@@ -786,10 +726,6 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/my_simple_coins',
       page: MySimpleCoinsRouter.page,
-    ),
-    AutoRoute(
-      path: '/simple_space',
-      page: SimpleSpaceRouter.page,
     ),
     AutoRoute(
       path: '/simple_coin_transaction_history',

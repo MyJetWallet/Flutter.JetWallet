@@ -9,7 +9,7 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/account/delete_profile/store/delete_profile_store.dart';
 import 'package:jetwallet/features/account/delete_profile/ui/widgets/dp_checkbox.dart';
 import 'package:jetwallet/features/account/delete_profile/ui/widgets/dp_condition_menu.dart';
-import 'package:jetwallet/utils/formatting/base/market_format.dart';
+import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
 import 'package:jetwallet/utils/helpers/currencies_with_balance_from.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -31,8 +31,7 @@ class DeleteProfile extends StatelessObserverWidget {
     for (final item in itemsWithBalance) {
       totalBalance += item.baseBalance;
     }
-    final totalBalanceStr = marketFormat(
-      decimal: totalBalance,
+    final totalBalanceStr = totalBalance.toFormatSum(
       accuracy: baseCurrency.accuracy,
       symbol: baseCurrency.symbol,
     );

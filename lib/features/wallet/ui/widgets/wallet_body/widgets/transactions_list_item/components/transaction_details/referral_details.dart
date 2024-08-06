@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -73,10 +73,9 @@ class _ReferralDetailsHeader extends StatelessWidget {
           fromAssetDescription: paymentAsset?.description ?? transactionListItem.assetId,
           fromAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${paymentAsset?.symbol}'
-              : volumeFormat(
+              : transactionListItem.balanceChange.toFormatCount(
                   symbol: transactionListItem.assetId,
                   accuracy: paymentAsset?.accuracy ?? 1,
-                  decimal: transactionListItem.balanceChange,
                 ),
           hasSecondAsset: false,
           isError: transactionListItem.status == Status.declined,

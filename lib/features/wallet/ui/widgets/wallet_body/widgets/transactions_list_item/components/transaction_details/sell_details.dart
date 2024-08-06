@@ -6,7 +6,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/features/transaction_history/widgets/history_copy_icon.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
@@ -15,6 +15,7 @@ import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/helpers/icons_extension.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 import '../../../../../../../../../core/di/di.dart';
 import '../../../../../../../../app/store/app_store.dart';
@@ -122,11 +123,15 @@ class SellDetails extends StatelessObserverWidget {
               );
 
               return PaymentFeeRowWidget(
-                fee: volumeFormat(
-                  decimal: transactionListItem.sellCryptoInfo?.paymentFeeAmount ?? Decimal.zero,
-                  accuracy: currency.accuracy,
-                  symbol: transactionListItem.sellCryptoInfo?.paymentFeeAssetId ?? '',
-                ),
+                fee: currency.type == AssetType.crypto
+                    ? (transactionListItem.sellCryptoInfo?.paymentFeeAmount ?? Decimal.zero).toFormatCount(
+                        accuracy: currency.accuracy,
+                        symbol: transactionListItem.sellCryptoInfo?.paymentFeeAssetId ?? '',
+                      )
+                    : (transactionListItem.sellCryptoInfo?.paymentFeeAmount ?? Decimal.zero).toFormatSum(
+                        accuracy: currency.accuracy,
+                        symbol: transactionListItem.sellCryptoInfo?.paymentFeeAssetId ?? '',
+                      ),
               );
             },
           ),
@@ -139,11 +144,15 @@ class SellDetails extends StatelessObserverWidget {
               );
 
               return ProcessingFeeRowWidget(
-                fee: volumeFormat(
-                  decimal: transactionListItem.sellCryptoInfo?.feeAmount ?? Decimal.zero,
-                  accuracy: currency.accuracy,
-                  symbol: transactionListItem.sellCryptoInfo?.feeAssetId ?? '',
-                ),
+                fee: currency.type == AssetType.crypto
+                    ? (transactionListItem.sellCryptoInfo?.feeAmount ?? Decimal.zero).toFormatCount(
+                        accuracy: currency.accuracy,
+                        symbol: transactionListItem.sellCryptoInfo?.feeAssetId ?? '',
+                      )
+                    : (transactionListItem.sellCryptoInfo?.feeAmount ?? Decimal.zero).toFormatSum(
+                        accuracy: currency.accuracy,
+                        symbol: transactionListItem.sellCryptoInfo?.feeAssetId ?? '',
+                      ),
               );
             },
           ),
@@ -158,13 +167,12 @@ class SellDetails extends StatelessObserverWidget {
     CurrencyModel currency1,
     CurrencyModel currency2,
   ) {
-    final base = volumeFormat(
-      decimal: transactionListItem.sellCryptoInfo?.baseRate ?? Decimal.zero,
-      symbol: currency1.symbol,
+    final base = (transactionListItem.sellCryptoInfo?.baseRate ?? Decimal.zero).toFormatPrice(
+      prefix: currency1.prefixSymbol,
+      accuracy: currency1.accuracy,
     );
 
-    final quote = volumeFormat(
-      decimal: transactionListItem.sellCryptoInfo?.quoteRate ?? Decimal.zero,
+    final quote = (transactionListItem.sellCryptoInfo?.quoteRate ?? Decimal.zero).toFormatCount(
       symbol: currency2.symbol,
     );
 
@@ -206,19 +214,17 @@ class _SellDetailsHeader extends StatelessWidget {
           fromAssetDescription: paymentAsset.description,
           fromAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${paymentAsset.symbol}'
-              : volumeFormat(
+              : (transactionListItem.sellCryptoInfo?.sellAmount ?? Decimal.zero).toFormatCount(
                   symbol: paymentAsset.symbol,
                   accuracy: paymentAsset.accuracy,
-                  decimal: transactionListItem.sellCryptoInfo?.sellAmount ?? Decimal.zero,
                 ),
           toAssetIconUrl: buyAsset.iconUrl,
           toAssetDescription: buyAsset.description,
           toAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${buyAsset.symbol}'
-              : volumeFormat(
+              : (transactionListItem.sellCryptoInfo?.buyAmount ?? Decimal.zero).toFormatCount(
                   symbol: buyAsset.symbol,
                   accuracy: buyAsset.accuracy,
-                  decimal: transactionListItem.sellCryptoInfo?.buyAmount ?? Decimal.zero,
                 ),
           isError: transactionListItem.status == Status.declined,
           isSmallerVersion: true,

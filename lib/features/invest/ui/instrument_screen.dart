@@ -11,6 +11,7 @@ import 'package:jetwallet/features/invest/ui/dashboard/invest_header.dart';
 import 'package:jetwallet/features/invest/ui/invests/symbol_info_without_chart.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_alert_bottom_sheet.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_market_watch_bottom_sheet.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/localized_chart_resolution_button.dart';
 import 'package:simple_kit/core/simple_kit.dart';
 import 'package:simple_kit/modules/shared/page_frames/simple_page_frame.dart';
@@ -27,7 +28,6 @@ import '../../../core/di/di.dart';
 import '../../../core/l10n/i10n.dart';
 import '../../../core/router/app_router.dart';
 import '../../../core/services/signal_r/signal_r_service_new.dart';
-import '../../../utils/formatting/base/volume_format.dart';
 import '../../../utils/helpers/currency_from.dart';
 import 'invests/data_line.dart';
 import 'invests/invest_bottom_sheets/active_positions.dart';
@@ -160,8 +160,7 @@ class _InstrumentScreenState extends State<InstrumentScreen> {
                                       secondaryButtonName: intl.invest_alert_close_all,
                                       bottomWidget: DataLine(
                                         mainText: intl.invest_alert_close_all_profit,
-                                        secondaryText: volumeFormat(
-                                          decimal: investStore.totalProfit,
+                                        secondaryText: investStore.totalProfit.toFormatCount(
                                           accuracy: 2,
                                           symbol: currency.symbol,
                                         ),
@@ -316,7 +315,17 @@ class _InstrumentScreenState extends State<InstrumentScreen> {
                 },
                 onChartTypeChanged: (type) {},
                 candleResolution: investNewStore.resolution,
-                formatPrice: volumeFormat,
+                formatPrice: ({
+                  required int accuracy,
+                  required Decimal decimal,
+                  required bool onlyFullPart,
+                  required String symbol,
+                }) {
+                  return decimal.toFormatSum(
+                    accuracy: accuracy,
+                    symbol: symbol,
+                  );
+                },
                 candles: investNewStore.candles[investNewStore.resolution],
                 onCandleSelected: (value) {},
                 chartHeight: 243,

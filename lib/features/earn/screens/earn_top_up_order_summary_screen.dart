@@ -104,24 +104,22 @@ class _OfferOrderSummaruBody extends StatelessWidget {
                     fromAssetDescription: intl.earn_crypto_wallet,
                     fromAssetValue: isBalanceHide
                         ? '**** ${store.currency.symbol}'
-                        : volumeFormat(
-                            decimal: store.selectedAmount,
+                        : store.selectedAmount.toFormatCount(
                             symbol: store.currency.symbol,
                           ),
                     fromAssetBaseAmount: isBalanceHide
                         ? '**** ${sSignalRModules.baseCurrency.symbol}'
-                        : '≈${marketFormat(decimal: store.baseAmount, symbol: store.fiatSymbol, accuracy: store.eurCurrency.accuracy)}',
+                        : '≈${store.baseAmount.toFormatCount(symbol: store.fiatSymbol, accuracy: store.eurCurrency.accuracy)}',
                     toAssetIconUrl: store.currency.iconUrl,
                     toAssetDescription: intl.earn_earn,
                     toAssetValue: isBalanceHide
                         ? '**** ${store.currency.symbol}'
-                        : volumeFormat(
-                            decimal: store.selectedAmount,
+                        : store.selectedAmount.toFormatCount(
                             symbol: store.currency.symbol,
                           ),
                     toAssetBaseAmount: isBalanceHide
                         ? '**** ${sSignalRModules.baseCurrency.symbol}'
-                        : '≈${marketFormat(decimal: store.baseAmount, symbol: store.fiatSymbol, accuracy: store.eurCurrency.accuracy)}',
+                        : '≈${store.baseAmount.toFormatCount(symbol: store.fiatSymbol, accuracy: store.eurCurrency.accuracy)}',
                   ),
                   const SDivider(),
                   const SizedBox(height: 19),

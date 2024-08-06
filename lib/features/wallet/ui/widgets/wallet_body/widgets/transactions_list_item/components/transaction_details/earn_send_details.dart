@@ -5,7 +5,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/transaction_history/widgets/history_copy_icon.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
@@ -94,8 +94,7 @@ class EarnSendDetails extends StatelessObserverWidget {
           Builder(
             builder: (context) {
               return ProcessingFeeRowWidget(
-                fee: volumeFormat(
-                  decimal: Decimal.zero,
+                fee: Decimal.zero.toFormatCount(
                   accuracy: asset.accuracy,
                   symbol: asset.symbol,
                 ),
@@ -136,20 +135,18 @@ class _SellDetailsHeader extends StatelessWidget {
               transactionListItem.operationType == OperationType.earnSend ? intl.earn_crypto_wallet : intl.earn_earn,
           fromAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${asset.symbol}'
-              : volumeFormat(
+              : (transactionListItem.earnOperationInfo?.amount?.abs() ?? Decimal.zero).toFormatCount(
                   symbol: asset.symbol,
                   accuracy: asset.accuracy,
-                  decimal: transactionListItem.earnOperationInfo?.amount?.abs() ?? Decimal.zero,
                 ),
           toAssetIconUrl: asset.iconUrl,
           toAssetDescription:
               transactionListItem.operationType == OperationType.earnSend ? intl.earn_earn : intl.earn_crypto_wallet,
           toAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${asset.symbol}'
-              : volumeFormat(
+              : (transactionListItem.earnOperationInfo?.amount?.abs() ?? Decimal.zero).toFormatCount(
                   symbol: asset.symbol,
                   accuracy: asset.accuracy,
-                  decimal: transactionListItem.earnOperationInfo?.amount?.abs() ?? Decimal.zero,
                 ),
           isError: transactionListItem.status == Status.declined,
           isSmallerVersion: true,

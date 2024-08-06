@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
@@ -119,20 +119,16 @@ abstract class _SimpleCardLimitsStoreBase with Store {
 
   void _parseData(SimpleCardLimitsResponceModel data) {
     dailyLimitsData = DateFormat('dd MMMM yyyy', intl.localeName).format(data.dailyLimitsReset ?? DateTime.now());
-    dailySpendingValue = volumeFormat(
-      decimal: data.dailySpendingValue ?? Decimal.zero,
+    dailySpendingValue = (data.dailySpendingValue ?? Decimal.zero).toFormatCount(
       symbol: 'EUR',
     );
-    dailySpendingLimit = volumeFormat(
-      decimal: data.dailySpendingLimit ?? Decimal.zero,
+    dailySpendingLimit = (data.dailySpendingLimit ?? Decimal.zero).toFormatCount(
       symbol: 'EUR',
     );
-    dailyWithdrawalValue = volumeFormat(
-      decimal: data.dailyWithdrawalValue ?? Decimal.zero,
+    dailyWithdrawalValue = (data.dailyWithdrawalValue ?? Decimal.zero).toFormatCount(
       symbol: 'EUR',
     );
-    dailyWithdrawalLimit = volumeFormat(
-      decimal: data.dailyWithdrawalLimit ?? Decimal.zero,
+    dailyWithdrawalLimit = (data.dailyWithdrawalLimit ?? Decimal.zero).toFormatCount(
       symbol: 'EUR',
     );
     dailySpendingProgress =
@@ -141,20 +137,16 @@ abstract class _SimpleCardLimitsStoreBase with Store {
         ((data.dailyWithdrawalValue ?? Decimal.zero) / (data.dailyWithdrawalLimit ?? Decimal.one)).toDouble();
 
     monthlyLimitsData = _formatMMMMyyyy(data.monthlyLimitsReset ?? DateTime.now());
-    monthlySpendingValue = volumeFormat(
-      decimal: data.monthlySpendingValue ?? Decimal.zero,
+    monthlySpendingValue = (data.monthlySpendingValue ?? Decimal.zero).toFormatCount(
       symbol: 'EUR',
     );
-    monthlySpendingLimit = volumeFormat(
-      decimal: data.monthlySpendingLimit ?? Decimal.zero,
+    monthlySpendingLimit = (data.monthlySpendingLimit ?? Decimal.zero).toFormatCount(
       symbol: 'EUR',
     );
-    monthlyWithdrawalValue = volumeFormat(
-      decimal: data.monthlyWithdrawalValue ?? Decimal.zero,
+    monthlyWithdrawalValue = (data.monthlyWithdrawalValue ?? Decimal.zero).toFormatCount(
       symbol: 'EUR',
     );
-    monthlyWithdrawalLimit = volumeFormat(
-      decimal: data.monthlyWithdrawalLimit ?? Decimal.zero,
+    monthlyWithdrawalLimit = (data.monthlyWithdrawalLimit ?? Decimal.zero).toFormatCount(
       symbol: 'EUR',
     );
     monthlySpendingProgress =

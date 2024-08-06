@@ -19,7 +19,7 @@ import 'package:jetwallet/features/simple_card/ui/widgets/wallet_button.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list/transactions_list.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/transaction_list_item.dart';
 import 'package:jetwallet/utils/constants.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
@@ -156,8 +156,7 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                           child: Text(
                             getIt<AppStore>().isBalanceHide
                                 ? '**** ${eurCurrency.symbol}'
-                                : volumeFormat(
-                                    decimal: simpleCardStore.cardFull?.balance ?? Decimal.zero,
+                                : (simpleCardStore.cardFull?.balance ?? Decimal.zero).toFormatSum(
                                     accuracy: eurCurrency.accuracy,
                                     symbol: eurCurrency.symbol,
                                   ),

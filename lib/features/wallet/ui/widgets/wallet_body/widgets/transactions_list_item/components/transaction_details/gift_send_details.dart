@@ -7,7 +7,7 @@ import 'package:jetwallet/core/services/simple_networking/simple_networking.dart
 import 'package:jetwallet/features/send_gift/widgets/share_gift_result_bottom_sheet.dart';
 import 'package:jetwallet/features/transaction_history/widgets/history_copy_icon.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/components/transaction_details_status.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
@@ -96,8 +96,7 @@ class GiftSendDetails extends StatelessObserverWidget {
             ),
             const SpaceH16(),
             ProcessingFeeRowWidget(
-              fee: volumeFormat(
-                decimal: transactionListItem.giftSendInfo?.processingFeeAmount ?? Decimal.zero,
+              fee: (transactionListItem.giftSendInfo?.processingFeeAmount ?? Decimal.zero).toFormatCount(
                 accuracy: currency.accuracy,
                 symbol: transactionListItem.giftSendInfo?.processingFeeAssetId ?? '',
               ),
@@ -197,20 +196,18 @@ class _GiftSendDetailsHeader extends StatelessWidget {
           fromAssetDescription: paymentAsset.description,
           fromAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${paymentAsset.symbol}'
-              : volumeFormat(
-                  symbol: paymentAsset.symbol,
-                  accuracy: paymentAsset.accuracy,
-                  decimal: transactionListItem.balanceChange.abs(),
-                ),
+              : transactionListItem.balanceChange.abs().toFormatCount(
+                    symbol: paymentAsset.symbol,
+                    accuracy: paymentAsset.accuracy,
+                  ),
           toAssetIconUrl: buyAsset.iconUrl,
           toAssetDescription: buyAsset.description,
           toAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${buyAsset.symbol}'
-              : volumeFormat(
-                  symbol: buyAsset.symbol,
-                  accuracy: buyAsset.accuracy,
-                  decimal: (transactionListItem.giftSendInfo?.receiveAmount ?? Decimal.zero).abs(),
-                ),
+              : (transactionListItem.giftSendInfo?.receiveAmount ?? Decimal.zero).abs().toFormatCount(
+                    symbol: buyAsset.symbol,
+                    accuracy: buyAsset.accuracy,
+                  ),
           isError: transactionListItem.status == Status.declined,
         ),
         const SizedBox(height: 24),

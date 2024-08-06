@@ -17,7 +17,7 @@ import 'package:jetwallet/features/rewards_flow/store/rewards_flow_store.dart';
 import 'package:jetwallet/features/rewards_flow/ui/widgets/reward_animated_card.dart';
 import 'package:jetwallet/features/rewards_flow/ui/widgets/reward_closed_card.dart';
 import 'package:jetwallet/utils/constants.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
@@ -249,8 +249,7 @@ abstract class _RewardOpenStoreBase with Store {
           mimeType: 'image/png',
         ),
       ],
-      text: '${intl.reward_share_text} ${volumeFormat(
-        decimal: spinData?.amount ?? Decimal.zero,
+      text: '${intl.reward_share_text} ${(spinData?.amount ?? Decimal.zero).toFormatCount(
         accuracy: currency.accuracy,
         symbol: currency.symbol,
       )} ${intl.reward_share_text_2} ${sSignalRModules.rewardsData?.referralLink ?? ''}',

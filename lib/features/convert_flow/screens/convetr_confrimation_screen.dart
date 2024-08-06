@@ -7,7 +7,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/convert_flow/store/convert_confirmation_store.dart';
 import 'package:jetwallet/features/convert_flow/widgets/convert_confirmation_info_grid.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
 import 'package:jetwallet/utils/helpers/calculate_base_balance.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
@@ -95,45 +95,39 @@ class _ConvertConfirmationScreenBody extends StatelessObserverWidget {
                   isLoading: !store.isDataLoaded,
                   fromAssetIconUrl: store.payCurrency.iconUrl,
                   fromAssetDescription: store.payCurrency.symbol,
-                  fromAssetValue: volumeFormat(
+                  fromAssetValue: (store.paymentAmount ?? Decimal.zero).toFormatCount(
                     symbol: store.payCurrency.symbol,
                     accuracy: store.payCurrency.accuracy,
-                    decimal: store.paymentAmount ?? Decimal.zero,
                   ),
-                  fromAssetBaseAmount: volumeFormat(
+                  fromAssetBaseAmount: calculateBaseBalanceWithReader(
+                    assetSymbol: store.payCurrency.symbol,
+                    assetBalance: store.paymentAmount ?? Decimal.zero,
+                  ).toFormatSum(
                     symbol: baseCurrency.symbol,
                     accuracy: baseCurrency.accuracy,
-                    decimal: calculateBaseBalanceWithReader(
-                      assetSymbol: store.payCurrency.symbol,
-                      assetBalance: store.paymentAmount ?? Decimal.zero,
-                    ),
                   ),
                   toAssetIconUrl: store.buyCurrency.iconUrl,
                   toAssetDescription: store.buyCurrency.description,
-                  toAssetValue: volumeFormat(
-                    decimal: store.buyAmount ?? Decimal.zero,
+                  toAssetValue: (store.buyAmount ?? Decimal.zero).toFormatCount(
                     accuracy: store.buyCurrency.accuracy,
                     symbol: store.buyCurrency.symbol,
                   ),
-                  toAssetBaseAmount: volumeFormat(
+                  toAssetBaseAmount: calculateBaseBalanceWithReader(
+                    assetSymbol: store.buyCurrency.symbol,
+                    assetBalance: store.buyAmount ?? Decimal.zero,
+                  ).toFormatSum(
                     symbol: baseCurrency.symbol,
                     accuracy: baseCurrency.accuracy,
-                    decimal: calculateBaseBalanceWithReader(
-                      assetSymbol: store.buyCurrency.symbol,
-                      assetBalance: store.buyAmount ?? Decimal.zero,
-                    ),
                   ),
                 ),
                 ConvertConfirmationInfoGrid(
-                  ourFee: volumeFormat(
-                    decimal: store.tradeFeeAmount ?? Decimal.zero,
+                  ourFee: (store.tradeFeeAmount ?? Decimal.zero).toFormatCount(
                     accuracy: store.tradeFeeCurreny.accuracy,
                     symbol: store.tradeFeeCurreny.symbol,
                   ),
-                  totalValue: volumeFormat(
+                  totalValue: (store.paymentAmount ?? Decimal.zero).toFormatCount(
                     symbol: store.buyAsset ?? '',
                     accuracy: 2,
-                    decimal: store.paymentAmount ?? Decimal.zero,
                   ),
                   paymentCurrency: store.buyCurrency,
                   asset: store.buyCurrency,

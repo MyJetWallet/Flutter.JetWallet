@@ -9,7 +9,7 @@ import 'package:jetwallet/core/services/simple_networking/simple_networking.dart
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/phone_verification/ui/phone_verification.dart';
 import 'package:jetwallet/utils/device_binding_required_flow/show_device_binding_required_flow.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/country_code_by_user_register.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
@@ -147,17 +147,15 @@ abstract class _TransferConfirmationStoreBase with Store {
         onData: (data) {
           fromAmount = data.fromAmount;
           toAmount = data.toAmount;
-          paymentFee = volumeFormat(
+          paymentFee = (data.paymentFeeAmount ?? Decimal.zero).toFormatSum(
             symbol: eurCurrency.symbol,
             accuracy: eurCurrency.accuracy,
-            decimal: data.paymentFeeAmount ?? Decimal.zero,
           );
           deviceBindingRequired = data.deviceBindingRequired;
           smsVerificationRequired = data.smsVerificationRequired;
-          processingFee = volumeFormat(
+          processingFee = (data.simpleFeeAmount ?? Decimal.zero).toFormatSum(
             symbol: eurCurrency.symbol,
             accuracy: eurCurrency.accuracy,
-            decimal: data.simpleFeeAmount ?? Decimal.zero,
           );
           benificiary = data.beneficiaryFullName ?? '';
           reference = data.reference ?? '';
@@ -324,8 +322,7 @@ abstract class _TransferConfirmationStoreBase with Store {
         .push(
       SuccessScreenRouter(
         secondaryText: intl.transfet_success_text(
-          volumeFormat(
-            decimal: fromAmount,
+          fromAmount.toFormatCount(
             accuracy: eurCurrency.accuracy,
             symbol: eurCurrency.symbol,
           ),

@@ -9,7 +9,7 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/simple_coin/widgets/simple_coin_roadmap.dart';
 import 'package:jetwallet/utils/constants.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -25,8 +25,7 @@ class MySimpleCoinsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = SColorsLight();
 
-    final balance = volumeFormat(
-      decimal: sSignalRModules.smplWalletModel.profile.balance,
+    final balance = sSignalRModules.smplWalletModel.profile.balance.toFormatCount(
       symbol: 'SMPL',
     );
 

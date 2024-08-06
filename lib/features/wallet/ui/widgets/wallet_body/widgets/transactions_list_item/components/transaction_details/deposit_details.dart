@@ -4,7 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/transaction_history/widgets/history_copy_icon.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
@@ -78,10 +78,9 @@ class DepositDetails extends StatelessObserverWidget {
           ],
           const SpaceH18(),
           ProcessingFeeRowWidget(
-            fee: volumeFormat(
+            fee: (transactionListItem.depositInfo?.feeAmount ?? Decimal.zero).toFormatCount(
               symbol: feeAsset.symbol,
               accuracy: feeAsset.accuracy,
-              decimal: transactionListItem.depositInfo?.feeAmount ?? Decimal.zero,
             ),
           ),
           const SpaceH40(),
@@ -115,10 +114,9 @@ class _DepositDetailsHeader extends StatelessWidget {
           fromAssetDescription: paymentAsset.description,
           fromAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${paymentAsset.symbol}'
-              : volumeFormat(
+              : transactionListItem.balanceChange.toFormatCount(
                   symbol: paymentAsset.symbol,
                   accuracy: paymentAsset.accuracy,
-                  decimal: transactionListItem.balanceChange,
                 ),
           hasSecondAsset: false,
           isError: transactionListItem.status == Status.declined,

@@ -8,7 +8,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/core/services/device_size/models/device_size_union.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -77,11 +77,11 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
 
     final String shareText;
     shareText = email != '' && email != null
-        ? '''${intl.send_gift_message_1_part} ${volumeFormat(decimal: amount, accuracy: currency.accuracy, symbol: currency.symbol)} ${intl.send_gift_share_text_2_part} $appDownloadUrl, ${intl.send_gift_share_text_email_part} $email ${intl.send_gift_share_text_3_part}'''
-        : '''${intl.send_gift_message_1_part} ${volumeFormat(decimal: amount, accuracy: currency.accuracy, symbol: currency.symbol)} ${intl.send_gift_share_text_2_part} $appDownloadUrl, ${intl.send_gift_share_text_phone_part} $phoneNumber ${intl.send_gift_share_text_3_part}''';
+        ? '''${intl.send_gift_message_1_part} ${amount.toFormatCount(accuracy: currency.accuracy, symbol: currency.symbol)} ${intl.send_gift_share_text_2_part} $appDownloadUrl, ${intl.send_gift_share_text_email_part} $email ${intl.send_gift_share_text_3_part}'''
+        : '''${intl.send_gift_message_1_part} ${amount.toFormatCount(accuracy: currency.accuracy, symbol: currency.symbol)} ${intl.send_gift_share_text_2_part} $appDownloadUrl, ${intl.send_gift_share_text_phone_part} $phoneNumber ${intl.send_gift_share_text_3_part}''';
 
     final cardMessage =
-        '''${intl.send_gift_message_1_part} ${volumeFormat(decimal: amount, accuracy: currency.accuracy, symbol: currency.symbol)} ${intl.send_gift_message_2_part}''';
+        '''${intl.send_gift_message_1_part} ${amount.toFormatCount(accuracy: currency.accuracy, symbol: currency.symbol)} ${intl.send_gift_message_2_part}''';
 
     final widgetForImageKey = GlobalKey();
 
@@ -126,8 +126,7 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
                             ),
                             const SpaceW4(),
                             Text(
-                              volumeFormat(
-                                decimal: amount,
+                              amount.toFormatCount(
                                 accuracy: currency.accuracy,
                                 symbol: currency.symbol,
                               ),
@@ -188,8 +187,7 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
                               ),
                               const SpaceW4(),
                               Text(
-                                volumeFormat(
-                                  decimal: amount,
+                                amount.toFormatCount(
                                   accuracy: currency.accuracy,
                                   symbol: currency.symbol,
                                 ),

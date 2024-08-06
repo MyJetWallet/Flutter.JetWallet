@@ -15,7 +15,7 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/utils/device_binding_required_flow/show_device_binding_required_flow.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:logger/logger.dart';
@@ -622,8 +622,7 @@ abstract class _BuyP2PConfirmationStoreBase with Store {
         secondaryText: getIt<AppStore>().isBalanceHide
             ? '**** ${buyCurrency.symbol}'
             : '${intl.successScreen_youBought} '
-                '${volumeFormat(
-                decimal: buyAmount ?? Decimal.zero,
+                '${(buyAmount ?? Decimal.zero).toFormatCount(
                 accuracy: buyCurrency.accuracy,
                 symbol: buyCurrency.symbol,
               )}',

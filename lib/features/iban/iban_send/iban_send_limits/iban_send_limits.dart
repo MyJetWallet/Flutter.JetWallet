@@ -3,7 +3,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/components/transaction_details_item.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/components/transaction_details_value_text.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
@@ -55,17 +55,13 @@ class _SendIbanLimits extends StatelessWidget {
             text: intl.paymentMethodsSheet_minTransaction,
             value: TransactionDetailsValueText(
               text: currency == null
-                  ? volumeFormat(
-                      decimal: cardLimit.minAmount,
+                  ? cardLimit.minAmount.toFormatCount(
                       symbol: baseCurrency.symbol,
-                      accuracy: baseCurrency.accuracy,
-                      onlyFullPart: true,
+                      accuracy: 0,
                     )
-                  : volumeFormat(
-                      decimal: cardLimit.minAmount,
-                      symbol: currency!.symbol,
-                      accuracy: currency!.accuracy,
-                      onlyFullPart: true,
+                  : cardLimit.minAmount.toFormatCount(
+                      symbol: currency?.symbol,
+                      accuracy: 0,
                     ),
             ),
           ),
@@ -74,17 +70,13 @@ class _SendIbanLimits extends StatelessWidget {
             text: intl.paymentMethodsSheet_maxTransaction,
             value: TransactionDetailsValueText(
               text: currency == null
-                  ? volumeFormat(
-                      decimal: cardLimit.maxAmount,
+                  ? cardLimit.maxAmount.toFormatCount(
                       symbol: baseCurrency.symbol,
-                      accuracy: baseCurrency.accuracy,
-                      onlyFullPart: true,
+                      accuracy: 0,
                     )
-                  : volumeFormat(
-                      decimal: cardLimit.maxAmount,
+                  : cardLimit.maxAmount.toFormatCount(
                       symbol: currency!.symbol,
-                      accuracy: currency!.accuracy,
-                      onlyFullPart: true,
+                      accuracy: 0,
                     ),
             ),
           ),

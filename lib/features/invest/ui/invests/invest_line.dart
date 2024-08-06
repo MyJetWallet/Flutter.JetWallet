@@ -5,7 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
-import 'package:jetwallet/utils/formatting/base/market_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
@@ -13,7 +13,6 @@ import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 import 'package:simple_networking/modules/wallet_api/models/invest/new_invest_request_model.dart';
 
-import '../../../../utils/formatting/base/volume_format.dart';
 import '../../../../utils/models/currency_model.dart';
 import '../../helpers/percent_info.dart';
 
@@ -163,20 +162,14 @@ class InvestLine extends StatelessObserverWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    isBalanceHide
-                        ? '****'
-                        : marketFormat(
-                            decimal: amount,
-                            accuracy: 0,
-                            symbol: '',
-                          ),
+                    isBalanceHide ? '****' : amount.toFormatCount(accuracy: 0),
                     style: STStyles.body2InvestSM.copyWith(
                       color: colors.black,
                     ),
                   ),
                   const SpaceH2(),
                   Text(
-                    'x${volumeFormat(decimal: leverage, accuracy: 2, symbol: '').replaceAll(' ', '')}',
+                    'x${leverage.toFormatCount(accuracy: 2).replaceAll(' ', '')}',
                     style: STStyles.body3InvestM.copyWith(
                       color: colors.grey2,
                     ),
@@ -192,13 +185,7 @@ class InvestLine extends StatelessObserverWidget {
                 children: [
                   if (isClosedPosition)
                     Text(
-                      isBalanceHide
-                          ? '****'
-                          : marketFormat(
-                              decimal: price,
-                              accuracy: priceAccuracy,
-                              symbol: '',
-                            ),
+                      isBalanceHide ? '****' : price.toFormatSum(accuracy: priceAccuracy),
                       style: STStyles.body2InvestB.copyWith(
                         color: colors.black,
                       ),
@@ -208,16 +195,8 @@ class InvestLine extends StatelessObserverWidget {
                       isBalanceHide
                           ? '****'
                           : isPending
-                              ? marketFormat(
-                                  decimal: price,
-                                  accuracy: priceAccuracy,
-                                  symbol: '',
-                                )
-                              : marketFormat(
-                                  decimal: profit,
-                                  accuracy: priceAccuracy,
-                                  symbol: '',
-                                ),
+                              ? price.toFormatSum(accuracy: priceAccuracy)
+                              : profit.toFormatSum(accuracy: priceAccuracy),
                       style: STStyles.body2InvestB.copyWith(
                         color: colors.black,
                       ),

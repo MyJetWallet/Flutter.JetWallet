@@ -11,7 +11,7 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/simple_card/store/simple_card_store.dart';
 import 'package:jetwallet/utils/extension/string_extension.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -139,8 +139,7 @@ class _EurWalletBodyState extends State<EurWalletBody> {
             ticker: widget.eurCurrency.symbol,
             mainTitle: getIt<AppStore>().isBalanceHide
                 ? '**** ${widget.eurCurrency.symbol}'
-                : volumeFormat(
-                    decimal: sSignalRModules.totalEurWalletBalance,
+                : sSignalRModules.totalEurWalletBalance.toFormatSum(
                     accuracy: widget.eurCurrency.accuracy,
                     symbol: widget.eurCurrency.symbol,
                   ),
@@ -153,8 +152,7 @@ class _EurWalletBodyState extends State<EurWalletBody> {
             mainHeaderSubtitle: intl.eur_wallet,
             mainHeaderCollapsedTitle: getIt<AppStore>().isBalanceHide
                 ? '**** ${widget.eurCurrency.symbol}'
-                : volumeFormat(
-                    decimal: sSignalRModules.totalEurWalletBalance,
+                : sSignalRModules.totalEurWalletBalance.toFormatSum(
                     accuracy: widget.eurCurrency.accuracy,
                     symbol: widget.eurCurrency.symbol,
                   ),
@@ -199,12 +197,10 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                             el.status == AccountStatusCard.inCreation ? intl.creating : intl.simple_card_type_virtual,
                         rightValue: getIt<AppStore>().isBalanceHide
                             ? '**** ${widget.eurCurrency.symbol}'
-                            : volumeFormat(
-                                decimal: el.balance ?? Decimal.zero,
+                            : (el.balance ?? Decimal.zero).toFormatSum(
                                 accuracy: widget.eurCurrency.accuracy,
                                 symbol: widget.eurCurrency.symbol,
                               ),
-                        //isCard: true,
                         isCardWallet: true,
                         hasLabelIcon: userInfo.isSimpleCardAvailable && el.status == AccountStatusCard.frozen,
                         onTableAssetTap: () {
@@ -232,7 +228,6 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                             }
                           }
                         },
-
                         assetIcon: userInfo.isSimpleCardAvailable && el.status == AccountStatusCard.frozen
                             ? Assets.svg.paymentMethodsCards.simple.frozenCard.simpleSvg(
                                 width: 24,
@@ -313,8 +308,7 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                           hasRightValue: simpleAccount.status == AccountStatus.active,
                           rightValue: getIt<AppStore>().isBalanceHide
                               ? '**** ${widget.eurCurrency.symbol}'
-                              : volumeFormat(
-                                  decimal: simpleAccount.balance ?? Decimal.zero,
+                              : (simpleAccount.balance ?? Decimal.zero).toFormatSum(
                                   accuracy: widget.eurCurrency.accuracy,
                                   symbol: widget.eurCurrency.symbol,
                                 ),
@@ -353,15 +347,13 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                             hasRightValue: bankAccounts[index].status == AccountStatus.active,
                             rightValue: getIt<AppStore>().isBalanceHide
                                 ? '**** ${widget.eurCurrency.symbol}'
-                                : volumeFormat(
-                                    decimal: bankAccounts[index].balance ?? Decimal.zero,
+                                : (bankAccounts[index].balance ?? Decimal.zero).toFormatSum(
                                     accuracy: widget.eurCurrency.accuracy,
                                     symbol: widget.eurCurrency.symbol,
                                   ),
                           );
                         },
                       ),
-                      //if (bankAccounts.isEmpty)
                       if ((sSignalRModules.bankingProfileData?.availableAccountsCount ?? 0) != 0)
                         Padding(
                           padding: const EdgeInsets.only(

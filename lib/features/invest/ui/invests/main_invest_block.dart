@@ -4,7 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
-import 'package:jetwallet/utils/formatting/base/market_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 
@@ -86,13 +86,7 @@ class MainInvestBlock extends StatelessObserverWidget {
                           ),
                           const SpaceW2(),
                           Text(
-                            isBalanceHide
-                                ? '****'
-                                : marketFormat(
-                                    decimal: amount,
-                                    accuracy: 2,
-                                    symbol: '',
-                                  ),
+                            isBalanceHide ? '****' : amount.toFormatSum(accuracy: 2),
                             style: STStyles.body3InvestSM.copyWith(
                               color: colors.black,
                             ),
@@ -124,13 +118,7 @@ class MainInvestBlock extends StatelessObserverWidget {
                   ),
                   const SpaceW4(),
                   Text(
-                    isBalanceHide
-                        ? '****'
-                        : marketFormat(
-                            decimal: balance,
-                            accuracy: 2,
-                            symbol: '',
-                          ),
+                    isBalanceHide ? '****' : balance.toFormatSum(accuracy: 2),
                     style: STStyles.header3Invest.copyWith(
                       color: colors.black,
                     ),

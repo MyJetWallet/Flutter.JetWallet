@@ -9,7 +9,7 @@ import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
@@ -62,8 +62,7 @@ Future<void> receiveGiftBottomSheet({
     giftModel.assetSymbol ?? '',
   );
   sAnalytics.claimGiftScreenView(
-    giftAmount: volumeFormat(
-      decimal: giftModel.amount ?? Decimal.zero,
+    giftAmount: (giftModel.amount ?? Decimal.zero).toFormatCount(
       accuracy: currency.accuracy,
       symbol: currency.symbol,
     ),
@@ -93,8 +92,7 @@ Future<void> receiveGiftBottomSheet({
     then: (itsPostProcessing) {
       if (!(itsPostProcessing is bool && itsPostProcessing)) {
         sAnalytics.tapOnTheButtonCloseOrTapInEmptyPlaceForClosingClaimGiftSheet(
-          giftAmount: volumeFormat(
-            decimal: giftModel.amount ?? Decimal.zero,
+          giftAmount: (giftModel.amount ?? Decimal.zero).toFormatCount(
             accuracy: currency.accuracy,
             symbol: currency.symbol,
           ),
@@ -122,8 +120,7 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
       giftModel.assetSymbol ?? '',
     );
 
-    final giftAmount = volumeFormat(
-      decimal: giftModel.amount ?? Decimal.zero,
+    final giftAmount = (giftModel.amount ?? Decimal.zero).toFormatCount(
       accuracy: currency.accuracy,
       symbol: currency.symbol,
     );
@@ -254,8 +251,7 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
       sSignalRModules.currenciesList,
       giftModel.assetSymbol ?? '',
     );
-    final giftAmount = volumeFormat(
-      decimal: giftModel.amount ?? Decimal.zero,
+    final giftAmount = (giftModel.amount ?? Decimal.zero).toFormatCount(
       accuracy: currency.accuracy,
       symbol: currency.symbol,
     );
@@ -284,8 +280,7 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
       sSignalRModules.currenciesList,
       giftModel.assetSymbol ?? '',
     );
-    final giftAmount = volumeFormat(
-      decimal: giftModel.amount ?? Decimal.zero,
+    final giftAmount = (giftModel.amount ?? Decimal.zero).toFormatCount(
       accuracy: currency.accuracy,
       symbol: currency.symbol,
     );
@@ -296,8 +291,7 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
 
     return sRouter.push(
       SuccessScreenRouter(
-        secondaryText: '${volumeFormat(
-          decimal: giftModel.amount ?? Decimal.zero,
+        secondaryText: '${(giftModel.amount ?? Decimal.zero).toFormatCount(
           accuracy: currency.accuracy,
           symbol: currency.symbol,
         )} ${intl.reseive_gift_were_credited_to_my_assets}',
@@ -315,8 +309,7 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
       sSignalRModules.currenciesList,
       giftModel.assetSymbol ?? '',
     );
-    final giftAmount = volumeFormat(
-      decimal: giftModel.amount ?? Decimal.zero,
+    final giftAmount = (giftModel.amount ?? Decimal.zero).toFormatCount(
       accuracy: currency.accuracy,
       symbol: currency.symbol,
     );
@@ -345,8 +338,7 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
       sSignalRModules.currenciesList,
       giftModel.assetSymbol ?? '',
     );
-    final giftAmount = volumeFormat(
-      decimal: giftModel.amount ?? Decimal.zero,
+    final giftAmount = (giftModel.amount ?? Decimal.zero).toFormatCount(
       accuracy: currency.accuracy,
       symbol: currency.symbol,
     );

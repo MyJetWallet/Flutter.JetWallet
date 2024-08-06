@@ -143,8 +143,7 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
             child: AutoSizeText(
               getIt<AppStore>().isBalanceHide
                   ? '**** ${currency.symbol}'
-                  : volumeFormat(
-                      decimal: operationAmount(transactionListItem),
+                  : operationAmount(transactionListItem).toFormatCount(
                       accuracy: currency.accuracy,
                       symbol: currency.symbol,
                     ),
