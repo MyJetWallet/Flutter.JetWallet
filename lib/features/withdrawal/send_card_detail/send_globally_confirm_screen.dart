@@ -152,7 +152,7 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                   TwoColumnCell(
                     label: intl.send_globally_con_rate,
                     value:
-                        '''${state.sendCurrency!.type == AssetType.crypto ? Decimal.one.toFormatCount(accuracy: state.sendCurrency?.accuracy, symbol: state.sendCurrency!.symbol) : Decimal.one.toFormatPrice(accuracy: state.sendCurrency?.accuracy, prefix: state.sendCurrency!.prefixSymbol)} = ${data.estimatedPrice?.toFormatPrice(prefix: receiveAsset.prefixSymbol, accuracy: receiveAsset.accuracy)}''',
+                        '''${state.sendCurrency!.type == AssetType.crypto ? "1 ${state.sendCurrency!.symbol}" : "${state.sendCurrency!.prefixSymbol} 1"} = ${data.estimatedPrice?.toFormatPrice(prefix: receiveAsset.prefixSymbol)}''',
                     needHorizontalPadding: false,
                   ),
                   TwoColumnCell(
