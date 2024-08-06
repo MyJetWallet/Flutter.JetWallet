@@ -596,6 +596,7 @@ class _GlobalSendSelectCurrency extends StatelessObserverWidget {
                         Navigator.pop(context);
                         showSendGlobally(context, currency);
                       },
+                      hasRightValue: false,
                     ),
             ],
           ),
@@ -615,6 +616,7 @@ class _GlobalSendSelectCurrency extends StatelessObserverWidget {
                         Navigator.pop(context);
                         showSendGlobally(context, currency);
                       },
+                      hasRightValue: false,
                     ),
               const SpaceH42(),
             ],
