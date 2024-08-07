@@ -21,7 +21,9 @@ class SBottomBar extends StatelessWidget {
     return Material(
       color: SColorsLight().white,
       child: Padding(
-        padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).padding.bottom <= 24 ? 8 : 0,
+        ),
         child: Container(
           height: 73,
           decoration: BoxDecoration(
