@@ -6,9 +6,9 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/earn/screens/earn_details_screen.dart';
 import 'package:jetwallet/features/transaction_history/widgets/history_copy_icon.dart';
+import 'package:jetwallet/features/transaction_history/widgets/transaction_details/components/transaction_details_item.dart';
+import 'package:jetwallet/features/transaction_history/widgets/transaction_details/components/transaction_details_value_text.dart';
 import 'package:jetwallet/features/wallet/helper/format_date_to_hm.dart';
-import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/components/transaction_details_item.dart';
-import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/components/transaction_details_value_text.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
@@ -17,6 +17,7 @@ import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_audit_history_model.dart';
+
 import '../../../../../../../../../core/di/di.dart';
 
 class PositionAuditItemView extends StatelessObserverWidget {

@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_list_item_header_text.dart';
-import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_list_item_text.dart';
+import 'package:jetwallet/features/transaction_history/widgets/transaction_list_item_header_text.dart';
+import 'package:jetwallet/features/transaction_history/widgets/transaction_list_item_text.dart';
 import 'package:simple_kit/core/simple_kit.dart';
 import 'package:simple_kit/modules/icons/24x24/public/history_completed/simple_history_completed_icon.dart';
 import 'package:simple_kit/modules/icons/24x24/public/history_declined/simple_history_declined_icon.dart';

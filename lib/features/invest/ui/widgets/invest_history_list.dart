@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/invest/stores/dashboard/invest_positions_store.dart';
 import 'package:jetwallet/features/market/market_details/model/operation_history_union.dart';
-import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transaction_day_seperator.dart';
+import 'package:jetwallet/features/transaction_history/widgets/transaction_day_seperator.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -14,6 +14,7 @@ import 'package:simple_networking/modules/signal_r/models/client_detail_model.da
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/invest/new_invest_request_model.dart';
+
 import '../../../../core/di/di.dart';
 import '../../../../core/router/app_router.dart';
 import '../../../../core/services/signal_r/signal_r_service_new.dart';
@@ -22,9 +23,9 @@ import '../../../actions/action_send/widgets/show_send_timer_alert_or.dart';
 import '../../../kyc/helper/kyc_alert_handler.dart';
 import '../../../kyc/kyc_service.dart';
 import '../../../kyc/models/kyc_operation_status_model.dart';
+import '../../../transaction_history/widgets/loading_sliver_list.dart';
+import '../../../transaction_history/widgets/transaction_month_separator.dart';
 import '../../../wallet/helper/format_date.dart';
-import '../../../wallet/ui/widgets/wallet_body/widgets/loading_sliver_list.dart';
-import '../../../wallet/ui/widgets/wallet_body/widgets/transaction_month_separator.dart';
 import '../../stores/dashboard/invest_dashboard_store.dart';
 import '../../stores/history/invest_history_store.dart';
 import '../invests/invest_line.dart';
