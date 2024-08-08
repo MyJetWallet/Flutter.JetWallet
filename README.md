@@ -107,3 +107,37 @@ All logging in the app is handled by [logging](https://pub.dev/packages/logging)
 ├── widget_extends
 └── widgets
 ```
+
+## Build Scripts
+
+### `build_process.sh`
+
+This script manages Dart and Flutter build processes for the entire project, including plugins.
+
+- **Tasks Performed:**
+   1. Runs `flutter pub get` for the root project.
+   2. Runs `flutter pub get` for each plugin located in the `plugins` directory.
+   3. Executes `dart run build_runner build --delete-conflicting-outputs` for each plugin.
+   4. Executes the same `build_runner` command for the root project.
+
+- **Usage:**
+   1. Navigate to the `scripts` directory in your terminal.
+   2. Ensure the script is executable (on macOS/Linux): `chmod +x build_process.sh`
+   3. Run the script: `./build_process.sh`
+
+  **Note:** For Windows users, use Git Bash or a similar Bash emulator to run the script.
+
+### `simple_build_process.sh`
+
+This script runs `flutter pub get` and `build_runner` for the root project only, without involving any plugins.
+
+- **Tasks Performed:**
+   1. Runs `flutter pub get` for the root project.
+   2. Executes `dart run build_runner build --delete-conflicting-outputs` for the root project.
+
+- **Usage:**
+   1. Navigate to the `scripts` directory in your terminal.
+   2. Ensure the script is executable (on macOS/Linux): `chmod +x simple_build_process.sh`
+   3. Run the script: `./simple_build_process.sh`
+
+  **Note:** For Windows users, use Git Bash or a similar Bash emulator to run the script.
