@@ -7,6 +7,7 @@ import 'package:jetwallet/features/send_gift/model/send_gift_info_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../core/di/di.dart';
 import '../../../core/l10n/i10n.dart';
@@ -113,21 +114,18 @@ class _GiftSelectAssetScreenState extends State<GiftSelectAssetScreen> {
                     return Column(
                       children: [
                         for (final currency in searchStore.convertCurrenciesWithBalance)
-                          SWalletItem(
-                            decline: currency.dayPercentChange.isNegative,
-                            icon: SNetworkSvg24(
+                          SimpleTableAccount(
+                            assetIcon: SNetworkSvg24(
                               url: currency.iconUrl,
                             ),
-                            primaryText: currency.description,
-                            amount: getIt<AppStore>().isBalanceHide
+                            label: currency.description,
+                            rightValue: getIt<AppStore>().isBalanceHide
                                 ? '**** ${baseCurrency.symbol}'
                                 : currency.volumeBaseBalance(baseCurrency),
-                            secondaryText: getIt<AppStore>().isBalanceHide
+                            supplement: getIt<AppStore>().isBalanceHide
                                 ? '******* ${currency.symbol}'
                                 : currency.volumeAssetBalance,
-                            removeDivider: currency == searchStore.convertCurrenciesWithBalance.last ||
-                                searchStore.convertCurrenciesWithBalance.length == 1,
-                            onTap: () {
+                            onTableAssetTap: () {
                               final sendGiftInfo = SendGiftInfoModel(currency: currency);
                               sRouter.push(
                                 GiftReceiversDetailsRouter(
@@ -135,7 +133,6 @@ class _GiftSelectAssetScreenState extends State<GiftSelectAssetScreen> {
                                 ),
                               );
                             },
-                            hideBalance: getIt<AppStore>().isBalanceHide,
                           ),
                       ],
                     );

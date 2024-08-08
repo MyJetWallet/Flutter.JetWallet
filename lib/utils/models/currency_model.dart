@@ -170,11 +170,10 @@ class CurrencyModel with _$CurrencyModel {
     required String network,
     required Decimal amount,
   }) {
-    return volumeFormat(
-      decimal: withdrawalFeeSize(
-        network: network,
-        amount: amount,
-      ),
+    return withdrawalFeeSize(
+      network: network,
+      amount: amount,
+    ).toFormatCount(
       symbol: symbol,
       accuracy: accuracy,
     );
@@ -187,14 +186,14 @@ class CurrencyModel with _$CurrencyModel {
   bool get hasTag => tagType != TagType.none;
 
   String volumeBaseBalance(BaseCurrencyModel baseCurrency) {
-    return baseBalance.toVolumeFormat(
+    return baseBalance.toFormatSum(
       accuracy: baseCurrency.accuracy,
       symbol: baseCurrency.symbol,
     );
   }
 
   String get volumeAssetBalance {
-    return assetBalance.toVolumeFormat(
+    return assetBalance.toFormatCount(
       accuracy: accuracy,
       symbol: symbol,
     );

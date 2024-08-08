@@ -5,7 +5,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/invest_transfer/store/invest_withdraw_confirmation_store.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
@@ -68,27 +68,23 @@ class _TransferConfirmationScreenBody extends StatelessObserverWidget {
                   isLoading: false,
                   fromAssetIconUrl: store.currency.iconUrl,
                   fromAssetDescription: intl.invest_transfer_invest,
-                  fromAssetValue: volumeFormat(
+                  fromAssetValue: store.amount.toFormatCount(
                     symbol: store.currency.symbol,
                     accuracy: store.currency.accuracy,
-                    decimal: store.amount,
                   ),
-                  fromAssetBaseAmount: '≈${volumeFormat(
+                  fromAssetBaseAmount: '≈${store.baseCryptoAmount.toFormatCount(
                     symbol: store.eurCurrency.symbol,
                     accuracy: store.eurCurrency.accuracy,
-                    decimal: store.baseCryptoAmount,
                   )}',
                   toAssetIconUrl: store.currency.iconUrl,
                   toAssetDescription: intl.invest_transfer_crypto_wallet,
-                  toAssetValue: volumeFormat(
-                    decimal: store.amount,
+                  toAssetValue: store.amount.toFormatCount(
                     symbol: store.currency.symbol,
                     accuracy: store.currency.accuracy,
                   ),
-                  toAssetBaseAmount: '≈${volumeFormat(
+                  toAssetBaseAmount: '≈${store.baseCryptoAmount.toFormatCount(
                     symbol: store.eurCurrency.symbol,
                     accuracy: store.eurCurrency.accuracy,
-                    decimal: store.baseCryptoAmount,
                   )}',
                 ),
                 const SizedBox(height: 19),

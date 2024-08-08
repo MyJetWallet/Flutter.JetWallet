@@ -6,7 +6,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
@@ -214,8 +214,7 @@ abstract class _SendGloballyConfirmStoreBase with Store {
         .push(
       SuccessScreenRouter(
         primaryText: intl.send_globally_success,
-        secondaryText: '${intl.send_globally_success_secondary} ${volumeFormat(
-          decimal: model.amount ?? Decimal.zero,
+        secondaryText: '${intl.send_globally_success_secondary} ${(model.amount ?? Decimal.zero).toFormatCount(
           accuracy: sendCurrency!.accuracy,
           symbol: sendCurrency!.symbol,
         )}'

@@ -6,7 +6,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/transfer_flow/store/transfer_confirmation_store.dart';
 import 'package:jetwallet/features/transfer_flow/widgets/transfer_confirmation_info_grid.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -91,10 +91,9 @@ class _TransferConfirmationScreenBody extends StatelessObserverWidget {
                   isLoading: !store.isDataLoaded,
                   fromAssetIconUrl: store.eurCurrency.iconUrl,
                   fromAssetDescription: store.fromLable,
-                  fromAssetValue: volumeFormat(
+                  fromAssetValue: store.fromAmount.toFormatCount(
                     symbol: store.eurCurrency.symbol,
                     accuracy: store.eurCurrency.accuracy,
-                    decimal: store.fromAmount,
                   ),
                   fromAssetCustomIcon: store.fromType == CredentialsType.unlimitCard
                       ? Assets.svg.assets.fiat.cardAlt.simpleSvg(
@@ -105,8 +104,7 @@ class _TransferConfirmationScreenBody extends StatelessObserverWidget {
                         ),
                   toAssetIconUrl: store.eurCurrency.iconUrl,
                   toAssetDescription: store.toLable,
-                  toAssetValue: volumeFormat(
-                    decimal: store.toAmount,
+                  toAssetValue: store.toAmount.toFormatCount(
                     accuracy: store.eurCurrency.accuracy,
                     symbol: store.eurCurrency.symbol,
                   ),

@@ -19,7 +19,6 @@ import 'package:provider/provider.dart';
 import 'package:rsa_encrypt/rsa_encrypt.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
-import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_add/card_add_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_add/card_add_response_model.dart';
 import 'package:uuid/uuid.dart';
@@ -285,20 +284,7 @@ abstract class _AddBankCardStoreBase with Store {
     required String cardId,
     bool showUaAlert = false,
   }) {
-    final finalCardNumber = cardNumber.substring(cardNumber.length - 4);
     sRouter.maybePop();
-    Timer(const Duration(milliseconds: 500), () {
-      sRouter.push(
-        CurrencyBuyRouter(
-          newBankCardId: cardId,
-          currency: currency,
-          fromCard: true,
-          paymentMethod: PaymentMethodType.bankCard,
-          newBankCardNumber: finalCardNumber,
-          showUaAlert: showUaAlert,
-        ),
-      );
-    });
   }
 
   @action

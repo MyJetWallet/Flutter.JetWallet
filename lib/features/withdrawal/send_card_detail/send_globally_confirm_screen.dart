@@ -8,7 +8,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/store/send_globally_confirm_store.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
@@ -17,6 +17,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_card_response.dart';
 
@@ -94,15 +95,13 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                     isLoading: false,
                     fromAssetIconUrl: state.sendCurrency!.iconUrl,
                     fromAssetDescription: state.sendCurrency!.symbol,
-                    fromAssetValue: volumeFormat(
+                    fromAssetValue: (data.amount ?? Decimal.zero).toFormatCount(
                       symbol: state.sendCurrency!.symbol,
                       accuracy: state.sendCurrency!.accuracy,
-                      decimal: data.amount ?? Decimal.zero,
                     ),
                     toAssetIconUrl: receiveAsset.iconUrl,
                     toAssetDescription: receiveAsset.symbol,
-                    toAssetValue: volumeFormat(
-                      decimal: data.estimatedReceiveAmount ?? Decimal.zero,
+                    toAssetValue: (data.estimatedReceiveAmount ?? Decimal.zero).toFormatSum(
                       accuracy: receiveAsset.accuracy,
                       symbol: receiveAsset.symbol,
                     ),
@@ -153,21 +152,19 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                   TwoColumnCell(
                     label: intl.send_globally_con_rate,
                     value:
-                        '''${state.sendCurrency!.prefixSymbol ?? ''} 1 ${state.sendCurrency!.prefixSymbol == null ? state.sendCurrency!.symbol : ''} = ${data.estimatedPrice} ${data.receiveAsset}''',
+                        '''${state.sendCurrency!.type == AssetType.crypto ? "1 ${state.sendCurrency!.symbol}" : "${state.sendCurrency!.prefixSymbol} 1"} = ${data.estimatedPrice?.toFormatPrice(prefix: receiveAsset.prefixSymbol)}''',
                     needHorizontalPadding: false,
                   ),
                   TwoColumnCell(
                     label: intl.global_send_history_sent,
-                    value: volumeFormat(
-                      decimal: (data.amount ?? Decimal.zero) - (data.feeAmount ?? Decimal.zero),
+                    value: ((data.amount ?? Decimal.zero) - (data.feeAmount ?? Decimal.zero)).toFormatCount(
                       accuracy: state.sendCurrency!.accuracy,
                       symbol: state.sendCurrency!.symbol,
                     ),
                     needHorizontalPadding: false,
                   ),
                   ProcessingFeeRowWidget(
-                    fee: volumeFormat(
-                      decimal: data.feeAmount ?? Decimal.zero,
+                    fee: (data.feeAmount ?? Decimal.zero).toFormatCount(
                       accuracy: state.sendCurrency!.accuracy,
                       symbol: state.sendCurrency!.symbol,
                     ),
@@ -207,8 +204,7 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                           name: intl.global_send_total_pay,
                           contentLoading: state.loader.loading,
                           valueColor: colors.blue,
-                          value: volumeFormat(
-                            decimal: data.amount ?? Decimal.zero,
+                          value: (data.amount ?? Decimal.zero).toFormatCount(
                             accuracy: state.sendCurrency!.accuracy,
                             symbol: state.sendCurrency!.symbol,
                           ),

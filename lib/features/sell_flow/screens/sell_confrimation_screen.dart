@@ -7,7 +7,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/features/sell_flow/store/sell_confirmation_store.dart';
 import 'package:jetwallet/features/sell_flow/widgets/sell_confirmation_info_grid.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
 @RoutePage(name: 'SellConfirmationRoute')
@@ -110,34 +111,39 @@ class _SellConfirmationScreenBody extends StatelessObserverWidget {
                   isLoading: !store.isDataLoaded,
                   fromAssetIconUrl: store.payCurrency.iconUrl,
                   fromAssetDescription: store.payCurrency.symbol,
-                  fromAssetValue: volumeFormat(
+                  fromAssetValue: (store.paymentAmount ?? Decimal.zero).toFormatCount(
                     symbol: store.payCurrency.symbol,
                     accuracy: store.payCurrency.accuracy,
-                    decimal: store.paymentAmount ?? Decimal.zero,
                   ),
                   toAssetIconUrl: store.buyCurrency.iconUrl,
                   toAssetDescription: store.buyCurrency.description,
-                  toAssetValue: volumeFormat(
-                    decimal: store.buyAmount ?? Decimal.zero,
+                  toAssetValue: (store.buyAmount ?? Decimal.zero).toFormatCount(
                     accuracy: store.buyCurrency.accuracy,
                     symbol: store.buyCurrency.symbol,
                   ),
                 ),
                 SellConfirmationInfoGrid(
-                  paymentFee: volumeFormat(
-                    decimal: store.depositFeeAmount ?? Decimal.zero,
-                    accuracy: store.depositFeeCurrency.accuracy,
-                    symbol: store.depositFeeCurrency.symbol,
-                  ),
-                  ourFee: volumeFormat(
-                    decimal: store.tradeFeeAmount ?? Decimal.zero,
-                    accuracy: store.tradeFeeCurreny.accuracy,
-                    symbol: store.tradeFeeCurreny.symbol,
-                  ),
-                  totalValue: volumeFormat(
+                  paymentFee: store.depositFeeCurrency.type == AssetType.crypto
+                      ? (store.depositFeeAmount ?? Decimal.zero).toFormatCount(
+                          accuracy: store.depositFeeCurrency.accuracy,
+                          symbol: store.depositFeeCurrency.symbol,
+                        )
+                      : (store.depositFeeAmount ?? Decimal.zero).toFormatSum(
+                          accuracy: store.depositFeeCurrency.accuracy,
+                          symbol: store.depositFeeCurrency.symbol,
+                        ),
+                  ourFee: store.tradeFeeCurreny.type == AssetType.crypto
+                      ? (store.tradeFeeAmount ?? Decimal.zero).toFormatCount(
+                          accuracy: store.tradeFeeCurreny.accuracy,
+                          symbol: store.tradeFeeCurreny.symbol,
+                        )
+                      : (store.tradeFeeAmount ?? Decimal.zero).toFormatSum(
+                          accuracy: store.tradeFeeCurreny.accuracy,
+                          symbol: store.tradeFeeCurreny.symbol,
+                        ),
+                  totalValue: (store.paymentAmount ?? Decimal.zero).toFormatCount(
                     symbol: store.payCurrency.symbol,
                     accuracy: store.payCurrency.accuracy,
-                    decimal: store.paymentAmount ?? Decimal.zero,
                   ),
                   paymentCurrency: store.payCurrency,
                   asset: store.buyCurrency,

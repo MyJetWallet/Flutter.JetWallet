@@ -19,7 +19,7 @@ import 'package:jetwallet/features/invest/ui/widgets/invest_close_bottom_sheet.d
 import 'package:jetwallet/features/invest/ui/widgets/invest_market_watch_bottom_sheet.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_modify_bottom_sheet.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_report_bottom_sheet.dart';
-import 'package:jetwallet/utils/formatting/base/market_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/localized_chart_resolution_button.dart';
 import 'package:simple_kit/core/simple_kit.dart';
 import 'package:simple_kit/modules/shared/page_frames/simple_page_frame.dart';
@@ -35,7 +35,6 @@ import 'package:simple_networking/modules/wallet_api/models/invest/new_invest_re
 import '../../../core/di/di.dart';
 import '../../../core/l10n/i10n.dart';
 import '../../../core/services/signal_r/signal_r_service_new.dart';
-import '../../../utils/formatting/base/volume_format.dart';
 import '../../../utils/helpers/currency_from.dart';
 import 'dashboard/new_invest_header.dart';
 import 'invests/data_line.dart';
@@ -192,13 +191,11 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
                         const SpaceH16(),
                         DataLine(
                           mainText: intl.invest_price,
-                          secondaryText: marketFormat(
-                            decimal: investStore.getPendingPriceBySymbol(
-                              widget.instrument.symbol ?? '',
-                            ),
-                            accuracy: widget.instrument.priceAccuracy ?? 2,
-                            symbol: '',
-                          ),
+                          secondaryText: investStore
+                              .getPendingPriceBySymbol(
+                                widget.instrument.symbol ?? '',
+                              )
+                              .toFormatSum(accuracy: widget.instrument.priceAccuracy ?? 2),
                         ),
                         const SpaceH16(),
                         Row(
@@ -209,12 +206,9 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
                               mainText: intl.invest_close_fee,
                               secondaryText: isBalanceHide
                                   ? 'Est. **** USDT'
-                                  : 'Est. ${volumeFormat(
-                                      decimal: (investNewStore.position!.volumeBase ?? Decimal.zero) *
-                                          investStore.getPendingPriceBySymbol(
-                                            widget.instrument.symbol ?? '',
-                                          ) *
-                                          (widget.instrument.closeFee ?? Decimal.zero),
+                                  : 'Est. ${((investNewStore.position!.volumeBase ?? Decimal.zero) * investStore.getPendingPriceBySymbol(
+                                        widget.instrument.symbol ?? '',
+                                      ) * (widget.instrument.closeFee ?? Decimal.zero)).toFormatCount(
                                       accuracy: 2,
                                       symbol: 'USDT',
                                     )}',
@@ -266,7 +260,17 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
                 },
                 onChartTypeChanged: (type) {},
                 candleResolution: investNewStore.resolution,
-                formatPrice: volumeFormat,
+                formatPrice: ({
+                  required int accuracy,
+                  required Decimal decimal,
+                  required bool onlyFullPart,
+                  required String symbol,
+                }) {
+                  return decimal.toFormatSum(
+                    accuracy: accuracy,
+                    symbol: symbol,
+                  );
+                },
                 candles: investNewStore.candles[investNewStore.resolution],
                 onCandleSelected: (value) {},
                 chartHeight: 243,
@@ -327,10 +331,8 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
           SPaddingH24(
             child: DataLine(
               mainText: intl.invest_open_price,
-              secondaryText: marketFormat(
-                decimal: investNewStore.position!.openPrice ?? Decimal.zero,
+              secondaryText: (investNewStore.position!.openPrice ?? Decimal.zero).toFormatSum(
                 accuracy: widget.instrument.priceAccuracy ?? 2,
-                symbol: '',
               ),
             ),
           ),
@@ -338,10 +340,8 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
           SPaddingH24(
             child: DataLine(
               mainText: intl.invest_liquidation_price,
-              secondaryText: marketFormat(
-                decimal: investNewStore.position!.stopOutPrice ?? Decimal.zero,
+              secondaryText: (investNewStore.position!.stopOutPrice ?? Decimal.zero).toFormatSum(
                 accuracy: widget.instrument.priceAccuracy ?? 2,
-                symbol: '',
               ),
             ),
           ),
@@ -377,15 +377,12 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
                   dotColor: colors.green,
                   mainText: intl.invest_limits_take_profit,
                   secondaryText: investNewStore.position!.takeProfitType == TPSLType.amount
-                      ? volumeFormat(
-                          decimal: investNewStore.position!.takeProfitAmount ?? Decimal.zero,
+                      ? (investNewStore.position!.takeProfitAmount ?? Decimal.zero).toFormatCount(
                           accuracy: 2,
                           symbol: 'USDT',
                         )
-                      : volumeFormat(
-                          decimal: investNewStore.position!.takeProfitPrice ?? Decimal.zero,
+                      : (investNewStore.position!.takeProfitPrice ?? Decimal.zero).toFormatCount(
                           accuracy: widget.instrument.priceAccuracy ?? 2,
-                          symbol: '',
                         ),
                 ),
               ),
@@ -398,15 +395,12 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
                   dotColor: colors.red,
                   mainText: intl.invest_limits_stop_loss,
                   secondaryText: investNewStore.position!.stopLossType == TPSLType.amount
-                      ? volumeFormat(
-                          decimal: (investNewStore.position!.stopLossAmount ?? Decimal.zero) * Decimal.fromInt(-1),
+                      ? ((investNewStore.position!.stopLossAmount ?? Decimal.zero) * Decimal.fromInt(-1)).toFormatCount(
                           accuracy: 2,
                           symbol: 'USDT',
                         )
-                      : volumeFormat(
-                          decimal: (investNewStore.position!.stopLossPrice ?? Decimal.zero) * Decimal.fromInt(-1),
+                      : ((investNewStore.position!.stopLossPrice ?? Decimal.zero) * Decimal.fromInt(-1)).toFormatCount(
                           accuracy: widget.instrument.priceAccuracy ?? 2,
-                          symbol: '',
                         ),
                 ),
               ),

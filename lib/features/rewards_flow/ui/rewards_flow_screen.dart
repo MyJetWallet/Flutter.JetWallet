@@ -10,7 +10,7 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/rewards_flow/store/rewards_flow_store.dart';
 import 'package:jetwallet/features/rewards_flow/ui/widgets/reward_share_card.dart';
 import 'package:jetwallet/features/rewards_flow/ui/widgets/rewards_balances_cell.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -154,8 +154,7 @@ class _RewardsFlowScreenBodyState extends State<_RewardsFlowScreenBody> {
                 const SpaceH32(),
                 SPaddingH24(
                   child: Text(
-                    '${intl.reward_your_reward_subtitle_1} ${getIt<AppStore>().isBalanceHide ? '**** ${getIt.get<FormatService>().baseCurrency.symbol}' : volumeFormat(
-                        decimal: store.totalEarnedBaseCurrency,
+                    '${intl.reward_your_reward_subtitle_1} ${getIt<AppStore>().isBalanceHide ? '**** ${getIt.get<FormatService>().baseCurrency.symbol}' : store.totalEarnedBaseCurrency.toFormatCount(
                         accuracy: getIt.get<FormatService>().baseCurrency.accuracy,
                         symbol: getIt.get<FormatService>().baseCurrency.symbol,
                       )}',

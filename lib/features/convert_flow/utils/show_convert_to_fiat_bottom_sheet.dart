@@ -8,7 +8,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
 import 'package:jetwallet/features/convert_flow/store/globa_convert_to_store.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -46,8 +46,7 @@ void showConvertToFiatBottomSheet({
                     supplement: intl.internal_exchange,
                     rightValue: getIt<AppStore>().isBalanceHide
                         ? '**** ${account.currency ?? 'EUR'}'
-                        : volumeFormat(
-                            decimal: account.balance ?? Decimal.zero,
+                        : (account.balance ?? Decimal.zero).toFormatSum(
                             accuracy: 2,
                             symbol: account.currency ?? 'EUR',
                           ),
@@ -73,8 +72,7 @@ void showConvertToFiatBottomSheet({
                     supplement: intl.internal_exchange,
                     rightValue: getIt<AppStore>().isBalanceHide
                         ? '**** ${card.currency ?? 'EUR'}'
-                        : volumeFormat(
-                            decimal: card.balance ?? Decimal.zero,
+                        : (card.balance ?? Decimal.zero).toFormatSum(
                             accuracy: 2,
                             symbol: card.currency ?? 'EUR',
                           ),

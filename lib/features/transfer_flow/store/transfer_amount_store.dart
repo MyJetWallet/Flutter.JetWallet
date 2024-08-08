@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
@@ -213,16 +213,14 @@ abstract class _TransfetAmountStoreBase with Store {
       );
     } else if (value < minLimit) {
       _updatePaymentMethodInputError(
-        '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
-          decimal: minLimit,
+        '${intl.currencyBuy_paymentInputErrorText1} ${minLimit.toFormatCount(
           accuracy: 2,
           symbol: 'EUR',
         )}',
       );
     } else if (value > maxLimit) {
       _updatePaymentMethodInputError(
-        '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
-          decimal: maxLimit,
+        '${intl.currencyBuy_paymentInputErrorText2} ${maxLimit.toFormatCount(
           accuracy: 2,
           symbol: 'EUR',
         )}',

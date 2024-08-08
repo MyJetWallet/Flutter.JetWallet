@@ -73,10 +73,9 @@ class _BuyVouncherConfirmationBody extends StatelessObserverWidget {
           ),
           onBackButtonTap: () {
             sAnalytics.tapOnTheBackButtonFromOrderSummaryBuyCoucherScreenView(
-              amount: volumeFormat(
+              amount: store.amount.toFormatCount(
                 symbol: store.payCurrency.symbol,
                 accuracy: store.payCurrency.accuracy,
-                decimal: store.amount,
               ),
               country: store.country?.isoCode ?? '',
               isAvailableAppleGooglePay: store.prewievResponce?.brand.isMobile ?? false,
@@ -108,17 +107,15 @@ class _BuyVouncherConfirmationBody extends StatelessObserverWidget {
                     fromAssetDescription: intl.prepaid_card_crypto_wallet,
                     fromAssetValue: getIt<AppStore>().isBalanceHide
                         ? '**** ${store.payCurrency.symbol}'
-                        : volumeFormat(
+                        : store.amount.toFormatCount(
                             symbol: store.payCurrency.symbol,
                             accuracy: store.payCurrency.accuracy,
-                            decimal: store.amount,
                           ),
                     toAssetIconUrl: store.buyCurrency.iconUrl,
                     toAssetDescription: intl.prepaid_card_prepaid_card_voucher,
                     toAssetValue: getIt<AppStore>().isBalanceHide
                         ? '**** ${store.buyCurrency.symbol}'
-                        : volumeFormat(
-                            decimal: store.amount,
+                        : store.amount.toFormatSum(
                             accuracy: store.buyCurrency.accuracy,
                             symbol: store.buyCurrency.symbol,
                           ),
@@ -149,8 +146,7 @@ class _BuyVouncherConfirmationBody extends StatelessObserverWidget {
                     label: intl.prepaid_card_card_balance,
                     value: getIt<AppStore>().isBalanceHide
                         ? '**** ${store.buyCurrency.symbol}'
-                        : marketFormat(
-                            decimal: store.prewievResponce?.amount ?? Decimal.zero,
+                        : (store.prewievResponce?.amount ?? Decimal.zero).toFormatSum(
                             symbol: store.buyCurrency.symbol,
                             accuracy: store.buyCurrency.accuracy,
                           ),
@@ -172,8 +168,7 @@ class _BuyVouncherConfirmationBody extends StatelessObserverWidget {
                         ? '**** ${store.buyCurrency.symbol}'
                         : (store.prewievResponce?.commission ?? Decimal.zero) == Decimal.zero
                             ? intl.prepaid_card_free
-                            : volumeFormat(
-                                decimal: store.prewievResponce?.commission ?? Decimal.zero,
+                            : (store.prewievResponce?.commission ?? Decimal.zero).toFormatCount(
                                 symbol: store.buyCurrency.symbol,
                               ),
                     customValueStyle: STStyles.subtitle2.copyWith(
@@ -221,10 +216,9 @@ class _BuyVouncherConfirmationBody extends StatelessObserverWidget {
                       name: intl.previewBuyWithAsset_confirm,
                       onTap: () {
                         sAnalytics.tapOnTheConfirmButtonOnOrderSummaryBuyVoucherScreenView(
-                          amount: volumeFormat(
+                          amount: store.amount.toFormatCount(
                             symbol: store.payCurrency.symbol,
                             accuracy: store.payCurrency.accuracy,
-                            decimal: store.amount,
                           ),
                           country: store.country?.isoCode ?? '',
                           isAvailableAppleGooglePay: store.prewievResponce?.brand.isMobile ?? false,

@@ -7,6 +7,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/modules/shared/simple_spacers.dart';
@@ -21,7 +22,6 @@ import 'package:simple_networking/modules/wallet_api/models/invest/new_invest_re
 import '../../../../core/di/di.dart';
 import '../../../../core/l10n/i10n.dart';
 import '../../../../core/services/notification_service.dart';
-import '../../../../utils/formatting/base/volume_format.dart';
 import '../../helpers/invest_period_info.dart';
 import '../../ui/invests/data_line.dart';
 import '../../ui/widgets/invest_alert_bottom_sheet.dart';
@@ -326,21 +326,18 @@ abstract class _InvestPositionsStoreBase with Store {
                   mainText: intl.invest_alert_close_all_profit,
                   secondaryText: isBalanceHide
                       ? '**** USDT'
-                      : volumeFormat(
-                          decimal: investStore.getProfitByPosition(position),
-                          accuracy: 2,
-                          symbol: 'USDT',
-                        ),
+                      : investStore.getProfitByPosition(position).toFormatCount(
+                            accuracy: 2,
+                            symbol: 'USDT',
+                          ),
                   secondaryColor: SColorsLight().green,
                 ),
                 const SpaceH8(),
                 DataLine(
                   mainText: intl.invest_close_price,
-                  secondaryText: volumeFormat(
-                    decimal: investStore.getPendingPriceBySymbol(instrument.symbol ?? ''),
-                    accuracy: instrument.priceAccuracy ?? 2,
-                    symbol: '',
-                  ),
+                  secondaryText: investStore.getPendingPriceBySymbol(instrument.symbol ?? '').toFormatCount(
+                        accuracy: instrument.priceAccuracy ?? 2,
+                      ),
                 ),
                 const SpaceH16(),
                 Row(
@@ -351,12 +348,12 @@ abstract class _InvestPositionsStoreBase with Store {
                       mainText: intl.invest_close_fee,
                       secondaryText: isBalanceHide
                           ? '**** USDT'
-                          : volumeFormat(
-                              decimal: (position.volumeBase ?? Decimal.zero) *
+                          : ((position.volumeBase ?? Decimal.zero) *
                                   investStore.getPendingPriceBySymbol(
                                     instrument.symbol ?? '',
                                   ) *
-                                  (instrument.closeFee ?? Decimal.zero),
+                                  (instrument.closeFee ?? Decimal.zero))
+                              .toFormatCount(
                               accuracy: instrument.priceAccuracy ?? 2,
                               symbol: 'USDT',
                             ),

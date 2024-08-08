@@ -6,7 +6,7 @@ import 'package:jetwallet/core/services/conversion_price_service/conversion_pric
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_service.dart';
 import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
@@ -201,16 +201,14 @@ abstract class _BuyVouncherAmountAtoreBase with Store {
 
     if (value < minLimit) {
       _updatePaymentMethodInputError(
-        '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
-          decimal: minLimit,
+        '${intl.currencyBuy_paymentInputErrorText1} ${minLimit.toFormatCount(
           accuracy: brandCurrency.accuracy,
           symbol: fiatSymbol,
         )}',
       );
     } else if (value > maxLimit) {
       _updatePaymentMethodInputError(
-        '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
-          decimal: maxLimit,
+        '${intl.currencyBuy_paymentInputErrorText2} ${maxLimit.toFormatCount(
           accuracy: brandCurrency.accuracy,
           symbol: fiatSymbol,
         )}',

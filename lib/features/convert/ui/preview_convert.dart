@@ -7,7 +7,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/convert/model/preview_convert_input.dart';
 import 'package:jetwallet/features/convert/model/preview_convert_union.dart';
 import 'package:jetwallet/features/convert/store/preview_convert_store.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/price_accuracy.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
@@ -103,9 +103,8 @@ class _PreviewConvertBodyState extends State<PreviewConvertBody> with SingleTick
                   ),
                 ),
                 Text(
-                  volumeFormat(
+                  (store.toAssetAmount ?? Decimal.zero).toFormatCount(
                     accuracy: to.accuracy,
-                    decimal: store.toAssetAmount ?? Decimal.zero,
                     symbol: to.symbol,
                   ),
                   textAlign: TextAlign.center,
@@ -120,9 +119,8 @@ class _PreviewConvertBodyState extends State<PreviewConvertBody> with SingleTick
                   baseline: 24,
                   name: intl.previewConvert_youSpend,
                   contentLoading: store.union is QuoteLoading && widget.input.toAssetEnabled,
-                  value: volumeFormat(
+                  value: (store.fromAssetAmount ?? Decimal.zero).toFormatCount(
                     accuracy: from.accuracy,
-                    decimal: store.fromAssetAmount ?? Decimal.zero,
                     symbol: from.symbol,
                   ),
                 ),
@@ -151,13 +149,11 @@ class _PreviewConvertBodyState extends State<PreviewConvertBody> with SingleTick
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          '${volumeFormat(
+                          '${Decimal.one.toFormatCount(
                             accuracy: from.accuracy,
-                            decimal: Decimal.one,
                             symbol: from.symbol,
-                          )} = ${volumeFormat(
+                          )} = ${(store.price ?? Decimal.zero).toFormatCount(
                             accuracy: accuracy,
-                            decimal: store.price ?? Decimal.zero,
                             symbol: to.symbol,
                           )}',
                           style: sSubtitle3Style,

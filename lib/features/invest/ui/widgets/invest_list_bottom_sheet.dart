@@ -10,7 +10,7 @@ import 'package:jetwallet/features/invest/ui/invests/invest_bottom_sheets/histor
 import 'package:jetwallet/features/invest/ui/invests/invest_bottom_sheets/pending_positions.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_alert_bottom_sheet.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_market_watch_bottom_sheet.dart';
-import 'package:jetwallet/utils/formatting/base/market_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
@@ -96,8 +96,7 @@ void showInvestListBottomSheet(BuildContext context) {
                                   secondaryButtonName: intl.invest_alert_close_all,
                                   bottomWidget: DataLine(
                                     mainText: intl.invest_alert_close_all_profit,
-                                    secondaryText: marketFormat(
-                                      decimal: investStore.totalProfit,
+                                    secondaryText: investStore.totalProfit.toFormatSum(
                                       accuracy: 2,
                                       symbol: currency.symbol,
                                     ),

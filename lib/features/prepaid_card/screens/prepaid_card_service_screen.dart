@@ -10,8 +10,8 @@ import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/prepaid_card/store/buy_vouncher_confirmation_store.dart';
 import 'package:jetwallet/features/prepaid_card/store/my_vounchers_store.dart';
 import 'package:jetwallet/features/prepaid_card/utils/show_repaid_card_reditect_dialog.dart';
-import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/loading_sliver_list.dart';
-import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/transaction_list_item.dart';
+import 'package:jetwallet/features/transaction_history/widgets/loading_sliver_list.dart';
+import 'package:jetwallet/features/transaction_history/widgets/transaction_list_item.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
@@ -325,8 +325,7 @@ class _VouncherItem extends StatelessWidget {
           : voucher.voucherCode ?? '',
       balanceChange: getIt<AppStore>().isBalanceHide
           ? '**** ${currency.symbol}'
-          : marketFormat(
-              decimal: voucher.cardAmount,
+          : voucher.cardAmount.toFormatSum(
               accuracy: currency.accuracy,
               symbol: currency.symbol,
             ),

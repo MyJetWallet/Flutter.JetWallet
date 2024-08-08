@@ -87,44 +87,40 @@ class _OfferOrderSummaruBody extends StatelessWidget {
                     fromAssetDescription: intl.earn_crypto_wallet,
                     fromAssetValue: isBalanceHide
                         ? '**** ${store.currency.symbol}'
-                        : volumeFormat(
-                            decimal: store.selectedAmount,
+                        : store.selectedAmount.toFormatCount(
                             symbol: store.currency.symbol,
                           ),
                     fromAssetBaseAmount: isBalanceHide
                         ? '**** ${sSignalRModules.baseCurrency.symbol}'
-                        : '≈${marketFormat(
-                            decimal: formatService.convertOneCurrencyToAnotherOne(
+                        : '≈${formatService.convertOneCurrencyToAnotherOne(
                               fromCurrency: store.currency.symbol,
                               fromCurrencyAmmount: store.selectedAmount,
                               toCurrency: sSignalRModules.baseCurrency.symbol,
                               baseCurrency: sSignalRModules.baseCurrency.symbol,
                               isMin: true,
-                            ),
-                            symbol: store.fiatSymbol,
-                            accuracy: store.eurCurrency.accuracy,
-                          )}',
+                            ).toFormatSum(
+                              symbol: store.fiatSymbol,
+                              accuracy: store.eurCurrency.accuracy,
+                            )}',
                     toAssetIconUrl: store.currency.iconUrl,
                     toAssetDescription: intl.earn_earn,
                     toAssetValue: isBalanceHide
                         ? '**** ${store.currency.symbol}'
-                        : volumeFormat(
-                            decimal: store.selectedAmount,
+                        : store.selectedAmount.toFormatCount(
                             symbol: store.currency.symbol,
                           ),
                     toAssetBaseAmount: isBalanceHide
                         ? '**** ${sSignalRModules.baseCurrency.symbol}'
-                        : '≈${marketFormat(
-                            decimal: formatService.convertOneCurrencyToAnotherOne(
+                        : '≈${formatService.convertOneCurrencyToAnotherOne(
                               fromCurrency: store.currency.symbol,
                               fromCurrencyAmmount: store.selectedAmount,
                               toCurrency: sSignalRModules.baseCurrency.symbol,
                               baseCurrency: sSignalRModules.baseCurrency.symbol,
                               isMin: true,
-                            ),
-                            symbol: store.fiatSymbol,
-                            accuracy: store.eurCurrency.accuracy,
-                          )}',
+                            ).toFormatSum(
+                              symbol: store.fiatSymbol,
+                              accuracy: store.eurCurrency.accuracy,
+                            )}',
                   ),
                   const SDivider(),
                   const SizedBox(height: 19),

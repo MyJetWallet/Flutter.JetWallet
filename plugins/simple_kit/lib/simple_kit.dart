@@ -46,10 +46,7 @@ export 'modules/agreements/simple_privacy_policy/simple_policy_text.dart';
 /// Asset Items
 export 'modules/asset_items/simple_action_item.dart';
 export 'modules/asset_items/simple_asset_item.dart';
-export 'modules/asset_items/simple_fiat_item.dart';
 export 'modules/asset_items/simple_market_item.dart';
-export 'modules/asset_items/simple_wallet_item.dart';
-export 'modules/asset_items/simple_credit_card_item.dart';
 export 'modules/asset_items/simple_card_row.dart';
 
 /// Market Banners

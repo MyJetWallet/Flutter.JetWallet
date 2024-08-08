@@ -19,7 +19,7 @@ import '../../../actions/action_send/widgets/show_send_timer_alert_or.dart';
 import '../../../kyc/helper/kyc_alert_handler.dart';
 import '../../../kyc/kyc_service.dart';
 import '../../../kyc/models/kyc_operation_status_model.dart';
-import '../../../wallet/ui/widgets/wallet_body/widgets/transactions_list_item/transaction_list_loading_item.dart';
+import '../../../transaction_history/widgets/transaction_list_loading_item.dart';
 import '../../helpers/invest_period_info.dart';
 import '../../stores/dashboard/invest_dashboard_store.dart';
 import '../../stores/dashboard/invest_positions_store.dart';

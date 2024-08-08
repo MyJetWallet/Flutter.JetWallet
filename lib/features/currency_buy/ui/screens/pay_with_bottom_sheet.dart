@@ -16,6 +16,7 @@ import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/p2p_buy/utils/show_unfinished_operation_pop_up.dart';
 import 'package:jetwallet/utils/balances/crypto_balance.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -269,7 +270,7 @@ class PayWithScreen extends StatelessObserverWidget {
                   },
                   rightValue: getIt<AppStore>().isBalanceHide
                       ? '**** ${account.currency}'
-                      : '${account.balance} ${account.currency}',
+                      : '${account.balance?.toFormatSum(symbol: account.currency, accuracy: 2)}',
                 ),
             ],
             const SpaceH45(),

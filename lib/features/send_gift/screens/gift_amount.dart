@@ -57,8 +57,7 @@ class _GiftAmountState extends State<GiftAmount> {
         child: SSmallHeader(
           title: intl.send_gift_title,
           subTitle:
-              '${intl.send_gift_available}: ${getIt<AppStore>().isBalanceHide ? '**** ${widget.sendGiftInfo.currency?.symbol ?? ''}' : volumeFormat(
-                  decimal: geftSendAmountStore.availableCurrency,
+              '${intl.send_gift_available}: ${getIt<AppStore>().isBalanceHide ? '**** ${widget.sendGiftInfo.currency?.symbol ?? ''}' : geftSendAmountStore.availableCurrency.toFormatCount(
                   accuracy: widget.sendGiftInfo.currency?.accuracy ?? 0,
                   symbol: widget.sendGiftInfo.currency?.symbol ?? '',
                 )}',

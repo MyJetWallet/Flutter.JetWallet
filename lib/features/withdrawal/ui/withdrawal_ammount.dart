@@ -9,8 +9,7 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/features/withdrawal/helper/user_will_receive.dart';
 import 'package:jetwallet/features/withdrawal/store/withdrawal_store.dart';
-import 'package:jetwallet/utils/formatting/base/market_format.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
@@ -102,9 +101,8 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
                       value: store.withAmount,
                       symbol: store.withdrawalInputModel!.currency!.symbol,
                     ),
-                    helper: '≈ ${marketFormat(
+                    helper: '≈ ${Decimal.parse(store.baseConversionValue).toFormatSum(
                       accuracy: store.baseCurrency.accuracy,
-                      decimal: Decimal.parse(store.baseConversionValue),
                       symbol: store.baseCurrency.symbol,
                     )}',
                     error: error,
@@ -129,8 +127,7 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
                   baselineType: TextBaseline.alphabetic,
                   child: Text(
                     '${intl.withdrawalAmount_available}: '
-                    '${getIt<AppStore>().isBalanceHide ? '**** ${store.withdrawalInputModel!.currency!.symbol}' : volumeFormat(
-                        decimal: availableBalance,
+                    '${getIt<AppStore>().isBalanceHide ? '**** ${store.withdrawalInputModel!.currency!.symbol}' : availableBalance.toFormatCount(
                         accuracy: store.withdrawalInputModel!.currency!.accuracy,
                         symbol: store.withdrawalInputModel!.currency!.symbol,
                       )}',

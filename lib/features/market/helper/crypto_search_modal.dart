@@ -4,11 +4,13 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/actions/store/action_search_store.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../core/services/signal_r/signal_r_service_new.dart';
-import '../../../utils/formatting/base/market_format.dart';
+import '../../../utils/formatting/base/format_percent.dart';
 import '../../../widgets/empty_search_result.dart';
 
 void showCryptoSearch(BuildContext context) {
@@ -65,20 +67,20 @@ class _ActionCryptoSearch extends StatelessObserverWidget {
           ),
         if (state.filteredMarketCurrencies.length != state.marketCurrencies.length)
           for (final currency in state.filteredMarketCurrencies)
-            SMarketItem(
-              icon: SNetworkSvg24(
+            SimpleTableAsset(
+              assetIcon: SNetworkSvg24(
                 url: currency.iconUrl,
               ),
-              name: currency.name,
-              price: marketFormat(
-                decimal: currency.lastPrice,
-                symbol: baseCurrency.symbol,
+              label: currency.name,
+              rightValue: currency.lastPrice.toFormatPrice(
+                prefix: baseCurrency.prefix,
                 accuracy: currency.priceAccuracy,
               ),
-              ticker: currency.symbol,
-              last: currency == state.filteredMarketCurrencies.last,
-              percent: currency.dayPercentChange,
-              onTap: () {
+              supplement: currency.symbol,
+              rightMarketValue: formatPercent(currency.dayPercentChange),
+              isRightValueMarket: true,
+              rightValueMarketPositive: currency.dayPercentChange > 0,
+              onTableAssetTap: () {
                 Navigator.pop(context);
                 sRouter.push(
                   MarketDetailsRouter(
@@ -89,20 +91,20 @@ class _ActionCryptoSearch extends StatelessObserverWidget {
             )
         else
           for (var i = 0; i < 3; i++)
-            SMarketItem(
-              icon: SNetworkSvg24(
+            SimpleTableAsset(
+              assetIcon: SNetworkSvg24(
                 url: state.filteredMarketCurrencies[i].iconUrl,
               ),
-              name: state.filteredMarketCurrencies[i].name,
-              price: marketFormat(
-                decimal: state.filteredMarketCurrencies[i].lastPrice,
-                symbol: baseCurrency.symbol,
+              label: state.filteredMarketCurrencies[i].name,
+              rightValue: state.filteredMarketCurrencies[i].lastPrice.toFormatPrice(
+                prefix: baseCurrency.prefix,
                 accuracy: state.filteredMarketCurrencies[i].priceAccuracy,
               ),
-              ticker: state.filteredMarketCurrencies[i].symbol,
-              last: i == 2,
-              percent: state.filteredMarketCurrencies[i].dayPercentChange,
-              onTap: () {
+              supplement: state.filteredMarketCurrencies[i].symbol,
+              rightMarketValue: formatPercent(state.filteredMarketCurrencies[i].dayPercentChange),
+              rightValueMarketPositive: state.filteredMarketCurrencies[i].dayPercentChange > 0,
+              isRightValueMarket: true,
+              onTableAssetTap: () {
                 Navigator.pop(context);
                 sRouter.push(
                   MarketDetailsRouter(

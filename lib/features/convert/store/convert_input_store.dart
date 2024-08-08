@@ -6,7 +6,7 @@ import 'package:jetwallet/core/services/conversion_price_service/conversion_pric
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/convert/helper/remove_currency_from_list.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
@@ -394,14 +394,12 @@ abstract class _ConvertInputStoreBase with Store {
       final value = Decimal.parse(fromAssetAmount);
 
       if (fromAsset?.minTradeAmount != null && fromAsset!.minTradeAmount! > value) {
-        limitError = '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
-          decimal: fromAsset!.minTradeAmount!,
+        limitError = '${intl.currencyBuy_paymentInputErrorText1} ${fromAsset!.minTradeAmount?.toFormatCount(
           accuracy: fromAsset?.accuracy ?? 0,
           symbol: fromAsset?.symbol ?? '',
         )}';
       } else if (fromAsset?.maxTradeAmount != null && fromAsset!.maxTradeAmount! < value) {
-        limitError = '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
-          decimal: fromAsset!.maxTradeAmount!,
+        limitError = '${intl.currencyBuy_paymentInputErrorText2} ${fromAsset!.maxTradeAmount?.toFormatCount(
           accuracy: fromAsset?.accuracy ?? 1,
           symbol: fromAsset?.symbol ?? '',
         )}';

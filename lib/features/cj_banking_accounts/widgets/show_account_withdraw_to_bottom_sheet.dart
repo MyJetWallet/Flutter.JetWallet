@@ -10,7 +10,7 @@ import 'package:jetwallet/features/cj_banking_accounts/store/account_withdraw_to
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/withdrawal_banking/helpers/show_bank_transfer_select.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
@@ -104,8 +104,7 @@ class _WithdrawToBody extends StatelessWidget {
                   account.isClearjuctionAccount ? intl.eur_wallet_simple_account : intl.eur_wallet_personal_account,
               rightValue: getIt<AppStore>().isBalanceHide
                   ? '**** ${account.currency ?? 'EUR'}'
-                  : volumeFormat(
-                      decimal: account.balance ?? Decimal.zero,
+                  : (account.balance ?? Decimal.zero).toFormatSum(
                       accuracy: 2,
                       symbol: account.currency ?? 'EUR',
                     ),
@@ -131,8 +130,7 @@ class _WithdrawToBody extends StatelessWidget {
               supplement: '${card.cardType?.frontName} ••• ${card.last4NumberCharacters}',
               rightValue: getIt<AppStore>().isBalanceHide
                   ? '**** ${card.currency ?? 'EUR'}'
-                  : volumeFormat(
-                      decimal: card.balance ?? Decimal.zero,
+                  : (card.balance ?? Decimal.zero).toFormatSum(
                       accuracy: 2,
                       symbol: card.currency ?? 'EUR',
                     ),

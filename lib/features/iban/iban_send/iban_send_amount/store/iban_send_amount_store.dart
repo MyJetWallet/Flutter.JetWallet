@@ -7,7 +7,7 @@ import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/calculate_base_balance.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
@@ -261,14 +261,12 @@ abstract class _IbanSendAmountStoreBase with Store {
     final value = Decimal.parse(withAmount);
 
     if (_minLimit != null && _minLimit! > value) {
-      limitError = '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
-        decimal: _minLimit!,
+      limitError = '${intl.currencyBuy_paymentInputErrorText1} ${_minLimit?.toFormatCount(
         accuracy: eurCurrency.accuracy,
         symbol: eurCurrency.symbol,
       )}';
     } else if (_maxLimit != null && _maxLimit! < value) {
-      limitError = '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
-        decimal: _maxLimit!,
+      limitError = '${intl.currencyBuy_paymentInputErrorText2} ${_maxLimit?.toFormatCount(
         accuracy: eurCurrency.accuracy,
         symbol: eurCurrency.symbol,
       )}';

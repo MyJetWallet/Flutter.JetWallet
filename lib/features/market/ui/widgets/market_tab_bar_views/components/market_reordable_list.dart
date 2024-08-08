@@ -4,7 +4,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/market_watchlist_items.dart';
 import 'package:jetwallet/features/market/store/watchlist_store.dart';
-import 'package:jetwallet/utils/formatting/base/market_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 class MarketReorderableList extends StatelessObserverWidget {
@@ -34,8 +34,7 @@ class MarketReorderableList extends StatelessObserverWidget {
               url: item.iconUrl,
             ),
             name: item.name,
-            price: marketFormat(
-              decimal: item.lastPrice,
+            price: item.lastPrice.toFormatSum(
               symbol: baseCurrency.symbol,
               accuracy: item.priceAccuracy,
             ),

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/p2p_buy/store/buy_p2p_confirmation_store.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
@@ -131,12 +131,10 @@ class _ConfirmationInfoGridState extends State<BuyP2PConfirmationInfoGrid> with 
               ),
               const SizedBox(width: 8),
               Text(
-                '${volumeFormat(
+                '${Decimal.one.toFormatCount(
                   accuracy: widget.asset.accuracy,
-                  decimal: Decimal.one,
                   symbol: widget.asset.symbol,
-                )} = ${volumeFormat(
-                  decimal: store.rate ?? Decimal.zero,
+                )} = ${(store.rate ?? Decimal.zero).toFormatCount(
                   symbol: store.paymentAsset?.asset ?? '',
                 )}',
                 style: sSubtitle3Style,

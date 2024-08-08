@@ -1,12 +1,13 @@
 import 'package:charts/components/loading_chart_view.dart';
 import 'package:charts/main.dart';
 import 'package:charts/simple_chart.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/chart/store/chart_store.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
-import 'package:jetwallet/utils/formatting/base/market_format.dart';
+import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
 import 'package:jetwallet/utils/helpers/localized_chart_resolution_button.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -44,7 +45,17 @@ class _AssetChartState extends State<AssetChart> with SingleTickerProviderStateM
           },
           chartType: chartStore.type,
           candleResolution: chartStore.resolution,
-          formatPrice: marketFormat,
+          formatPrice: ({
+            required int accuracy,
+            required Decimal decimal,
+            required bool onlyFullPart,
+            required String symbol,
+          }) {
+            return decimal.toFormatSum(
+              accuracy: accuracy,
+              symbol: symbol,
+            );
+          },
           candles: chartStore.candles[chartStore.resolution],
           onCandleSelected: widget.onCandleSelected,
           chartHeight: 240,
