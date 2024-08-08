@@ -245,12 +245,14 @@ class RemoteConfig {
   void overrideAppsFlyerValues() {
     appsFlyerKey = remoteConfig!.appsFlyer.devKey;
     iosAppId = remoteConfig!.appsFlyer.iosAppId;
+    androidAppId = remoteConfig!.appsFlyer.androidAppId;
 
     if (!getIt.isRegistered<AppsFlyerService>()) {
       getIt.registerSingleton<AppsFlyerService>(
         AppsFlyerService.create(
           devKey: appsFlyerKey,
           iosAppId: iosAppId,
+          androidAppId: androidAppId,
         ),
       );
     }

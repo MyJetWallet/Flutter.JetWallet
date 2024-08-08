@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
@@ -5,10 +7,11 @@ class AppsFlyerService {
   AppsFlyerService.create({
     required this.devKey,
     required this.iosAppId,
+    required this.androidAppId,
   }) {
     final options = AppsFlyerOptions(
       afDevKey: devKey,
-      appId: iosAppId,
+      appId: Platform.isIOS ? iosAppId : androidAppId,
       disableCollectASA: false,
       disableAdvertisingIdentifier: false,
       timeToWaitForATTUserAuthorization: 60,
@@ -19,6 +22,7 @@ class AppsFlyerService {
 
   final String devKey;
   final String iosAppId;
+  final String androidAppId;
 
   late AppsflyerSdk appsflyerSdk;
 
