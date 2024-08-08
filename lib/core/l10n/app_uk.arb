@@ -5845,5 +5845,15 @@
     "withdraw_failure_screen_secondary_button_name": "Редагувати замовлення",
     "news_section_partner": "За підтримки CryptoPanic",
     "news_section_crypto_news": "Новини криптовалют",
-    "earn_section_all_time": "Весь час"
+    "earn_section_all_time": "Весь час",
+    "wallet_price": "Ціна {asset}",
+    "@wallet_price": {
+        "placeholders": {
+            "asset": {
+                "type": "String",
+                "example": "Bitcoin"
+            }
+        }
+    },
+    "wallet_history_view_all": "Переглянути всі"
 }
