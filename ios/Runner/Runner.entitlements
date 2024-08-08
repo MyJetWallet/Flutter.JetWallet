@@ -9,6 +9,7 @@
 		<string>applinks:jetwallet.page.link</string>
 		<string>applinks:mobile.simple-spot.biz</string>
 		<string>applinks:mobile.simple.app</string>
+		<string>webcredentials:example.com</string>
 	</array>
 </dict>
 </plist>
