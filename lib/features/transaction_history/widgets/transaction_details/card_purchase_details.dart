@@ -112,7 +112,7 @@ class CardPurchaseDetails extends StatelessObserverWidget {
           Builder(
             builder: (context) {
               return TransactionDetailsNewItem(
-                text: intl.iban_send_history_payment_fee,
+                text: intl.provider_fee,
                 showInfoIcon: true,
                 fee: (transactionListItem.cardPurchaseInfo?.paymentFeeAmount ?? Decimal.zero).toFormatSum(
                   symbol: transactionListItem.cardPurchaseInfo?.paymentFeeAssetId ??

@@ -112,7 +112,7 @@ class CardRefundDetails extends StatelessObserverWidget {
           Builder(
             builder: (context) {
               return TransactionDetailsNewItem(
-                text: intl.iban_send_history_payment_fee,
+                text: intl.provider_fee,
                 showInfoIcon: true,
                 fee: (transactionListItem.cardRefundInfo?.paymentFeeAmount ?? Decimal.zero).toFormatSum(
                   accuracy: currency.accuracy,

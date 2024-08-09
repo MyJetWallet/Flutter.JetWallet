@@ -35,7 +35,7 @@ class TransactionDetailsNewItem extends StatelessWidget {
               onTap: () {
                 _feeExplanation(
                   context: context,
-                  title: intl.buy_confirmation_payment_fee,
+                  title: intl.provider_fee,
                   fee: fee!,
                   description: intl.buy_confirmation_payment_fee_description,
                 );
