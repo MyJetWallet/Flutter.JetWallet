@@ -555,7 +555,7 @@
     "previewBuyWithUmlimint_disclaimerTerms": "Conditions Générales",
     "previewBuyWithUmlimint_disclaimerPolicy": "Politique de confidentialité",
     "previewBuyWithUmlimint_saveCard": "Enregistrez cette carte",
-    "previewBuyWithUnlimint_paymentFee": "Frais de paiement",
+    "previewBuyWithUnlimint_paymentFee": "Frais du fournisseur",
     "previewBuyWithUnlimint_simpleFee": "Frais de Simple",
     "previewBuyWithUnlimint_transactionFee": "Frais de transaction",
     "previewBuyWithUnlimint_thirdFee": "Frais de tiers",
@@ -791,13 +791,13 @@
     "card_congrats_desc": "Nous vous informerons lorsque la carte Simple sera disponible à la commande.",
     "card_got_it": "Compris",
     "card_making_desc": "Votre carte Simple est en cours de création, restez à l'écoute pour les mises à jour!",
-    "history_payment_fee": "Frais de paiement",
+    "history_payment_fee": "Frais du fournisseur",
     "buy_payment_currency": "Monnaie de paiement",
     "buy_flow_payment_method": "Méthode de paiement",
     "payment_method_cards": "Cartes",
     "add_card_text": "Ajoutez carte",
     "buy_confirmation_title": "Résumé de la commande",
-    "buy_confirmation_payment_fee": "Frais de paiement",
+    "buy_confirmation_payment_fee": "Frais du fournisseur",
     "buy_confirmation_privacy_checkbox_1": "J'ai lu et accepté ",
     "buy_confirmation_privacy_checkbox_2": "Conditions Générales",
     "buy_confirmation_privacy_checkbox_3": "Politique de confidentialité",
@@ -939,7 +939,7 @@
     "cvv_description": "Généralement, le CVV se trouve au dos de la carte",
     "iban_out_sent_to": "Envoyer à",
     "iban_out_benificiary": "Bénéficiaire",
-    "iban_send_history_payment_fee": "Frais de paiement",
+    "iban_send_history_payment_fee": "Frais du fournisseur",
     "withdrawal_withdrawn": "Retiré",
     "iban_terms_5": "Vous pouvez recevoir des fonds de n'importe qui",
     "my_wallets_accounts": "compte(s)",
@@ -1675,5 +1675,6 @@
             }
         }
     },
-    "wallet_history_view_all": "Voir tout"
+    "wallet_history_view_all": "Voir tout",
+    "provider_fee": "Frais du fournisseur"
 }
