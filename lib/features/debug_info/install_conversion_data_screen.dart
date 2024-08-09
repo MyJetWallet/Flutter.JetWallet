@@ -17,6 +17,8 @@ class InstallConversionDataScreen extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final installConversionData = getIt.get<AppsFlyerService>().tempInstallConversionData;
+    final iosAppId = getIt.get<AppsFlyerService>().iosAppId;
+    final androidAppId = getIt.get<AppsFlyerService>().androidAppId;
 
     return SPageFrame(
       loaderText: intl.loader_please_wait,
@@ -28,7 +30,13 @@ class InstallConversionDataScreen extends StatelessObserverWidget {
         ),
       ),
       child: SPaddingH24(
-        child: Text(installConversionData),
+        child: Column(
+          children: [
+            Text(iosAppId),
+            Text(androidAppId),
+            Text(installConversionData),
+          ],
+        ),
       ),
     );
   }
