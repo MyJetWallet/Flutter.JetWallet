@@ -27,6 +27,7 @@ class AppsFlyerService {
   late AppsflyerSdk appsflyerSdk;
 
   String tempInstallConversionData = '';
+  String tempDeepLinkData = '';
 
   Future<void> init() async {
     await appsflyerSdk.initSdk(
@@ -37,6 +38,10 @@ class AppsFlyerService {
 
     appsflyerSdk.onInstallConversionData((value) {
       tempInstallConversionData = value.toString();
+    });
+
+    appsflyerSdk.onDeepLinking((deepLink) {
+      tempDeepLinkData = deepLink.toJson().toString();
     });
   }
 

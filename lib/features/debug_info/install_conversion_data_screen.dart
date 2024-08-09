@@ -17,6 +17,7 @@ class InstallConversionDataScreen extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final installConversionData = getIt.get<AppsFlyerService>().tempInstallConversionData;
+    final deepLinkData = getIt.get<AppsFlyerService>().tempDeepLinkData;
     final iosAppId = getIt.get<AppsFlyerService>().iosAppId;
     final androidAppId = getIt.get<AppsFlyerService>().androidAppId;
 
@@ -35,6 +36,7 @@ class InstallConversionDataScreen extends StatelessObserverWidget {
             Text(iosAppId),
             Text(androidAppId),
             Text(installConversionData),
+            Text(deepLinkData),
           ],
         ),
       ),
