@@ -16,6 +16,8 @@ import '../../wallet/helper/format_date.dart';
 import 'loading_sliver_list.dart';
 import 'transaction_month_separator.dart';
 
+enum TransactionListMode { full, preview }
+
 class TransactionsList extends StatelessWidget {
   const TransactionsList({
     super.key,
@@ -28,6 +30,8 @@ class TransactionsList extends StatelessWidget {
     this.isSimpleCard = false,
     required this.source,
     this.onError,
+    this.onData,
+    this.mode = TransactionListMode.full,
   });
 
   final ScrollController scrollController;
@@ -36,23 +40,23 @@ class TransactionsList extends StatelessWidget {
   final bool isRecurring;
   final void Function(String assetSymbol)? onItemTapLisener;
   final Function(String reason)? onError;
+  final Function(List<OperationHistoryItem> items)? onData;
   final bool fromCJAccount;
   final bool isSimpleCard;
   final TransactionItemSource source;
+  final TransactionListMode mode;
 
   @override
   Widget build(BuildContext context) {
     return Provider<OperationHistory>(
       create: (context) => OperationHistory(
-        symbol,
-        null,
-        isRecurring,
-        null,
-        false,
-        accountId,
-        isSimpleCard,
-        onError,
-        null,
+        assetId: symbol,
+        isRecurring: isRecurring,
+        accountId: accountId,
+        isCard: isSimpleCard,
+        onError: onError,
+        onData: onData,
+        mode: mode,
       )..initOperationHistory(),
       builder: (context, child) => _TransactionsListBody(
         scrollController: scrollController,

@@ -1689,5 +1689,15 @@
     "withdraw_failure_screen_secondary_button_name": "Editar orden",
     "news_section_partner": "Impulsado por CryptoPanic",
     "news_section_crypto_news": "Noticias de criptomonedas",
-    "earn_section_all_time": "Todo el tiempo"
+    "earn_section_all_time": "Todo el tiempo",
+    "wallet_price": "Precio de {asset}",
+    "@wallet_price": {
+        "placeholders": {
+            "asset": {
+                "type": "String",
+                "example": "Bitcoin"
+            }
+        }
+    },
+    "wallet_history_view_all": "Ver todo"
 }

@@ -1753,5 +1753,15 @@
     "withdraw_failure_screen_secondary_button_name": "Edytuj zamówienie",
     "news_section_partner": "Zasilane przez CryptoPanic",
     "news_section_crypto_news": "Wiadomości kryptowalutowe",
-    "earn_section_all_time": "Cały czas"
+    "earn_section_all_time": "Cały czas",
+    "wallet_price": "Cena {asset}",
+    "@wallet_price": {
+        "placeholders": {
+            "asset": {
+                "type": "String",
+                "example": "Bitcoin"
+            }
+        }
+    },
+    "wallet_history_view_all": "Przegląd"
 }

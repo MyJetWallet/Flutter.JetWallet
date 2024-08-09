@@ -51,15 +51,12 @@ class _TransactionsMainListState extends State<TransactionsMainList> with Automa
 
     return Provider<OperationHistory>(
       create: (context) => OperationHistory(
-        widget.symbol,
-        widget.filter,
-        widget.isRecurring,
-        widget.jwOperationId,
-        widget.pendingOnly,
-        null,
-        null,
-        null,
-        widget.jwOperationPtpManage,
+        assetId: widget.symbol,
+        filter: widget.filter,
+        isRecurring: widget.isRecurring,
+        jwOperationId: widget.jwOperationId,
+        pendingOnly: widget.pendingOnly,
+        jwOperationPtpManage: widget.jwOperationPtpManage,
       )..initOperationHistory(),
       //dispose: (context, value) => value.stopTimer(),
       builder: (context, child) => _TransactionsListBody(
