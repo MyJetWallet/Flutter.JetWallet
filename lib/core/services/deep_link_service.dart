@@ -339,6 +339,26 @@ class DeepLinkService {
     }
   }
 
+  ///
+  /// AppsFlyer OneLink
+  ///
+
+  Future<void> handleOneLinkAction(String deepLinkValue) async {
+    getIt.get<SimpleLoggerService>().log(
+          level: Level.error,
+          place: _loggerService,
+          message: 'handleOneLinkAction \n\n $deepLinkValue',
+        );
+
+    final uri = Uri.parse(deepLinkValue);
+
+    final isValidUrl = uri.isAbsolute && uri.hasScheme && uri.host.isNotEmpty;
+
+    if (isValidUrl) {
+      handle(uri);
+    }
+  }
+
   /// Push Notification Links
 
   Future<void> handlePushNotificationLink(RemoteMessage message) async {

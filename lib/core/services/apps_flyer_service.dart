@@ -2,12 +2,15 @@ import 'dart:io';
 
 import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/services/deep_link_service.dart';
+import 'package:jetwallet/core/services/local_storage_service.dart';
 
 class AppsFlyerService {
   AppsFlyerService.create({
-    required this.devKey,
-    required this.iosAppId,
-    required this.androidAppId,
+    required String devKey,
+    required String iosAppId,
+    required String androidAppId,
   }) {
     final options = AppsFlyerOptions(
       afDevKey: devKey,
@@ -20,14 +23,11 @@ class AppsFlyerService {
     appsflyerSdk = AppsflyerSdk(options);
   }
 
-  final String devKey;
-  final String iosAppId;
-  final String androidAppId;
+  final LocalStorageService storage = sLocalStorageService;
 
   late AppsflyerSdk appsflyerSdk;
 
-  String tempInstallConversionData = '';
-  String tempDeepLinkData = '';
+  String installConversionDataTemp = '';
 
   Future<void> init() async {
     await appsflyerSdk.initSdk(
@@ -36,12 +36,20 @@ class AppsFlyerService {
       registerOnDeepLinkingCallback: true,
     );
 
-    appsflyerSdk.onInstallConversionData((value) {
-      tempInstallConversionData = value.toString();
+    appsflyerSdk.onInstallConversionData((value) async {
+      installConversionDataTemp = value.toString();
+      final prevInstallConversionData = await storage.getValue(installConversionDataKey);
+      if (prevInstallConversionData == null || prevInstallConversionData.isEmpty) {
+        await storage.setString(installConversionDataKey, value.toString());
+      }
     });
 
     appsflyerSdk.onDeepLinking((deepLink) {
-      tempDeepLinkData = deepLink.toJson().toString();
+      storage.setJson(onelinkDataKey, deepLink.toJson());
+
+      if (deepLink.deepLink?.deepLinkValue != null) {
+        getIt.get<DeepLinkService>().handleOneLinkAction(deepLink.deepLink!.deepLinkValue!);
+      }
     });
   }
 

@@ -70,7 +70,6 @@
                 <data android:host="promo.simple.app" android:scheme="https" />
                 <data android:host="simple-uat.simple-spot.biz" android:scheme="http" />
                 <data android:host="mytestlink.onelink.me" android:scheme="https" />
-                <data android:host="main" android:scheme="simple" />
             </intent-filter>
 
 

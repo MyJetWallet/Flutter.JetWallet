@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/apps_flyer_service.dart';
-import 'package:share_plus/share_plus.dart';
+import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../core/l10n/i10n.dart';
@@ -16,27 +16,33 @@ class InstallConversionDataScreen extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final installConversionData = getIt.get<AppsFlyerService>().tempInstallConversionData;
-    final deepLinkData = getIt.get<AppsFlyerService>().tempDeepLinkData;
-    final iosAppId = getIt.get<AppsFlyerService>().iosAppId;
-    final androidAppId = getIt.get<AppsFlyerService>().androidAppId;
+    final storage = sLocalStorageService;
+    final installConversionDataTemp = getIt.get<AppsFlyerService>().installConversionDataTemp;
 
     return SPageFrame(
       loaderText: intl.loader_please_wait,
-      header: SPaddingH24(
+      header: const SPaddingH24(
         child: SSmallHeader(
           title: 'Install Conversion Data',
-          showInfoButton: true,
-          onInfoButtonTap: () => Share.share(installConversionData),
         ),
       ),
       child: SPaddingH24(
         child: Column(
           children: [
-            Text(iosAppId),
-            Text(androidAppId),
-            Text(installConversionData),
-            Text(deepLinkData),
+            const Text('Install conversion data on this run:'),
+            Text(installConversionDataTemp),
+            const Text('Install conversion data on first run:'),
+            FutureBuilder<String?>(
+              future: storage.getValue(installConversionDataKey),
+              builder: (context, snap) =>
+                  Text(snap.connectionState == ConnectionState.done ? snap.data ?? 'empty' : 'Loading...'),
+            ),
+            const Text('last onelinkData:'),
+            FutureBuilder<String?>(
+              future: storage.getValue(onelinkDataKey),
+              builder: (context, snap) =>
+                  Text(snap.connectionState == ConnectionState.done ? snap.data ?? 'empty' : 'Loading...'),
+            ),
           ],
         ),
       ),
