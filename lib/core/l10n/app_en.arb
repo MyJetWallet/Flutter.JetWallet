@@ -555,7 +555,7 @@
     "previewBuyWithUmlimint_disclaimerTerms": "Terms and Conditions",
     "previewBuyWithUmlimint_disclaimerPolicy": "Privacy Policy",
     "previewBuyWithUmlimint_saveCard": "Save this card",
-    "previewBuyWithUnlimint_paymentFee": "Payment fee",
+    "previewBuyWithUnlimint_paymentFee": "Provider fee",
     "previewBuyWithUnlimint_simpleFee": "Simple’s fee",
     "previewBuyWithUnlimint_transactionFee": "Transaction fee",
     "previewBuyWithUnlimint_thirdFee": "Third party fee",
@@ -791,13 +791,13 @@
     "card_congrats_desc": "We will notify you when Simple card is available for order",
     "card_got_it": "Got it",
     "card_making_desc": "Your Simple card is still in a making, stay tuned for updates!",
-    "history_payment_fee": "Payment fee",
+    "history_payment_fee": "Provider fee",
     "buy_payment_currency": "Payment currency",
     "buy_flow_payment_method": "Payment method",
     "payment_method_cards": "Cards",
     "add_card_text": "Add card",
     "buy_confirmation_title": "Order summary",
-    "buy_confirmation_payment_fee": "Payment fee",
+    "buy_confirmation_payment_fee": "Provider fee",
     "buy_confirmation_privacy_checkbox_1": "I have read and agreed to ",
     "buy_confirmation_privacy_checkbox_2": "Terms and Conditions",
     "buy_confirmation_privacy_checkbox_3": "Privacy Policy",
@@ -939,7 +939,7 @@
     "cvv_description": "Usually CVV is on the back of the card",
     "iban_out_sent_to": "Send to",
     "iban_out_benificiary": "Beneficiary",
-    "iban_send_history_payment_fee": "Payment fee",
+    "iban_send_history_payment_fee": "Provider fee",
     "withdrawal_withdrawn": "Withdrawn",
     "iban_terms_5": "You may receive funds from anyone",
     "my_wallets_accounts": "account(s)",
@@ -1701,5 +1701,16 @@
     "withdraw_failure_screen_secondary_button_name": "Edit order",
     "news_section_partner": "Powered by CryptoPanic",
     "news_section_crypto_news": "Crypto news",
-    "earn_section_all_time": "All time"
+    "earn_section_all_time": "All time",
+    "wallet_price": "{asset} price",
+    "@wallet_price": {
+        "placeholders": {
+            "asset": {
+                "type": "String",
+                "example": "Bitcoin"
+            }
+        }
+    },
+    "wallet_history_view_all": "View all",
+    "provider_fee": "Provider fee"
 }

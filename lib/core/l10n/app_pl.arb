@@ -555,7 +555,7 @@
     "previewBuyWithUmlimint_disclaimerTerms": "Zasady i Warunki",
     "previewBuyWithUmlimint_disclaimerPolicy": "Polityka prywatności",
     "previewBuyWithUmlimint_saveCard": "Zapisz tę kartę",
-    "previewBuyWithUnlimint_paymentFee": "Opłata",
+    "previewBuyWithUnlimint_paymentFee": "Opłata operatora",
     "previewBuyWithUnlimint_simpleFee": "Opłata Simple",
     "previewBuyWithUnlimint_transactionFee": "Opłata transakcyjna",
     "previewBuyWithUnlimint_thirdFee": "Opłata za stronę trzecią",
@@ -791,13 +791,13 @@
     "card_congrats_desc": "Powiadomimy Cię, gdy karta Simple będzie dostępna do zamówienia",
     "card_got_it": "Otrzymałem",
     "card_making_desc": "Twoja karta Simple jest nadal w przygotowaniu, bądź na bieżąco z aktualizacjami!",
-    "history_payment_fee": "Opłata za transakcję",
+    "history_payment_fee": "Opłata operatora",
     "buy_payment_currency": "Waluta płatności",
     "buy_flow_payment_method": "Metoda płatności",
     "payment_method_cards": "Karty",
     "add_card_text": "Dodaj kartę",
     "buy_confirmation_title": "Zamówienia",
-    "buy_confirmation_payment_fee": "Opłata za transakcję",
+    "buy_confirmation_payment_fee": "Opłata operatora",
     "buy_confirmation_privacy_checkbox_1": "Przeczytałem i akceptuję ",
     "buy_confirmation_privacy_checkbox_2": "Zasady i Warunki",
     "buy_confirmation_privacy_checkbox_3": "Polityka prywatności",
@@ -939,7 +939,7 @@
     "cvv_description": "Zwykle kod CVV znajduje się na odwrocie karty",
     "iban_out_sent_to": "Wyślij do",
     "iban_out_benificiary": "Beneficjent",
-    "iban_send_history_payment_fee": "Opłata za transakcję",
+    "iban_send_history_payment_fee": "Opłata operatora",
     "withdrawal_withdrawn": "Wycofany",
     "iban_terms_5": "Możesz otrzymać środki od dowolnej osoby",
     "my_wallets_accounts": "konto(a)",
@@ -1753,5 +1753,16 @@
     "withdraw_failure_screen_secondary_button_name": "Edytuj zamówienie",
     "news_section_partner": "Zasilane przez CryptoPanic",
     "news_section_crypto_news": "Wiadomości kryptowalutowe",
-    "earn_section_all_time": "Cały czas"
+    "earn_section_all_time": "Cały czas",
+    "wallet_price": "Cena {asset}",
+    "@wallet_price": {
+        "placeholders": {
+            "asset": {
+                "type": "String",
+                "example": "Bitcoin"
+            }
+        }
+    },
+    "wallet_history_view_all": "Przegląd",
+    "provider_fee": "Opłata operatora"
 }

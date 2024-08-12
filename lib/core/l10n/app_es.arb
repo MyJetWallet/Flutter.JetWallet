@@ -555,7 +555,7 @@
     "previewBuyWithUmlimint_disclaimerTerms": "Términos y Condiciones",
     "previewBuyWithUmlimint_disclaimerPolicy": "Política de privacidad",
     "previewBuyWithUmlimint_saveCard": "Guardar esta tarjeta",
-    "previewBuyWithUnlimint_paymentFee": "Comisión de pago",
+    "previewBuyWithUnlimint_paymentFee": "Tarifa del proveedor",
     "previewBuyWithUnlimint_simpleFee": "Comisión de Simple",
     "previewBuyWithUnlimint_transactionFee": "Comisión por transacción",
     "previewBuyWithUnlimint_thirdFee": "Comisión de terceros",
@@ -791,13 +791,13 @@
     "card_congrats_desc": "Le avisaremos cuando la tarjeta Simple esté disponible para ordenar",
     "card_got_it": "Entiendo",
     "card_making_desc": "Su tarjeta Simple todavía está en proceso, ¡manténgase atento a las actualizaciones!",
-    "history_payment_fee": "Comisión de pago",
+    "history_payment_fee": "Tarifa del proveedor",
     "buy_payment_currency": "Divisa de pago",
     "buy_flow_payment_method": "Método de pago",
     "payment_method_cards": "Tarjetas",
     "add_card_text": "Añadir tarjeta",
     "buy_confirmation_title": "Resumen de la orden",
-    "buy_confirmation_payment_fee": "Comisión de pago",
+    "buy_confirmation_payment_fee": "Tarifa del proveedor",
     "buy_confirmation_privacy_checkbox_1": "He leído y acepto ",
     "buy_confirmation_privacy_checkbox_2": "Términos y Condiciones",
     "buy_confirmation_privacy_checkbox_3": "Política de Privacidad",
@@ -939,7 +939,7 @@
     "cvv_description": "Normalmente, el CVV se encuentra en el reverso de la tarjeta.",
     "iban_out_sent_to": "Envíe a",
     "iban_out_benificiary": "Beneficiario",
-    "iban_send_history_payment_fee": "Comisión de pago",
+    "iban_send_history_payment_fee": "Tarifa del proveedor",
     "withdrawal_withdrawn": "Retirado",
     "iban_terms_5": "Puede recibir fondos de cualquier persona",
     "my_wallets_accounts": "cuenta(s)",
@@ -1689,5 +1689,16 @@
     "withdraw_failure_screen_secondary_button_name": "Editar orden",
     "news_section_partner": "Impulsado por CryptoPanic",
     "news_section_crypto_news": "Noticias de criptomonedas",
-    "earn_section_all_time": "Todo el tiempo"
+    "earn_section_all_time": "Todo el tiempo",
+    "wallet_price": "Precio de {asset}",
+    "@wallet_price": {
+        "placeholders": {
+            "asset": {
+                "type": "String",
+                "example": "Bitcoin"
+            }
+        }
+    },
+    "wallet_history_view_all": "Ver todo",
+    "provider_fee": "Tarifa del proveedor"
 }
