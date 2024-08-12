@@ -6,7 +6,25 @@ import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 
-// KEYS
+///
+/// KEYS
+///
+/// Persistent keys (these variables remain stored even after deleting other data)
+///
+const lastUsedMail = 'lastUsedMail';
+const activeSlot = 'activeSlot';
+const deviceId = 'deviceId';
+const isCardBannerClosed = 'isCardBannerClosed';
+const userLocale = 'userLocale';
+const showRateUp = 'showRateUp';
+const rateUpCount = 'rateUpCount';
+const spareDeviceId = 'spareDeviceId';
+const utmSourceKey = 'utm_source';
+const installConversionDataKey = 'installConversionData';
+const onelinkDataKey = 'onelinkData';
+///
+/// Non-persistent keys (these variables can be deleted and restored when needed)
+///
 const refreshTokenKey = 'refreshToken';
 const userEmailKey = 'userEmail';
 const closedSupportBannerKey = 'closedSupportBanner';
@@ -40,21 +58,12 @@ const timeSignalRReceiveIFSent = 'timeSignalRReceiveIFSent';
 const initFinishedOnMarketSent = 'initFinishedOnMarketSent';
 const lastUsedCard = 'lastUsedCard';
 const nftPromoCode = 'nftPromoCode';
-const lastUsedMail = 'lastUsedMail';
-const activeSlot = 'activeSlot';
-const deviceId = 'deviceId';
 const lastAssetSend = 'lastAssetSend';
 const bankLastMethodId = 'bankLastMethodId';
 const localLastMethodId = 'localLastMethodId';
 const p2pLastMethodId = 'p2pLastMethodId';
-const userLocale = 'userLocale';
-const showRateUp = 'showRateUp';
-const rateUpCount = 'rateUpCount';
-const isCardBannerClosed = 'isCardBannerClosed';
 const earnTermsAndConditionsWasChecked = 'earnTermsAndConditionsWasChecked';
 const isPerapaidCardBannerClosed = 'isPerapaidCardBannerClosed';
-const spareDeviceId = 'spareDeviceId';
-const utmSourceKey = 'utm_source';
 
 final sLocalStorageService = getIt.get<LocalStorageService>();
 
@@ -81,7 +90,41 @@ class LocalStorageService {
     await _storage.write(key: key, value: jsonEncode(json));
   }
 
+  Future<void> deleteAllWithoutPermanentData() async {
+    final userMail = await _storage.read(key: lastUsedMail);
+    final slot = await _storage.read(key: activeSlot);
+    final deviceIdUsed = await _storage.read(key: deviceId);
+    final isCardBannerClosedUsed = await _storage.read(key: isCardBannerClosed);
+    final userLocaleTemp = await _storage.read(key: userLocale);
+    final showRateUpTemp = await _storage.read(key: showRateUp);
+    final rateUpCountTemp = await _storage.read(key: rateUpCount);
+    final spareDeviceIdTemp = await _storage.read(key: spareDeviceId);
+    final utmSourceTemp = await _storage.read(key: utmSourceKey);
+    final installConversionDataTemp = await _storage.read(key: installConversionDataKey);
+    final onelinkDataTemp = await _storage.read(key: onelinkDataKey);
+
+    await _storage.deleteAll();
+    await _storage.write(key: lastUsedMail, value: userMail);
+    await _storage.write(key: activeSlot, value: slot);
+    await _storage.write(key: deviceId, value: deviceIdUsed);
+    await _storage.write(
+      key: isCardBannerClosed,
+      value: isCardBannerClosedUsed,
+    );
+    await _storage.write(key: userLocale, value: userLocaleTemp);
+    await _storage.write(key: showRateUp, value: showRateUpTemp);
+    await _storage.write(key: rateUpCount, value: rateUpCountTemp);
+    await _storage.write(key: spareDeviceId, value: spareDeviceIdTemp);
+    await _storage.write(key: utmSourceKey, value: utmSourceTemp);
+    await _storage.write(key: installConversionDataKey, value: installConversionDataTemp);
+    await _storage.write(key: onelinkDataKey, value: onelinkDataTemp);
+  }
+
   Future<void> clearStorage() async {
+    ///
+    /// TODO: QUESTION
+    /// Should we individually delete each key if we are already using the deleteAllWithoutPermanentData function?
+    ///
     // Add keys you want to delete after logout or unsuccessful token refresh
     await _storage.delete(key: refreshTokenKey);
     await _storage.delete(key: userEmailKey);
@@ -109,29 +152,7 @@ class LocalStorageService {
     await _storage.delete(key: p2pLastMethodId);
     await _storage.delete(key: earnTermsAndConditionsWasChecked);
 
-    final userMail = await _storage.read(key: lastUsedMail);
-    final slot = await _storage.read(key: activeSlot);
-    final deviceIdUsed = await _storage.read(key: deviceId);
-    final isCardBannerClosedUsed = await _storage.read(key: isCardBannerClosed);
-    final userLocaleTemp = await _storage.read(key: userLocale);
-    final showRateUpTemp = await _storage.read(key: showRateUp);
-    final rateUpCountTemp = await _storage.read(key: rateUpCount);
-    final spareDeviceIdTemp = await _storage.read(key: spareDeviceId);
-    final utmSourceTemp = await _storage.read(key: utmSourceKey);
-
-    await _storage.deleteAll();
-    await _storage.write(key: lastUsedMail, value: userMail);
-    await _storage.write(key: activeSlot, value: slot);
-    await _storage.write(key: deviceId, value: deviceIdUsed);
-    await _storage.write(
-      key: isCardBannerClosed,
-      value: isCardBannerClosedUsed,
-    );
-    await _storage.write(key: userLocale, value: userLocaleTemp);
-    await _storage.write(key: showRateUp, value: showRateUpTemp);
-    await _storage.write(key: rateUpCount, value: rateUpCountTemp);
-    await _storage.write(key: spareDeviceId, value: spareDeviceIdTemp);
-    await _storage.write(key: utmSourceKey, value: utmSourceTemp);
+    await deleteAllWithoutPermanentData();
   }
 
   Future<void> clearStorageForCrypto(List<CurrencyModel> currencies) async {
@@ -166,30 +187,7 @@ class LocalStorageService {
     if (val) {
       getIt<AppStore>().setAfterInstall(true);
 
-      final userMail = await _storage.read(key: lastUsedMail);
-      final slot = await _storage.read(key: activeSlot);
-      final deviceIdUsed = await _storage.read(key: deviceId);
-      final isCardBannerClosedUsed = await _storage.read(key: isCardBannerClosed);
-      final userLocaleTemp = await _storage.read(key: userLocale);
-      final showRateUpTemp = await _storage.read(key: showRateUp);
-      final rateUpCountTemp = await _storage.read(key: rateUpCount);
-      final spareDeviceIdTemp = await _storage.read(key: spareDeviceId);
-      final utmSourceTemp = await _storage.read(key: utmSourceKey);
-
-      await _storage.deleteAll();
-
-      await _storage.write(key: lastUsedMail, value: userMail);
-      await _storage.write(key: activeSlot, value: slot);
-      await _storage.write(key: deviceId, value: deviceIdUsed);
-      await _storage.write(
-        key: isCardBannerClosed,
-        value: isCardBannerClosedUsed,
-      );
-      await _storage.write(key: userLocale, value: userLocaleTemp);
-      await _storage.write(key: showRateUp, value: showRateUpTemp);
-      await _storage.write(key: rateUpCount, value: rateUpCountTemp);
-      await _storage.write(key: spareDeviceId, value: spareDeviceIdTemp);
-      await _storage.write(key: utmSourceKey, value: utmSourceTemp);
+      await deleteAllWithoutPermanentData();
     }
   }
 
