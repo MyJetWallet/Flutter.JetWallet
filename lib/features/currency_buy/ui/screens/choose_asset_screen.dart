@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
+import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
 import 'package:jetwallet/utils/formatting/base/format_percent.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -11,7 +12,6 @@ import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 
 import '../../../../core/services/signal_r/signal_r_service_new.dart';
-import '../../../../utils/formatting/base/market_format.dart';
 import '../../../../utils/helpers/currencies_helpers.dart';
 import '../../../../utils/models/currency_model.dart';
 import '../../../actions/helpers/show_currency_search.dart';
@@ -145,9 +145,9 @@ class ChooseAssetBody extends StatelessObserverWidget {
                     url: currency.iconUrl,
                   ),
                   label: currency.description,
-                  rightValue: marketFormat(
-                    decimal: baseCurrency.symbol == currency.symbol ? Decimal.one : currency.currentPrice,
-                    symbol: baseCurrency.symbol,
+                  rightValue:
+                      (baseCurrency.symbol == currency.symbol ? Decimal.one : currency.currentPrice).toFormatPrice(
+                    prefix: baseCurrency.prefix,
                     accuracy: marketItem.priceAccuracy,
                   ),
                   supplement: currency.symbol,

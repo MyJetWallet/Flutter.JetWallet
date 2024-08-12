@@ -209,16 +209,14 @@ class _BranItem extends StatelessWidget {
       rows: [
         (
           lable: intl.prepaid_card_min_amount,
-          value: volumeFormat(
-            decimal: brand.valueRestrictions?.minVal ?? Decimal.zero,
+          value: (brand.valueRestrictions?.minVal ?? Decimal.zero).toFormatCount(
             symbol: brand.currency,
           ),
           customValueStyle: STStyles.body2Medium
         ),
         (
           lable: intl.prepaid_card_max_amount,
-          value: volumeFormat(
-            decimal: brand.valueRestrictions?.maxVal ?? Decimal.zero,
+          value: (brand.valueRestrictions?.maxVal ?? Decimal.zero).toFormatCount(
             symbol: brand.currency,
           ),
           customValueStyle: STStyles.body2Medium

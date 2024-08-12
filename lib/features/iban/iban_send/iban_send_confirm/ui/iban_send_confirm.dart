@@ -9,7 +9,7 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/iban/iban_send/iban_send_confirm/store/iban_send_confirm_store.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/split_iban.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
@@ -136,16 +136,14 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                     isLoading: false,
                     fromAssetIconUrl: eurCurrency.iconUrl,
                     fromAssetDescription: account.label ?? '',
-                    fromAssetValue: volumeFormat(
+                    fromAssetValue: (data.amount ?? Decimal.zero).toFormatCount(
                       symbol: eurCurrency.symbol,
                       accuracy: eurCurrency.accuracy,
-                      decimal: data.amount ?? Decimal.zero,
                     ),
                     fromAssetCustomIcon: const BlueBankIconDeprecated(),
                     toAssetIconUrl: eurCurrency.iconUrl,
                     toAssetDescription: eurCurrency.description,
-                    toAssetValue: volumeFormat(
-                      decimal: data.sendAmount ?? Decimal.zero,
+                    toAssetValue: (data.sendAmount ?? Decimal.zero).toFormatCount(
                       accuracy: eurCurrency.accuracy,
                       symbol: eurCurrency.symbol,
                     ),
@@ -176,16 +174,14 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                   ],
                   const SpaceH18(),
                   PaymentFeeRowWidget(
-                    fee: volumeFormat(
-                      decimal: data.feeAmount ?? Decimal.zero,
+                    fee: (data.feeAmount ?? Decimal.zero).toFormatCount(
                       accuracy: state.eurCurrency.accuracy,
                       symbol: state.eurCurrency.symbol,
                     ),
                   ),
                   const SpaceH18(),
                   ProcessingFeeRowWidget(
-                    fee: volumeFormat(
-                      decimal: data.simpleFeeAmount ?? Decimal.zero,
+                    fee: (data.simpleFeeAmount ?? Decimal.zero).toFormatCount(
                       accuracy: simpleFeeCurrency.accuracy,
                       symbol: simpleFeeCurrency.symbol,
                     ),

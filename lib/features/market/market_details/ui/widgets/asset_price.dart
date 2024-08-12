@@ -5,7 +5,7 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/chart/model/chart_state.dart';
 import 'package:jetwallet/features/chart/store/chart_store.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
-import 'package:jetwallet/utils/formatting/base/market_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -56,14 +56,12 @@ class AssetPrice extends StatelessObserverWidget {
     MarketItemModel currency,
   ) {
     return chart.selectedCandle != null
-        ? marketFormat(
-            decimal: Decimal.parse(chart.selectedCandle!.close.toString()),
+        ? Decimal.parse(chart.selectedCandle!.close.toString()).toFormatPrice(
             accuracy: marketItem.priceAccuracy,
-            symbol: baseCurrency.symbol,
+            prefix: baseCurrency.prefix,
           )
-        : marketFormat(
-            decimal: currency.lastPrice,
-            symbol: baseCurrency.symbol,
+        : currency.lastPrice.toFormatPrice(
+            prefix: baseCurrency.prefix,
             accuracy: currency.priceAccuracy,
           );
   }

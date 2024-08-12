@@ -4,8 +4,8 @@ import 'package:jetwallet/features/my_wallets/helper/currencies_for_my_wallet.da
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 
-import '../ui/widgets/wallet_body/eur_wallet_body.dart';
-import '../ui/widgets/wallet_body/wallet_body.dart';
+import '../screens/eur_wallet_body.dart';
+import '../screens/wallet_body.dart';
 
 void navigateToWallet(
   BuildContext context,

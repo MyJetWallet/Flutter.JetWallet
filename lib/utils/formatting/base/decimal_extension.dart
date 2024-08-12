@@ -1,28 +1,53 @@
 import 'package:decimal/decimal.dart';
-
-import '../formatting.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 
 extension DecimalExtension on Decimal {
-  String toMarketFormat({
-    required int accuracy,
-    required String symbol,
+  /// Trims zeros at the end of the fractional part and adds a symbol at the end.
+  /// Usually used for the number of assets in the currency of the asset
+  ///
+  ///   Examples: 1 000.234122 BTS, 122 BTC
+  String toFormatCount({
+    int? accuracy,
+    String? symbol,
   }) {
-    return marketFormat(
+    final asset = AssetFormatter(
+      decimal: this,
       accuracy: accuracy,
       symbol: symbol,
-      decimal: this,
     );
+    return asset.formatCount();
   }
 
-  String toVolumeFormat({
-    required int accuracy,
-    required String symbol,
+  /// Leaves zeros at the end of the fractional part and adds a symbol at the end.
+  /// Usually used for the amount of asset in the base currency.
+  /// 
+  ///  Examples: 1 000.00 EUR, 122.10 USD
+  String toFormatSum({
+    int? accuracy,
+    String? symbol,
   }) {
-    return volumeFormat(
+    final asset = AssetFormatter(
+      decimal: this,
       accuracy: accuracy,
       symbol: symbol,
-      decimal: this,
     );
+    return asset.formatSum();
+  }
+
+  /// Trims zeroes at the end of the fractional part and adds a prefix at the beginning. 
+  /// Usually used to price a unit of an asset in the base currency.
+  /// 
+  ///  Examples: € 1 000.00, $ 122.10
+  String toFormatPrice({
+    int? accuracy,
+    String? prefix,
+  }) {
+    final asset = AssetFormatter(
+      decimal: this,
+      accuracy: accuracy,
+      prefix: prefix,
+    );
+    return asset.formatPrice();
   }
 
   Decimal get negative {

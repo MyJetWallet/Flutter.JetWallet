@@ -8,7 +8,7 @@ import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/features/buy_flow/store/buy_amount_store.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/suggestion_button_widget.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/pay_with_bottom_sheet.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
@@ -108,11 +108,13 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
                                 ),
                                 primarySymbol: store.primarySymbol,
                                 secondaryAmount: store.asset != null
-                                    ? '${intl.earn_est} ${volumeFormat(
-                                        decimal: Decimal.parse(
-                                          store.secondaryAmount,
-                                        ),
-                                        symbol: '',
+                                    ? '${intl.earn_est} ${store.isFiatEntering ? Decimal.parse(
+                                        store.secondaryAmount,
+                                      ).toFormatCount(
+                                        accuracy: store.secondaryAccuracy,
+                                      ) : Decimal.parse(
+                                        store.secondaryAmount,
+                                      ).toFormatSum(
                                         accuracy: store.secondaryAccuracy,
                                       )}'
                                     : null,
@@ -187,10 +189,9 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
                                   subTitle: intl.amount_screen_pay_with,
                                   trailing: getIt<AppStore>().isBalanceHide
                                       ? '**** ${store.account?.currency}'
-                                      : volumeFormat(
-                                          decimal: store.account?.balance ?? Decimal.zero,
-                                          accuracy: store.asset?.accuracy ?? 1,
-                                          symbol: store.account?.currency ?? '',
+                                      : (store.account?.balance ?? Decimal.zero).toFormatSum(
+                                          accuracy: store.fiatAccuracy,
+                                          symbol: store.account?.currency,
                                         ),
                                   icon: Container(
                                     padding: const EdgeInsets.all(4),

@@ -10,7 +10,7 @@ import 'package:jetwallet/core/services/simple_networking/simple_networking.dart
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/features/phone_verification/ui/phone_verification.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/country_code_by_user_register.dart';
 import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
@@ -68,10 +68,9 @@ abstract class _IbanSendConfirmStoreBase with Store {
       if (deviceBindingRequired) {
         var continueBuying = false;
 
-        final formatedAmaunt = volumeFormat(
+        final formatedAmaunt = (data.amount ?? Decimal.fromInt(200)).toFormatCount(
           symbol: eurCurrency.symbol,
           accuracy: eurCurrency.accuracy,
-          decimal: data.amount ?? Decimal.fromInt(200),
         );
         await Future.delayed(const Duration(milliseconds: 500));
         await sShowAlertPopup(
@@ -201,8 +200,7 @@ abstract class _IbanSendConfirmStoreBase with Store {
         .push(
       SuccessScreenRouter(
         primaryText: intl.send_globally_success,
-        secondaryText: '${intl.send_globally_success_secondary} ${volumeFormat(
-          decimal: sendAmount ?? Decimal.zero,
+        secondaryText: '${intl.send_globally_success_secondary} ${(sendAmount ?? Decimal.zero).toFormatCount(
           accuracy: eurCurrency.accuracy,
           symbol: eurCurrency.symbol,
         )}'

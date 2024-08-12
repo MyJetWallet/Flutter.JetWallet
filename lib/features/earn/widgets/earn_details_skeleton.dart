@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/transaction_list_loading_item.dart';
+import 'package:jetwallet/features/transaction_history/widgets/transaction_list_loading_item.dart';
 
 class EarnDetailsSkeleton extends StatelessWidget {
   const EarnDetailsSkeleton({

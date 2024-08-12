@@ -43,7 +43,7 @@ class MyWalletsAssetItem extends StatelessObserverWidget {
       secondaryText = getIt<AppStore>().isBalanceHide
           ? '******* ${currency.symbol}'
           : currency.symbol == 'EUR'
-              ? sSignalRModules.totalEurWalletBalance.toVolumeFormat(
+              ? sSignalRModules.totalEurWalletBalance.toFormatCount(
                   accuracy: currency.accuracy,
                   symbol: currency.symbol,
                 )

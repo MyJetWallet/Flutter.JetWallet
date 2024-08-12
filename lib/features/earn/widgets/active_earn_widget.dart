@@ -57,8 +57,7 @@ class ActiveEarnWidget extends StatelessObserverWidget {
         AutoSizeText(
           isBalanceHide
               ? '**** ${sSignalRModules.baseCurrency.symbol}'
-              : marketFormat(
-                  decimal: earnPosition.status == EarnPositionStatus.closed
+              : (earnPosition.status == EarnPositionStatus.closed
                       ? basePrice(
                             earnPosition.closeIndexPrice ?? Decimal.zero,
                             sSignalRModules.baseCurrency,
@@ -71,9 +70,10 @@ class ActiveEarnWidget extends StatelessObserverWidget {
                           toCurrency: sSignalRModules.baseCurrency.symbol,
                           baseCurrency: sSignalRModules.baseCurrency.symbol,
                           isMin: true,
-                        ),
+                        ))
+                  .toFormatSum(
                   symbol: sSignalRModules.baseCurrency.symbol,
-                  accuracy: 2,
+                  accuracy: sSignalRModules.baseCurrency.accuracy,
                 ),
           style: STStyles.header2.copyWith(
             color: colors.black,
@@ -82,8 +82,7 @@ class ActiveEarnWidget extends StatelessObserverWidget {
         Text(
           isBalanceHide
               ? '**** ${earnPosition.assetId}'
-              : volumeFormat(
-                  decimal: earnPosition.baseAmount + earnPosition.incomeAmount,
+              : (earnPosition.baseAmount + earnPosition.incomeAmount).toFormatCount(
                   symbol: earnPosition.assetId,
                   accuracy: currency.accuracy,
                 ),
@@ -113,9 +112,7 @@ class ActiveEarnWidget extends StatelessObserverWidget {
                     Text(
                       isBalanceHide
                           ? '**** ${sSignalRModules.baseCurrency.symbol}'
-                          : marketFormat(
-                              accuracy: 2,
-                              decimal: earnPosition.status == EarnPositionStatus.closed
+                          : (earnPosition.status == EarnPositionStatus.closed
                                   ? basePrice(
                                         earnPosition.closeIndexPrice ?? Decimal.zero,
                                         sSignalRModules.baseCurrency,
@@ -128,8 +125,10 @@ class ActiveEarnWidget extends StatelessObserverWidget {
                                       toCurrency: sSignalRModules.baseCurrency.symbol,
                                       baseCurrency: sSignalRModules.baseCurrency.symbol,
                                       isMin: true,
-                                    ),
+                                    ))
+                              .toFormatSum(
                               symbol: sSignalRModules.baseCurrency.symbol,
+                              accuracy: sSignalRModules.baseCurrency.accuracy,
                             ),
                       style: STStyles.subtitle2.copyWith(color: colors.black),
                     ),
@@ -141,10 +140,9 @@ class ActiveEarnWidget extends StatelessObserverWidget {
                     Text(
                       isBalanceHide
                           ? '**** ${earnPosition.assetId}'
-                          : volumeFormat(
-                              accuracy: currency.accuracy,
-                              decimal: earnPosition.baseAmount,
+                          : earnPosition.baseAmount.toFormatCount(
                               symbol: earnPosition.assetId,
+                              accuracy: currency.accuracy,
                             ),
                       style: STStyles.body2Medium.copyWith(color: colors.grey1),
                       maxLines: 2,
@@ -162,9 +160,7 @@ class ActiveEarnWidget extends StatelessObserverWidget {
                     Text(
                       isBalanceHide
                           ? '**** ${sSignalRModules.baseCurrency.symbol}'
-                          : marketFormat(
-                              accuracy: 2,
-                              decimal: earnPosition.status == EarnPositionStatus.closed
+                          : (earnPosition.status == EarnPositionStatus.closed
                                   ? basePrice(
                                         earnPosition.closeIndexPrice ?? Decimal.zero,
                                         sSignalRModules.baseCurrency,
@@ -177,8 +173,10 @@ class ActiveEarnWidget extends StatelessObserverWidget {
                                       toCurrency: sSignalRModules.baseCurrency.symbol,
                                       baseCurrency: sSignalRModules.baseCurrency.symbol,
                                       isMin: true,
-                                    ),
+                                    ))
+                              .toFormatSum(
                               symbol: sSignalRModules.baseCurrency.symbol,
+                              accuracy: sSignalRModules.baseCurrency.accuracy,
                             ),
                       style: STStyles.subtitle2.copyWith(color: colors.black),
                     ),
@@ -190,9 +188,8 @@ class ActiveEarnWidget extends StatelessObserverWidget {
                     Text(
                       isBalanceHide
                           ? '**** ${earnPosition.assetId}'
-                          : volumeFormat(
+                          : earnPosition.incomeAmount.toFormatCount(
                               accuracy: currency.accuracy,
-                              decimal: earnPosition.incomeAmount,
                               symbol: earnPosition.assetId,
                             ),
                       style: STStyles.body2Medium.copyWith(color: colors.grey1),

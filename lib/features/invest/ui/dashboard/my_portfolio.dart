@@ -4,11 +4,11 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 
 import '../../../../core/l10n/i10n.dart';
-import '../../../../utils/formatting/base/market_format.dart';
 import '../../../../utils/models/currency_model.dart';
 
 class MyPortfolio extends StatelessObserverWidget {
@@ -83,13 +83,7 @@ class MyPortfolio extends StatelessObserverWidget {
                           ),
                           const SpaceW2(),
                           Text(
-                            getIt<AppStore>().isBalanceHide
-                                ? '****'
-                                : marketFormat(
-                                    decimal: amount,
-                                    accuracy: 2,
-                                    symbol: '',
-                                  ),
+                            getIt<AppStore>().isBalanceHide ? '****' : amount.toFormatSum(accuracy: 2),
                             style: STStyles.body3InvestSM.copyWith(
                               color: colors.black,
                             ),
@@ -120,13 +114,7 @@ class MyPortfolio extends StatelessObserverWidget {
                           ),
                           const SpaceW2(),
                           Text(
-                            getIt<AppStore>().isBalanceHide
-                                ? '****'
-                                : marketFormat(
-                                    decimal: pending,
-                                    accuracy: 2,
-                                    symbol: '',
-                                  ),
+                            getIt<AppStore>().isBalanceHide ? '****' : pending.toFormatSum(accuracy: 2),
                             style: STStyles.body3InvestSM.copyWith(
                               color: colors.black,
                             ),
@@ -172,13 +160,7 @@ class MyPortfolio extends StatelessObserverWidget {
                     ),
                     const SpaceW4(),
                     Text(
-                      getIt<AppStore>().isBalanceHide
-                          ? '****'
-                          : marketFormat(
-                              decimal: balance,
-                              accuracy: 2,
-                              symbol: '',
-                            ),
+                      getIt<AppStore>().isBalanceHide ? '****' : balance.toFormatSum(accuracy: 2),
                       style: STStyles.header3Invest.copyWith(
                         color: colors.black,
                       ),
@@ -187,7 +169,7 @@ class MyPortfolio extends StatelessObserverWidget {
                 ),
                 const SpaceH2(),
                 Text(
-                  '${marketFormat(decimal: percent, accuracy: 2, symbol: '')}%',
+                  '${percent.toFormatSum(accuracy: 2)}%',
                   style: STStyles.body1InvestSM.copyWith(
                     color: colors.black,
                   ),

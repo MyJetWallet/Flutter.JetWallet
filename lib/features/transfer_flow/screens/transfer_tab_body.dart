@@ -105,7 +105,7 @@ class _TrancferBody extends StatelessWidget {
                             }
                           },
                           optionText: store.inputValue == '0' && store.isBothAssetsSeted
-                              ? '''${intl.transfer_amount_transfer_all} ${getIt<AppStore>().isBalanceHide ? '**** EUR' : volumeFormat(decimal: store.maxLimit, symbol: 'EUR')}'''
+                              ? '''${intl.transfer_amount_transfer_all} ${getIt<AppStore>().isBalanceHide ? '**** EUR' : store.maxLimit.toFormatSum(symbol: 'EUR', accuracy: 2)}'''
                               : null,
                           optionOnTap: () {
                             store.onTransfetAll();
@@ -238,8 +238,7 @@ class _AsssetWidget extends StatelessWidget {
           ? null
           : getIt<AppStore>().isBalanceHide
               ? '**** ${account?.currency}'
-              : volumeFormat(
-                  decimal: account?.balance ?? card?.balance ?? Decimal.zero,
+              : (account?.balance ?? card?.balance ?? Decimal.zero).toFormatSum(
                   accuracy: 2,
                   symbol: account?.currency ?? card?.currency ?? '',
                 ),

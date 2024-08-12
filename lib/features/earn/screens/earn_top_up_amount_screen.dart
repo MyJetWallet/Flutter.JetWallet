@@ -140,13 +140,13 @@ class _EarnWithdrawalAmountBody extends StatelessWidget {
                           ),
                           primarySymbol: store.cryptoSymbol,
                           secondaryAmount:
-                              '${intl.earn_est} ${marketFormat(decimal: Decimal.parse(store.fiatInputValue), symbol: '', accuracy: store.baseCurrency.accuracy)}',
+                              '${intl.earn_est} ${Decimal.parse(store.fiatInputValue).toFormatSum(symbol: '', accuracy: store.baseCurrency.accuracy)}',
                           secondarySymbol: store.fiatSymbol,
                           onSwap: null,
                           showSwopButton: false,
                           errorText: store.errorText,
                           optionText: store.cryptoInputValue == '0'
-                              ? '''${intl.earn_max} ${getIt<AppStore>().isBalanceHide ? '**** ${store.cryptoSymbol}' : volumeFormat(decimal: store.withdrawAllValue, accuracy: store.currency.accuracy, symbol: store.cryptoSymbol)}'''
+                              ? '''${intl.earn_max} ${getIt<AppStore>().isBalanceHide ? '**** ${store.cryptoSymbol}' : store.withdrawAllValue.toFormatSum(accuracy: store.currency.accuracy, symbol: store.cryptoSymbol)}'''
                               : null,
                           optionOnTap: () {
                             store.onSellAll();
@@ -181,8 +181,7 @@ class _EarnWithdrawalAmountBody extends StatelessWidget {
                           subTitle: intl.earn_to_earn,
                           trailing: getIt<AppStore>().isBalanceHide
                               ? '**** ${store.currency.symbol}'
-                              : volumeFormat(
-                                  decimal: store.earnPosition.baseAmount,
+                              : store.earnPosition.baseAmount.toFormatCount(
                                   accuracy: store.currency.accuracy,
                                   symbol: store.cryptoSymbol,
                                 ),

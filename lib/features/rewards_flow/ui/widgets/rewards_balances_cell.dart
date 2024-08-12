@@ -9,7 +9,7 @@ import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/rewards_flow/store/rewards_flow_store.dart';
 import 'package:jetwallet/utils/constants.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/rewards_profile_model.dart';
@@ -63,8 +63,7 @@ class _BalanceCellState extends State<_BalanceCell> {
           assetSymbol: widget.data.assetSymbol ?? 'BTC',
         );
 
-    final fAmount = volumeFormat(
-      decimal: widget.data.amount,
+    final fAmount = widget.data.amount.toFormatCount(
       accuracy: curr.accuracy,
       symbol: curr.symbol,
     );
@@ -133,8 +132,7 @@ class _BalanceCellState extends State<_BalanceCell> {
                             return Text(
                               getIt<AppStore>().isBalanceHide
                                   ? '**** ${curr.symbol}'
-                                  : volumeFormat(
-                                      decimal: widget.data.amount,
+                                  : widget.data.amount.toFormatCount(
                                       accuracy: curr.accuracy,
                                       symbol: curr.symbol,
                                     ),

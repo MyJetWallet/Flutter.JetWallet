@@ -7,7 +7,7 @@ import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
 import 'package:jetwallet/features/cj_banking_accounts/widgets/show_add_cash_from_bottom_sheet.dart';
 import 'package:jetwallet/features/simple_card/store/simple_card_deposit_by_store.dart';
 import 'package:jetwallet/utils/balances/crypto_balance.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
@@ -89,8 +89,7 @@ class _DepositByBody extends StatelessWidget {
               supplement: intl.wallet_internal_transfer,
               rightValue: getIt<AppStore>().isBalanceHide
                   ? '**** ${account.currency ?? 'EUR'}'
-                  : volumeFormat(
-                      decimal: account.balance ?? Decimal.zero,
+                  : (account.balance ?? Decimal.zero).toFormatSum(
                       accuracy: 2,
                       symbol: account.currency ?? 'EUR',
                     ),
@@ -119,8 +118,7 @@ class _DepositByBody extends StatelessWidget {
               supplement: intl.wallet_internal_transfer,
               rightValue: getIt<AppStore>().isBalanceHide
                   ? '**** ${card.currency ?? 'EUR'}'
-                  : volumeFormat(
-                      decimal: card.balance ?? Decimal.zero,
+                  : (card.balance ?? Decimal.zero).toFormatSum(
                       accuracy: 2,
                       symbol: card.currency ?? 'EUR',
                     ),

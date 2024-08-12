@@ -9,7 +9,7 @@ import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/sugges
 import 'package:jetwallet/features/convert_flow/store/convert_amount_store.dart';
 import 'package:jetwallet/features/convert_flow/widgets/convert_from_choose_asset_bottom_sheet.dart';
 import 'package:jetwallet/features/convert_flow/widgets/convert_to_choose_asset_bottom_sheet.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
@@ -99,11 +99,9 @@ class ConvertAmountScreenBodyState extends State<ConvertAmountTabBody> with Auto
                                 ),
                                 primarySymbol: store.primarySymbol,
                                 secondaryAmount: store.secondarySymbol != ''
-                                    ? '${intl.earn_est} ${volumeFormat(
-                                        decimal: Decimal.parse(
-                                          store.secondaryAmount,
-                                        ),
-                                        symbol: '',
+                                    ? '${intl.earn_est} ${Decimal.parse(
+                                        store.secondaryAmount,
+                                      ).toFormatCount(
                                         accuracy: store.secondaryAccuracy,
                                       )}'
                                     : null,
@@ -116,7 +114,7 @@ class ConvertAmountScreenBodyState extends State<ConvertAmountTabBody> with Auto
                                 optionText: store.fromInputValue == '0' &&
                                         store.fromAsset != null &&
                                         store.toAsset != null
-                                    ? '''${intl.convert_amount_convert_all} ${getIt<AppStore>().isBalanceHide ? '**** ${store.fromAsset?.symbol}' : volumeFormat(decimal: store.convertAllAmount, accuracy: store.fromAsset?.accuracy ?? 1, symbol: store.fromAsset?.symbol ?? '')}'''
+                                    ? '''${intl.convert_amount_convert_all} ${getIt<AppStore>().isBalanceHide ? '**** ${store.fromAsset?.symbol}' : store.convertAllAmount.toFormatCount(accuracy: store.fromAsset?.accuracy ?? 1, symbol: store.fromAsset?.symbol ?? '')}'''
                                     : null,
                                 optionOnTap: () {
                                   sAnalytics.tapOnTheConvertAll();

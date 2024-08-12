@@ -76,8 +76,7 @@ class SDepositCard extends StatelessObserverWidget {
                 CryptoCardBody(
                   balance: isBalanceHide
                       ? '**** ${sSignalRModules.baseCurrency.symbol}'
-                      : marketFormat(
-                          decimal: earnPosition.status == EarnPositionStatus.closed
+                      : (earnPosition.status == EarnPositionStatus.closed
                               ? basePrice(
                                     earnPosition.closeIndexPrice ?? Decimal.zero,
                                     sSignalRModules.baseCurrency,
@@ -90,21 +89,20 @@ class SDepositCard extends StatelessObserverWidget {
                                   toCurrency: sSignalRModules.baseCurrency.symbol,
                                   baseCurrency: sSignalRModules.baseCurrency.symbol,
                                   isMin: true,
-                                ),
-                          accuracy: 2,
+                                ))
+                          .toFormatSum(
+                          accuracy: sSignalRModules.baseCurrency.accuracy,
                           symbol: sSignalRModules.baseCurrency.symbol,
                         ),
                   balanceCrypto: isBalanceHide
                       ? '**** ${earnPosition.assetId}'
-                      : volumeFormat(
-                          decimal: earnPosition.baseAmount,
+                      : earnPosition.baseAmount.toFormatCount(
                           symbol: earnPosition.assetId,
                           accuracy: currency.accuracy,
                         ),
                   revenue: isBalanceHide
                       ? '**** ${sSignalRModules.baseCurrency.symbol}'
-                      : marketFormat(
-                          decimal: earnPosition.status == EarnPositionStatus.closed
+                      : (earnPosition.status == EarnPositionStatus.closed
                               ? basePrice(
                                     earnPosition.closeIndexPrice ?? Decimal.zero,
                                     sSignalRModules.baseCurrency,
@@ -117,14 +115,14 @@ class SDepositCard extends StatelessObserverWidget {
                                   toCurrency: sSignalRModules.baseCurrency.symbol,
                                   baseCurrency: sSignalRModules.baseCurrency.symbol,
                                   isMin: true,
-                                ),
-                          accuracy: 2,
+                                ))
+                          .toFormatSum(
+                          accuracy: sSignalRModules.baseCurrency.accuracy,
                           symbol: sSignalRModules.baseCurrency.symbol,
                         ),
                   revenueCrypto: isBalanceHide
                       ? '**** ${earnPosition.assetId}'
-                      : volumeFormat(
-                          decimal: earnPosition.incomeAmount,
+                      : earnPosition.incomeAmount.toFormatCount(
                           symbol: earnPosition.assetId,
                           accuracy: currency.accuracy,
                         ),

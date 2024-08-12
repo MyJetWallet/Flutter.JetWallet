@@ -216,8 +216,7 @@ class _RewardShareCardState extends State<RewardShareCard> {
                                 left: 0,
                                 right: 0,
                                 child: Text(
-                                  volumeFormat(
-                                    decimal: currentAsset.value,
+                                  currentAsset.value.toFormatCount(
                                     symbol: currentAsset.name,
                                   ),
                                   textAlign: TextAlign.center,
