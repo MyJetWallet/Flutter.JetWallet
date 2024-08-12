@@ -350,7 +350,7 @@ class DeepLinkService {
           message: 'handleOneLinkAction \n\n $deepLinkValue',
         );
 
-    final uri = Uri.parse(deepLinkValue);
+    final uri = Uri.parse('http://simple.app/$deepLinkValue');
 
     final isValidUrl = uri.isAbsolute && uri.hasScheme && uri.host.isNotEmpty;
 
