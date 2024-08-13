@@ -159,6 +159,7 @@ import 'package:simple_networking/modules/wallet_api/models/send_globally/send_t
 
 import '../../features/auth/splash/splash_screen.dart';
 import '../../features/currency_buy/ui/screens/choose_asset_screen.dart';
+import '../../features/debug_info/install_conversion_data_screen.dart';
 import '../../features/debug_info/logs_screen.dart';
 import '../../features/iban/iban_screen.dart';
 import '../../features/iban/widgets/iban_billing_address.dart';
@@ -519,6 +520,10 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/logs_debug',
       page: LogsRouter.page,
+    ),
+    AutoRoute(
+      path: '/install_conversion_data',
+      page: InstallConversionDataRouter.page,
     ),
     AutoRoute(
       path: '/withdrawal',

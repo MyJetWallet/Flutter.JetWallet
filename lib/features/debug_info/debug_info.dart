@@ -377,6 +377,14 @@ class _DebugInfoState extends State<DebugInfo> with SingleTickerProviderStateMix
                     'Delete Value from Local Storage',
                   ),
                 ),
+                TextButton(
+                  onPressed: () async {
+                    await sRouter.push(const InstallConversionDataRouter());
+                  },
+                  child: const Text(
+                    'InstallConversionData screen',
+                  ),
+                ),
                 const SizedBox(height: 300),
               ],
             ),

@@ -2679,7 +2679,7 @@
         "description": "Сохранить эту карточку",
         "type": "text"
     },
-    "previewBuyWithUnlimint_paymentFee": "Платіжна комісія",
+    "previewBuyWithUnlimint_paymentFee": "Комісія провайдера",
     "@previewBuyWithUnlimint_paymentFee": {
         "description": "Платежная комиссия",
         "type": "text"
@@ -3831,7 +3831,7 @@
         "description": "Ваша карта Simple все еще разрабатывается, следите за обновлениями!",
         "type": "text"
     },
-    "history_payment_fee": "Комісія за оплату",
+    "history_payment_fee": "Комісія провайдера",
     "@history_payment_fee": {
         "description": "Комиссия за оплату",
         "type": "text"
@@ -3861,7 +3861,7 @@
         "description": "Итог заказа",
         "type": "text"
     },
-    "buy_confirmation_payment_fee": "Комісія за оплату",
+    "buy_confirmation_payment_fee": "Комісія провайдера",
     "@buy_confirmation_payment_fee": {
         "description": "Комиссия за оплату",
         "type": "text"
@@ -4555,7 +4555,7 @@
         "description": "Бенефициар",
         "type": "text"
     },
-    "iban_send_history_payment_fee": "Комісія за оплату",
+    "iban_send_history_payment_fee": "Комісія провайдера",
     "@iban_send_history_payment_fee": {
         "description": "Комиссия за оплату",
         "type": "text"
@@ -5855,5 +5855,6 @@
             }
         }
     },
-    "wallet_history_view_all": "Переглянути всі"
+    "wallet_history_view_all": "Переглянути всі",
+    "provider_fee": "Комісія провайдера"
 }
