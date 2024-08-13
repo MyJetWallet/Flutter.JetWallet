@@ -29,14 +29,12 @@ List<String> periodChange({
         ? [
             Decimal.parse(periodPriceChange.toString()).toFormatPrice(
               accuracy: marketItem.priceAccuracy,
-              prefix: baseCurrency.prefix,
             ),
             periodPercentChangeString,
           ]
         : [
             Decimal.parse(periodPriceChange.toString()).toFormatPrice(
               accuracy: baseCurrency.accuracy,
-              prefix: baseCurrency.prefix,
             ),
             periodPercentChangeString,
           ];

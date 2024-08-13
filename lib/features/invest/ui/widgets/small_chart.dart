@@ -29,16 +29,17 @@ class SmallChart extends StatelessWidget {
 
   List<CandleModel> sampleCandles(
     List<CandleModel> candles, {
-    int maxCandles = 60,
+    int maxCandles = 30,
   }) {
     if (candles.length <= maxCandles) {
       return candles;
     }
     final step = candles.length / maxCandles;
     return List.generate(maxCandles, (index) {
-      final idx = (index * step).floor();
-      return candles[idx];
-    });
+          final idx = (index * step).floor();
+          return candles[idx];
+        }) +
+        [candles.last];
   }
 }
 
@@ -61,9 +62,7 @@ class _ChartPainter extends CustomPainter {
     final priceDiff = maxPrice - minPrice;
     final scale = priceDiff != 0 ? size.height / priceDiff : 1;
 
-    final overallTrendColor = candles.last.close > candles.first.open
-        ? colors.red
-        : colors.green;
+    final overallTrendColor = candles.last.close > candles.first.close ? colors.red : colors.green;
 
     final linePaint = Paint()
       ..color = overallTrendColor
