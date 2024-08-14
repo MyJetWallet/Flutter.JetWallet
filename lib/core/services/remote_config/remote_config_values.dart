@@ -57,6 +57,7 @@ late String simplexOrigin;
 // AppsFlyer
 late String appsFlyerKey;
 late String iosAppId;
+late String androidAppId;
 
 // Circle
 late bool cvvEnabled;

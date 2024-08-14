@@ -49,7 +49,7 @@ class PaymentFeeRowWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _BasicFeeRowWidget(
-      title: intl.buy_confirmation_payment_fee,
+      title: intl.provider_fee,
       isLoaded: isLoaded,
       fee: fee,
       description: intl.buy_confirmation_payment_fee_description,
