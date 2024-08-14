@@ -85,7 +85,7 @@ import 'package:jetwallet/features/kyc/upload_documents/ui/widgets/upload_verifi
 import 'package:jetwallet/features/market/market_details/ui/market_details.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/about_block/components/pdf_view_screen.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
-import 'package:jetwallet/features/market/ui/market_screen.dart';
+import 'package:jetwallet/features/market/screens/market_screen.dart';
 import 'package:jetwallet/features/my_wallets/screens/my_wallets_screen.dart';
 import 'package:jetwallet/features/p2p_buy/screens/buy_p2p_confrimation_screen.dart';
 import 'package:jetwallet/features/p2p_buy/screens/buy_p2p_peyment_method_screen.dart';
