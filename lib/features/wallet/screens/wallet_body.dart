@@ -182,7 +182,7 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                       );
                     },
                     onData: (items) {
-                      if (items.length > 5) {
+                      if (items.length >= 5) {
                         setState(() {
                           showViewAllBoatonOnHistory = true;
                         });
