@@ -150,7 +150,7 @@ class RemoteConfig {
       (timer) {
         if (retryTime == 0) {
           timer.cancel();
-          fetchAndActivate();
+          // fetchAndActivate();
         } else {
           retryTime -= 1;
         }

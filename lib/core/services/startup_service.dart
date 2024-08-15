@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -16,6 +17,7 @@ import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/package_info_service.dart';
 import 'package:jetwallet/core/services/push_notification.dart';
 import 'package:jetwallet/core/services/refresh_token_service.dart';
+import 'package:jetwallet/core/services/remote_config/models/remote_config_union.dart' as rcu;
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/sentry_service.dart';
 import 'package:jetwallet/core/services/session_check_service.dart';
@@ -74,6 +76,10 @@ class StartupService {
       token = null;
       email = null;
       parsedEmail = '<${intl.appInitFpod_emailNotFound}>';
+    }
+
+    if (getIt.get<AppStore>().remoteConfigStatus is rcu.Error) {
+      throw SplashErrorException(21);
     }
 
     ///
@@ -319,15 +325,7 @@ class StartupService {
       throw SplashErrorException(18);
     }
 
-    ///
-    /// SplashErrorException - 19
-    ///
-    try {
-      await makeSessionCheck();
-    } catch (e, stackTrace) {
-      getIt.get<SentryService>().captureException(e, stackTrace);
-      throw SplashErrorException(19);
-    }
+    await makeSessionCheck();
 
     ///
     /// SplashErrorException - 20

@@ -50,7 +50,8 @@ class AppBuilder extends StatelessObserverWidget {
             }
           }
 
-          return getIt.get<AppStore>().remoteConfigStatus is Success
+          return getIt.get<AppStore>().remoteConfigStatus is Success ||
+                  getIt.get<AppStore>().remoteConfigStatus is Error
               ? AppBuilderBody(
                   reactiveMediaQuery: reactiveMediaQuery,
                   child: child ?? const SplashScreen(),

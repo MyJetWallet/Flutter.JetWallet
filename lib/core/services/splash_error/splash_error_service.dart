@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/remote_config/remote_config.dart';
 import 'package:jetwallet/core/services/sentry_service.dart';
 import 'package:jetwallet/core/services/startup_service.dart';
 import 'package:simple_kit/modules/shared/simple_show_alert_popup.dart';
@@ -27,8 +28,9 @@ import 'package:simple_kit/modules/shared/simple_show_alert_popup.dart';
 /// 16 - LocalCacheService load error
 /// 17 - SignlaR error
 /// 18 - PushNotification registerToken error
-/// 19 - makeSessionCheck error
+/// 19 -
 /// 20 - kyc error
+/// 21 - Remote config error
 ///
 
 class SplashErrorService {
@@ -55,6 +57,10 @@ class SplashErrorService {
           primaryText: '${intl.something_went_wrong} ($error)',
           primaryButtonName: intl.transactionsList_retry,
           onPrimaryButtonTap: () {
+            if (error == 21) {
+              getIt.get<RemoteConfig>().fetchAndActivate();
+            }
+
             getIt.get<StartupService>().firstAction().onError(
                   (e, stackTrace) {
                 if (e is SplashErrorException) {
