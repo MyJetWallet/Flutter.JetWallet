@@ -70,7 +70,7 @@ class KycAidWebViewScreen extends StatelessWidget {
               },
               navigationDelegate: (request) {
                 final uri = Uri.parse(request.url);
-                if (uri.path == '/success' || uri.path == '/blog/') {
+                if (uri.path.contains('success')) {
                   sRouter.push(
                     SuccessScreenRouter(),
                   );
