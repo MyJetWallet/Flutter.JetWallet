@@ -79,6 +79,11 @@ class KycAidWebViewScreen extends StatelessWidget {
 
                 return NavigationDecision.navigate;
               },
+              backgroundColor: Colors.white,
+              geolocationEnabled: true,
+              allowsInlineMediaPlayback: true,
+              initialMediaPlaybackPolicy: AutoMediaPlaybackPolicy.always_allow,
+              zoomEnabled: false,
             ),
           ),
         ],
