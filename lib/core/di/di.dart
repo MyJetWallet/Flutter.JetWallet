@@ -12,9 +12,11 @@ import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/core/services/package_info_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config.dart';
 import 'package:jetwallet/core/services/route_query_service.dart';
+import 'package:jetwallet/core/services/sentry_service.dart';
 import 'package:jetwallet/core/services/session_check_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_conection_url_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
+import 'package:jetwallet/core/services/splash_error/splash_error_service.dart';
 import 'package:jetwallet/core/services/startup_service.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
@@ -58,6 +60,10 @@ Future<GetIt> getItInit({
 
   getIt.registerSingleton<SimpleLoggerService>(
     SimpleLoggerService(),
+  );
+
+  getIt.registerSingleton<SplashErrorService>(
+    SplashErrorService(),
   );
 
   getIt.registerSingletonAsync<LocalCacheService>(
@@ -147,6 +153,10 @@ Future<GetIt> getItInit({
 
   getIt.registerLazySingleton<SignalRConecrionUrlService>(
     () => SignalRConecrionUrlService(),
+  );
+
+  getIt.registerSingleton<SentryService>(
+    SentryService(environment: env ?? 'stage'),
   );
 
   return getIt.init(

@@ -8,6 +8,7 @@ import 'package:jetwallet/core/services/flavor_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/remote_config/models/remote_config_union.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
+import 'package:jetwallet/core/services/sentry_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_conection_url_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
@@ -102,7 +103,9 @@ class RemoteConfig {
       await overrideConfig();
 
       await pingRemoutConfig();
-    } catch (e) {
+    } catch (e, stackTrace) {
+      getIt.get<SentryService>().captureException(e, stackTrace);
+
       getIt.get<AppStore>().setRemoteConfigStatus(
             const RemoteConfigUnion.error(),
           );
@@ -127,7 +130,9 @@ class RemoteConfig {
           : 'https://wallet-api-uat.simple-spot.biz/api/v1/remote-config/ping';
 
       await Dio().get(pingRemoteConfigURL);
-    } catch (e) {
+    } catch (e, stackTrace) {
+      getIt.get<SentryService>().captureException(e, stackTrace);
+
       getIt.get<SimpleLoggerService>().log(
             level: Level.error,
             place: 'RemoteConfig pingRemoutConfig',

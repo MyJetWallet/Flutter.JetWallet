@@ -7,6 +7,8 @@ import 'package:jetwallet/core/services/internet_checker_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/refresh_token_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config.dart';
+import 'package:jetwallet/core/services/sentry_service.dart';
+import 'package:jetwallet/core/services/splash_error/splash_error_service.dart';
 import 'package:jetwallet/core/services/startup_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/app/store/global_loader.dart';
@@ -103,7 +105,17 @@ class _AppBuilderBodyState extends State<AppBuilderBody> with WidgetsBindingObse
   @override
   void initState() {
     WidgetsBinding.instance.addObserver(this);
-    getIt.get<StartupService>().firstAction();
+
+    getIt.get<StartupService>().firstAction().onError(
+      (e, stackTrace) {
+        if (e is SplashErrorException) {
+          getIt.get<SentryService>().captureException('Splash error exception with code: ${e.errorCode}', stackTrace);
+
+          getIt.get<SplashErrorService>().error = e.errorCode;
+          getIt.get<SplashErrorService>().showErrorAlert();
+        }
+      },
+    );
 
     super.initState();
   }

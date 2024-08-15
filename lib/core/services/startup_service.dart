@@ -17,9 +17,11 @@ import 'package:jetwallet/core/services/package_info_service.dart';
 import 'package:jetwallet/core/services/push_notification.dart';
 import 'package:jetwallet/core/services/refresh_token_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
+import 'package:jetwallet/core/services/sentry_service.dart';
 import 'package:jetwallet/core/services/session_check_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/core/services/splash_error/splash_error_service.dart';
 import 'package:jetwallet/core/services/sumsub_service/sumsub_service.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
@@ -53,7 +55,16 @@ class StartupService {
     String? email;
     String parsedEmail;
 
-    final storageService = getIt.get<LocalStorageService>();
+    LocalStorageService storageService;
+    ///
+    /// SplashErrorException - 1
+    ///
+    try {
+      storageService = getIt.get<LocalStorageService>();
+    } catch (e, stackTrace) {
+      getIt.get<SentryService>().captureException(e, stackTrace);
+      throw SplashErrorException(1);
+    }
 
     try {
       token = await storageService.getValue(refreshTokenKey);
@@ -65,69 +76,141 @@ class StartupService {
       parsedEmail = '<${intl.appInitFpod_emailNotFound}>';
     }
 
+    ///
+    /// SplashErrorException - 2 and 3
+    ///
     await getAdvData();
 
+    ///
+    /// SplashErrorException - 4
+    ///
     unawaited(launchSift());
 
+    ///
+    /// SplashErrorException - 5
+    ///
     unawaited(initAppFBAnalytic());
+
+    ///
+    /// SplashErrorException - 6
+    ///
     unawaited(initAppsFlyer());
 
-    getIt<AppStore>().setAppStatus(AppStatus.start);
-    getIt<AppStore>().generateNewSessionID();
+    ///
+    /// SplashErrorException - 7
+    ///
+    try {
+      getIt<AppStore>().setAppStatus(AppStatus.start);
+      getIt<AppStore>().generateNewSessionID();
+    } catch (e, stackTrace) {
+      getIt.get<SentryService>().captureException(e, stackTrace);
+      throw SplashErrorException(7);
+    }
 
-    final authStatus = await checkIsUserAuthorized(token);
+    ///
+    /// SplashErrorException - 8
+    ///
+    bool authStatus;
+    try {
+       authStatus = await checkIsUserAuthorized(token);
+    } catch (e, stackTrace) {
+      getIt.get<SentryService>().captureException(e, stackTrace);
+      throw SplashErrorException(8);
+    }
 
-    await getIt.get<SNetwork>().init(getIt<AppStore>().sessionID);
+    ///
+    /// SplashErrorException - 9
+    ///
+    try {
+      await getIt.get<SNetwork>().init(getIt<AppStore>().sessionID);
+    } catch (e, stackTrace) {
+      getIt.get<SentryService>().captureException(e, stackTrace);
+      throw SplashErrorException(9);
+    }
 
-    await sAnalytics.init(
-      environmentKey: analyticsApiKey,
-      techAcc: userInfo.isTechClient,
-      // this function is necessary to send events for analytics
-      // from the plugins/simple_analytics package to our back end
-      logEventFunc: ({
-        required String name,
-        required Map<String, dynamic> body,
-        required int orderIndex,
-      }) async {
-        final model = AnalyticRecordModel(
-          eventName: name,
-          eventBody: body,
-          orderIndex: orderIndex,
-        );
-        if (authStatus) {
-          await getIt.get<SNetwork>().simpleNetworking.getAnalyticApiModule().postAddAnalyticRecord([model]);
-        } else {
-          await getIt.get<SNetwork>().simpleNetworkingUnathorized.getAnalyticApiModule().postAddAnalyticRecord([model]);
-        }
-      },
-      userEmail: parsedEmail,
-      useAmplitude: useAmplitude,
-    );
+    ///
+    /// SplashErrorException - 10
+    ///
+    try {
+      await sAnalytics.init(
+        environmentKey: analyticsApiKey,
+        techAcc: userInfo.isTechClient,
+        // this function is necessary to send events for analytics
+        // from the plugins/simple_analytics package to our back end
+        logEventFunc: ({
+          required String name,
+          required Map<String, dynamic> body,
+          required int orderIndex,
+        }) async {
+          final model = AnalyticRecordModel(
+            eventName: name,
+            eventBody: body,
+            orderIndex: orderIndex,
+          );
+          if (authStatus) {
+            await getIt.get<SNetwork>().simpleNetworking.getAnalyticApiModule().postAddAnalyticRecord([model]);
+          } else {
+            await getIt.get<SNetwork>().simpleNetworkingUnathorized.getAnalyticApiModule().postAddAnalyticRecord([model]);
+          }
+        },
+        userEmail: parsedEmail,
+        useAmplitude: useAmplitude,
+      );
+    } catch (e, stackTrace) {
+      getIt.get<SentryService>().captureException(e, stackTrace);
+      throw SplashErrorException(10);
+    }
 
-    if (getIt<AppStore>().afterInstall) {
-      unawaited(saveInstallID());
+    ///
+    /// SplashErrorException - 11
+    ///
+    try {
+      if (getIt<AppStore>().afterInstall) {
+        unawaited(saveInstallID());
+      }
+    } catch (e, stackTrace) {
+      getIt.get<SentryService>().captureException(e, stackTrace);
+      throw SplashErrorException(11);
     }
 
     if (authStatus) {
-      getIt<AppStore>().updateAuthState(
-        refreshToken: token,
-        email: parsedEmail,
-      );
+      ///
+      /// SplashErrorException - 12
+      ///
+      try {
+        getIt<AppStore>().updateAuthState(
+          refreshToken: token,
+          email: parsedEmail,
+        );
+      } catch (e, stackTrace) {
+        getIt.get<SentryService>().captureException(e, stackTrace);
+        throw SplashErrorException(12);
+      }
 
       try {
-        final resultRefreshToken = await refreshToken(updateSignalR: false);
+        ///
+        /// SplashErrorException - 13
+        ///
+        try {
+          final resultRefreshToken = await refreshToken(updateSignalR: false);
 
-        if (resultRefreshToken == RefreshTokenStatus.success) {
-          await userInfo.initPinStatus();
+          if (resultRefreshToken == RefreshTokenStatus.success) {
+            await userInfo.initPinStatus();
+          }
+
+        } catch (e, stackTrace) {
+          getIt.get<SentryService>().captureException(e, stackTrace);
+          throw SplashErrorException(13);
         }
 
         await secondAction();
       } catch (e) {
         getIt.get<SimpleLoggerService>().log(
-              level: Level.error,
-              place: 'StartupService',
-              message: '$e',
-            );
+          level: Level.error,
+          place: 'StartupService',
+          message: '$e',
+        );
+        rethrow;
       } finally {
         getIt<AppStore>().setAuthStatus(const AuthorizationUnion.authorized());
       }
@@ -146,82 +229,139 @@ class StartupService {
     }
     final storageService = getIt.get<LocalStorageService>();
 
-    unawaited(
-      getIt.get<SNetwork>().simpleNetworkingUnathorized.getLogsApiModule().postAddLog(
+    ///
+    /// SplashErrorException - 14
+    ///
+    try {
+      unawaited(
+        getIt.get<SNetwork>().simpleNetworkingUnathorized.getLogsApiModule().postAddLog(
+          AddLogModel(
+            level: 'info',
+            message: 'User auth ${getIt.get<AppStore>().authStatus}',
+            source: 'Second Action',
+            process: 'StartupService',
+            token: await storageService.getValue(refreshTokenKey),
+          ),
+        ),
+      );
+    } catch (e, stackTrace) {
+      getIt.get<SentryService>().captureException(e, stackTrace);
+      throw SplashErrorException(14);
+    }
+
+
+    ///
+    /// SplashErrorException - 15
+    ///
+    try {
+      if (!userInfo.isServicesRegisterd) {
+        await startingServices();
+      } else {
+        await reCreateServices();
+      }
+    } catch (e, stackTrace) {
+      getIt.get<SentryService>().captureException(e, stackTrace);
+      throw SplashErrorException(15);
+    }
+
+    ///
+    /// SplashErrorException - 16
+    ///
+    try {
+      getIt<AppStore>().setIsBalanceHide(
+        await getIt<LocalCacheService>().getBalanceHide() ?? false,
+      );
+      getIt<AppStore>().setShowAllAssets(
+        await getIt<LocalCacheService>().getHideZeroBalance() ?? false,
+      );
+      getIt<AppStore>().setIsAcceptedGlobalSendTC(
+        await getIt<LocalCacheService>().getGlobalSendConditions() ?? false,
+      );
+    } catch (e, stackTrace) {
+      getIt.get<SentryService>().captureException(e, stackTrace);
+      throw SplashErrorException(16);
+    }
+
+    // Запускаем SignlaR
+    ///
+    /// SplashErrorException - 17
+    ///
+    try {
+      if (!userInfo.isSignalRInited) {
+        await getIt.get<SignalRService>().start();
+
+        userInfo.updateSignalRStatus(true);
+
+        unawaited(
+          getIt.get<SNetwork>().simpleNetworkingUnathorized.getLogsApiModule().postAddLog(
             AddLogModel(
               level: 'info',
-              message: 'User auth ${getIt.get<AppStore>().authStatus}',
+              message: 'Starting signalr',
               source: 'Second Action',
               process: 'StartupService',
               token: await storageService.getValue(refreshTokenKey),
             ),
           ),
-    );
-
-    if (!userInfo.isServicesRegisterd) {
-      await startingServices();
-    } else {
-      await reCreateServices();
+        );
+      }
+    } catch (e, stackTrace) {
+      getIt.get<SentryService>().captureException(e, stackTrace);
+      throw SplashErrorException(17);
     }
 
-    getIt<AppStore>().setIsBalanceHide(
-      await getIt<LocalCacheService>().getBalanceHide() ?? false,
-    );
-    getIt<AppStore>().setShowAllAssets(
-      await getIt<LocalCacheService>().getHideZeroBalance() ?? false,
-    );
-    getIt<AppStore>().setIsAcceptedGlobalSendTC(
-      await getIt<LocalCacheService>().getGlobalSendConditions() ?? false,
-    );
-
-    // Запускаем SignlaR
-    if (!userInfo.isSignalRInited) {
-      await getIt.get<SignalRService>().start();
-
-      userInfo.updateSignalRStatus(true);
-
-      unawaited(
-        getIt.get<SNetwork>().simpleNetworkingUnathorized.getLogsApiModule().postAddLog(
-              AddLogModel(
-                level: 'info',
-                message: 'Starting signalr',
-                source: 'Second Action',
-                process: 'StartupService',
-                token: await storageService.getValue(refreshTokenKey),
-              ),
-            ),
-      );
+    ///
+    /// SplashErrorException - 18
+    ///
+    try {
+      unawaited(getIt.get<PushNotification>().registerToken());
+    } catch (e, stackTrace) {
+      getIt.get<SentryService>().captureException(e, stackTrace);
+      throw SplashErrorException(18);
     }
 
-    unawaited(getIt.get<PushNotification>().registerToken());
-
-    await makeSessionCheck();
-
-    final kyc = getIt.get<KycService>();
-
-    var analyticsKyc = 0;
-    if (checkKycPassed(
-      kyc.depositStatus,
-      kyc.tradeStatus,
-      kyc.withdrawalStatus,
-    )) {
-      analyticsKyc = 2;
+    ///
+    /// SplashErrorException - 19
+    ///
+    try {
+      await makeSessionCheck();
+    } catch (e, stackTrace) {
+      getIt.get<SentryService>().captureException(e, stackTrace);
+      throw SplashErrorException(19);
     }
-    if (kycInProgress(
-      kyc.depositStatus,
-      kyc.tradeStatus,
-      kyc.withdrawalStatus,
-    )) {
-      analyticsKyc = 1;
+
+    ///
+    /// SplashErrorException - 20
+    ///
+    try {
+      final kyc = getIt.get<KycService>();
+
+      var analyticsKyc = 0;
+      if (checkKycPassed(
+        kyc.depositStatus,
+        kyc.tradeStatus,
+        kyc.withdrawalStatus,
+      )) {
+        analyticsKyc = 2;
+      }
+      if (kycInProgress(
+        kyc.depositStatus,
+        kyc.tradeStatus,
+        kyc.withdrawalStatus,
+      )) {
+        analyticsKyc = 1;
+      }
+      if (checkKycBlocked(
+        kyc.depositStatus,
+        kyc.tradeStatus,
+        kyc.withdrawalStatus,
+      )) {
+        analyticsKyc = 4;
+      }
+      sAnalytics.setKYCDepositStatus = analyticsKyc;
+    } catch (e, stackTrace) {
+      getIt.get<SentryService>().captureException(e, stackTrace);
+      throw SplashErrorException(20);
     }
-    if (checkKycBlocked(
-      kyc.depositStatus,
-      kyc.tradeStatus,
-      kyc.withdrawalStatus,
-    )) {
-      analyticsKyc = 4;
-    }
-    sAnalytics.setKYCDepositStatus = analyticsKyc;
 
     //await getIt.get<ZenDeskService>().authZenDesk();
   }
@@ -397,23 +537,33 @@ class StartupService {
   ///
 
   Future<void> initAppFBAnalytic() async {
-    final deviceInfo = getIt.get<DeviceInfo>();
-    final storageService = getIt.get<LocalStorageService>();
-    await deviceInfo.deviceInfo();
+    try {
+      final deviceInfo = getIt.get<DeviceInfo>();
+      final storageService = getIt.get<LocalStorageService>();
+      await deviceInfo.deviceInfo();
 
-    unawaited(
-      checkInitAppFBAnalytics(
-        storageService,
-        deviceInfo.model,
-      ),
-    );
+      unawaited(
+        checkInitAppFBAnalytics(
+          storageService,
+          deviceInfo.model,
+        ),
+      );
+    } catch (e, stackTrace) {
+      getIt.get<SentryService>().captureException(e, stackTrace);
+      throw SplashErrorException(5);
+    }
   }
 
   Future<void> initAppsFlyer() async {
-    final appsFlyerService = getIt.get<AppsFlyerService>();
+    try {
+      final appsFlyerService = getIt.get<AppsFlyerService>();
 
-    await appsFlyerService.init();
-    await appsFlyerService.updateServerUninstallToken();
+      await appsFlyerService.init();
+      await appsFlyerService.updateServerUninstallToken();
+    } catch (e, stackTrace) {
+      getIt.get<SentryService>().captureException(e, stackTrace);
+      throw SplashErrorException(6);
+    }
   }
 
   ///
@@ -479,30 +629,42 @@ class StartupService {
 
 Future<void> launchSift() async {
   final logger = getIt.get<SimpleLoggerService>();
-  final siftPlugin = SimpleSift();
+  try {
+    final siftPlugin = SimpleSift();
 
-  final siftStatus = await siftPlugin.setSiftConfig(
-    accountId: siftAccountId,
-    beaconKey: siftBeaconKey,
-  );
+    final siftStatus = await siftPlugin.setSiftConfig(
+      accountId: siftAccountId,
+      beaconKey: siftBeaconKey,
+    );
 
-  logger.log(
-    level: Level.info,
-    place: 'launchSift',
-    message: 'Sift: $siftStatus',
-  );
+    logger.log(
+      level: Level.info,
+      place: 'launchSift',
+      message: 'Sift: $siftStatus',
+    );
+  } catch (e, stackTrace) {
+    getIt.get<SentryService>().captureException(e, stackTrace);
+    throw SplashErrorException(4);
+  }
 }
 
 Future<void> getAdvData() async {
   try {
     await AppTrackingTransparency.requestTrackingAuthorization();
-  } catch (e) {
+  } catch (e, stackTrace) {
     getIt.get<SimpleLoggerService>().log(
           level: Level.error,
           place: 'StartupService getAdvData',
           message: e.toString(),
         );
+    getIt.get<SentryService>().captureException(e, stackTrace);
+    throw SplashErrorException(2);
   }
 
-  final _ = await AppTrackingTransparency.getAdvertisingIdentifier();
+  try {
+    final _ = await AppTrackingTransparency.getAdvertisingIdentifier();
+  } catch (e, stackTrace) {
+    getIt.get<SentryService>().captureException(e, stackTrace);
+    throw SplashErrorException(3);
+  }
 }
