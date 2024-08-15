@@ -76,6 +76,8 @@ import 'package:jetwallet/features/kyc/allow_camera/ui/allow_camera_screen.dart'
 import 'package:jetwallet/features/kyc/choose_documents/ui/choose_documents.dart';
 import 'package:jetwallet/features/kyc/kyc_selfie/ui/kyc_selfie.dart';
 import 'package:jetwallet/features/kyc/kyc_selfie/ui/widgets/success_kys_screen.dart';
+import 'package:jetwallet/features/kyc/kyc_verify_your_profile/ui/kyc_aid_choose_country_screen.dart';
+import 'package:jetwallet/features/kyc/kyc_verify_your_profile/ui/kyc_aid_webview_screen.dart';
 import 'package:jetwallet/features/kyc/kyc_verify_your_profile/ui/kyc_verification.dart';
 import 'package:jetwallet/features/kyc/kyc_verify_your_profile/ui/kyc_verification_sumsub.dart';
 import 'package:jetwallet/features/kyc/kyc_verify_your_profile/ui/kyc_verify_your_profile.dart';
@@ -760,6 +762,14 @@ class AppRouter extends _$AppRouter {
       path: '/get_simple_card',
       page: GetSimpleCardRouter.page,
       fullscreenDialog: true,
+    ),
+    AutoRoute(
+      path: '/kyc_aid_web_view',
+      page: KycAidWebViewRouter.page,
+    ),
+     AutoRoute(
+      path: '/kyc_aid_choose_country',
+      page: KycAidChooseCountryRouter.page,
     ),
   ];
 }

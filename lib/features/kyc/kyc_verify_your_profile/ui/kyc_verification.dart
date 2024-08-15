@@ -6,10 +6,14 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/notification_service.dart';
+import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/sumsub_service/sumsub_service.dart';
+import 'package:jetwallet/features/kyc/kyc_verify_your_profile/utils/start_kyc_aid_flow.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/wallet_api/models/kyc/kyc_plan_responce_model.dart';
 
 import '../../../../utils/constants.dart';
 import '../../choose_documents/store/kyc_country_store.dart';
@@ -32,12 +36,37 @@ class _KycVerificationState extends State<KycVerification> {
 
   List<RequiredVerified> requiredVerifications = <RequiredVerified>[];
 
+  KycPlanResponceModel? kycPlan;
+
   @override
   void initState() {
     super.initState();
     isPhoneDone = !widget.requiredVerifications.contains(RequiredVerified.proofOfPhone);
     requiredVerifications = widget.requiredVerifications;
     sAnalytics.kycFlowVerificationScreenView();
+    getKYCPlan();
+  }
+
+  Future<void> getKYCPlan() async {
+    try {
+      final response = await sNetwork.getWalletModule().postKycPlan();
+      response.pick(
+        onData: (data) {
+          kycPlan = data;
+        },
+        onError: (error) {
+          sNotification.showError(
+            error.cause,
+            id: 1,
+          );
+        },
+      );
+    } catch (e) {
+      sNotification.showError(
+        intl.something_went_wrong_try_again,
+        id: 1,
+      );
+    }
   }
 
   @override
@@ -58,19 +87,28 @@ class _KycVerificationState extends State<KycVerification> {
 
               requiredVerifications.remove(RequiredVerified.proofOfPhone);
 
-              await getIt<SumsubService>().launch(
-                onFinish: () {},
-                isBanking: false,
-              );
+              if (kycPlan?.provider == KycProvider.sumsub) {
+                unawaited(
+                  getIt<SumsubService>().launch(
+                    isBanking: false,
+                  ),
+                );
+              } else {
+                unawaited(startKycAidFlow(kycPlan!));
+              }
             },
           ),
         );
       } else {
-        unawaited(
-          getIt<SumsubService>().launch(
-            isBanking: false,
-          ),
-        );
+        if (kycPlan?.provider == KycProvider.sumsub) {
+          unawaited(
+            getIt<SumsubService>().launch(
+              isBanking: false,
+            ),
+          );
+        } else {
+          unawaited(startKycAidFlow(kycPlan!));
+        }
       }
     }
 
