@@ -16,16 +16,20 @@ class CountryProfileName extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = sKit.colors;
 
-    return Row(
-      children: [
-        const SpaceW10(),
-        Text(
-          countryName,
-          style: STStyles.subtitle1.copyWith(
-            color: isBlocked ? colors.grey3 : colors.black,
+    return Flexible(
+      child: Row(
+        children: [
+          const SpaceW10(),
+          Flexible(
+            child: Text(
+              countryName,
+              style: STStyles.subtitle1.copyWith(
+                color: isBlocked ? colors.grey3 : colors.black,
+              ),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

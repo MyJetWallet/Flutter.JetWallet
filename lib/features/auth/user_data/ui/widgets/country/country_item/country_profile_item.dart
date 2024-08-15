@@ -46,7 +46,6 @@ class CountryProfileItem extends StatelessObserverWidget {
               countryName: countryName,
               isBlocked: isBlocked,
             ),
-            const Spacer(),
             Visibility(
               visible: isBlocked,
               child: const CountryProfileWarning(),
