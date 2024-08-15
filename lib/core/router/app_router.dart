@@ -39,7 +39,6 @@ import 'package:jetwallet/features/crypto_deposit/crypto_deposit_screen.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/add_bank_card.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/pay_with_bottom_sheet.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/preview_buy_with_circle/circle_3d_secure_web_view/circle_3d_secure_web_view.dart';
-import 'package:jetwallet/features/currency_buy/ui/screens/simplex_web_view.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
 import 'package:jetwallet/features/debug_info/debug_history.dart';
 import 'package:jetwallet/features/debug_info/debug_info.dart';
@@ -487,10 +486,6 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/circle_3d_secure',
       page: Circle3dSecureWebViewRouter.page,
-    ),
-    AutoRoute(
-      path: '/simples_webview',
-      page: SimplexWebViewRouter.page,
     ),
     AutoRoute(
       path: '/delete_reasons_screen',

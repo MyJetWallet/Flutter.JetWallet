@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_webview_pro/webview_flutter.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/invest/stores/dashboard/invest_dashboard_store.dart';
 import 'package:jetwallet/features/invest/stores/dashboard/invest_new_store.dart';
@@ -50,7 +49,6 @@ class NewInvestScreen extends StatefulObserverWidget {
 class _NewInvestScreenState extends State<NewInvestScreen> {
   bool canTapShare = true;
   late ScrollController controller;
-  late WebViewController controllerWeb;
   late InvestNewStore investNewStore;
 
   @override

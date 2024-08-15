@@ -1,28 +1,61 @@
-// ignore_for_file: missing_whitespace_between_adjacent_strings
+import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_webview_pro/webview_flutter.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/intercom/intercom_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+import 'package:webview_flutter_android/webview_flutter_android.dart';
+import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
+
+WebViewController? _kycwebViewController;
 
 @RoutePage(name: 'KycAidWebViewRouter')
-class KycAidWebViewScreen extends StatelessWidget {
+class KycAidWebViewScreen extends StatefulWidget {
   const KycAidWebViewScreen({required this.url});
 
   final String url;
 
   @override
-  Widget build(BuildContext context) {
-    late WebViewController controllerWeb;
+  State<KycAidWebViewScreen> createState() => _KycAidWebViewScreenState();
+}
 
+class _KycAidWebViewScreenState extends State<KycAidWebViewScreen> {
+  WebViewController controller = WebViewController();
+
+  @override
+  void initState() {
+    Permission.camera.request();
+
+    if (_kycwebViewController != null) {
+      setState(() {
+        controller = _kycwebViewController!;
+      });
+    } else {
+      loadKycAidWebViewController(url: widget.url).then((_) {
+        setState(() {
+          controller = _kycwebViewController!;
+        });
+      });
+    }
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _kycwebViewController = null;
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return SPageFrame(
       loaderText: '',
       header: SimpleLargeAppbar(
@@ -46,48 +79,60 @@ class KycAidWebViewScreen extends StatelessWidget {
       child: Column(
         children: [
           Expanded(
-            child: WebView(
-              gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{}..add(
-                  Factory<VerticalDragGestureRecognizer>(
-                    () => VerticalDragGestureRecognizer(),
-                  ),
-                ),
-              gestureNavigationEnabled: true,
-              initialUrl: url,
-              javascriptMode: JavascriptMode.unrestricted,
-              onWebViewCreated: (controller) {
-                controllerWeb = controller;
-              },
-              onPageFinished: (url) {
-                controllerWeb.runJavascript('function toMobile(){'
-                    "var meta = document.createElement('meta'); "
-                    "meta.setAttribute('name', 'viewport');"
-                    " meta.setAttribute('content', 'width=device-width, initial-scale=1'); "
-                    "var head= document.getElementsByTagName('head')[0];"
-                    'head.appendChild(meta); '
-                    '}'
-                    'toMobile()');
-              },
-              navigationDelegate: (request) {
-                final uri = Uri.parse(request.url);
-                if (uri.path.contains('success')) {
-                  sRouter.push(
-                    SuccessScreenRouter(),
-                  );
-                  return NavigationDecision.navigate;
-                }
-
-                return NavigationDecision.navigate;
-              },
-              backgroundColor: Colors.white,
-              geolocationEnabled: true,
-              allowsInlineMediaPlayback: true,
-              initialMediaPlaybackPolicy: AutoMediaPlaybackPolicy.always_allow,
-              zoomEnabled: false,
+            child: WebViewWidget(
+              controller: controller,
             ),
           ),
         ],
       ),
     );
   }
+}
+
+Future<void> loadKycAidWebViewController({required String url, bool preload = false}) async {
+  late final PlatformWebViewControllerCreationParams params;
+  if (WebViewPlatform.instance is WebKitWebViewPlatform) {
+    params = WebKitWebViewControllerCreationParams(
+      allowsInlineMediaPlayback: true,
+    );
+  } else {
+    params = const PlatformWebViewControllerCreationParams();
+  }
+
+  final controller = WebViewController.fromPlatformCreationParams(
+    params,
+    onPermissionRequest: (request) async {
+      await request.grant();
+    },
+  );
+
+  if (controller.platform is AndroidWebViewController) {
+    await (controller.platform as AndroidWebViewController).setMediaPlaybackRequiresUserGesture(false);
+  }
+
+  await controller.setJavaScriptMode(JavaScriptMode.unrestricted);
+  await controller.setBackgroundColor(Colors.white);
+  await controller.setNavigationDelegate(
+    NavigationDelegate(
+      onNavigationRequest: (NavigationRequest request) {
+        final uri = Uri.parse(request.url);
+        if (uri.path.contains('success')) {
+          sRouter.push(
+            SuccessScreenRouter(),
+          );
+          return NavigationDecision.navigate;
+        }
+
+        return NavigationDecision.navigate;
+      },
+    ),
+  );
+  await controller.enableZoom(false);
+  if (preload) {
+    await controller.loadRequest(Uri.parse(url));
+  } else {
+    unawaited(controller.loadRequest(Uri.parse(url)));
+  }
+
+  _kycwebViewController = controller;
 }

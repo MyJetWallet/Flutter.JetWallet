@@ -1,6 +1,7 @@
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/features/kyc/kyc_verify_your_profile/ui/kyc_aid_webview_screen.dart';
 import 'package:simple_networking/modules/wallet_api/models/kyc/kyc_plan_responce_model.dart';
 
 Future<KycPlanResponceModel?> getKYCAidPlan() async {
@@ -10,6 +11,8 @@ Future<KycPlanResponceModel?> getKYCAidPlan() async {
     response.pick(
       onData: (data) {
         kycPlan = data;
+
+        loadKycAidWebViewController(url: kycPlan?.url ?? '', preload: true);
       },
       onError: (error) {
         sNotification.showError(
