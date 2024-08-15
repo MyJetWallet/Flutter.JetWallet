@@ -74,7 +74,7 @@ class _KycVerificationState extends State<KycVerification> {
                     isBanking: false,
                   ),
                 );
-              } else {
+              } else if (kycPlan?.provider == KycProvider.kycAid) {
                 unawaited(startKycAidFlow(kycPlan!));
               }
             },
@@ -87,7 +87,7 @@ class _KycVerificationState extends State<KycVerification> {
               isBanking: false,
             ),
           );
-        } else {
+        } else if (kycPlan?.provider == KycProvider.kycAid) {
           unawaited(startKycAidFlow(kycPlan!));
         }
       }

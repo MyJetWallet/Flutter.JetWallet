@@ -6,9 +6,9 @@ part 'kyc_plan_responce_model.g.dart';
 @freezed
 class KycPlanResponceModel with _$KycPlanResponceModel {
   const factory KycPlanResponceModel({
-    @Default(KycProvider.sumsub) KycProvider provider,
+    @Default(KycProvider.notSet) @JsonKey(unknownEnumValue: KycProvider.notSet) KycProvider provider,
     @Default('') String countryCode,
-    @Default(KycAction.allow) KycAction action,
+    @Default(KycAction.allow) @JsonKey(unknownEnumValue: KycAction.allow) KycAction action,
     @Default('') String url,
   }) = _KycPlanResponceModel;
 
@@ -20,6 +20,8 @@ enum KycProvider {
   kycAid,
   @JsonValue(1)
   sumsub,
+  @JsonValue(-1)
+  notSet,
 }
 
 enum KycAction {

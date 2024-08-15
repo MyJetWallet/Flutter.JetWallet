@@ -55,7 +55,7 @@ void showCreatePersonalAccount(
             loading.finishLoadingImmediately();
           },
         );
-      } else {
+      } else if (kycPlan.provider == KycProvider.kycAid) {
         loading.finishLoadingImmediately();
         await startKycAidFlow(kycPlan);
       }

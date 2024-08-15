@@ -93,7 +93,7 @@ Future<void> _launchKycFlow({
       isBanking: isBanking,
       needPush: false,
     );
-  } else {
+  } else if (kycPlan.provider == KycProvider.kycAid) {
     await startKycAidFlow(kycPlan);
   }
 }

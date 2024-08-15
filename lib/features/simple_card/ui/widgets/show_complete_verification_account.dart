@@ -50,7 +50,7 @@ void showCompleteVerificationAccount(
             },
             isCard: true,
           );
-        } else {
+        } else if (kycPlan.provider == KycProvider.kycAid) {
           getIt.get<GlobalLoader>().setLoading(false);
           await startKycAidFlow(kycPlan);
         }
