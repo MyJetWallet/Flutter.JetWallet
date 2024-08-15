@@ -193,10 +193,11 @@ class _SearchPinned extends StatelessObserverWidget {
         SStandardField(
           controller: TextEditingController(),
           autofocus: true,
-          labelText: intl.showKycCountryPicker_search,
+          hintText: intl.showKycCountryPicker_search,
           onChanged: (value) {
             store.updateCountryNameSearch(value);
           },
+          height: 44,
           maxLines: 1,
         ),
         const SDivider(),
@@ -234,7 +235,7 @@ class _Countries extends StatelessObserverWidget {
           },
           countryCode: country.countryCode,
           countryName: country.countryName,
-          isBlocked: country.isBlocked,
+          isBlocked: false,
         );
       },
     );
