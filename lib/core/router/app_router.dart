@@ -79,8 +79,6 @@ import 'package:jetwallet/features/kyc/kyc_selfie/ui/widgets/success_kys_screen.
 import 'package:jetwallet/features/kyc/kyc_verify_your_profile/ui/kyc_aid_choose_country_screen.dart';
 import 'package:jetwallet/features/kyc/kyc_verify_your_profile/ui/kyc_aid_webview_screen.dart';
 import 'package:jetwallet/features/kyc/kyc_verify_your_profile/ui/kyc_verification.dart';
-import 'package:jetwallet/features/kyc/kyc_verify_your_profile/ui/kyc_verification_sumsub.dart';
-import 'package:jetwallet/features/kyc/kyc_verify_your_profile/ui/kyc_verify_your_profile.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/kyc/upload_documents/ui/upload_kyc_documents.dart';
 import 'package:jetwallet/features/kyc/upload_documents/ui/widgets/upload_verification_photo.dart';
@@ -318,10 +316,6 @@ class AppRouter extends _$AppRouter {
       page: ChooseDocumentsRouter.page,
     ),
     AutoRoute(
-      path: '/kyc_verification_sumsub',
-      page: KycVerificationSumsubRouter.page,
-    ),
-    AutoRoute(
       path: '/upload_kyc_documents',
       page: UploadKycDocumentsRouter.page,
     ),
@@ -332,10 +326,6 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/kyc_selfie',
       page: KycSelfieRouter.page,
-    ),
-    AutoRoute(
-      path: '/kyc_verify_your_profile',
-      page: KycVerifyYourProfileRouter.page,
     ),
     AutoRoute(
       path: '/choose_asset',

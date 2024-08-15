@@ -6,9 +6,8 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/notification_service.dart';
-import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/sumsub_service/sumsub_service.dart';
+import 'package:jetwallet/features/kyc/kyc_verify_your_profile/utils/get_kuc_aid_plan.dart';
 import 'package:jetwallet/features/kyc/kyc_verify_your_profile/utils/start_kyc_aid_flow.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -48,25 +47,7 @@ class _KycVerificationState extends State<KycVerification> {
   }
 
   Future<void> getKYCPlan() async {
-    try {
-      final response = await sNetwork.getWalletModule().postKycPlan();
-      response.pick(
-        onData: (data) {
-          kycPlan = data;
-        },
-        onError: (error) {
-          sNotification.showError(
-            error.cause,
-            id: 1,
-          );
-        },
-      );
-    } catch (e) {
-      sNotification.showError(
-        intl.something_went_wrong_try_again,
-        id: 1,
-      );
-    }
+    kycPlan = await getKYCAidPlan();
   }
 
   @override
