@@ -49,6 +49,7 @@ const earnOffers = 'earn-offers';
 const earnPositions = 'earn-positions';
 const bannerList = 'banner-list';
 const smplWalletProfile = 'smpl-wallet-profile';
+const marketSectors = 'market-sectors';
 
 // KeyValue
 const watchlistKey = 'watchlist';

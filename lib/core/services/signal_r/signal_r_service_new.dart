@@ -59,6 +59,7 @@ import 'package:simple_networking/modules/signal_r/models/key_value_model.dart';
 import 'package:simple_networking/modules/signal_r/models/kyc_countries_response_model.dart';
 import 'package:simple_networking/modules/signal_r/models/market_info_model.dart';
 import 'package:simple_networking/modules/signal_r/models/market_references_model.dart';
+import 'package:simple_networking/modules/signal_r/models/market_sectors_message_model.dart';
 import 'package:simple_networking/modules/signal_r/models/period_prices_model.dart';
 import 'package:simple_networking/modules/signal_r/models/price_accuracies.dart';
 import 'package:simple_networking/modules/signal_r/models/referral_info_model.dart';
@@ -1105,6 +1106,14 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
     if (smplWalletModel.requests.isNotEmpty) {
       ClaimSimplecoin().pushCollectSimplecoinDialog(requests: smplWalletModel.requests);
     }
+  }
+
+  @observable
+  MarketSectorsMessageModel marketSectors = const MarketSectorsMessageModel();
+
+  @action
+  void setMarketSectorsModelData(MarketSectorsMessageModel data) {
+    marketSectors = data;
   }
 
   @action
