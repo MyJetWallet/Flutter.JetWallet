@@ -15,6 +15,7 @@ import 'package:jetwallet/core/services/intercom/intercom_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/features/crypto_jar/store/jars_store.dart';
 import 'package:jetwallet/features/earn/widgets/earn_dashboard_section_widget.dart';
 import 'package:jetwallet/features/market/market_details/store/market_news_store.dart';
 import 'package:jetwallet/features/my_wallets/store/banners_store.dart';
@@ -72,6 +73,9 @@ class _MyWalletsScreenState extends State<MyWalletsScreen> with TickerProviderSt
         Provider<BannersStore>(
           create: (context) => BannersStore(vsync: this),
           dispose: (context, store) => store.dispose(),
+        ),
+        Provider<JarsStore>(
+          create: (context) => JarsStore()..initStore(),
         ),
       ],
       builder: (context, child) => const _MyWalletsScreenBody(),
@@ -417,6 +421,42 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                                       ),
                                     ),
                                   ),
+
+                                /// JARS
+                                SliverToBoxAdapter(
+                                  child: STableHeader(
+                                    size: SHeaderSize.m,
+                                    title: 'Jars',
+                                  ),
+                                ),
+                                // SliverToBoxAdapter(
+                                //   child: Text(Provider.of<JarsStore>(context).allJar.toString()),
+                                // ),
+                                SliverToBoxAdapter(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 24,
+                                      right: 24,
+                                      top: 16,
+                                      bottom: 32,
+                                    ),
+                                    child: SPaddingH24(
+                                      child: Row(
+                                        children: [
+                                          SButtonContext(
+                                            type: SButtonContextType.iconedSmall,
+                                            text: 'Add crypto jar',
+                                            onTap: () {
+                                              getIt<AppRouter>().push(const CreateNewJarNameRouter());
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+
+                                ///
                                 const SliverToBoxAdapter(
                                   child: BannerCarusel(),
                                 ),

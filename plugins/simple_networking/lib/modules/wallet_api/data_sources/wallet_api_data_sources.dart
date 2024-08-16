@@ -58,6 +58,7 @@ import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban
 import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban_withdrawal_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/invest_transfer/invest_transfer_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/invest_transfer/invest_transfer_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/jar/jar_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/kyc/check_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/limits/buy_limits_request_model.dart';
@@ -3849,6 +3850,67 @@ class WalletApiDataSources {
         final data = handleFullResponse<Map>(responseData);
 
         return DC.data(P2PMethodsResponceModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  // GET Jar all list
+  Future<DC<ServerRejectException, List<JarResponseModel>>> postJarAllListRequest() async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/jar/list/all',
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+
+        final out = <JarResponseModel>[];
+        for (final element in responseData['data']) {
+          out.add(
+            JarResponseModel.fromJson(element as Map<String, dynamic>),
+          );
+        }
+
+        return DC.data(out);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  // Post Create jar
+  Future<DC<ServerRejectException, JarResponseModel>> postCreateJarRequest({
+    required String assetSymbol,
+    required String blockchain,
+    required int target,
+    required String imageUrl,
+    required String title,
+    required String description,
+  }) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/jar/create',
+        data: {
+          "assetSymbol": assetSymbol,
+          "blockchain": blockchain,
+          "target": target,
+          "imageUrl": imageUrl,
+          "title": title,
+          "description": description,
+        },
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(JarResponseModel.fromJson(data));
       } catch (e) {
         rethrow;
       }
