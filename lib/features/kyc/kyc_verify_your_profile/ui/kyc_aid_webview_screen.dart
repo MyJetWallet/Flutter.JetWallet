@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -29,6 +31,8 @@ class KycAidWebViewScreen extends StatefulWidget {
 class _KycAidWebViewScreenState extends State<KycAidWebViewScreen> {
   WebViewController controller = WebViewController();
 
+  bool showSplashScreen = true;
+
   @override
   void initState() {
     Permission.camera.request();
@@ -44,6 +48,12 @@ class _KycAidWebViewScreenState extends State<KycAidWebViewScreen> {
         });
       });
     }
+
+    Future.delayed(const Duration(seconds: 3), () {
+      setState(() {
+        showSplashScreen = false;
+      });
+    });
 
     super.initState();
   }
@@ -79,8 +89,24 @@ class _KycAidWebViewScreenState extends State<KycAidWebViewScreen> {
       child: Column(
         children: [
           Expanded(
-            child: WebViewWidget(
-              controller: controller,
+            child: Stack(
+              children: [
+                WebViewWidget(
+                  gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{}..add(
+                      Factory<VerticalDragGestureRecognizer>(
+                        () => VerticalDragGestureRecognizer(),
+                      ),
+                    ),
+                  controller: controller,
+                ),
+                if (showSplashScreen)
+                  const ColoredBox(
+                    color: Colors.white,
+                    child: Center(
+                      child: Text('Splash screen 3 sec'),
+                    ),
+                  ),
+              ],
             ),
           ),
         ],
