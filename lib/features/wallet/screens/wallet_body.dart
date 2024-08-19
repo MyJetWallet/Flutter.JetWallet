@@ -203,6 +203,13 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
     );
   }
 
+  @override
+  void setState(fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
+  }
+
   void _snapAppbar() {
     const scrollDistance = _expandedCardHeight - _collapsedCardHeight;
 
