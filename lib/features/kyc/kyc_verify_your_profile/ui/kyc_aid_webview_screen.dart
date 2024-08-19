@@ -9,6 +9,9 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/intercom/intercom_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
+import 'package:jetwallet/utils/constants.dart';
+import 'package:jetwallet/widgets/result_screens/widgets/result_screen_title.dart';
+import 'package:lottie/lottie.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
@@ -99,13 +102,7 @@ class _KycAidWebViewScreenState extends State<KycAidWebViewScreen> {
                     ),
                   controller: controller,
                 ),
-                if (showSplashScreen)
-                  const ColoredBox(
-                    color: Colors.white,
-                    child: Center(
-                      child: Text('Splash screen 3 sec'),
-                    ),
-                  ),
+                if (showSplashScreen) const _SplashScreen(),
               ],
             ),
           ),
@@ -161,4 +158,47 @@ Future<void> loadKycAidWebViewController({required String url, bool preload = fa
   }
 
   _kycwebViewController = controller;
+}
+
+class _SplashScreen extends StatelessWidget {
+  const _SplashScreen();
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = SColorsLight();
+    return Container(
+      padding: EdgeInsets.only(
+        left: 24.0,
+        right: 24.0,
+        top: MediaQuery.of(context).padding.top,
+        bottom: MediaQuery.of(context).padding.bottom + 16,
+      ),
+      color: colors.white,
+      child: Center(
+        child: Column(
+          children: [
+            const Spacer(
+              flex: 2,
+            ),
+            Column(
+              children: [
+                Lottie.asset(
+                  processingAnimationAsset,
+                  width: 80,
+                  height: 80,
+                ),
+                const SpaceH24(),
+                ResultScreenTitle(
+                  title: intl.waitingScreen_processing,
+                ),
+              ],
+            ),
+            const Spacer(
+              flex: 3,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
