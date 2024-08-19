@@ -192,7 +192,7 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                     mode: TransactionListMode.preview,
                   ),
                   const SliverToBoxAdapter(
-                    child: SpaceH60(),
+                    child: SpaceH300(),
                   ),
                 ],
               ),
@@ -201,6 +201,13 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
         ],
       ),
     );
+  }
+
+  @override
+  void setState(fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
   }
 
   void _snapAppbar() {
