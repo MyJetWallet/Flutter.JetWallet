@@ -10,6 +10,8 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/intercom/intercom_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/utils/constants.dart';
+import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
+import 'package:jetwallet/widgets/result_screens/widgets/result_screen_description.dart';
 import 'package:jetwallet/widgets/result_screens/widgets/result_screen_title.dart';
 import 'package:lottie/lottie.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -140,8 +142,9 @@ Future<void> loadKycAidWebViewController({required String url, bool preload = fa
       onNavigationRequest: (NavigationRequest request) {
         final uri = Uri.parse(request.url);
         if (uri.path.contains('success')) {
-          sRouter.push(
-            SuccessScreenRouter(),
+          Navigator.push(
+            sRouter.navigatorKey.currentContext!,
+            MaterialPageRoute(builder: (context) => const _VerifyingScreen()),
           );
           return NavigationDecision.navigate;
         }
@@ -197,6 +200,66 @@ class _SplashScreen extends StatelessWidget {
               flex: 3,
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _VerifyingScreen extends StatelessWidget {
+  const _VerifyingScreen();
+
+  void onClose() {
+    navigateToRouter();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return PopScope(
+      canPop: false,
+      child: SPageFrame(
+        loaderText: intl.register_pleaseWait,
+        child: Padding(
+          padding: EdgeInsets.only(
+            left: 24.0,
+            right: 24.0,
+            top: MediaQuery.of(context).padding.top,
+            bottom: MediaQuery.of(context).padding.bottom + 16,
+          ),
+          child: Column(
+            children: [
+              const Spacer(
+                flex: 2,
+              ),
+              Column(
+                children: [
+                  Lottie.asset(
+                    successJsonAnimationAsset,
+                    width: 80,
+                    height: 80,
+                    repeat: false,
+                  ),
+                  const SpaceH24(),
+                  ResultScreenTitle(
+                    title: intl.kycChooseDocuments_verifyingNow,
+                  ),
+                  const SpaceH16(),
+                  ResultScreenDescription(
+                    text: intl.kycChooseDocuments_willBeNotified,
+                  ),
+                ],
+              ),
+              const Spacer(
+                flex: 3,
+              ),
+              SButton.black(
+                text: intl.kycAlertHandler_done,
+                callback: () {
+                  onClose();
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
