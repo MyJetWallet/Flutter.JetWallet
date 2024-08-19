@@ -7,13 +7,13 @@ import 'package:simple_networking/modules/wallet_api/models/kyc/kyc_plan_responc
 
 Future<void> startKycAidFlow(KycPlanResponceModel kycPlan) async {
   if (kycPlan.action == KycAction.chooseCountry) {
-    await sRouter.replace(
+    await sRouter.push(
       KycAidChooseCountryRouter(
         initCountryCode: kycPlan.countryCode,
       ),
     );
   } else if (kycPlan.action == KycAction.webView) {
-    await sRouter.replace(
+    await sRouter.push(
       KycAidWebViewRouter(
         url: kycPlan.url,
       ),
