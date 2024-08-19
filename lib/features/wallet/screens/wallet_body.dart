@@ -192,7 +192,7 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                     mode: TransactionListMode.preview,
                   ),
                   const SliverToBoxAdapter(
-                    child: SpaceH60(),
+                    child: SpaceH300(),
                   ),
                 ],
               ),
