@@ -1676,5 +1676,7 @@
         }
     },
     "wallet_history_view_all": "Voir tout",
-    "provider_fee": "Frais du fournisseur"
+    "provider_fee": "Frais du fournisseur",
+    "kyc_identity_verification": "Vérification d'identité",
+    "kyc_blocked_country": "Les services de cryptomonnaie ne sont pas disponibles dans votre pays. Vous pouvez utiliser l'application à des fins d'information uniquement."
 }
