@@ -66,7 +66,11 @@ class AppsFlyerService {
             }
           }
         }
-      } catch (e) {}
+      } catch (e) {
+        ///
+        /// TODO: Add sentry log
+        ///
+      }
     });
 
     appsflyerSdk.onDeepLinking((deepLink) {
