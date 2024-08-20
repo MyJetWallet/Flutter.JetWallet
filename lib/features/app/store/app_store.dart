@@ -5,7 +5,6 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/dio_proxy_service.dart';
 import 'package:jetwallet/core/services/force_update_service.dart';
 import 'package:jetwallet/core/services/intercom/intercom_service.dart';
 import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
@@ -165,16 +164,6 @@ abstract class _AppStoreBase with Store {
     FlutterNativeSplash.remove();
 
     if (remoteConfigStatus is Success) {
-      if (env == 'stage' && !getIt.get<DioProxyService>().proxySkiped) {
-        if (!sRouter.isPathActive('/api_selector')) {
-          await getIt<AppRouter>().replaceAll([
-            const ApiSelectorRouter(),
-          ]);
-        }
-
-        return;
-      }
-
       if (!skipVersionCheck) {
         if (await getIt<ForceServiceUpdate>().init()) {
           var context = getIt.get<AppRouter>().navigatorKey.currentContext;

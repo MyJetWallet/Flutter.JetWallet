@@ -120,6 +120,7 @@ dependencies:
   flutter_local_notifications: 17.2.1+2
 
   # OTHER:
+  sentry_flutter: ^8.7.0 # Debug performance issues and errors
   freezed_annotation: 2.4.4 # Annotations for the freezed
   mocktail: 1.0.4 # mocking library with null-safety support
   logging: 1.2.0 # APIs for debugging and error logging
