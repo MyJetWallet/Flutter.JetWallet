@@ -10,6 +10,8 @@
 		<string>applinks:mobile.simple-spot.biz</string>
 		<string>applinks:mobile.simple.app</string>
 		<string>applinks:mytestlink.onelink.me</string>
+		<string>applinks:simplepromo.onelink.me</string>
+		<string>applinks:promo.simple.app</string>
 	</array>
 </dict>
 </plist>

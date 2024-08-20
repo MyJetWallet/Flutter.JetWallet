@@ -22,6 +22,8 @@ const spareDeviceId = 'spareDeviceId';
 const utmSourceKey = 'utm_source';
 const installConversionDataKey = 'installConversionData';
 const onelinkDataKey = 'onelinkData';
+const campaignKey = 'campaign';
+const mediaSourceKey = 'mediaSource';
 ///
 /// Non-persistent keys (these variables can be deleted and restored when needed)
 ///
@@ -102,6 +104,8 @@ class LocalStorageService {
     final utmSourceTemp = await _storage.read(key: utmSourceKey);
     final installConversionDataTemp = await _storage.read(key: installConversionDataKey);
     final onelinkDataTemp = await _storage.read(key: onelinkDataKey);
+    final campaignTemp = await _storage.read(key: campaignKey);
+    final mediaSourceTemp = await _storage.read(key: mediaSourceKey);
 
     await _storage.deleteAll();
     await _storage.write(key: lastUsedMail, value: userMail);

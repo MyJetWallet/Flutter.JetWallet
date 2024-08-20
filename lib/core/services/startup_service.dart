@@ -366,6 +366,8 @@ class StartupService {
 
       await getIt<LocalCacheService>().saveInstallID(installID);
       final utmSource = await storageService.getValue(utmSourceKey);
+      final campaign = await storageService.getValue(campaignKey);
+      final mediaSource = await storageService.getValue(mediaSourceKey);
 
       final packageInfo = getIt.get<PackageInfoService>().info;
 
@@ -380,6 +382,8 @@ class StartupService {
         idfv: sDeviceInfo.deviceUid,
         adid: '',
         utmSource: utmSource,
+        campaign: campaign,
+        mediaSource: mediaSource,
       );
 
       final _ = await getIt.get<SNetwork>().simpleNetworkingUnathorized.getAuthModule().postInstall(
