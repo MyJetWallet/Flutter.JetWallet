@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -11,8 +12,8 @@ import 'package:simple_kit/modules/shared/simple_show_alert_popup.dart';
 /// Splash error exception decoder:
 ///
 /// 1 - LocalStorageService init error
-/// 2 - AppTrackingTransparency.requestTrackingAuthorization error
-/// 3 - AppTrackingTransparency.getAdvertisingIdentifier error
+/// 2 -
+/// 3 -
 /// 4 - launchSift error
 /// 5 - initAppFBAnalytic error
 /// 6 - initAppsFlyer error
@@ -37,51 +38,61 @@ class SplashErrorService {
   int error = 0;
   bool isWaitAlert = false;
   bool isAlertOpen = false;
+  bool isFirstAlert = true;
 
-  void showErrorAlert() {
+  Future<void> showErrorAlert() async {
     isWaitAlert = true;
 
-    Future.delayed(const Duration(seconds: 3), () {
-      if (error == 0) {
-        isWaitAlert = false;
+    if (isFirstAlert) {
+      await Future.delayed(const Duration(seconds: 4));
+      isFirstAlert = false;
+    }
 
-        return;
-      } else {
-        if (isAlertOpen) return;
+    if (error == 0) {
+      isWaitAlert = false;
 
-        isAlertOpen = true;
+      return;
+    } else {
+      if (isAlertOpen) return;
 
-        sShowAlertPopup(
-          sRouter.navigatorKey.currentContext!,
-          willPopScope: false,
-          primaryText: '${intl.something_went_wrong} ($error)',
-          primaryButtonName: intl.transactionsList_retry,
-          onPrimaryButtonTap: () {
-            if (error == 21) {
-              getIt.get<RemoteConfig>().fetchAndActivate();
-            }
+      isAlertOpen = true;
 
-            getIt.get<StartupService>().firstAction().onError(
-                  (e, stackTrace) {
-                if (e is SplashErrorException) {
-                  getIt.get<SentryService>().captureException(e, stackTrace);
+      await sShowAlertPopup(
+        sRouter.navigatorKey.currentContext!,
+        willPopScope: false,
+        primaryText: '${intl.something_went_wrong} ($error)',
+        primaryButtonName: intl.transactionsList_retry,
+        onPrimaryButtonTap: () async {
+          if (error == 21) {
+            await getIt.get<RemoteConfig>().fetchAndActivate();
+          }
 
-                  getIt.get<SplashErrorService>().error = e.errorCode;
-                  getIt.get<SplashErrorService>().showErrorAlert();
-                }
-              },
-            );
-            error = 0;
-            closeErrorAlert();
-          },
-        );
-      }
-    });
+          await getIt.get<StartupService>().firstAction().onError(
+                (e, stackTrace) {
+              if (e is SplashErrorException) {
+                getIt.get<SentryService>().captureException(e, stackTrace);
+
+                getIt.get<SplashErrorService>().error = e.errorCode;
+                getIt.get<SplashErrorService>().showErrorAlert();
+              }
+            },
+          );
+          error = 0;
+          closeErrorAlert();
+        },
+      );
+    }
   }
 
   void closeErrorAlert() {
     if (isAlertOpen) {
-      Navigator.pop(sRouter.navigatorKey.currentContext!);
+      try {
+        Navigator.pop(sRouter.navigatorKey.currentContext!);
+      } catch (e) {
+        if (kDebugMode) {
+          print(e);
+        }
+      }
       isAlertOpen = false;
     }
   }

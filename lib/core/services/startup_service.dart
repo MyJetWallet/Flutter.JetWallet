@@ -58,6 +58,7 @@ class StartupService {
     String parsedEmail;
 
     LocalStorageService storageService;
+
     ///
     /// SplashErrorException - 1
     ///
@@ -85,11 +86,7 @@ class StartupService {
       throw SplashErrorException(21);
     }
 
-    ///
-    /// SplashErrorException - 2 and 3
-    ///
-    // await getAdvData();
-
+    await getAdvData();
 
     ///
     /// SplashErrorException - 4
@@ -122,7 +119,7 @@ class StartupService {
     ///
     bool authStatus;
     try {
-       authStatus = await checkIsUserAuthorized(token);
+      authStatus = await checkIsUserAuthorized(token);
     } catch (e, stackTrace) {
       getIt.get<SentryService>().captureException(e, stackTrace);
       throw SplashErrorException(8);
@@ -160,7 +157,11 @@ class StartupService {
           if (authStatus) {
             await getIt.get<SNetwork>().simpleNetworking.getAnalyticApiModule().postAddAnalyticRecord([model]);
           } else {
-            await getIt.get<SNetwork>().simpleNetworkingUnathorized.getAnalyticApiModule().postAddAnalyticRecord([model]);
+            await getIt
+                .get<SNetwork>()
+                .simpleNetworkingUnathorized
+                .getAnalyticApiModule()
+                .postAddAnalyticRecord([model]);
           }
         },
         userEmail: parsedEmail,
@@ -207,7 +208,6 @@ class StartupService {
           if (resultRefreshToken == RefreshTokenStatus.success) {
             await userInfo.initPinStatus();
           }
-
         } catch (e, stackTrace) {
           getIt.get<SentryService>().captureException(e, stackTrace);
           throw SplashErrorException(13);
@@ -216,10 +216,10 @@ class StartupService {
         await secondAction();
       } catch (e) {
         getIt.get<SimpleLoggerService>().log(
-          level: Level.error,
-          place: 'StartupService',
-          message: '$e',
-        );
+              level: Level.error,
+              place: 'StartupService',
+              message: '$e',
+            );
         rethrow;
       } finally {
         getIt<AppStore>().setAuthStatus(const AuthorizationUnion.authorized());
@@ -245,20 +245,19 @@ class StartupService {
     try {
       unawaited(
         getIt.get<SNetwork>().simpleNetworkingUnathorized.getLogsApiModule().postAddLog(
-          AddLogModel(
-            level: 'info',
-            message: 'User auth ${getIt.get<AppStore>().authStatus}',
-            source: 'Second Action',
-            process: 'StartupService',
-            token: await storageService.getValue(refreshTokenKey),
-          ),
-        ),
+              AddLogModel(
+                level: 'info',
+                message: 'User auth ${getIt.get<AppStore>().authStatus}',
+                source: 'Second Action',
+                process: 'StartupService',
+                token: await storageService.getValue(refreshTokenKey),
+              ),
+            ),
       );
     } catch (e, stackTrace) {
       getIt.get<SentryService>().captureException(e, stackTrace);
       throw SplashErrorException(14);
     }
-
 
     ///
     /// SplashErrorException - 15
@@ -304,14 +303,14 @@ class StartupService {
 
         unawaited(
           getIt.get<SNetwork>().simpleNetworkingUnathorized.getLogsApiModule().postAddLog(
-            AddLogModel(
-              level: 'info',
-              message: 'Starting signalr',
-              source: 'Second Action',
-              process: 'StartupService',
-              token: await storageService.getValue(refreshTokenKey),
-            ),
-          ),
+                AddLogModel(
+                  level: 'info',
+                  message: 'Starting signalr',
+                  source: 'Second Action',
+                  process: 'StartupService',
+                  token: await storageService.getValue(refreshTokenKey),
+                ),
+              ),
         );
       }
     } catch (e, stackTrace) {
@@ -651,22 +650,7 @@ Future<void> launchSift() async {
 }
 
 Future<void> getAdvData() async {
-  try {
-    await AppTrackingTransparency.requestTrackingAuthorization();
-  } catch (e, stackTrace) {
-    getIt.get<SimpleLoggerService>().log(
-          level: Level.error,
-          place: 'StartupService getAdvData',
-          message: e.toString(),
-        );
-    getIt.get<SentryService>().captureException(e, stackTrace);
-    throw SplashErrorException(2);
-  }
+  await AppTrackingTransparency.requestTrackingAuthorization();
 
-  try {
-    final _ = await AppTrackingTransparency.getAdvertisingIdentifier();
-  } catch (e, stackTrace) {
-    getIt.get<SentryService>().captureException(e, stackTrace);
-    throw SplashErrorException(3);
-  }
+  final _ = await AppTrackingTransparency.getAdvertisingIdentifier();
 }

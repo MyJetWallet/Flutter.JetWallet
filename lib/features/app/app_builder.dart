@@ -134,7 +134,7 @@ class _AppBuilderBodyState extends State<AppBuilderBody> with WidgetsBindingObse
 
 
           getIt.get<SplashErrorService>().error = e.errorCode;
-          getIt.get<SplashErrorService>().showErrorAlert();
+          await getIt.get<SplashErrorService>().showErrorAlert();
         }
       },
     );
