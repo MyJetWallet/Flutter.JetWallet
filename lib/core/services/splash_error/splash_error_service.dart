@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -86,19 +87,21 @@ class SplashErrorService {
 
   void closeErrorAlert() {
     if (isAlertOpen) {
+      isAlertOpen = false;
       try {
-        Navigator.popUntil(
-          sRouter.navigatorKey.currentContext!,
-          (route) {
-            return route.settings.name == SplashRoute.name;
-          },
-        );
+        if (sRouter.navigatorKey.currentContext!.routeData.name == SplashRoute.name) {
+          Navigator.popUntil(
+            sRouter.navigatorKey.currentContext!,
+                (route) {
+              return route.settings.name == SplashRoute.name;
+            },
+          );
+        }
       } catch (e) {
         if (kDebugMode) {
           print(e);
         }
       }
-      isAlertOpen = false;
     }
   }
 }
