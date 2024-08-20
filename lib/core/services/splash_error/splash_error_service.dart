@@ -68,7 +68,7 @@ class SplashErrorService {
           }
 
           await getIt.get<StartupService>().firstAction().onError(
-                (e, stackTrace) {
+            (e, stackTrace) {
               if (e is SplashErrorException) {
                 getIt.get<SentryService>().captureException(e, stackTrace);
 
@@ -87,7 +87,12 @@ class SplashErrorService {
   void closeErrorAlert() {
     if (isAlertOpen) {
       try {
-        Navigator.pop(sRouter.navigatorKey.currentContext!);
+        Navigator.popUntil(
+          sRouter.navigatorKey.currentContext!,
+          (route) {
+            return route.settings.name == SplashRoute.name;
+          },
+        );
       } catch (e) {
         if (kDebugMode) {
           print(e);
