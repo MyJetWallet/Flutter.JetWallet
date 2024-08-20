@@ -52,63 +52,58 @@ class MySimpleCoinsScreen extends StatelessWidget {
           },
           rightIcon: Assets.svg.medium.history.simpleSvg(),
         ),
-        child: Stack(
-          children: [
-            CustomScrollView(
-              physics: const ClampingScrollPhysics(),
-              slivers: [
-                SliverToBoxAdapter(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: 24,
-                          right: 24,
-                          bottom: 12,
-                        ),
-                        child: Image.asset(simpleCoinHeader),
-                      ),
-                      SPriceHeader(
-                        lable: intl.simplecoin_my_simplecoins,
-                        value: getIt<AppStore>().isBalanceHide ? '**** SMPL' : balance,
-                        icon: Assets.svg.assets.crypto.smpl.simpleSvg(
-                          width: 32,
-                        ),
-                      ),
-                      SPaddingH24(
-                        child: Text(
-                          intl.simplecoin_description,
-                          style: STStyles.body1Medium.copyWith(
-                            color: colors.gray10,
-                          ),
-                          maxLines: 10,
-                        ),
-                      ),
-                      const SpaceH16(),
-                      SPaddingH24(
-                        child: SHyperlink(
-                          text: intl.simplecoin_join_simple_tap,
-                          onTap: () {
-                            sAnalytics.tapOnTheButtonJoinSimpleTapOnSimplecoinLandingScreen();
-                            launchURL(
-                              context,
-                              simpleTapLink,
-                              launchMode: LaunchMode.externalApplication,
-                            );
-                          },
-                        ),
-                      ),
-                      STableHeader(
-                        size: SHeaderSize.m,
-                        title: intl.simplecoin_roadmap,
-                      ),
-                      const SimpleCoinRoadmap(),
-                      const SpaceH100(),
-                    ],
+        child: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: 24,
+                      right: 24,
+                      bottom: 12,
+                    ),
+                    child: Image.asset(simpleCoinHeader),
                   ),
-                ),
-              ],
+                  SPriceHeader(
+                    lable: intl.simplecoin_my_simplecoins,
+                    value: getIt<AppStore>().isBalanceHide ? '**** SMPL' : balance,
+                    icon: Assets.svg.assets.crypto.smpl.simpleSvg(
+                      width: 32,
+                    ),
+                  ),
+                  SPaddingH24(
+                    child: Text(
+                      intl.simplecoin_description,
+                      style: STStyles.body1Medium.copyWith(
+                        color: colors.gray10,
+                      ),
+                      maxLines: 10,
+                    ),
+                  ),
+                  const SpaceH16(),
+                  SPaddingH24(
+                    child: SHyperlink(
+                      text: intl.simplecoin_join_simple_tap,
+                      onTap: () {
+                        sAnalytics.tapOnTheButtonJoinSimpleTapOnSimplecoinLandingScreen();
+                        launchURL(
+                          context,
+                          simpleTapLink,
+                          launchMode: LaunchMode.externalApplication,
+                        );
+                      },
+                    ),
+                  ),
+                  STableHeader(
+                    size: SHeaderSize.m,
+                    title: intl.simplecoin_roadmap,
+                  ),
+                  const SimpleCoinRoadmap(),
+                  const SpaceH100(),
+                ],
+              ),
             ),
           ],
         ),
