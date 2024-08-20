@@ -53,7 +53,7 @@ class RemoteConfig {
       Future<RemoteConfigModel> getRemoteConfigFromServer() async {
         remoteConfigURL = flavor == Flavor.prod
             ? 'https://wallet-api.simple.app/api/v1/remote-config/config'
-            : 'https://user1723709972160.requestly.tech/api/v1/remote-config/config';
+            : 'https://wallet-api-uat.simple-spot.biz/api/v1/remote-config/config';
 
         final response = await Dio().get(remoteConfigURL);
 
