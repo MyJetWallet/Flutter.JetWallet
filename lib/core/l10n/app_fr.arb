@@ -1678,6 +1678,8 @@
     "wallet_history_view_all": "Voir tout",
     "provider_fee": "Frais du fournisseur",
     "kyc_identity_verification": "Vérification d'identité",
-    "kyc_blocked_country": "Les services de cryptomonnaie ne sont pas disponibles dans votre pays. Vous pouvez utiliser l'application à des fins d'information uniquement.",
-    "simplecoin_auctions": "Enchères"
+    "kyc_blocked_country": "Nous sommes désolés, mais les services de cryptomonnaie ne sont pas disponibles dans votre pays. Si vous résidez dans un autre pays et pouvez vérifier votre adresse, veuillez télécharger une preuve de résidence.",
+    "simplecoin_auctions": "Enchères",
+    "kyc_id_issuing_country": "Pays émetteur de l'ID",
+    "kyc_proceed": "Continuer"
 }

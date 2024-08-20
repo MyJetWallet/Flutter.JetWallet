@@ -1714,6 +1714,8 @@
     "wallet_history_view_all": "View all",
     "provider_fee": "Provider fee",
     "kyc_identity_verification": "Identity verification",
-    "kyc_blocked_country": "Cryptocurrency services are not available in your country. You can use the app for informational purposes only.",
-    "simplecoin_auctions": "Auctions"
+    "kyc_blocked_country": "We’re sorry, but cryptocurrency services are not available in your country. If you reside in another country and can verify your address, please upload proof of residence.",
+    "simplecoin_auctions": "Auctions",
+    "kyc_id_issuing_country": "ID issuing country",
+    "kyc_proceed": "Proceed"
 }

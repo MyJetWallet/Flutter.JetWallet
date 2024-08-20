@@ -76,7 +76,7 @@ class __ChooseCountryState extends State<KycAidChooseCountryScreen> {
                         const Spacer(),
                         SPaddingH24(
                           child: SPrimaryButton4(
-                            name: intl.register_continue,
+                            name: intl.kyc_proceed,
                             onTap: () {
                               store.applyCountry();
                             },
@@ -139,7 +139,7 @@ class CountryProfileField extends StatelessObserverWidget {
                   hideClearButton: true,
                   readOnly: true,
                   controller: TextEditingController()..text = countryInfo.activeCountry != null ? ' ' : '',
-                  labelText: intl.user_data_country,
+                  labelText: intl.kyc_id_issuing_country,
                 ),
               ],
             ),

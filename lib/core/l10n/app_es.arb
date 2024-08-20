@@ -1702,6 +1702,8 @@
     "wallet_history_view_all": "Ver todo",
     "provider_fee": "Tarifa del proveedor",
     "kyc_identity_verification": "Verificación de identidad",
-    "kyc_blocked_country": "Los servicios de criptomonedas no están disponibles en tu país. Puedes usar la aplicación solo para fines informativos.",
-    "simplecoin_auctions": "Subastas"
+    "kyc_blocked_country": "Lamentamos informar que los servicios de criptomonedas no están disponibles en su país. Si reside en otro país y puede verificar su dirección, por favor suba un comprobante de residencia.",
+    "simplecoin_auctions": "Subastas",
+    "kyc_id_issuing_country": "País emisor del ID",
+    "kyc_proceed": "Proceder"
 }
