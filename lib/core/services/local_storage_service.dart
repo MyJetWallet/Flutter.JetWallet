@@ -122,6 +122,8 @@ class LocalStorageService {
     await _storage.write(key: utmSourceKey, value: utmSourceTemp);
     await _storage.write(key: installConversionDataKey, value: installConversionDataTemp);
     await _storage.write(key: onelinkDataKey, value: onelinkDataTemp);
+    await _storage.write(key: campaignKey, value: campaignTemp);
+    await _storage.write(key: mediaSourceKey, value: mediaSourceTemp);
   }
 
   Future<void> clearStorage() async {
