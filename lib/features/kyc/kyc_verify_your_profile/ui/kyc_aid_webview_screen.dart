@@ -115,6 +115,8 @@ class _KycAidWebViewScreenState extends State<KycAidWebViewScreen> {
 }
 
 Future<void> loadKycAidWebViewController({required String url, bool preload = false}) async {
+  var successScreenAlredyShowed = false;
+
   late final PlatformWebViewControllerCreationParams params;
   if (WebViewPlatform.instance is WebKitWebViewPlatform) {
     params = WebKitWebViewControllerCreationParams(
@@ -141,7 +143,8 @@ Future<void> loadKycAidWebViewController({required String url, bool preload = fa
     NavigationDelegate(
       onNavigationRequest: (NavigationRequest request) {
         final uri = Uri.parse(request.url);
-        if (uri.path.contains('success')) {
+        if (uri.path.contains('success') && !successScreenAlredyShowed) {
+          successScreenAlredyShowed = true;
           Navigator.push(
             sRouter.navigatorKey.currentContext!,
             MaterialPageRoute(builder: (context) => const _VerifyingScreen()),
