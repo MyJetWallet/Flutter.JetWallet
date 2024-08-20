@@ -16,6 +16,8 @@ class InstallModel with _$InstallModel {
     String? idfv,
     String? adid,
     String? utmSource,
+    String? campaign,
+    String? mediaSource,
   }) = _InstallModel;
 
   factory InstallModel.fromJson(Map<String, dynamic> json) => _$InstallModelFromJson(json);

@@ -42,6 +42,31 @@ class AppsFlyerService {
       if (prevInstallConversionData == null || prevInstallConversionData.isEmpty) {
         await storage.setString(installConversionDataKey, value.toString());
       }
+
+      try {
+        if (value is Map<String, dynamic>) {
+          if (value['status'] == 'success') {
+            final data = value['payload'] as Map<String, dynamic>;
+
+            final afStatus = (data['af_status'] as String?) ?? '';
+
+            if (afStatus != 'Organic') {
+              final mediaSource = (data['media_source'] as String?) ?? 'mediaSourceError';
+              final campaign = (data['campaign'] as String?) ?? 'campaignError';
+
+              await storage.setString(
+                mediaSourceKey,
+                mediaSource,
+              );
+
+              await storage.setString(
+                campaignKey,
+                campaign,
+              );
+            }
+          }
+        }
+      } catch (e) {}
     });
 
     appsflyerSdk.onDeepLinking((deepLink) {
