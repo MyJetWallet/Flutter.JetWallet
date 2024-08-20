@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_webview_pro/webview_flutter.dart';
 import 'package:jetwallet/features/invest/stores/dashboard/invest_dashboard_store.dart';
 import 'package:jetwallet/features/invest/stores/dashboard/invest_positions_store.dart';
 import 'package:jetwallet/features/invest/ui/dashboard/invest_header.dart';
@@ -43,7 +42,6 @@ class InvestHistoryScreen extends StatefulObserverWidget {
 class _InvestHistoryScreenState extends State<InvestHistoryScreen> {
   bool canTapShare = true;
   late ScrollController controller;
-  late WebViewController controllerWeb;
 
   @override
   void initState() {

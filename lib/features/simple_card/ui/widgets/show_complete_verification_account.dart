@@ -25,22 +25,26 @@ void showCompleteVerificationAccount(
       package: 'simple_kit',
     ),
     onPrimaryButtonTap: () async {
-      sAnalytics.tapVerifyAccountForCard();
-      loading.finishLoadingImmediately();
-      Navigator.pop(context);
+      try {
+        sAnalytics.tapVerifyAccountForCard();
+        loading.finishLoadingImmediately();
+        Navigator.pop(context);
 
-      getIt.get<GlobalLoader>().setLoading(true);
-      sAnalytics.viewPleaseWaitLoading();
+        getIt.get<GlobalLoader>().setLoading(true);
+        sAnalytics.viewPleaseWaitLoading();
 
-      await getIt<SumsubService>().launch(
-        isBanking: true,
-        needPush: false,
-        onFinish: () {
-          after();
-          getIt.get<GlobalLoader>().setLoading(false);
-        },
-        isCard: true,
-      );
+        await getIt<SumsubService>().launch(
+          isBanking: true,
+          needPush: false,
+          onFinish: () {
+            after();
+            getIt.get<GlobalLoader>().setLoading(false);
+          },
+          isCard: true,
+        );
+      } catch (e) {
+        getIt.get<GlobalLoader>().setLoading(false);
+      }
     },
     secondaryButtonName: intl.wallet_cancel,
     onSecondaryButtonTap: () {

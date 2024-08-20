@@ -10,12 +10,14 @@ class OneColumnCell extends StatelessWidget {
     required this.text,
     this.needHorizontalPading = true,
     this.customTextWidget,
+    this.color,
   });
 
   final SvgGenImage icon;
   final String text;
   final bool needHorizontalPading;
   final Widget? customTextWidget;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +34,7 @@ class OneColumnCell extends StatelessWidget {
           icon.simpleSvg(
             width: 20,
             height: 20,
+            color: color ?? SColorsLight().black,
           ),
           const Gap(12),
           Flexible(
@@ -39,7 +42,7 @@ class OneColumnCell extends StatelessWidget {
                 Text(
                   text,
                   style: STStyles.body2Medium.copyWith(
-                    color: SColorsLight().black,
+                    color: color ?? SColorsLight().black,
                   ),
                   maxLines: 12,
                 ),

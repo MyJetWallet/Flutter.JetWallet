@@ -1764,5 +1764,7 @@
         }
     },
     "wallet_history_view_all": "Przegląd",
-    "provider_fee": "Opłata operatora"
+    "provider_fee": "Opłata operatora",
+    "kyc_identity_verification": "Weryfikacja tożsamości",
+    "kyc_blocked_country": "Usługi kryptowalutowe nie są dostępne w Twoim kraju. Możesz używać aplikacji tylko w celach informacyjnych."
 }

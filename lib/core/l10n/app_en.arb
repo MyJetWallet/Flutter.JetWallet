@@ -1712,5 +1712,7 @@
         }
     },
     "wallet_history_view_all": "View all",
-    "provider_fee": "Provider fee"
+    "provider_fee": "Provider fee",
+    "kyc_identity_verification": "Identity verification",
+    "kyc_blocked_country": "Cryptocurrency services are not available in your country. You can use the app for informational purposes only."
 }
