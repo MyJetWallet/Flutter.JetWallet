@@ -78,6 +78,9 @@ class StartupService {
       parsedEmail = '<${intl.appInitFpod_emailNotFound}>';
     }
 
+    ///
+    /// SplashErrorException - 21
+    ///
     if (getIt.get<AppStore>().remoteConfigStatus is rcu.Error) {
       throw SplashErrorException(21);
     }
@@ -85,7 +88,8 @@ class StartupService {
     ///
     /// SplashErrorException - 2 and 3
     ///
-    await getAdvData();
+    // await getAdvData();
+
 
     ///
     /// SplashErrorException - 4
