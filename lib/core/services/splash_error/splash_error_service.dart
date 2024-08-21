@@ -5,7 +5,6 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config.dart';
-import 'package:jetwallet/core/services/sentry_service.dart';
 import 'package:jetwallet/core/services/startup_service.dart';
 import 'package:simple_kit/modules/shared/simple_show_alert_popup.dart';
 
@@ -33,6 +32,7 @@ import 'package:simple_kit/modules/shared/simple_show_alert_popup.dart';
 /// 19 -
 /// 20 - kyc error
 /// 21 - Remote config error
+/// 22 - Network error
 ///
 
 class SplashErrorService {
@@ -40,13 +40,16 @@ class SplashErrorService {
   bool isWaitAlert = false;
   bool isAlertOpen = false;
   bool isFirstAlert = true;
+  bool isNetworkError = false;
 
   Future<void> showErrorAlert() async {
     isWaitAlert = true;
 
     if (isFirstAlert) {
-      await Future.delayed(const Duration(seconds: 4));
+      await Future.delayed(const Duration(seconds: 5));
       isFirstAlert = false;
+    } else {
+      await Future.delayed(const Duration(seconds: 1));
     }
 
     if (error == 0) {
@@ -61,24 +64,16 @@ class SplashErrorService {
       await sShowAlertPopup(
         sRouter.navigatorKey.currentContext!,
         willPopScope: false,
-        primaryText: '${intl.something_went_wrong} ($error)',
+        primaryText: error == 22 ? intl.noInternetConnection_header : '${intl.something_went_wrong} ($error)',
+        secondaryText: error == 22 ? intl.noInternetConnection_descr : null,
         primaryButtonName: intl.transactionsList_retry,
         onPrimaryButtonTap: () async {
-          if (error == 21) {
+          if (error == 21 || error == 22) {
             await getIt.get<RemoteConfig>().fetchAndActivate();
+          } else {
+            await getIt.get<StartupService>().firstAction();
           }
 
-          await getIt.get<StartupService>().firstAction().onError(
-            (e, stackTrace) {
-              if (e is SplashErrorException) {
-                getIt.get<SentryService>().captureException(e, stackTrace);
-
-                getIt.get<SplashErrorService>().error = e.errorCode;
-                getIt.get<SplashErrorService>().showErrorAlert();
-              }
-            },
-          );
-          error = 0;
           closeErrorAlert();
         },
       );
