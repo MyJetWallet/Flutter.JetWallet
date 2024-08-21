@@ -80,6 +80,14 @@ class StartupService {
     }
 
     ///
+    /// SplashErrorException - 22
+    ///
+    if (getIt.get<SplashErrorService>().isNetworkError) {
+      getIt.get<SplashErrorService>().isNetworkError = false;
+      throw SplashErrorException(22);
+    }
+
+    ///
     /// SplashErrorException - 21
     ///
     if (getIt.get<AppStore>().remoteConfigStatus is rcu.Error) {

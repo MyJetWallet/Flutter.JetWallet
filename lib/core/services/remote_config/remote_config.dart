@@ -11,6 +11,7 @@ import 'package:jetwallet/core/services/remote_config/remote_config_values.dart'
 import 'package:jetwallet/core/services/sentry_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_conection_url_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/core/services/splash_error/splash_error_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:logger/logger.dart';
 import 'package:simple_networking/config/options.dart';
@@ -105,6 +106,12 @@ class RemoteConfig {
       await pingRemoutConfig();
     } catch (e, stackTrace) {
       getIt.get<SentryService>().captureException(e, stackTrace);
+
+      if (e is DioException) {
+        if (e.type == DioExceptionType.connectionError) {
+          getIt.get<SplashErrorService>().isNetworkError = true;
+        }
+      }
 
       getIt.get<AppStore>().setRemoteConfigStatus(
             const RemoteConfigUnion.error(),
