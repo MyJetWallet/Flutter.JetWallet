@@ -36,6 +36,9 @@ target 'Runner' do
   use_modular_headers!
 
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
+
+  # TODO (Yaroslav): delete this line after update libphonenumber_plugin
+  pod 'PhoneNumberKit', :git => 'https://github.com/marmelroy/PhoneNumberKit.git', :commit => 'c107075aa8d394be7aced273a46e944afe8b321b'
 end
 
 post_install do |installer|
