@@ -131,7 +131,7 @@ class _KycVerificationState extends State<KycVerification> {
           Text(
             intl.verification_your_profile_descr,
             textAlign: TextAlign.left,
-            maxLines: 2,
+            maxLines: 4,
             style: sBodyText1Style.copyWith(color: colors.grey1),
           ),
           const SpaceH32(),
