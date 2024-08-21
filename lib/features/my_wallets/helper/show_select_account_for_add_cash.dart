@@ -188,7 +188,7 @@ class _ShowSelectAccountForAddCash extends StatelessObserverWidget {
           for (final card in cards)
             SimpleTableAsset(
               label: card.label ?? '',
-              supplement: '${card.cardType?.frontName} ••• ${card.last4NumberCharacters}',
+              supplement: '${card.cardType.frontName} ••• ${card.last4NumberCharacters}',
               rightValue: getIt<AppStore>().isBalanceHide
                   ? '**** ${card.currency ?? 'EUR'}'
                   : (card.balance ?? Decimal.zero).toFormatSum(

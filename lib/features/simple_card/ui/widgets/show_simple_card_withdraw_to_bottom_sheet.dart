@@ -77,7 +77,7 @@ class _WithdrawToBody extends StatelessWidget {
           for (final card in store.cards)
             SimpleTableAsset(
               label: card.label ?? 'Simple card',
-              supplement: '${card.cardType?.frontName} ••• ${card.last4NumberCharacters}',
+              supplement: '${card.cardType.frontName} ••• ${card.last4NumberCharacters}',
               rightValue: getIt<AppStore>().isBalanceHide
                   ? '**** ${card.currency ?? 'EUR'}'
                   : (card.balance ?? Decimal.zero).toFormatSum(
