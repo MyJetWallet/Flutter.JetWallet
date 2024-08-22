@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -7,6 +9,9 @@ import 'package:jetwallet/core/services/internet_checker_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/refresh_token_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config.dart';
+import 'package:jetwallet/core/services/sentry_service.dart';
+import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/core/services/splash_error/splash_error_service.dart';
 import 'package:jetwallet/core/services/startup_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/app/store/global_loader.dart';
@@ -14,7 +19,9 @@ import 'package:jetwallet/features/app/store/models/authorization_union.dart';
 import 'package:jetwallet/features/app/timer_service.dart';
 import 'package:jetwallet/features/auth/splash/splash_screen.dart';
 import 'package:logger/logger.dart';
+import 'package:simple_networking/modules/logs_api/models/add_log_model.dart';
 
+import '../../core/services/local_storage_service.dart';
 import '../../core/services/remote_config/models/remote_config_union.dart';
 
 class AppBuilder extends StatelessObserverWidget {
@@ -48,7 +55,8 @@ class AppBuilder extends StatelessObserverWidget {
             }
           }
 
-          return getIt.get<AppStore>().remoteConfigStatus is Success
+          return getIt.get<AppStore>().remoteConfigStatus is Success ||
+                  getIt.get<AppStore>().remoteConfigStatus is Error
               ? AppBuilderBody(
                   reactiveMediaQuery: reactiveMediaQuery,
                   child: child ?? const SplashScreen(),
@@ -103,7 +111,33 @@ class _AppBuilderBodyState extends State<AppBuilderBody> with WidgetsBindingObse
   @override
   void initState() {
     WidgetsBinding.instance.addObserver(this);
-    getIt.get<StartupService>().firstAction();
+
+    final storageService = getIt.get<LocalStorageService>();
+
+    getIt.get<StartupService>().firstAction().onError(
+      (e, stackTrace) async {
+        if (e is SplashErrorException) {
+          getIt.get<SentryService>().captureException('Splash error exception with code: ${e.errorCode}', stackTrace);
+          if (e.errorCode > 9 && e.errorCode != 21 && e.errorCode != 22) {
+            unawaited(
+              getIt.get<SNetwork>().simpleNetworkingUnathorized.getLogsApiModule().postAddLog(
+                AddLogModel(
+                  level: 'error',
+                  message: 'SplashErrorException: ${e.errorCode}',
+                  source: 'Splash',
+                  process: 'Init',
+                  token: await storageService.getValue(refreshTokenKey),
+                ),
+              ),
+            );
+          }
+
+
+          getIt.get<SplashErrorService>().error = e.errorCode;
+          await getIt.get<SplashErrorService>().showErrorAlert();
+        }
+      },
+    );
 
     super.initState();
   }
