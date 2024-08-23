@@ -1764,5 +1764,10 @@
         }
     },
     "wallet_history_view_all": "Przegląd",
-    "provider_fee": "Opłata operatora"
+    "provider_fee": "Opłata operatora",
+    "kyc_identity_verification": "Weryfikacja tożsamości",
+    "kyc_blocked_country": "Przepraszamy, ale usługi kryptowalutowe nie są dostępne w Twoim kraju. Jeśli mieszkasz w innym kraju i możesz zweryfikować swój adres, prosimy o przesłanie dowodu zamieszkania.",
+    "simplecoin_auctions": "Aukcje",
+    "kyc_id_issuing_country": "Kraj wydający identyfikator",
+    "kyc_proceed": "Kontynuuj"
 }

@@ -34,45 +34,23 @@ class CountryProfileItem extends StatelessObserverWidget {
       child: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: needPadding ? 24.0 : 0.0,
+          vertical: 18,
         ),
-        child: SizedBox(
-          height: needPadding ? 68 : 29,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Row(
-                children: [
-                  Container(
-                    padding: EdgeInsets.only(
-                      top: needPadding ? 20.0 : 0,
-                    ),
-                    child: FlagItem(
-                      countryCode: countryCode,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      top: needPadding ? 18.0 : 0,
-                    ),
-                    child: CountryProfileName(
-                      countryName: countryName,
-                      isBlocked: isBlocked,
-                      needBaseline: false,
-                    ),
-                  ),
-                  const Spacer(),
-                  Visibility(
-                    visible: isBlocked,
-                    child: const CountryProfileWarning(),
-                  ),
-                ],
-              ),
-              if (needPadding) ...[
-                const Spacer(),
-                const SDivider(),
-              ],
-            ],
-          ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            FlagItem(
+              countryCode: countryCode,
+            ),
+            CountryProfileName(
+              countryName: countryName,
+              isBlocked: isBlocked,
+            ),
+            Visibility(
+              visible: isBlocked,
+              child: const CountryProfileWarning(),
+            ),
+          ],
         ),
       ),
     );
