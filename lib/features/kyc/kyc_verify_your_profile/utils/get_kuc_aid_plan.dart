@@ -12,7 +12,9 @@ Future<KycPlanResponceModel?> getKYCAidPlan() async {
       onData: (data) {
         kycPlan = data;
 
-        loadKycAidWebViewController(url: kycPlan?.url ?? '', preload: true);
+        if (kycPlan?.provider == KycProvider.kycAid) {
+          loadKycAidWebViewController(url: kycPlan?.url ?? '', preload: true);
+        }
       },
       onError: (error) {
         sNotification.showError(

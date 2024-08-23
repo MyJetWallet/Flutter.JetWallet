@@ -86,4 +86,14 @@ abstract class _KycServiceBase with Store {
   void updateKycStatus() {
     manualUpdateKycStatus = true;
   }
+
+  @action
+  void steKycsStatus(KycStatus kycStatus) {
+    final clientDetails = sSignalRModules.clientDetail.copyWith(
+      depositStatus: kycOperationStatus(kycStatus),
+      withdrawalStatus: kycOperationStatus(kycStatus),
+      tradeStatus: kycOperationStatus(kycStatus),
+    );
+    sSignalRModules.setClientDetail(clientDetails);
+  }
 }
