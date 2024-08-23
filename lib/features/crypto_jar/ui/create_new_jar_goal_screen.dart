@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:simple_kit/simple_kit.dart' as sk;
 import 'package:simple_kit_updated/simple_kit_updated.dart';
@@ -19,13 +21,16 @@ class CreateNewJarGoalScreen extends StatefulWidget {
 }
 
 class _CreateNewJarGoalScreenState extends State<CreateNewJarGoalScreen> {
-  final TextEditingController name = TextEditingController();
+  final TextEditingController goalController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
 
-    name.addListener(() {
+    goalController.addListener(() {
+      if ((int.tryParse(goalController.text) ?? 0) > 15000) {
+
+      }
       setState(() {});
     });
   }
@@ -37,32 +42,36 @@ class _CreateNewJarGoalScreenState extends State<CreateNewJarGoalScreen> {
     return sk.SPageFrame(
       loaderText: '',
       color: colors.white,
-      header: GlobalBasicAppBar(
+      header: const GlobalBasicAppBar(
         title: '',
         hasRightIcon: false,
       ),
       child: Column(
         children: [
-          SizedBox(
+          Assets.images.jar.jarEmpty.simpleImg(
             height: 160.0,
             width: 160.0,
-            child: Image.asset('assets/images/jar_empty.png'),
           ),
-          SizedBox(
+          const SizedBox(
             height: 12,
           ),
           Text(
-            'What is your goal?',
+            intl.jar_input_jar_goal,
             style: STStyles.header6.copyWith(
               color: SColorsLight().black,
             ),
           ),
           const Spacer(),
           SInput(
-            label: 'Purpose',
-            controller: name,
+            label: intl.jar_purpose,
+            controller: goalController,
             hasCloseIcon: true,
             autofocus: true,
+            inputFormatters: [
+              FilteringTextInputFormatter.allow(
+                RegExp('[0-9]'),
+              ),
+            ],
             keyboardType: TextInputType.number,
           ),
           Container(
@@ -71,14 +80,19 @@ class _CreateNewJarGoalScreenState extends State<CreateNewJarGoalScreen> {
             color: SColorsLight().gray2,
             child: Column(
               children: [
-                SizedBox(height: 26.0),
+                const SizedBox(height: 26.0),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
                   child: SButton.black(
-                    text: 'Next',
-                    callback: name.text.isNotEmpty
+                    text: intl.jar_next,
+                    callback: goalController.text.isNotEmpty
                         ? () {
-                            getIt<AppRouter>().push(CreateNewJarRouter(name: widget.name, goal: int.parse(name.text), ));
+                            getIt<AppRouter>().push(
+                              CreateNewJarRouter(
+                                name: widget.name,
+                                goal: int.parse(goalController.text),
+                              ),
+                            );
                           }
                         : null,
                   ),

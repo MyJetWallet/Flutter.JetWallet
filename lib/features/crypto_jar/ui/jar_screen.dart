@@ -4,17 +4,16 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:simple_kit/simple_kit.dart' as sk;
 import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'package:simple_networking/modules/wallet_api/models/jar/jar_response_model.dart';
 
 @RoutePage(name: 'JarRouter')
 class JarScreen extends StatefulWidget {
   const JarScreen({
-    required this.name,
-    required this.goal,
+    required this.jar,
     super.key,
   });
 
-  final String name;
-  final int goal;
+  final JarResponseModel jar;
 
   @override
   State<JarScreen> createState() => _JarScreenState();
@@ -74,7 +73,7 @@ class _JarScreenState extends State<JarScreen> {
             Row(
               children: [
                 Text(
-                  widget.name,
+                  widget.jar.title,
                   style: STStyles.header5.copyWith(
                     color: SColorsLight().black,
                   ),
@@ -89,7 +88,7 @@ class _JarScreenState extends State<JarScreen> {
               ],
             ),
             Text(
-              '0 / ${widget.goal} USDT',
+              '${widget.jar.balance} / ${widget.jar.target} ${widget.jar.assetSymbol}',
               style: STStyles.body1Medium.copyWith(
                 color: SColorsLight().gray10,
               ),

@@ -16,6 +16,7 @@ import 'package:jetwallet/core/services/remote_config/remote_config_values.dart'
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/crypto_jar/store/jars_store.dart';
+import 'package:jetwallet/features/crypto_jar/ui/widgets/jars_list_widget.dart';
 import 'package:jetwallet/features/earn/widgets/earn_dashboard_section_widget.dart';
 import 'package:jetwallet/features/market/market_details/store/market_news_store.dart';
 import 'package:jetwallet/features/my_wallets/store/banners_store.dart';
@@ -421,17 +422,16 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                                       ),
                                     ),
                                   ),
-
                                 /// JARS
                                 SliverToBoxAdapter(
                                   child: STableHeader(
                                     size: SHeaderSize.m,
-                                    title: 'Jars',
+                                    title: intl.jar_jars,
                                   ),
                                 ),
-                                // SliverToBoxAdapter(
-                                //   child: Text(Provider.of<JarsStore>(context).allJar.toString()),
-                                // ),
+                                const SliverToBoxAdapter(
+                                  child: JarsListWidget(),
+                                ),
                                 SliverToBoxAdapter(
                                   child: Padding(
                                     padding: const EdgeInsets.only(
@@ -445,7 +445,7 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                                         children: [
                                           SButtonContext(
                                             type: SButtonContextType.iconedSmall,
-                                            text: 'Add crypto jar',
+                                            text: intl.jar_add_jar,
                                             onTap: () {
                                               getIt<AppRouter>().push(const CreateNewJarNameRouter());
                                             },
@@ -455,7 +455,6 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                                     ),
                                   ),
                                 ),
-
                                 ///
                                 const SliverToBoxAdapter(
                                   child: BannerCarusel(),

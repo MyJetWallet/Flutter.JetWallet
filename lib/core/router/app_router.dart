@@ -133,6 +133,7 @@ import 'package:jetwallet/features/withdrawal/ui/withdrawal_confirm.dart';
 import 'package:jetwallet/features/withdrawal/ui/withdrawal_preview.dart';
 import 'package:jetwallet/features/withdrawal/ui/withdrawal_screen.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/jar/jar_response_model.dart';
 import 'package:jetwallet/widgets/info_web_view.dart';
 import 'package:jetwallet/widgets/result_screens/failure_screen/failure_screen.dart';
 import 'package:jetwallet/widgets/result_screens/success_screen/success_screen.dart';

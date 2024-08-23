@@ -3863,6 +3863,7 @@ class WalletApiDataSources {
     try {
       final response = await _apiClient.post(
         '${_apiClient.options.walletApi}/jar/list/all',
+        data: {},
       );
 
       try {

@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:simple_kit/simple_kit.dart' as sk;
 import 'package:simple_kit_updated/simple_kit_updated.dart';
@@ -14,13 +15,13 @@ class CreateNewJarNameScreen extends StatefulWidget {
 }
 
 class _CreateNewJarNameScreenState extends State<CreateNewJarNameScreen> {
-  final TextEditingController name = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
 
-    name.addListener(() {
+    nameController.addListener(() {
       setState(() {});
     });
   }
@@ -32,32 +33,35 @@ class _CreateNewJarNameScreenState extends State<CreateNewJarNameScreen> {
     return sk.SPageFrame(
       loaderText: '',
       color: colors.white,
-      header: GlobalBasicAppBar(
+      header: const GlobalBasicAppBar(
         title: '',
         hasRightIcon: false,
       ),
       child: Column(
         children: [
-          SizedBox(
+          Assets.images.jar.jarEmpty.simpleImg(
             height: 160.0,
             width: 160.0,
-            child: Image.asset('assets/images/jar_empty.png'),
           ),
-          SizedBox(
-            height: 12,
+          const SizedBox(
+            height: 12.0,
           ),
           Text(
-            'What are you saving for?',
+            intl.jar_input_jar_name,
             style: STStyles.header6.copyWith(
               color: SColorsLight().black,
             ),
           ),
           const Spacer(),
           SInput(
-            label: 'Jar name',
-            controller: name,
+            label: intl.jar_jar_name,
+            controller: nameController,
             hasCloseIcon: true,
             autofocus: true,
+            textCapitalization: TextCapitalization.sentences,
+            onCloseIconTap: () {
+              nameController.clear();
+            },
           ),
           Container(
             height: 26.0 + 24.0 + 56.0,
@@ -65,14 +69,18 @@ class _CreateNewJarNameScreenState extends State<CreateNewJarNameScreen> {
             color: SColorsLight().gray2,
             child: Column(
               children: [
-                SizedBox(height: 26.0),
+                const SizedBox(height: 26.0),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
                   child: SButton.black(
-                    text: 'Next',
-                    callback: name.text.isNotEmpty
+                    text: intl.jar_next,
+                    callback: nameController.text.isNotEmpty
                         ? () {
-                            getIt<AppRouter>().push(CreateNewJarGoalRouter(name: name.text));
+                            getIt<AppRouter>().push(
+                              CreateNewJarGoalRouter(
+                                name: nameController.text,
+                              ),
+                            );
                           }
                         : null,
                   ),

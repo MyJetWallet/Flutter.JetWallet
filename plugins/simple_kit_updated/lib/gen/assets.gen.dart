@@ -18,6 +18,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/appbar_bg.png
   AssetGenImage get appbarBg => const AssetGenImage('assets/images/appbar_bg.png');
 
+  /// Directory path: assets/images/jar
+  $AssetsImagesJarGen get jar => const $AssetsImagesJarGen();
+
   /// List of all assets
   List<AssetGenImage> get values => [appbarBg];
 }
@@ -48,6 +51,25 @@ class $AssetsSvgGen {
 
   /// Directory path: assets/svg/small
   $AssetsSvgSmallGen get small => const $AssetsSvgSmallGen();
+}
+
+class $AssetsImagesJarGen {
+  const $AssetsImagesJarGen();
+
+  /// File path: assets/images/jar/jar_closed.png
+  AssetGenImage get jarClosed => const AssetGenImage('assets/images/jar/jar_closed.png');
+
+  /// File path: assets/images/jar/jar_empty.png
+  AssetGenImage get jarEmpty => const AssetGenImage('assets/images/jar/jar_empty.png');
+
+  /// File path: assets/images/jar/jar_full.png
+  AssetGenImage get jarFull => const AssetGenImage('assets/images/jar/jar_full.png');
+
+  /// File path: assets/images/jar/jar_progress.png
+  AssetGenImage get jarProgress => const AssetGenImage('assets/images/jar/jar_progress.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [jarClosed, jarEmpty, jarFull, jarProgress];
 }
 
 class $AssetsSvgAssetsGen {

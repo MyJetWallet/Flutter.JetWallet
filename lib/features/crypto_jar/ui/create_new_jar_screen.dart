@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:simple_kit/simple_kit.dart' as sk;
@@ -31,41 +32,43 @@ class _CreateNewJarScreenState extends State<CreateNewJarScreen> {
     return sk.SPageFrame(
       loaderText: '',
       color: colors.white,
-      header: GlobalBasicAppBar(
+      header: const GlobalBasicAppBar(
         title: '',
         hasRightIcon: false,
       ),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24),
+        padding: const EdgeInsets.symmetric(horizontal: 24),
         child: Column(
           children: [
-            SizedBox(
+            Assets.images.jar.jarEmpty.simpleImg(
               height: 200.0,
               width: 200.0,
-              child: Image.asset('assets/images/jar_empty.png'),
             ),
-            SizedBox(
+            const SizedBox(
               height: 26,
             ),
             Text(
-              'You are creating jar "${widget.name}"',
+              intl.jar_creating_jar_title('"${widget.name}"'),
+              softWrap: true,
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.visible,
               style: STStyles.header3.copyWith(
                 color: SColorsLight().black,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 8.0,
             ),
             Text(
-              'The target amount is ${widget.goal} USDT',
+              intl.jar_target_amount_hint('USDT', widget.goal),
               style: STStyles.body2Medium.copyWith(
                 color: SColorsLight().gray10,
               ),
             ),
             const Spacer(),
             sk.SPolicyCheckbox(
-              firstText: 'I have read and agreed to ',
-              userAgreementText: 'Terms and conditions',
+              firstText: intl.jar_terms1,
+              userAgreementText: intl.jar_terms2,
               betweenText: '                                     ',
               privacyPolicyText: '',
               isChecked: isPolicyAgree,
@@ -77,29 +80,33 @@ class _CreateNewJarScreenState extends State<CreateNewJarScreen> {
               onUserAgreementTap: () {},
               onPrivacyPolicyTap: () {},
             ),
-            SizedBox(
+            const SizedBox(
               height: 32.0,
             ),
             SButton.black(
-              text: 'Create',
+              text: intl.jar_create,
               callback: isPolicyAgree
-                  ? () {
-                sNetwork.getWalletModule().postCreateJar(
-                  assetSymbol: 'USDT',
-                  blockchain: 'TRC20',
-                  target: widget.goal,
-                  imageUrl: '',
-                  title: widget.name,
-                  description: '',
-                );
-                getIt<AppRouter>().push(JarRouter(
-                  name: widget.name,
-                  goal: widget.goal,
-                ));
-              }
+                  ? () async {
+                      final response = await sNetwork.getWalletModule().postCreateJar(
+                            assetSymbol: 'USDT',
+                            blockchain: 'TRC20',
+                            target: widget.goal,
+                            imageUrl: '',
+                            title: widget.name,
+                            description: '',
+                          );
+
+                      if (response.data != null) {
+                        await getIt<AppRouter>().push(
+                          JarRouter(
+                            jar: response.data!,
+                          ),
+                        );
+                      }
+                    }
                   : null,
             ),
-            SizedBox(
+            const SizedBox(
               height: 50.0,
             ),
           ],
