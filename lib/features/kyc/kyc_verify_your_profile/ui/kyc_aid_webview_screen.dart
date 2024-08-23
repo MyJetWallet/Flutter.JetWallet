@@ -9,6 +9,8 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/intercom/intercom_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
+import 'package:jetwallet/features/kyc/kyc_service.dart';
+import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/widgets/result_screens/widgets/result_screen_description.dart';
@@ -144,6 +146,7 @@ Future<void> loadKycAidWebViewController({required String url, bool preload = fa
       onNavigationRequest: (NavigationRequest request) {
         final uri = Uri.parse(request.url);
         if (uri.path.contains('success') && !successScreenAlredyShowed) {
+          getIt.get<KycService>().steKycsStatus(KycStatus.kycInProgress);
           successScreenAlredyShowed = true;
           Navigator.push(
             sRouter.navigatorKey.currentContext!,
