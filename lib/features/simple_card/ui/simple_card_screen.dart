@@ -23,6 +23,8 @@ import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_sevsitive_response.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../core/router/app_router.dart';
@@ -126,8 +128,8 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                     ),
                     SliverToBoxAdapter(
                       child: CardWidget(
-                        card: simpleCardStore.cardFull!,
-                        cardSensitive: simpleCardStore.cardSensitiveData!,
+                        card: simpleCardStore.cardFull ?? const CardDataModel(),
+                        cardSensitive: simpleCardStore.cardSensitiveData ?? SimpleCardSensitiveResponse(),
                         isFrozen: simpleCardStore.isFrozen,
                         showDetails: simpleCardStore.showDetails,
                         onTap: () {
@@ -187,7 +189,7 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                               currentNavigate: () => showSimpleCardDepositBySelector(
                                 context: context,
                                 onClose: () {},
-                                card: simpleCardStore.cardFull!,
+                                card: simpleCardStore.cardFull ?? const CardDataModel(),
                               ),
                               requiredDocuments: kycState.requiredDocuments,
                               requiredVerifications: kycState.requiredVerifications,
@@ -277,7 +279,7 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                               currentNavigate: () => showSimpleCardWithdrawToSelector(
                                 context: context,
                                 onClose: () {},
-                                card: simpleCardStore.cardFull!,
+                                card: simpleCardStore.cardFull ?? const CardDataModel(),
                               ),
                               requiredDocuments: kycState.requiredDocuments,
                               requiredVerifications: kycState.requiredVerifications,
@@ -303,14 +305,14 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                     if (simpleCardStore.cardFull != null) ...[
                       TransactionsList(
                         scrollController: _scrollController,
-                        symbol: simpleCardStore.cardFull!.currency,
-                        accountId: simpleCardStore.cardFull!.cardId,
+                        symbol: simpleCardStore.cardFull?.currency,
+                        accountId: simpleCardStore.cardFull?.cardId,
                         onItemTapLisener: (symbol) {},
                         source: TransactionItemSource.simpleCard,
                         isSimpleCard: true,
                         onError: (String reason) {
                           sAnalytics.viewErrorOnCardScreen(
-                            cardID: simpleCardStore.cardFull!.cardId ?? '',
+                            cardID: simpleCardStore.cardFull?.cardId ?? '',
                             reason: reason,
                           );
                         },

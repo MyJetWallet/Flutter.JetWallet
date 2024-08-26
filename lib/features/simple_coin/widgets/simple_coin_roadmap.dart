@@ -42,6 +42,11 @@ class _SimpleCoinRoadmapState extends State<SimpleCoinRoadmap> {
       isPreviosCompleted: true,
     ),
     RoadmapStepModel(
+      title: intl.simplecoin_auctions,
+      isCompleted: true,
+      schedule: intl.simplecoin_scheduled_for_q2_2024,
+    ),
+    RoadmapStepModel(
       title: intl.simplecoin_token_smpl,
       isCompleted: false,
       schedule: intl.simplecoin_scheduled_for_q3_q4_2024,
@@ -54,7 +59,7 @@ class _SimpleCoinRoadmapState extends State<SimpleCoinRoadmap> {
     RoadmapStepModel(
       title: intl.simplecoin_listing,
       isCompleted: false,
-      schedule: intl.simplecoin_scheduled_for_q1_2025,
+      schedule: intl.simplecoin_scheduled_for_q4_2024,
       isLast: true,
     ),
   ];

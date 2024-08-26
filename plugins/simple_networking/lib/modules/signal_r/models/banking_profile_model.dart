@@ -95,7 +95,7 @@ class CardDataModel with _$CardDataModel {
     @DecimalNullSerialiser() final Decimal? balance,
     @AccountStatusCardSerialiser() final AccountStatusCard? status,
     final String? nameOnCard,
-    @SimpleCardNetworkSerialiser() required SimpleCardNetwork? cardType,
+    @SimpleCardNetworkSerialiser() @Default(SimpleCardNetwork.unsupported) SimpleCardNetwork cardType,
     final String? expiryDate,
     final bool? isHidden,
     final String? label,

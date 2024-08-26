@@ -60,7 +60,10 @@ import 'package:simple_networking/modules/wallet_api/models/invest_transfer/inve
 import 'package:simple_networking/modules/wallet_api/models/invest_transfer/invest_transfer_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/jar/jar_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/kyc/apply_country_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/kyc/apply_country_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/kyc/check_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/kyc/kyc_plan_responce_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/limits/buy_limits_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/limits/buy_limits_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/limits/sell_limits_request_model.dart';
@@ -1391,6 +1394,51 @@ class WalletApiDataSources {
 
       try {
         return DC.data(null);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, KycPlanResponceModel>> postKycPlanRequest() async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/kyc/verification/kyc_plan',
+        data: {},
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(KycPlanResponceModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, ApplyCountryResponseModel>> postKYCAplyCountryRequest(
+      ApplyCountryRequestModel model) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/kyc/verification/apply_country',
+        data: model.toJson(),
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+
+        final data = handleFullResponse<Map>(
+          responseData,
+        );
+
+        return DC.data(ApplyCountryResponseModel.fromJson(data));
       } catch (e) {
         rethrow;
       }

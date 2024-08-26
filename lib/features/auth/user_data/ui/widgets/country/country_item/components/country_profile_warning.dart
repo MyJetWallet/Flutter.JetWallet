@@ -10,12 +10,8 @@ class CountryProfileWarning extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = sKit.colors;
 
-    return Baseline(
-      baseline: 38.0,
-      baselineType: TextBaseline.alphabetic,
-      child: SInfoIcon(
-        color: colors.red,
-      ),
+    return SInfoIcon(
+      color: colors.red,
     );
   }
 }
