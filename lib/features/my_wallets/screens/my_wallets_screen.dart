@@ -66,6 +66,13 @@ class MyWalletsScreen extends StatefulWidget {
 
 class _MyWalletsScreenState extends State<MyWalletsScreen> with TickerProviderStateMixin {
   @override
+  void initState() {
+    super.initState();
+
+    getIt.get<JarsStore>().initStore();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
@@ -74,9 +81,6 @@ class _MyWalletsScreenState extends State<MyWalletsScreen> with TickerProviderSt
         Provider<BannersStore>(
           create: (context) => BannersStore(vsync: this),
           dispose: (context, store) => store.dispose(),
-        ),
-        Provider<JarsStore>(
-          create: (context) => JarsStore()..initStore(),
         ),
       ],
       builder: (context, child) => const _MyWalletsScreenBody(),
@@ -435,8 +439,6 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                                 SliverToBoxAdapter(
                                   child: Padding(
                                     padding: const EdgeInsets.only(
-                                      left: 24,
-                                      right: 24,
                                       top: 16,
                                       bottom: 32,
                                     ),
@@ -447,7 +449,7 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                                             type: SButtonContextType.iconedSmall,
                                             text: intl.jar_add_jar,
                                             onTap: () {
-                                              getIt<AppRouter>().push(const CreateNewJarNameRouter());
+                                              getIt<AppRouter>().push(EnterJarNameRouter());
                                             },
                                           ),
                                         ],

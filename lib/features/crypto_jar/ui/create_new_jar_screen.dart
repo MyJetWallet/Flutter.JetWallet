@@ -1,9 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/core/services/local_storage_service.dart';
+import 'package:jetwallet/features/crypto_jar/store/create_jar_store.dart';
+import 'package:jetwallet/features/crypto_jar/store/jars_store.dart';
 import 'package:simple_kit/simple_kit.dart' as sk;
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
@@ -23,7 +26,7 @@ class CreateNewJarScreen extends StatefulWidget {
 }
 
 class _CreateNewJarScreenState extends State<CreateNewJarScreen> {
-  bool isPolicyAgree = true;
+  bool isPolicyAgree = false;
 
   @override
   Widget build(BuildContext context) {
@@ -66,45 +69,63 @@ class _CreateNewJarScreenState extends State<CreateNewJarScreen> {
               ),
             ),
             const Spacer(),
-            sk.SPolicyCheckbox(
-              firstText: intl.jar_terms1,
-              userAgreementText: intl.jar_terms2,
-              betweenText: '                                     ',
-              privacyPolicyText: '',
-              isChecked: isPolicyAgree,
-              onCheckboxTap: () {
-                setState(() {
-                  isPolicyAgree = !isPolicyAgree;
-                });
+            FutureBuilder<String?>(
+              future: getIt.get<LocalStorageService>().getValue(isJarTermsConfirmed),
+              builder: (context, snap) {
+                if (snap.hasData) {
+                  if (!isPolicyAgree && (bool.parse(snap.data ?? 'false'))) {
+                    Future.microtask(() {
+                      setState(() {
+                        isPolicyAgree = true;
+                      });
+                    });
+                  }
+                }
+
+                return sk.SPolicyCheckbox(
+                  firstText: intl.jar_terms1,
+                  userAgreementText: intl.jar_terms2,
+                  betweenText: '                                     ',
+                  privacyPolicyText: '',
+                  isChecked: isPolicyAgree,
+                  onCheckboxTap: () {
+                    setState(() {
+                      isPolicyAgree = !isPolicyAgree;
+                    });
+                  },
+                  onUserAgreementTap: () {},
+                  onPrivacyPolicyTap: () {},
+                );
               },
-              onUserAgreementTap: () {},
-              onPrivacyPolicyTap: () {},
             ),
             const SizedBox(
               height: 32.0,
             ),
-            SButton.black(
-              text: intl.jar_create,
-              callback: isPolicyAgree
-                  ? () async {
-                      final response = await sNetwork.getWalletModule().postCreateJar(
-                            assetSymbol: 'USDT',
-                            blockchain: 'TRC20',
-                            target: widget.goal,
-                            imageUrl: '',
-                            title: widget.name,
-                            description: '',
-                          );
+            Observer(
+              builder: (context) {
+                final loading = getIt.get<CreateJarStore>().loading;
 
-                      if (response.data != null) {
-                        await getIt<AppRouter>().push(
-                          JarRouter(
-                            jar: response.data!,
-                          ),
-                        );
-                      }
-                    }
-                  : null,
+                return SButton.black(
+                  isLoading: loading,
+                  text: intl.jar_create,
+                  callback: isPolicyAgree
+                      ? () async {
+                          await getIt.get<LocalStorageService>().setString(isJarTermsConfirmed, true.toString());
+                          final result = await getIt.get<CreateJarStore>().createNewJar(widget.name, widget.goal);
+
+                          if (result != null) {
+                            getIt.get<JarsStore>().addNewJar(result);
+                            await getIt<AppRouter>().push(
+                              JarRouter(
+                                jar: result,
+                                hasLeftIcon: false,
+                              ),
+                            );
+                          }
+                        }
+                      : null,
+                );
+              },
             ),
             const SizedBox(
               height: 50.0,

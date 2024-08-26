@@ -64,6 +64,7 @@ const localLastMethodId = 'localLastMethodId';
 const p2pLastMethodId = 'p2pLastMethodId';
 const earnTermsAndConditionsWasChecked = 'earnTermsAndConditionsWasChecked';
 const isPerapaidCardBannerClosed = 'isPerapaidCardBannerClosed';
+const isJarTermsConfirmed = 'isJarTermsConfirmed';
 
 final sLocalStorageService = getIt.get<LocalStorageService>();
 
@@ -151,6 +152,7 @@ class LocalStorageService {
     await _storage.delete(key: localLastMethodId);
     await _storage.delete(key: p2pLastMethodId);
     await _storage.delete(key: earnTermsAndConditionsWasChecked);
+    await _storage.delete(key: isJarTermsConfirmed);
 
     await deleteAllWithoutPermanentData();
   }

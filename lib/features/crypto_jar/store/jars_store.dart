@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
+import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
@@ -8,11 +11,15 @@ import 'package:simple_networking/modules/wallet_api/models/jar/jar_response_mod
 
 part 'jars_store.g.dart';
 
+const int jarNameLength = 18;
+const int jarMaxGoal = 15000;
+const int jarDescriptionLength = 60;
+
 @lazySingleton
 class JarsStore extends _JarsStoreBase with _$JarsStore {
   JarsStore() : super();
 
-  static _JarsStoreBase of(BuildContext context) => Provider.of<JarsStore>(context, listen: false);
+  static _JarsStoreBase of(BuildContext context) => Provider.of<JarsStore>(context);
 }
 
 abstract class _JarsStoreBase with Store {
@@ -20,59 +27,153 @@ abstract class _JarsStoreBase with Store {
   ObservableList<JarResponseModel> allJar = ObservableList.of([]);
 
   @observable
+  ObservableList<JarResponseModel> activeJar = ObservableList.of([]);
+
+  @observable
   StackLoaderStore loader = StackLoaderStore();
 
   @action
   Future<void> initStore() async {
     try {
-      final response = await sNetwork.getWalletModule().postJarAllList();
+      final responseAll = await sNetwork.getWalletModule().postJarAllList();
+
+      final resultAll = responseAll.data;
+
+      if (resultAll != null) {
+        allJar.clear();
+        allJar.addAll(resultAll);
+      }
+
+      final responseActive = await sNetwork.getWalletModule().postJarActiveList();
+
+      final resultActive = responseActive.data;
+
+      if (resultActive != null) {
+        activeJar.clear();
+        activeJar.addAll(resultActive);
+      }
+    } catch (e) {
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.error,
+            place: 'Jars',
+            message: e.toString(),
+          );
+    }
+  }
+
+  @action
+  void addNewJar(JarResponseModel jar) {
+    allJar = ObservableList.of([jar, ...allJar]);
+    activeJar = ObservableList.of([jar, ...activeJar]);
+  }
+
+  @action
+  Future<JarResponseModel?> updateJar({
+    required String jarId,
+    int? target,
+    String? imageUrl,
+    String? title,
+    String? description,
+  }) async {
+    try {
+      final response = await sNetwork.getWalletModule().postUpdateJarRequest(
+            jarId: jarId,
+            target: target,
+            imageUrl: imageUrl,
+            title: title,
+            description: description,
+          );
 
       final result = response.data;
 
       if (result != null) {
-        allJar.addAll(result);
+        final activeIndex = activeJar.indexWhere((jar) {
+          return jar.id == jarId;
+        });
+        activeJar.removeAt(activeIndex);
+        activeJar.insert(activeIndex, result);
+
+        final allIndex = allJar.indexWhere((jar) {
+          return jar.id == jarId;
+        });
+        allJar.removeAt(allIndex);
+        allJar.insert(allIndex, result);
+
+        await initStore();
+        return result;
       }
-      // final newJar = [
-      //   JarResponseModel(
-      //     id: '1',
-      //     tokenId: '1',
-      //     balance: 0,
-      //     target: 100,
-      //     assetSymbol: 'USDT',
-      //     imageUrl: '',
-      //     ownerName: 'o',
-      //     title: 'Test',
-      //     description: '123',
-      //     status: JarStatus.active,
-      //   ),
-      //   JarResponseModel(
-      //     id: '1',
-      //     tokenId: '1',
-      //     balance: 1000,
-      //     target: 1000,
-      //     assetSymbol: 'USDT',
-      //     imageUrl: '',
-      //     ownerName: 'o',
-      //     title: 'Test123',
-      //     description: '123',
-      //     status: JarStatus.closed,
-      //   ),
-      //   JarResponseModel(
-      //     id: '1',
-      //     tokenId: '1',
-      //     balance: 35,
-      //     target: 100,
-      //     assetSymbol: 'USDT',
-      //     imageUrl: '',
-      //     ownerName: 'o',
-      //     title: 'Test333',
-      //     description: '123',
-      //     status: JarStatus.active,
-      //   ),
-      // ];
-      // allJar = ObservableList.of(newJar);
     } catch (e) {
-      print('#@#@#@#@ $e');
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.error,
+            place: 'Jars',
+            message: e.toString(),
+          );
     }
+    return null;
+  }
+
+  @action
+  Future<void> closeJar(String jarId) async {
+    try {
+      final response = await sNetwork.getWalletModule().postCloseJarRequest(
+            jarId: jarId,
+          );
+
+      final result = response.data;
+
+      if (result != null) {
+        activeJar.removeWhere((jar) {
+          return jar.id == jarId;
+        });
+        allJar.removeWhere((jar) {
+          return jar.id == jarId;
+        });
+        final index = allJar.indexWhere((jar) {
+          if (jar.status == JarStatus.closed) {
+            return true;
+          } else {
+            return false;
+          }
+        });
+        allJar.insert(index, result);
+      }
+    } catch (e) {
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.error,
+            place: 'Jars',
+            message: e.toString(),
+          );
+    }
+  }
+
+  @action
+  void clearData() {
+    activeJar = ObservableList.of([]);
+    allJar = ObservableList.of([]);
+  }
+
+  Future<String?> shareJar({
+    required String jarId,
+    required String lang,
+  }) async {
+    try {
+      final response = await sNetwork.getWalletModule().postShareJarRequest(
+            jarId: jarId,
+            lang: lang,
+          );
+
+      final result = response.data;
+
+      if (result != null) {
+        return result;
+      }
+    } catch (e) {
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.error,
+            place: 'Jars',
+            message: e.toString(),
+          );
+    }
+    return null;
   }
 }

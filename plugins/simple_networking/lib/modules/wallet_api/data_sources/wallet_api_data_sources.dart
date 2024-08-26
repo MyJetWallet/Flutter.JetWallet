@@ -3885,6 +3885,33 @@ class WalletApiDataSources {
     }
   }
 
+  // GET Jar active list
+  Future<DC<ServerRejectException, List<JarResponseModel>>> postJarActiveListRequest() async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/jar/list/active',
+        data: {},
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+
+        final out = <JarResponseModel>[];
+        for (final element in responseData['data']) {
+          out.add(
+            JarResponseModel.fromJson(element as Map<String, dynamic>),
+          );
+        }
+
+        return DC.data(out);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
   // Post Create jar
   Future<DC<ServerRejectException, JarResponseModel>> postCreateJarRequest({
     required String assetSymbol,
@@ -3912,6 +3939,88 @@ class WalletApiDataSources {
         final data = handleFullResponse<Map>(responseData);
 
         return DC.data(JarResponseModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  // Post Update jar
+  Future<DC<ServerRejectException, JarResponseModel>> postUpdateJarRequest({
+    required String jarId,
+    int? target,
+    String? imageUrl,
+    String? title,
+    String? description,
+  }) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/jar/update',
+        data: {
+          "target": target,
+          "imageUrl": imageUrl,
+          "title": title,
+          "description": description,
+          "jarId": jarId,
+        },
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(JarResponseModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  // Post Close jar
+  Future<DC<ServerRejectException, JarResponseModel>> postCloseJarRequest({
+    required String jarId,
+  }) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/jar/close',
+        data: {
+          "jarId": jarId,
+        },
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(JarResponseModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  // Post Share jar
+  Future<DC<ServerRejectException, String>> postShareJarRequest({
+    required String jarId,
+    required String lang,
+  }) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/jar/share',
+        data: {"jarId": jarId, "lang": lang},
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(data['url']);
       } catch (e) {
         rethrow;
       }
