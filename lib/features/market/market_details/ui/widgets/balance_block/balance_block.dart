@@ -23,6 +23,7 @@ class BalanceBlock extends StatelessWidget {
         null,
         null,
         null,
+        null,
         false,
         null,
         null,

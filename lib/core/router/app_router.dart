@@ -35,6 +35,13 @@ import 'package:jetwallet/features/convert/ui/convert.dart';
 import 'package:jetwallet/features/convert/ui/preview_convert.dart';
 import 'package:jetwallet/features/convert_flow/screens/convetr_confrimation_screen.dart';
 import 'package:jetwallet/features/crypto_deposit/crypto_deposit_screen.dart';
+import 'package:jetwallet/features/crypto_jar/ui/create_new_jar_screen.dart';
+import 'package:jetwallet/features/crypto_jar/ui/enter_jar_description_screen.dart';
+import 'package:jetwallet/features/crypto_jar/ui/enter_jar_goal_screen.dart';
+import 'package:jetwallet/features/crypto_jar/ui/enter_jar_name_screen.dart';
+import 'package:jetwallet/features/crypto_jar/ui/jar_closed_confirmation_screen.dart';
+import 'package:jetwallet/features/crypto_jar/ui/jar_screen.dart';
+import 'package:jetwallet/features/crypto_jar/ui/jar_share_screen.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/add_bank_card.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/pay_with_bottom_sheet.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/preview_buy_with_circle/circle_3d_secure_web_view/circle_3d_secure_web_view.dart';
@@ -63,7 +70,6 @@ import 'package:jetwallet/features/iban/iban_send/iban_send_amount/ui/iban_send_
 import 'package:jetwallet/features/iban/iban_send/iban_send_confirm/ui/iban_send_confirm.dart';
 import 'package:jetwallet/features/iban_address_book/ui/address_book_simple_screen.dart';
 import 'package:jetwallet/features/iban_address_book/ui/address_book_unlimit_screen.dart';
-import 'package:jetwallet/features/invest/ui/active_invest_manage_screen.dart';
 import 'package:jetwallet/features/invest/ui/instrument_screen.dart';
 import 'package:jetwallet/features/invest/ui/new_invest_confirmation_screen.dart';
 import 'package:jetwallet/features/invest/ui/pending_invest_manage_screen.dart';
@@ -148,6 +154,7 @@ import 'package:simple_networking/modules/wallet_api/models/address_book/address
 import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_preview_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_preview_response.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
+import 'package:simple_networking/modules/wallet_api/models/jar/jar_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/p2p_methods/p2p_methods_responce_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/prepaid_card/buy_prepaid_card_intention_dto_list_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/prepaid_card/purchase_card_brand_list_response_model.dart';
@@ -161,6 +168,7 @@ import '../../features/debug_info/logs_screen.dart';
 import '../../features/iban/iban_screen.dart';
 import '../../features/iban/widgets/iban_billing_address.dart';
 import '../../features/invest/invest_screen.dart';
+import '../../features/invest/ui/active_invest_manage_screen.dart';
 import '../../features/invest/ui/invest_history_screen.dart';
 import '../../features/invest/ui/new_invest_screen.dart';
 import '../../features/prepaid_card/screens/buy_vouncher_confirmation_screen.dart';
@@ -750,6 +758,34 @@ class AppRouter extends _$AppRouter {
      AutoRoute(
       path: '/kyc_aid_choose_country',
       page: KycAidChooseCountryRouter.page,
+    ),
+    AutoRoute(
+      path: '/enter_jar_name',
+      page: EnterJarNameRouter.page,
+    ),
+    AutoRoute(
+      path: '/enter_jar_goal',
+      page: EnterJarGoalRouter.page,
+    ),
+    AutoRoute(
+      path: '/enter_jar_description',
+      page: EnterJarDescriptionRouter.page,
+    ),
+    AutoRoute(
+      path: '/create_new_jar',
+      page: CreateNewJarRouter.page,
+    ),
+    AutoRoute(
+      path: '/jar',
+      page: JarRouter.page,
+    ),
+    AutoRoute(
+      path: '/jar_closed_confirmation',
+      page: JarClosedConfirmationRouter.page,
+    ),
+    AutoRoute(
+      path: '/jar_share',
+      page: JarShareRouter.page,
     ),
   ];
 }

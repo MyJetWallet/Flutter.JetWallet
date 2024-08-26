@@ -15,6 +15,8 @@ import 'package:jetwallet/core/services/intercom/intercom_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/features/crypto_jar/store/jars_store.dart';
+import 'package:jetwallet/features/crypto_jar/ui/widgets/jars_list_widget.dart';
 import 'package:jetwallet/features/earn/widgets/earn_dashboard_section_widget.dart';
 import 'package:jetwallet/features/market/market_details/store/market_news_store.dart';
 import 'package:jetwallet/features/my_wallets/store/banners_store.dart';
@@ -63,6 +65,13 @@ class MyWalletsScreen extends StatefulWidget {
 }
 
 class _MyWalletsScreenState extends State<MyWalletsScreen> with TickerProviderStateMixin {
+  @override
+  void initState() {
+    super.initState();
+
+    getIt.get<JarsStore>().initStore();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -417,6 +426,38 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                                       ),
                                     ),
                                   ),
+                                /// JARS
+                                SliverToBoxAdapter(
+                                  child: STableHeader(
+                                    size: SHeaderSize.m,
+                                    title: intl.jar_jars,
+                                  ),
+                                ),
+                                const SliverToBoxAdapter(
+                                  child: JarsListWidget(),
+                                ),
+                                SliverToBoxAdapter(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                      top: 16,
+                                      bottom: 32,
+                                    ),
+                                    child: SPaddingH24(
+                                      child: Row(
+                                        children: [
+                                          SButtonContext(
+                                            type: SButtonContextType.iconedSmall,
+                                            text: intl.jar_add_jar,
+                                            onTap: () {
+                                              getIt<AppRouter>().push(EnterJarNameRouter());
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                ///
                                 const SliverToBoxAdapter(
                                   child: BannerCarusel(),
                                 ),

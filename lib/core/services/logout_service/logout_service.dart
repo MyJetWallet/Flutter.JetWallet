@@ -14,6 +14,7 @@ import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/app/store/models/authorization_union.dart';
 import 'package:jetwallet/features/auth/verification_reg/store/verification_store.dart';
+import 'package:jetwallet/features/crypto_jar/store/jars_store.dart';
 import 'package:jetwallet/features/iban/store/iban_store.dart';
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
@@ -188,6 +189,10 @@ abstract class _LogoutServiceBase with Store {
     //if (getIt.isRegistered<ZenDeskService>()) {
     //  await getIt.get<ZenDeskService>().logoutZenDesk();
     //}
+
+    if (getIt.isRegistered<JarsStore>()) {
+      getIt.get<JarsStore>().clearData();
+    }
   }
 
   Future<void> pushToFirstPage() async {

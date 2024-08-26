@@ -21,6 +21,7 @@ class TransactionsList extends StatelessWidget {
     super.key,
     this.isRecurring = false,
     this.symbol,
+    this.jarId,
     this.accountId,
     required this.scrollController,
     this.onItemTapLisener,
@@ -32,6 +33,7 @@ class TransactionsList extends StatelessWidget {
 
   final ScrollController scrollController;
   final String? symbol;
+  final String? jarId;
   final String? accountId;
   final bool isRecurring;
   final void Function(String assetSymbol)? onItemTapLisener;
@@ -45,6 +47,7 @@ class TransactionsList extends StatelessWidget {
     return Provider<OperationHistory>(
       create: (context) => OperationHistory(
         symbol,
+        jarId,
         null,
         isRecurring,
         null,
@@ -57,6 +60,7 @@ class TransactionsList extends StatelessWidget {
       builder: (context, child) => _TransactionsListBody(
         scrollController: scrollController,
         symbol: symbol,
+        jarId: jarId,
         isRecurring: isRecurring,
         onItemTapLisener: onItemTapLisener,
         fromCJAccount: fromCJAccount,
@@ -73,6 +77,7 @@ class _TransactionsListBody extends StatefulObserverWidget {
   const _TransactionsListBody({
     this.isRecurring = false,
     this.symbol,
+    this.jarId,
     this.accountId,
     required this.scrollController,
     this.onItemTapLisener,
@@ -83,6 +88,7 @@ class _TransactionsListBody extends StatefulObserverWidget {
 
   final ScrollController scrollController;
   final String? symbol;
+  final String? jarId;
   final String? accountId;
   final bool isRecurring;
   final bool isSimpleCard;
@@ -135,60 +141,66 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
       ),
       sliver: OperationHistory.of(context).union.when(
         loaded: () {
-          return listToShow.isEmpty
-              ? SliverToBoxAdapter(
-                  child: widget.fromCJAccount
-                      ? SPlaceholder(
-                          size: SPlaceholderSize.l,
-                          text: intl.wallet_simple_account_empty,
-                        )
-                      : SizedBox(
-                          height: widget.symbol != null
-                              ? screenHeight - screenHeight * 0.369 - 227
-                              : screenHeight - screenHeight * 0.369,
-                          child: Column(
-                            mainAxisAlignment: widget.isSimpleCard ? MainAxisAlignment.start : MainAxisAlignment.center,
-                            children: [
-                              if (widget.isSimpleCard) const SpaceH45(),
-                              Image.asset(
-                                smileAsset,
-                                width: 36,
-                                height: 36,
-                              ),
-                              const SpaceH6(),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 80),
-                                child: Text(
-                                  intl.wallet_simple_account_empty,
-                                  textAlign: TextAlign.center,
-                                  maxLines: 3,
-                                  style: STStyles.subtitle2.copyWith(
-                                    color: sKit.colors.grey2,
-                                  ),
-                                ),
-                              ),
-                            ],
+          Widget body;
+
+          if (listToShow.isEmpty) {
+            body = SliverToBoxAdapter(
+              child: (widget.fromCJAccount || widget.jarId != null)
+                  ? SPlaceholder(
+                      size: SPlaceholderSize.l,
+                      text: intl.wallet_simple_account_empty,
+                    )
+                  : SizedBox(
+                      height: widget.symbol != null
+                          ? screenHeight - screenHeight * 0.369 - 227
+                          : screenHeight - screenHeight * 0.369,
+                      child: Column(
+                        mainAxisAlignment: widget.isSimpleCard ? MainAxisAlignment.start : MainAxisAlignment.center,
+                        children: [
+                          if (widget.isSimpleCard) const SpaceH45(),
+                          Image.asset(
+                            smileAsset,
+                            width: 36,
+                            height: 36,
                           ),
-                        ),
-                )
-              : SliverGroupedListView<OperationHistoryItem, String>(
-                  elements: listToShow,
-                  groupBy: (transaction) {
-                    return formatDate(transaction.timeStamp);
-                  },
-                  sort: false,
-                  groupSeparatorBuilder: (String date) {
-                    return TransactionMonthSeparator(text: date);
-                  },
-                  itemBuilder: (context, transaction) {
-                    return TransactionListItem(
-                      transactionListItem: transaction,
-                      onItemTapLisener: widget.onItemTapLisener,
-                      fromCJAccount: widget.fromCJAccount,
-                      source: widget.source,
-                    );
-                  },
+                          const SpaceH6(),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 80),
+                            child: Text(
+                              intl.wallet_simple_account_empty,
+                              textAlign: TextAlign.center,
+                              maxLines: 3,
+                              style: STStyles.subtitle2.copyWith(
+                                color: sKit.colors.grey2,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+            );
+          } else {
+            body = SliverGroupedListView<OperationHistoryItem, String>(
+              elements: listToShow,
+              groupBy: (transaction) {
+                return formatDate(transaction.timeStamp);
+              },
+              sort: false,
+              groupSeparatorBuilder: (String date) {
+                return TransactionMonthSeparator(text: date);
+              },
+              itemBuilder: (context, transaction) {
+                return TransactionListItem(
+                  transactionListItem: transaction,
+                  onItemTapLisener: widget.onItemTapLisener,
+                  fromCJAccount: widget.fromCJAccount,
+                  source: widget.source,
                 );
+              },
+            );
+          }
+
+          return body;
         },
         error: () {
           return listToShow.isEmpty
