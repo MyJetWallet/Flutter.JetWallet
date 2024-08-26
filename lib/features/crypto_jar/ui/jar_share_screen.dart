@@ -8,6 +8,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/features/crypto_jar/store/jars_store.dart';
 import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
+import 'package:jetwallet/widgets/flag_item.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:simple_kit/simple_kit.dart' as sk;
@@ -130,10 +131,8 @@ class _JarShareScreenState extends State<JarShareScreen> {
                 if (isCountry)
                   Row(
                     children: [
-                      SizedBox(
-                        height: 20.0,
-                        width: 20.0,
-                        child: Image.asset('assets/images/flag.png'),
+                      const FlagItem(
+                        countryCode: 'UA',
                       ),
                       const SizedBox(
                         width: 8.0,
