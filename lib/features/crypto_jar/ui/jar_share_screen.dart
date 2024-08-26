@@ -93,12 +93,13 @@ class _JarShareScreenState extends State<JarShareScreen> {
               true,
             ),
             SButton.black(
-                text: intl.jar_share,
-                callback: () async {
-                  final result = await getIt.get<JarsStore>().shareJar(jarId: widget.jar.id, lang: 'ua');
+              text: intl.jar_share,
+              callback: () async {
+                final result = await getIt.get<JarsStore>().shareJar(jarId: widget.jar.id, lang: 'ua');
 
-                  await Share.share(result ?? '');
-                }),
+                await Share.share(result ?? '');
+              },
+            ),
             const SizedBox(
               height: 50.0,
             ),

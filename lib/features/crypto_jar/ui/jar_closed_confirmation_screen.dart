@@ -69,10 +69,12 @@ class _JarClosedConfirmationScreenState extends State<JarClosedConfirmationScree
             SButton.black(
               text: 'Done',
               callback: () {
-                getIt<AppRouter>().popUntil((route) {
-                  return route.settings.name == HomeRouter.name;
-                });
-              }
+                getIt<AppRouter>().popUntil(
+                  (route) {
+                    return route.settings.name == HomeRouter.name;
+                  },
+                );
+              },
             ),
             const SizedBox(
               height: 50.0,

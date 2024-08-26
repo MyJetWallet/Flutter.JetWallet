@@ -4,8 +4,8 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/crypto_jar/helpers/jar_extension.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/jar/jar_response_model.dart';
 
 class JarListItemWidget extends StatelessWidget {
