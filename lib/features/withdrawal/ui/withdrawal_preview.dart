@@ -33,18 +33,20 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
   void initState() {
     final store = WithdrawalStore.of(context);
 
-    sAnalytics.cryptoSendOrderSummarySend(
-      asset: store.withdrawalInputModel!.currency!.symbol,
-      network: store.network.description,
-      sendMethodType: '0',
-      totalSendAmount: store.withAmount,
-      paymentFee: store.addressIsInternal
-          ? intl.noFee
-          : store.withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(
-              network: store.networkController.text,
-              amount: Decimal.parse(store.withAmount),
-            ),
-    );
+    if (store.withdrawalType == WithdrawalType.asset) {
+      sAnalytics.cryptoSendOrderSummarySend(
+        asset: store.withdrawalInputModel!.currency!.symbol,
+        network: store.network.description,
+        sendMethodType: '0',
+        totalSendAmount: store.withAmount,
+        paymentFee: store.addressIsInternal
+            ? intl.noFee
+            : store.withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(
+          network: store.networkController.text,
+          amount: Decimal.parse(store.withAmount),
+        ),
+      );
+    }
 
     super.initState();
   }
@@ -173,17 +175,23 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
                         union: const Change(),
                         isChangePhone: true,
                         onChangePhone: (String newPin) {
-                          sAnalytics.cryptoSendBioApprove(
-                            asset: store.withdrawalInputModel!.currency!.symbol,
-                            network: store.network.description,
-                            sendMethodType: '0',
-                            totalSendAmount: store.withAmount,
-                            paymentFee: store.addressIsInternal ? intl.noFee : feeSizeWithSymbol,
-                          );
+                          if (store.withdrawalType == WithdrawalType.jar) {
+                            sRouter.maybePop();
 
-                          sRouter.maybePop();
+                            store.withdrawJar(newPin: newPin);
+                          } else {
+                            sAnalytics.cryptoSendBioApprove(
+                              asset: store.withdrawalInputModel!.currency!.symbol,
+                              network: store.network.description,
+                              sendMethodType: '0',
+                              totalSendAmount: store.withAmount,
+                              paymentFee: store.addressIsInternal ? intl.noFee : feeSizeWithSymbol,
+                            );
 
-                          store.withdraw(newPin: newPin);
+                            sRouter.maybePop();
+
+                            store.withdraw(newPin: newPin);
+                          }
                         },
                         onWrongPin: (String error) {
                           sAnalytics.errorWrongPin(

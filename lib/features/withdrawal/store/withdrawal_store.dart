@@ -43,7 +43,7 @@ import 'package:simple_networking/modules/wallet_api/models/withdrawal_resend/wi
 
 part 'withdrawal_store.g.dart';
 
-enum WithdrawalType { asset, nft }
+enum WithdrawalType { asset, nft, jar }
 
 enum WithdrawStep { address, ammount, preview, confirm }
 
@@ -77,20 +77,25 @@ abstract class _WithdrawalStoreBase with Store {
 
   @observable
   bool addressError = false;
+
   @action
   bool setAddressError(bool value) => addressError = value;
+
   @action
   void _triggerErrorOfAddressField() => addressError = true;
 
   @observable
   bool tagError = false;
+
   @action
   bool setTagError(bool value) => tagError = value;
+
   @action
   void _triggerErrorOfTagField() => tagError = true;
 
   @observable
   AddressValidationUnion addressValidation = const Hide();
+
   @action
   void _updateAddressValidation(AddressValidationUnion value) {
     addressValidation = value;
@@ -98,6 +103,7 @@ abstract class _WithdrawalStoreBase with Store {
 
   @observable
   AddressValidationUnion tagValidation = const Hide();
+
   @action
   void _updateTagValidation(AddressValidationUnion value) {
     tagValidation = value;
@@ -132,6 +138,7 @@ abstract class _WithdrawalStoreBase with Store {
 
   @observable
   bool addressIsInternal = false;
+
   @action
   void _updateAddressIsInternal(bool value) {
     addressIsInternal = value;
@@ -309,6 +316,10 @@ abstract class _WithdrawalStoreBase with Store {
       networkController.text = withdrawalInputModel!.nft!.blockchain!;
 
       //addressController.text = '0x9fCD3018a923B5BD3488bBA507e2ceb002AECe1D';
+    } else if (withdrawalInputModel!.jar != null) {
+      withdrawalType = WithdrawalType.jar;
+
+      networkController.text = withdrawalInputModel!.jar!.addresses.first.blockchain;
     }
 
     withdrawSubscription = getIt<EventBus>().on<WithdrawalConfirmModel>().listen(updateCode);
@@ -366,6 +377,14 @@ abstract class _WithdrawalStoreBase with Store {
           tag.isNotEmpty ? condition1 && condition2 && condition3 && condition4 : condition1 && condition3;
     } else if (withdrawalInputModel?.nft != null) {
       isReadyToContinue = networkController.text.isNotEmpty && addressValidation is Valid;
+    } else if (withdrawalInputModel?.jar != null) {
+      final condition1 = addressValidation is Hide || addressValidation is Valid;
+      final condition2 = tagValidation is Hide || tagValidation is Valid;
+      final condition3 = addressController.text.isNotEmpty;
+      final condition4 = tag.isNotEmpty || networkController.text == earnRipple;
+
+      isReadyToContinue =
+          tag.isNotEmpty ? condition1 && condition2 && condition3 && condition4 : condition1 && condition3;
     }
   }
 
@@ -767,6 +786,7 @@ abstract class _WithdrawalStoreBase with Store {
   */
 
   var isRedirectedFromQr = false;
+
   @action
   void _onQRScanned(BarcodeCapture capture, BuildContext context) {
     if (isRedirectedFromQr) return;
@@ -939,6 +959,46 @@ abstract class _WithdrawalStoreBase with Store {
           //_previewConfirm();
 
           getWithdrawalInfo();
+        },
+        onError: (error) {
+          _showFailureScreen(error);
+        },
+      );
+    } on ServerRejectException catch (error) {
+      _showFailureScreen(error);
+    } catch (error) {
+      _showNoResponseScreen(error.toString());
+    }
+
+    previewLoading = false;
+    previewLoader.finishLoadingImmediately();
+  }
+
+  @action
+  Future<void> withdrawJar({required String newPin}) async {
+    previewLoader.startLoadingImmediately();
+    previewLoading = true;
+
+    try {
+      final model = WithdrawJarRequestModel(
+        requestId: DateTime.now().microsecondsSinceEpoch.toString(),
+        assetSymbol: withdrawalInputModel!.jar!.addresses.first.assetSymbol,
+        amount: Decimal.parse(withAmount),
+        toAddress: address,
+        toTag: tag,
+        blockchain: withdrawalInputModel!.jar!.addresses.first.blockchain,
+        lang: intl.localeName,
+        pin: newPin,
+        jarId: withdrawalInputModel!.jar!.id,
+      );
+
+      final response = await sNetwork.getWalletModule().postWithdrawJar(model);
+
+      response.pick(
+        onData: (data) {
+          operationId = data.operationId;
+
+          previewConfirm();
         },
         onError: (error) {
           _showFailureScreen(error);

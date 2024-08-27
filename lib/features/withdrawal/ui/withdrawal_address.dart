@@ -53,7 +53,14 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
 
     final store = WithdrawalStore.of(context);
 
-    final asset = store.withdrawalType == WithdrawalType.asset ? store.withdrawalInputModel?.currency?.symbol : 'Matic';
+    String? asset;
+    if (store.withdrawalType == WithdrawalType.asset) {
+      asset = store.withdrawalInputModel?.currency?.symbol;
+    } else if (store.withdrawalType == WithdrawalType.jar){
+      asset = store.withdrawalInputModel?.jar?.assetSymbol;
+    } else {
+      asset = 'Matic';
+    }
 
     return SPageFrame(
       loaderText: intl.register_pleaseWait,

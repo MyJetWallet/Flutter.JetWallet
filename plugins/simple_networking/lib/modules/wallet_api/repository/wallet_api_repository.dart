@@ -195,6 +195,14 @@ class WalletApiRepository {
     );
   }
 
+  Future<DC<ServerRejectException, WithdrawResponseModel>> postWithdrawJar(
+      WithdrawJarRequestModel model,
+      ) async {
+    return _walletApiDataSources.postWithdrawJarRequest(
+      model,
+    );
+  }
+
   Future<DC<ServerRejectException, WithdrawalInfoResponseModel>> postWithdrawalInfo(
     WithdrawalInfoRequestModel model,
   ) async {

@@ -6,6 +6,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/crypto_jar/helpers/jar_extension.dart';
 import 'package:jetwallet/features/crypto_jar/store/jars_store.dart';
+import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
 import 'package:jetwallet/features/transaction_history/widgets/transaction_list_item.dart';
 import 'package:jetwallet/features/transaction_history/widgets/transactions_list.dart';
 import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
@@ -214,8 +215,18 @@ class _JarScreenState extends State<JarScreen> {
             intl.jar_withdraw,
             Assets.svg.medium.withdrawal.simpleSvg(color: SColorsLight().white),
             SColorsLight().black,
-            () {},
-            false,
+            () {
+              if (widget.jar.balance > 0) {
+                sRouter.push(
+                  WithdrawRouter(
+                    withdrawal: WithdrawalModel(
+                      jar: widget.jar,
+                    ),
+                  ),
+                );
+              }
+            },
+            widget.jar.balance > 0,
           ),
           const SizedBox(
             width: 8.0,
