@@ -9,6 +9,7 @@ import 'package:jetwallet/widgets/network_bottom_sheet/show_network_bottom_sheet
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/jar/jar_response_model.dart';
 
 @RoutePage(name: 'WithdrawalAddressRouter')
 class WithdrawalAddressScreen extends StatefulObserverWidget {
@@ -24,6 +25,16 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
   @override
   void initState() {
     final store = WithdrawalStore.of(context);
+
+    if (store.withdrawalType == WithdrawalType.jar) {
+      sAnalytics.jarScreenViewWithdrawJar(
+        asset: store.withdrawalInputModel!.jar!.assetSymbol,
+        network: 'TRC20',
+        target: store.withdrawalInputModel!.jar!.target.toInt(),
+        balance: store.withdrawalInputModel!.jar!.balance,
+        isOpen: store.withdrawalInputModel!.jar!.status == JarStatus.active,
+      );
+    }
 
     sAnalytics.cryptoSendSendAssetNameScreenView(
       asset: store.withdrawalInputModel?.currency?.symbol ?? '',
@@ -243,6 +254,16 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                           active: store.isReadyToContinue,
                           name: intl.currencyWithdraw_continue,
                           onTap: () {
+                            if (store.withdrawalType == WithdrawalType.jar) {
+                              sAnalytics.jarTapOnButtonContinueJarWithdrawOnWithdraw(
+                                asset: store.withdrawalInputModel!.jar!.assetSymbol,
+                                network: 'TRC20',
+                                target: store.withdrawalInputModel!.jar!.target.toInt(),
+                                balance: store.withdrawalInputModel!.jar!.balance,
+                                isOpen: store.withdrawalInputModel!.jar!.status == JarStatus.active,
+                              );
+                            }
+
                             sAnalytics.cryptoSendTapContinue(
                               asset: store.withdrawalInputModel!.currency!.symbol,
                               sendMethodType: '0',

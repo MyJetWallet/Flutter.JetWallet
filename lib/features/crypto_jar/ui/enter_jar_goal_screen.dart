@@ -6,6 +6,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/features/crypto_jar/store/jars_store.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart' as sk;
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/jar/jar_response_model.dart';
@@ -36,6 +37,8 @@ class _EnterJarGoalScreenState extends State<EnterJarGoalScreen> {
   @override
   void initState() {
     super.initState();
+
+    sAnalytics.jarScreenViewJarGoal();
 
     if (widget.jar != null) {
       _goalController.text = widget.jar!.target.toInt().toString();
@@ -126,6 +129,12 @@ class _EnterJarGoalScreenState extends State<EnterJarGoalScreen> {
                             (int.tryParse(_goalController.text) ?? 0) <= jarMaxGoal &&
                             (int.tryParse(_goalController.text) ?? 0) >= 1
                         ? () async {
+                            sAnalytics.jarTapOnButtonNextOnJarPurpose(
+                              asset: 'USDT',
+                              network: 'TRC20',
+                              target: int.parse(_goalController.text),
+                            );
+
                             if (widget.isCreatingNewJar) {
                               await getIt<AppRouter>().push(
                                 CreateNewJarRouter(

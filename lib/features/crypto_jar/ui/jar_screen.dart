@@ -13,6 +13,7 @@ import 'package:jetwallet/features/transaction_history/widgets/transactions_list
 import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
 import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/bottom_sheets/components/basic_bottom_sheet/show_basic_modal_bottom_sheet.dart';
 import 'package:simple_kit/modules/colors/simple_colors.dart';
 import 'package:simple_kit/modules/shared/simple_show_alert_popup.dart';
@@ -36,6 +37,20 @@ class JarScreen extends StatefulWidget {
 }
 
 class _JarScreenState extends State<JarScreen> {
+  @override
+  void initState() {
+    super.initState();
+
+    sAnalytics.jarScreenViewJar(
+      jarName: widget.jar.title,
+      asset: 'USDT',
+      network: 'TRC20',
+      target: widget.jar.target.toInt(),
+      balance: widget.jar.balance,
+      isOpen: widget.jar.status == JarStatus.active,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = sk.sKit.colors;
@@ -171,6 +186,8 @@ class _JarScreenState extends State<JarScreen> {
             Assets.svg.medium.share.simpleSvg(color: SColorsLight().white),
             SColorsLight().blueDark,
             () {
+              sAnalytics.jarTapOnButtonShareOnJar();
+
               if (widget.jar.description.isNotEmpty) {
                 getIt<AppRouter>().push(
                   JarShareRouter(
@@ -196,6 +213,14 @@ class _JarScreenState extends State<JarScreen> {
             SColorsLight().black,
             () {
               if (widget.jar.balance > 0) {
+                sAnalytics.jarTapOnButtonWithdrawOnJar(
+                  asset: widget.jar.assetSymbol,
+                  network: 'TRC20',
+                  target: widget.jar.target.toInt(),
+                  balance: widget.jar.balance,
+                  isOpen: widget.jar.status == JarStatus.active,
+                );
+
                 sRouter.push(
                   WithdrawRouter(
                     withdrawal: WithdrawalModel(
@@ -219,6 +244,14 @@ class _JarScreenState extends State<JarScreen> {
             Assets.svg.medium.close.simpleSvg(color: SColorsLight().white),
             SColorsLight().black,
             () {
+              sAnalytics.jarTapOnButtonCloseOnJar(
+                asset: widget.jar.assetSymbol,
+                network: 'TRC20',
+                target: widget.jar.target.toInt(),
+                balance: widget.jar.balance,
+                isOpen: widget.jar.status == JarStatus.active,
+              );
+
               sShowAlertPopup(
                 sRouter.navigatorKey.currentContext!,
                 image: Assets.svg.brand.small.infoBlue.simpleSvg(),
@@ -226,6 +259,14 @@ class _JarScreenState extends State<JarScreen> {
                 secondaryText: intl.jar_action_close_jar('"${widget.jar.title}"'),
                 primaryButtonName: intl.jar_confirm,
                 onPrimaryButtonTap: () {
+                  sAnalytics.jarTapOnButtonConfirmCloseOnJarClosePopUp(
+                    asset: widget.jar.assetSymbol,
+                    network: 'TRC20',
+                    target: widget.jar.target.toInt(),
+                    balance: widget.jar.balance,
+                    isOpen: widget.jar.status == JarStatus.active,
+                  );
+
                   getIt.get<JarsStore>().closeJar(widget.jar.id);
                   getIt<AppRouter>().push(
                     JarClosedConfirmationRouter(
@@ -235,6 +276,13 @@ class _JarScreenState extends State<JarScreen> {
                 },
                 secondaryButtonName: intl.jar_cancel,
                 onSecondaryButtonTap: () {
+                  sAnalytics.jarTapOnButtonCancelCloseOnJarClosePopUp(
+                    asset: widget.jar.assetSymbol,
+                    network: 'TRC20',
+                    target: widget.jar.target.toInt(),
+                    balance: widget.jar.balance,
+                    isOpen: widget.jar.status == JarStatus.active,
+                  );
                   Navigator.pop(context);
                 },
               );
@@ -248,6 +296,8 @@ class _JarScreenState extends State<JarScreen> {
             Assets.svg.medium.more.simpleSvg(color: SColorsLight().white),
             SColorsLight().black,
             () {
+              sAnalytics.jarTapOnButtonMoreOnJar();
+
               sShowBasicModalBottomSheet(
                 context: context,
                 color: colors.white,
@@ -259,6 +309,8 @@ class _JarScreenState extends State<JarScreen> {
                 children: [
                   SafeGesture(
                     onTap: () {
+                      sAnalytics.jarTapOnButtonChangeJarNameOnJarAction();
+
                       getIt<AppRouter>().push(
                         EnterJarNameRouter(
                           isCreatingNewJar: false,
@@ -289,6 +341,8 @@ class _JarScreenState extends State<JarScreen> {
                   ),
                   SafeGesture(
                     onTap: () {
+                      sAnalytics.jarTapOnButtonChangeGoalOnJarAction();
+
                       getIt<AppRouter>().push(
                         EnterJarGoalRouter(
                           name: widget.jar.title,
@@ -320,6 +374,8 @@ class _JarScreenState extends State<JarScreen> {
                   ),
                   SafeGesture(
                     onTap: () {
+                      sAnalytics.jarTapOnButtonChangeDescriptionOnJarAction();
+
                       getIt<AppRouter>().push(
                         EnterJarDescriptionRouter(
                           jar: widget.jar,

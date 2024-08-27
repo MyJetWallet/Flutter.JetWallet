@@ -17,6 +17,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'package:simple_networking/modules/wallet_api/models/jar/jar_response_model.dart';
 
 import '../../pin_screen/model/pin_flow_union.dart';
 
@@ -32,6 +33,16 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
   @override
   void initState() {
     final store = WithdrawalStore.of(context);
+
+    if (store.withdrawalType == WithdrawalType.jar) {
+      sAnalytics.jarScreenViewOrderSummaryWithdrawJar(
+        asset: store.withdrawalInputModel!.jar!.assetSymbol,
+        network: 'TRC20',
+        target: store.withdrawalInputModel!.jar!.target.toInt(),
+        balance: store.withdrawalInputModel!.jar!.balance,
+        isOpen: store.withdrawalInputModel!.jar!.status == JarStatus.active,
+      );
+    }
 
     if (store.withdrawalType == WithdrawalType.asset) {
       sAnalytics.cryptoSendOrderSummarySend(
@@ -162,6 +173,16 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
                   active: !store.previewLoading && isUserEnoughMaticForWithdraw,
                   name: intl.withdrawalPreview_confirm,
                   onTap: () {
+                    if (store.withdrawalType == WithdrawalType.jar) {
+                      sAnalytics.jarTapOnButtonConfirmJarWithdrawOnOrderSummary(
+                        asset: store.withdrawalInputModel!.jar!.assetSymbol,
+                        network: 'TRC20',
+                        target: store.withdrawalInputModel!.jar!.target.toInt(),
+                        balance: store.withdrawalInputModel!.jar!.balance,
+                        isOpen: store.withdrawalInputModel!.jar!.status == JarStatus.active,
+                      );
+                    }
+
                     sAnalytics.cryptoSendTapConfirmOrder(
                       asset: store.withdrawalInputModel!.currency!.symbol,
                       network: store.network.description,

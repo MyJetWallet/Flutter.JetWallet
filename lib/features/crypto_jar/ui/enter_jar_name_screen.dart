@@ -5,6 +5,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/crypto_jar/store/jars_store.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart' as sk;
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/jar/jar_response_model.dart';
@@ -30,6 +31,8 @@ class _EnterJarNameScreenState extends State<EnterJarNameScreen> {
   @override
   void initState() {
     super.initState();
+
+    sAnalytics.jarScreenViewJarName();
 
     if (widget.jar != null) {
       nameController.text = widget.jar!.title;
@@ -93,6 +96,7 @@ class _EnterJarNameScreenState extends State<EnterJarNameScreen> {
                     text: widget.isCreatingNewJar ? intl.jar_next : intl.jar_confirm,
                     callback: (nameController.text.isNotEmpty && nameController.text.length <= jarNameLength)
                         ? () async {
+                            sAnalytics.jarTapOnButtonNextOnJarName();
                             if (widget.isCreatingNewJar) {
                               await getIt<AppRouter>().push(
                                 EnterJarGoalRouter(

@@ -11,6 +11,7 @@ import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
 import 'package:jetwallet/widgets/flag_item.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart' as sk;
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/jar/jar_response_model.dart';
@@ -29,6 +30,15 @@ class JarShareScreen extends StatefulWidget {
 }
 
 class _JarShareScreenState extends State<JarShareScreen> {
+  final String language = 'UA';
+
+  @override
+  void initState() {
+    super.initState();
+
+    sAnalytics.jarScreenViewShareJar();
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = sk.sKit.colors;
@@ -96,6 +106,8 @@ class _JarShareScreenState extends State<JarShareScreen> {
             SButton.black(
               text: intl.jar_share,
               callback: () async {
+                sAnalytics.jarTapOnButtonShareJarOnShareJar(language: language);
+
                 final result = await getIt.get<JarsStore>().shareJar(jarId: widget.jar.id, lang: 'ua');
 
                 await Share.share(result ?? '');

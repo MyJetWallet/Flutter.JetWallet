@@ -4,6 +4,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/crypto_jar/store/jars_store.dart';
 import 'package:jetwallet/features/crypto_jar/ui/widgets/jar_list_item_widget.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class JarsListWidget extends StatefulWidget {
@@ -67,6 +68,12 @@ class _JarsListWidgetState extends State<JarsListWidget> {
   Widget _buildFilterButtonWidget(_JarFilterButton filter, [bool isSelected = false]) {
     return GestureDetector(
       onTap: () {
+        if (filter == _JarFilterButton.all) {
+          sAnalytics.jarTapOnButtonAllJarsItemOnDashboard();
+        } else {
+          sAnalytics.jarTapOnButtonActiveJarsItemsOnDashboard();
+        }
+
         setState(() {
           selectedFilter = filter;
         });

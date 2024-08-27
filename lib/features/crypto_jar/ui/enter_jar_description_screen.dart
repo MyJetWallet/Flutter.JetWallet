@@ -5,6 +5,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/crypto_jar/store/jars_store.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart' as sk;
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/jar/jar_response_model.dart';
@@ -30,6 +31,8 @@ class _EnterJarDescriptionScreenState extends State<EnterJarDescriptionScreen> {
   @override
   void initState() {
     super.initState();
+
+    sAnalytics.jarScreenViewJarDescription();
 
     _descriptionController.text = widget.jar.description;
 
@@ -107,6 +110,8 @@ class _EnterJarDescriptionScreenState extends State<EnterJarDescriptionScreen> {
                     callback: _descriptionController.text != widget.jar.description &&
                             _descriptionController.text.length <= jarDescriptionLength
                         ? () async {
+                            sAnalytics.jarTapOnButtonNextOnJarDescription();
+
                             final result = await getIt.get<JarsStore>().updateJar(
                                   jarId: widget.jar.id,
                                   title: widget.jar.title,

@@ -7,6 +7,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/features/crypto_jar/store/create_jar_store.dart';
 import 'package:jetwallet/features/crypto_jar/store/jars_store.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart' as sk;
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
@@ -27,6 +28,13 @@ class CreateNewJarScreen extends StatefulWidget {
 
 class _CreateNewJarScreenState extends State<CreateNewJarScreen> {
   bool isPolicyAgree = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    sAnalytics.jarScreenViewCreatingJar();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -110,6 +118,12 @@ class _CreateNewJarScreenState extends State<CreateNewJarScreen> {
                   text: intl.jar_create,
                   callback: isPolicyAgree
                       ? () async {
+                          sAnalytics.jarTapOnButtonCreateOnCreatingJar(
+                            asset: 'USDT',
+                            network: 'TRC20',
+                            target: widget.goal,
+                          );
+
                           await getIt.get<LocalStorageService>().setString(isJarTermsConfirmed, true.toString());
                           final result = await getIt.get<CreateJarStore>().createNewJar(widget.name, widget.goal);
 

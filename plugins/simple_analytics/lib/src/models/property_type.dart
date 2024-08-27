@@ -80,4 +80,9 @@ class PropertyType {
   static const withdrawAmount = 'Withdraw amount';
   static const ptpCurrency = 'PTP Currency';
   static const ptpBuyMethod = 'PTP buy Method';
+  static const target = 'Target';
+  static const balance = 'Balance';
+  static const isOpen = 'isOpen';
+  static const language = 'Language';
+  static const jarName = 'Jar Name';
 }

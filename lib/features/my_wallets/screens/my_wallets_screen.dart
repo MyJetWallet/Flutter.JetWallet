@@ -449,6 +449,8 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                                             type: SButtonContextType.iconedSmall,
                                             text: intl.jar_add_jar,
                                             onTap: () {
+                                              sAnalytics.jarTapOnButtonAddCryptoJarOnDashboard();
+
                                               getIt<AppRouter>().push(EnterJarNameRouter());
                                             },
                                           ),
