@@ -250,6 +250,16 @@ class TransactionListItem extends StatelessWidget {
           width: 24,
           color: isFailed ? failedColor : colors.red,
         );
+      case OperationType.jarDeposit:
+        return Assets.svg.medium.arrowDown.simpleSvg(
+          width: 24,
+          color: isFailed ? failedColor : colors.green,
+        );
+      case OperationType.jarWithdrawal:
+        return Assets.svg.medium.withdrawal.simpleSvg(
+          width: 24,
+          color: isFailed ? failedColor : colors.red,
+        );
       default:
         return SPlusIcon(color: isFailed ? failedColor : null);
     }

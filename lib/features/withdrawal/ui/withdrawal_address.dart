@@ -56,7 +56,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
     String? asset;
     if (store.withdrawalType == WithdrawalType.asset) {
       asset = store.withdrawalInputModel?.currency?.symbol;
-    } else if (store.withdrawalType == WithdrawalType.jar){
+    } else if (store.withdrawalType == WithdrawalType.jar) {
       asset = store.withdrawalInputModel?.jar?.assetSymbol;
     } else {
       asset = 'Matic';

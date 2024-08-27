@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:grouped_list/sliver_grouped_list.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/model/operation_history_union.dart';
 import 'package:jetwallet/features/market/market_details/store/operation_history.dart';
 import 'package:jetwallet/features/transaction_history/widgets/transaction_list_item.dart';
 import 'package:jetwallet/utils/constants.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
+import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart' as rive;
 import 'package:simple_kit/simple_kit.dart';
@@ -180,24 +183,73 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                     ),
             );
           } else {
-            body = SliverGroupedListView<OperationHistoryItem, String>(
-              elements: listToShow,
-              groupBy: (transaction) {
-                return formatDate(transaction.timeStamp);
-              },
-              sort: false,
-              groupSeparatorBuilder: (String date) {
-                return TransactionMonthSeparator(text: date);
-              },
-              itemBuilder: (context, transaction) {
-                return TransactionListItem(
-                  transactionListItem: transaction,
-                  onItemTapLisener: widget.onItemTapLisener,
-                  fromCJAccount: widget.fromCJAccount,
-                  source: widget.source,
-                );
-              },
-            );
+            if (widget.jarId != null) {
+              body = SliverToBoxAdapter(
+                child: CustomScrollView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  slivers: [
+                    SliverToBoxAdapter(
+                      child: Container(
+                        height: 32.0,
+                        width: double.infinity,
+                        margin: const EdgeInsets.only(
+                          left: 24.0,
+                          right: 24.0,
+                          bottom: 24.0,
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12.0,
+                          vertical: 6.0,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: SColorsLight().gray2,
+                        ),
+                        child: _buildWithdrawnTotally(listToShow),
+                      ),
+                    ),
+                    SliverGroupedListView<OperationHistoryItem, String>(
+                      elements: listToShow,
+                      groupBy: (transaction) {
+                        return formatDate(transaction.timeStamp);
+                      },
+                      sort: false,
+                      groupSeparatorBuilder: (String date) {
+                        return TransactionMonthSeparator(text: date);
+                      },
+                      itemBuilder: (context, transaction) {
+                        return TransactionListItem(
+                          transactionListItem: transaction,
+                          onItemTapLisener: widget.onItemTapLisener,
+                          fromCJAccount: widget.fromCJAccount,
+                          source: widget.source,
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              );
+            } else {
+              body = SliverGroupedListView<OperationHistoryItem, String>(
+                elements: listToShow,
+                groupBy: (transaction) {
+                  return formatDate(transaction.timeStamp);
+                },
+                sort: false,
+                groupSeparatorBuilder: (String date) {
+                  return TransactionMonthSeparator(text: date);
+                },
+                itemBuilder: (context, transaction) {
+                  return TransactionListItem(
+                    transactionListItem: transaction,
+                    onItemTapLisener: widget.onItemTapLisener,
+                    fromCJAccount: widget.fromCJAccount,
+                    source: widget.source,
+                  );
+                },
+              );
+            }
           }
 
           return body;
@@ -413,5 +465,44 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
   bool _addBottomPadding() {
     return (OperationHistory.of(context).union != const OperationHistoryUnion.error()) &&
         !OperationHistory.of(context).nothingToLoad;
+  }
+
+  Widget _buildWithdrawnTotally(List<OperationHistoryItem> listToShow) {
+    final withdrawalList = listToShow.where((item) => item.operationType == OperationType.jarWithdrawal);
+    if (withdrawalList.isNotEmpty) {
+      final totalWithdraw = withdrawalList.map((item) => item.balanceChange).reduce((a, b) => a + b);
+
+      final currency = currencyFrom(
+        sSignalRModules.currenciesWithHiddenList,
+        'USDT',
+      );
+
+      return RichText(
+        text: TextSpan(
+          text: totalWithdraw.abs().toFormatCount(
+                accuracy: currency.accuracy,
+                symbol: currency.symbol,
+              ),
+          style: STStyles.subtitle2.copyWith(
+            color: SColorsLight().black,
+          ),
+          children: [
+            TextSpan(
+              text: intl.jar_withdrawn_totally,
+              style: STStyles.body2Medium.copyWith(
+                color: SColorsLight().gray10,
+              ),
+            ),
+          ],
+        ),
+      );
+    } else {
+      return Text(
+        intl.jar_transactions_empty,
+        style: STStyles.body2Medium.copyWith(
+          color: SColorsLight().gray10,
+        ),
+      );
+    }
   }
 }

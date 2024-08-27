@@ -231,7 +231,15 @@ abstract class _WithdrawalStoreBase with Store {
   String get header => '''${intl.withdrawal_send_verb} ${withdrawalInputModel!.currency!.description}''';
 
   @computed
-  String get bassAsset => withdrawalType == WithdrawalType.asset ? withdrawalInputModel!.currency!.symbol : 'MATIC';
+  String get bassAsset {
+    if (withdrawalType == WithdrawalType.asset) {
+      return withdrawalInputModel!.currency!.symbol;
+    } else if (withdrawalType == WithdrawalType.jar) {
+      return withdrawalInputModel!.jar!.assetSymbol;
+    } else {
+      return 'MATIC';
+    }
+  }
 
   @computed
   String get validationResult {
@@ -302,7 +310,13 @@ abstract class _WithdrawalStoreBase with Store {
   void init(WithdrawalModel input) {
     withdrawalInputModel = input;
 
-    if (withdrawalInputModel!.currency != null) {
+    if (withdrawalInputModel!.jar != null) {
+      withdrawalType = WithdrawalType.jar;
+
+      if (withdrawalInputModel!.currency!.isSingleNetworkForBlockchainSend) {
+        updateNetwork(networks[0]);
+      }
+    } else if (withdrawalInputModel!.currency != null) {
       withdrawalType = WithdrawalType.asset;
 
       if (withdrawalInputModel!.currency!.isSingleNetworkForBlockchainSend) {
@@ -310,16 +324,12 @@ abstract class _WithdrawalStoreBase with Store {
       }
 
       //addressController.text = '0x71C7656EC7ab88b098defB751B7401B5f6d8976F';
-    } else if (withdrawalInputModel!.nft != null) {
+    } else {
       withdrawalType = WithdrawalType.nft;
 
       networkController.text = withdrawalInputModel!.nft!.blockchain!;
 
       //addressController.text = '0x9fCD3018a923B5BD3488bBA507e2ceb002AECe1D';
-    } else if (withdrawalInputModel!.jar != null) {
-      withdrawalType = WithdrawalType.jar;
-
-      networkController.text = withdrawalInputModel!.jar!.addresses.first.blockchain;
     }
 
     withdrawSubscription = getIt<EventBus>().on<WithdrawalConfirmModel>().listen(updateCode);
@@ -449,19 +459,28 @@ abstract class _WithdrawalStoreBase with Store {
     try {
       ValidateAddressRequestModel? model;
 
-      model = withdrawalType == WithdrawalType.asset
-          ? ValidateAddressRequestModel(
-              assetSymbol: withdrawalInputModel!.currency!.symbol,
-              toAddress: addressController.text,
-              toTag: tag,
-              assetNetwork: network.id,
-            )
-          : ValidateAddressRequestModel(
-              assetSymbol: withdrawalInputModel!.nft!.symbol!,
-              toAddress: addressController.text,
-              toTag: tag,
-              assetNetwork: withdrawalInputModel!.nft!.blockchain!,
-            );
+      if (withdrawalType == WithdrawalType.asset) {
+        model = ValidateAddressRequestModel(
+          assetSymbol: withdrawalInputModel!.currency!.symbol,
+          toAddress: addressController.text,
+          toTag: tag,
+          assetNetwork: network.id,
+        );
+      } else if (withdrawalType == WithdrawalType.jar) {
+        model = ValidateAddressRequestModel(
+          assetSymbol: withdrawalInputModel!.jar!.assetSymbol,
+          toAddress: addressController.text,
+          toTag: tag,
+          assetNetwork: withdrawalInputModel!.jar!.addresses.first.blockchain,
+        );
+      } else {
+        model = ValidateAddressRequestModel(
+          assetSymbol: withdrawalInputModel!.nft!.symbol!,
+          toAddress: addressController.text,
+          toTag: tag,
+          assetNetwork: withdrawalInputModel!.nft!.blockchain!,
+        );
+      }
 
       final response = await sNetwork.getWalletModule().postValidateAddress(model);
 
@@ -671,7 +690,7 @@ abstract class _WithdrawalStoreBase with Store {
 
   @action
   void _pushWithdrawalAmount(BuildContext context) {
-    if (withdrawalType == WithdrawalType.asset) {
+    if (withdrawalType == WithdrawalType.asset || withdrawalType == WithdrawalType.jar) {
       withdrawalPush(WithdrawStep.ammount);
     } else {
       withdrawalPush(WithdrawStep.preview);
@@ -817,12 +836,23 @@ abstract class _WithdrawalStoreBase with Store {
 
   @action
   void _validateAmount() {
-    final error = onWithdrawInputErrorHandler(
-      withAmount,
-      blockchain.description,
-      withdrawalInputModel!.currency!,
-      addressIsInternal: addressIsInternal,
-    );
+    InputError error;
+    if (withdrawalType == WithdrawalType.jar) {
+      error = onWithdrawJarInputErrorHandler(
+        withAmount,
+        blockchain.description,
+        withdrawalInputModel!.jar!.balance,
+        withdrawalInputModel!.currency!,
+        addressIsInternal: addressIsInternal,
+      );
+    } else {
+      error = onWithdrawInputErrorHandler(
+        withAmount,
+        blockchain.description,
+        withdrawalInputModel!.currency!,
+        addressIsInternal: addressIsInternal,
+      );
+    }
 
     final value = Decimal.parse(withAmount);
 

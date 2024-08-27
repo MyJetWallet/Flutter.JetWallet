@@ -146,7 +146,7 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
                 TwoColumnCell(
                   label: intl.operationName_sent,
                   value:
-                      '''${store.withAmount} ${store.withdrawalType == WithdrawalType.asset ? store.withdrawalInputModel!.currency!.symbol : store.withdrawalInputModel!.nft!.name}''',
+                      '''${store.withAmount} ${store.withdrawalType != WithdrawalType.nft ? store.withdrawalInputModel!.currency!.symbol : store.withdrawalInputModel!.nft!.name}''',
                   needHorizontalPadding: false,
                 ),
                 ProcessingFeeRowWidget(

@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/crypto_jar/helpers/jar_extension.dart';
 import 'package:jetwallet/features/crypto_jar/store/jars_store.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
 import 'package:jetwallet/features/transaction_history/widgets/transaction_list_item.dart';
 import 'package:jetwallet/features/transaction_history/widgets/transactions_list.dart';
 import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
+import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:simple_kit/modules/bottom_sheets/components/basic_bottom_sheet/show_basic_modal_bottom_sheet.dart';
 import 'package:simple_kit/modules/colors/simple_colors.dart';
@@ -145,30 +147,7 @@ class _JarScreenState extends State<JarScreen> {
           ),
           const SliverToBoxAdapter(
             child: SizedBox(
-              height: 12.0,
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: Container(
-              height: 32.0,
-              width: double.infinity,
-              margin: const EdgeInsets.symmetric(
-                horizontal: 24.0,
-              ),
-              padding: const EdgeInsets.symmetric(
-                horizontal: 12.0,
-                vertical: 6.0,
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: SColorsLight().gray2,
-              ),
-              child: Text(
-                intl.jar_transactions_empty,
-                style: STStyles.body2Medium.copyWith(
-                  color: SColorsLight().gray10,
-                ),
-              ),
+              height: 8.0,
             ),
           ),
           TransactionsList(
@@ -220,6 +199,10 @@ class _JarScreenState extends State<JarScreen> {
                 sRouter.push(
                   WithdrawRouter(
                     withdrawal: WithdrawalModel(
+                      currency: currencyFrom(
+                        sSignalRModules.currenciesList,
+                        widget.jar.assetSymbol,
+                      ),
                       jar: widget.jar,
                     ),
                   ),

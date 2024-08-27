@@ -1756,5 +1756,6 @@
     "jar_address": "Address",
     "jar_network": "Network",
     "jar_skip": "Skip",
-    "jar_empty_list": "You don't have jars yet"
+    "jar_empty_list": "You don't have jars yet",
+    "jar_withdrawn_totally": " was withdrawn totally"
 }
