@@ -61,36 +61,44 @@ class JarListItemWidget extends StatelessWidget {
         Row(
           children: [
             Expanded(
-              child: Text(
-                jar.title,
-                style: STStyles.subtitle1.copyWith(
-                  color: SColorsLight().black,
-                ),
+              child: Row(
+                children: [
+                  Flexible(
+                    child: Text(
+                      jar.title,
+                      softWrap: true,
+                      overflow: TextOverflow.ellipsis,
+                      style: STStyles.subtitle1.copyWith(
+                        color: SColorsLight().black,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 8.0,
+                  ),
+                  if (jar.status == JarStatus.closed)
+                    Container(
+                      height: 20.0,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8.0,
+                        vertical: 3.0,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12.0),
+                        color: SColorsLight().gray2,
+                      ),
+                      child: Text(
+                        intl.jar_closed,
+                        style: STStyles.captionBold.copyWith(
+                          color: SColorsLight().gray8,
+                        ),
+                      ),
+                    ),
+                ],
               ),
             ),
             const SizedBox(
               width: 8.0,
-            ),
-            if (jar.status == JarStatus.closed)
-              Container(
-                height: 20.0,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 8.0,
-                  vertical: 3.0,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12.0),
-                  color: SColorsLight().gray2,
-                ),
-                child: Text(
-                  intl.jar_closed,
-                  style: STStyles.captionBold.copyWith(
-                    color: SColorsLight().gray8,
-                  ),
-                ),
-              ),
-            const SizedBox(
-              width: 4.0,
             ),
             Text(
               Decimal.parse(jar.balance.toString()).toFormatCount(
@@ -148,10 +156,12 @@ class JarProgressBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final progressBarWidth = constraints.maxWidth * progress;
+        final totalWidth = constraints.maxWidth;
+        final primaryWidth = totalWidth * (progress > 1 ? 1 : progress);
+        final overflowWidth = progress > 1 ? totalWidth * ((progress - 1) / progress) : 0.0;
 
         return Container(
-          width: constraints.maxWidth,
+          width: totalWidth,
           height: 6,
           decoration: BoxDecoration(
             color: SColorsLight().gray4,
@@ -160,13 +170,33 @@ class JarProgressBar extends StatelessWidget {
           child: Stack(
             children: [
               Container(
-                width: progressBarWidth,
+                width: primaryWidth,
                 decoration: BoxDecoration(
                   color: isClosed ? SColorsLight().gray8 : null,
-                  gradient: isClosed ? null : SColorsLight().purpleGradient,
+                  gradient: isClosed ? null : const LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [Color(0xFFCBB9FF), Color(0xFF9575F3)],
+                  ),
                   borderRadius: BorderRadius.circular(3),
                 ),
               ),
+              if (overflowWidth > 0 && !isClosed)
+                Positioned(
+                  right: 0,
+                  child: Container(
+                    width: overflowWidth,
+                    height: 6,
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [Color(0xFFF6825E), Color(0xFFF75F47)],
+                      ),
+                      borderRadius: BorderRadius.circular(3),
+                    ),
+                  ),
+                ),
             ],
           ),
         );

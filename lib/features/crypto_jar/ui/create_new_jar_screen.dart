@@ -28,6 +28,7 @@ class CreateNewJarScreen extends StatefulWidget {
 
 class _CreateNewJarScreenState extends State<CreateNewJarScreen> {
   bool isPolicyAgree = false;
+  bool setValueFromStore = false;
 
   @override
   void initState() {
@@ -81,10 +82,11 @@ class _CreateNewJarScreenState extends State<CreateNewJarScreen> {
               future: getIt.get<LocalStorageService>().getValue(isJarTermsConfirmed),
               builder: (context, snap) {
                 if (snap.hasData) {
-                  if (!isPolicyAgree && (bool.parse(snap.data ?? 'false'))) {
+                  if (!isPolicyAgree && (bool.parse(snap.data ?? 'false')) && !setValueFromStore) {
                     Future.microtask(() {
                       setState(() {
                         isPolicyAgree = true;
+                        setValueFromStore = true;
                       });
                     });
                   }

@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/crypto_jar/store/jars_store.dart';
 import 'package:jetwallet/features/crypto_jar/ui/widgets/jar_list_item_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_kit/modules/shared/simple_paddings.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class JarsListWidget extends StatefulWidget {
@@ -19,34 +21,77 @@ class _JarsListWidgetState extends State<JarsListWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Observer(
-      builder: (context) {
-        final jars =
-            selectedFilter == _JarFilterButton.all ? getIt.get<JarsStore>().allJar : getIt.get<JarsStore>().activeJar;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        STableHeader(
+          size: SHeaderSize.m,
+          title: intl.jar_jars,
+        ),
+        Observer(
+          builder: (context) {
+            final jars = selectedFilter == _JarFilterButton.all
+                ? getIt.get<JarsStore>().allJar
+                : getIt.get<JarsStore>().activeJar;
 
-        if (jars.isNotEmpty) {
-          return CustomScrollView(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            slivers: [
-              SliverToBoxAdapter(
-                child: _buildFilterListWidget(),
-              ),
-              SliverList.builder(
-                itemCount: jars.length,
-                itemBuilder: (context, index) => JarListItemWidget(
-                  jar: jars[index],
+            if (jars.isNotEmpty) {
+              return CustomScrollView(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: _buildFilterListWidget(),
+                  ),
+                  const SliverToBoxAdapter(
+                    child: SizedBox(
+                      height: 16.0,
+                    ),
+                  ),
+                  SliverList.builder(
+                    itemCount: jars.length,
+                    itemBuilder: (context, index) => JarListItemWidget(
+                      jar: jars[index],
+                    ),
+                  ),
+                ],
+              );
+            } else {
+              return Column(
+                children: [
+                  const SizedBox(
+                    height: 7.0,
+                  ),
+                  SPlaceholder(
+                    size: SPlaceholderSize.l,
+                    text: intl.jar_empty_list,
+                  ),
+                ],
+              );
+            }
+          },
+        ),
+        Padding(
+          padding: const EdgeInsets.only(
+            top: 16,
+            bottom: 40,
+          ),
+          child: SPaddingH24(
+            child: Row(
+              children: [
+                SButtonContext(
+                  type: SButtonContextType.iconedSmall,
+                  text: intl.jar_add_jar,
+                  onTap: () {
+                    sAnalytics.jarTapOnButtonAddCryptoJarOnDashboard();
+
+                    getIt<AppRouter>().push(EnterJarNameRouter());
+                  },
                 ),
-              ),
-            ],
-          );
-        } else {
-          return SPlaceholder(
-            size: SPlaceholderSize.l,
-            text: intl.jar_empty_list,
-          );
-        }
-      },
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 

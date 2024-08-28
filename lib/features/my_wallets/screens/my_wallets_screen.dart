@@ -426,40 +426,12 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                                       ),
                                     ),
                                   ),
-                                /// JARS
-                                SliverToBoxAdapter(
-                                  child: STableHeader(
-                                    size: SHeaderSize.m,
-                                    title: intl.jar_jars,
+                                if ((sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
+                                  (element) => element.id == AssetPaymentProductsEnum.jar,
+                                ))
+                                  const SliverToBoxAdapter(
+                                    child: JarsListWidget(),
                                   ),
-                                ),
-                                const SliverToBoxAdapter(
-                                  child: JarsListWidget(),
-                                ),
-                                SliverToBoxAdapter(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                      top: 16,
-                                      bottom: 32,
-                                    ),
-                                    child: SPaddingH24(
-                                      child: Row(
-                                        children: [
-                                          SButtonContext(
-                                            type: SButtonContextType.iconedSmall,
-                                            text: intl.jar_add_jar,
-                                            onTap: () {
-                                              sAnalytics.jarTapOnButtonAddCryptoJarOnDashboard();
-
-                                              getIt<AppRouter>().push(EnterJarNameRouter());
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                ///
                                 const SliverToBoxAdapter(
                                   child: BannerCarusel(),
                                 ),

@@ -311,6 +311,7 @@ class _JarScreenState extends State<JarScreen> {
                     onTap: () {
                       sAnalytics.jarTapOnButtonChangeJarNameOnJarAction();
 
+                      Navigator.pop(context);
                       getIt<AppRouter>().push(
                         EnterJarNameRouter(
                           isCreatingNewJar: false,
@@ -343,6 +344,7 @@ class _JarScreenState extends State<JarScreen> {
                     onTap: () {
                       sAnalytics.jarTapOnButtonChangeGoalOnJarAction();
 
+                      Navigator.pop(context);
                       getIt<AppRouter>().push(
                         EnterJarGoalRouter(
                           name: widget.jar.title,
@@ -376,6 +378,7 @@ class _JarScreenState extends State<JarScreen> {
                     onTap: () {
                       sAnalytics.jarTapOnButtonChangeDescriptionOnJarAction();
 
+                      Navigator.pop(context);
                       getIt<AppRouter>().push(
                         EnterJarDescriptionRouter(
                           jar: widget.jar,

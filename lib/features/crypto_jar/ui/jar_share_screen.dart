@@ -8,11 +8,13 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/features/crypto_jar/store/jars_store.dart';
 import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
+import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:jetwallet/widgets/flag_item.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart' as sk;
+import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/jar/jar_response_model.dart';
 
@@ -30,7 +32,7 @@ class JarShareScreen extends StatefulWidget {
 }
 
 class _JarShareScreenState extends State<JarShareScreen> {
-  final String language = 'UA';
+  String selectedLanguage = 'UA';
 
   @override
   void initState() {
@@ -106,9 +108,11 @@ class _JarShareScreenState extends State<JarShareScreen> {
             SButton.black(
               text: intl.jar_share,
               callback: () async {
-                sAnalytics.jarTapOnButtonShareJarOnShareJar(language: language);
+                sAnalytics.jarTapOnButtonShareJarOnShareJar(language: selectedLanguage == 'GB' ? 'English' : 'Ukraine');
 
-                final result = await getIt.get<JarsStore>().shareJar(jarId: widget.jar.id, lang: 'ua');
+                final result = await getIt
+                    .get<JarsStore>()
+                    .shareJar(jarId: widget.jar.id, lang: selectedLanguage == 'GB' ? 'en' : 'ua');
 
                 await Share.share(result ?? '');
               },
@@ -123,81 +127,177 @@ class _JarShareScreenState extends State<JarShareScreen> {
   }
 
   Widget _buildShareItem(String title, String text, bool isCountry, bool withCopy, [bool isAddress = false]) {
-    return Container(
-      height: 82.0,
-      padding: const EdgeInsets.only(
-        top: 18.0,
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: STStyles.captionMedium.copyWith(
-                    color: SColorsLight().gray8,
+    final colors = sKit.colors;
+
+    return SafeGesture(
+      onTap: () {
+        if (isCountry) {
+          sShowBasicModalBottomSheet(
+            context: context,
+            color: colors.white,
+            pinned: ActionBottomSheetHeader(
+              name: intl.jar_language,
+            ),
+            horizontalPinnedPadding: 0.0,
+            removePinnedPadding: true,
+            children: [
+              SafeGesture(
+                onTap: () {
+                  setState(() {
+                    selectedLanguage = 'GB';
+                  });
+                  Navigator.pop(context);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24.0,
+                    vertical: 18.0,
+                  ),
+                  child: Row(
+                    children: [
+                      const FlagItem(
+                        countryCode: 'GB',
+                      ),
+                      const SizedBox(width: 12.0),
+                      Text(
+                        'English',
+                        style: STStyles.subtitle1.copyWith(
+                          color: SColorsLight().black,
+                        ),
+                      ),
+                      const Spacer(),
+                      Builder(
+                        builder: (context) => AnimatedCrossFade(
+                          firstChild: Assets.svg.medium.checkmark.simpleSvg(),
+                          secondChild: Container(),
+                          crossFadeState:
+                              selectedLanguage == 'GB' ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+                          duration: const Duration(milliseconds: 300),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                if (isCountry)
-                  Row(
+              ),
+              SafeGesture(
+                onTap: () {
+                  setState(() {
+                    selectedLanguage = 'UA';
+                  });
+                  Navigator.pop(context);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24.0,
+                    vertical: 18.0,
+                  ),
+                  child: Row(
                     children: [
                       const FlagItem(
                         countryCode: 'UA',
                       ),
-                      const SizedBox(
-                        width: 8.0,
-                      ),
+                      const SizedBox(width: 12.0),
                       Text(
                         'Ukraine',
                         style: STStyles.subtitle1.copyWith(
                           color: SColorsLight().black,
                         ),
                       ),
+                      const Spacer(),
+                      Builder(
+                        builder: (context) => AnimatedCrossFade(
+                          firstChild: Assets.svg.medium.checkmark.simpleSvg(),
+                          secondChild: Container(),
+                          crossFadeState:
+                              selectedLanguage == 'UA' ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+                          duration: const Duration(milliseconds: 300),
+                        ),
+                      ),
                     ],
-                  )
-                else
+                  ),
+                ),
+              ),
+              const SizedBox(height: 58.0),
+            ],
+          );
+        }
+      },
+      child: Container(
+        height: 82.0,
+        padding: const EdgeInsets.only(
+          top: 18.0,
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                   Text(
-                    text,
-                    softWrap: true,
-                    overflow: TextOverflow.visible,
-                    style: isAddress
-                        ? STStyles.subtitle2.copyWith(
-                            color: SColorsLight().black,
-                          )
-                        : STStyles.subtitle1.copyWith(
+                    title,
+                    style: STStyles.captionMedium.copyWith(
+                      color: SColorsLight().gray8,
+                    ),
+                  ),
+                  if (isCountry)
+                    Row(
+                      children: [
+                        FlagItem(
+                          countryCode: selectedLanguage,
+                        ),
+                        const SizedBox(
+                          width: 8.0,
+                        ),
+                        Text(
+                          selectedLanguage == 'GB' ? 'English' : 'Ukraine',
+                          style: STStyles.subtitle1.copyWith(
                             color: SColorsLight().black,
                           ),
-                  ),
-              ],
-            ),
-          ),
-          const SizedBox(
-            width: 24.0,
-          ),
-          if (withCopy)
-            SafeGesture(
-              onTap: () {
-                Clipboard.setData(
-                  ClipboardData(
-                    text: text,
-                  ),
-                );
-
-                sNotification.showError(
-                  intl.copy_message,
-                  id: 1,
-                  isError: false,
-                );
-              },
-              child: Assets.svg.medium.copy.simpleSvg(
-                height: 20.0,
-                width: 20.0,
-                color: SColorsLight().gray8,
+                        ),
+                      ],
+                    )
+                  else
+                    Text(
+                      text,
+                      softWrap: true,
+                      overflow: TextOverflow.visible,
+                      style: isAddress
+                          ? STStyles.subtitle2.copyWith(
+                              color: SColorsLight().black,
+                            )
+                          : STStyles.subtitle1.copyWith(
+                              color: SColorsLight().black,
+                            ),
+                    ),
+                ],
               ),
             ),
-        ],
+            const SizedBox(
+              width: 24.0,
+            ),
+            if (withCopy)
+              SafeGesture(
+                onTap: () {
+                  Clipboard.setData(
+                    ClipboardData(
+                      text: text,
+                    ),
+                  );
+
+                  sNotification.showError(
+                    intl.copy_message,
+                    id: 1,
+                    isError: false,
+                  );
+                },
+                child: Assets.svg.medium.copy.simpleSvg(
+                  height: 20.0,
+                  width: 20.0,
+                  color: SColorsLight().gray8,
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }

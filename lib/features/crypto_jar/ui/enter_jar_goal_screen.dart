@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart' as intl_l;
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
@@ -41,11 +42,16 @@ class _EnterJarGoalScreenState extends State<EnterJarGoalScreen> {
     sAnalytics.jarScreenViewJarGoal();
 
     if (widget.jar != null) {
-      _goalController.text = widget.jar!.target.toInt().toString();
+      var formatted = intl_l.NumberFormat('#,###', 'en_US').format(widget.jar!.target.toInt());
+      formatted = formatted.replaceAll(',', ' ');
+      _goalController.text = TextEditingValue(
+        text: formatted,
+        selection: TextSelection.collapsed(offset: formatted.length),
+      ).text;
     }
 
     _goalController.addListener(() {
-      if ((int.tryParse(_goalController.text) ?? 0) > jarMaxGoal) {
+      if ((int.tryParse(_goalController.text.replaceAll(' ', '')) ?? 0) > jarMaxGoal) {
         if (!showError) {
           showError = true;
           sNotification.showError(intl.jar_input_jar_goal_error);
@@ -96,6 +102,21 @@ class _EnterJarGoalScreenState extends State<EnterJarGoalScreen> {
                   FilteringTextInputFormatter.allow(
                     RegExp('[0-9]'),
                   ),
+                  TextInputFormatter.withFunction(
+                    (oldValue, newValue) {
+                      if (newValue.text.isEmpty) {
+                        return newValue;
+                      }
+
+                      final newText = newValue.text.replaceAll(' ', '');
+                      var formatted = intl_l.NumberFormat('#,###', 'en_US').format(int.parse(newText));
+                      formatted = formatted.replaceAll(',', ' ');
+                      return TextEditingValue(
+                        text: formatted,
+                        selection: TextSelection.collapsed(offset: formatted.length),
+                      );
+                    },
+                  ),
                 ],
                 keyboardType: TextInputType.number,
                 onCloseIconTap: () {
@@ -103,7 +124,7 @@ class _EnterJarGoalScreenState extends State<EnterJarGoalScreen> {
                 },
               ),
               Positioned(
-                top: 33.0,
+                top: 34.0,
                 left: 24.0 + _textWidth,
                 child: Text(
                   'USDT',
@@ -126,27 +147,29 @@ class _EnterJarGoalScreenState extends State<EnterJarGoalScreen> {
                   child: SButton.black(
                     text: widget.isCreatingNewJar ? intl.jar_next : intl.jar_confirm,
                     callback: _goalController.text.isNotEmpty &&
-                            (int.tryParse(_goalController.text) ?? 0) <= jarMaxGoal &&
-                            (int.tryParse(_goalController.text) ?? 0) >= 1
+                            (int.tryParse(_goalController.text.replaceAll(' ', '')) ?? 0) <= jarMaxGoal &&
+                            (int.tryParse(_goalController.text.replaceAll(' ', '')) ?? 0) >= 1
                         ? () async {
+                            final goal = int.parse(_goalController.text.replaceAll(' ', ''));
+
                             sAnalytics.jarTapOnButtonNextOnJarPurpose(
                               asset: 'USDT',
                               network: 'TRC20',
-                              target: int.parse(_goalController.text),
+                              target: goal,
                             );
 
                             if (widget.isCreatingNewJar) {
                               await getIt<AppRouter>().push(
                                 CreateNewJarRouter(
                                   name: widget.name,
-                                  goal: int.parse(_goalController.text),
+                                  goal: goal,
                                 ),
                               );
                             } else {
                               final result = await getIt.get<JarsStore>().updateJar(
                                     jarId: widget.jar!.id,
                                     title: widget.jar!.title,
-                                    target: int.tryParse(_goalController.text),
+                                    target: goal,
                                     description: widget.jar!.description,
                                     imageUrl: widget.jar!.imageUrl,
                                   );
