@@ -1757,5 +1757,8 @@
     "jar_network": "Network",
     "jar_skip": "Skip",
     "jar_empty_list": "You don't have jars yet",
-    "jar_withdrawn_totally": " was withdrawn totally"
+    "jar_withdrawn_totally": " was withdrawn totally",
+    "jar_closed_title": "You closed the jar titled {name}",
+    "jar_closed_hint": "The jar will no longer be refilled",
+    "jar_done": "Done"
 }

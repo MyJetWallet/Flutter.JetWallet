@@ -1,3 +1,4 @@
+import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -5,9 +6,14 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/crypto_jar/store/jars_store.dart';
 import 'package:jetwallet/features/crypto_jar/ui/widgets/jar_list_item_widget.dart';
+import 'package:jetwallet/features/kyc/kyc_service.dart';
+import 'package:jetwallet/features/my_wallets/helper/show_wallet_verify_account.dart';
+import 'package:jetwallet/utils/event_bus_events.dart';
+import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/simple_paddings.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'package:simple_networking/modules/wallet_api/models/jar/jar_response_model.dart';
 
 class JarsListWidget extends StatefulWidget {
   const JarsListWidget({super.key});
@@ -30,23 +36,32 @@ class _JarsListWidgetState extends State<JarsListWidget> {
         ),
         Observer(
           builder: (context) {
-            final jars = selectedFilter == _JarFilterButton.all
-                ? getIt.get<JarsStore>().allJar
-                : getIt.get<JarsStore>().activeJar;
+            final store = getIt.get<JarsStore>();
+            final allJar = store.allJar;
+            final activeJar = store.activeJar;
 
-            if (jars.isNotEmpty) {
+            List<JarResponseModel> jars;
+            if (activeJar.isEmpty) {
+              jars = allJar;
+            } else {
+              jars = selectedFilter == _JarFilterButton.all ? allJar : activeJar;
+            }
+
+            if (allJar.isNotEmpty || activeJar.isNotEmpty) {
               return CustomScrollView(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 slivers: [
-                  SliverToBoxAdapter(
-                    child: _buildFilterListWidget(),
-                  ),
-                  const SliverToBoxAdapter(
-                    child: SizedBox(
-                      height: 16.0,
+                  if (activeJar.isNotEmpty) ...[
+                    SliverToBoxAdapter(
+                      child: _buildFilterListWidget(),
                     ),
-                  ),
+                    const SliverToBoxAdapter(
+                      child: SizedBox(
+                        height: 16.0,
+                      ),
+                    ),
+                  ],
                   SliverList.builder(
                     itemCount: jars.length,
                     itemBuilder: (context, index) => JarListItemWidget(
@@ -61,9 +76,11 @@ class _JarsListWidgetState extends State<JarsListWidget> {
                   const SizedBox(
                     height: 7.0,
                   ),
-                  SPlaceholder(
-                    size: SPlaceholderSize.l,
-                    text: intl.jar_empty_list,
+                  SPaddingH24(
+                    child: SPlaceholder(
+                      size: SPlaceholderSize.l,
+                      text: intl.jar_empty_list,
+                    ),
                   ),
                 ],
               );
@@ -82,9 +99,28 @@ class _JarsListWidgetState extends State<JarsListWidget> {
                   type: SButtonContextType.iconedSmall,
                   text: intl.jar_add_jar,
                   onTap: () {
+                    getIt.get<EventBus>().fire(EndReordering());
+
+                    getIt.get<JarsStore>().refreshJarsStore();
+
                     sAnalytics.jarTapOnButtonAddCryptoJarOnDashboard();
 
-                    getIt<AppRouter>().push(EnterJarNameRouter());
+                    final kycState = getIt.get<KycService>();
+                    if (checkKycPassed(
+                      kycState.depositStatus,
+                      kycState.tradeStatus,
+                      kycState.withdrawalStatus,
+                    )) {
+                      getIt<AppRouter>().push(EnterJarNameRouter());
+                    } else {
+                      showWalletVerifyAccount(
+                        context,
+                        after: () {
+                          getIt<AppRouter>().push(EnterJarNameRouter());
+                        },
+                        isBanking: false,
+                      );
+                    }
                   },
                 ),
               ],
@@ -113,6 +149,10 @@ class _JarsListWidgetState extends State<JarsListWidget> {
   Widget _buildFilterButtonWidget(_JarFilterButton filter, [bool isSelected = false]) {
     return GestureDetector(
       onTap: () {
+        getIt.get<EventBus>().fire(EndReordering());
+
+        getIt.get<JarsStore>().refreshJarsStore();
+
         if (filter == _JarFilterButton.all) {
           sAnalytics.jarTapOnButtonAllJarsItemOnDashboard();
         } else {

@@ -30,6 +30,9 @@ abstract class _JarsStoreBase with Store {
   ObservableList<JarResponseModel> activeJar = ObservableList.of([]);
 
   @observable
+  JarResponseModel? selectedJar;
+
+  @observable
   StackLoaderStore loader = StackLoaderStore();
 
   @action
@@ -62,6 +65,15 @@ abstract class _JarsStoreBase with Store {
   }
 
   @action
+  Future<void> refreshJarsStore() async {
+    await initStore();
+
+    if (selectedJar != null) {
+      selectedJar = allJar.firstWhere((element) => element.id == selectedJar!.id);
+    }
+  }
+
+  @action
   void addNewJar(JarResponseModel jar) {
     allJar = ObservableList.of([jar, ...allJar]);
     activeJar = ObservableList.of([jar, ...activeJar]);
@@ -87,6 +99,7 @@ abstract class _JarsStoreBase with Store {
       final result = response.data;
 
       if (result != null) {
+        selectedJar = result;
         final activeIndex = activeJar.indexWhere((jar) {
           return jar.id == jarId;
         });
@@ -99,7 +112,6 @@ abstract class _JarsStoreBase with Store {
         allJar.removeAt(allIndex);
         allJar.insert(allIndex, result);
 
-        await initStore();
         return result;
       }
     } catch (e) {

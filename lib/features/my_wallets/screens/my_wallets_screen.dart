@@ -429,7 +429,9 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                                 if ((sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
                                   (element) => element.id == AssetPaymentProductsEnum.jar,
                                 ))
-                                  const SliverToBoxAdapter(
+                                  // ignore: prefer_const_constructors
+                                  SliverToBoxAdapter(
+                                    // ignore: prefer_const_constructors
                                     child: JarsListWidget(),
                                   ),
                                 const SliverToBoxAdapter(

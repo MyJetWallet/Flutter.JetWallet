@@ -1,15 +1,20 @@
 import 'package:decimal/decimal.dart';
+import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/crypto_jar/helpers/jar_extension.dart';
+import 'package:jetwallet/features/crypto_jar/store/jars_store.dart';
+import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/jar/jar_response_model.dart';
 
-class JarListItemWidget extends StatelessWidget {
+class JarListItemWidget extends HookWidget {
   const JarListItemWidget({
     required this.jar,
     super.key,
@@ -19,22 +24,31 @@ class JarListItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isHighlated = useState(false);
+
     return SafeGesture(
       onTap: () {
+        getIt.get<EventBus>().fire(EndReordering());
+
         sAnalytics.jarTapOnButtonJarItemOnDashboard(
           jarName: jar.title,
         );
 
+        getIt.get<JarsStore>().selectedJar = jar;
         getIt<AppRouter>().push(
           JarRouter(
-            jar: jar,
             hasLeftIcon: true,
           ),
         );
       },
+      highlightColor: SColorsLight().gray2,
+      onHighlightChanged: (p0) {
+        isHighlated.value = p0;
+      },
       child: Container(
         height: 96.0,
         width: double.infinity,
+        color: isHighlated.value ? SColorsLight().gray2 : Colors.transparent,
         padding: const EdgeInsets.symmetric(
           horizontal: 24.0,
           vertical: 15.0,
@@ -101,10 +115,12 @@ class JarListItemWidget extends StatelessWidget {
               width: 8.0,
             ),
             Text(
-              Decimal.parse(jar.balance.toString()).toFormatCount(
-                accuracy: 2,
-                symbol: jar.assetSymbol,
-              ),
+              getIt<AppStore>().isBalanceHide
+                  ? '**** ${jar.assetSymbol}'
+                  : Decimal.parse(jar.balance.toString()).toFormatCount(
+                      accuracy: 2,
+                      symbol: jar.assetSymbol,
+                    ),
               style: STStyles.subtitle1.copyWith(
                 color: SColorsLight().black,
               ),
@@ -124,7 +140,8 @@ class JarListItemWidget extends StatelessWidget {
         Row(
           children: [
             Text(
-              '${Decimal.parse(jar.balance.toString()).toFormatCount(
+              getIt<AppStore>().isBalanceHide
+                  ? '******* ${jar.assetSymbol}' : '${Decimal.parse(jar.balance.toString()).toFormatCount(
                 accuracy: 2,
                 symbol: jar.assetSymbol,
               )} / ${Decimal.parse(jar.target.toString()).toFormatCount(
@@ -173,11 +190,13 @@ class JarProgressBar extends StatelessWidget {
                 width: primaryWidth,
                 decoration: BoxDecoration(
                   color: isClosed ? SColorsLight().gray8 : null,
-                  gradient: isClosed ? null : const LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [Color(0xFFCBB9FF), Color(0xFF9575F3)],
-                  ),
+                  gradient: isClosed
+                      ? null
+                      : const LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [Color(0xFFCBB9FF), Color(0xFF9575F3)],
+                        ),
                   borderRadius: BorderRadius.circular(3),
                 ),
               ),

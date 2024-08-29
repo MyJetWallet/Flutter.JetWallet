@@ -1,10 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/crypto_jar/helpers/jar_extension.dart';
 import 'package:jetwallet/features/crypto_jar/store/jars_store.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
@@ -24,12 +26,10 @@ import 'package:simple_networking/modules/wallet_api/models/jar/jar_response_mod
 @RoutePage(name: 'JarRouter')
 class JarScreen extends StatefulWidget {
   const JarScreen({
-    required this.jar,
     required this.hasLeftIcon,
     super.key,
   });
 
-  final JarResponseModel jar;
   final bool hasLeftIcon;
 
   @override
@@ -41,143 +41,162 @@ class _JarScreenState extends State<JarScreen> {
   void initState() {
     super.initState();
 
+    final store = getIt.get<JarsStore>();
+    final selectedJar = store.selectedJar!;
+
+    store.refreshJarsStore();
+
     sAnalytics.jarScreenViewJar(
-      jarName: widget.jar.title,
+      jarName: selectedJar.title,
       asset: 'USDT',
       network: 'TRC20',
-      target: widget.jar.target.toInt(),
-      balance: widget.jar.balance,
-      isOpen: widget.jar.status == JarStatus.active,
+      target: selectedJar.target.toInt(),
+      balance: selectedJar.balance,
+      isOpen: selectedJar.status == JarStatus.active,
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    final store = getIt.get<JarsStore>();
+    final selectedJar = store.selectedJar!;
+
     final colors = sk.sKit.colors;
 
-    return sk.SPageFrame(
-      loaderText: '',
-      color: colors.white,
-      header: GlobalBasicAppBar(
-        title: '',
-        hasLeftIcon: widget.hasLeftIcon,
-        hasRightIcon: !widget.hasLeftIcon,
-        rightIcon: Assets.svg.medium.close.simpleSvg(),
-        onRightIconTap: () {
-          getIt<AppRouter>().popUntil((route) {
-            return route.settings.name == HomeRouter.name;
-          });
-        },
-      ),
-      child: CustomScrollView(
-        slivers: [
-          SliverToBoxAdapter(
-            child: Align(
-              child: widget.jar.getIcon(height: 200.0, width: 200.0),
-            ),
-          ),
-          const SliverToBoxAdapter(
-            child: SizedBox(
-              height: 24,
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: sk.SPaddingH24(
-              child: Text(
-                intl.jar_crypto_jar,
-                style: STStyles.body2Semibold.copyWith(
-                  color: SColorsLight().gray10,
+    return PopScope(
+      canPop: widget.hasLeftIcon,
+      child: sk.SPageFrame(
+        loaderText: '',
+        color: colors.white,
+        header: GlobalBasicAppBar(
+          title: '',
+          hasLeftIcon: widget.hasLeftIcon,
+          hasRightIcon: !widget.hasLeftIcon,
+          rightIcon: Assets.svg.medium.close.simpleSvg(),
+          onRightIconTap: () {
+            getIt<AppRouter>().popUntil((route) {
+              return route.settings.name == HomeRouter.name;
+            });
+          },
+        ),
+        child: Observer(
+          builder: (context) {
+            return CustomScrollView(
+              slivers: [
+                SliverToBoxAdapter(
+                  child: Align(
+                    child: selectedJar.getIcon(height: 200.0, width: 200.0),
+                  ),
                 ),
-              ),
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: sk.SPaddingH24(
-              child: Row(
-                children: [
-                  Expanded(
+                const SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: 24,
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: sk.SPaddingH24(
                     child: Text(
-                      widget.jar.title,
+                      intl.jar_crypto_jar,
+                      style: STStyles.body2Semibold.copyWith(
+                        color: SColorsLight().gray10,
+                      ),
+                    ),
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: sk.SPaddingH24(
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            selectedJar.title,
+                            style: STStyles.header5.copyWith(
+                              color: SColorsLight().black,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 8.0,
+                        ),
+                        Text(
+                          getIt<AppStore>().isBalanceHide
+                              ? '**** ${selectedJar.assetSymbol}'
+                              : Decimal.parse(selectedJar.balance.toString()).toFormatCount(
+                                  accuracy: 2,
+                                  symbol: selectedJar.assetSymbol,
+                                ),
+                          style: STStyles.header5.copyWith(
+                            color: SColorsLight().black,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: sk.SPaddingH24(
+                    child: Text(
+                      getIt<AppStore>().isBalanceHide
+                          ? '******* ${selectedJar.assetSymbol}'
+                          : '${Decimal.parse(selectedJar.balance.toString()).toFormatCount(
+                              accuracy: 2,
+                              symbol: selectedJar.assetSymbol,
+                            )} / ${Decimal.parse(selectedJar.target.toString()).toFormatCount(
+                              accuracy: 0,
+                              symbol: selectedJar.assetSymbol,
+                            )}',
+                      style: STStyles.body1Medium.copyWith(
+                        color: SColorsLight().gray10,
+                      ),
+                    ),
+                  ),
+                ),
+                const SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: 36.0,
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: sk.SPaddingH24(
+                    child: _buildButtons(selectedJar, colors),
+                  ),
+                ),
+                const SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: 44.0,
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: sk.SPaddingH24(
+                    child: Text(
+                      intl.jar_transactions,
                       style: STStyles.header5.copyWith(
                         color: SColorsLight().black,
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    width: 8.0,
-                  ),
-                  Text(
-                    Decimal.parse(widget.jar.balance.toString()).toFormatCount(
-                      accuracy: 2,
-                      symbol: widget.jar.assetSymbol,
-                    ),
-                    style: STStyles.header5.copyWith(
-                      color: SColorsLight().black,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: sk.SPaddingH24(
-              child: Text(
-                '${Decimal.parse(widget.jar.balance.toString()).toFormatCount(
-                  accuracy: 2,
-                  symbol: widget.jar.assetSymbol,
-                )} / ${Decimal.parse(widget.jar.target.toString()).toFormatCount(
-                  accuracy: 0,
-                  symbol: widget.jar.assetSymbol,
-                )}',
-                style: STStyles.body1Medium.copyWith(
-                  color: SColorsLight().gray10,
                 ),
-              ),
-            ),
-          ),
-          const SliverToBoxAdapter(
-            child: SizedBox(
-              height: 36.0,
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: sk.SPaddingH24(
-              child: _buildButtons(colors),
-            ),
-          ),
-          const SliverToBoxAdapter(
-            child: SizedBox(
-              height: 44.0,
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: sk.SPaddingH24(
-              child: Text(
-                intl.jar_transactions,
-                style: STStyles.header5.copyWith(
-                  color: SColorsLight().black,
+                const SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: 8.0,
+                  ),
                 ),
-              ),
-            ),
-          ),
-          const SliverToBoxAdapter(
-            child: SizedBox(
-              height: 8.0,
-            ),
-          ),
-          TransactionsList(
-            scrollController: ScrollController(),
-            jarId: widget.jar.id,
-            onItemTapLisener: (symbol) {},
-            source: TransactionItemSource.history,
-          ),
-        ],
+                TransactionsList(
+                  scrollController: ScrollController(),
+                  jarId: selectedJar.id,
+                  onItemTapLisener: (symbol) {},
+                  source: TransactionItemSource.history,
+                ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }
 
-  Widget _buildButtons(SimpleColors colors) {
-    if (widget.jar.status != JarStatus.closed) {
+  Widget _buildButtons(JarResponseModel selectedJar, SimpleColors colors) {
+    if (selectedJar.status != JarStatus.closed) {
       return Row(
         children: [
           const Spacer(),
@@ -188,17 +207,17 @@ class _JarScreenState extends State<JarScreen> {
             () {
               sAnalytics.jarTapOnButtonShareOnJar();
 
-              if (widget.jar.description.isNotEmpty) {
+              if (selectedJar.description.isNotEmpty) {
                 getIt<AppRouter>().push(
                   JarShareRouter(
-                    jar: widget.jar,
+                    jar: selectedJar,
                   ),
                 );
               } else {
                 getIt<AppRouter>().push(
                   EnterJarDescriptionRouter(
                     isOnlyEdit: false,
-                    jar: widget.jar,
+                    jar: selectedJar,
                   ),
                 );
               }
@@ -212,13 +231,13 @@ class _JarScreenState extends State<JarScreen> {
             Assets.svg.medium.withdrawal.simpleSvg(color: SColorsLight().white),
             SColorsLight().black,
             () {
-              if (widget.jar.balance > 0) {
+              if (selectedJar.balance > 0) {
                 sAnalytics.jarTapOnButtonWithdrawOnJar(
-                  asset: widget.jar.assetSymbol,
+                  asset: selectedJar.assetSymbol,
                   network: 'TRC20',
-                  target: widget.jar.target.toInt(),
-                  balance: widget.jar.balance,
-                  isOpen: widget.jar.status == JarStatus.active,
+                  target: selectedJar.target.toInt(),
+                  balance: selectedJar.balance,
+                  isOpen: selectedJar.status == JarStatus.active,
                 );
 
                 sRouter.push(
@@ -226,15 +245,15 @@ class _JarScreenState extends State<JarScreen> {
                     withdrawal: WithdrawalModel(
                       currency: currencyFrom(
                         sSignalRModules.currenciesList,
-                        widget.jar.assetSymbol,
+                        selectedJar.assetSymbol,
                       ),
-                      jar: widget.jar,
+                      jar: selectedJar,
                     ),
                   ),
                 );
               }
             },
-            widget.jar.balance > 0,
+            selectedJar.balance > 0,
           ),
           const SizedBox(
             width: 8.0,
@@ -245,43 +264,43 @@ class _JarScreenState extends State<JarScreen> {
             SColorsLight().black,
             () {
               sAnalytics.jarTapOnButtonCloseOnJar(
-                asset: widget.jar.assetSymbol,
+                asset: selectedJar.assetSymbol,
                 network: 'TRC20',
-                target: widget.jar.target.toInt(),
-                balance: widget.jar.balance,
-                isOpen: widget.jar.status == JarStatus.active,
+                target: selectedJar.target.toInt(),
+                balance: selectedJar.balance,
+                isOpen: selectedJar.status == JarStatus.active,
               );
 
               sShowAlertPopup(
                 sRouter.navigatorKey.currentContext!,
                 image: Assets.svg.brand.small.infoBlue.simpleSvg(),
                 primaryText: '',
-                secondaryText: intl.jar_action_close_jar('"${widget.jar.title}"'),
+                secondaryText: intl.jar_action_close_jar('"${selectedJar.title}"'),
                 primaryButtonName: intl.jar_confirm,
                 onPrimaryButtonTap: () {
                   sAnalytics.jarTapOnButtonConfirmCloseOnJarClosePopUp(
-                    asset: widget.jar.assetSymbol,
+                    asset: selectedJar.assetSymbol,
                     network: 'TRC20',
-                    target: widget.jar.target.toInt(),
-                    balance: widget.jar.balance,
-                    isOpen: widget.jar.status == JarStatus.active,
+                    target: selectedJar.target.toInt(),
+                    balance: selectedJar.balance,
+                    isOpen: selectedJar.status == JarStatus.active,
                   );
 
-                  getIt.get<JarsStore>().closeJar(widget.jar.id);
+                  getIt.get<JarsStore>().closeJar(selectedJar.id);
                   getIt<AppRouter>().push(
                     JarClosedConfirmationRouter(
-                      name: widget.jar.title,
+                      name: selectedJar.title,
                     ),
                   );
                 },
                 secondaryButtonName: intl.jar_cancel,
                 onSecondaryButtonTap: () {
                   sAnalytics.jarTapOnButtonCancelCloseOnJarClosePopUp(
-                    asset: widget.jar.assetSymbol,
+                    asset: selectedJar.assetSymbol,
                     network: 'TRC20',
-                    target: widget.jar.target.toInt(),
-                    balance: widget.jar.balance,
-                    isOpen: widget.jar.status == JarStatus.active,
+                    target: selectedJar.target.toInt(),
+                    balance: selectedJar.balance,
+                    isOpen: selectedJar.status == JarStatus.active,
                   );
                   Navigator.pop(context);
                 },
@@ -315,7 +334,7 @@ class _JarScreenState extends State<JarScreen> {
                       getIt<AppRouter>().push(
                         EnterJarNameRouter(
                           isCreatingNewJar: false,
-                          jar: widget.jar,
+                          jar: selectedJar,
                         ),
                       );
                     },
@@ -347,9 +366,9 @@ class _JarScreenState extends State<JarScreen> {
                       Navigator.pop(context);
                       getIt<AppRouter>().push(
                         EnterJarGoalRouter(
-                          name: widget.jar.title,
+                          name: selectedJar.title,
                           isCreatingNewJar: false,
-                          jar: widget.jar,
+                          jar: selectedJar,
                         ),
                       );
                     },
@@ -381,7 +400,7 @@ class _JarScreenState extends State<JarScreen> {
                       Navigator.pop(context);
                       getIt<AppRouter>().push(
                         EnterJarDescriptionRouter(
-                          jar: widget.jar,
+                          jar: selectedJar,
                         ),
                       );
                     },

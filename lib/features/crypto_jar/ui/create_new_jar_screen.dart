@@ -73,7 +73,7 @@ class _CreateNewJarScreenState extends State<CreateNewJarScreen> {
             ),
             Text(
               intl.jar_target_amount_hint('USDT', widget.goal),
-              style: STStyles.body2Medium.copyWith(
+              style: STStyles.body1Medium.copyWith(
                 color: SColorsLight().gray10,
               ),
             ),
@@ -131,9 +131,9 @@ class _CreateNewJarScreenState extends State<CreateNewJarScreen> {
 
                           if (result != null) {
                             getIt.get<JarsStore>().addNewJar(result);
+                            getIt.get<JarsStore>().selectedJar = result;
                             await getIt<AppRouter>().push(
                               JarRouter(
-                                jar: result,
                                 hasLeftIcon: false,
                               ),
                             );

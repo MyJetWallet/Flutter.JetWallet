@@ -96,32 +96,32 @@ class _EnterJarNameScreenState extends State<EnterJarNameScreen> {
                     text: widget.isCreatingNewJar ? intl.jar_next : intl.jar_confirm,
                     callback: (nameController.text.isNotEmpty && nameController.text.length <= jarNameLength)
                         ? () async {
-                            sAnalytics.jarTapOnButtonNextOnJarName();
-                            if (widget.isCreatingNewJar) {
-                              await getIt<AppRouter>().push(
-                                EnterJarGoalRouter(
-                                  name: nameController.text,
-                                ),
-                              );
-                            } else {
-                              final result = await getIt.get<JarsStore>().updateJar(
-                                    jarId: widget.jar!.id,
-                                    title: nameController.text,
-                                    target: widget.jar!.target.toInt(),
-                                    description: widget.jar!.description,
-                                    imageUrl: widget.jar!.imageUrl,
-                                  );
+                      sAnalytics.jarTapOnButtonNextOnJarName();
+                      if (widget.isCreatingNewJar) {
+                        await getIt<AppRouter>().push(
+                          EnterJarGoalRouter(
+                            name: nameController.text,
+                          ),
+                        );
+                      } else {
+                        final result = await getIt.get<JarsStore>().updateJar(
+                          jarId: widget.jar!.id,
+                          title: nameController.text,
+                          target: widget.jar!.target.toInt(),
+                          description: widget.jar!.description,
+                          imageUrl: widget.jar!.imageUrl,
+                        );
 
-                              if (result != null) {
-                                await getIt<AppRouter>().push(
-                                  JarRouter(
-                                    hasLeftIcon: false,
-                                    jar: result,
-                                  ),
-                                );
-                              }
-                            }
-                          }
+                        if (result != null) {
+                          getIt.get<JarsStore>().selectedJar = result;
+                          await getIt<AppRouter>().push(
+                            JarRouter(
+                              hasLeftIcon: false,
+                            ),
+                          );
+                        }
+                      }
+                    }
                         : null,
                   ),
                 ),

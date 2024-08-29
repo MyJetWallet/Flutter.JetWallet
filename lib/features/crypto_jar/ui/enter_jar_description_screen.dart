@@ -121,11 +121,11 @@ class _EnterJarDescriptionScreenState extends State<EnterJarDescriptionScreen> {
                                 );
 
                             if (result != null) {
+                              getIt.get<JarsStore>().selectedJar = result;
                               if (widget.isOnlyEdit) {
                                 await getIt<AppRouter>().push(
                                   JarRouter(
                                     hasLeftIcon: false,
-                                    jar: result,
                                   ),
                                 );
                               } else {

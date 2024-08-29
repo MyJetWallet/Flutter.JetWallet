@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:simple_kit/simple_kit.dart' as sk;
 import 'package:simple_kit_updated/simple_kit_updated.dart';
@@ -48,7 +49,7 @@ class _JarClosedConfirmationScreenState extends State<JarClosedConfirmationScree
               height: 26,
             ),
             Text(
-              'You closed the jar titled "${widget.name}"',
+              intl.jar_closed_title('"${widget.name}"'),
               softWrap: true,
               textAlign: TextAlign.center,
               overflow: TextOverflow.visible,
@@ -60,14 +61,14 @@ class _JarClosedConfirmationScreenState extends State<JarClosedConfirmationScree
               height: 8.0,
             ),
             Text(
-              'The jar will no longer be refilled',
+              intl.jar_closed_hint,
               style: STStyles.body2Medium.copyWith(
                 color: SColorsLight().gray10,
               ),
             ),
             const Spacer(),
             SButton.black(
-              text: 'Done',
+              text: intl.jar_done,
               callback: () {
                 getIt<AppRouter>().popUntil(
                   (route) {
