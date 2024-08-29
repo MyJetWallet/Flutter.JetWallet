@@ -1237,13 +1237,21 @@ abstract class _WithdrawalStoreBase with Store {
             ' ${withdrawalInputModel!.currency!.symbol}'
             ' ${intl.withdrawal_successPlaced}',
         onSuccess: (context) {
-          sRouter.replaceAll([
-            const HomeRouter(
-              children: [
-                MyWalletsRouter(),
+          if (withdrawalType == WithdrawalType.jar) {
+            sRouter.replaceAll(
+              [
+                JarRouter(hasLeftIcon: true),
               ],
-            ),
-          ]);
+            );
+          } else {
+            sRouter.replaceAll([
+              const HomeRouter(
+                children: [
+                  MyWalletsRouter(),
+                ],
+              ),
+            ]);
+          }
         },
       ),
     )

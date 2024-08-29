@@ -149,10 +149,37 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
           if (listToShow.isEmpty) {
             body = SliverToBoxAdapter(
               child: (widget.fromCJAccount || widget.jarId != null)
-                  ? SPlaceholder(
-                      size: SPlaceholderSize.l,
-                      text: intl.wallet_simple_account_empty,
-                    )
+                  ? widget.jarId == null
+                      ? SPlaceholder(
+                          size: SPlaceholderSize.l,
+                          text: intl.wallet_simple_account_empty,
+                        )
+                      : Column(
+                children: [
+                  Container(
+                    height: 32.0,
+                    width: double.infinity,
+                    margin: const EdgeInsets.only(
+                      left: 24.0,
+                      right: 24.0,
+                      bottom: 24.0,
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12.0,
+                      vertical: 6.0,
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: SColorsLight().gray2,
+                    ),
+                    child: _buildWithdrawnTotally(listToShow),
+                  ),
+                  SPlaceholder(
+                    size: SPlaceholderSize.l,
+                    text: intl.wallet_simple_account_empty,
+                  ),
+                ],
+              )
                   : SizedBox(
                       height: widget.symbol != null
                           ? screenHeight - screenHeight * 0.369 - 227

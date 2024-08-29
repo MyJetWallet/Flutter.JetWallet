@@ -101,10 +101,13 @@ class JarListItemWidget extends HookWidget {
                         borderRadius: BorderRadius.circular(12.0),
                         color: SColorsLight().gray2,
                       ),
-                      child: Text(
-                        intl.jar_closed,
-                        style: STStyles.captionBold.copyWith(
-                          color: SColorsLight().gray8,
+                      child: Center(
+                        child: Text(
+                          intl.jar_closed,
+                          textAlign: TextAlign.center,
+                          style: STStyles.captionBold.copyWith(
+                            color: SColorsLight().gray8,
+                          ),
                         ),
                       ),
                     ),
@@ -141,13 +144,14 @@ class JarListItemWidget extends HookWidget {
           children: [
             Text(
               getIt<AppStore>().isBalanceHide
-                  ? '******* ${jar.assetSymbol}' : '${Decimal.parse(jar.balance.toString()).toFormatCount(
-                accuracy: 2,
-                symbol: jar.assetSymbol,
-              )} / ${Decimal.parse(jar.target.toString()).toFormatCount(
-                accuracy: 0,
-                symbol: jar.assetSymbol,
-              )}',
+                  ? '******* ${jar.assetSymbol}'
+                  : '${Decimal.parse(jar.balance.toString()).toFormatCount(
+                      accuracy: 2,
+                      symbol: jar.assetSymbol,
+                    )} / ${Decimal.parse(jar.target.toString()).toFormatCount(
+                      accuracy: 0,
+                      symbol: jar.assetSymbol,
+                    )}',
               style: STStyles.body2Medium.copyWith(
                 color: SColorsLight().gray10,
               ),

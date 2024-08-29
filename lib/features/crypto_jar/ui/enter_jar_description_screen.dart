@@ -45,7 +45,12 @@ class _EnterJarDescriptionScreenState extends State<EnterJarDescriptionScreen> {
   Widget build(BuildContext context) {
     final colors = sk.sKit.colors;
 
+    final mediaQuery = MediaQuery.of(context);
+    final screenHeight = mediaQuery.size.height - mediaQuery.padding.top - mediaQuery.padding.bottom - 26;
+    final keyboardHeight = mediaQuery.viewInsets.bottom;
+
     return sk.SPageFrame(
+      resizeToAvoidBottomInset: false,
       loaderText: '',
       color: colors.white,
       header: GlobalBasicAppBar(
@@ -54,9 +59,7 @@ class _EnterJarDescriptionScreenState extends State<EnterJarDescriptionScreen> {
         rightIcon: SafeGesture(
           onTap: () {
             getIt<AppRouter>().push(
-              JarShareRouter(
-                jar: widget.jar,
-              ),
+              const JarShareRouter(),
             );
           },
           child: Text(
@@ -67,83 +70,91 @@ class _EnterJarDescriptionScreenState extends State<EnterJarDescriptionScreen> {
           ),
         ),
       ),
-      child: Column(
-        children: [
-          Assets.images.jar.jarEmpty.simpleImg(
-            height: 160.0,
-            width: 160.0,
+      child: SingleChildScrollView(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            minHeight: screenHeight,
           ),
-          const SizedBox(
-            height: 12.0,
-          ),
-          Text(
-            intl.jar_description_title,
-            style: STStyles.header6.copyWith(
-              color: SColorsLight().black,
-            ),
-          ),
-          const Spacer(),
-          SInput(
-            label: intl.jar_description,
-            controller: _descriptionController,
-            hasCloseIcon: true,
-            autofocus: true,
-            textCapitalization: TextCapitalization.sentences,
-            onCloseIconTap: () {
-              _descriptionController.clear();
-            },
-            inputFormatters: [
-              LengthLimitingTextInputFormatter(jarDescriptionLength),
-            ],
-          ),
-          Container(
-            height: 26.0 + 24.0 + 56.0,
-            width: double.infinity,
-            color: SColorsLight().gray2,
+          child: IntrinsicHeight(
             child: Column(
               children: [
-                const SizedBox(height: 26.0),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                  child: SButton.black(
-                    text: widget.isOnlyEdit ? intl.jar_confirm : intl.jar_next,
-                    callback: _descriptionController.text != widget.jar.description &&
-                            _descriptionController.text.length <= jarDescriptionLength
-                        ? () async {
-                            sAnalytics.jarTapOnButtonNextOnJarDescription();
+                Assets.images.jar.jarEmpty.simpleImg(
+                  height: 160.0,
+                  width: 160.0,
+                ),
+                const SizedBox(
+                  height: 12.0,
+                ),
+                Text(
+                  intl.jar_description_title,
+                  style: STStyles.header6.copyWith(
+                    color: SColorsLight().black,
+                  ),
+                ),
+                const Spacer(),
+                SInput(
+                  label: intl.jar_description,
+                  controller: _descriptionController,
+                  hasCloseIcon: true,
+                  autofocus: true,
+                  textCapitalization: TextCapitalization.sentences,
+                  onCloseIconTap: () {
+                    _descriptionController.clear();
+                  },
+                  inputFormatters: [
+                    LengthLimitingTextInputFormatter(jarDescriptionLength),
+                  ],
+                ),
+                Container(
+                  height: 26.0 + 24.0 + 56.0 + keyboardHeight,
+                  width: double.infinity,
+                  color: SColorsLight().gray2,
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 26.0),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                        child: SButton.black(
+                          text: widget.isOnlyEdit ? intl.jar_confirm : intl.jar_next,
+                          callback: _descriptionController.text.trim() != widget.jar.description &&
+                                  _descriptionController.text.trim().isNotEmpty &&
+                                  _descriptionController.text.length <= jarDescriptionLength
+                              ? () async {
+                                  sAnalytics.jarTapOnButtonNextOnJarDescription();
 
-                            final result = await getIt.get<JarsStore>().updateJar(
-                                  jarId: widget.jar.id,
-                                  title: widget.jar.title,
-                                  target: widget.jar.target.toInt(),
-                                  description: _descriptionController.text,
-                                  imageUrl: widget.jar.imageUrl,
-                                );
+                                  final result = await getIt.get<JarsStore>().updateJar(
+                                        jarId: widget.jar.id,
+                                        title: widget.jar.title,
+                                        target: widget.jar.target.toInt(),
+                                        description: _descriptionController.text.trim(),
+                                        imageUrl: widget.jar.imageUrl,
+                                      );
 
-                            if (result != null) {
-                              getIt.get<JarsStore>().selectedJar = result;
-                              if (widget.isOnlyEdit) {
-                                await getIt<AppRouter>().push(
-                                  JarRouter(
-                                    hasLeftIcon: false,
-                                  ),
-                                );
-                              } else {
-                                await getIt<AppRouter>().push(
-                                  JarShareRouter(
-                                    jar: result,
-                                  ),
-                                );
-                              }
-                            }
-                          }
-                        : null,
+                                  if (result != null) {
+                                    getIt.get<JarsStore>().selectedJar = result;
+                                    if (widget.isOnlyEdit) {
+                                      await getIt<AppRouter>().push(
+                                        JarRouter(
+                                          hasLeftIcon: false,
+                                        ),
+                                      );
+                                    } else {
+                                      await getIt<AppRouter>().push(
+                                        const JarShareRouter(),
+                                      );
+                                    }
+                                  }
+                                }
+                              : null,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }

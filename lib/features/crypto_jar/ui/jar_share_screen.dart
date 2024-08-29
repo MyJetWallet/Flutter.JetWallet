@@ -6,6 +6,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/crypto_jar/store/jars_store.dart';
 import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
@@ -16,33 +17,37 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart' as sk;
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
-import 'package:simple_networking/modules/wallet_api/models/jar/jar_response_model.dart';
 
 @RoutePage(name: 'JarShareRouter')
 class JarShareScreen extends StatefulWidget {
   const JarShareScreen({
-    required this.jar,
     super.key,
   });
-
-  final JarResponseModel jar;
 
   @override
   State<JarShareScreen> createState() => _JarShareScreenState();
 }
 
 class _JarShareScreenState extends State<JarShareScreen> {
-  String selectedLanguage = 'UA';
+  String selectedLanguage = 'GB';
 
   @override
   void initState() {
     super.initState();
 
     sAnalytics.jarScreenViewShareJar();
+
+    if (getIt.get<AppStore>().locale!.languageCode == 'uk') {
+      setState(() {
+        selectedLanguage = 'UA';
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final selectedJar = getIt.get<JarsStore>().selectedJar!;
+
     final colors = sk.sKit.colors;
 
     return sk.SPageFrame(
@@ -50,7 +55,7 @@ class _JarShareScreenState extends State<JarShareScreen> {
       color: colors.white,
       header: GlobalBasicAppBar(
         title: intl.jar_share_jar,
-        subtitle: widget.jar.title,
+        subtitle: selectedJar.title,
         hasRightIcon: false,
         onLeftIconTap: () {
           getIt<AppRouter>().popUntil((route) {
@@ -60,67 +65,75 @@ class _JarShareScreenState extends State<JarShareScreen> {
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: Column(
-          children: [
-            const Spacer(),
-            QrImageView(
-              data: widget.jar.addresses.first.address,
-              size: 200.0,
-              padding: EdgeInsets.zero,
-              errorCorrectionLevel: QrErrorCorrectLevel.H,
-              embeddedImage: AssetImage(
-                Assets.svg.assets.crypto.tether.path,
-                package: 'simple_kit_updated',
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 24.0,
               ),
-              embeddedImageStyle: const QrEmbeddedImageStyle(
-                size: Size(32, 32),
+              QrImageView(
+                data: selectedJar.addresses.first.address,
+                size: 200.0,
+                padding: EdgeInsets.zero,
+                errorCorrectionLevel: QrErrorCorrectLevel.H,
+                embeddedImage: AssetImage(
+                  Assets.svg.assets.crypto.tether.path,
+                  package: 'simple_kit_updated',
+                ),
+                embeddedImageStyle: const QrEmbeddedImageStyle(
+                  size: Size(32, 32),
+                ),
               ),
-            ),
-            const Spacer(),
-            _buildShareItem(
-              intl.jar_language,
-              '',
-              true,
-              false,
-            ),
-            _buildShareItem(
-              intl.jar_remained_amount,
-              Decimal.parse(widget.jar.target.toString()).toFormatCount(
-                accuracy: 0,
-                symbol: widget.jar.addresses.first.assetSymbol,
+              const SizedBox(
+                height: 24.0,
               ),
-              false,
-              false,
-            ),
-            _buildShareItem(
-              intl.jar_address,
-              widget.jar.addresses.first.address,
-              false,
-              true,
-              true,
-            ),
-            _buildShareItem(
-              intl.jar_network,
-              'TRC20',
-              false,
-              true,
-            ),
-            SButton.black(
-              text: intl.jar_share,
-              callback: () async {
-                sAnalytics.jarTapOnButtonShareJarOnShareJar(language: selectedLanguage == 'GB' ? 'English' : 'Ukraine');
+              _buildShareItem(
+                intl.jar_language,
+                '',
+                true,
+                false,
+              ),
+              _buildShareItem(
+                intl.jar_remained_amount,
+                Decimal.parse(selectedJar.target.toString()).toFormatCount(
+                  accuracy: 0,
+                  symbol: selectedJar.addresses.first.assetSymbol,
+                ),
+                false,
+                true,
+              ),
+              _buildShareItem(
+                intl.jar_address,
+                selectedJar.addresses.first.address,
+                false,
+                true,
+                true,
+              ),
+              _buildShareItem(
+                intl.jar_network,
+                'TRC20',
+                false,
+                true,
+              ),
+              SButton.black(
+                text: intl.jar_share,
+                callback: () async {
+                  sAnalytics.jarTapOnButtonShareJarOnShareJar(
+                    language: selectedLanguage == 'GB' ? 'English' : 'Ukraine',
+                  );
 
-                final result = await getIt
-                    .get<JarsStore>()
-                    .shareJar(jarId: widget.jar.id, lang: selectedLanguage == 'GB' ? 'en' : 'ua');
+                  final result = await getIt
+                      .get<JarsStore>()
+                      .shareJar(jarId: selectedJar.id, lang: selectedLanguage == 'GB' ? 'en' : 'ua');
 
-                await Share.share(result ?? '');
-              },
-            ),
-            const SizedBox(
-              height: 50.0,
-            ),
-          ],
+                  await Share.share(result ?? '');
+                },
+              ),
+              const SizedBox(
+                height: 50.0,
+              ),
+            ],
+          ),
         ),
       ),
     );

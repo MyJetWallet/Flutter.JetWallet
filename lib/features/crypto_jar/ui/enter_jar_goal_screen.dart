@@ -67,131 +67,145 @@ class _EnterJarGoalScreenState extends State<EnterJarGoalScreen> {
   Widget build(BuildContext context) {
     final colors = sk.sKit.colors;
 
+    final mediaQuery = MediaQuery.of(context);
+    final screenHeight = mediaQuery.size.height - mediaQuery.padding.top - mediaQuery.padding.bottom - 26;
+    final keyboardHeight = mediaQuery.viewInsets.bottom;
+
     return sk.SPageFrame(
+      resizeToAvoidBottomInset: false,
       loaderText: '',
       color: colors.white,
       header: const GlobalBasicAppBar(
         title: '',
         hasRightIcon: false,
       ),
-      child: Column(
-        children: [
-          Assets.images.jar.jarEmpty.simpleImg(
-            height: 160.0,
-            width: 160.0,
+      child: SingleChildScrollView(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            minHeight: screenHeight,
           ),
-          const SizedBox(
-            height: 12,
-          ),
-          Text(
-            intl.jar_input_jar_goal,
-            style: STStyles.header6.copyWith(
-              color: SColorsLight().black,
-            ),
-          ),
-          const Spacer(),
-          Stack(
-            children: [
-              SInput(
-                label: intl.jar_purpose,
-                controller: _goalController,
-                hasCloseIcon: true,
-                autofocus: true,
-                inputFormatters: [
-                  LengthLimitingTextInputFormatter(6),
-                  FilteringTextInputFormatter.allow(
-                    RegExp('[0-9]'),
-                  ),
-                  TextInputFormatter.withFunction(
-                    (oldValue, newValue) {
-                      if (newValue.text.isEmpty) {
-                        return newValue;
-                      }
-
-                      final newText = newValue.text.replaceAll(' ', '');
-                      var formatted = intl_l.NumberFormat('#,###', 'en_US').format(int.parse(newText));
-                      formatted = formatted.replaceAll(',', ' ');
-                      return TextEditingValue(
-                        text: formatted,
-                        selection: TextSelection.collapsed(offset: formatted.length),
-                      );
-                    },
-                  ),
-                ],
-                keyboardType: TextInputType.number,
-                onCloseIconTap: () {
-                  _goalController.clear();
-                },
-              ),
-              Positioned(
-                top: 34.0,
-                left: 24.0 + _textWidth,
-                child: Text(
-                  'USDT',
-                  style: STStyles.subtitle1.copyWith(
-                    color: SColorsLight().gray8,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          Container(
-            height: 26.0 + 24.0 + 56.0,
-            width: double.infinity,
-            color: SColorsLight().gray2,
+          child: IntrinsicHeight(
             child: Column(
               children: [
-                const SizedBox(height: 26.0),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                  child: SButton.black(
-                    text: widget.isCreatingNewJar ? intl.jar_next : intl.jar_confirm,
-                    callback: _goalController.text.isNotEmpty &&
-                            (int.tryParse(_goalController.text.replaceAll(' ', '')) ?? 0) <= jarMaxGoal &&
-                            (int.tryParse(_goalController.text.replaceAll(' ', '')) ?? 0) >= 1
-                        ? () async {
-                            final goal = int.parse(_goalController.text.replaceAll(' ', ''));
-
-                            sAnalytics.jarTapOnButtonNextOnJarPurpose(
-                              asset: 'USDT',
-                              network: 'TRC20',
-                              target: goal,
-                            );
-
-                            if (widget.isCreatingNewJar) {
-                              await getIt<AppRouter>().push(
-                                CreateNewJarRouter(
-                                  name: widget.name,
-                                  goal: goal,
-                                ),
-                              );
-                            } else {
-                              final result = await getIt.get<JarsStore>().updateJar(
-                                    jarId: widget.jar!.id,
-                                    title: widget.jar!.title,
-                                    target: goal,
-                                    description: widget.jar!.description,
-                                    imageUrl: widget.jar!.imageUrl,
-                                  );
-
-                              if (result != null) {
-                                getIt.get<JarsStore>().selectedJar = result;
-                                await getIt<AppRouter>().push(
-                                  JarRouter(
-                                    hasLeftIcon: false,
-                                  ),
-                                );
-                              }
-                            }
-                          }
-                        : null,
+                Assets.images.jar.jarEmpty.simpleImg(
+                  height: 160.0,
+                  width: 160.0,
+                ),
+                const SizedBox(
+                  height: 12,
+                ),
+                Text(
+                  intl.jar_input_jar_goal,
+                  style: STStyles.header6.copyWith(
+                    color: SColorsLight().black,
                   ),
                 ),
                 const Spacer(),
+                Stack(
+                  children: [
+                    SInput(
+                      label: intl.jar_purpose,
+                      controller: _goalController,
+                      hasCloseIcon: true,
+                      autofocus: true,
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(6),
+                        FilteringTextInputFormatter.allow(
+                          RegExp('[0-9]'),
+                        ),
+                        TextInputFormatter.withFunction(
+                          (oldValue, newValue) {
+                            if (newValue.text.isEmpty) {
+                              return newValue;
+                            }
+
+                            final newText = newValue.text.replaceAll(' ', '');
+                            var formatted = intl_l.NumberFormat('#,###', 'en_US').format(int.parse(newText));
+                            formatted = formatted.replaceAll(',', ' ');
+                            return TextEditingValue(
+                              text: formatted,
+                              selection: TextSelection.collapsed(offset: formatted.length),
+                            );
+                          },
+                        ),
+                      ],
+                      keyboardType: TextInputType.number,
+                      onCloseIconTap: () {
+                        _goalController.clear();
+                      },
+                    ),
+                    Positioned(
+                      top: 34.0,
+                      left: 24.0 + _textWidth,
+                      child: Text(
+                        'USDT',
+                        style: STStyles.subtitle1.copyWith(
+                          color: SColorsLight().gray8,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Container(
+                  height: 26.0 + 24.0 + 56.0 + keyboardHeight,
+                  width: double.infinity,
+                  color: SColorsLight().gray2,
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 26.0),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                        child: SButton.black(
+                          text: widget.isCreatingNewJar ? intl.jar_next : intl.jar_confirm,
+                          callback: _goalController.text.isNotEmpty &&
+                                  (int.tryParse(_goalController.text.replaceAll(' ', '')) ?? 0) <= jarMaxGoal &&
+                                  (int.tryParse(_goalController.text.replaceAll(' ', '')) ?? 0) >= 1
+                              ? () async {
+                                  final goal = int.parse(_goalController.text.replaceAll(' ', ''));
+
+                                  sAnalytics.jarTapOnButtonNextOnJarPurpose(
+                                    asset: 'USDT',
+                                    network: 'TRC20',
+                                    target: goal,
+                                  );
+
+                                  if (widget.isCreatingNewJar) {
+                                    await getIt<AppRouter>().push(
+                                      CreateNewJarRouter(
+                                        name: widget.name,
+                                        goal: goal,
+                                      ),
+                                    );
+                                  } else {
+                                    final result = await getIt.get<JarsStore>().updateJar(
+                                          jarId: widget.jar!.id,
+                                          title: widget.jar!.title,
+                                          target: goal,
+                                          description: widget.jar!.description,
+                                          imageUrl: widget.jar!.imageUrl,
+                                        );
+
+                                    if (result != null) {
+                                      getIt.get<JarsStore>().selectedJar = result;
+                                      await getIt<AppRouter>().push(
+                                        JarRouter(
+                                          hasLeftIcon: false,
+                                        ),
+                                      );
+                                    }
+                                  }
+                                }
+                              : null,
+                        ),
+                      ),
+                      const Spacer(),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }

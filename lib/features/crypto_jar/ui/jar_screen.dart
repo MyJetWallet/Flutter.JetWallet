@@ -209,9 +209,7 @@ class _JarScreenState extends State<JarScreen> {
 
               if (selectedJar.description.isNotEmpty) {
                 getIt<AppRouter>().push(
-                  JarShareRouter(
-                    jar: selectedJar,
-                  ),
+                  const JarShareRouter(),
                 );
               } else {
                 getIt<AppRouter>().push(
