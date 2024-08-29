@@ -14,8 +14,8 @@ import 'package:jetwallet/features/wallet/helper/format_date_to_hm.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:jetwallet/widgets/currency_icon_widget.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
-import 'package:simple_kit/modules/shared/simple_network_svg.dart';
 import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
@@ -42,10 +42,8 @@ class ActiveEarnWidget extends StatelessObserverWidget {
         const SizedBox(height: 16),
         Row(
           children: [
-            SNetworkSvg(
-              url: currency.iconUrl,
-              width: 24,
-              height: 24,
+            NetworkIconWidget(
+              currency.iconUrl,
             ),
             const SizedBox(width: 4),
             Text(

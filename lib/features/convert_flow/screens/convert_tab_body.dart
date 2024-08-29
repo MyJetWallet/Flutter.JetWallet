@@ -13,6 +13,7 @@ import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:jetwallet/widgets/currency_icon_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/icons/24x24/public/crypto/simple_crypto_icon.dart';
@@ -139,8 +140,8 @@ class ConvertAmountScreenBodyState extends State<ConvertAmountTabBody> with Auto
                                   trailing: getIt<AppStore>().isBalanceHide
                                       ? '**** ${store.fromAsset?.symbol}'
                                       : store.fromAsset?.volumeAssetBalance,
-                                  icon: SNetworkSvg24(
-                                    url: store.fromAsset?.iconUrl ?? '',
+                                  icon: NetworkIconWidget(
+                                    store.fromAsset?.iconUrl ?? '',
                                   ),
                                   onTap: () {
                                     sAnalytics.tapOnTheConvertFromButton(
@@ -202,8 +203,8 @@ class ConvertAmountScreenBodyState extends State<ConvertAmountTabBody> with Auto
                                   trailing: getIt<AppStore>().isBalanceHide
                                       ? '**** ${store.toAsset?.symbol}'
                                       : store.toAsset?.volumeAssetBalance,
-                                  icon: SNetworkSvg24(
-                                    url: store.toAsset?.iconUrl ?? '',
+                                  icon: NetworkIconWidget(
+                                    store.toAsset?.iconUrl ?? '',
                                   ),
                                   onTap: () {
                                     sAnalytics.tapOnTheConvertToButton(

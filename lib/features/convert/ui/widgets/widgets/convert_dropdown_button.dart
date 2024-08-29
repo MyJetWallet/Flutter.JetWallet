@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:jetwallet/widgets/currency_icon_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 class ConvertDropdownButton extends StatelessWidget {
@@ -18,8 +19,8 @@ class ConvertDropdownButton extends StatelessWidget {
       onTap: onTap,
       child: Row(
         children: [
-          SNetworkSvg24(
-            url: currency.iconUrl,
+          NetworkIconWidget(
+            currency.iconUrl,
           ),
           const SpaceW10(),
           ConstrainedBox(

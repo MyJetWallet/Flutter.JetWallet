@@ -276,6 +276,6 @@ class CountryModel {
   String currCode = '';
 
   String flagAssetName() {
-    return 'assets/flags/${isoCode.toLowerCase()}.svg';
+    return 'assets/flags/${isoCode.toLowerCase()}.webp';
   }
 }

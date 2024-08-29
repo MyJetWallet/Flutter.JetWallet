@@ -45,7 +45,7 @@ class _OffersOverlayContentState extends State<OffersOverlayContent> {
     return Column(
       children: [
         const SizedBox(height: 32),
-        CurrencyIconWidget(
+        NetworkIconWidget(
           widget.currency.iconUrl,
           width: 80,
           height: 80,

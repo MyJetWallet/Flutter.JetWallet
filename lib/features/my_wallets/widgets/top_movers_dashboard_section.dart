@@ -13,6 +13,7 @@ import 'package:jetwallet/features/earn/widgets/basic_header.dart';
 import 'package:jetwallet/features/home/store/bottom_bar_store.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
+import 'package:jetwallet/widgets/currency_icon_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
@@ -108,10 +109,10 @@ class _AssetItem extends HookWidget {
           padding: const EdgeInsets.symmetric(vertical: 16),
           child: Column(
             children: [
-              SNetworkSvg(
+              NetworkIconWidget(
+                asset.iconUrl,
                 width: 48,
                 height: 48,
-                url: asset.iconUrl,
               ),
               const SizedBox(height: 11),
               Text(

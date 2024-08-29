@@ -1,5 +1,5 @@
 String flagAssetName(String isoCode) {
-  return 'assets/flags/${isoCode.toLowerCase()}.svg';
+  return 'assets/flags/${isoCode.toLowerCase()}.webp';
 }
 
 bool countryFlagExist(String isoCode) {

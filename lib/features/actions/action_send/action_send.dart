@@ -20,6 +20,7 @@ import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
 import 'package:jetwallet/utils/helpers/flag_asset_name.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
+import 'package:jetwallet/widgets/currency_icon_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
@@ -364,8 +365,8 @@ class _ActionSend extends StatelessObserverWidget {
           if (currency.isAssetBalanceNotEmpty)
             if (currency.supportsCryptoWithdrawal)
               SimpleTableAccount(
-                assetIcon: SNetworkSvg24(
-                  url: currency.iconUrl,
+                assetIcon: NetworkIconWidget(
+                  currency.iconUrl,
                 ),
                 label: currency.description,
                 rightValue: getIt<AppStore>().isBalanceHide
@@ -587,8 +588,8 @@ class _GlobalSendSelectCurrency extends StatelessObserverWidget {
                 if (currency.type == AssetType.crypto)
                   if (currency.supportsGlobalSend && currency.isAssetBalanceNotEmpty)
                     SimpleTableAccount(
-                      assetIcon: SNetworkSvg24(
-                        url: currency.iconUrl,
+                      assetIcon: NetworkIconWidget(
+                        currency.iconUrl,
                       ),
                       label: currency.description,
                       supplement: currency.symbol,
@@ -607,8 +608,8 @@ class _GlobalSendSelectCurrency extends StatelessObserverWidget {
                 if (currency.type == AssetType.fiat)
                   if (currency.supportsGlobalSend && currency.isAssetBalanceNotEmpty)
                     SimpleTableAccount(
-                      assetIcon: SNetworkSvg24(
-                        url: currency.iconUrl,
+                      assetIcon: NetworkIconWidget(
+                        currency.iconUrl,
                       ),
                       label: currency.description,
                       supplement: currency.symbol,

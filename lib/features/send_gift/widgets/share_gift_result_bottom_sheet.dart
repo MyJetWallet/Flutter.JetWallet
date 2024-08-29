@@ -10,6 +10,7 @@ import 'package:jetwallet/core/services/device_size/models/device_size_union.dar
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:jetwallet/widgets/currency_icon_widget.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -121,8 +122,8 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
                         padding: const EdgeInsets.all(24),
                         child: Row(
                           children: [
-                            SNetworkSvg24(
-                              url: currency.iconUrl,
+                            NetworkIconWidget(
+                              currency.iconUrl,
                             ),
                             const SpaceW4(),
                             Text(
@@ -182,8 +183,8 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
                           padding: const EdgeInsets.all(24),
                           child: Row(
                             children: [
-                              SNetworkSvg24(
-                                url: currency.iconUrl,
+                              NetworkIconWidget(
+                                currency.iconUrl,
                               ),
                               const SpaceW4(),
                               Text(

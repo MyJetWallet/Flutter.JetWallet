@@ -9,6 +9,7 @@ import 'package:jetwallet/features/earn/widgets/basic_header.dart';
 import 'package:jetwallet/features/earn/widgets/earn_offer_item.dart';
 import 'package:jetwallet/features/earn/widgets/offers_overlay_content.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:jetwallet/widgets/currency_icon_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
@@ -64,8 +65,8 @@ class OffersListWidget extends StatelessWidget {
                   highestApyOffers[currencyDescription]?.apyRate,
                 ),
                 cryptoName: currency.description,
-                trailingIcon: SNetworkSvg(
-                  url: currency.iconUrl,
+                trailingIcon: NetworkIconWidget(
+                  currency.iconUrl,
                   width: 40,
                   height: 40,
                 ),

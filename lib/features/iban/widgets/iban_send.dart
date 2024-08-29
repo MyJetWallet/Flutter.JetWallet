@@ -9,6 +9,7 @@ import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/compon
 import 'package:jetwallet/features/wallet/helper/navigate_to_wallet.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/currency_from.dart';
+import 'package:jetwallet/widgets/currency_icon_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
@@ -61,10 +62,10 @@ class IbanSend extends StatelessObserverWidget {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        SNetworkSvg24(
-                          url: eurCurrency.iconUrl.isNotEmpty
+                        NetworkIconWidget(
+                          eurCurrency.iconUrl.isNotEmpty
                               ? eurCurrency.iconUrl
-                              : 'https://wallet-api.simple-spot.biz/icons/eur.svg',
+                              : 'https://wallet-api.simple-spot.biz/icons/eur.webp',
                         ),
                         const SizedBox(width: 10),
                         Text(

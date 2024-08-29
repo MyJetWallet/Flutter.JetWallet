@@ -95,7 +95,7 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
         children: [
           CollapsedWalletAppbar(
             scrollController: _scrollController,
-            assetIcon: CurrencyIconWidget(
+            assetIcon: NetworkIconWidget(
               widget.currency.iconUrl,
             ),
             ticker: widget.currency.symbol,

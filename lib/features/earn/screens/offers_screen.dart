@@ -7,12 +7,12 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/earn/store/earn_store.dart';
 import 'package:jetwallet/features/earn/widgets/earn_offer_item.dart';
 import 'package:jetwallet/features/earn/widgets/offers_overlay_content.dart';
+import 'package:jetwallet/widgets/currency_icon_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/core/simple_kit.dart';
 import 'package:simple_kit/modules/bottom_sheets/components/basic_bottom_sheet/show_basic_modal_bottom_sheet.dart';
 import 'package:simple_kit/modules/shared/page_frames/simple_page_frame.dart';
-import 'package:simple_kit/modules/shared/simple_network_svg.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'OffersRouter')
@@ -60,8 +60,8 @@ class _OffersScreenState extends State<OffersScreen> {
                       isSingleOffer: offers.length == 1,
                       percentage: formatApyRate(offers.first.apyRate),
                       cryptoName: currency.description,
-                      trailingIcon: SNetworkSvg(
-                        url: currency.iconUrl,
+                      trailingIcon: NetworkIconWidget(
+                        currency.iconUrl,
                         width: 40,
                         height: 40,
                       ),

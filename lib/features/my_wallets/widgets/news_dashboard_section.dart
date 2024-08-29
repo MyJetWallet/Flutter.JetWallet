@@ -16,7 +16,7 @@ import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:jetwallet/widgets/currency_icon_widget.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_kit_updated/widgets/shared/simple_skeleton_loader.dart';
 import 'package:simple_networking/modules/wallet_api/models/market_news/market_news_response_model.dart';
@@ -230,10 +230,10 @@ class _AssociatedAssetsRow extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
-                          child: SNetworkSvg(
+                          child: NetworkIconWidget(
+                            assets.reversed.toList()[i].iconUrl,
                             width: 20,
                             height: 20,
-                            url: assets.reversed.toList()[i].iconUrl,
                           ),
                         ),
                       ),

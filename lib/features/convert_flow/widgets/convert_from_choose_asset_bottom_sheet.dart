@@ -5,6 +5,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
+import 'package:jetwallet/widgets/currency_icon_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
@@ -97,8 +98,8 @@ class _ChooseAssetBody extends StatelessObserverWidget {
 
                 return SimpleTableAsset(
                   key: UniqueKey(),
-                  assetIcon: SNetworkSvg24(
-                    url: currency.iconUrl,
+                  assetIcon: NetworkIconWidget(
+                    currency.iconUrl,
                   ),
                   label: currency.description,
                   rightValue: getIt<AppStore>().isBalanceHide

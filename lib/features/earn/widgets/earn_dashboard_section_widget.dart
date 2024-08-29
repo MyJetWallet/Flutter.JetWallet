@@ -20,6 +20,7 @@ import 'package:jetwallet/features/home/store/bottom_bar_store.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:jetwallet/widgets/currency_icon_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -115,8 +116,8 @@ class _EarnSectionEmptyState extends StatelessWidget {
                   store.highestApyOffersPerCurrency[currencyDescription]?.apyRate,
                 ),
                 cryptoName: currency.description,
-                trailingIcon: SNetworkSvg(
-                  url: currency.iconUrl,
+                trailingIcon: NetworkIconWidget(
+                  currency.iconUrl,
                   width: 40,
                   height: 40,
                 ),
@@ -313,8 +314,8 @@ class _ActiveEarnsParagraph extends StatelessWidget {
               (index) {
                 return Row(
                   children: [
-                    SNetworkSvg24(
-                      url: iconUrls.elementAt(index),
+                    NetworkIconWidget(
+                      iconUrls.elementAt(index),
                     ),
                     const SizedBox(width: 8),
                   ],

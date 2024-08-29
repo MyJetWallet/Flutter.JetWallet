@@ -4,6 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/features/actions/store/action_search_store.dart';
 import 'package:jetwallet/features/send_gift/model/send_gift_info_model.dart';
+import 'package:jetwallet/widgets/currency_icon_widget.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -34,7 +35,7 @@ class _GiftSelectAssetScreenState extends State<GiftSelectAssetScreen> {
     final storageService = getIt.get<LocalStorageService>();
     textController = TextEditingController();
     storageService.getValue(lastAssetSend).then(
-      (value) {
+          (value) {
         setState(() {
           lastCurrency = value;
         });
@@ -59,7 +60,7 @@ class _GiftSelectAssetScreenState extends State<GiftSelectAssetScreen> {
     final sortedAssets = isGiftSendActive
         .where(
           (element) => element.supportsGiftlSend && element.isAssetBalanceNotEmpty,
-        )
+    )
         .toList();
 
     sortedAssets.sort((a, b) {
@@ -75,9 +76,9 @@ class _GiftSelectAssetScreenState extends State<GiftSelectAssetScreen> {
     });
 
     getIt.get<ActionSearchStore>().initConvert(
-          sortedAssets,
-          sortedAssets,
-        );
+      sortedAssets,
+      sortedAssets,
+    );
     final searchStore = getIt.get<ActionSearchStore>();
 
     return SPageFrame(
@@ -115,8 +116,8 @@ class _GiftSelectAssetScreenState extends State<GiftSelectAssetScreen> {
                       children: [
                         for (final currency in searchStore.convertCurrenciesWithBalance)
                           SimpleTableAccount(
-                            assetIcon: SNetworkSvg24(
-                              url: currency.iconUrl,
+                            assetIcon: NetworkIconWidget(
+                              currency.iconUrl,
                             ),
                             label: currency.description,
                             rightValue: getIt<AppStore>().isBalanceHide

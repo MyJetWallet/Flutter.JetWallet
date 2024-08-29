@@ -16,6 +16,7 @@ import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/compon
 import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
+import 'package:jetwallet/widgets/currency_icon_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -269,8 +270,8 @@ class __MarketNestedScrollViewBodyState extends State<_MarketNestedScrollViewBod
                                 );
                               }
                             },
-                            icon: SNetworkSvg24(
-                              url: item.iconUrl,
+                            icon: NetworkIconWidget(
+                              item.iconUrl,
                             ),
                             name: item.name,
                             price: item.lastPrice.toFormatPrice(
@@ -324,8 +325,8 @@ class __MarketNestedScrollViewBodyState extends State<_MarketNestedScrollViewBod
                       item.associateAsset,
                     );
                   },
-                  icon: SNetworkSvg24(
-                    url: item.iconUrl,
+                  icon: NetworkIconWidget(
+                    item.iconUrl,
                   ),
                   name: item.name,
                   price: item.lastPrice.toFormatPrice(

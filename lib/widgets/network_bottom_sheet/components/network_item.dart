@@ -35,7 +35,7 @@ class NetworkItem extends StatelessWidget {
                   right: 20,
                   top: 10,
                 ),
-                child: CurrencyIconWidget(
+                child: NetworkIconWidget(
                   iconUrl,
                 ),
               ),

@@ -15,6 +15,7 @@ import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
+import 'package:jetwallet/widgets/currency_icon_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
@@ -138,8 +139,8 @@ class _EarnWithdrawalAmountBody extends StatelessWidget {
                           trailing: getIt<AppStore>().isBalanceHide
                               ? '**** ${store.currency.symbol}'
                               : store.currency.volumeAssetBalance,
-                          icon: SNetworkSvg24(
-                            url: store.currency.iconUrl,
+                          icon: NetworkIconWidget(
+                            store.currency.iconUrl,
                           ),
                           onTap: () {},
                           showArrow: false,
