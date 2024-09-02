@@ -13,7 +13,7 @@ import 'package:jetwallet/features/prepaid_card/utils/show_repaid_card_reditect_
 import 'package:jetwallet/features/transaction_history/widgets/loading_sliver_list.dart';
 import 'package:jetwallet/features/transaction_history/widgets/transaction_list_item.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
-import 'package:jetwallet/widgets/currency_icon_widget.dart';
+import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
 import 'package:rive/rive.dart';

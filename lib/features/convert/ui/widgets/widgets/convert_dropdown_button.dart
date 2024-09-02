@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:jetwallet/widgets/currency_icon_widget.dart';
+import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 class ConvertDropdownButton extends StatelessWidget {

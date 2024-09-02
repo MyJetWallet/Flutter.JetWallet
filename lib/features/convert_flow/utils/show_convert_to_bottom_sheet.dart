@@ -13,7 +13,7 @@ import 'package:jetwallet/utils/formatting/base/format_percent.dart';
 import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
-import 'package:jetwallet/widgets/currency_icon_widget.dart';
+import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 

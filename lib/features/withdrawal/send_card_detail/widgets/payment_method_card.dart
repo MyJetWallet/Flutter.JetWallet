@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 
@@ -71,8 +72,8 @@ class PaymentMethodCardWidget extends StatelessWidget {
             if (url.isNotEmpty) ...[
               SizedBox(
                 height: 40,
-                child: SNetworkCachedSvg(
-                  url: url,
+                child: NetworkIconWidget(
+                  url,
                   width: 40,
                   height: 40,
                   placeholder: MethodPlaceholder(

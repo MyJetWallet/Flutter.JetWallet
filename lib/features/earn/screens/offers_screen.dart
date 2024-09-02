@@ -7,7 +7,7 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/earn/store/earn_store.dart';
 import 'package:jetwallet/features/earn/widgets/earn_offer_item.dart';
 import 'package:jetwallet/features/earn/widgets/offers_overlay_content.dart';
-import 'package:jetwallet/widgets/currency_icon_widget.dart';
+import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/core/simple_kit.dart';

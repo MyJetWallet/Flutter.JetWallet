@@ -16,7 +16,7 @@ import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:jetwallet/widgets/currency_icon_widget.dart';
+import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_kit_updated/widgets/shared/simple_skeleton_loader.dart';
 import 'package:simple_networking/modules/wallet_api/models/market_news/market_news_response_model.dart';

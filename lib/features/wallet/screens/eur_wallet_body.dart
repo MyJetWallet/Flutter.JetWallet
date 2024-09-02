@@ -13,7 +13,7 @@ import 'package:jetwallet/features/simple_card/store/simple_card_store.dart';
 import 'package:jetwallet/utils/extension/string_extension.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
-import 'package:jetwallet/widgets/currency_icon_widget.dart';
+import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';

@@ -11,7 +11,7 @@ import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:jetwallet/widgets/currency_icon_widget.dart';
+import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';

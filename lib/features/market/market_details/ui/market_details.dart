@@ -25,7 +25,7 @@ import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/features/market/store/watchlist_store.dart';
 import 'package:jetwallet/features/my_wallets/widgets/news_dashboard_section.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
-import 'package:jetwallet/widgets/currency_icon_widget.dart';
+import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';

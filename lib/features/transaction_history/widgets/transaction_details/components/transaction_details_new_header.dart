@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jetwallet/widgets/currency_icon_widget.dart';
+import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_kit/core/simple_kit.dart';
 import 'package:simple_kit/modules/shared/simple_skeleton_text_loader.dart';
 import 'package:simple_kit/modules/shared/simple_spacers.dart';

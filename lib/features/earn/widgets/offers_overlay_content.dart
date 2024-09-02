@@ -5,7 +5,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/earn/widgets/offer_tile.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:jetwallet/widgets/currency_icon_widget.dart';
+import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/simple_kit.dart';

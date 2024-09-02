@@ -8,7 +8,7 @@ import 'package:jetwallet/features/convert/ui/widgets/widgets/convert_dropdown_b
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:jetwallet/widgets/currency_icon_widget.dart';
+import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../core/di/di.dart';

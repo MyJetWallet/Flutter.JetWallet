@@ -20,7 +20,7 @@ import 'package:jetwallet/features/home/store/bottom_bar_store.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:jetwallet/widgets/currency_icon_widget.dart';
+import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';

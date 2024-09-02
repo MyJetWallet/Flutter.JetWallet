@@ -7,6 +7,7 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
+import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/rewards/reward_spin_response.dart';
 
@@ -225,11 +226,10 @@ class RewardClosedCardState extends State<RewardClosedCard> with TickerProviderS
           children: [
             const Spacer(),
             if (widget.spinData != null) ...[
-              SNetworkCachedSvg(
-                url: currency.iconUrl,
+              NetworkIconWidget(
+                currency.iconUrl,
                 width: 120,
                 height: 120,
-                placeholder: const SizedBox.shrink(),
               ),
             ] else ...[
               const SSkeletonTextLoader(

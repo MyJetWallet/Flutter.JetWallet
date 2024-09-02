@@ -10,7 +10,7 @@ import 'package:jetwallet/features/actions/store/action_search_store.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
-import 'package:jetwallet/widgets/currency_icon_widget.dart';
+import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';

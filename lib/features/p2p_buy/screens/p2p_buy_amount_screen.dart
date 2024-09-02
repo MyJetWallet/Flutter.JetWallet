@@ -15,7 +15,7 @@ import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:jetwallet/widgets/currency_icon_widget.dart';
+import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -140,12 +140,10 @@ class P2PBuyAmountScreen extends StatelessWidget {
                                 SuggestionButtonWidget(
                                   title: store.p2pMethod?.name,
                                   subTitle: intl.p2p_buy_with,
-                                  icon: SNetworkCachedSvg(
-                                    url: iconForPaymentMethod(
+                                  icon: NetworkIconWidget(
+                                    iconForPaymentMethod(
                                       methodId: store.p2pMethod?.methodId ?? '',
                                     ),
-                                    width: 24,
-                                    height: 24,
                                     placeholder: const SizedBox(),
                                   ),
                                   showArrow: false,

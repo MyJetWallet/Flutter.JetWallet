@@ -4,7 +4,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
 import 'package:jetwallet/features/my_wallets/widgets/wallet_search_item.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
-import 'package:jetwallet/widgets/currency_icon_widget.dart';
+import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
