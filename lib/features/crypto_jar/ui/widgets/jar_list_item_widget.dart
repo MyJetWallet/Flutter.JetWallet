@@ -92,10 +92,11 @@ class JarListItemWidget extends HookWidget {
                   ),
                   if (jar.status == JarStatus.closed)
                     Container(
-                      height: 20.0,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8.0,
-                        vertical: 3.0,
+                      padding: const EdgeInsets.only(
+                        left: 8.0,
+                        right: 8.0,
+                        bottom: 4.0,
+                        top: 2.0,
                       ),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12.0),

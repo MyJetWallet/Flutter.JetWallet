@@ -1760,5 +1760,6 @@
     "jar_withdrawn_totally": " was withdrawn totally",
     "jar_closed_title": "You closed the jar titled {name}",
     "jar_closed_hint": "The jar will no longer be refilled",
-    "jar_done": "Done"
+    "jar_done": "Done",
+    "about_us_jar": "Crypto Jar Terms and Conditions"
 }

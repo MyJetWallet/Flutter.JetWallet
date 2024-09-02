@@ -81,11 +81,15 @@ class _JarsListWidgetState extends State<JarsListWidget> {
                   const SizedBox(
                     height: 7.0,
                   ),
-                  SPaddingH24(
-                    child: SPlaceholder(
-                      size: SPlaceholderSize.l,
-                      text: intl.jar_empty_list,
-                    ),
+                  Row(
+                    children: [
+                      const Spacer(),
+                      SPlaceholder(
+                        text: intl.jar_empty_list,
+                        size: null,
+                      ),
+                      const Spacer(),
+                    ],
                   ),
                 ],
               );
@@ -99,37 +103,33 @@ class _JarsListWidgetState extends State<JarsListWidget> {
             left: 24.0,
             right: 24.0,
           ),
-          child: Row(
-            children: [
-              SButtonContext(
-                type: SButtonContextType.iconedSmall,
-                text: intl.jar_add_jar,
-                onTap: () {
-                  getIt.get<EventBus>().fire(EndReordering());
+          child: SButtonContext(
+            type: SButtonContextType.iconedSmall,
+            text: intl.jar_add_jar,
+            onTap: () {
+              getIt.get<EventBus>().fire(EndReordering());
 
-                  getIt.get<JarsStore>().refreshJarsStore();
+              getIt.get<JarsStore>().refreshJarsStore();
 
-                  sAnalytics.jarTapOnButtonAddCryptoJarOnDashboard();
+              sAnalytics.jarTapOnButtonAddCryptoJarOnDashboard();
 
-                  final kycState = getIt.get<KycService>();
-                  if (checkKycPassed(
-                    kycState.depositStatus,
-                    kycState.tradeStatus,
-                    kycState.withdrawalStatus,
-                  )) {
+              final kycState = getIt.get<KycService>();
+              if (checkKycPassed(
+                kycState.depositStatus,
+                kycState.tradeStatus,
+                kycState.withdrawalStatus,
+              )) {
+                getIt<AppRouter>().push(EnterJarNameRouter());
+              } else {
+                showWalletVerifyAccount(
+                  context,
+                  after: () {
                     getIt<AppRouter>().push(EnterJarNameRouter());
-                  } else {
-                    showWalletVerifyAccount(
-                      context,
-                      after: () {
-                        getIt<AppRouter>().push(EnterJarNameRouter());
-                      },
-                      isBanking: false,
-                    );
-                  }
-                },
-              ),
-            ],
+                  },
+                  isBanking: false,
+                );
+              }
+            },
           ),
         ),
       ],
