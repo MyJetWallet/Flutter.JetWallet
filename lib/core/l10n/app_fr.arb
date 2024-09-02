@@ -1721,5 +1721,9 @@
     "jar_network": "Réseau",
     "jar_skip": "Passer",
     "jar_empty_list": "Vous n'avez pas encore de bocaux",
-    "jar_withdrawn_totally": " a été totalement retiré"
+    "jar_withdrawn_totally": " a été totalement retiré",
+    "jar_closed_title": "Vous avez fermé le bocal intitulé {name}",
+    "jar_closed_hint": "Le bocal ne sera plus rechargé",
+    "jar_done": "Terminé",
+    "about_us_jar": "Conditions générales du Crypto Jar"
 }

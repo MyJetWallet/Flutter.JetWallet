@@ -5,6 +5,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/crypto_jar/helpers/jar_extension.dart';
 import 'package:jetwallet/features/crypto_jar/store/jars_store.dart';
@@ -120,10 +121,10 @@ class JarListItemWidget extends HookWidget {
             ),
             Text(
               getIt<AppStore>().isBalanceHide
-                  ? '**** ${jar.assetSymbol}'
-                  : Decimal.parse(jar.balance.toString()).toFormatCount(
-                      accuracy: 2,
-                      symbol: jar.assetSymbol,
+                  ? '**** ${sSignalRModules.baseCurrency.symbol}'
+                  : Decimal.parse(jar.balanceInJarAsset.toString()).toFormatCount(
+                      accuracy: sSignalRModules.baseCurrency.accuracy,
+                      symbol: sSignalRModules.baseCurrency.symbol,
                     ),
               style: STStyles.subtitle1.copyWith(
                 color: SColorsLight().black,

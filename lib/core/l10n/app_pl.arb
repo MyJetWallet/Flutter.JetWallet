@@ -1809,5 +1809,9 @@
     "jar_network": "Sieć",
     "jar_skip": "Pomiń",
     "jar_empty_list": "Nie masz jeszcze słoików",
-    "jar_withdrawn_totally": " zostało całkowicie wypłacone"
+    "jar_withdrawn_totally": " zostało całkowicie wypłacone",
+    "jar_closed_title": "Zamknąłeś słoik o nazwie {name}",
+    "jar_closed_hint": "Słoik nie będzie już uzupełniany",
+    "jar_done": "Gotowe",
+    "about_us_jar": "Warunki korzystania z Crypto Jar"
 }

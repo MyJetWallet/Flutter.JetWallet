@@ -120,10 +120,10 @@ class _JarScreenState extends State<JarScreen> {
                         ),
                         Text(
                           getIt<AppStore>().isBalanceHide
-                              ? '**** ${selectedJar.assetSymbol}'
-                              : Decimal.parse(selectedJar.balance.toString()).toFormatCount(
-                                  accuracy: 2,
-                                  symbol: selectedJar.assetSymbol,
+                              ? '**** ${sSignalRModules.baseCurrency.symbol}'
+                              : Decimal.parse(selectedJar.balanceInJarAsset.toString()).toFormatCount(
+                                  accuracy: sSignalRModules.baseCurrency.accuracy,
+                                  symbol: sSignalRModules.baseCurrency.symbol,
                                 ),
                           style: STStyles.header5.copyWith(
                             color: SColorsLight().black,

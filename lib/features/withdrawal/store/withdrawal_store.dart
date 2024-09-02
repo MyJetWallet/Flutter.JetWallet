@@ -11,6 +11,7 @@ import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/features/crypto_jar/store/jars_store.dart';
 import 'package:jetwallet/features/currency_withdraw/model/address_validation_union.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_confirm_union.dart' as confirm;
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
@@ -1238,11 +1239,8 @@ abstract class _WithdrawalStoreBase with Store {
             ' ${intl.withdrawal_successPlaced}',
         onSuccess: (context) {
           if (withdrawalType == WithdrawalType.jar) {
-            sRouter.replaceAll(
-              [
-                JarRouter(hasLeftIcon: true),
-              ],
-            );
+            sRouter.popUntil((route) => route.settings.name == JarRouter.name);
+            getIt.get<JarsStore>().refreshJarsStore();
           } else {
             sRouter.replaceAll([
               const HomeRouter(
@@ -1253,6 +1251,7 @@ abstract class _WithdrawalStoreBase with Store {
             ]);
           }
         },
+        isJarFlow: withdrawalType == WithdrawalType.jar,
       ),
     )
         .then((value) {

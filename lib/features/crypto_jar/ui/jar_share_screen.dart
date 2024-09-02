@@ -53,7 +53,6 @@ class _JarShareScreenState extends State<JarShareScreen> {
       remainedAmount = 0;
     }
 
-
     final colors = sk.sKit.colors;
 
     return sk.SPageFrame(
@@ -242,9 +241,10 @@ class _JarShareScreenState extends State<JarShareScreen> {
         }
       },
       child: Container(
-        height: 82.0,
+        height: isAddress ? 100.0 : 82.0,
         padding: const EdgeInsets.only(
-          top: 18.0,
+          top: 16.0,
+          bottom: 16.0,
         ),
         child: Row(
           children: [
@@ -254,9 +254,13 @@ class _JarShareScreenState extends State<JarShareScreen> {
                 children: [
                   Text(
                     title,
-                    style: STStyles.captionMedium.copyWith(
-                      color: SColorsLight().gray8,
-                    ),
+                    style: isCountry
+                        ? STStyles.captionMedium.copyWith(
+                            color: SColorsLight().gray8,
+                          )
+                        : STStyles.body2Medium.copyWith(
+                            color: SColorsLight().gray10,
+                          ),
                   ),
                   if (isCountry)
                     Row(
@@ -295,26 +299,28 @@ class _JarShareScreenState extends State<JarShareScreen> {
               width: 24.0,
             ),
             if (withCopy)
-              SafeGesture(
-                onTap: () {
-                  Clipboard.setData(
-                    ClipboardData(
-                      text: text,
-                    ),
-                  );
+              Center(
+                child: SafeGesture(
+                  onTap: () {
+                    Clipboard.setData(
+                      ClipboardData(
+                        text: text,
+                      ),
+                    );
 
-                  sNotification.showError(
-                    intl.copy_message,
-                    id: 1,
-                    isError: false,
-                  );
-                },
-                child: Assets.svg.medium.copy.simpleSvg(
-                  height: 20.0,
-                  width: 20.0,
-                  color: SColorsLight().gray8,
+                    sNotification.showError(
+                      intl.copy_message,
+                      id: 1,
+                      isError: false,
+                    );
+                  },
+                  child: Assets.svg.medium.copy.simpleSvg(
+                    height: 24.0,
+                    width: 24.0,
+                    color: SColorsLight().gray8,
+                  ),
                 ),
-              ),
+              )
           ],
         ),
       ),

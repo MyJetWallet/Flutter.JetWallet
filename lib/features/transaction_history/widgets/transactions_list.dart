@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:grouped_list/sliver_grouped_list.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/market/market_details/model/operation_history_union.dart';
 import 'package:jetwallet/features/market/market_details/store/operation_history.dart';
 import 'package:jetwallet/features/transaction_history/widgets/transaction_list_item.dart';
@@ -507,10 +509,12 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
 
       return RichText(
         text: TextSpan(
-          text: totalWithdraw.abs().toFormatCount(
-                accuracy: currency.accuracy,
-                symbol: currency.symbol,
-              ),
+          text: getIt<AppStore>().isBalanceHide
+              ? '**** ${currency.symbol}'
+              : totalWithdraw.abs().toFormatCount(
+                    accuracy: currency.accuracy,
+                    symbol: currency.symbol,
+                  ),
           style: STStyles.subtitle2.copyWith(
             color: SColorsLight().black,
           ),

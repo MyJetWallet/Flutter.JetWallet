@@ -6,7 +6,9 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/crypto_jar/store/jars_store.dart';
 import 'package:jetwallet/features/crypto_jar/ui/widgets/jar_list_item_widget.dart';
+import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
+import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/my_wallets/helper/show_wallet_verify_account.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
@@ -65,6 +67,12 @@ class _JarsListWidgetState extends State<JarsListWidget> {
                         height: 16.0,
                       ),
                     ),
+                  ] else ...[
+                    const SliverToBoxAdapter(
+                      child: SizedBox(
+                        height: 10.0,
+                      ),
+                    ),
                   ],
                   SliverList.builder(
                     itemCount: jars.length,
@@ -120,13 +128,25 @@ class _JarsListWidgetState extends State<JarsListWidget> {
               )) {
                 getIt<AppRouter>().push(EnterJarNameRouter());
               } else {
-                showWalletVerifyAccount(
-                  context,
-                  after: () {
-                    getIt<AppRouter>().push(EnterJarNameRouter());
-                  },
-                  isBanking: false,
-                );
+                final kycHandler = getIt.get<KycAlertHandler>();
+
+                if (kycState.depositStatus == kycOperationStatus(KycStatus.kycInProgress)) {
+                  kycHandler.handle(
+                    status: kycState.depositStatus,
+                    isProgress: kycState.verificationInProgress,
+                    currentNavigate: () {},
+                    requiredDocuments: kycState.requiredDocuments,
+                    requiredVerifications: kycState.requiredVerifications,
+                  );
+                } else {
+                  showWalletVerifyAccount(
+                    context,
+                    after: () {
+                      getIt<AppRouter>().push(EnterJarNameRouter());
+                    },
+                    isBanking: false,
+                  );
+                }
               }
             },
           ),

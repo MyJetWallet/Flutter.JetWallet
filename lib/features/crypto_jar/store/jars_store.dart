@@ -135,20 +135,7 @@ abstract class _JarsStoreBase with Store {
       final result = response.data;
 
       if (result != null) {
-        activeJar.removeWhere((jar) {
-          return jar.id == jarId;
-        });
-        allJar.removeWhere((jar) {
-          return jar.id == jarId;
-        });
-        final index = allJar.indexWhere((jar) {
-          if (jar.status == JarStatus.closed) {
-            return true;
-          } else {
-            return false;
-          }
-        });
-        allJar.insert(index, result);
+        await refreshJarsStore();
       }
     } catch (e) {
       getIt.get<SimpleLoggerService>().log(

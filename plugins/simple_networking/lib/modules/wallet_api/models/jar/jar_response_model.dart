@@ -11,6 +11,7 @@ class JarResponseModel with _$JarResponseModel {
     required String? tokenId,
     required double balance,
     required double target,
+    required double balanceInJarAsset,
     required String assetSymbol,
     required String? imageUrl,
     required String? ownerName,

@@ -4,6 +4,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
@@ -29,7 +30,7 @@ abstract class _CreateJarStoreBase with Store {
     try {
       final response = await sNetwork.getWalletModule().postCreateJar(
             assetSymbol: 'USDT',
-            blockchain: 'fireblocks-eth-sepolia',
+            blockchain: getIt.get<AppStore>().env == 'stage' ? 'fireblocks-eth-sepolia' : 'fireblocks-tron',
             target: goal,
             imageUrl: '',
             title: title,

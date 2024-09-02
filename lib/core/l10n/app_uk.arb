@@ -5901,5 +5901,9 @@
     "jar_network": "Мережа",
     "jar_skip": "Пропустити",
     "jar_empty_list": "У вас ще немає банок",
-    "jar_withdrawn_totally": " було знято повністю"
+    "jar_withdrawn_totally": " було знято",
+    "jar_closed_title": "Ви закрили банку {name}",
+    "jar_closed_hint": "Банка більше не буде поповнюватися",
+    "jar_done": "Завершено",
+    "about_us_jar": "Умови та положення Криптобанки"
 }
