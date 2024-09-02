@@ -48,6 +48,12 @@ class _JarShareScreenState extends State<JarShareScreen> {
   Widget build(BuildContext context) {
     final selectedJar = getIt.get<JarsStore>().selectedJar!;
 
+    var remainedAmount = selectedJar.target - selectedJar.balance;
+    if (remainedAmount < 0) {
+      remainedAmount = 0;
+    }
+
+
     final colors = sk.sKit.colors;
 
     return sk.SPageFrame(
@@ -95,8 +101,8 @@ class _JarShareScreenState extends State<JarShareScreen> {
               ),
               _buildShareItem(
                 intl.jar_remained_amount,
-                Decimal.parse(selectedJar.target.toString()).toFormatCount(
-                  accuracy: 0,
+                Decimal.parse((remainedAmount).toString()).toFormatCount(
+                  accuracy: 2,
                   symbol: selectedJar.addresses.first.assetSymbol,
                 ),
                 false,
@@ -124,7 +130,7 @@ class _JarShareScreenState extends State<JarShareScreen> {
 
                   final result = await getIt
                       .get<JarsStore>()
-                      .shareJar(jarId: selectedJar.id, lang: selectedLanguage == 'GB' ? 'en' : 'ua');
+                      .shareJar(jarId: selectedJar.id, lang: selectedLanguage == 'GB' ? 'en' : 'uk');
 
                   await Share.share(result ?? '');
                 },

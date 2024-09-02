@@ -155,31 +155,31 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                           text: intl.wallet_simple_account_empty,
                         )
                       : Column(
-                children: [
-                  Container(
-                    height: 32.0,
-                    width: double.infinity,
-                    margin: const EdgeInsets.only(
-                      left: 24.0,
-                      right: 24.0,
-                      bottom: 24.0,
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12.0,
-                      vertical: 6.0,
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: SColorsLight().gray2,
-                    ),
-                    child: _buildWithdrawnTotally(listToShow),
-                  ),
-                  SPlaceholder(
-                    size: SPlaceholderSize.l,
-                    text: intl.wallet_simple_account_empty,
-                  ),
-                ],
-              )
+                          children: [
+                            Container(
+                              height: 32.0,
+                              width: double.infinity,
+                              margin: const EdgeInsets.only(
+                                left: 24.0,
+                                right: 24.0,
+                                bottom: 24.0,
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12.0,
+                                vertical: 6.0,
+                              ),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: SColorsLight().gray2,
+                              ),
+                              child: _buildWithdrawnTotally(listToShow),
+                            ),
+                            SPlaceholder(
+                              size: SPlaceholderSize.l,
+                              text: intl.wallet_simple_account_empty,
+                            ),
+                          ],
+                        )
                   : SizedBox(
                       height: widget.symbol != null
                           ? screenHeight - screenHeight * 0.369 - 227
@@ -495,7 +495,8 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
   }
 
   Widget _buildWithdrawnTotally(List<OperationHistoryItem> listToShow) {
-    final withdrawalList = listToShow.where((item) => item.operationType == OperationType.jarWithdrawal);
+    final withdrawalList = listToShow
+        .where((item) => item.operationType == OperationType.jarWithdrawal && item.status == Status.completed);
     if (withdrawalList.isNotEmpty) {
       final totalWithdraw = withdrawalList.map((item) => item.balanceChange).reduce((a, b) => a + b);
 
