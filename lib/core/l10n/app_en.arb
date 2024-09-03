@@ -1717,5 +1717,6 @@
     "kyc_blocked_country": "We’re sorry, but cryptocurrency services are not available in your country. If you reside in another country and can verify your address, please upload proof of residence.",
     "simplecoin_auctions": "Auctions",
     "kyc_id_issuing_country": "ID issuing country",
-    "kyc_proceed": "Proceed"
+    "kyc_proceed": "Proceed",
+    "withdrawal_recipient_gets": "Recipient gets"
 }

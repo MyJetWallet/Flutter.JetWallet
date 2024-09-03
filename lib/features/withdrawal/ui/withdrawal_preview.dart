@@ -98,21 +98,14 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
                     isLoading: false,
                     assetIconUrl: store.withdrawalInputModel!.currency!.iconUrl,
                     assetDescription: store.withdrawalInputModel!.currency!.description,
-                    assetValue: store.addressIsInternal
-                        ? Decimal.parse(store.withAmount).toFormatCount(
-                            accuracy: store.withdrawalInputModel!.currency!.accuracy,
-                            symbol: store.withdrawalInputModel!.currency!.symbol,
-                          )
-                        : (Decimal.parse(store.withAmount) - feeSize).toFormatCount(
-                            accuracy: store.withdrawalInputModel!.currency!.accuracy,
-                            symbol: store.withdrawalInputModel!.currency!.symbol,
-                          ),
+                    assetValue: Decimal.parse(store.withAmount).toFormatCount(
+                      accuracy: store.withdrawalInputModel!.currency!.accuracy,
+                      symbol: store.withdrawalInputModel!.currency!.symbol,
+                    ),
                     assetBaseAmount: formatService
                         .convertOneCurrencyToAnotherOne(
                           fromCurrency: store.withdrawalInputModel!.currency!.symbol,
-                          fromCurrencyAmmount: store.addressIsInternal
-                              ? Decimal.parse(store.withAmount)
-                              : Decimal.parse(store.withAmount) - feeSize,
+                          fromCurrencyAmmount: Decimal.parse(store.withAmount),
                           toCurrency: sSignalRModules.baseCurrency.symbol,
                           baseCurrency: sSignalRModules.baseCurrency.symbol,
                           isMin: false,
@@ -142,7 +135,7 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
                   needHorizontalPadding: false,
                 ),
                 TwoColumnCell(
-                  label: intl.operationName_sent,
+                  label: intl.withdrawal_recipient_gets,
                   value:
                       '''${store.withAmount} ${store.withdrawalType == WithdrawalType.asset ? store.withdrawalInputModel!.currency!.symbol : store.withdrawalInputModel!.nft!.name}''',
                   needHorizontalPadding: false,

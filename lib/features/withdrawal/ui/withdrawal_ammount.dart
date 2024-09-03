@@ -7,7 +7,6 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
-import 'package:jetwallet/features/withdrawal/helper/user_will_receive.dart';
 import 'package:jetwallet/features/withdrawal/store/withdrawal_store.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
@@ -53,9 +52,12 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
       store.withdrawalInputModel!.currency!.symbol,
     );
 
-    final availableBalance = Decimal.parse(
-      '''${availableCurrency.assetBalance.toDouble() - availableCurrency.cardReserve.toDouble()}''',
-    );
+    final availableBalance = availableCurrency.assetBalance -
+        availableCurrency.cardReserve -
+        availableCurrency.withdrawalFeeSize(
+          network: store.networkController.text,
+          amount: availableCurrency.assetBalance,
+        );
 
     final String error;
 
@@ -209,15 +211,16 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
 
     final currency = store.withdrawalInputModel!.currency!;
 
-    final result = userWillreceive(
-      amount: amount,
-      currency: store.withdrawalInputModel!.currency!,
+    final feeAmount = currency.withdrawalFeeWithSymbol(
       network: isInternal ? 'internal-send' : store.networkController.text,
+      amount: Decimal.parse(amount),
     );
 
-    final youWillSend = '${intl.withdrawalAmount_youWillSend}: $result';
+    final youWillSendAmount = amount + feeAmount;
+
+    final youWillSend = '${intl.withdrawalAmount_youWillSend}: $youWillSendAmount';
 
     return '${intl.fee}: '
-        '${currency.withdrawalFeeWithSymbol(network: isInternal ? 'internal-send' : store.networkController.text, amount: Decimal.parse(amount))} / $youWillSend';
+        '$feeAmount / $youWillSend';
   }
 }
