@@ -211,16 +211,23 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
 
     final currency = store.withdrawalInputModel!.currency!;
 
-    final feeAmount = currency.withdrawalFeeWithSymbol(
+    final feeAmount = currency.withdrawalFeeSize(
       network: isInternal ? 'internal-send' : store.networkController.text,
       amount: Decimal.parse(amount),
     );
 
-    final youWillSendAmount = amount + feeAmount;
+    final feeAmountFormated = feeAmount.toFormatCount(
+      symbol: currency.symbol,
+      accuracy: currency.accuracy,
+    );
 
-    final youWillSend = '${intl.withdrawalAmount_youWillSend}: $youWillSendAmount';
+    final youWillSendAmount = amount != '' ? Decimal.parse(amount) + feeAmount : Decimal.zero;
 
-    return '${intl.fee}: '
-        '$feeAmount / $youWillSend';
+    final youWillSend = '${intl.withdrawalAmount_youWillSend}: ${youWillSendAmount.toFormatCount(
+      symbol: currency.symbol,
+      accuracy: currency.accuracy,
+    )}';
+
+    return '${intl.fee}: $feeAmountFormated / $youWillSend';
   }
 }

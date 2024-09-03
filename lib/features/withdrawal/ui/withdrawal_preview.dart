@@ -98,14 +98,21 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
                     isLoading: false,
                     assetIconUrl: store.withdrawalInputModel!.currency!.iconUrl,
                     assetDescription: store.withdrawalInputModel!.currency!.description,
-                    assetValue: Decimal.parse(store.withAmount).toFormatCount(
-                      accuracy: store.withdrawalInputModel!.currency!.accuracy,
-                      symbol: store.withdrawalInputModel!.currency!.symbol,
-                    ),
+                    assetValue: store.addressIsInternal
+                        ? Decimal.parse(store.withAmount).toFormatCount(
+                            accuracy: store.withdrawalInputModel!.currency!.accuracy,
+                            symbol: store.withdrawalInputModel!.currency!.symbol,
+                          )
+                        : (Decimal.parse(store.withAmount) + feeSize).toFormatCount(
+                            accuracy: store.withdrawalInputModel!.currency!.accuracy,
+                            symbol: store.withdrawalInputModel!.currency!.symbol,
+                          ),
                     assetBaseAmount: formatService
                         .convertOneCurrencyToAnotherOne(
                           fromCurrency: store.withdrawalInputModel!.currency!.symbol,
-                          fromCurrencyAmmount: Decimal.parse(store.withAmount),
+                          fromCurrencyAmmount: store.addressIsInternal
+                              ? Decimal.parse(store.withAmount)
+                              : Decimal.parse(store.withAmount) + feeSize,
                           toCurrency: sSignalRModules.baseCurrency.symbol,
                           baseCurrency: sSignalRModules.baseCurrency.symbol,
                           isMin: false,

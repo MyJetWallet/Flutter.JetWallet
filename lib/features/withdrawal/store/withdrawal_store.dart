@@ -880,11 +880,16 @@ abstract class _WithdrawalStoreBase with Store {
       );
     }
 
+    final feeSize = withdrawalInputModel!.currency!.withdrawalFeeSize(
+      network: addressIsInternal ? 'internal-send' : networkController.text,
+      amount: Decimal.parse(withAmount),
+    );
+
     try {
       final model = WithdrawRequestModel(
         requestId: DateTime.now().microsecondsSinceEpoch.toString(),
         assetSymbol: withdrawalInputModel!.currency!.symbol,
-        amount: Decimal.parse(withAmount),
+        amount: addressIsInternal ? Decimal.parse(withAmount) : Decimal.parse(withAmount) + feeSize,
         toAddress: address,
         toTag: tag,
         blockchain: blockchain.id,
