@@ -19,6 +19,7 @@ import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/enum.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/calculate_base_balance.dart';
+import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
@@ -272,6 +273,22 @@ abstract class _WithdrawalStoreBase with Store {
       );
 
   @computed
+  Decimal get availableBalance {
+    final currency = currencyFrom(
+      sSignalRModules.currenciesList,
+      withdrawalInputModel!.currency!.symbol,
+    );
+
+    final result = currency.assetBalance -
+        currency.cardReserve -
+        currency.withdrawalFeeSize(
+          network: networkController.text,
+          amount: currency.assetBalance,
+        );
+    return result;
+  }
+
+  @computed
   Decimal? get minLimit => _sendWithdrawalMethod.symbolNetworkDetails?.firstWhere(
         (element) => element.network == network.id && element.symbol == withdrawalInputModel?.currency?.symbol,
         orElse: () {
@@ -280,12 +297,18 @@ abstract class _WithdrawalStoreBase with Store {
       ).minAmount;
 
   @computed
-  Decimal? get maxLimit => _sendWithdrawalMethod.symbolNetworkDetails?.firstWhere(
-        (element) => element.network == network.id && element.symbol == withdrawalInputModel?.currency?.symbol,
-        orElse: () {
-          return const SymbolNetworkDetails();
-        },
-      ).maxAmount;
+  Decimal? get maxLimit {
+    final limit = _sendWithdrawalMethod.symbolNetworkDetails?.firstWhere(
+      (element) => element.network == network.id && element.symbol == withdrawalInputModel?.currency?.symbol,
+      orElse: () {
+        return const SymbolNetworkDetails();
+      },
+    ).maxAmount;
+
+    final maxLimit = (limit != null && limit < availableBalance) ? limit : availableBalance;
+
+    return maxLimit;
+  }
 
   ///
 

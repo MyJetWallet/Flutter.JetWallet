@@ -5,8 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
+
 import 'package:jetwallet/features/withdrawal/store/withdrawal_store.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
@@ -46,18 +45,6 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
 
     final deviceSize = sDeviceSize;
     final colors = sKit.colors;
-
-    final availableCurrency = currencyFrom(
-      sSignalRModules.currenciesList,
-      store.withdrawalInputModel!.currency!.symbol,
-    );
-
-    final availableBalance = availableCurrency.assetBalance -
-        availableCurrency.cardReserve -
-        availableCurrency.withdrawalFeeSize(
-          network: store.networkController.text,
-          amount: availableCurrency.assetBalance,
-        );
 
     final String error;
 
@@ -129,7 +116,7 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
                   baselineType: TextBaseline.alphabetic,
                   child: Text(
                     '${intl.withdrawalAmount_available}: '
-                    '${getIt<AppStore>().isBalanceHide ? '**** ${store.withdrawalInputModel!.currency!.symbol}' : availableBalance.toFormatCount(
+                    '${getIt<AppStore>().isBalanceHide ? '**** ${store.withdrawalInputModel!.currency!.symbol}' : store.availableBalance.toFormatCount(
                         accuracy: store.withdrawalInputModel!.currency!.accuracy,
                         symbol: store.withdrawalInputModel!.currency!.symbol,
                       )}',
@@ -221,7 +208,7 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
       accuracy: currency.accuracy,
     );
 
-    final youWillSendAmount = amount != '' ? Decimal.parse(amount) + feeAmount : Decimal.zero;
+    final youWillSendAmount = amount != '0' ? Decimal.parse(amount) + feeAmount : Decimal.zero;
 
     final youWillSend = '${intl.withdrawalAmount_youWillSend}: ${youWillSendAmount.toFormatCount(
       symbol: currency.symbol,
