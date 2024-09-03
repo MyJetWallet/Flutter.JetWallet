@@ -1761,5 +1761,6 @@
     "jar_closed_title": "You closed the jar titled {name}",
     "jar_closed_hint": "The jar will no longer be refilled",
     "jar_done": "Done",
-    "about_us_jar": "Crypto Jar Terms and Conditions"
+    "about_us_jar": "Crypto Jar Terms and Conditions",
+    "jar_creating": "Creating..."
 }

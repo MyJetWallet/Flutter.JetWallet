@@ -124,7 +124,7 @@ class _JarShareScreenState extends State<JarShareScreen> {
                 text: intl.jar_share,
                 callback: () async {
                   sAnalytics.jarTapOnButtonShareJarOnShareJar(
-                    language: selectedLanguage == 'GB' ? 'English' : 'Ukraine',
+                    language: selectedLanguage == 'GB' ? 'English' : 'Ukrainian',
                   );
 
                   final result = await getIt

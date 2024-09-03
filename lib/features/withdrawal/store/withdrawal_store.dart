@@ -1218,18 +1218,20 @@ abstract class _WithdrawalStoreBase with Store {
 
   @action
   void _confirmSuccessScreen() {
-    sAnalytics.cryptoSendSuccessSend(
-      asset: withdrawalInputModel!.currency!.symbol,
-      network: network.description,
-      sendMethodType: '0',
-      totalSendAmount: withAmount,
-      paymentFee: addressIsInternal
-          ? 'No fee'
-          : withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(
-              network: networkController.text,
-              amount: Decimal.parse(withAmount),
-            ),
-    );
+    if (withdrawalType != WithdrawalType.jar) {
+      sAnalytics.cryptoSendSuccessSend(
+        asset: withdrawalInputModel!.currency!.symbol,
+        network: network.description,
+        sendMethodType: '0',
+        totalSendAmount: withAmount,
+        paymentFee: addressIsInternal
+            ? 'No fee'
+            : withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(
+                network: networkController.text,
+                amount: Decimal.parse(withAmount),
+              ),
+      );
+    }
 
     sRouter
         .push(

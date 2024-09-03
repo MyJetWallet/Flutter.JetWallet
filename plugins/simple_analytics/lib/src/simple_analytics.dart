@@ -8873,13 +8873,13 @@ class SimpleAnalytics {
     );
   }
 
-  void jarTapOnButtonNextOnJarPurpose({
+  void jarTapOnButtonNextOnJarGoal({
     required String asset,
     required String network,
     required int target,
   }) {
     _analytics.logEvent(
-      EventName.jarTapOnButtonNextOnJarPurpose,
+      EventName.jarTapOnButtonNextOnJarGoal,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -8946,7 +8946,7 @@ class SimpleAnalytics {
         PropertyType.asset: asset,
         PropertyType.network: network,
         PropertyType.target: target,
-        PropertyType.balance: balance,
+        PropertyType.balance: balance.toStringAsFixed(2),
         PropertyType.isOpen: isOpen,
       },
     );
@@ -9088,7 +9088,7 @@ class SimpleAnalytics {
         PropertyType.asset: asset,
         PropertyType.network: network,
         PropertyType.target: target,
-        PropertyType.balance: balance,
+        PropertyType.balance: balance.toStringAsFixed(2),
         PropertyType.isOpen: isOpen,
       },
     );
@@ -9112,7 +9112,7 @@ class SimpleAnalytics {
         PropertyType.asset: asset,
         PropertyType.network: network,
         PropertyType.target: target,
-        PropertyType.balance: balance,
+        PropertyType.balance: balance.toStringAsFixed(2),
         PropertyType.isOpen: isOpen,
       },
     );
@@ -9136,7 +9136,7 @@ class SimpleAnalytics {
         PropertyType.asset: asset,
         PropertyType.network: network,
         PropertyType.target: target,
-        PropertyType.balance: balance,
+        PropertyType.balance: balance.toStringAsFixed(2),
         PropertyType.isOpen: isOpen,
       },
     );
@@ -9160,7 +9160,7 @@ class SimpleAnalytics {
         PropertyType.asset: asset,
         PropertyType.network: network,
         PropertyType.target: target,
-        PropertyType.balance: balance,
+        PropertyType.balance: balance.toStringAsFixed(2),
         PropertyType.isOpen: isOpen,
       },
     );
@@ -9184,7 +9184,7 @@ class SimpleAnalytics {
         PropertyType.asset: asset,
         PropertyType.network: network,
         PropertyType.target: target,
-        PropertyType.balance: balance,
+        PropertyType.balance: balance.toStringAsFixed(2),
         PropertyType.isOpen: isOpen,
       },
     );
@@ -9208,7 +9208,7 @@ class SimpleAnalytics {
         PropertyType.asset: asset,
         PropertyType.network: network,
         PropertyType.target: target,
-        PropertyType.balance: balance,
+        PropertyType.balance: balance.toStringAsFixed(2),
         PropertyType.isOpen: isOpen,
       },
     );
@@ -9232,7 +9232,7 @@ class SimpleAnalytics {
         PropertyType.asset: asset,
         PropertyType.network: network,
         PropertyType.target: target,
-        PropertyType.balance: balance,
+        PropertyType.balance: balance.toStringAsFixed(2),
         PropertyType.isOpen: isOpen,
       },
     );
@@ -9256,7 +9256,7 @@ class SimpleAnalytics {
         PropertyType.asset: asset,
         PropertyType.network: network,
         PropertyType.target: target,
-        PropertyType.balance: balance,
+        PropertyType.balance: balance.toStringAsFixed(2),
         PropertyType.isOpen: isOpen,
       },
     );

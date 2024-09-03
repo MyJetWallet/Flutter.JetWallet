@@ -163,7 +163,7 @@ class _EnterJarGoalScreenState extends State<EnterJarGoalScreen> {
                               ? () async {
                                   final goal = int.parse(_goalController.text.replaceAll(' ', ''));
 
-                                  sAnalytics.jarTapOnButtonNextOnJarPurpose(
+                                  sAnalytics.jarTapOnButtonNextOnJarGoal(
                                     asset: 'USDT',
                                     network: 'TRC20',
                                     target: goal,

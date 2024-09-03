@@ -39,7 +39,7 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
         asset: store.withdrawalInputModel!.jar!.assetSymbol,
         network: 'TRC20',
         target: store.withdrawalInputModel!.jar!.target.toInt(),
-        balance: store.withdrawalInputModel!.jar!.balance,
+        balance: store.withdrawalInputModel!.jar!.balanceInJarAsset,
         isOpen: store.withdrawalInputModel!.jar!.status == JarStatus.active,
       );
     }
@@ -178,18 +178,18 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
                         asset: store.withdrawalInputModel!.jar!.assetSymbol,
                         network: 'TRC20',
                         target: store.withdrawalInputModel!.jar!.target.toInt(),
-                        balance: store.withdrawalInputModel!.jar!.balance,
+                        balance: store.withdrawalInputModel!.jar!.balanceInJarAsset,
                         isOpen: store.withdrawalInputModel!.jar!.status == JarStatus.active,
                       );
+                    } else {
+                      sAnalytics.cryptoSendTapConfirmOrder(
+                        asset: store.withdrawalInputModel!.currency!.symbol,
+                        network: store.network.description,
+                        sendMethodType: '0',
+                        totalSendAmount: store.withAmount,
+                        paymentFee: store.addressIsInternal ? intl.noFee : feeSizeWithSymbol,
+                      );
                     }
-
-                    sAnalytics.cryptoSendTapConfirmOrder(
-                      asset: store.withdrawalInputModel!.currency!.symbol,
-                      network: store.network.description,
-                      sendMethodType: '0',
-                      totalSendAmount: store.withAmount,
-                      paymentFee: store.addressIsInternal ? intl.noFee : feeSizeWithSymbol,
-                    );
 
                     sRouter.push(
                       PinScreenRoute(

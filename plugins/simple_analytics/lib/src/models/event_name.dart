@@ -627,7 +627,7 @@ class EventName {
   static const jarScreenViewJarName = "'Jar name' screen view";
   static const jarTapOnButtonNextOnJarName = "Tap on the button 'Next' on 'Jar name' screen";
   static const jarScreenViewJarGoal = "'Jar goal' screen view";
-  static const jarTapOnButtonNextOnJarPurpose = "Tap on the button 'Next' on 'Jar purpose' screen";
+  static const jarTapOnButtonNextOnJarGoal = "Tap on the button 'Next' on 'Jar goal' screen";
   static const jarScreenViewCreatingJar = "'You are creating jar' screen view";
   static const jarTapOnButtonCreateOnCreatingJar = "Tap on the button 'Create' on 'You are creating jar' screen";
   static const jarScreenViewJar = "'Jar' screen view";

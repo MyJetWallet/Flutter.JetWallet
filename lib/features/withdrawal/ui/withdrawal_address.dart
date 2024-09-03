@@ -31,15 +31,15 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
         asset: store.withdrawalInputModel!.jar!.assetSymbol,
         network: 'TRC20',
         target: store.withdrawalInputModel!.jar!.target.toInt(),
-        balance: store.withdrawalInputModel!.jar!.balance,
+        balance: store.withdrawalInputModel!.jar!.balanceInJarAsset,
         isOpen: store.withdrawalInputModel!.jar!.status == JarStatus.active,
       );
+    } else {
+      sAnalytics.cryptoSendSendAssetNameScreenView(
+        asset: store.withdrawalInputModel?.currency?.symbol ?? '',
+        sendMethodType: '0',
+      );
     }
-
-    sAnalytics.cryptoSendSendAssetNameScreenView(
-      asset: store.withdrawalInputModel?.currency?.symbol ?? '',
-      sendMethodType: '0',
-    );
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (store.withdrawalInputModel?.currency != null) {
@@ -147,10 +147,12 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                       suffixIcons: [
                         SIconButton(
                           onTap: () {
-                            sAnalytics.cryptoSendTapPaste(
-                              asset: store.withdrawalInputModel!.currency!.symbol,
-                              sendMethodType: '0',
-                            );
+                            if (store.withdrawalType != WithdrawalType.jar) {
+                              sAnalytics.cryptoSendTapPaste(
+                                asset: store.withdrawalInputModel!.currency!.symbol,
+                                sendMethodType: '0',
+                              );
+                            }
 
                             store.pasteAddress(scrollController);
                           },
@@ -158,10 +160,12 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                         ),
                         SIconButton(
                           onTap: () {
-                            sAnalytics.cryptoSendTapQr(
-                              asset: store.withdrawalInputModel!.currency!.symbol,
-                              sendMethodType: '0',
-                            );
+                            if (store.withdrawalType != WithdrawalType.jar) {
+                              sAnalytics.cryptoSendTapQr(
+                                asset: store.withdrawalInputModel!.currency!.symbol,
+                                sendMethodType: '0',
+                              );
+                            }
 
                             store.scanAddressQr(
                               context,
@@ -190,10 +194,12 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                         suffixIcons: [
                           SIconButton(
                             onTap: () {
-                              sAnalytics.cryptoSendTapPaste(
-                                asset: store.withdrawalInputModel!.currency!.symbol,
-                                sendMethodType: '0',
-                              );
+                              if (store.withdrawalType != WithdrawalType.jar) {
+                                sAnalytics.cryptoSendTapPaste(
+                                  asset: store.withdrawalInputModel!.currency!.symbol,
+                                  sendMethodType: '0',
+                                );
+                              }
 
                               store.pasteTag(scrollController);
                             },
@@ -259,15 +265,15 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                                 asset: store.withdrawalInputModel!.jar!.assetSymbol,
                                 network: 'TRC20',
                                 target: store.withdrawalInputModel!.jar!.target.toInt(),
-                                balance: store.withdrawalInputModel!.jar!.balance,
+                                balance: store.withdrawalInputModel!.jar!.balanceInJarAsset,
                                 isOpen: store.withdrawalInputModel!.jar!.status == JarStatus.active,
                               );
+                            } else {
+                              sAnalytics.cryptoSendTapContinue(
+                                asset: store.withdrawalInputModel!.currency!.symbol,
+                                sendMethodType: '0',
+                              );
                             }
-
-                            sAnalytics.cryptoSendTapContinue(
-                              asset: store.withdrawalInputModel!.currency!.symbol,
-                              sendMethodType: '0',
-                            );
 
                             FocusScope.of(context).unfocus();
 

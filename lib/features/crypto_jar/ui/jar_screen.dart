@@ -15,6 +15,7 @@ import 'package:jetwallet/features/transaction_history/widgets/transactions_list
 import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
 import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
+import 'package:jetwallet/widgets/loaders/loader.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/bottom_sheets/components/basic_bottom_sheet/show_basic_modal_bottom_sheet.dart';
 import 'package:simple_kit/modules/colors/simple_colors.dart';
@@ -51,7 +52,7 @@ class _JarScreenState extends State<JarScreen> {
       asset: 'USDT',
       network: 'TRC20',
       target: selectedJar.target.toInt(),
-      balance: selectedJar.balance,
+      balance: selectedJar.balanceInJarAsset,
       isOpen: selectedJar.status == JarStatus.active,
     );
   }
@@ -74,6 +75,7 @@ class _JarScreenState extends State<JarScreen> {
           hasRightIcon: !widget.hasLeftIcon,
           rightIcon: Assets.svg.medium.close.simpleSvg(),
           onRightIconTap: () {
+            getIt.get<JarsStore>().refreshJarsStore();
             getIt<AppRouter>().popUntil((route) {
               return route.settings.name == HomeRouter.name;
             });
@@ -196,7 +198,7 @@ class _JarScreenState extends State<JarScreen> {
   }
 
   Widget _buildButtons(JarResponseModel selectedJar, SimpleColors colors) {
-    if (selectedJar.status != JarStatus.closed) {
+    if (selectedJar.status != JarStatus.closed && selectedJar.status != JarStatus.creating) {
       return Row(
         children: [
           const Spacer(),
@@ -234,7 +236,7 @@ class _JarScreenState extends State<JarScreen> {
                   asset: selectedJar.assetSymbol,
                   network: 'TRC20',
                   target: selectedJar.target.toInt(),
-                  balance: selectedJar.balance,
+                  balance: selectedJar.balanceInJarAsset,
                   isOpen: selectedJar.status == JarStatus.active,
                 );
 
@@ -265,7 +267,7 @@ class _JarScreenState extends State<JarScreen> {
                 asset: selectedJar.assetSymbol,
                 network: 'TRC20',
                 target: selectedJar.target.toInt(),
-                balance: selectedJar.balance,
+                balance: selectedJar.balanceInJarAsset,
                 isOpen: selectedJar.status == JarStatus.active,
               );
 
@@ -280,7 +282,7 @@ class _JarScreenState extends State<JarScreen> {
                     asset: selectedJar.assetSymbol,
                     network: 'TRC20',
                     target: selectedJar.target.toInt(),
-                    balance: selectedJar.balance,
+                    balance: selectedJar.balanceInJarAsset,
                     isOpen: selectedJar.status == JarStatus.active,
                   );
 
@@ -297,7 +299,7 @@ class _JarScreenState extends State<JarScreen> {
                     asset: selectedJar.assetSymbol,
                     network: 'TRC20',
                     target: selectedJar.target.toInt(),
-                    balance: selectedJar.balance,
+                    balance: selectedJar.balanceInJarAsset,
                     isOpen: selectedJar.status == JarStatus.active,
                   );
                   Navigator.pop(context);
@@ -432,38 +434,76 @@ class _JarScreenState extends State<JarScreen> {
         ],
       );
     } else {
-      return Container(
-        height: 36.0,
-        width: double.infinity,
-        padding: const EdgeInsets.symmetric(
-          horizontal: 8.0,
-          vertical: 6.0,
-        ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(18),
-          color: SColorsLight().gray2,
-        ),
-        child: Row(
-          children: [
-            Assets.svg.medium.closeAlt.simpleSvg(
-              height: 20.0,
-              width: 20.0,
-              color: SColorsLight().gray8,
-            ),
-            const Spacer(),
-            Text(
-              intl.jar_closed,
-              style: STStyles.body1Bold.copyWith(
+      if (selectedJar.status == JarStatus.closed) {
+        return Container(
+          height: 36.0,
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(
+            horizontal: 8.0,
+            vertical: 6.0,
+          ),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(18),
+            color: SColorsLight().gray2,
+          ),
+          child: Row(
+            children: [
+              Assets.svg.medium.closeAlt.simpleSvg(
+                height: 20.0,
+                width: 20.0,
                 color: SColorsLight().gray8,
               ),
-            ),
-            const Spacer(),
-            const SizedBox(
-              width: 20.0,
-            ),
-          ],
-        ),
-      );
+              const Spacer(),
+              Text(
+                intl.jar_closed,
+                style: STStyles.body1Bold.copyWith(
+                  color: SColorsLight().gray8,
+                ),
+              ),
+              const Spacer(),
+              const SizedBox(
+                width: 20.0,
+              ),
+            ],
+          ),
+        );
+      } else {
+        return Container(
+          height: 36.0,
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(
+            horizontal: 8.0,
+            vertical: 6.0,
+          ),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(18),
+            color: SColorsLight().gray2,
+          ),
+          child: Row(
+            children: [
+              SizedBox(
+                height: 17.0,
+                width: 17.0,
+                child: Loader(
+                  color: SColorsLight().black,
+                  strokeWidth: 3.0,
+                ),
+              ),
+              const Spacer(),
+              Text(
+                intl.jar_creating,
+                style: STStyles.body1Bold.copyWith(
+                  color: SColorsLight().black,
+                ),
+              ),
+              const Spacer(),
+              const SizedBox(
+                width: 17.0,
+              ),
+            ],
+          ),
+        );
+      }
     }
   }
 
