@@ -865,15 +865,15 @@ abstract class _WithdrawalStoreBase with Store {
 
   @action
   void _validateAmount() {
-    InputError error = InputError.none;
+    InputError error;
     if (withdrawalType == WithdrawalType.jar) {
-      // error = onWithdrawJarInputErrorHandler(
-      //   withAmount,
-      //   blockchain.description,
-      //   withdrawalInputModel!.jar!.balance,
-      //   withdrawalInputModel!.currency!,
-      //   addressIsInternal: addressIsInternal,
-      // );
+      error = onWithdrawJarInputErrorHandler(
+        withAmount,
+        blockchain.description,
+        withdrawalInputModel!.jar!.balance,
+        withdrawalInputModel!.currency!,
+        addressIsInternal: addressIsInternal,
+      );
     } else {
       error = onWithdrawInputErrorHandler(
         withAmount,
