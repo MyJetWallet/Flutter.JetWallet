@@ -663,8 +663,11 @@ class $AssetsSvgBrandSmallGen {
   /// File path: assets/svg/brand/small/info_blue.svg
   SvgGenImage get infoBlue => const SvgGenImage('assets/svg/brand/small/info_blue.svg');
 
+  /// File path: assets/svg/brand/small/info_yellow.svg
+  SvgGenImage get infoYellow => const SvgGenImage('assets/svg/brand/small/info_yellow.svg');
+
   /// List of all assets
-  List<SvgGenImage> get values => [card, infoBlue];
+  List<SvgGenImage> get values => [card, infoBlue, infoYellow];
 }
 
 class $AssetsSvgOtherLargeGen {

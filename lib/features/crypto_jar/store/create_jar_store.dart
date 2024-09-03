@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
@@ -51,6 +52,9 @@ abstract class _CreateJarStoreBase with Store {
         }
       }
     } catch (e) {
+      loading = false;
+      sNotification.showError(intl.something_went_wrong_try_again);
+
       getIt.get<SimpleLoggerService>().log(
             level: Level.error,
             place: 'JarCreate',

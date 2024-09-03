@@ -196,10 +196,18 @@ class WalletApiRepository {
   }
 
   Future<DC<ServerRejectException, WithdrawResponseModel>> postWithdrawJar(
-      WithdrawJarRequestModel model,
-      ) async {
+    WithdrawJarRequestModel model,
+  ) async {
     return _walletApiDataSources.postWithdrawJarRequest(
       model,
+    );
+  }
+
+  Future<DC<ServerRejectException, WithdrawJarLimitResponseModel>> postWithdrawJarLimitRequest(
+    Map<String, dynamic> body,
+  ) async {
+    return _walletApiDataSources.postWithdrawJarLimitRequest(
+      body,
     );
   }
 

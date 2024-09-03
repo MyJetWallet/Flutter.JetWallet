@@ -271,40 +271,77 @@ class _JarScreenState extends State<JarScreen> {
                 isOpen: selectedJar.status == JarStatus.active,
               );
 
-              sShowAlertPopup(
-                sRouter.navigatorKey.currentContext!,
-                image: Assets.svg.brand.small.infoBlue.simpleSvg(),
-                primaryText: '',
-                secondaryText: intl.jar_action_close_jar('"${selectedJar.title}"'),
-                primaryButtonName: intl.jar_confirm,
-                onPrimaryButtonTap: () {
-                  sAnalytics.jarTapOnButtonConfirmCloseOnJarClosePopUp(
-                    asset: selectedJar.assetSymbol,
-                    network: 'TRC20',
-                    target: selectedJar.target.toInt(),
-                    balance: selectedJar.balanceInJarAsset,
-                    isOpen: selectedJar.status == JarStatus.active,
-                  );
-
-                  getIt.get<JarsStore>().closeJar(selectedJar.id);
-                  getIt<AppRouter>().push(
-                    JarClosedConfirmationRouter(
-                      name: selectedJar.title,
+              if (selectedJar.balance != 0) {
+                sShowAlertPopup(
+                  sRouter.navigatorKey.currentContext!,
+                  image: Assets.svg.brand.small.infoYellow.simpleSvg(),
+                  primaryText: '',
+                  secondaryText: intl.jar_close_withdrawal_hint(
+                    getIt<AppStore>().isBalanceHide
+                        ? '**** ${sSignalRModules.baseCurrency.symbol}'
+                        : Decimal.parse(selectedJar.balance.toString()).toFormatCount(
+                      accuracy: sSignalRModules.baseCurrency.accuracy,
+                      symbol: sSignalRModules.baseCurrency.symbol,
                     ),
-                  );
-                },
-                secondaryButtonName: intl.jar_cancel,
-                onSecondaryButtonTap: () {
-                  sAnalytics.jarTapOnButtonCancelCloseOnJarClosePopUp(
-                    asset: selectedJar.assetSymbol,
-                    network: 'TRC20',
-                    target: selectedJar.target.toInt(),
-                    balance: selectedJar.balanceInJarAsset,
-                    isOpen: selectedJar.status == JarStatus.active,
-                  );
-                  Navigator.pop(context);
-                },
-              );
+                    selectedJar.assetSymbol,
+                    5000,
+                  ),
+                  primaryButtonName: intl.jar_confirm,
+                  onPrimaryButtonTap: () {
+                    Navigator.pop(context);
+                    sRouter.push(
+                      WithdrawRouter(
+                        withdrawal: WithdrawalModel(
+                          currency: currencyFrom(
+                            sSignalRModules.currenciesList,
+                            selectedJar.assetSymbol,
+                          ),
+                          jar: selectedJar,
+                        ),
+                      ),
+                    );
+                  },
+                  secondaryButtonName: intl.jar_cancel,
+                  onSecondaryButtonTap: () {
+                    Navigator.pop(context);
+                  },
+                );
+              } else {
+                sShowAlertPopup(
+                  sRouter.navigatorKey.currentContext!,
+                  image: Assets.svg.brand.small.infoBlue.simpleSvg(),
+                  primaryText: '',
+                  secondaryText: intl.jar_action_close_jar('"${selectedJar.title}"'),
+                  primaryButtonName: intl.jar_confirm,
+                  onPrimaryButtonTap: () {
+                    sAnalytics.jarTapOnButtonConfirmCloseOnJarClosePopUp(
+                      asset: selectedJar.assetSymbol,
+                      network: 'TRC20',
+                      target: selectedJar.target.toInt(),
+                      balance: selectedJar.balanceInJarAsset,
+                      isOpen: selectedJar.status == JarStatus.active,
+                    );
+
+                    getIt.get<JarsStore>().closeJar(selectedJar.id);
+                    getIt<AppRouter>().push(
+                      JarClosedConfirmationRouter(
+                        name: selectedJar.title,
+                      ),
+                    );
+                  },
+                  secondaryButtonName: intl.jar_cancel,
+                  onSecondaryButtonTap: () {
+                    sAnalytics.jarTapOnButtonCancelCloseOnJarClosePopUp(
+                      asset: selectedJar.assetSymbol,
+                      network: 'TRC20',
+                      target: selectedJar.target.toInt(),
+                      balance: selectedJar.balanceInJarAsset,
+                      isOpen: selectedJar.status == JarStatus.active,
+                    );
+                    Navigator.pop(context);
+                  },
+                );
+              }
             },
           ),
           const SizedBox(

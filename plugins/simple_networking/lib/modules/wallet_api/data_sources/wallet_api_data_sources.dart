@@ -261,8 +261,8 @@ class WalletApiDataSources {
   }
 
   Future<DC<ServerRejectException, WithdrawResponseModel>> postWithdrawJarRequest(
-      WithdrawJarRequestModel model,
-      ) async {
+    WithdrawJarRequestModel model,
+  ) async {
     try {
       final response = await _apiClient.post(
         '${_apiClient.options.walletApi}/blockchain/withdrawal/jar',
@@ -275,6 +275,29 @@ class WalletApiDataSources {
         final data = handleFullResponse<Map>(responseData);
 
         return DC.data(WithdrawResponseModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, WithdrawJarLimitResponseModel>> postWithdrawJarLimitRequest(
+    Map<String, dynamic> body,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/blockchain/withdrawal/jar/limit',
+        data: body,
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(WithdrawJarLimitResponseModel.fromJson(data));
       } catch (e) {
         rethrow;
       }

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:decimal/decimal.dart';
 import 'package:event_bus/event_bus.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -143,6 +144,14 @@ abstract class _WithdrawalStoreBase with Store {
   @action
   void _updateAddressIsInternal(bool value) {
     addressIsInternal = value;
+  }
+
+  @observable
+  double jarWithdrawalLimit = 0;
+
+  @action
+  void _updateJarWithdrawalLimit(double value) {
+    jarWithdrawalLimit = value;
   }
 
   @observable
@@ -401,6 +410,25 @@ abstract class _WithdrawalStoreBase with Store {
 
   @action
   Future<void> validateOnContinue(BuildContext context) async {
+    try {
+      final responseLimit = await sNetwork.getWalletModule().postWithdrawJarLimitRequest(
+        {
+          'assetSymbol': 'USDT',
+        },
+      );
+
+      responseLimit.pick(
+        onData: (data) {
+          _updateJarWithdrawalLimit(data.leftAmount);
+        },
+        onError: (error) {},
+      );
+    } catch (error) {
+      if (kDebugMode) {
+        print('WithdrawalJarLimit error $error');
+      }
+    }
+
     if (credentialsValid) {
       if (withdrawalType == WithdrawalType.nft) {
         await withdrawNFT();
@@ -837,15 +865,15 @@ abstract class _WithdrawalStoreBase with Store {
 
   @action
   void _validateAmount() {
-    InputError error;
+    InputError error = InputError.none;
     if (withdrawalType == WithdrawalType.jar) {
-      error = onWithdrawJarInputErrorHandler(
-        withAmount,
-        blockchain.description,
-        withdrawalInputModel!.jar!.balance,
-        withdrawalInputModel!.currency!,
-        addressIsInternal: addressIsInternal,
-      );
+      // error = onWithdrawJarInputErrorHandler(
+      //   withAmount,
+      //   blockchain.description,
+      //   withdrawalInputModel!.jar!.balance,
+      //   withdrawalInputModel!.currency!,
+      //   addressIsInternal: addressIsInternal,
+      // );
     } else {
       error = onWithdrawInputErrorHandler(
         withAmount,
@@ -865,7 +893,17 @@ abstract class _WithdrawalStoreBase with Store {
         errorCode: withAmmountInputError.name,
       );
     }
-    if (minLimit != null && minLimit! > value) {
+
+    if (withdrawalType == WithdrawalType.jar &&
+        addressIsInternal &&
+        Decimal.parse(jarWithdrawalLimit.toString()) < value) {
+      limitError = intl.jar_withdrawal_error(
+        Decimal.parse(jarWithdrawalLimit.toString()).toFormatCount(
+          accuracy: 2,
+          symbol: 'USDT',
+        ),
+      );
+    } else if (minLimit != null && minLimit! > value) {
       limitError = '${intl.currencyBuy_paymentInputErrorText1} ${minLimit?.toFormatCount(
         accuracy: withdrawalInputModel?.currency?.accuracy ?? 0,
         symbol: withdrawalInputModel?.currency?.symbol ?? '',
