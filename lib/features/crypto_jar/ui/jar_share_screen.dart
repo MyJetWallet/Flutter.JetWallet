@@ -316,7 +316,7 @@ class _JarShareScreenState extends State<JarShareScreen> {
                     color: SColorsLight().gray8,
                   ),
                 ),
-              )
+              ),
           ],
         ),
       ),

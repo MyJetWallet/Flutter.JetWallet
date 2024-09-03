@@ -68,7 +68,6 @@ BlockchainModel? findBlockchaonByDescription(String value) {
 String getBlockChainURL(OperationHistoryItem transactionListItem) {
   final g = getNetworkFromItem(transactionListItem);
 
-  print('a${g}');
   if (g != null) {
     final block = findBlockchaonByDescription(g);
 
