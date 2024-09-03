@@ -1749,5 +1749,6 @@
     "jar_closed_title": "Has cerrado el frasco titulado {name}",
     "jar_closed_hint": "El frasco ya no será rellenado",
     "jar_done": "Hecho",
-    "about_us_jar": "Términos y condiciones del Crypto Jar"
+    "about_us_jar": "Términos y condiciones del Crypto Jar",
+    "withdrawal_recipient_gets": "El destinatario recibe"
 }

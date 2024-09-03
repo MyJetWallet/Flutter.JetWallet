@@ -1725,5 +1725,6 @@
     "jar_closed_title": "Vous avez fermé le bocal intitulé {name}",
     "jar_closed_hint": "Le bocal ne sera plus rechargé",
     "jar_done": "Terminé",
-    "about_us_jar": "Conditions générales du Crypto Jar"
+    "about_us_jar": "Conditions générales du Crypto Jar",
+    "withdrawal_recipient_gets": "Le destinataire reçoit"
 }

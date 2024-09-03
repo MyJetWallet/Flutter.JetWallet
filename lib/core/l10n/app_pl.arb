@@ -1813,5 +1813,6 @@
     "jar_closed_title": "Zamknąłeś słoik o nazwie {name}",
     "jar_closed_hint": "Słoik nie będzie już uzupełniany",
     "jar_done": "Gotowe",
-    "about_us_jar": "Warunki korzystania z Crypto Jar"
+    "about_us_jar": "Warunki korzystania z Crypto Jar",
+    "withdrawal_recipient_gets": "Odbiorca otrzymuje"
 }
