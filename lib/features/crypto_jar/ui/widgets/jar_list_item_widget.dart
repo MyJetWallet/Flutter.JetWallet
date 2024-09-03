@@ -122,7 +122,7 @@ class JarListItemWidget extends HookWidget {
             Text(
               getIt<AppStore>().isBalanceHide
                   ? '**** ${sSignalRModules.baseCurrency.symbol}'
-                  : Decimal.parse(jar.balanceInJarAsset.toString()).toFormatCount(
+                  : Decimal.parse(jar.balance.toString()).toFormatCount(
                       accuracy: sSignalRModules.baseCurrency.accuracy,
                       symbol: sSignalRModules.baseCurrency.symbol,
                     ),
@@ -136,7 +136,7 @@ class JarListItemWidget extends HookWidget {
           height: 4.0,
         ),
         JarProgressBar(
-          progress: jar.balance / jar.target,
+          progress: jar.balanceInJarAsset / jar.target,
           isClosed: jar.status == JarStatus.closed,
         ),
         const SizedBox(
@@ -147,7 +147,7 @@ class JarListItemWidget extends HookWidget {
             Text(
               getIt<AppStore>().isBalanceHide
                   ? '******* ${jar.assetSymbol}'
-                  : '${Decimal.parse(jar.balance.toString()).toFormatCount(
+                  : '${Decimal.parse(jar.balanceInJarAsset.toString()).toFormatCount(
                       accuracy: 2,
                       symbol: jar.assetSymbol,
                     )} / ${Decimal.parse(jar.target.toString()).toFormatCount(

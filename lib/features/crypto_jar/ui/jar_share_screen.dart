@@ -48,7 +48,7 @@ class _JarShareScreenState extends State<JarShareScreen> {
   Widget build(BuildContext context) {
     final selectedJar = getIt.get<JarsStore>().selectedJar!;
 
-    var remainedAmount = selectedJar.target - selectedJar.balance;
+    var remainedAmount = selectedJar.target - selectedJar.balanceInJarAsset;
     if (remainedAmount < 0) {
       remainedAmount = 0;
     }
@@ -254,13 +254,9 @@ class _JarShareScreenState extends State<JarShareScreen> {
                 children: [
                   Text(
                     title,
-                    style: isCountry
-                        ? STStyles.captionMedium.copyWith(
-                            color: SColorsLight().gray8,
-                          )
-                        : STStyles.body2Medium.copyWith(
-                            color: SColorsLight().gray10,
-                          ),
+                    style: STStyles.body2Medium.copyWith(
+                      color: SColorsLight().gray10,
+                    ),
                   ),
                   if (isCountry)
                     Row(

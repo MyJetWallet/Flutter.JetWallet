@@ -68,7 +68,7 @@ class _EnterJarGoalScreenState extends State<EnterJarGoalScreen> {
     final colors = sk.sKit.colors;
 
     final mediaQuery = MediaQuery.of(context);
-    final screenHeight = mediaQuery.size.height - mediaQuery.padding.top - mediaQuery.padding.bottom - 26;
+    final screenHeight = mediaQuery.size.height  - 64 - 53;
     final keyboardHeight = mediaQuery.viewInsets.bottom;
 
     return sk.SPageFrame(

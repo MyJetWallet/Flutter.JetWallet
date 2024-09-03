@@ -100,17 +100,7 @@ abstract class _JarsStoreBase with Store {
 
       if (result != null) {
         selectedJar = result;
-        // final activeIndex = activeJar.indexWhere((jar) {
-        //   return jar.id == jarId;
-        // });
-        // activeJar.removeAt(activeIndex);
-        // activeJar.insert(activeIndex, result);
-        //
-        // final allIndex = allJar.indexWhere((jar) {
-        //   return jar.id == jarId;
-        // });
-        // allJar.removeAt(allIndex);
-        // allJar.insert(allIndex, result);
+
         await refreshJarsStore();
 
         return result;

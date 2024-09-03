@@ -16,7 +16,6 @@ void showNetworkBottomSheet(
   bool backOnClose = true,
   bool isReceive = false,
 }) {
-  print('#@#@#@ ${availableNetworks}');
   var isClosed = false;
 
   void checkOrClose(val) {

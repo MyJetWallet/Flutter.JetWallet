@@ -48,7 +48,7 @@ class _JarsListWidgetState extends State<JarsListWidget> {
               jars = selectedFilter == _JarFilterButton.all ? allJar : activeJar;
             }
 
-            if (allJar.isNotEmpty || activeJar.isNotEmpty) {
+            if (allJar.isNotEmpty) {
               return CustomScrollView(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
