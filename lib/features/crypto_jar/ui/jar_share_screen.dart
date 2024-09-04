@@ -254,9 +254,13 @@ class _JarShareScreenState extends State<JarShareScreen> {
                 children: [
                   Text(
                     title,
-                    style: STStyles.body2Medium.copyWith(
-                      color: SColorsLight().gray10,
-                    ),
+                    style: isCountry
+                        ? STStyles.captionMedium.copyWith(
+                            color: SColorsLight().gray8,
+                          )
+                        : STStyles.body2Medium.copyWith(
+                            color: SColorsLight().gray10,
+                          ),
                   ),
                   if (isCountry)
                     Row(

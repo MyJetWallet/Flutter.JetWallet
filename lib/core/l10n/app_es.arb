@@ -1726,7 +1726,6 @@
     "jar_close": "Cerrar",
     "jar_more": "Más",
     "jar_transactions": "Transacciones",
-    "jar_transactions_empty": "No se han retirado fondos",
     "jar_active": "Activo",
     "jar_all": "Todos",
     "jar_description_title": "Dinos el objetivo de este tarro",
@@ -1745,9 +1744,13 @@
     "jar_network": "Red",
     "jar_skip": "Omitir",
     "jar_empty_list": "Aún no tienes tarros",
-    "jar_withdrawn_totally": " fue retirado totalmente",
     "jar_closed_title": "Has cerrado el frasco titulado {name}",
     "jar_closed_hint": "El frasco ya no será rellenado",
     "jar_done": "Hecho",
-    "about_us_jar": "Términos y condiciones del Crypto Jar"
+    "about_us_jar": "Términos y condiciones del Crypto Jar",
+    "withdrawal_recipient_gets": "El destinatario recibe",
+    "jar_creating": "Creando...",
+    "jar_close_withdrawal_hint": "Por favor, retire {balance} para cerrar el tarro. Tiene un límite de {limit} {jarAsset} por día.",
+    "jar_withdrawal_error": "Los retiros a una dirección cripto Simple están limitados a 5,000 USDT por día",
+    "kyc_verification": "Verificación"
 }

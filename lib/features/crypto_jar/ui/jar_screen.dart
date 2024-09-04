@@ -6,10 +6,13 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/crypto_jar/helpers/jar_extension.dart';
 import 'package:jetwallet/features/crypto_jar/store/jars_store.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
+import 'package:jetwallet/features/kyc/kyc_service.dart';
+import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/transaction_history/widgets/transaction_list_item.dart';
 import 'package:jetwallet/features/transaction_history/widgets/transactions_list.dart';
 import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
@@ -22,6 +25,7 @@ import 'package:simple_kit/modules/colors/simple_colors.dart';
 import 'package:simple_kit/modules/shared/simple_show_alert_popup.dart';
 import 'package:simple_kit/simple_kit.dart' as sk;
 import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/jar/jar_response_model.dart';
 
 @RoutePage(name: 'JarRouter')
@@ -63,6 +67,8 @@ class _JarScreenState extends State<JarScreen> {
     final selectedJar = store.selectedJar!;
 
     final colors = sk.sKit.colors;
+
+    final kycState = getIt.get<KycService>();
 
     return PopScope(
       canPop: widget.hasLeftIcon,
@@ -160,7 +166,7 @@ class _JarScreenState extends State<JarScreen> {
                 ),
                 SliverToBoxAdapter(
                   child: sk.SPaddingH24(
-                    child: _buildButtons(selectedJar, colors),
+                    child: _buildButtons(kycState, selectedJar, colors),
                   ),
                 ),
                 const SliverToBoxAdapter(
@@ -197,7 +203,7 @@ class _JarScreenState extends State<JarScreen> {
     );
   }
 
-  Widget _buildButtons(JarResponseModel selectedJar, SimpleColors colors) {
+  Widget _buildButtons(KycService kycState, JarResponseModel selectedJar, SimpleColors colors) {
     if (selectedJar.status != JarStatus.closed && selectedJar.status != JarStatus.creating) {
       return Row(
         children: [
@@ -207,18 +213,28 @@ class _JarScreenState extends State<JarScreen> {
             Assets.svg.medium.share.simpleSvg(color: SColorsLight().white),
             SColorsLight().blueDark,
             () {
-              sAnalytics.jarTapOnButtonShareOnJar();
-
-              if (selectedJar.description.isNotEmpty) {
-                getIt<AppRouter>().push(
-                  const JarShareRouter(),
-                );
+              if (kycState.depositStatus == kycOperationStatus(KycStatus.blocked)) {
+                sk.showNotification(context, intl.operation_bloked_text);
               } else {
-                getIt<AppRouter>().push(
-                  EnterJarDescriptionRouter(
-                    isOnlyEdit: false,
-                    jar: selectedJar,
-                  ),
+                showSendTimerAlertOr(
+                  context: context,
+                  from: [BlockingType.deposit],
+                  or: () {
+                    sAnalytics.jarTapOnButtonShareOnJar();
+
+                    if (selectedJar.description.isNotEmpty) {
+                      getIt<AppRouter>().push(
+                        const JarShareRouter(),
+                      );
+                    } else {
+                      getIt<AppRouter>().push(
+                        EnterJarDescriptionRouter(
+                          isOnlyEdit: false,
+                          jar: selectedJar,
+                        ),
+                      );
+                    }
+                  },
                 );
               }
             },
@@ -232,25 +248,35 @@ class _JarScreenState extends State<JarScreen> {
             SColorsLight().black,
             () {
               if (selectedJar.balance > 0) {
-                sAnalytics.jarTapOnButtonWithdrawOnJar(
-                  asset: selectedJar.assetSymbol,
-                  network: 'TRC20',
-                  target: selectedJar.target.toInt(),
-                  balance: selectedJar.balanceInJarAsset,
-                  isOpen: selectedJar.status == JarStatus.active,
-                );
+                if (kycState.withdrawalStatus == kycOperationStatus(KycStatus.blocked)) {
+                  sk.showNotification(context, intl.operation_bloked_text);
+                } else {
+                  showSendTimerAlertOr(
+                    context: context,
+                    from: [BlockingType.withdrawal],
+                    or: () {
+                      sAnalytics.jarTapOnButtonWithdrawOnJar(
+                        asset: selectedJar.assetSymbol,
+                        network: 'TRC20',
+                        target: selectedJar.target.toInt(),
+                        balance: selectedJar.balanceInJarAsset,
+                        isOpen: selectedJar.status == JarStatus.active,
+                      );
 
-                sRouter.push(
-                  WithdrawRouter(
-                    withdrawal: WithdrawalModel(
-                      currency: currencyFrom(
-                        sSignalRModules.currenciesList,
-                        selectedJar.assetSymbol,
-                      ),
-                      jar: selectedJar,
-                    ),
-                  ),
-                );
+                      sRouter.push(
+                        WithdrawRouter(
+                          withdrawal: WithdrawalModel(
+                            currency: currencyFrom(
+                              sSignalRModules.currenciesList,
+                              selectedJar.assetSymbol,
+                            ),
+                            jar: selectedJar,
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                }
               }
             },
             selectedJar.balance > 0,
@@ -263,58 +289,16 @@ class _JarScreenState extends State<JarScreen> {
             Assets.svg.medium.close.simpleSvg(color: SColorsLight().white),
             SColorsLight().black,
             () {
-              sAnalytics.jarTapOnButtonCloseOnJar(
-                asset: selectedJar.assetSymbol,
-                network: 'TRC20',
-                target: selectedJar.target.toInt(),
-                balance: selectedJar.balanceInJarAsset,
-                isOpen: selectedJar.status == JarStatus.active,
-              );
+              if (kycState.withdrawalStatus == kycOperationStatus(KycStatus.blocked)) {
+                sk.showNotification(context, intl.operation_bloked_text);
 
-              if (selectedJar.balance != 0) {
-                sShowAlertPopup(
-                  sRouter.navigatorKey.currentContext!,
-                  image: Assets.svg.brand.small.infoYellow.simpleSvg(),
-                  primaryText: '',
-                  secondaryText: intl.jar_close_withdrawal_hint(
-                    getIt<AppStore>().isBalanceHide
-                        ? '**** ${sSignalRModules.baseCurrency.symbol}'
-                        : Decimal.parse(selectedJar.balance.toString()).toFormatCount(
-                      accuracy: sSignalRModules.baseCurrency.accuracy,
-                      symbol: sSignalRModules.baseCurrency.symbol,
-                    ),
-                    selectedJar.assetSymbol,
-                    5000,
-                  ),
-                  primaryButtonName: intl.jar_confirm,
-                  onPrimaryButtonTap: () {
-                    Navigator.pop(context);
-                    sRouter.push(
-                      WithdrawRouter(
-                        withdrawal: WithdrawalModel(
-                          currency: currencyFrom(
-                            sSignalRModules.currenciesList,
-                            selectedJar.assetSymbol,
-                          ),
-                          jar: selectedJar,
-                        ),
-                      ),
-                    );
-                  },
-                  secondaryButtonName: intl.jar_cancel,
-                  onSecondaryButtonTap: () {
-                    Navigator.pop(context);
-                  },
-                );
+                return;
               } else {
-                sShowAlertPopup(
-                  sRouter.navigatorKey.currentContext!,
-                  image: Assets.svg.brand.small.infoBlue.simpleSvg(),
-                  primaryText: '',
-                  secondaryText: intl.jar_action_close_jar('"${selectedJar.title}"'),
-                  primaryButtonName: intl.jar_confirm,
-                  onPrimaryButtonTap: () {
-                    sAnalytics.jarTapOnButtonConfirmCloseOnJarClosePopUp(
+                showSendTimerAlertOr(
+                  context: context,
+                  from: [BlockingType.withdrawal],
+                  or: () {
+                    sAnalytics.jarTapOnButtonCloseOnJar(
                       asset: selectedJar.assetSymbol,
                       network: 'TRC20',
                       target: selectedJar.target.toInt(),
@@ -322,23 +306,77 @@ class _JarScreenState extends State<JarScreen> {
                       isOpen: selectedJar.status == JarStatus.active,
                     );
 
-                    getIt.get<JarsStore>().closeJar(selectedJar.id);
-                    getIt<AppRouter>().push(
-                      JarClosedConfirmationRouter(
-                        name: selectedJar.title,
-                      ),
-                    );
-                  },
-                  secondaryButtonName: intl.jar_cancel,
-                  onSecondaryButtonTap: () {
-                    sAnalytics.jarTapOnButtonCancelCloseOnJarClosePopUp(
-                      asset: selectedJar.assetSymbol,
-                      network: 'TRC20',
-                      target: selectedJar.target.toInt(),
-                      balance: selectedJar.balanceInJarAsset,
-                      isOpen: selectedJar.status == JarStatus.active,
-                    );
-                    Navigator.pop(context);
+                    if (selectedJar.balance != 0) {
+                      sShowAlertPopup(
+                        sRouter.navigatorKey.currentContext!,
+                        image: Assets.svg.brand.small.infoYellow.simpleSvg(),
+                        primaryText: '',
+                        secondaryText: intl.jar_close_withdrawal_hint(
+                          getIt<AppStore>().isBalanceHide
+                              ? '**** ${sSignalRModules.baseCurrency.symbol}'
+                              : Decimal.parse(selectedJar.balance.toString()).toFormatCount(
+                                  accuracy: sSignalRModules.baseCurrency.accuracy,
+                                  symbol: sSignalRModules.baseCurrency.symbol,
+                                ),
+                          selectedJar.assetSymbol,
+                          5000,
+                        ),
+                        primaryButtonName: intl.jar_confirm,
+                        onPrimaryButtonTap: () {
+                          Navigator.pop(context);
+                          sRouter.push(
+                            WithdrawRouter(
+                              withdrawal: WithdrawalModel(
+                                currency: currencyFrom(
+                                  sSignalRModules.currenciesList,
+                                  selectedJar.assetSymbol,
+                                ),
+                                jar: selectedJar,
+                              ),
+                            ),
+                          );
+                        },
+                        secondaryButtonName: intl.jar_cancel,
+                        onSecondaryButtonTap: () {
+                          Navigator.pop(context);
+                        },
+                      );
+                    } else {
+                      sShowAlertPopup(
+                        sRouter.navigatorKey.currentContext!,
+                        image: Assets.svg.brand.small.infoBlue.simpleSvg(),
+                        primaryText: '',
+                        secondaryText: intl.jar_action_close_jar('"${selectedJar.title}"'),
+                        primaryButtonName: intl.jar_confirm,
+                        onPrimaryButtonTap: () {
+                          sAnalytics.jarTapOnButtonConfirmCloseOnJarClosePopUp(
+                            asset: selectedJar.assetSymbol,
+                            network: 'TRC20',
+                            target: selectedJar.target.toInt(),
+                            balance: selectedJar.balanceInJarAsset,
+                            isOpen: selectedJar.status == JarStatus.active,
+                          );
+
+                          getIt.get<JarsStore>().closeJar(selectedJar.id);
+                          getIt<AppRouter>().push(
+                            JarClosedConfirmationRouter(
+                              name: selectedJar.title,
+                            ),
+                          );
+                        },
+                        secondaryButtonName: intl.jar_cancel,
+                        onSecondaryButtonTap: () {
+                          sAnalytics.jarTapOnButtonCancelCloseOnJarClosePopUp(
+                            asset: selectedJar.assetSymbol,
+                            network: 'TRC20',
+                            target: selectedJar.target.toInt(),
+                            balance: selectedJar.balanceInJarAsset,
+                            isOpen: selectedJar.status == JarStatus.active,
+                          );
+                          Navigator.pop(context);
+                        },
+                      );
+                    }
                   },
                 );
               }

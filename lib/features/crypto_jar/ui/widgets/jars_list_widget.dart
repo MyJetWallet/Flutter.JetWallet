@@ -28,6 +28,15 @@ class _JarsListWidgetState extends State<JarsListWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final kycState = getIt.get<KycService>();
+    final kycBlocked = checkKycBlocked(
+      kycState.depositStatus,
+      kycState.tradeStatus,
+      kycState.withdrawalStatus,
+    );
+
+    final isAddButtonDisabled = kycBlocked;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -113,6 +122,7 @@ class _JarsListWidgetState extends State<JarsListWidget> {
           child: SButtonContext(
             type: SButtonContextType.iconedSmall,
             text: intl.jar_add_jar,
+            isDisabled: isAddButtonDisabled,
             onTap: () {
               getIt.get<EventBus>().fire(EndReordering());
 
