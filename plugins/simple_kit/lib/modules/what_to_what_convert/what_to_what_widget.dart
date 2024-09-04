@@ -122,8 +122,8 @@ class AssetRowWidget extends StatelessWidget {
         if (customIcon != null) ...[
           customIcon!,
         ] else ...[
-          SNetworkSvg(
-            url: assetIconUrl,
+          Image.network(
+            assetIconUrl,
             width: isSmallerVersion ? 32 : 40,
             height: isSmallerVersion ? 32 : 40,
           ),
