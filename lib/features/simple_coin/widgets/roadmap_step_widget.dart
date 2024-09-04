@@ -20,7 +20,7 @@ class RoadmapStepWidget extends StatelessWidget {
             children: [
               Container(
                 width: 2,
-                height: 12,
+                height: 10,
                 color: event.isPreviosCompleted
                     ? purple
                     : event.isFirst
@@ -36,7 +36,7 @@ class RoadmapStepWidget extends StatelessWidget {
               if (!event.isLast)
                 Container(
                   width: 2,
-                  height: event.isCompleted ? 8 : 28,
+                  height: event.isCompleted ? 10 : 30,
                   color: event.isCompleted ? purple : colors.gray4,
                 ),
             ],

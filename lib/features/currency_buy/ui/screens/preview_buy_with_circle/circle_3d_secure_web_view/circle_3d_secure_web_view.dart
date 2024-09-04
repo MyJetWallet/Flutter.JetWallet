@@ -1,17 +1,15 @@
-// ignore_for_file: missing_whitespace_between_adjacent_strings, lines_longer_than_80_chars
-
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_webview_pro/webview_flutter.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 @RoutePage(name: 'Circle3dSecureWebViewRouter')
-class Circle3dSecureWebView extends StatelessWidget {
+class Circle3dSecureWebView extends StatefulWidget {
   const Circle3dSecureWebView(
     this.title,
     this.url,
@@ -33,12 +31,56 @@ class Circle3dSecureWebView extends StatelessWidget {
   final Function(String?)? onCancel;
 
   @override
-  Widget build(BuildContext context) {
-    late WebViewController controllerWeb;
+  State<Circle3dSecureWebView> createState() => _Circle3dSecureWebViewState();
+}
 
+class _Circle3dSecureWebViewState extends State<Circle3dSecureWebView> {
+  late WebViewController controller;
+
+  @override
+  void initState() {
+    controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setBackgroundColor(Colors.white)
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onNavigationRequest: (NavigationRequest request) {
+            final uri = Uri.parse(request.url);
+
+            if (uri.path == '/circle/failure' || uri.path == '/unlimint/failure') {
+              widget.onFailed(intl.something_went_wrong);
+
+              return NavigationDecision.navigate;
+            } else if (uri.path == '/circle/success' || uri.path == '/unlimint/success') {
+              widget.onSuccess(widget.paymentId, widget.url);
+
+              return NavigationDecision.navigate;
+            } else if (uri.path == '/unlimint/cancel') {
+              widget.onCancel?.call(widget.paymentId);
+
+              return NavigationDecision.navigate;
+            } else if (uri.path == '/unlimint/inprocess' || uri.path == '/unlimint/return') {
+              widget.onSuccess(widget.paymentId, widget.url);
+
+              return NavigationDecision.navigate;
+            } else if (uri.path.startsWith('text/html')) {
+              return NavigationDecision.prevent;
+            }
+
+            return NavigationDecision.navigate;
+          },
+        ),
+      )
+      ..loadRequest(Uri.parse(widget.url));
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return PopScope(
       onPopInvoked: (_) {
-        onCancel?.call(null);
+        widget.onCancel?.call(null);
 
         Future.value(true);
       },
@@ -48,62 +90,22 @@ class Circle3dSecureWebView extends StatelessWidget {
           child: SSmallHeader(
             titleAlign: TextAlign.left,
             icon: const SCloseIcon(),
-            title: title,
+            title: widget.title,
             onBackButtonTap: () {
-              onCancel?.call(null);
+              widget.onCancel?.call(null);
             },
           ),
         ),
         child: Column(
           children: [
             Expanded(
-              child: WebView(
+              child: WebViewWidget(
                 gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{}..add(
                     Factory<VerticalDragGestureRecognizer>(
                       () => VerticalDragGestureRecognizer(),
                     ),
                   ),
-                gestureNavigationEnabled: true,
-                initialUrl: url,
-                javascriptMode: JavascriptMode.unrestricted,
-                onWebViewCreated: (controller) {
-                  controllerWeb = controller;
-                },
-                onPageFinished: (url) {
-                  controllerWeb.runJavascript('function toMobile(){'
-                      "var meta = document.createElement('meta'); "
-                      "meta.setAttribute('name', 'viewport');"
-                      " meta.setAttribute('content', 'width=device-width, initial-scale=1'); "
-                      "var head= document.getElementsByTagName('head')[0];"
-                      'head.appendChild(meta); '
-                      '}'
-                      'toMobile()');
-                },
-                navigationDelegate: (request) {
-                  final uri = Uri.parse(request.url);
-
-                  if (uri.path == '/circle/failure' || uri.path == '/unlimint/failure') {
-                    onFailed(intl.something_went_wrong);
-
-                    return NavigationDecision.navigate;
-                  } else if (uri.path == '/circle/success' || uri.path == '/unlimint/success') {
-                    onSuccess(paymentId, url);
-
-                    return NavigationDecision.navigate;
-                  } else if (uri.path == '/unlimint/cancel') {
-                    onCancel?.call(paymentId);
-
-                    return NavigationDecision.navigate;
-                  } else if (uri.path == '/unlimint/inprocess' || uri.path == '/unlimint/return') {
-                    onSuccess(paymentId, url);
-
-                    return NavigationDecision.navigate;
-                  } else if (uri.path.startsWith('text/html')) {
-                    return NavigationDecision.prevent;
-                  }
-
-                  return NavigationDecision.navigate;
-                },
+                controller: controller,
               ),
             ),
           ],

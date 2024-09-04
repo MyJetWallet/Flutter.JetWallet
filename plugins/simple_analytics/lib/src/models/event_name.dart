@@ -621,4 +621,35 @@ class EventName {
   static const ptpBuyWebViewScreenView = '‘PTP Buy web view‘ screen view';
   static const ptpBuyPopupUnfinishedOperationScreenView = '‘PTP Buy popup Unfinished operation‘ screen view';
   static const tapOnTheButtonContinueOnPTPBuyPopup = 'Tap on the button ‘Continue’ on PTP Buy popup';
+
+  // JAR
+  static const jarTapOnButtonAddCryptoJarOnDashboard = "Tap on the button 'Add crypto jar' on 'Dashboard' screen";
+  static const jarScreenViewJarName = "'Jar name' screen view";
+  static const jarTapOnButtonNextOnJarName = "Tap on the button 'Next' on 'Jar name' screen";
+  static const jarScreenViewJarGoal = "'Jar goal' screen view";
+  static const jarTapOnButtonNextOnJarGoal = "Tap on the button 'Next' on 'Jar goal' screen";
+  static const jarScreenViewCreatingJar = "'You are creating jar' screen view";
+  static const jarTapOnButtonCreateOnCreatingJar = "Tap on the button 'Create' on 'You are creating jar' screen";
+  static const jarScreenViewJar = "'Jar' screen view";
+  static const jarTapOnButtonMoreOnJar = "Tap on the button 'More' on 'Jar' screen";
+  static const jarTapOnButtonChangeJarNameOnJarAction = "Tap on the button 'Change jar name' on 'Jar Action' sheet";
+  static const jarTapOnButtonChangeGoalOnJarAction = "Tap on the button 'Change goal' on 'Jar Action' sheet";
+  static const jarTapOnButtonChangeDescriptionOnJarAction = "Tap on the button 'Change description' on 'Jar Action' sheet";
+  static const jarScreenViewJarDescription = "'Jar description' screen view";
+  static const jarTapOnButtonNextOnJarDescription = "Tap on the button 'Next' on 'Jar Description' screen";
+  static const jarTapOnButtonShareOnJar = "Tap on the button 'Share' on 'Jar' screen";
+  static const jarScreenViewShareJar = "'Share Jar' screen view";
+  static const jarTapOnButtonShareJarOnShareJar = "Tap on the button 'Share Jar' on 'Share Jar' screen";
+  static const jarTapOnButtonWithdrawOnJar = "Tap on the button 'Withdraw' on 'Jar' screen";
+  static const jarScreenViewWithdrawJar = "'Withdraw Jar' screen view";
+  static const jarTapOnButtonContinueJarWithdrawOnWithdraw = "Tap on the button 'Continue Jar Withdraw' on 'Withdraw Jar' screen";
+  static const jarScreenViewOrderSummaryWithdrawJar = "'Order Summary Withdraw Jar' screen view";
+  static const jarTapOnButtonConfirmJarWithdrawOnOrderSummary = "Tap on the button 'Confirm jar withdraw' on 'Order Summary Withdraw Jar' screen";
+  static const jarTapOnButtonCloseOnJar = "Tap on the button 'Close' on 'Jar' screen";
+  static const jarTapOnButtonConfirmCloseOnJarClosePopUp = "Tap on the button 'Confirm close' on 'Jar close' popup";
+  static const jarTapOnButtonCancelCloseOnJarClosePopUp = "Tap on the button 'Cancel close' on 'Jar close' popup";
+  static const jarTapOnButtonViewAllTrxOnJarScreen = "Tap on the button 'View all trx' on 'Jar' screen";
+  static const jarTapOnButtonJarItemOnDashboard = "Tap on the button 'Jar item' on 'Dashboard' screen";
+  static const jarTapOnButtonAllJarsItemOnDashboard = "Tap on the button 'All Jars items' on 'Dashboard' screen";
+  static const jarTapOnButtonActiveJarsItemsOnDashboard = "Tap on the button 'Active Jars items' on 'Dashboard' screen";
 }

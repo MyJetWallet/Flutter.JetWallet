@@ -53,9 +53,16 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
       store.withdrawalInputModel!.currency!.symbol,
     );
 
-    final availableBalance = Decimal.parse(
-      '''${availableCurrency.assetBalance.toDouble() - availableCurrency.cardReserve.toDouble()}''',
-    );
+    Decimal availableBalance;
+    if (store.withdrawalType == WithdrawalType.jar) {
+      availableBalance = Decimal.parse(
+        '''${store.withdrawalInputModel!.jar!.balance}''',
+      );
+    } else {
+      availableBalance = Decimal.parse(
+        '''${availableCurrency.assetBalance.toDouble() - availableCurrency.cardReserve.toDouble()}''',
+      );
+    }
 
     final String error;
 

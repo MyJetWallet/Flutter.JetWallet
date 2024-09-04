@@ -18,6 +18,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/appbar_bg.png
   AssetGenImage get appbarBg => const AssetGenImage('assets/images/appbar_bg.png');
 
+  /// Directory path: assets/images/jar
+  $AssetsImagesJarGen get jar => const $AssetsImagesJarGen();
+
   /// List of all assets
   List<AssetGenImage> get values => [appbarBg];
 }
@@ -48,6 +51,25 @@ class $AssetsSvgGen {
 
   /// Directory path: assets/svg/small
   $AssetsSvgSmallGen get small => const $AssetsSvgSmallGen();
+}
+
+class $AssetsImagesJarGen {
+  const $AssetsImagesJarGen();
+
+  /// File path: assets/images/jar/jar_closed.png
+  AssetGenImage get jarClosed => const AssetGenImage('assets/images/jar/jar_closed.png');
+
+  /// File path: assets/images/jar/jar_empty.png
+  AssetGenImage get jarEmpty => const AssetGenImage('assets/images/jar/jar_empty.png');
+
+  /// File path: assets/images/jar/jar_full.png
+  AssetGenImage get jarFull => const AssetGenImage('assets/images/jar/jar_full.png');
+
+  /// File path: assets/images/jar/jar_progress.png
+  AssetGenImage get jarProgress => const AssetGenImage('assets/images/jar/jar_progress.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [jarClosed, jarEmpty, jarFull, jarProgress];
 }
 
 class $AssetsSvgAssetsGen {
@@ -306,11 +328,17 @@ class $AssetsSvgMediumGen {
   /// File path: assets/svg/medium/global.svg
   SvgGenImage get global => const SvgGenImage('assets/svg/medium/global.svg');
 
+  /// File path: assets/svg/medium/goal.svg
+  SvgGenImage get goal => const SvgGenImage('assets/svg/medium/goal.svg');
+
   /// File path: assets/svg/medium/hide.svg
   SvgGenImage get hide => const SvgGenImage('assets/svg/medium/hide.svg');
 
   /// File path: assets/svg/medium/history.svg
   SvgGenImage get history => const SvgGenImage('assets/svg/medium/history.svg');
+
+  /// File path: assets/svg/medium/jar.svg
+  SvgGenImage get jar => const SvgGenImage('assets/svg/medium/jar.svg');
 
   /// File path: assets/svg/medium/linkedin.svg
   SvgGenImage get linkedin => const SvgGenImage('assets/svg/medium/linkedin.svg');
@@ -449,8 +477,10 @@ class $AssetsSvgMediumGen {
         freeze,
         gift,
         global,
+        goal,
         hide,
         history,
+        jar,
         linkedin,
         loading,
         mail,
@@ -589,8 +619,11 @@ class $AssetsSvgAssetsCryptoGen {
   /// File path: assets/svg/assets/crypto/smpl.svg
   SvgGenImage get smpl => const SvgGenImage('assets/svg/assets/crypto/smpl.svg');
 
+  /// File path: assets/svg/assets/crypto/tether.png
+  AssetGenImage get tether => const AssetGenImage('assets/svg/assets/crypto/tether.png');
+
   /// List of all assets
-  List<SvgGenImage> get values => [defaultPlaceholder, defaultPlaceholderPurple, smpl];
+  List<dynamic> get values => [defaultPlaceholder, defaultPlaceholderPurple, smpl, tether];
 }
 
 class $AssetsSvgAssetsFiatGen {
@@ -630,8 +663,11 @@ class $AssetsSvgBrandSmallGen {
   /// File path: assets/svg/brand/small/info_blue.svg
   SvgGenImage get infoBlue => const SvgGenImage('assets/svg/brand/small/info_blue.svg');
 
+  /// File path: assets/svg/brand/small/info_yellow.svg
+  SvgGenImage get infoYellow => const SvgGenImage('assets/svg/brand/small/info_yellow.svg');
+
   /// List of all assets
-  List<SvgGenImage> get values => [card, infoBlue];
+  List<SvgGenImage> get values => [card, infoBlue, infoYellow];
 }
 
 class $AssetsSvgOtherLargeGen {

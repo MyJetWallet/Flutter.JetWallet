@@ -1,12 +1,12 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_webview_pro/webview_flutter.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 import '../core/l10n/i10n.dart';
 
 @RoutePage(name: 'InfoWebViewRouter')
-class InfoWebView extends StatelessWidget {
+class InfoWebView extends StatefulWidget {
   const InfoWebView({
     super.key,
     required this.link,
@@ -17,20 +17,35 @@ class InfoWebView extends StatelessWidget {
   final String title;
 
   @override
+  State<InfoWebView> createState() => _InfoWebViewState();
+}
+
+class _InfoWebViewState extends State<InfoWebView> {
+  late WebViewController controller;
+
+  @override
+  void initState() {
+    controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setBackgroundColor(Colors.white)
+      ..loadRequest(Uri.parse(widget.link));
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
       header: SPaddingH24(
         child: SSmallHeader(
-          title: title,
+          title: widget.title,
         ),
       ),
       child: Column(
         children: [
           Expanded(
-            child: WebView(
-              initialUrl: link,
-              javascriptMode: JavascriptMode.unrestricted,
+            child: WebViewWidget(
+              controller: controller,
             ),
           ),
         ],

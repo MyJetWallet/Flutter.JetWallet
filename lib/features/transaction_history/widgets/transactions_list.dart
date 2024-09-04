@@ -22,6 +22,7 @@ class TransactionsList extends StatelessWidget {
     super.key,
     this.isRecurring = false,
     this.symbol,
+    this.jarId,
     this.accountId,
     required this.scrollController,
     this.onItemTapLisener,
@@ -35,6 +36,7 @@ class TransactionsList extends StatelessWidget {
 
   final ScrollController scrollController;
   final String? symbol;
+  final String? jarId;
   final String? accountId;
   final bool isRecurring;
   final void Function(String assetSymbol)? onItemTapLisener;
@@ -56,10 +58,16 @@ class TransactionsList extends StatelessWidget {
         onError: onError,
         onData: onData,
         mode: mode,
+        jarId,
+        null,
+        null,
+        false,
+        null,
       )..initOperationHistory(),
       builder: (context, child) => _TransactionsListBody(
         scrollController: scrollController,
         symbol: symbol,
+        jarId: jarId,
         isRecurring: isRecurring,
         onItemTapLisener: onItemTapLisener,
         fromCJAccount: fromCJAccount,
@@ -76,6 +84,7 @@ class _TransactionsListBody extends StatefulObserverWidget {
   const _TransactionsListBody({
     this.isRecurring = false,
     this.symbol,
+    this.jarId,
     this.accountId,
     required this.scrollController,
     this.onItemTapLisener,
@@ -86,6 +95,7 @@ class _TransactionsListBody extends StatefulObserverWidget {
 
   final ScrollController scrollController;
   final String? symbol;
+  final String? jarId;
   final String? accountId;
   final bool isRecurring;
   final bool isSimpleCard;
@@ -162,6 +172,11 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                     );
                   },
                 );
+              },
+            );
+          }
+
+          return body;
         },
         error: () {
           return listToShow.isEmpty

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_webview_pro/webview_flutter.dart';
 import 'package:jetwallet/features/invest/ui/chart/tvchart/tvchart.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 
@@ -25,7 +24,6 @@ class InvestChart extends StatefulObserverWidget {
 }
 
 class _InvestChartState extends State<InvestChart> {
-  late WebViewController? controllerWeb;
   late String html;
 
   @override

@@ -3,13 +3,15 @@ import 'package:simple_networking/modules/signal_r/models/blockchains_model.dart
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 
 String? isTXIDExist(OperationHistoryItem transactionListItem) {
-  if (transactionListItem.operationType == OperationType.withdraw) {
+  if (transactionListItem.operationType == OperationType.withdraw ||
+      transactionListItem.operationType == OperationType.jarWithdrawal) {
     if (!transactionListItem.withdrawalInfo!.isInternal) {
       if (transactionListItem.withdrawalInfo?.txId != null && transactionListItem.withdrawalInfo!.txId!.isNotEmpty) {
         return transactionListItem.withdrawalInfo!.txId;
       }
     }
-  } else if (transactionListItem.operationType == OperationType.deposit) {
+  } else if (transactionListItem.operationType == OperationType.deposit ||
+      transactionListItem.operationType == OperationType.jarDeposit) {
     if (transactionListItem.depositInfo?.txId != null && transactionListItem.depositInfo!.txId!.isNotEmpty) {
       return transactionListItem.depositInfo!.txId;
     }
@@ -19,14 +21,16 @@ String? isTXIDExist(OperationHistoryItem transactionListItem) {
 }
 
 String? getNetworkFromItem(OperationHistoryItem transactionListItem) {
-  if (transactionListItem.operationType == OperationType.withdraw) {
+  if (transactionListItem.operationType == OperationType.withdraw ||
+      transactionListItem.operationType == OperationType.jarWithdrawal) {
     if (!transactionListItem.withdrawalInfo!.isInternal) {
       if (transactionListItem.withdrawalInfo?.network != null &&
           transactionListItem.withdrawalInfo!.network!.isNotEmpty) {
         return transactionListItem.withdrawalInfo?.network;
       }
     }
-  } else if (transactionListItem.operationType == OperationType.deposit) {
+  } else if (transactionListItem.operationType == OperationType.deposit ||
+      transactionListItem.operationType == OperationType.jarDeposit) {
     if (transactionListItem.depositInfo?.network != null && transactionListItem.depositInfo!.network!.isNotEmpty) {
       return transactionListItem.depositInfo?.network;
     }
@@ -39,6 +43,10 @@ bool checkTransactionIsInternal(OperationHistoryItem transactionListItem) {
   if (transactionListItem.operationType == OperationType.withdraw) {
     return transactionListItem.withdrawalInfo!.isInternal;
   } else if (transactionListItem.operationType == OperationType.deposit) {
+    return transactionListItem.depositInfo!.isInternal;
+  } else if (transactionListItem.operationType == OperationType.jarDeposit) {
+    return transactionListItem.depositInfo!.isInternal;
+  } else if (transactionListItem.operationType == OperationType.jarWithdrawal) {
     return transactionListItem.depositInfo!.isInternal;
   }
 

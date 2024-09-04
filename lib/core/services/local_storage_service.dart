@@ -22,6 +22,8 @@ const spareDeviceId = 'spareDeviceId';
 const utmSourceKey = 'utm_source';
 const installConversionDataKey = 'installConversionData';
 const onelinkDataKey = 'onelinkData';
+const campaignKey = 'campaign';
+const mediaSourceKey = 'mediaSource';
 ///
 /// Non-persistent keys (these variables can be deleted and restored when needed)
 ///
@@ -64,6 +66,7 @@ const localLastMethodId = 'localLastMethodId';
 const p2pLastMethodId = 'p2pLastMethodId';
 const earnTermsAndConditionsWasChecked = 'earnTermsAndConditionsWasChecked';
 const isPerapaidCardBannerClosed = 'isPerapaidCardBannerClosed';
+const isJarTermsConfirmed = 'isJarTermsConfirmed';
 
 final sLocalStorageService = getIt.get<LocalStorageService>();
 
@@ -102,6 +105,8 @@ class LocalStorageService {
     final utmSourceTemp = await _storage.read(key: utmSourceKey);
     final installConversionDataTemp = await _storage.read(key: installConversionDataKey);
     final onelinkDataTemp = await _storage.read(key: onelinkDataKey);
+    final campaignTemp = await _storage.read(key: campaignKey);
+    final mediaSourceTemp = await _storage.read(key: mediaSourceKey);
 
     await _storage.deleteAll();
     await _storage.write(key: lastUsedMail, value: userMail);
@@ -118,6 +123,8 @@ class LocalStorageService {
     await _storage.write(key: utmSourceKey, value: utmSourceTemp);
     await _storage.write(key: installConversionDataKey, value: installConversionDataTemp);
     await _storage.write(key: onelinkDataKey, value: onelinkDataTemp);
+    await _storage.write(key: campaignKey, value: campaignTemp);
+    await _storage.write(key: mediaSourceKey, value: mediaSourceTemp);
   }
 
   Future<void> clearStorage() async {
@@ -151,6 +158,7 @@ class LocalStorageService {
     await _storage.delete(key: localLastMethodId);
     await _storage.delete(key: p2pLastMethodId);
     await _storage.delete(key: earnTermsAndConditionsWasChecked);
+    await _storage.delete(key: isJarTermsConfirmed);
 
     await deleteAllWithoutPermanentData();
   }

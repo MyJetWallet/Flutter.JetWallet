@@ -31,13 +31,10 @@ class SHyperlink extends StatelessWidget {
               ),
             ),
             const Gap(4),
-            Padding(
-              padding: const EdgeInsets.only(top: 4.5),
-              child: Assets.svg.medium.shevronRight.simpleSvg(
-                width: 16,
-                height: 16,
-                color: isDisabled ? SColorsLight().gray4 : SColorsLight().gray8,
-              ),
+            Assets.svg.medium.shevronRight.simpleSvg(
+              width: 16,
+              height: 16,
+              color: isDisabled ? SColorsLight().gray4 : SColorsLight().gray8,
             ),
           ],
         ),

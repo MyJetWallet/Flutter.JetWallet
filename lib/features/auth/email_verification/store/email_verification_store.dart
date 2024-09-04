@@ -158,6 +158,8 @@ abstract class _EmailVerificationStoreBase with Store {
     final authInfo = getIt.get<AppStore>();
 
     final utmSource = await storageService.getValue(utmSourceKey);
+    final campaign = await storageService.getValue(campaignKey);
+    final mediaSource = await storageService.getValue(mediaSourceKey);
 
     rsaService.init();
     await rsaService.savePrivateKey(storageService);
@@ -170,6 +172,8 @@ abstract class _EmailVerificationStoreBase with Store {
         publicKeyPem: publicKey,
         email: authInfo.authState.email,
         utmSource: utmSource,
+        campaign: campaign,
+        mediaSource: mediaSource,
       );
 
       final response =
