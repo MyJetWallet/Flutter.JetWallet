@@ -28,6 +28,8 @@ class EnterJarDescriptionScreen extends StatefulWidget {
 class _EnterJarDescriptionScreenState extends State<EnterJarDescriptionScreen> {
   final TextEditingController _descriptionController = TextEditingController();
 
+  bool isLoading = false;
+
   @override
   void initState() {
     super.initState();
@@ -115,11 +117,15 @@ class _EnterJarDescriptionScreenState extends State<EnterJarDescriptionScreen> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 24.0),
                         child: SButton.black(
+                          isLoading: isLoading,
                           text: widget.isOnlyEdit ? intl.jar_confirm : intl.jar_next,
                           callback: _descriptionController.text.trim() != widget.jar.description &&
                                   _descriptionController.text.trim().isNotEmpty &&
                                   _descriptionController.text.length <= jarDescriptionLength
                               ? () async {
+                                  setState(() {
+                                    isLoading = true;
+                                  });
                                   sAnalytics.jarTapOnButtonNextOnJarDescription();
 
                                   final result = await getIt.get<JarsStore>().updateJar(
@@ -133,12 +139,18 @@ class _EnterJarDescriptionScreenState extends State<EnterJarDescriptionScreen> {
                                   if (result != null) {
                                     getIt.get<JarsStore>().selectedJar = result;
                                     if (widget.isOnlyEdit) {
+                                      setState(() {
+                                        isLoading = false;
+                                      });
                                       await getIt<AppRouter>().push(
                                         JarRouter(
                                           hasLeftIcon: false,
                                         ),
                                       );
                                     } else {
+                                      setState(() {
+                                        isLoading = false;
+                                      });
                                       await getIt<AppRouter>().push(
                                         const JarShareRouter(),
                                       );

@@ -58,11 +58,7 @@ class TransactionsList extends StatelessWidget {
         onError: onError,
         onData: onData,
         mode: mode,
-        jarId,
-        null,
-        null,
-        false,
-        null,
+        jarId: jarId,
       )..initOperationHistory(),
       builder: (context, child) => _TransactionsListBody(
         scrollController: scrollController,
@@ -172,11 +168,6 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                     );
                   },
                 );
-              },
-            );
-          }
-
-          return body;
         },
         error: () {
           return listToShow.isEmpty

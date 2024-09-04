@@ -42,6 +42,7 @@ import 'package:jetwallet/features/crypto_jar/ui/enter_jar_name_screen.dart';
 import 'package:jetwallet/features/crypto_jar/ui/jar_closed_confirmation_screen.dart';
 import 'package:jetwallet/features/crypto_jar/ui/jar_screen.dart';
 import 'package:jetwallet/features/crypto_jar/ui/jar_share_screen.dart';
+import 'package:jetwallet/features/crypto_jar/ui/jar_transaction_history_screen.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/add_bank_card.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/pay_with_bottom_sheet.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/preview_buy_with_circle/circle_3d_secure_web_view/circle_3d_secure_web_view.dart';
@@ -755,6 +756,10 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/asset_transaction_history',
       page: AssetTransactionHistoryRouter.page,
+    ),
+    AutoRoute(
+      path: '/jar_transaction_history',
+      page: JarTransactionHistoryRouter.page,
     ),
     AutoRoute(
       path: '/kyc_aid_web_view',

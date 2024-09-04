@@ -11,6 +11,7 @@ import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/crypto_jar/helpers/jar_extension.dart';
 import 'package:jetwallet/features/crypto_jar/store/jars_store.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
+import 'package:jetwallet/features/earn/widgets/basic_header.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/transaction_history/widgets/transaction_list_item.dart';
@@ -42,6 +43,8 @@ class JarScreen extends StatefulWidget {
 }
 
 class _JarScreenState extends State<JarScreen> {
+  bool showViewAllButtonOnHistory = false;
+
   @override
   void initState() {
     super.initState();
@@ -175,18 +178,20 @@ class _JarScreenState extends State<JarScreen> {
                   ),
                 ),
                 SliverToBoxAdapter(
-                  child: sk.SPaddingH24(
-                    child: Text(
-                      intl.jar_transactions,
-                      style: STStyles.header5.copyWith(
-                        color: SColorsLight().black,
-                      ),
-                    ),
-                  ),
-                ),
-                const SliverToBoxAdapter(
-                  child: SizedBox(
-                    height: 8.0,
+                  child: SBasicHeader(
+                    title: intl.jar_transactions,
+                    buttonTitle: intl.wallet_history_view_all,
+                    showLinkButton: showViewAllButtonOnHistory,
+                    onTap: () {
+                      sAnalytics.jarTapOnButtonViewAllTrxOnJarScreen();
+
+                      sRouter.push(
+                        JarTransactionHistoryRouter(
+                          jarId: selectedJar.id,
+                          jarTitle: selectedJar.title,
+                        ),
+                      );
+                    },
                   ),
                 ),
                 TransactionsList(
@@ -194,6 +199,14 @@ class _JarScreenState extends State<JarScreen> {
                   jarId: selectedJar.id,
                   onItemTapLisener: (symbol) {},
                   source: TransactionItemSource.history,
+                  mode: TransactionListMode.preview,
+                  onData: (items) {
+                    if (items.length >= 5) {
+                      setState(() {
+                        showViewAllButtonOnHistory = true;
+                      });
+                    }
+                  },
                 ),
               ],
             );
