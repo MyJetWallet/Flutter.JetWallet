@@ -5,9 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
-import 'package:jetwallet/features/withdrawal/helper/user_will_receive.dart';
+
 import 'package:jetwallet/features/withdrawal/store/withdrawal_store.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
@@ -47,15 +45,6 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
 
     final deviceSize = sDeviceSize;
     final colors = sKit.colors;
-
-    final availableCurrency = currencyFrom(
-      sSignalRModules.currenciesList,
-      store.withdrawalInputModel!.currency!.symbol,
-    );
-
-    final availableBalance = Decimal.parse(
-      '''${availableCurrency.assetBalance.toDouble() - availableCurrency.cardReserve.toDouble()}''',
-    );
 
     final String error;
 
@@ -127,7 +116,7 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
                   baselineType: TextBaseline.alphabetic,
                   child: Text(
                     '${intl.withdrawalAmount_available}: '
-                    '${getIt<AppStore>().isBalanceHide ? '**** ${store.withdrawalInputModel!.currency!.symbol}' : availableBalance.toFormatCount(
+                    '${getIt<AppStore>().isBalanceHide ? '**** ${store.withdrawalInputModel!.currency!.symbol}' : store.availableBalance.toFormatCount(
                         accuracy: store.withdrawalInputModel!.currency!.accuracy,
                         symbol: store.withdrawalInputModel!.currency!.symbol,
                       )}',
@@ -209,15 +198,16 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
 
     final currency = store.withdrawalInputModel!.currency!;
 
-    final result = userWillreceive(
-      amount: amount,
-      currency: store.withdrawalInputModel!.currency!,
-      network: isInternal ? 'internal-send' : store.networkController.text,
+    final feeAmountFormated = store.feeAmount.toFormatCount(
+      symbol: currency.symbol,
+      accuracy: currency.accuracy,
     );
 
-    final youWillSend = '${intl.withdrawalAmount_youWillSend}: $result';
+    final youWillSend = '${intl.withdrawalAmount_youWillSend}: ${store.youWillSendAmount.toFormatCount(
+      symbol: currency.symbol,
+      accuracy: currency.accuracy,
+    )}';
 
-    return '${intl.fee}: '
-        '${currency.withdrawalFeeWithSymbol(network: isInternal ? 'internal-send' : store.networkController.text, amount: Decimal.parse(amount))} / $youWillSend';
+    return '${intl.fee}: $feeAmountFormated / $youWillSend';
   }
 }
