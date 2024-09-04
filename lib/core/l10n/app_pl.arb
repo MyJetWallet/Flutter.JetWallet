@@ -1814,5 +1814,9 @@
     "jar_closed_hint": "Słoik nie będzie już uzupełniany",
     "jar_done": "Gotowe",
     "about_us_jar": "Warunki korzystania z Crypto Jar",
-    "withdrawal_recipient_gets": "Odbiorca otrzymuje"
+    "withdrawal_recipient_gets": "Odbiorca otrzymuje",
+    "jar_creating": "Tworzenie...",
+    "jar_close_withdrawal_hint": "Proszę wypłacić {balance}, aby zamknąć słoik. Masz limit {limit} {jarAsset} na dzień.",
+    "jar_withdrawal_error": "Wypłaty na Simple adres krypto są ograniczone do 5,000 USDT na dzień",
+    "kyc_verification": "Weryfikacja"
 }

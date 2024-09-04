@@ -1726,5 +1726,9 @@
     "jar_closed_hint": "Le bocal ne sera plus rechargé",
     "jar_done": "Terminé",
     "about_us_jar": "Conditions générales du Crypto Jar",
-    "withdrawal_recipient_gets": "Le destinataire reçoit"
+    "withdrawal_recipient_gets": "Le destinataire reçoit",
+    "jar_creating": "Création...",
+    "jar_close_withdrawal_hint": "Veuillez retirer {balance} pour fermer le bocal. Vous avez une limite de {limit} {jarAsset} par jour.",
+    "jar_withdrawal_error": "Les retraits vers une adresse crypto Simple sont limités à 5,000 USDT par jour",
+    "kyc_verification": "Vérification"
 }

@@ -12,6 +12,7 @@ import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
@@ -97,13 +98,10 @@ class BuyP2PDetails extends StatelessObserverWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   const SpaceW8(),
-                  SNetworkCachedSvg(
-                    url: iconForPaymentMethod(
+                  NetworkIconWidget(
+                    iconForPaymentMethod(
                       methodId: transactionListItem.cryptoBuyInfo?.paymentMethod ?? '',
                     ),
-                    width: 24,
-                    height: 24,
-                    placeholder: const SizedBox(),
                   ),
                   const SpaceW8(),
                   Flexible(
