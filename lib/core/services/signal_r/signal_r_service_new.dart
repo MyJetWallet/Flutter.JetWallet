@@ -250,6 +250,7 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
             priceAccuracy: marketReference.priceAccuracy,
             startMarketTime: marketReference.startMarketTime,
             type: currency.type,
+            sectorId: marketReference.sectorId,
           ),
         );
       }

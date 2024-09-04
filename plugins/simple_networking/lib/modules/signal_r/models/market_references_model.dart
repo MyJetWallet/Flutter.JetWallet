@@ -27,6 +27,7 @@ class MarketReferenceModel with _$MarketReferenceModel {
     required String startMarketTime,
     required bool isMainNet,
     required MarketType type,
+    String? sectorId,
   }) = _MarketReferenceModel;
 
   factory MarketReferenceModel.fromJson(Map<String, dynamic> json) => _$MarketReferenceModelFromJson(json);
