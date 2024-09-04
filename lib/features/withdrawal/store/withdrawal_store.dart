@@ -832,9 +832,10 @@ abstract class _WithdrawalStoreBase with Store {
   @action
   void _validateAmount() {
     final error = onWithdrawInputErrorHandler(
-      youWillSendAmount.toString(),
-      blockchain.description,
-      withdrawalInputModel!.currency!,
+      youWillSendAmount: youWillSendAmount,
+      inputAmount: Decimal.parse(withAmount),
+      network: blockchain.description,
+      currency: withdrawalInputModel!.currency!,
       addressIsInternal: addressIsInternal,
     );
 
@@ -847,11 +848,11 @@ abstract class _WithdrawalStoreBase with Store {
       );
     }
     if (minLimit != null && minLimit! > youWillSendAmount) {
-      limitError = '${intl.currencyBuy_paymentInputErrorText1} ${minLimit?.toFormatCount(
+      limitError = '${intl.currencyBuy_paymentInputErrorText1} ${((minLimit ?? Decimal.zero) - feeAmount).toFormatCount(
         accuracy: withdrawalInputModel?.currency?.accuracy ?? 0,
         symbol: withdrawalInputModel?.currency?.symbol ?? '',
       )}';
-    } else if (maxLimit != null && maxLimit! < youWillSendAmount) {
+    } else if (maxLimit != null && maxLimit! < Decimal.parse(withAmount)) {
       limitError = '${intl.currencyBuy_paymentInputErrorText2} ${maxLimit?.toFormatCount(
         accuracy: withdrawalInputModel?.currency?.accuracy ?? 0,
       )}';

@@ -11,6 +11,7 @@ import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
+import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -138,9 +139,10 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
                       const SpaceW10(),
                       Text(
                         _feeDescription(
-                          store.addressIsInternal,
-                          store.withAmount,
-                          context,
+                          context: context,
+                          feeAmount: store.feeAmount,
+                          youWillSendAmount: store.youWillSendAmount,
+                          currency: store.currency,
                         ),
                         style: sCaptionTextStyle.copyWith(
                           color: colors.grey2,
@@ -189,21 +191,18 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
     );
   }
 
-  String _feeDescription(
-    bool isInternal,
-    String amount,
-    BuildContext context,
-  ) {
-    final store = WithdrawalStore.of(context);
-
-    final currency = store.withdrawalInputModel!.currency!;
-
-    final feeAmountFormated = store.feeAmount.toFormatCount(
+  String _feeDescription({
+    required BuildContext context,
+    required Decimal feeAmount,
+    required Decimal youWillSendAmount,
+    required CurrencyModel currency,
+  }) {
+    final feeAmountFormated = feeAmount.toFormatCount(
       symbol: currency.symbol,
       accuracy: currency.accuracy,
     );
 
-    final youWillSend = '${intl.withdrawalAmount_youWillSend}: ${store.youWillSendAmount.toFormatCount(
+    final youWillSend = '${intl.withdrawalAmount_youWillSend}: ${youWillSendAmount.toFormatCount(
       symbol: currency.symbol,
       accuracy: currency.accuracy,
     )}';
