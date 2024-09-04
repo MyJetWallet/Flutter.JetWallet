@@ -121,6 +121,7 @@ import 'package:jetwallet/features/transaction_history/screens/transaction_hisot
 import 'package:jetwallet/features/transfer_flow/screens/transfer_confrimation_screen.dart';
 import 'package:jetwallet/features/two_fa_phone/model/two_fa_phone_trigger_union.dart';
 import 'package:jetwallet/features/two_fa_phone/ui/two_fa_phone.dart';
+import 'package:jetwallet/features/wallet/screens/asset_transaction_history.dart';
 import 'package:jetwallet/features/wallet/screens/create_banking_screen.dart';
 import 'package:jetwallet/features/wallet/screens/wallet_screen.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/send_card_detail_screen.dart';
@@ -750,6 +751,10 @@ class AppRouter extends _$AppRouter {
       path: '/get_simple_card',
       page: GetSimpleCardRouter.page,
       fullscreenDialog: true,
+    ),
+    AutoRoute(
+      path: '/asset_transaction_history',
+      page: AssetTransactionHistoryRouter.page,
     ),
     AutoRoute(
       path: '/kyc_aid_web_view',

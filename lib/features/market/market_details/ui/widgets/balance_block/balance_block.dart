@@ -19,7 +19,7 @@ class BalanceBlock extends StatelessWidget {
   Widget build(BuildContext context) {
     return Provider<OperationHistory>(
       create: (context) => OperationHistory(
-        marketItem.symbol,
+        assetId: marketItem.symbol,
         null,
         null,
         null,
