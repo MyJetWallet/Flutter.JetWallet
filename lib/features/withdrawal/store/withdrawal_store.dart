@@ -24,6 +24,7 @@ import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
+import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:mobx/mobx.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -273,12 +274,13 @@ abstract class _WithdrawalStoreBase with Store {
       );
 
   @computed
-  Decimal get availableBalance {
-    final currency = currencyFrom(
-      sSignalRModules.currenciesList,
-      withdrawalInputModel!.currency!.symbol,
-    );
+  CurrencyModel get currency => currencyFrom(
+        sSignalRModules.currenciesList,
+        withdrawalInputModel!.currency!.symbol,
+      );
 
+  @computed
+  Decimal get availableBalance {
     final result = currency.assetBalance -
         currency.cardReserve -
         currency.withdrawalFeeSize(
@@ -287,6 +289,15 @@ abstract class _WithdrawalStoreBase with Store {
         );
     return result;
   }
+
+  @computed
+  Decimal get feeAmount => currency.withdrawalFeeSize(
+        network: addressIsInternal ? 'internal-send' : networkController.text,
+        amount: Decimal.parse(withAmount),
+      );
+
+  @computed
+  Decimal get youWillSendAmount => withAmount != '0' ? Decimal.parse(withAmount) + feeAmount : Decimal.zero;
 
   @computed
   Decimal? get minLimit => _sendWithdrawalMethod.symbolNetworkDetails?.firstWhere(
@@ -821,13 +832,11 @@ abstract class _WithdrawalStoreBase with Store {
   @action
   void _validateAmount() {
     final error = onWithdrawInputErrorHandler(
-      withAmount,
+      youWillSendAmount.toString(),
       blockchain.description,
       withdrawalInputModel!.currency!,
       addressIsInternal: addressIsInternal,
     );
-
-    final value = Decimal.parse(withAmount);
 
     if (error != InputError.none) {
       sAnalytics.cryptoSendErrorLimit(
@@ -837,12 +846,12 @@ abstract class _WithdrawalStoreBase with Store {
         errorCode: withAmmountInputError.name,
       );
     }
-    if (minLimit != null && minLimit! > value) {
+    if (minLimit != null && minLimit! > youWillSendAmount) {
       limitError = '${intl.currencyBuy_paymentInputErrorText1} ${minLimit?.toFormatCount(
         accuracy: withdrawalInputModel?.currency?.accuracy ?? 0,
         symbol: withdrawalInputModel?.currency?.symbol ?? '',
       )}';
-    } else if (maxLimit != null && maxLimit! < value) {
+    } else if (maxLimit != null && maxLimit! < youWillSendAmount) {
       limitError = '${intl.currencyBuy_paymentInputErrorText2} ${maxLimit?.toFormatCount(
         accuracy: withdrawalInputModel?.currency?.accuracy ?? 0,
       )}';
