@@ -4013,7 +4013,7 @@ class WalletApiDataSources {
     required int target,
     required String imageUrl,
     required String title,
-    required String description,
+    required String? description,
   }) async {
     try {
       final response = await _apiClient.post(

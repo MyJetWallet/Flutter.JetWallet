@@ -35,7 +35,7 @@ abstract class _CreateJarStoreBase with Store {
             target: goal,
             imageUrl: '',
             title: title,
-            description: '',
+            description: null,
           );
 
       if (response.hasData) {

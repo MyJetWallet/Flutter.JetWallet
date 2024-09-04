@@ -186,7 +186,7 @@ class _EnterJarGoalScreenState extends State<EnterJarGoalScreen> {
                                         );
 
                                     if (result != null) {
-                                      getIt.get<JarsStore>().selectedJar = result;
+                                      getIt.get<JarsStore>().setSelectedJar(result);
                                       await getIt<AppRouter>().push(
                                         JarRouter(
                                           hasLeftIcon: false,

@@ -32,6 +32,19 @@ abstract class _JarsStoreBase with Store {
   @observable
   JarResponseModel? selectedJar;
 
+  @action
+  void setSelectedJar(JarResponseModel? value) {
+    selectedJar = value;
+  }
+
+  @observable
+  double? limit;
+
+  @action
+  void setLimit(double value) {
+    limit = value;
+  }
+
   @observable
   StackLoaderStore loader = StackLoaderStore();
 
@@ -55,6 +68,19 @@ abstract class _JarsStoreBase with Store {
         activeJar.clear();
         activeJar.addAll(resultActive);
       }
+
+      final responseLimit = await sNetwork.getWalletModule().postWithdrawJarLimitRequest(
+        {
+          'assetSymbol': 'USDT',
+        },
+      );
+
+      responseLimit.pick(
+        onData: (data) {
+          setLimit(data.limit);
+        },
+        onError: (error) {},
+      );
     } catch (e) {
       getIt.get<SimpleLoggerService>().log(
             level: Level.error,
@@ -69,7 +95,7 @@ abstract class _JarsStoreBase with Store {
     await initStore();
 
     if (selectedJar != null) {
-      selectedJar = allJar.firstWhere((element) => element.id == selectedJar!.id);
+      setSelectedJar(allJar.firstWhere((element) => element.id == selectedJar!.id));
     }
   }
 
@@ -99,11 +125,11 @@ abstract class _JarsStoreBase with Store {
       final result = response.data;
 
       if (result != null) {
-        selectedJar = result;
+        setSelectedJar(result);
 
         await refreshJarsStore();
 
-        return result;
+        return selectedJar;
       }
     } catch (e) {
       getIt.get<SimpleLoggerService>().log(

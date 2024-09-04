@@ -16,7 +16,6 @@ import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_country_model.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/store/send_card_payment_method_store.dart';
-import 'package:jetwallet/features/withdrawal/store/withdrawal_store.dart';
 import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
 import 'package:jetwallet/utils/helpers/flag_asset_name.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
@@ -397,9 +396,7 @@ void showGlobalSendCurrenctSelect(BuildContext context) {
   getIt.get<ActionSearchStore>().clearSearchValue();
   final searchStore = getIt.get<ActionSearchStore>();
 
-  if (getIt.get<WithdrawalStore>().withdrawalType != WithdrawalType.jar) {
-    sAnalytics.chooseAssetToSendScreenView();
-  }
+  sAnalytics.chooseAssetToSendScreenView();
 
   sShowBasicModalBottomSheet(
     context: context,

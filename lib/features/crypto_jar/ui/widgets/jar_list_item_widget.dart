@@ -5,6 +5,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/crypto_jar/helpers/jar_extension.dart';
@@ -36,9 +37,7 @@ class JarListItemWidget extends HookWidget {
           jarName: jar.title,
         );
 
-        getIt
-            .get<JarsStore>()
-            .selectedJar = jar;
+        getIt.get<JarsStore>().setSelectedJar(jar);
         getIt<AppRouter>().push(
           JarRouter(
             hasLeftIcon: true,
@@ -73,6 +72,13 @@ class JarListItemWidget extends HookWidget {
   }
 
   Widget _buildBody() {
+    final accuracy = getIt
+        .get<FormatService>()
+        .findCurrency(
+          assetSymbol: jar.assetSymbol,
+        )
+        .accuracy;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -135,9 +141,9 @@ class JarListItemWidget extends HookWidget {
               getIt<AppStore>().isBalanceHide
                   ? '**** ${sSignalRModules.baseCurrency.symbol}'
                   : Decimal.parse(jar.balance.toString()).toFormatCount(
-                accuracy: sSignalRModules.baseCurrency.accuracy,
-                symbol: sSignalRModules.baseCurrency.symbol,
-              ),
+                      accuracy: sSignalRModules.baseCurrency.accuracy,
+                      symbol: sSignalRModules.baseCurrency.symbol,
+                    ),
               style: STStyles.subtitle1.copyWith(
                 color: SColorsLight().black,
               ),
@@ -160,12 +166,12 @@ class JarListItemWidget extends HookWidget {
               getIt<AppStore>().isBalanceHide
                   ? '******* ${jar.assetSymbol}'
                   : '${Decimal.parse(jar.balanceInJarAsset.toString()).toFormatCount(
-                accuracy: 2,
-                symbol: jar.assetSymbol,
-              )} / ${Decimal.parse(jar.target.toString()).toFormatCount(
-                accuracy: 0,
-                symbol: jar.assetSymbol,
-              )}',
+                      accuracy: accuracy,
+                      symbol: jar.assetSymbol,
+                    )} / ${Decimal.parse(jar.target.toString()).toFormatCount(
+                      accuracy: 0,
+                      symbol: jar.assetSymbol,
+                    )}',
               style: STStyles.body2Medium.copyWith(
                 color: SColorsLight().gray10,
               ),
@@ -211,10 +217,10 @@ class JarProgressBar extends StatelessWidget {
                   gradient: isClosed
                       ? null
                       : const LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [Color(0xFFCBB9FF), Color(0xFF9575F3)],
-                  ),
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [Color(0xFFCBB9FF), Color(0xFF9575F3)],
+                        ),
                   borderRadius: BorderRadius.circular(3),
                 ),
               ),

@@ -125,7 +125,7 @@ class _EnterJarNameScreenState extends State<EnterJarNameScreen> {
                                             );
 
                                         if (result != null) {
-                                          getIt.get<JarsStore>().selectedJar = result;
+                                          getIt.get<JarsStore>().setSelectedJar(result);
                                           await getIt<AppRouter>().push(
                                             JarRouter(
                                               hasLeftIcon: false,

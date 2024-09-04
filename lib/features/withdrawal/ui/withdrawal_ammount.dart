@@ -114,6 +114,10 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
                     )}',
                     error: error,
                     isErrorActive: store.withAmmountInputError.isActive,
+                    errorMaxLines: deviceSize.when(
+                      small: () => 1,
+                      medium: () => 2,
+                    ),
                     pasteLabel: intl.paste,
                     onPaste: () async {
                       final data = await Clipboard.getData('text/plain');

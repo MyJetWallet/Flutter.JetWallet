@@ -16,7 +16,7 @@ class JarResponseModel with _$JarResponseModel {
     required String? imageUrl,
     required String? ownerName,
     required String title,
-    required String description,
+    required String? description,
     @JsonKey(unknownEnumValue: JarStatus.creating) required JarStatus status,
     required List<JarAddressModel> addresses,
   }) = _JarResponseModel;

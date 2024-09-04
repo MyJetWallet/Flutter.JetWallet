@@ -5,6 +5,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
@@ -67,11 +68,17 @@ class _JarScreenState extends State<JarScreen> {
   @override
   Widget build(BuildContext context) {
     final store = getIt.get<JarsStore>();
-    final selectedJar = store.selectedJar!;
 
     final colors = sk.sKit.colors;
 
     final kycState = getIt.get<KycService>();
+
+    final accuracy = getIt
+        .get<FormatService>()
+        .findCurrency(
+          assetSymbol: store.selectedJar!.assetSymbol,
+        )
+        .accuracy;
 
     return PopScope(
       canPop: widget.hasLeftIcon,
@@ -92,6 +99,7 @@ class _JarScreenState extends State<JarScreen> {
         ),
         child: Observer(
           builder: (context) {
+            final selectedJar = store.selectedJar!;
             return CustomScrollView(
               slivers: [
                 SliverToBoxAdapter(
@@ -150,7 +158,7 @@ class _JarScreenState extends State<JarScreen> {
                       getIt<AppStore>().isBalanceHide
                           ? '******* ${selectedJar.assetSymbol}'
                           : '${Decimal.parse(selectedJar.balanceInJarAsset.toString()).toFormatCount(
-                              accuracy: 2,
+                              accuracy: accuracy,
                               symbol: selectedJar.assetSymbol,
                             )} / ${Decimal.parse(selectedJar.target.toString()).toFormatCount(
                               accuracy: 0,
@@ -169,7 +177,12 @@ class _JarScreenState extends State<JarScreen> {
                 ),
                 SliverToBoxAdapter(
                   child: sk.SPaddingH24(
-                    child: _buildButtons(kycState, selectedJar, colors),
+                    child: _buildButtons(
+                      kycState,
+                      selectedJar,
+                      colors,
+                      accuracy,
+                    ),
                   ),
                 ),
                 const SliverToBoxAdapter(
@@ -216,7 +229,7 @@ class _JarScreenState extends State<JarScreen> {
     );
   }
 
-  Widget _buildButtons(KycService kycState, JarResponseModel selectedJar, SimpleColors colors) {
+  Widget _buildButtons(KycService kycState, JarResponseModel selectedJar, SimpleColors colors, int accuracy) {
     if (selectedJar.status != JarStatus.closed && selectedJar.status != JarStatus.creating) {
       return Row(
         children: [
@@ -235,7 +248,7 @@ class _JarScreenState extends State<JarScreen> {
                   or: () {
                     sAnalytics.jarTapOnButtonShareOnJar();
 
-                    if (selectedJar.description.isNotEmpty) {
+                    if (selectedJar.description != null) {
                       getIt<AppRouter>().push(
                         const JarShareRouter(),
                       );
@@ -327,12 +340,12 @@ class _JarScreenState extends State<JarScreen> {
                         secondaryText: intl.jar_close_withdrawal_hint(
                           getIt<AppStore>().isBalanceHide
                               ? '**** ${sSignalRModules.baseCurrency.symbol}'
-                              : Decimal.parse(selectedJar.balance.toString()).toFormatCount(
-                                  accuracy: sSignalRModules.baseCurrency.accuracy,
-                                  symbol: sSignalRModules.baseCurrency.symbol,
+                              : Decimal.parse(selectedJar.balanceInJarAsset.toString()).toFormatCount(
+                                  accuracy: accuracy,
+                                  symbol: selectedJar.assetSymbol,
                                 ),
                           selectedJar.assetSymbol,
-                          5000,
+                          (getIt.get<JarsStore>().limit ?? 5000).toInt(),
                         ),
                         primaryButtonName: intl.jar_confirm,
                         onPrimaryButtonTap: () {

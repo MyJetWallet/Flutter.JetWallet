@@ -17,7 +17,14 @@ import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/jar/jar_response_model.dart';
 
 class JarsListWidget extends StatefulWidget {
-  const JarsListWidget({super.key});
+  const JarsListWidget({
+    required this.titleKey,
+    required this.scrollToTitle,
+    super.key,
+  });
+
+  final GlobalKey titleKey;
+  final Function() scrollToTitle;
 
   @override
   State<JarsListWidget> createState() => _JarsListWidgetState();
@@ -41,6 +48,7 @@ class _JarsListWidgetState extends State<JarsListWidget> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         STableHeader(
+          key: widget.titleKey,
           size: SHeaderSize.m,
           title: intl.jar_jars,
         ),
@@ -136,6 +144,8 @@ class _JarsListWidgetState extends State<JarsListWidget> {
                 kycState.tradeStatus,
                 kycState.withdrawalStatus,
               )) {
+                widget.scrollToTitle();
+
                 getIt<AppRouter>().push(EnterJarNameRouter());
               } else {
                 final kycHandler = getIt.get<KycAlertHandler>();

@@ -419,7 +419,7 @@ abstract class _WithdrawalStoreBase with Store {
 
       responseLimit.pick(
         onData: (data) {
-          _updateJarWithdrawalLimit(data.leftAmount);
+          _updateJarWithdrawalLimit(data.limit);
         },
         onError: (error) {},
       );

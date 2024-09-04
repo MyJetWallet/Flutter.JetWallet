@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/crypto_jar/store/jars_store.dart';
@@ -101,7 +102,7 @@ class _JarShareScreenState extends State<JarShareScreen> {
               _buildShareItem(
                 intl.jar_remained_amount,
                 Decimal.parse((remainedAmount).toString()).toFormatCount(
-                  accuracy: 2,
+                  accuracy: getIt.get<FormatService>().findCurrency(assetSymbol: selectedJar.assetSymbol).accuracy,
                   symbol: selectedJar.addresses.first.assetSymbol,
                 ),
                 false,

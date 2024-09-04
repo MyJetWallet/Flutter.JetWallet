@@ -135,7 +135,7 @@ class _CreateNewJarScreenState extends State<CreateNewJarScreen> {
 
                           if (result != null) {
                             getIt.get<JarsStore>().addNewJar(result);
-                            getIt.get<JarsStore>().selectedJar = result;
+                            getIt.get<JarsStore>().setSelectedJar(result);
                             await getIt<AppRouter>().push(
                               JarRouter(
                                 hasLeftIcon: false,

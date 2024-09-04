@@ -101,6 +101,8 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
   // for analytic
   GlobalHistoryTab historyTab = GlobalHistoryTab.pending;
 
+  final GlobalKey _jarTitleKey = GlobalKey();
+
   @override
   void initState() {
     super.initState();
@@ -429,10 +431,11 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                                 if ((sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
                                   (element) => element.id == AssetPaymentProductsEnum.jar,
                                 ))
-                                  // ignore: prefer_const_constructors
                                   SliverToBoxAdapter(
-                                    // ignore: prefer_const_constructors
-                                    child: JarsListWidget(),
+                                    child: JarsListWidget(
+                                      titleKey: _jarTitleKey,
+                                      scrollToTitle: scrollToJarTitle,
+                                    ),
                                   ),
                                 const SliverToBoxAdapter(
                                   child: BannerCarusel(),
@@ -462,6 +465,19 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
           ),
         ),
       ),
+    );
+  }
+
+  void scrollToJarTitle() {
+    final renderBox = _jarTitleKey.currentContext!.findRenderObject()! as RenderBox;
+    final offset = renderBox.localToGlobal(Offset.zero).dy;
+
+    final scrollOffset = offset + _controller.offset - 120;
+
+    _controller.animateTo(
+      scrollOffset,
+      duration: const Duration(milliseconds: 200),
+      curve: Curves.easeInOut,
     );
   }
 

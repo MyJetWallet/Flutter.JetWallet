@@ -36,7 +36,9 @@ class _EnterJarDescriptionScreenState extends State<EnterJarDescriptionScreen> {
 
     sAnalytics.jarScreenViewJarDescription();
 
-    _descriptionController.text = widget.jar.description;
+    if (widget.jar.description != null) {
+      _descriptionController.text = widget.jar.description!;
+    }
 
     _descriptionController.addListener(() {
       setState(() {});
@@ -60,6 +62,14 @@ class _EnterJarDescriptionScreenState extends State<EnterJarDescriptionScreen> {
         hasRightIcon: !widget.isOnlyEdit,
         rightIcon: SafeGesture(
           onTap: () {
+            getIt.get<JarsStore>().updateJar(
+              jarId: widget.jar.id,
+              title: widget.jar.title,
+              target: widget.jar.target.toInt(),
+              description: '',
+              imageUrl: widget.jar.imageUrl,
+            );
+
             getIt<AppRouter>().push(
               const JarShareRouter(),
             );
@@ -137,7 +147,7 @@ class _EnterJarDescriptionScreenState extends State<EnterJarDescriptionScreen> {
                                       );
 
                                   if (result != null) {
-                                    getIt.get<JarsStore>().selectedJar = result;
+                                    getIt.get<JarsStore>().setSelectedJar(result);
                                     if (widget.isOnlyEdit) {
                                       setState(() {
                                         isLoading = false;

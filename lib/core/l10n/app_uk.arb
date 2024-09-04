@@ -5907,6 +5907,6 @@
     "withdrawal_recipient_gets": "Адресат отримує",
     "jar_creating": "Створення...",
     "jar_close_withdrawal_hint": "Будь ласка, зніміть {balance}, щоб закрити банку. Ваш ліміт — {limit} {jarAsset} на день.",
-    "jar_withdrawal_error": "Виведення коштів на криптоадресу Simple обмежено 5,000 USDT на добу",
+    "jar_withdrawal_error": "Виведення коштів на криптоадресу Simple обмежено {amount} на добу",
     "kyc_verification": "Верифікація"
 }

@@ -1300,7 +1300,7 @@ class WalletApiRepository {
     required int target,
     required String imageUrl,
     required String title,
-    required String description,
+    required String? description,
   }) async {
     return _walletApiDataSources.postCreateJarRequest(
       assetSymbol: assetSymbol,
