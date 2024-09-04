@@ -6,8 +6,8 @@ import 'package:jetwallet/features/p2p_buy/store/buy_p2p_confirmation_store.dart
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
+import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 

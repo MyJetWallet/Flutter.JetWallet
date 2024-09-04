@@ -1738,7 +1738,6 @@
     "jar_close": "Close",
     "jar_more": "More",
     "jar_transactions": "Transactions",
-    "jar_transactions_empty": "No funds withdrawn",
     "jar_active": "Active",
     "jar_all": "All",
     "jar_description_title": "Tell us the goal of this jar",
@@ -1757,7 +1756,6 @@
     "jar_network": "Network",
     "jar_skip": "Skip",
     "jar_empty_list": "You don't have jars yet",
-    "jar_withdrawn_totally": " was withdrawn totally",
     "jar_closed_title": "You closed the jar titled {name}",
     "jar_closed_hint": "The jar will no longer be refilled",
     "jar_done": "Done",
@@ -1765,6 +1763,6 @@
     "withdrawal_recipient_gets": "Recipient gets",
     "jar_creating": "Creating...",
     "jar_close_withdrawal_hint": "Please withdraw {balance} to close the jar. You have a limit of {limit} {jarAsset} per day.",
-    "jar_withdrawal_error": "Withdrawals to a Simple crypto address are capped at 5,000 USDT per day",
+    "jar_withdrawal_error": "Withdrawals to a Simple crypto address are capped at {amount} per day",
     "kyc_verification": "Verification"
 }
