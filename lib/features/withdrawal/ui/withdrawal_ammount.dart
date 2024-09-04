@@ -32,11 +32,13 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
   void initState() {
     final store = WithdrawalStore.of(context);
 
-    sAnalytics.cryptoSendAssetNameAmountScreenView(
-      asset: store.withdrawalInputModel!.currency!.symbol,
-      network: store.network.description,
-      sendMethodType: '0',
-    );
+    if (store.withdrawalType != WithdrawalType.jar) {
+      sAnalytics.cryptoSendAssetNameAmountScreenView(
+        asset: store.withdrawalInputModel!.currency!.symbol,
+        network: store.network.description,
+        sendMethodType: '0',
+      );
+    }
 
     super.initState();
   }
@@ -196,12 +198,14 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
             submitButtonActive: store.withValid,
             submitButtonName: intl.withdraw_continue,
             onSubmitPressed: () {
-              sAnalytics.cryptoSendTapContinueAmountScreen(
-                asset: store.withdrawalInputModel!.currency!.symbol,
-                network: store.network.description,
-                sendMethodType: '0',
-                totalSendAmount: store.withAmount,
-              );
+              if (store.withdrawalType != WithdrawalType.jar) {
+                sAnalytics.cryptoSendTapContinueAmountScreen(
+                  asset: store.withdrawalInputModel!.currency!.symbol,
+                  network: store.network.description,
+                  sendMethodType: '0',
+                  totalSendAmount: store.withAmount,
+                );
+              }
 
               store.withdrawalPush(WithdrawStep.preview);
             },

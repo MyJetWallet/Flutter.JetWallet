@@ -886,12 +886,14 @@ abstract class _WithdrawalStoreBase with Store {
     final value = Decimal.parse(withAmount);
 
     if (error != InputError.none) {
-      sAnalytics.cryptoSendErrorLimit(
-        asset: withdrawalInputModel!.currency!.symbol,
-        network: network.description,
-        sendMethodType: '0',
-        errorCode: withAmmountInputError.name,
-      );
+      if (withdrawalType != WithdrawalType.jar) {
+        sAnalytics.cryptoSendErrorLimit(
+          asset: withdrawalInputModel!.currency!.symbol,
+          network: network.description,
+          sendMethodType: '0',
+          errorCode: withAmmountInputError.name,
+        );
+      }
     }
 
     if (withdrawalType == WithdrawalType.jar &&

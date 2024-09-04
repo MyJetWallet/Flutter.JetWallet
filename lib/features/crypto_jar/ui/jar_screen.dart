@@ -349,6 +349,14 @@ class _JarScreenState extends State<JarScreen> {
                         ),
                         primaryButtonName: intl.jar_confirm,
                         onPrimaryButtonTap: () {
+                          sAnalytics.jarTapOnButtonConfirmCloseOnJarClosePopUp(
+                            asset: selectedJar.assetSymbol,
+                            network: 'TRC20',
+                            target: selectedJar.target.toInt(),
+                            balance: selectedJar.balanceInJarAsset,
+                            isOpen: selectedJar.status == JarStatus.active,
+                          );
+
                           Navigator.pop(context);
                           sRouter.push(
                             WithdrawRouter(
@@ -364,6 +372,14 @@ class _JarScreenState extends State<JarScreen> {
                         },
                         secondaryButtonName: intl.jar_cancel,
                         onSecondaryButtonTap: () {
+                          sAnalytics.jarTapOnButtonCancelCloseOnJarClosePopUp(
+                            asset: selectedJar.assetSymbol,
+                            network: 'TRC20',
+                            target: selectedJar.target.toInt(),
+                            balance: selectedJar.balanceInJarAsset,
+                            isOpen: selectedJar.status == JarStatus.active,
+                          );
+
                           Navigator.pop(context);
                         },
                       );
