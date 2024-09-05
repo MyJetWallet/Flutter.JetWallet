@@ -4,6 +4,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
 import 'package:jetwallet/features/my_wallets/widgets/wallet_search_item.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
+import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -67,8 +68,8 @@ class _AssetsList extends StatelessObserverWidget {
       children: [
         for (final currency in currencies)
           WalletSearchItem(
-            icon: SNetworkSvg24(
-              url: currency.iconUrl,
+            icon: NetworkIconWidget(
+              currency.iconUrl,
             ),
             description: currency.description,
             symbol: currency.symbol,
