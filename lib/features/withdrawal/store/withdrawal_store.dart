@@ -896,12 +896,10 @@ abstract class _WithdrawalStoreBase with Store {
       network: network.description,
       sendMethodType: '0',
       totalSendAmount: withAmount,
-      paymentFee: addressIsInternal
-          ? 'No fee'
-          : withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(
-              network: networkController.text,
-              amount: Decimal.parse(withAmount),
-            ),
+      paymentFee: withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(
+        network: networkController.text,
+        amount: Decimal.parse(withAmount),
+      ),
     );
 
     previewLoading = true;
@@ -922,7 +920,7 @@ abstract class _WithdrawalStoreBase with Store {
       final model = WithdrawRequestModel(
         requestId: DateTime.now().microsecondsSinceEpoch.toString(),
         assetSymbol: withdrawalInputModel!.currency!.symbol,
-        amount: addressIsInternal ? Decimal.parse(withAmount) : Decimal.parse(withAmount) + feeSize,
+        amount: Decimal.parse(withAmount) + feeSize,
         toAddress: address,
         toTag: tag,
         blockchain: blockchain.id,
@@ -999,12 +997,10 @@ abstract class _WithdrawalStoreBase with Store {
       network: network.description,
       sendMethodType: '0',
       totalSendAmount: withAmount,
-      paymentFee: addressIsInternal
-          ? 'No fee'
-          : withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(
-              network: networkController.text,
-              amount: Decimal.parse(withAmount),
-            ),
+      paymentFee: withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(
+        network: networkController.text,
+        amount: Decimal.parse(withAmount),
+      ),
       failedReason: error,
     );
 
@@ -1039,12 +1035,10 @@ abstract class _WithdrawalStoreBase with Store {
       network: network.description,
       sendMethodType: '0',
       totalSendAmount: withAmount,
-      paymentFee: addressIsInternal
-          ? 'No fee'
-          : withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(
-              network: networkController.text,
-              amount: Decimal.parse(withAmount),
-            ),
+      paymentFee: withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(
+        network: networkController.text,
+        amount: Decimal.parse(withAmount),
+      ),
       failedReason: error.cause,
     );
 
@@ -1170,12 +1164,10 @@ abstract class _WithdrawalStoreBase with Store {
       network: network.description,
       sendMethodType: '0',
       totalSendAmount: withAmount,
-      paymentFee: addressIsInternal
-          ? 'No fee'
-          : withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(
-              network: networkController.text,
-              amount: Decimal.parse(withAmount),
-            ),
+      paymentFee: withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(
+        network: networkController.text,
+        amount: Decimal.parse(withAmount),
+      ),
     );
 
     sRouter
