@@ -75,9 +75,8 @@ class _KycAidWebViewScreenState extends State<KycAidWebViewScreen> {
   Widget build(BuildContext context) {
     return SPageFrame(
       loaderText: '',
-      header: SimpleLargeAppbar(
-        title: intl.kyc_identity_verification,
-        hasRightIcon: true,
+      header: GlobalBasicAppBar(
+        title: intl.kyc_verification,
         rightIcon: SafeGesture(
           onTap: () async {
             if (showZendesk) {

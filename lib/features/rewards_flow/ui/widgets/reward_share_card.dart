@@ -11,6 +11,7 @@ import 'package:jetwallet/core/services/logs/helpers/encode_query_parameters.dar
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/utils/constants.dart';
+import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -48,17 +49,13 @@ class _RewardShareCardState extends State<RewardShareCard> {
 
     for (final element in sSignalRModules.currenciesList) {
       iconsMap.addAll({
-        element.symbol: SNetworkCachedSvg(
-          url: currencyFrom(
+        element.symbol: NetworkIconWidget(
+          currencyFrom(
             sSignalRModules.currenciesList,
             element.symbol,
           ).iconUrl,
           width: _iconSize,
           height: _iconSize,
-          placeholder: const SizedBox(
-            width: _iconSize,
-            height: _iconSize,
-          ),
         ),
       });
     }

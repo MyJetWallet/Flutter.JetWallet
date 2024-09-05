@@ -7,6 +7,7 @@ import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
+import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -83,13 +84,10 @@ class _ConfirmationInfoGridState extends State<BuyP2PConfirmationInfoGrid> with 
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       const SpaceW19(),
-                      SNetworkCachedSvg(
-                        url: iconForPaymentMethod(
+                      NetworkIconWidget(
+                        iconForPaymentMethod(
                           methodId: store.p2pMethod?.methodId ?? '',
                         ),
-                        width: 24,
-                        height: 24,
-                        placeholder: const SizedBox(),
                       ),
                       const SpaceW8(),
                       Flexible(

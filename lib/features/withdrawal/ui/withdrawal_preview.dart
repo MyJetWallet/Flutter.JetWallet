@@ -103,7 +103,7 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
                             accuracy: store.withdrawalInputModel!.currency!.accuracy,
                             symbol: store.withdrawalInputModel!.currency!.symbol,
                           )
-                        : (Decimal.parse(store.withAmount) - feeSize).toFormatCount(
+                        : (Decimal.parse(store.withAmount) + feeSize).toFormatCount(
                             accuracy: store.withdrawalInputModel!.currency!.accuracy,
                             symbol: store.withdrawalInputModel!.currency!.symbol,
                           ),
@@ -112,7 +112,7 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
                           fromCurrency: store.withdrawalInputModel!.currency!.symbol,
                           fromCurrencyAmmount: store.addressIsInternal
                               ? Decimal.parse(store.withAmount)
-                              : Decimal.parse(store.withAmount) - feeSize,
+                              : Decimal.parse(store.withAmount) + feeSize,
                           toCurrency: sSignalRModules.baseCurrency.symbol,
                           baseCurrency: sSignalRModules.baseCurrency.symbol,
                           isMin: false,
@@ -142,7 +142,7 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
                   needHorizontalPadding: false,
                 ),
                 TwoColumnCell(
-                  label: intl.operationName_sent,
+                  label: intl.withdrawal_recipient_gets,
                   value:
                       '''${store.withAmount} ${store.withdrawalType == WithdrawalType.asset ? store.withdrawalInputModel!.currency!.symbol : store.withdrawalInputModel!.nft!.name}''',
                   needHorizontalPadding: false,
