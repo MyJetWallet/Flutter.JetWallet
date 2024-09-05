@@ -855,6 +855,7 @@ abstract class _WithdrawalStoreBase with Store {
     } else if (maxLimit != null && maxLimit! < Decimal.parse(withAmount)) {
       limitError = '${intl.currencyBuy_paymentInputErrorText2} ${maxLimit?.toFormatCount(
         accuracy: withdrawalInputModel?.currency?.accuracy ?? 0,
+        symbol: withdrawalInputModel?.currency?.symbol ?? '',
       )}';
     } else {
       limitError = '';
