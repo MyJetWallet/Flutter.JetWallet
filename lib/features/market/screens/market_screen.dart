@@ -4,6 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/market/helper/sector_extensions.dart';
 import 'package:jetwallet/features/market/widgets/top_movers_market_section.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -165,7 +166,7 @@ class MarketSector extends StatelessWidget {
             style: STStyles.body1Semibold,
           ),
           Text(
-            '2 tokens',
+            '${sector.countOfTokens} tokens',
             style: STStyles.captionMedium.copyWith(
               color: colors.gray10,
             ),

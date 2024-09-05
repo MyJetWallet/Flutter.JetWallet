@@ -372,6 +372,12 @@ class $AssetsSvgMediumGen {
   /// File path: assets/svg/medium/show.svg
   SvgGenImage get show => const SvgGenImage('assets/svg/medium/show.svg');
 
+  /// File path: assets/svg/medium/sorting_down.svg
+  SvgGenImage get sortingDown => const SvgGenImage('assets/svg/medium/sorting_down.svg');
+
+  /// File path: assets/svg/medium/sorting_up.svg
+  SvgGenImage get sortingUp => const SvgGenImage('assets/svg/medium/sorting_up.svg');
+
   /// File path: assets/svg/medium/swap.svg
   SvgGenImage get swap => const SvgGenImage('assets/svg/medium/swap.svg');
 
@@ -471,6 +477,8 @@ class $AssetsSvgMediumGen {
         share,
         shevronRight,
         show,
+        sortingDown,
+        sortingUp,
         swap,
         swap2,
         telegram,
@@ -532,6 +540,12 @@ class $AssetsSvgPaymentMethodsCardsGen {
 class $AssetsSvgSmallGen {
   const $AssetsSvgSmallGen();
 
+  /// File path: assets/svg/small/arrow_down.svg
+  SvgGenImage get arrowDown => const SvgGenImage('assets/svg/small/arrow_down.svg');
+
+  /// File path: assets/svg/small/arrow_up.svg
+  SvgGenImage get arrowUp => const SvgGenImage('assets/svg/small/arrow_up.svg');
+
   /// File path: assets/svg/small/bank.svg
   SvgGenImage get bank => const SvgGenImage('assets/svg/small/bank.svg');
 
@@ -572,8 +586,23 @@ class $AssetsSvgSmallGen {
   SvgGenImage get xCricle => const SvgGenImage('assets/svg/small/x_cricle.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values =>
-      [bank, bullet, check, checkCircle, clock, info, loading, minusCircle, reorder, user, warning, x, xCricle];
+  List<SvgGenImage> get values => [
+        arrowDown,
+        arrowUp,
+        bank,
+        bullet,
+        check,
+        checkCircle,
+        clock,
+        info,
+        loading,
+        minusCircle,
+        reorder,
+        user,
+        warning,
+        x,
+        xCricle
+      ];
 }
 
 class $AssetsSvgAssetsCryptoGen {

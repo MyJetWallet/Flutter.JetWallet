@@ -44,6 +44,7 @@ export 'widgets/button/limits/limits_button.dart';
 export 'widgets/button/hyperlink/simple_hyperlink.dart';
 export 'widgets/button/price_header/simple_price_header.dart';
 export 'widgets/button/chips/chips_suggestion_m.dart';
+export 'widgets/button/dropdownmenu_button/simple_dropdownmenu_button.dart';
 
 export 'widgets/shared/icons/blue_bank_icon.dart';
 export 'widgets/shared/icons/user_noty_icon.dart';
