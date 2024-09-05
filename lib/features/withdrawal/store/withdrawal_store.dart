@@ -1174,8 +1174,9 @@ abstract class _WithdrawalStoreBase with Store {
     sRouter
         .push(
       SuccessScreenRouter(
-        secondaryText: '${intl.withdrawal_successRequest} ${Decimal.parse(withAmount)}'
-            ' ${withdrawalInputModel!.currency!.symbol}'
+        secondaryText: '${intl.withdrawal_successRequest} ${(Decimal.parse(withAmount) + feeAmount).toFormatCount(
+          symbol: withdrawalInputModel!.currency!.symbol,
+        )}'
             ' ${intl.withdrawal_successPlaced}',
         onSuccess: (context) {
           sRouter.replaceAll([
