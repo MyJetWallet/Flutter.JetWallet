@@ -56,7 +56,8 @@ class _KycVerificationState extends State<KycVerification> {
 
     void navigateVerifiedNavigate() {
       if (requiredVerifications.contains(RequiredVerified.proofOfPhone)) {
-        sRouter.push(
+        sRouter
+            .push(
           SetPhoneNumberRouter(
             successText: intl.kycAlertHandler_factorVerificationEnabled,
             then: () async {
@@ -75,11 +76,18 @@ class _KycVerificationState extends State<KycVerification> {
                   ),
                 );
               } else if (kycPlan?.provider == KycProvider.kycAid) {
-                unawaited(startKycAidFlow(kycPlan!));
+                unawaited(
+                  startKycAidFlow(kycPlan!).then((_) {
+                    getKYCPlan();
+                  }),
+                );
               }
             },
           ),
-        );
+        )
+            .then((_) {
+          getKYCPlan();
+        });
       } else {
         if (kycPlan?.provider == KycProvider.sumsub) {
           unawaited(
@@ -88,7 +96,11 @@ class _KycVerificationState extends State<KycVerification> {
             ),
           );
         } else if (kycPlan?.provider == KycProvider.kycAid) {
-          unawaited(startKycAidFlow(kycPlan!));
+          unawaited(
+            startKycAidFlow(kycPlan!).then((_) {
+              getKYCPlan();
+            }),
+          );
         }
       }
     }
