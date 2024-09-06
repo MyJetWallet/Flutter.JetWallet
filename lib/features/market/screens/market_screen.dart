@@ -116,6 +116,29 @@ class _MarketScreenState extends State<MarketScreen> {
                 const SliverToBoxAdapter(
                   child: TopMoversMarketSection(),
                 ),
+                const SliverPadding(
+                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                  sliver: SliverToBoxAdapter(
+                    child: Wrap(
+                      spacing: 4,
+                      children: [
+                        STagButton(
+                          lable: 'Favorites',
+                        ),
+                        STagButton(
+                          lable: 'All',
+                          state: TagButtonState.selected,
+                        ),
+                        STagButton(
+                          lable: 'Gainers',
+                        ),
+                        STagButton(
+                          lable: 'Loosers',
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             );
           },
