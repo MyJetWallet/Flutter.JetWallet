@@ -20,7 +20,16 @@ abstract class _MarketInstrumentsListsStoreBase with Store {
   List<String> get watchListIds => sSignalRModules.keyValue.watchlist?.value ?? [];
 
   @computed
-  ObservableList<MarketItemModel> get allList => sSignalRModules.marketItems;
+  ObservableList<MarketItemModel> get allList {
+    final assets = sSignalRModules.marketItems;
+
+    assets.sort(
+      (a, b) => b.weight.compareTo(
+        a.weight,
+      ),
+    );
+    return assets;
+  }
 
   @computed
   ObservableList<MarketItemModel> get favoritesList {
