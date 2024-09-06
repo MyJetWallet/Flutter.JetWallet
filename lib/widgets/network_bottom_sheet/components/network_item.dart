@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 class NetworkItem extends StatelessWidget {
@@ -34,8 +35,8 @@ class NetworkItem extends StatelessWidget {
                   right: 20,
                   top: 10,
                 ),
-                child: SNetworkSvg24(
-                  url: iconUrl,
+                child: NetworkIconWidget(
+                  iconUrl,
                 ),
               ),
               Expanded(

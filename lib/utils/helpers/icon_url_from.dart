@@ -7,7 +7,7 @@ String iconUrlFrom({
 }) {
   final iconApi = api ?? sNetwork.options.iconApi;
 
-  return '$iconApi/${assetSymbol.toLowerCase()}${selected ? '_selected' : ''}.svg';
+  return '$iconApi/${assetSymbol.toLowerCase()}${selected ? '_selected' : ''}.webp';
 }
 
 String iconForPaymentMethod({
@@ -15,5 +15,5 @@ String iconForPaymentMethod({
 }) {
   final iconApi = sNetwork.options.iconApi!.replaceAll('icons', 'resources/content');
 
-  return '$iconApi/$methodId.svg';
+  return '$iconApi/$methodId.webp';
 }

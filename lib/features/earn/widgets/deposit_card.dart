@@ -13,8 +13,8 @@ import 'package:jetwallet/features/earn/widgets/earn_offers_list.dart';
 import 'package:jetwallet/features/earn/widgets/link_label.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
+import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
-import 'package:simple_kit/modules/shared/simple_network_svg.dart';
 import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
@@ -189,8 +189,8 @@ class CryptoCardHeader extends StatelessWidget {
         CircleAvatar(
           backgroundColor: Colors.transparent,
           child: currency != null
-              ? SNetworkSvg(
-                  url: currency.iconUrl,
+              ? NetworkIconWidget(
+                  currency.iconUrl,
                   width: 40,
                   height: 40,
                 )

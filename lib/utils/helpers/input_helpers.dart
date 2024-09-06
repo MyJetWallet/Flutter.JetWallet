@@ -145,18 +145,17 @@ InputError onTradeInputErrorHandler(
   return InputError.none;
 }
 
-InputError onWithdrawInputErrorHandler(
-  String input,
-  String network,
-  CurrencyModel currency, {
+InputError onWithdrawInputErrorHandler({
+  required Decimal youWillSendAmount,
+  required Decimal inputAmount,
+  required String network,
+  required CurrencyModel currency,
   bool addressIsInternal = false,
 }) {
-  if (input.isNotEmpty) {
-    final value = Decimal.parse(input);
-
-    if (currency.assetBalance < value) {
+  if (youWillSendAmount != Decimal.zero) {
+    if (currency.assetBalance < inputAmount) {
       return InputError.notEnoughFunds;
-    } else if (currency.withdrawalFeeSize(network: network, amount: value) >= value) {
+    } else if (currency.withdrawalFeeSize(network: network, amount: youWillSendAmount) >= youWillSendAmount) {
       return addressIsInternal ? InputError.none : InputError.enterHigherAmount;
     }
   }

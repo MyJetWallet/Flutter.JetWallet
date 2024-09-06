@@ -10,6 +10,7 @@ import 'package:jetwallet/core/services/simple_networking/simple_networking.dart
 import 'package:jetwallet/features/rewards_flow/store/rewards_flow_store.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
+import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/rewards_profile_model.dart';
@@ -93,10 +94,8 @@ class _BalanceCellState extends State<_BalanceCell> {
             height: 44,
             child: Row(
               children: [
-                SNetworkCachedSvg(
-                  url: curr.iconUrl,
-                  width: 24,
-                  height: 24,
+                NetworkIconWidget(
+                  curr.iconUrl,
                   placeholder: const SizedBox.shrink(),
                 ),
                 const SpaceW12(),

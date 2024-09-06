@@ -21,10 +21,12 @@ import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/enum.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/calculate_base_balance.dart';
+import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
+import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:mobx/mobx.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -297,6 +299,32 @@ abstract class _WithdrawalStoreBase with Store {
       );
 
   @computed
+  CurrencyModel get currency => currencyFrom(
+        sSignalRModules.currenciesList,
+        withdrawalInputModel!.currency!.symbol,
+      );
+
+  @computed
+  Decimal get availableBalance {
+    final result = currency.assetBalance -
+        currency.cardReserve -
+        currency.withdrawalFeeSize(
+          network: networkController.text,
+          amount: currency.assetBalance,
+        );
+    return result;
+  }
+
+  @computed
+  Decimal get feeAmount => currency.withdrawalFeeSize(
+        network: addressIsInternal ? 'internal-send' : networkController.text,
+        amount: Decimal.parse(withAmount),
+      );
+
+  @computed
+  Decimal get youWillSendAmount => withAmount != '0' ? Decimal.parse(withAmount) + feeAmount : Decimal.zero;
+
+  @computed
   Decimal? get minLimit => _sendWithdrawalMethod.symbolNetworkDetails?.firstWhere(
         (element) => element.network == network.id && element.symbol == withdrawalInputModel?.currency?.symbol,
         orElse: () {
@@ -305,12 +333,18 @@ abstract class _WithdrawalStoreBase with Store {
       ).minAmount;
 
   @computed
-  Decimal? get maxLimit => _sendWithdrawalMethod.symbolNetworkDetails?.firstWhere(
-        (element) => element.network == network.id && element.symbol == withdrawalInputModel?.currency?.symbol,
-        orElse: () {
-          return const SymbolNetworkDetails();
-        },
-      ).maxAmount;
+  Decimal? get maxLimit {
+    final limit = _sendWithdrawalMethod.symbolNetworkDetails?.firstWhere(
+      (element) => element.network == network.id && element.symbol == withdrawalInputModel?.currency?.symbol,
+      orElse: () {
+        return const SymbolNetworkDetails();
+      },
+    ).maxAmount;
+
+    final maxLimit = (limit != null && limit < availableBalance) ? limit : availableBalance;
+
+    return maxLimit;
+  }
 
   ///
 
@@ -865,25 +899,31 @@ abstract class _WithdrawalStoreBase with Store {
 
   @action
   void _validateAmount() {
+    final error = onWithdrawInputErrorHandler(
+      youWillSendAmount: youWillSendAmount,
+      inputAmount: Decimal.parse(withAmount),
+      network: blockchain.description,
+      currency: withdrawalInputModel!.currency!,
+      addressIsInternal: addressIsInternal,
+    );
+
     InputError error;
     if (withdrawalType == WithdrawalType.jar) {
       error = onWithdrawJarInputErrorHandler(
         withAmount,
         blockchain.description,
         withdrawalInputModel!.jar!.balance,
-        withdrawalInputModel!.currency!,
+        currency: withdrawalInputModel!.currency!,
         addressIsInternal: addressIsInternal,
       );
     } else {
       error = onWithdrawInputErrorHandler(
         withAmount,
         blockchain.description,
-        withdrawalInputModel!.currency!,
+        currency: withdrawalInputModel!.currency!,
         addressIsInternal: addressIsInternal,
       );
     }
-
-    final value = Decimal.parse(withAmount);
 
     if (error != InputError.none) {
       if (withdrawalType != WithdrawalType.jar) {
@@ -906,13 +946,14 @@ abstract class _WithdrawalStoreBase with Store {
         ),
       );
     } else if (minLimit != null && minLimit! > value) {
-      limitError = '${intl.currencyBuy_paymentInputErrorText1} ${minLimit?.toFormatCount(
+limitError = '${intl.currencyBuy_paymentInputErrorText1} ${((minLimit ?? Decimal.zero) - feeAmount).toFormatCount(
         accuracy: withdrawalInputModel?.currency?.accuracy ?? 0,
         symbol: withdrawalInputModel?.currency?.symbol ?? '',
       )}';
-    } else if (maxLimit != null && maxLimit! < value) {
+    } else if (maxLimit != null && maxLimit! < Decimal.parse(withAmount)) {
       limitError = '${intl.currencyBuy_paymentInputErrorText2} ${maxLimit?.toFormatCount(
         accuracy: withdrawalInputModel?.currency?.accuracy ?? 0,
+        symbol: withdrawalInputModel?.currency?.symbol ?? '',
       )}';
     } else {
       limitError = '';
@@ -954,12 +995,10 @@ abstract class _WithdrawalStoreBase with Store {
       network: network.description,
       sendMethodType: '0',
       totalSendAmount: withAmount,
-      paymentFee: addressIsInternal
-          ? 'No fee'
-          : withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(
-              network: networkController.text,
-              amount: Decimal.parse(withAmount),
-            ),
+      paymentFee: withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(
+        network: networkController.text,
+        amount: Decimal.parse(withAmount),
+      ),
     );
 
     previewLoading = true;
@@ -971,11 +1010,16 @@ abstract class _WithdrawalStoreBase with Store {
       );
     }
 
+    final feeSize = withdrawalInputModel!.currency!.withdrawalFeeSize(
+      network: addressIsInternal ? 'internal-send' : networkController.text,
+      amount: Decimal.parse(withAmount),
+    );
+
     try {
       final model = WithdrawRequestModel(
         requestId: DateTime.now().microsecondsSinceEpoch.toString(),
         assetSymbol: withdrawalInputModel!.currency!.symbol,
-        amount: Decimal.parse(withAmount),
+        amount: Decimal.parse(withAmount) + feeSize,
         toAddress: address,
         toTag: tag,
         blockchain: blockchain.id,
@@ -1092,12 +1136,10 @@ abstract class _WithdrawalStoreBase with Store {
       network: network.description,
       sendMethodType: '0',
       totalSendAmount: withAmount,
-      paymentFee: addressIsInternal
-          ? 'No fee'
-          : withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(
-              network: networkController.text,
-              amount: Decimal.parse(withAmount),
-            ),
+      paymentFee: withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(
+        network: networkController.text,
+        amount: Decimal.parse(withAmount),
+      ),
       failedReason: error,
     );
 
@@ -1132,12 +1174,10 @@ abstract class _WithdrawalStoreBase with Store {
       network: network.description,
       sendMethodType: '0',
       totalSendAmount: withAmount,
-      paymentFee: addressIsInternal
-          ? 'No fee'
-          : withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(
-              network: networkController.text,
-              amount: Decimal.parse(withAmount),
-            ),
+      paymentFee: withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(
+        network: networkController.text,
+        amount: Decimal.parse(withAmount),
+      ),
       failedReason: error.cause,
     );
 
@@ -1258,26 +1298,25 @@ abstract class _WithdrawalStoreBase with Store {
 
   @action
   void _confirmSuccessScreen() {
-    if (withdrawalType != WithdrawalType.jar) {
-      sAnalytics.cryptoSendSuccessSend(
-        asset: withdrawalInputModel!.currency!.symbol,
-        network: network.description,
-        sendMethodType: '0',
-        totalSendAmount: withAmount,
-        paymentFee: addressIsInternal
-            ? 'No fee'
-            : withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(
-                network: networkController.text,
-                amount: Decimal.parse(withAmount),
-              ),
-      );
-    }
+      if (withdrawalType != WithdrawalType.jar) {
+    sAnalytics.cryptoSendSuccessSend(
+      asset: withdrawalInputModel!.currency!.symbol,
+      network: network.description,
+      sendMethodType: '0',
+      totalSendAmount: withAmount,
+      paymentFee: withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(
+        network: networkController.text,
+        amount: Decimal.parse(withAmount),
+      ),
+    );
+            }
 
     sRouter
         .push(
       SuccessScreenRouter(
-        secondaryText: '${intl.withdrawal_successRequest} ${Decimal.parse(withAmount)}'
-            ' ${withdrawalInputModel!.currency!.symbol}'
+        secondaryText: '${intl.withdrawal_successRequest} ${(Decimal.parse(withAmount) + feeAmount).toFormatCount(
+          symbol: withdrawalInputModel!.currency!.symbol,
+        )}'
             ' ${intl.withdrawal_successPlaced}',
         onSuccess: (context) {
           if (withdrawalType == WithdrawalType.jar) {
