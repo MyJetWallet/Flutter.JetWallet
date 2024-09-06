@@ -2,14 +2,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/features/market/helper/sector_extensions.dart';
+import 'package:jetwallet/features/market/widgets/market_sector_item_widget.dart';
 import 'package:jetwallet/features/market/widgets/top_movers_market_section.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
-import 'package:simple_networking/modules/signal_r/models/market_sectors_message_model.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../core/di/di.dart';
@@ -109,7 +107,7 @@ class _MarketScreenState extends State<MarketScreen> {
                       childAspectRatio: 4.0,
                     ),
                     itemBuilder: (context, index) {
-                      return MarketSector(
+                      return MarketSectorItemWidget(
                         sector: sectors[index],
                       );
                     },
@@ -130,48 +128,6 @@ class _MarketScreenState extends State<MarketScreen> {
         //   showFilter: true,
         //   sourceScreen: FilterMarketTabAction.all,
         // ),
-      ),
-    );
-  }
-}
-
-class MarketSector extends StatelessWidget {
-  const MarketSector({super.key, required this.sector});
-
-  final MarketSectorModel sector;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = SColorsLight();
-    return SafeGesture(
-      onTap: () async {
-        await sRouter.push(
-          MarketSectorDetailsRouter(
-            sector: sector,
-          ),
-        );
-      },
-      highlightColor: colors.gray2,
-      child: Column(
-        children: [
-          CircleAvatar(
-            radius: 32,
-            backgroundImage: NetworkImage(
-              sector.imageUrl,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            sector.title,
-            style: STStyles.body1Semibold,
-          ),
-          Text(
-            '${sector.countOfTokens} tokens',
-            style: STStyles.captionMedium.copyWith(
-              color: colors.gray10,
-            ),
-          ),
-        ],
       ),
     );
   }
