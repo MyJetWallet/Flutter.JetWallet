@@ -24,63 +24,66 @@ class _JarClosedConfirmationScreenState extends State<JarClosedConfirmationScree
   Widget build(BuildContext context) {
     final colors = sk.sKit.colors;
 
-    return sk.SPageFrame(
-      loaderText: '',
-      color: colors.white,
-      header: GlobalBasicAppBar(
-        title: '',
-        hasLeftIcon: false,
-        rightIcon: Assets.svg.medium.close.simpleSvg(),
-        onRightIconTap: () {
-          getIt<AppRouter>().popUntil((route) {
-            return route.settings.name == HomeRouter.name;
-          });
-        },
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: Column(
-          children: [
-            Assets.images.jar.jarClosed.simpleImg(
-              height: 200.0,
-              width: 200.0,
-            ),
-            const SizedBox(
-              height: 26,
-            ),
-            Text(
-              intl.jar_closed_title('"${widget.name}"'),
-              softWrap: true,
-              textAlign: TextAlign.center,
-              overflow: TextOverflow.visible,
-              style: STStyles.header3.copyWith(
-                color: SColorsLight().black,
+    return PopScope(
+      canPop: false,
+      child: sk.SPageFrame(
+        loaderText: '',
+        color: colors.white,
+        header: GlobalBasicAppBar(
+          title: '',
+          hasLeftIcon: false,
+          rightIcon: Assets.svg.medium.close.simpleSvg(),
+          onRightIconTap: () {
+            getIt<AppRouter>().popUntil((route) {
+              return route.settings.name == HomeRouter.name;
+            });
+          },
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Column(
+            children: [
+              Assets.images.jar.jarClosed.simpleImg(
+                height: 200.0,
+                width: 200.0,
               ),
-            ),
-            const SizedBox(
-              height: 8.0,
-            ),
-            Text(
-              intl.jar_closed_hint,
-              style: STStyles.body2Medium.copyWith(
-                color: SColorsLight().gray10,
+              const SizedBox(
+                height: 26,
               ),
-            ),
-            const Spacer(),
-            SButton.black(
-              text: intl.jar_done,
-              callback: () {
-                getIt<AppRouter>().popUntil(
-                  (route) {
-                    return route.settings.name == HomeRouter.name;
-                  },
-                );
-              },
-            ),
-            const SizedBox(
-              height: 50.0,
-            ),
-          ],
+              Text(
+                intl.jar_closed_title('"${widget.name}"'),
+                softWrap: true,
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.visible,
+                style: STStyles.header3.copyWith(
+                  color: SColorsLight().black,
+                ),
+              ),
+              const SizedBox(
+                height: 8.0,
+              ),
+              Text(
+                intl.jar_closed_hint,
+                style: STStyles.body2Medium.copyWith(
+                  color: SColorsLight().gray10,
+                ),
+              ),
+              const Spacer(),
+              SButton.black(
+                text: intl.jar_done,
+                callback: () {
+                  getIt<AppRouter>().popUntil(
+                    (route) {
+                      return route.settings.name == HomeRouter.name;
+                    },
+                  );
+                },
+              ),
+              const SizedBox(
+                height: 50.0,
+              ),
+            ],
+          ),
         ),
       ),
     );
