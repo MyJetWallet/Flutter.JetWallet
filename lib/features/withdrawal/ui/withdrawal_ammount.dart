@@ -49,22 +49,6 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
     final deviceSize = sDeviceSize;
     final colors = sKit.colors;
 
-    final availableCurrency = currencyFrom(
-      sSignalRModules.currenciesList,
-      store.withdrawalInputModel!.currency!.symbol,
-    );
-
-    Decimal availableBalance;
-    if (store.withdrawalType == WithdrawalType.jar) {
-      availableBalance = Decimal.parse(
-        '''${store.withdrawalInputModel!.jar!.balance}''',
-      );
-    } else {
-      availableBalance = Decimal.parse(
-        '''${availableCurrency.assetBalance.toDouble() - availableCurrency.cardReserve.toDouble()}''',
-      );
-    }
-
     final String error;
 
     switch (store.withAmmountInputError) {
