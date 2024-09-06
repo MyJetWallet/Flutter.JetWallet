@@ -157,6 +157,14 @@ abstract class _WithdrawalStoreBase with Store {
   }
 
   @observable
+  double jarWithdrawalLeftAmount = 0;
+
+  @action
+  void _updateJarWithdrawalLeftAmount(double value) {
+    jarWithdrawalLeftAmount = value;
+  }
+
+  @observable
   String tag = '';
 
   @observable
@@ -454,6 +462,7 @@ abstract class _WithdrawalStoreBase with Store {
       responseLimit.pick(
         onData: (data) {
           _updateJarWithdrawalLimit(data.limit);
+          _updateJarWithdrawalLeftAmount(data.leftAmount);
         },
         onError: (error) {},
       );
@@ -938,7 +947,7 @@ abstract class _WithdrawalStoreBase with Store {
 
     if (withdrawalType == WithdrawalType.jar &&
         addressIsInternal &&
-        Decimal.parse(jarWithdrawalLimit.toString()) < value) {
+        Decimal.parse(jarWithdrawalLeftAmount.toString()) < value) {
       limitError = intl.jar_withdrawal_error(
         Decimal.parse(jarWithdrawalLimit.toString()).toFormatCount(
           accuracy: 2,
