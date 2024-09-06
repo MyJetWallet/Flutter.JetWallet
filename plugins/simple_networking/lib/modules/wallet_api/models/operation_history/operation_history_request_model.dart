@@ -11,6 +11,7 @@ class OperationHistoryRequestModel with _$OperationHistoryRequestModel {
     String? assetId,
     String? accountId,
     bool? pendingOnly,
+    String? jarId,
   }) = _OperationHistoryRequestModel;
 
   factory OperationHistoryRequestModel.fromJson(Map<String, dynamic> json) =>

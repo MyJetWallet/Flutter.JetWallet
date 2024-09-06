@@ -18,6 +18,9 @@ class AboutUs extends StatelessObserverWidget {
     final isEarnAvaible = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
         .any((element) => element.id == AssetPaymentProductsEnum.earnProgram);
 
+    final isJarAvaible = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
+        .any((element) => element.id == AssetPaymentProductsEnum.jar);
+
     return SPageFrameWithPadding(
       loaderText: intl.register_pleaseWait,
       header: SSmallHeader(
@@ -137,6 +140,17 @@ class AboutUs extends StatelessObserverWidget {
                 SimpleAccountTermButton(
                   name: intl.about_us_smpl_global,
                   onTap: () => launchURL(context, privacyEarnLink),
+                ),
+              ],
+            ),
+            const SpaceH20(),
+          ],
+          if (privacyEarnLink.isNotEmpty && isJarAvaible) ...[
+            Row(
+              children: [
+                SimpleAccountTermButton(
+                  name: intl.about_us_jar,
+                  onTap: () => launchURL(context, jarTerms),
                 ),
               ],
             ),

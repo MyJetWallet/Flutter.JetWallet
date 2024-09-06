@@ -31,11 +31,13 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
   void initState() {
     final store = WithdrawalStore.of(context);
 
-    sAnalytics.cryptoSendAssetNameAmountScreenView(
-      asset: store.withdrawalInputModel!.currency!.symbol,
-      network: store.network.description,
-      sendMethodType: '0',
-    );
+    if (store.withdrawalType != WithdrawalType.jar) {
+      sAnalytics.cryptoSendAssetNameAmountScreenView(
+        asset: store.withdrawalInputModel!.currency!.symbol,
+        network: store.network.description,
+        sendMethodType: '0',
+      );
+    }
 
     super.initState();
   }
@@ -46,6 +48,22 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
 
     final deviceSize = sDeviceSize;
     final colors = sKit.colors;
+
+    final availableCurrency = currencyFrom(
+      sSignalRModules.currenciesList,
+      store.withdrawalInputModel!.currency!.symbol,
+    );
+
+    Decimal availableBalance;
+    if (store.withdrawalType == WithdrawalType.jar) {
+      availableBalance = Decimal.parse(
+        '''${store.withdrawalInputModel!.jar!.balance}''',
+      );
+    } else {
+      availableBalance = Decimal.parse(
+        '''${availableCurrency.assetBalance.toDouble() - availableCurrency.cardReserve.toDouble()}''',
+      );
+    }
 
     final String error;
 
@@ -97,6 +115,10 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
                     )}',
                     error: error,
                     isErrorActive: store.withAmmountInputError.isActive,
+                    errorMaxLines: deviceSize.when(
+                      small: () => 1,
+                      medium: () => 2,
+                    ),
                     pasteLabel: intl.paste,
                     onPaste: () async {
                       final data = await Clipboard.getData('text/plain');
@@ -176,12 +198,14 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
             submitButtonActive: store.withValid,
             submitButtonName: intl.withdraw_continue,
             onSubmitPressed: () {
-              sAnalytics.cryptoSendTapContinueAmountScreen(
-                asset: store.withdrawalInputModel!.currency!.symbol,
-                network: store.network.description,
-                sendMethodType: '0',
-                totalSendAmount: store.withAmount,
-              );
+              if (store.withdrawalType != WithdrawalType.jar) {
+                sAnalytics.cryptoSendTapContinueAmountScreen(
+                  asset: store.withdrawalInputModel!.currency!.symbol,
+                  network: store.network.description,
+                  sendMethodType: '0',
+                  totalSendAmount: store.withAmount,
+                );
+              }
 
               store.withdrawalPush(WithdrawStep.preview);
             },

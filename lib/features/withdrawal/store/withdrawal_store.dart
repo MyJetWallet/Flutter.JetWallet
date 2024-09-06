@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:decimal/decimal.dart';
 import 'package:event_bus/event_bus.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -11,6 +12,7 @@ import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/features/crypto_jar/store/jars_store.dart';
 import 'package:jetwallet/features/currency_withdraw/model/address_validation_union.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_confirm_union.dart' as confirm;
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
@@ -45,7 +47,7 @@ import 'package:simple_networking/modules/wallet_api/models/withdrawal_resend/wi
 
 part 'withdrawal_store.g.dart';
 
-enum WithdrawalType { asset, nft }
+enum WithdrawalType { asset, nft, jar }
 
 enum WithdrawStep { address, ammount, preview, confirm }
 
@@ -79,20 +81,25 @@ abstract class _WithdrawalStoreBase with Store {
 
   @observable
   bool addressError = false;
+
   @action
   bool setAddressError(bool value) => addressError = value;
+
   @action
   void _triggerErrorOfAddressField() => addressError = true;
 
   @observable
   bool tagError = false;
+
   @action
   bool setTagError(bool value) => tagError = value;
+
   @action
   void _triggerErrorOfTagField() => tagError = true;
 
   @observable
   AddressValidationUnion addressValidation = const Hide();
+
   @action
   void _updateAddressValidation(AddressValidationUnion value) {
     addressValidation = value;
@@ -100,6 +107,7 @@ abstract class _WithdrawalStoreBase with Store {
 
   @observable
   AddressValidationUnion tagValidation = const Hide();
+
   @action
   void _updateTagValidation(AddressValidationUnion value) {
     tagValidation = value;
@@ -134,9 +142,18 @@ abstract class _WithdrawalStoreBase with Store {
 
   @observable
   bool addressIsInternal = false;
+
   @action
   void _updateAddressIsInternal(bool value) {
     addressIsInternal = value;
+  }
+
+  @observable
+  double jarWithdrawalLimit = 0;
+
+  @action
+  void _updateJarWithdrawalLimit(double value) {
+    jarWithdrawalLimit = value;
   }
 
   @observable
@@ -226,7 +243,15 @@ abstract class _WithdrawalStoreBase with Store {
   String get header => '''${intl.withdrawal_send_verb} ${withdrawalInputModel!.currency!.description}''';
 
   @computed
-  String get bassAsset => withdrawalType == WithdrawalType.asset ? withdrawalInputModel!.currency!.symbol : 'MATIC';
+  String get bassAsset {
+    if (withdrawalType == WithdrawalType.asset) {
+      return withdrawalInputModel!.currency!.symbol;
+    } else if (withdrawalType == WithdrawalType.jar) {
+      return withdrawalInputModel!.jar!.assetSymbol;
+    } else {
+      return 'MATIC';
+    }
+  }
 
   @computed
   String get validationResult {
@@ -329,7 +354,13 @@ abstract class _WithdrawalStoreBase with Store {
   void init(WithdrawalModel input) {
     withdrawalInputModel = input;
 
-    if (withdrawalInputModel!.currency != null) {
+    if (withdrawalInputModel!.jar != null) {
+      withdrawalType = WithdrawalType.jar;
+
+      if (withdrawalInputModel!.currency!.isSingleNetworkForBlockchainSend) {
+        updateNetwork(networks[0]);
+      }
+    } else if (withdrawalInputModel!.currency != null) {
       withdrawalType = WithdrawalType.asset;
 
       if (withdrawalInputModel!.currency!.isSingleNetworkForBlockchainSend) {
@@ -337,7 +368,7 @@ abstract class _WithdrawalStoreBase with Store {
       }
 
       //addressController.text = '0x71C7656EC7ab88b098defB751B7401B5f6d8976F';
-    } else if (withdrawalInputModel!.nft != null) {
+    } else {
       withdrawalType = WithdrawalType.nft;
 
       networkController.text = withdrawalInputModel!.nft!.blockchain!;
@@ -400,11 +431,38 @@ abstract class _WithdrawalStoreBase with Store {
           tag.isNotEmpty ? condition1 && condition2 && condition3 && condition4 : condition1 && condition3;
     } else if (withdrawalInputModel?.nft != null) {
       isReadyToContinue = networkController.text.isNotEmpty && addressValidation is Valid;
+    } else if (withdrawalInputModel?.jar != null) {
+      final condition1 = addressValidation is Hide || addressValidation is Valid;
+      final condition2 = tagValidation is Hide || tagValidation is Valid;
+      final condition3 = addressController.text.isNotEmpty;
+      final condition4 = tag.isNotEmpty || networkController.text == earnRipple;
+
+      isReadyToContinue =
+          tag.isNotEmpty ? condition1 && condition2 && condition3 && condition4 : condition1 && condition3;
     }
   }
 
   @action
   Future<void> validateOnContinue(BuildContext context) async {
+    try {
+      final responseLimit = await sNetwork.getWalletModule().postWithdrawJarLimitRequest(
+        {
+          'assetSymbol': 'USDT',
+        },
+      );
+
+      responseLimit.pick(
+        onData: (data) {
+          _updateJarWithdrawalLimit(data.limit);
+        },
+        onError: (error) {},
+      );
+    } catch (error) {
+      if (kDebugMode) {
+        print('WithdrawalJarLimit error $error');
+      }
+    }
+
     if (credentialsValid) {
       if (withdrawalType == WithdrawalType.nft) {
         await withdrawNFT();
@@ -464,19 +522,28 @@ abstract class _WithdrawalStoreBase with Store {
     try {
       ValidateAddressRequestModel? model;
 
-      model = withdrawalType == WithdrawalType.asset
-          ? ValidateAddressRequestModel(
-              assetSymbol: withdrawalInputModel!.currency!.symbol,
-              toAddress: addressController.text,
-              toTag: tag,
-              assetNetwork: network.id,
-            )
-          : ValidateAddressRequestModel(
-              assetSymbol: withdrawalInputModel!.nft!.symbol!,
-              toAddress: addressController.text,
-              toTag: tag,
-              assetNetwork: withdrawalInputModel!.nft!.blockchain!,
-            );
+      if (withdrawalType == WithdrawalType.asset) {
+        model = ValidateAddressRequestModel(
+          assetSymbol: withdrawalInputModel!.currency!.symbol,
+          toAddress: addressController.text,
+          toTag: tag,
+          assetNetwork: network.id,
+        );
+      } else if (withdrawalType == WithdrawalType.jar) {
+        model = ValidateAddressRequestModel(
+          assetSymbol: withdrawalInputModel!.jar!.assetSymbol,
+          toAddress: addressController.text,
+          toTag: tag,
+          assetNetwork: withdrawalInputModel!.jar!.addresses.first.blockchain,
+        );
+      } else {
+        model = ValidateAddressRequestModel(
+          assetSymbol: withdrawalInputModel!.nft!.symbol!,
+          toAddress: addressController.text,
+          toTag: tag,
+          assetNetwork: withdrawalInputModel!.nft!.blockchain!,
+        );
+      }
 
       final response = await sNetwork.getWalletModule().postValidateAddress(model);
 
@@ -686,7 +753,7 @@ abstract class _WithdrawalStoreBase with Store {
 
   @action
   void _pushWithdrawalAmount(BuildContext context) {
-    if (withdrawalType == WithdrawalType.asset) {
+    if (withdrawalType == WithdrawalType.asset || withdrawalType == WithdrawalType.jar) {
       withdrawalPush(WithdrawStep.ammount);
     } else {
       withdrawalPush(WithdrawStep.preview);
@@ -801,6 +868,7 @@ abstract class _WithdrawalStoreBase with Store {
   */
 
   var isRedirectedFromQr = false;
+
   @action
   void _onQRScanned(BarcodeCapture capture, BuildContext context) {
     if (isRedirectedFromQr) return;
@@ -839,16 +907,46 @@ abstract class _WithdrawalStoreBase with Store {
       addressIsInternal: addressIsInternal,
     );
 
-    if (error != InputError.none) {
-      sAnalytics.cryptoSendErrorLimit(
-        asset: withdrawalInputModel!.currency!.symbol,
-        network: network.description,
-        sendMethodType: '0',
-        errorCode: withAmmountInputError.name,
+    InputError error;
+    if (withdrawalType == WithdrawalType.jar) {
+      error = onWithdrawJarInputErrorHandler(
+        withAmount,
+        blockchain.description,
+        withdrawalInputModel!.jar!.balance,
+        currency: withdrawalInputModel!.currency!,
+        addressIsInternal: addressIsInternal,
+      );
+    } else {
+      error = onWithdrawInputErrorHandler(
+        withAmount,
+        blockchain.description,
+        currency: withdrawalInputModel!.currency!,
+        addressIsInternal: addressIsInternal,
       );
     }
-    if (minLimit != null && minLimit! > youWillSendAmount) {
-      limitError = '${intl.currencyBuy_paymentInputErrorText1} ${((minLimit ?? Decimal.zero) - feeAmount).toFormatCount(
+
+    if (error != InputError.none) {
+      if (withdrawalType != WithdrawalType.jar) {
+        sAnalytics.cryptoSendErrorLimit(
+          asset: withdrawalInputModel!.currency!.symbol,
+          network: network.description,
+          sendMethodType: '0',
+          errorCode: withAmmountInputError.name,
+        );
+      }
+    }
+
+    if (withdrawalType == WithdrawalType.jar &&
+        addressIsInternal &&
+        Decimal.parse(jarWithdrawalLimit.toString()) < value) {
+      limitError = intl.jar_withdrawal_error(
+        Decimal.parse(jarWithdrawalLimit.toString()).toFormatCount(
+          accuracy: 2,
+          symbol: 'USDT',
+        ),
+      );
+    } else if (minLimit != null && minLimit! > value) {
+limitError = '${intl.currencyBuy_paymentInputErrorText1} ${((minLimit ?? Decimal.zero) - feeAmount).toFormatCount(
         accuracy: withdrawalInputModel?.currency?.accuracy ?? 0,
         symbol: withdrawalInputModel?.currency?.symbol ?? '',
       )}';
@@ -976,6 +1074,46 @@ abstract class _WithdrawalStoreBase with Store {
           //_previewConfirm();
 
           getWithdrawalInfo();
+        },
+        onError: (error) {
+          _showFailureScreen(error);
+        },
+      );
+    } on ServerRejectException catch (error) {
+      _showFailureScreen(error);
+    } catch (error) {
+      _showNoResponseScreen(error.toString());
+    }
+
+    previewLoading = false;
+    previewLoader.finishLoadingImmediately();
+  }
+
+  @action
+  Future<void> withdrawJar({required String newPin}) async {
+    previewLoader.startLoadingImmediately();
+    previewLoading = true;
+
+    try {
+      final model = WithdrawJarRequestModel(
+        requestId: DateTime.now().microsecondsSinceEpoch.toString(),
+        assetSymbol: withdrawalInputModel!.jar!.addresses.first.assetSymbol,
+        amount: Decimal.parse(withAmount),
+        toAddress: address,
+        toTag: tag,
+        blockchain: withdrawalInputModel!.jar!.addresses.first.blockchain,
+        lang: intl.localeName,
+        pin: newPin,
+        jarId: withdrawalInputModel!.jar!.id,
+      );
+
+      final response = await sNetwork.getWalletModule().postWithdrawJar(model);
+
+      response.pick(
+        onData: (data) {
+          operationId = data.operationId;
+
+          previewConfirm();
         },
         onError: (error) {
           _showFailureScreen(error);
@@ -1160,6 +1298,7 @@ abstract class _WithdrawalStoreBase with Store {
 
   @action
   void _confirmSuccessScreen() {
+      if (withdrawalType != WithdrawalType.jar) {
     sAnalytics.cryptoSendSuccessSend(
       asset: withdrawalInputModel!.currency!.symbol,
       network: network.description,
@@ -1170,6 +1309,7 @@ abstract class _WithdrawalStoreBase with Store {
         amount: Decimal.parse(withAmount),
       ),
     );
+            }
 
     sRouter
         .push(
@@ -1179,14 +1319,20 @@ abstract class _WithdrawalStoreBase with Store {
         )}'
             ' ${intl.withdrawal_successPlaced}',
         onSuccess: (context) {
-          sRouter.replaceAll([
-            const HomeRouter(
-              children: [
-                MyWalletsRouter(),
-              ],
-            ),
-          ]);
+          if (withdrawalType == WithdrawalType.jar) {
+            sRouter.popUntil((route) => route.settings.name == JarRouter.name);
+            getIt.get<JarsStore>().refreshJarsStore();
+          } else {
+            sRouter.replaceAll([
+              const HomeRouter(
+                children: [
+                  MyWalletsRouter(),
+                ],
+              ),
+            ]);
+          }
         },
+        isJarFlow: withdrawalType == WithdrawalType.jar,
       ),
     )
         .then((value) {

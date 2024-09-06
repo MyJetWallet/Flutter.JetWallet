@@ -10,6 +10,7 @@ import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/market/market_details/model/operation_history_union.dart';
 import 'package:jetwallet/features/transaction_history/helper/show_transaction_details.dart';
+import 'package:jetwallet/features/transaction_history/widgets/transactions_list.dart';
 import 'package:jetwallet/features/wallet/helper/nft_types.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
@@ -25,8 +26,9 @@ import 'package:simple_networking/modules/wallet_api/models/operation_history/op
 part 'operation_history.g.dart';
 
 class OperationHistory extends _OperationHistoryBase with _$OperationHistory {
-  OperationHistory(
+  OperationHistory({
     super.assetId,
+    super.jarId,
     super.filter,
     super.isRecurring,
     super.jwOperationId,
@@ -34,35 +36,43 @@ class OperationHistory extends _OperationHistoryBase with _$OperationHistory {
     super.accountId,
     super.isCard,
     super.onError,
+    super.onData,
     super.jwOperationPtpManage,
-  );
+    super.mode,
+  });
 
   static _OperationHistoryBase of(BuildContext context) => Provider.of<OperationHistory>(context, listen: false);
 }
 
 abstract class _OperationHistoryBase with Store {
-  _OperationHistoryBase(
+  _OperationHistoryBase({
     this.assetId,
+    this.jarId,
     this.filter,
     this.isRecurring,
     this.jwOperationId,
-    this.pendingOnly,
+    this.pendingOnly = false,
     this.accountId,
     this.isCard,
     this.onError,
+    this.onData,
     this.jwOperationPtpManage,
-  ) {
+    this.mode = TransactionListMode.full,
+  }) {
     getIt<EventBus>().on<GetNewHistoryEvent>().listen((event) {
       refreshHistory(needLoader: false);
     });
   }
 
   final String? assetId;
+  final String? jarId;
   final TransactionType? filter;
   final bool? isRecurring;
   final bool? isCard;
   final String? accountId;
   final Function(String reason)? onError;
+  final Function(List<oh_resp.OperationHistoryItem> items)? onData;
+  final TransactionListMode mode;
 
   // Указывает на конкретную операцию, используем после тапа по пушу
   String? jwOperationId;
@@ -128,7 +138,8 @@ abstract class _OperationHistoryBase with Store {
       final operationHistory = await _requestOperationHistory(
         oh_req.OperationHistoryRequestModel(
           assetId: assetId,
-          batchSize: 20,
+          batchSize: mode == TransactionListMode.full ? 20 : 5,
+          jarId: jarId,
           pendingOnly: pendingOnly,
           accountId: accountId,
         ),
@@ -139,6 +150,8 @@ abstract class _OperationHistoryBase with Store {
         operationHistory.operationHistory,
         isbgUpdate: !needLoader,
       );
+
+      onData?.call(operationHistory.operationHistory);
 
       union = const OperationHistoryUnion.loaded();
 
@@ -213,7 +226,7 @@ abstract class _OperationHistoryBase with Store {
   // При сколле вниз
   @action
   Future<void> operationHistory(String? assetId, {String? accountId}) async {
-    if (operationHistoryItems.isEmpty) return;
+    if (operationHistoryItems.isEmpty || mode == TransactionListMode.preview) return;
 
     union = const OperationHistoryUnion.loading();
     isLoading = true;
@@ -221,6 +234,7 @@ abstract class _OperationHistoryBase with Store {
     final operationHistory = await _requestOperationHistory(
       oh_req.OperationHistoryRequestModel(
         assetId: assetId,
+        jarId: jarId,
         batchSize: 20,
         lastDate: operationHistoryItems.last.timeStamp,
         pendingOnly: pendingOnly,
@@ -311,6 +325,8 @@ Set<oh_resp.OperationType> avaibleOperationTypes = {
   oh_resp.OperationType.earnPayroll,
   oh_resp.OperationType.buyPrepaidCard,
   oh_resp.OperationType.p2pBuy,
+  oh_resp.OperationType.jarDeposit,
+  oh_resp.OperationType.jarWithdrawal,
 };
 
 List<oh_resp.OperationHistoryItem> _filterUnusedOperationTypeItemsFrom(

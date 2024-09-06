@@ -15,6 +15,8 @@ import 'package:jetwallet/core/services/intercom/intercom_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/features/crypto_jar/store/jars_store.dart';
+import 'package:jetwallet/features/crypto_jar/ui/widgets/jars_list_widget.dart';
 import 'package:jetwallet/features/earn/widgets/earn_dashboard_section_widget.dart';
 import 'package:jetwallet/features/market/market_details/store/market_news_store.dart';
 import 'package:jetwallet/features/my_wallets/store/banners_store.dart';
@@ -64,6 +66,13 @@ class MyWalletsScreen extends StatefulWidget {
 
 class _MyWalletsScreenState extends State<MyWalletsScreen> with TickerProviderStateMixin {
   @override
+  void initState() {
+    super.initState();
+
+    getIt.get<JarsStore>().initStore();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
@@ -91,6 +100,8 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
 
   // for analytic
   GlobalHistoryTab historyTab = GlobalHistoryTab.pending;
+
+  final GlobalKey _jarTitleKey = GlobalKey();
 
   @override
   void initState() {
@@ -417,6 +428,15 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                                       ),
                                     ),
                                   ),
+                                if ((sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
+                                  (element) => element.id == AssetPaymentProductsEnum.jar,
+                                ))
+                                  SliverToBoxAdapter(
+                                    child: JarsListWidget(
+                                      titleKey: _jarTitleKey,
+                                      scrollToTitle: scrollToJarTitle,
+                                    ),
+                                  ),
                                 const SliverToBoxAdapter(
                                   child: BannerCarusel(),
                                 ),
@@ -445,6 +465,19 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
           ),
         ),
       ),
+    );
+  }
+
+  void scrollToJarTitle() {
+    final renderBox = _jarTitleKey.currentContext!.findRenderObject()! as RenderBox;
+    final offset = renderBox.localToGlobal(Offset.zero).dy;
+
+    final scrollOffset = offset + _controller.offset - 120;
+
+    _controller.animateTo(
+      scrollOffset,
+      duration: const Duration(milliseconds: 200),
+      curve: Curves.easeInOut,
     );
   }
 

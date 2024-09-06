@@ -61,6 +61,7 @@ import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban
 import 'package:simple_networking/modules/wallet_api/models/invest/new_invest_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/invest_transfer/invest_transfer_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/invest_transfer/invest_transfer_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/jar/jar_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/kyc/apply_country_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/kyc/apply_country_response_model.dart';
@@ -191,6 +192,22 @@ class WalletApiRepository {
   ) async {
     return _walletApiDataSources.postWithdrawRequest(
       model,
+    );
+  }
+
+  Future<DC<ServerRejectException, WithdrawResponseModel>> postWithdrawJar(
+    WithdrawJarRequestModel model,
+  ) async {
+    return _walletApiDataSources.postWithdrawJarRequest(
+      model,
+    );
+  }
+
+  Future<DC<ServerRejectException, WithdrawJarLimitResponseModel>> postWithdrawJarLimitRequest(
+    Map<String, dynamic> body,
+  ) async {
+    return _walletApiDataSources.postWithdrawJarLimitRequest(
+      body,
     );
   }
 
@@ -1267,5 +1284,65 @@ class WalletApiRepository {
 
   Future<DC<ServerRejectException, P2PMethodsResponceModel>> getP2PMethods() async {
     return _walletApiDataSources.getP2PMethodsRequest();
+  }
+
+  Future<DC<ServerRejectException, List<JarResponseModel>>> postJarAllList() async {
+    return _walletApiDataSources.postJarAllListRequest();
+  }
+
+  Future<DC<ServerRejectException, List<JarResponseModel>>> postJarActiveList() async {
+    return _walletApiDataSources.postJarActiveListRequest();
+  }
+
+  Future<DC<ServerRejectException, JarResponseModel>> postCreateJar({
+    required String assetSymbol,
+    required String blockchain,
+    required int target,
+    required String imageUrl,
+    required String title,
+    required String? description,
+  }) async {
+    return _walletApiDataSources.postCreateJarRequest(
+      assetSymbol: assetSymbol,
+      blockchain: blockchain,
+      target: target,
+      imageUrl: imageUrl,
+      title: title,
+      description: description,
+    );
+  }
+
+  Future<DC<ServerRejectException, JarResponseModel>> postUpdateJarRequest({
+    required String jarId,
+    int? target,
+    String? imageUrl,
+    String? title,
+    String? description,
+  }) async {
+    return _walletApiDataSources.postUpdateJarRequest(
+      jarId: jarId,
+      target: target,
+      imageUrl: imageUrl,
+      title: title,
+      description: description,
+    );
+  }
+
+  Future<DC<ServerRejectException, JarResponseModel>> postCloseJarRequest({
+    required String jarId,
+  }) async {
+    return _walletApiDataSources.postCloseJarRequest(
+      jarId: jarId,
+    );
+  }
+
+  Future<DC<ServerRejectException, String>> postShareJarRequest({
+    required String jarId,
+    required String lang,
+  }) async {
+    return _walletApiDataSources.postShareJarRequest(
+      jarId: jarId,
+      lang: lang,
+    );
   }
 }

@@ -4,11 +4,13 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/features/crypto_jar/store/jars_store.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/wallet_api/models/base_asset/set_base_assets_request_model.dart';
 
 part 'change_base_asset_store.g.dart';
@@ -71,6 +73,12 @@ abstract class _ChangeBaseAssetStoreBase with Store {
   void setBaseAsset(String newAsset) {
     _logger.log(notifier, 'setBaseAsset');
     checkedAsset = newAsset;
+
+    if ((sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
+          (element) => element.id == AssetPaymentProductsEnum.jar,
+    )) {
+      getIt.get<JarsStore>().refreshJarsStore();
+    }
   }
 
   @action

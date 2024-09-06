@@ -19,7 +19,7 @@ class SPlaceholder extends StatelessWidget {
     this.mood = SPlaceholderMood.happy,
   });
 
-  final SPlaceholderSize size;
+  final SPlaceholderSize? size;
   final String text;
   final SPlaceholderMood mood;
 

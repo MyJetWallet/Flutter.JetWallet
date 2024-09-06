@@ -9,6 +9,7 @@ import 'package:jetwallet/widgets/network_bottom_sheet/show_network_bottom_sheet
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/jar/jar_response_model.dart';
 
 @RoutePage(name: 'WithdrawalAddressRouter')
 class WithdrawalAddressScreen extends StatefulObserverWidget {
@@ -25,10 +26,20 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
   void initState() {
     final store = WithdrawalStore.of(context);
 
-    sAnalytics.cryptoSendSendAssetNameScreenView(
-      asset: store.withdrawalInputModel?.currency?.symbol ?? '',
-      sendMethodType: '0',
-    );
+    if (store.withdrawalType == WithdrawalType.jar) {
+      sAnalytics.jarScreenViewWithdrawJar(
+        asset: store.withdrawalInputModel!.jar!.assetSymbol,
+        network: 'TRC20',
+        target: store.withdrawalInputModel!.jar!.target.toInt(),
+        balance: store.withdrawalInputModel!.jar!.balanceInJarAsset,
+        isOpen: store.withdrawalInputModel!.jar!.status == JarStatus.active,
+      );
+    } else {
+      sAnalytics.cryptoSendSendAssetNameScreenView(
+        asset: store.withdrawalInputModel?.currency?.symbol ?? '',
+        sendMethodType: '0',
+      );
+    }
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (store.withdrawalInputModel?.currency != null) {
@@ -53,7 +64,14 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
 
     final store = WithdrawalStore.of(context);
 
-    final asset = store.withdrawalType == WithdrawalType.asset ? store.withdrawalInputModel?.currency?.symbol : 'Matic';
+    String? asset;
+    if (store.withdrawalType == WithdrawalType.asset) {
+      asset = store.withdrawalInputModel?.currency?.symbol;
+    } else if (store.withdrawalType == WithdrawalType.jar) {
+      asset = store.withdrawalInputModel?.jar?.assetSymbol;
+    } else {
+      asset = 'Matic';
+    }
 
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
@@ -129,10 +147,12 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                       suffixIcons: [
                         SIconButton(
                           onTap: () {
-                            sAnalytics.cryptoSendTapPaste(
-                              asset: store.withdrawalInputModel!.currency!.symbol,
-                              sendMethodType: '0',
-                            );
+                            if (store.withdrawalType != WithdrawalType.jar) {
+                              sAnalytics.cryptoSendTapPaste(
+                                asset: store.withdrawalInputModel!.currency!.symbol,
+                                sendMethodType: '0',
+                              );
+                            }
 
                             store.pasteAddress(scrollController);
                           },
@@ -140,10 +160,12 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                         ),
                         SIconButton(
                           onTap: () {
-                            sAnalytics.cryptoSendTapQr(
-                              asset: store.withdrawalInputModel!.currency!.symbol,
-                              sendMethodType: '0',
-                            );
+                            if (store.withdrawalType != WithdrawalType.jar) {
+                              sAnalytics.cryptoSendTapQr(
+                                asset: store.withdrawalInputModel!.currency!.symbol,
+                                sendMethodType: '0',
+                              );
+                            }
 
                             store.scanAddressQr(
                               context,
@@ -172,10 +194,12 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                         suffixIcons: [
                           SIconButton(
                             onTap: () {
-                              sAnalytics.cryptoSendTapPaste(
-                                asset: store.withdrawalInputModel!.currency!.symbol,
-                                sendMethodType: '0',
-                              );
+                              if (store.withdrawalType != WithdrawalType.jar) {
+                                sAnalytics.cryptoSendTapPaste(
+                                  asset: store.withdrawalInputModel!.currency!.symbol,
+                                  sendMethodType: '0',
+                                );
+                              }
 
                               store.pasteTag(scrollController);
                             },
@@ -236,10 +260,20 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                           active: store.isReadyToContinue,
                           name: intl.currencyWithdraw_continue,
                           onTap: () {
-                            sAnalytics.cryptoSendTapContinue(
-                              asset: store.withdrawalInputModel!.currency!.symbol,
-                              sendMethodType: '0',
-                            );
+                            if (store.withdrawalType == WithdrawalType.jar) {
+                              sAnalytics.jarTapOnButtonContinueJarWithdrawOnWithdraw(
+                                asset: store.withdrawalInputModel!.jar!.assetSymbol,
+                                network: 'TRC20',
+                                target: store.withdrawalInputModel!.jar!.target.toInt(),
+                                balance: store.withdrawalInputModel!.jar!.balanceInJarAsset,
+                                isOpen: store.withdrawalInputModel!.jar!.status == JarStatus.active,
+                              );
+                            } else {
+                              sAnalytics.cryptoSendTapContinue(
+                                asset: store.withdrawalInputModel!.currency!.symbol,
+                                sendMethodType: '0',
+                              );
+                            }
 
                             FocusScope.of(context).unfocus();
 
