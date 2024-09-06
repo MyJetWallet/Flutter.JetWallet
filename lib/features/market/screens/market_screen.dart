@@ -1,13 +1,22 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/market/store/market_instruments_lists_store.dart';
 import 'package:jetwallet/features/market/widgets/market_sector_item_widget.dart';
 import 'package:jetwallet/features/market/widgets/top_movers_market_section.dart';
+import 'package:jetwallet/utils/formatting/base/format_percent.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
+import 'package:jetwallet/widgets/network_icon_widget.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'package:simple_kit_updated/widgets/table/divider/simple_divider.dart' as divider;
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../core/di/di.dart';
@@ -65,92 +74,203 @@ class _MarketScreenState extends State<MarketScreen> {
               );
         }
       },
-      child: SPageFrame(
-        loaderText: '',
-        header: AnimatedCrossFade(
-          firstChild: GlobalBasicAppBar(
-            title: intl.marketHeaderStats_market,
-            hasLeftIcon: false,
-            hasRightIcon: false,
-          ),
-          secondChild: SimpleLargeAltAppbar(
-            title: intl.marketHeaderStats_market,
-            showLabelIcon: false,
-            hasRightIcon: false,
-            hasTopPart: false,
-          ),
-          crossFadeState: isScroolStarted ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-          duration: const Duration(milliseconds: 200),
-        ),
+      child: Provider(
+        create: (context) => MarketInstrumentsListsStore(),
+        builder: (context, child) {
+          final listsStore = MarketInstrumentsListsStore.of(context);
+          return SPageFrame(
+            loaderText: '',
+            header: AnimatedCrossFade(
+              firstChild: GlobalBasicAppBar(
+                title: intl.marketHeaderStats_market,
+                hasLeftIcon: false,
+                hasRightIcon: false,
+              ),
+              secondChild: SimpleLargeAltAppbar(
+                title: intl.marketHeaderStats_market,
+                showLabelIcon: false,
+                hasRightIcon: false,
+                hasTopPart: false,
+              ),
+              crossFadeState: isScroolStarted ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+              duration: const Duration(milliseconds: 200),
+            ),
 
-        child: Observer(
-          builder: (context) {
-            final sectors = sSignalRModules.marketSectors.sectors;
-            return CustomScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              controller: _controller,
-              slivers: [
-                const SliverToBoxAdapter(
-                  child: STableHeader(
-                    title: 'Sectors',
-                  ),
-                ),
-                SliverPadding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  sliver: SliverGrid.builder(
-                    itemCount: sectors.length,
-                    gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                      maxCrossAxisExtent: 64,
-                      mainAxisExtent: 112,
-                      mainAxisSpacing: 24,
-                      crossAxisSpacing: 24,
-                      childAspectRatio: 4.0,
-                    ),
-                    itemBuilder: (context, index) {
-                      return MarketSectorItemWidget(
-                        sector: sectors[index],
-                      );
-                    },
-                  ),
-                ),
-                const SliverToBoxAdapter(
-                  child: TopMoversMarketSection(),
-                ),
-                const SliverPadding(
-                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                  sliver: SliverToBoxAdapter(
-                    child: Wrap(
-                      spacing: 4,
-                      children: [
-                        STagButton(
-                          lable: 'Favorites',
-                        ),
-                        STagButton(
-                          lable: 'All',
-                          state: TagButtonState.selected,
-                        ),
-                        STagButton(
-                          lable: 'Gainers',
-                        ),
-                        STagButton(
-                          lable: 'Loosers',
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            );
-          },
-        ),
+            child: Observer(
+              builder: (context) {
+                final baseCurrency = sSignalRModules.baseCurrency;
+                final sectors = sSignalRModules.marketSectors.sectors;
 
-        //  MarketNestedScrollView(
-        //   marketShowType: MarketShowType.crypto,
-        //   showBanners: true,
-        //   showSearch: true,
-        //   showFilter: true,
-        //   sourceScreen: FilterMarketTabAction.all,
-        // ),
+                final activeAssetsList = listsStore.activeAssetsList;
+
+                return CustomScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  controller: _controller,
+                  slivers: [
+                    const SliverToBoxAdapter(
+                      child: STableHeader(
+                        title: 'Sectors',
+                      ),
+                    ),
+                    SliverPadding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      sliver: SliverGrid.builder(
+                        itemCount: sectors.length,
+                        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                          maxCrossAxisExtent: 64,
+                          mainAxisExtent: 112,
+                          mainAxisSpacing: 24,
+                          crossAxisSpacing: 24,
+                          childAspectRatio: 4.0,
+                        ),
+                        itemBuilder: (context, index) {
+                          return MarketSectorItemWidget(
+                            sector: sectors[index],
+                          );
+                        },
+                      ),
+                    ),
+                    const SliverToBoxAdapter(
+                      child: SizedBox(height: 32),
+                    ),
+                    const SliverToBoxAdapter(
+                      child: TopMoversMarketSection(),
+                    ),
+                    SliverPadding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                      sliver: SliverToBoxAdapter(
+                        child: Wrap(
+                          spacing: 4,
+                          children: [
+                            STagButton(
+                              lable: 'Favorites',
+                              state: listsStore.activeMarketTab == MarketTab.favorites
+                                  ? TagButtonState.selected
+                                  : TagButtonState.defaultt,
+                              onTap: () {
+                                listsStore.setActiveMarketTab(MarketTab.favorites);
+                              },
+                            ),
+                            STagButton(
+                              lable: 'All',
+                              state: listsStore.activeMarketTab == MarketTab.all
+                                  ? TagButtonState.selected
+                                  : TagButtonState.defaultt,
+                              onTap: () {
+                                listsStore.setActiveMarketTab(MarketTab.all);
+                              },
+                            ),
+                            STagButton(
+                              lable: 'Gainers',
+                              state: listsStore.activeMarketTab == MarketTab.gainers
+                                  ? TagButtonState.selected
+                                  : TagButtonState.defaultt,
+                              onTap: () {
+                                listsStore.setActiveMarketTab(MarketTab.gainers);
+                              },
+                            ),
+                            STagButton(
+                              lable: 'Loosers',
+                              state: listsStore.activeMarketTab == MarketTab.lossers
+                                  ? TagButtonState.selected
+                                  : TagButtonState.defaultt,
+                              onTap: () {
+                                listsStore.setActiveMarketTab(MarketTab.lossers);
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    if (listsStore.activeMarketTab != MarketTab.favorites) ...[
+                      SliverPadding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        sliver: SliverToBoxAdapter(
+                          child: SStandardField(
+                            hintText: intl.showKycCountryPicker_search,
+                            onChanged: (value) {},
+                            height: 44,
+                            maxLines: 1,
+                          ),
+                        ),
+                      ),
+                      const SliverPadding(
+                        padding: EdgeInsets.symmetric(horizontal: 24),
+                        sliver: SliverToBoxAdapter(
+                          child: divider.SDivider(),
+                        ),
+                      ),
+                    ],
+                    SliverList.builder(
+                      itemCount: activeAssetsList.length,
+                      itemBuilder: (context, index) {
+                        final currency = getIt.get<FormatService>().findCurrency(
+                              findInHideTerminalList: true,
+                              assetSymbol: activeAssetsList[index].symbol,
+                            );
+                        return SimpleTableAsset(
+                          assetIcon: NetworkIconWidget(
+                            currency.iconUrl,
+                          ),
+                          label: currency.description,
+                          rightValue: (baseCurrency.symbol == currency.symbol ? Decimal.one : currency.currentPrice)
+                              .toFormatPrice(
+                            prefix: baseCurrency.prefix,
+                            accuracy: activeAssetsList[index].priceAccuracy,
+                          ),
+                          supplement: currency.symbol,
+                          isRightValueMarket: true,
+                          rightMarketValue: formatPercent(currency.dayPercentChange),
+                          rightValueMarketPositive: currency.dayPercentChange > 0,
+                          onTableAssetTap: () {
+                            sRouter.push(
+                              MarketDetailsRouter(
+                                marketItem: activeAssetsList[index],
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
+                    if (listsStore.activeMarketTab == MarketTab.favorites)
+                      SliverToBoxAdapter(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                          child: Row(
+                            children: [
+                              SButtonContext(
+                                type: SButtonContextType.iconedSmall,
+                                text: 'Add assets',
+                                onTap: () {},
+                              ),
+                              const SizedBox(width: 8),
+                              SButtonContext(
+                                type: SButtonContextType.iconedSmall,
+                                text: 'Edit list',
+                                onTap: () {},
+                                icon: Assets.svg.medium.edit,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    const SliverToBoxAdapter(
+                      child: SizedBox(height: 40),
+                    ),
+                  ],
+                );
+              },
+            ),
+
+            //  MarketNestedScrollView(
+            //   marketShowType: MarketShowType.crypto,
+            //   showBanners: true,
+            //   showSearch: true,
+            //   showFilter: true,
+            //   sourceScreen: FilterMarketTabAction.all,
+            // ),
+          );
+        },
       ),
     );
   }
