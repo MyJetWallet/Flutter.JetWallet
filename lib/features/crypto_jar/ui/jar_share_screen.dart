@@ -132,7 +132,13 @@ class _JarShareScreenState extends State<JarShareScreen> {
                       .get<JarsStore>()
                       .shareJar(jarId: selectedJar.id, lang: selectedLanguage == 'GB' ? 'en' : 'uk');
 
-                  await Share.share(result ?? '');
+                  String shareText;
+                  if (selectedLanguage == 'GB') {
+                    shareText = '${selectedJar.title}\n\n🔗 Link to the jar:\n${result ?? ''}';
+                  } else {
+                    shareText = '${selectedJar.title}\n\n🔗 Посилання на банку:\n${result ?? ''}';
+                  }
+                  await Share.share(shareText);
                 },
               ),
               const SizedBox(
