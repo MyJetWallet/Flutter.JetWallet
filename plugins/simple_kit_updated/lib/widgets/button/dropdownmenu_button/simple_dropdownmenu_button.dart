@@ -33,6 +33,7 @@ class _SDropdownmenuButtonState<T> extends State<SDropdownmenuButton<T>> {
           return DropdownMenuItem<T>(
             value: value,
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   value.toString(),
@@ -56,8 +57,9 @@ class _SDropdownmenuButtonState<T> extends State<SDropdownmenuButton<T>> {
           }).toList();
         },
         iconStyleData: IconStyleData(
-          icon: Assets.svg.small.arrowDown
-              .simpleSvg(color: isDropDownOpened ? colors.white : colors.black, width: 16, height: 16),
+          icon: isDropDownOpened
+              ? Assets.svg.small.arrowUp.simpleSvg(color: colors.white, width: 16, height: 16)
+              : Assets.svg.small.arrowDown.simpleSvg(color: colors.black, width: 16, height: 16),
           iconSize: 16,
         ),
         buttonStyleData: ButtonStyleData(

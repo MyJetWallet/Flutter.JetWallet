@@ -97,32 +97,16 @@ abstract class _MarketSectorStoreBase with Store {
         );
       }
     } else {
-       if (sorting == Sorting.asc) {
+      if (sorting == Sorting.asc) {
         result.addAll(
           afterSearch.sorted((a, b) {
-            final currencyA = getIt.get<FormatService>().findCurrency(
-                  findInHideTerminalList: true,
-                  assetSymbol: a.symbol,
-                );
-            final currencyB = getIt.get<FormatService>().findCurrency(
-                  findInHideTerminalList: true,
-                  assetSymbol: b.symbol,
-                );
-            return currencyA.dayPercentChange.compareTo(currencyB.dayPercentChange);
+            return a.marketCap.compareTo(b.marketCap);
           }),
         );
       } else {
         result.addAll(
           afterSearch.sorted((a, b) {
-            final currencyA = getIt.get<FormatService>().findCurrency(
-                  findInHideTerminalList: true,
-                  assetSymbol: a.symbol,
-                );
-            final currencyB = getIt.get<FormatService>().findCurrency(
-                  findInHideTerminalList: true,
-                  assetSymbol: b.symbol,
-                );
-            return currencyB.dayPercentChange.compareTo(currencyA.dayPercentChange);
+            return b.marketCap.compareTo(a.marketCap);
           }),
         );
       }

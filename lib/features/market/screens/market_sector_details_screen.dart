@@ -221,6 +221,9 @@ class _MarketSectorDetailsBodyState extends State<_MarketSectorDetailsBody> with
                   );
                 },
               ),
+              const SliverToBoxAdapter(
+                child: SizedBox(height: 40),
+              ),
             ],
           );
         },

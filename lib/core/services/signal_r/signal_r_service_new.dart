@@ -251,6 +251,7 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
             startMarketTime: marketReference.startMarketTime,
             type: currency.type,
             sectorId: marketReference.sectorId,
+            marketCap: marketReference.marketCap,
           ),
         );
       }
