@@ -11,6 +11,7 @@ import 'package:jetwallet/features/market/helper/sector_extensions.dart';
 import 'package:jetwallet/features/market/store/market_sector_store.dart';
 import 'package:jetwallet/utils/formatting/base/format_percent.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
+import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -197,8 +198,8 @@ class _MarketSectorDetailsBodyState extends State<_MarketSectorDetailsBody> with
                         assetSymbol: store.filtredMarketItems[index].symbol,
                       );
                   return SimpleTableAsset(
-                    assetIcon: SNetworkSvg24(
-                      url: currency.iconUrl,
+                    assetIcon: NetworkIconWidget(
+                      currency.iconUrl,
                     ),
                     label: currency.description,
                     rightValue:

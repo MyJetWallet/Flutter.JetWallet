@@ -11,6 +11,7 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
+import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
@@ -124,10 +125,10 @@ class _AssetItem extends HookWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SNetworkSvg(
-              width: 32,
+            NetworkIconWidget(
+              asset.iconUrl,
               height: 32,
-              url: asset.iconUrl,
+              width: 32,
             ),
             const SizedBox(height: 8),
             Text(
