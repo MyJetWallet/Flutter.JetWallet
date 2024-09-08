@@ -76,8 +76,16 @@ class _SDropdownmenuButtonState<T> extends State<SDropdownmenuButton<T>> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
             color: colors.white,
+            boxShadow: const [
+              BoxShadow(
+                color: Color(0x51777C85),
+                blurRadius: 20,
+                offset: Offset(0, 0),
+                spreadRadius: 0,
+              )
+            ],
           ),
-          elevation: 3,
+          elevation: 0,
           offset: const Offset(0, -8),
         ),
         menuItemStyleData: const MenuItemStyleData(

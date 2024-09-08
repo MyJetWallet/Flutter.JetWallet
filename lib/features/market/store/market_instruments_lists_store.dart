@@ -47,7 +47,7 @@ abstract class _MarketInstrumentsListsStoreBase with Store {
 
   @computed
   ObservableList<MarketItemModel> get gainersList {
-    final gainers = allList.where((item) => item.dayPercentChange > 0).toList();
+    final gainers = allList.where((item) => item.dayPercentChange >= 0).toList();
     gainers.sort(
       (a, b) => b.dayPercentChange.compareTo(
         a.dayPercentChange,

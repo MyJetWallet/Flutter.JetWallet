@@ -121,6 +121,7 @@ class _MarketSectorDetailsBodyState extends State<_MarketSectorDetailsBody> with
                       ReadMoreText(
                         store.sector.description,
                         isCollapsed: ValueNotifier<bool>(true),
+                        trimLines: 3,
                         trimMode: TrimMode.Line,
                         colorClickableText: Colors.blue,
                         trimCollapsedText: ' ${intl.prepaid_card_more}',
