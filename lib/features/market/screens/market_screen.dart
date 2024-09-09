@@ -120,32 +120,34 @@ class _MarketScreenState extends State<MarketScreen> {
                   physics: const AlwaysScrollableScrollPhysics(),
                   controller: _controller,
                   slivers: [
-                    SliverToBoxAdapter(
-                      child: STableHeader(
-                        title: intl.market_sectors,
-                      ),
-                    ),
-                    SliverPadding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24),
-                      sliver: SliverGrid.builder(
-                        itemCount: sectors.length,
-                        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                          maxCrossAxisExtent: 64,
-                          mainAxisExtent: 112,
-                          mainAxisSpacing: 24,
-                          crossAxisSpacing: 24,
-                          childAspectRatio: 4.0,
+                    if (sectors.isNotEmpty) ...[
+                      SliverToBoxAdapter(
+                        child: STableHeader(
+                          title: intl.market_sectors,
                         ),
-                        itemBuilder: (context, index) {
-                          return MarketSectorItemWidget(
-                            sector: sectors[index],
-                          );
-                        },
                       ),
-                    ),
-                    const SliverToBoxAdapter(
-                      child: SizedBox(height: 32),
-                    ),
+                      SliverPadding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        sliver: SliverGrid.builder(
+                          itemCount: sectors.length,
+                          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                            maxCrossAxisExtent: 64,
+                            mainAxisExtent: 112,
+                            mainAxisSpacing: 24,
+                            crossAxisSpacing: 24,
+                            childAspectRatio: 4.0,
+                          ),
+                          itemBuilder: (context, index) {
+                            return MarketSectorItemWidget(
+                              sector: sectors[index],
+                            );
+                          },
+                        ),
+                      ),
+                      const SliverToBoxAdapter(
+                        child: SizedBox(height: 32),
+                      ),
+                    ],
                     const SliverToBoxAdapter(
                       child: TopMoversMarketSection(),
                     ),
