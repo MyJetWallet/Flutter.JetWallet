@@ -47,7 +47,8 @@ class _JarShareScreenState extends State<JarShareScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final selectedJar = getIt.get<JarsStore>().selectedJar!;
+    final store = getIt.get<JarsStore>();
+    final selectedJar = store.selectedJar!;
 
     var remainedAmount = selectedJar.target - selectedJar.balanceInJarAsset;
     if (remainedAmount < 0) {
@@ -55,6 +56,13 @@ class _JarShareScreenState extends State<JarShareScreen> {
     }
 
     final colors = sk.sKit.colors;
+
+    final networks = getIt
+        .get<FormatService>()
+        .findCurrency(
+          assetSymbol: selectedJar.assetSymbol,
+        )
+        .networksForBlockchainSend;
 
     return sk.SPageFrame(
       loaderText: '',
@@ -117,7 +125,7 @@ class _JarShareScreenState extends State<JarShareScreen> {
               ),
               _buildShareItem(
                 intl.jar_network,
-                'TRC20',
+                networks.firstWhere((value) => value.id == selectedJar.addresses.first.blockchain).description,
                 false,
                 true,
               ),
@@ -223,7 +231,7 @@ class _JarShareScreenState extends State<JarShareScreen> {
                       ),
                       const SizedBox(width: 12.0),
                       Text(
-                        'Ukraine',
+                        'Ukrainian',
                         style: STStyles.subtitle1.copyWith(
                           color: SColorsLight().black,
                         ),
@@ -279,7 +287,7 @@ class _JarShareScreenState extends State<JarShareScreen> {
                           width: 8.0,
                         ),
                         Text(
-                          selectedLanguage == 'GB' ? 'English' : 'Ukraine',
+                          selectedLanguage == 'GB' ? 'English' : 'Ukrainian',
                           style: STStyles.subtitle1.copyWith(
                             color: SColorsLight().black,
                           ),

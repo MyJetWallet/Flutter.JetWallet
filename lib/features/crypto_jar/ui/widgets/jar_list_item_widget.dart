@@ -199,7 +199,7 @@ class JarProgressBar extends StatelessWidget {
       builder: (context, constraints) {
         final totalWidth = constraints.maxWidth;
         final primaryWidth = totalWidth * (progress > 1 ? 1 : progress);
-        final overflowWidth = progress > 1 ? totalWidth * ((progress - 1) / progress) : 0.0;
+        final overflowWidth = progress > 1;
 
         return Container(
           width: totalWidth,
@@ -224,11 +224,11 @@ class JarProgressBar extends StatelessWidget {
                   borderRadius: BorderRadius.circular(3),
                 ),
               ),
-              if (overflowWidth > 0 && !isClosed)
+              if (overflowWidth && !isClosed)
                 Positioned(
                   right: 0,
                   child: Container(
-                    width: overflowWidth,
+                    width: 6,
                     height: 6,
                     decoration: BoxDecoration(
                       gradient: const LinearGradient(

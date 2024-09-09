@@ -28,6 +28,8 @@ class EnterJarNameScreen extends StatefulWidget {
 class _EnterJarNameScreenState extends State<EnterJarNameScreen> {
   final TextEditingController nameController = TextEditingController();
 
+  bool isLoading = false;
+
   @override
   void initState() {
     super.initState();
@@ -104,37 +106,46 @@ class _EnterJarNameScreenState extends State<EnterJarNameScreen> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 24.0),
                         child: SButton.black(
+                          isLoading: isLoading,
                           text: widget.isCreatingNewJar ? intl.jar_next : intl.jar_confirm,
-                          callback:
-                              (nameController.text.trim().isNotEmpty && nameController.text.length <= jarNameLength)
-                                  ? () async {
-                                      sAnalytics.jarTapOnButtonNextOnJarName();
-                                      if (widget.isCreatingNewJar) {
-                                        await getIt<AppRouter>().push(
-                                          EnterJarGoalRouter(
-                                            name: nameController.text.trim(),
-                                          ),
-                                        );
-                                      } else {
-                                        final result = await getIt.get<JarsStore>().updateJar(
-                                              jarId: widget.jar!.id,
-                                              title: nameController.text.trim(),
-                                              target: widget.jar!.target.toInt(),
-                                              description: widget.jar!.description,
-                                              imageUrl: widget.jar!.imageUrl,
-                                            );
+                          callback: (nameController.text.trim().isNotEmpty &&
+                                  nameController.text.length <= jarNameLength &&
+                                  nameController.text.trim() != widget.jar?.title)
+                              ? () async {
+                                  sAnalytics.jarTapOnButtonNextOnJarName();
+                                  if (widget.isCreatingNewJar) {
+                                    await getIt<AppRouter>().push(
+                                      EnterJarGoalRouter(
+                                        name: nameController.text.trim(),
+                                      ),
+                                    );
+                                  } else {
+                                    setState(() {
+                                      isLoading = true;
+                                    });
 
-                                        if (result != null) {
-                                          getIt.get<JarsStore>().setSelectedJar(result);
-                                          await getIt<AppRouter>().push(
-                                            JarRouter(
-                                              hasLeftIcon: false,
-                                            ),
-                                          );
-                                        }
-                                      }
+                                    final result = await getIt.get<JarsStore>().updateJar(
+                                          jarId: widget.jar!.id,
+                                          title: nameController.text.trim(),
+                                          target: widget.jar!.target.toInt(),
+                                          description: widget.jar!.description,
+                                          imageUrl: widget.jar!.imageUrl,
+                                        );
+
+                                    setState(() {
+                                      isLoading = false;
+                                    });
+                                    if (result != null) {
+                                      getIt.get<JarsStore>().setSelectedJar(result);
+                                      await getIt<AppRouter>().push(
+                                        JarRouter(
+                                          hasLeftIcon: false,
+                                        ),
+                                      );
                                     }
-                                  : null,
+                                  }
+                                }
+                              : null,
                         ),
                       ),
                       const Spacer(),

@@ -319,14 +319,14 @@ abstract class _WithdrawalStoreBase with Store {
       final jarBalance = Decimal.parse(withdrawalInputModel!.jar!.balanceInJarAsset.toString());
       result = jarBalance -
           currency.withdrawalFeeSize(
-            network: addressIsInternal ? 'internal-send' : networkController.text,
+            network: networkController.text,
             amount: jarBalance,
           );
     } else {
       result = currency.assetBalance -
           currency.cardReserve -
           currency.withdrawalFeeSize(
-            network: addressIsInternal ? 'internal-send' : networkController.text,
+            network: networkController.text,
             amount: currency.assetBalance,
           );
     }
@@ -376,7 +376,11 @@ abstract class _WithdrawalStoreBase with Store {
       withdrawalType = WithdrawalType.jar;
 
       if (withdrawalInputModel!.currency!.isSingleNetworkForBlockchainSend) {
-        updateNetwork(networks[0]);
+        updateNetwork(
+          networks.firstWhere(
+            (net) => net.id == withdrawalInputModel!.jar!.addresses.first.blockchain,
+          ),
+        );
       }
     } else if (withdrawalInputModel!.currency != null) {
       withdrawalType = WithdrawalType.asset;
@@ -958,7 +962,7 @@ abstract class _WithdrawalStoreBase with Store {
           symbol: 'USDT',
         ),
       );
-    } else if (minLimit != null && minLimit! > Decimal.parse(withAmount)) {
+    } else if (minLimit != null && minLimit! > youWillSendAmount) {
       limitError = '${intl.currencyBuy_paymentInputErrorText1} ${((minLimit ?? Decimal.zero) - feeAmount).toFormatCount(
         accuracy: withdrawalInputModel?.currency?.accuracy ?? 0,
         symbol: withdrawalInputModel?.currency?.symbol ?? '',
@@ -1108,10 +1112,15 @@ abstract class _WithdrawalStoreBase with Store {
     previewLoading = true;
 
     try {
+      final feeSize = withdrawalInputModel!.currency!.withdrawalFeeSize(
+        network: addressIsInternal ? 'internal-send' : networkController.text,
+        amount: Decimal.parse(withAmount),
+      );
+
       final model = WithdrawJarRequestModel(
         requestId: DateTime.now().microsecondsSinceEpoch.toString(),
         assetSymbol: withdrawalInputModel!.jar!.addresses.first.assetSymbol,
-        amount: Decimal.parse(withAmount),
+        amount: Decimal.parse(withAmount) + feeSize,
         toAddress: address,
         toTag: tag,
         blockchain: withdrawalInputModel!.jar!.addresses.first.blockchain,

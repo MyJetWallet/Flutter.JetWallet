@@ -35,6 +35,8 @@ class _EnterJarGoalScreenState extends State<EnterJarGoalScreen> {
   double _textWidth = 0;
   bool showError = false;
 
+  bool isLoading = false;
+
   @override
   void initState() {
     super.initState();
@@ -68,7 +70,7 @@ class _EnterJarGoalScreenState extends State<EnterJarGoalScreen> {
     final colors = sk.sKit.colors;
 
     final mediaQuery = MediaQuery.of(context);
-    final screenHeight = mediaQuery.size.height  - 64 - 53;
+    final screenHeight = mediaQuery.size.height - 64 - 53;
     final keyboardHeight = mediaQuery.viewInsets.bottom;
 
     return sk.SPageFrame(
@@ -156,10 +158,12 @@ class _EnterJarGoalScreenState extends State<EnterJarGoalScreen> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 24.0),
                         child: SButton.black(
+                          isLoading: isLoading,
                           text: widget.isCreatingNewJar ? intl.jar_next : intl.jar_confirm,
                           callback: _goalController.text.isNotEmpty &&
                                   (int.tryParse(_goalController.text.replaceAll(' ', '')) ?? 0) <= jarMaxGoal &&
-                                  (int.tryParse(_goalController.text.replaceAll(' ', '')) ?? 0) >= 1
+                                  (int.tryParse(_goalController.text.replaceAll(' ', '')) ?? 0) >= 1 &&
+                                  (int.tryParse(_goalController.text.replaceAll(' ', '')) ?? 0) != widget.jar?.target
                               ? () async {
                                   final goal = int.parse(_goalController.text.replaceAll(' ', ''));
 
@@ -177,6 +181,9 @@ class _EnterJarGoalScreenState extends State<EnterJarGoalScreen> {
                                       ),
                                     );
                                   } else {
+                                    setState(() {
+                                      isLoading = true;
+                                    });
                                     final result = await getIt.get<JarsStore>().updateJar(
                                           jarId: widget.jar!.id,
                                           title: widget.jar!.title,
@@ -185,6 +192,9 @@ class _EnterJarGoalScreenState extends State<EnterJarGoalScreen> {
                                           imageUrl: widget.jar!.imageUrl,
                                         );
 
+                                    setState(() {
+                                      isLoading = false;
+                                    });
                                     if (result != null) {
                                       getIt.get<JarsStore>().setSelectedJar(result);
                                       await getIt<AppRouter>().push(

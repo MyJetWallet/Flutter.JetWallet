@@ -14,6 +14,7 @@ import 'package:simple_networking/modules/signal_r/models/recurring_buys_model.d
 import 'package:simple_networking/simple_networking.dart' as networking;
 
 part 'currency_model.freezed.dart';
+
 part 'currency_model.g.dart';
 
 @Freezed(makeCollectionsUnmodifiable: false)
@@ -67,6 +68,7 @@ class CurrencyModel with _$CurrencyModel {
     @Default(false) bool walletIsActive,
     int? walletOrder,
   }) = _CurrencyModel;
+
   factory CurrencyModel.fromJson(Map<String, dynamic> json) => _$CurrencyModelFromJson(json);
 
   const CurrencyModel._();
