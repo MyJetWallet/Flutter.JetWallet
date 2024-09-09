@@ -7,6 +7,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/store/market_instruments_lists_store.dart';
+import 'package:jetwallet/features/market/widgets/add_assers_banner_widget.dart';
 import 'package:jetwallet/features/market/widgets/market_sector_item_widget.dart';
 import 'package:jetwallet/features/market/widgets/top_movers_market_section.dart';
 import 'package:jetwallet/utils/formatting/base/format_percent.dart';
@@ -201,6 +202,18 @@ class _MarketScreenState extends State<MarketScreen> {
                         ),
                       ),
                     ],
+                    if (listsStore.activeMarketTab == MarketTab.favorites && activeAssetsList.isEmpty)
+                      const SliverPadding(
+                        padding: EdgeInsets.only(
+                          top: 16,
+                          left: 24,
+                          right: 24,
+                          bottom: 32,
+                        ),
+                        sliver: SliverToBoxAdapter(
+                          child: AddAssersBannerWidget(),
+                        ),
+                      ),
                     SliverList.builder(
                       itemCount: activeAssetsList.length,
                       itemBuilder: (context, index) {
@@ -232,7 +245,7 @@ class _MarketScreenState extends State<MarketScreen> {
                         );
                       },
                     ),
-                    if (listsStore.activeMarketTab == MarketTab.favorites)
+                    if (listsStore.activeMarketTab == MarketTab.favorites && activeAssetsList.isNotEmpty)
                       SliverToBoxAdapter(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),

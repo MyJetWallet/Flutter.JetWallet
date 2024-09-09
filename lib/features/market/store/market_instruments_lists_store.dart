@@ -14,7 +14,7 @@ class MarketInstrumentsListsStore extends _MarketInstrumentsListsStoreBase with 
 
 abstract class _MarketInstrumentsListsStoreBase with Store {
   @observable
-  MarketTab activeMarketTab = MarketTab.all;
+  MarketTab activeMarketTab = MarketTab.favorites;
 
   @computed
   List<String> get watchListIds => sSignalRModules.keyValue.watchlist?.value ?? [];

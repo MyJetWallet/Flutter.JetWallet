@@ -158,3 +158,6 @@ const userAvatarNotif = 'assets/images/user_avatar_notif.svg';
 const userAvatar = 'assets/images/user_avatar.svg';
 
 const cryptopanicLogo = 'assets/images/cryptopanic_logo.svg';
+
+// Market
+const addAssetsBannerBg = 'assets/images/add_assets_banner_bg.png';
