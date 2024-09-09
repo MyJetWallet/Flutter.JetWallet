@@ -1770,5 +1770,6 @@
     "market_add_assets": "Add assets",
     "market_edit_list": "Edit list",
     "market_tokens": "tokens",
-    "market_100_instruments": "+100 instruments"
+    "market_100_instruments": "+100 instruments",
+    "market_done": "Done"
 }

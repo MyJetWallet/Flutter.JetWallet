@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/features/market/helper/show_add_assets_bottom_sheet.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
-class AddAssersBannerWidget extends StatelessWidget {
-  const AddAssersBannerWidget({super.key});
+class AddAssetsBannerWidget extends StatelessWidget {
+  const AddAssetsBannerWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -67,27 +68,32 @@ class _AddAssetsButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = SColorsLight();
 
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: ShapeDecoration(
-        shape: RoundedRectangleBorder(
-          side: BorderSide(width: 2, color: colors.white),
-          borderRadius: BorderRadius.circular(12),
-        ),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            intl.market_add_assets,
-            textAlign: TextAlign.center,
-            style: STStyles.body1Bold.copyWith(
-              color: colors.white,
-              height: 1,
-            ),
+    return SafeGesture(
+      onTap: () {
+        showAddAssetsBottomSheet(context);
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        decoration: ShapeDecoration(
+          shape: RoundedRectangleBorder(
+            side: BorderSide(width: 2, color: colors.white),
+            borderRadius: BorderRadius.circular(12),
           ),
-        ],
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              intl.market_add_assets,
+              textAlign: TextAlign.center,
+              style: STStyles.body1Bold.copyWith(
+                color: colors.white,
+                height: 1,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

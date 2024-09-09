@@ -6,8 +6,9 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/market/helper/show_add_assets_bottom_sheet.dart';
 import 'package:jetwallet/features/market/store/market_instruments_lists_store.dart';
-import 'package:jetwallet/features/market/widgets/add_assers_banner_widget.dart';
+import 'package:jetwallet/features/market/widgets/add_assets_banner_widget.dart';
 import 'package:jetwallet/features/market/widgets/market_sector_item_widget.dart';
 import 'package:jetwallet/features/market/widgets/top_movers_market_section.dart';
 import 'package:jetwallet/utils/formatting/base/format_percent.dart';
@@ -211,7 +212,7 @@ class _MarketScreenState extends State<MarketScreen> {
                           bottom: 32,
                         ),
                         sliver: SliverToBoxAdapter(
-                          child: AddAssersBannerWidget(),
+                          child: AddAssetsBannerWidget(),
                         ),
                       ),
                     SliverList.builder(
@@ -254,7 +255,9 @@ class _MarketScreenState extends State<MarketScreen> {
                               SButtonContext(
                                 type: SButtonContextType.iconedSmall,
                                 text: intl.market_add_assets,
-                                onTap: () {},
+                                onTap: () {
+                                  showAddAssetsBottomSheet(context);
+                                },
                               ),
                               const SizedBox(width: 8),
                               SButtonContext(

@@ -294,6 +294,9 @@ class $AssetsSvgMediumGen {
   /// File path: assets/svg/medium/favourite.svg
   SvgGenImage get favourite => const SvgGenImage('assets/svg/medium/favourite.svg');
 
+  /// File path: assets/svg/medium/favourite_2.svg
+  SvgGenImage get favourite2 => const SvgGenImage('assets/svg/medium/favourite_2.svg');
+
   /// File path: assets/svg/medium/filter.svg
   SvgGenImage get filter => const SvgGenImage('assets/svg/medium/filter.svg');
 
@@ -451,6 +454,7 @@ class $AssetsSvgMediumGen {
         faceId,
         facebook,
         favourite,
+        favourite2,
         filter,
         freeze,
         gift,
