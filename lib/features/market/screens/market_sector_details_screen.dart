@@ -77,7 +77,7 @@ class _MarketSectorDetailsBodyState extends State<_MarketSectorDetailsBody> with
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(16),
                     child: Image.network(
-                      store.sector.imageUrl,
+                      store.sector.bigImageUrl,
                       height: 160,
                       fit: BoxFit.cover,
                     ),

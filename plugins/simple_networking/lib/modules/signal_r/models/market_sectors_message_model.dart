@@ -20,6 +20,7 @@ class MarketSectorModel with _$MarketSectorModel {
     @Default('') String description,
     @Default('') String imageUrl,
     @Default(0) int weight,
+    @Default('') String bigImageUrl,
   }) = _MarketSectorModel;
 
   factory MarketSectorModel.fromJson(Map<String, dynamic> json) => _$MarketSectorModelFromJson(json);

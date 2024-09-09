@@ -99,7 +99,7 @@ class _MarketScreenState extends State<MarketScreen> {
             child: Observer(
               builder: (context) {
                 final baseCurrency = sSignalRModules.baseCurrency;
-                final sectors = sSignalRModules.marketSectors.sectors;
+                final sectors = sSignalRModules.marketSectors;
 
                 final activeAssetsList = listsStore.activeAssetsList;
 

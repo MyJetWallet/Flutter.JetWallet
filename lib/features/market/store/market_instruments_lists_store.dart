@@ -24,8 +24,8 @@ abstract class _MarketInstrumentsListsStoreBase with Store {
     final assets = sSignalRModules.marketItems;
 
     assets.sort(
-      (a, b) => b.weight.compareTo(
-        a.weight,
+      (a, b) => a.weight.compareTo(
+        b.weight,
       ),
     );
     return assets;

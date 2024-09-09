@@ -1111,11 +1111,17 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
   }
 
   @observable
-  MarketSectorsMessageModel marketSectors = const MarketSectorsMessageModel();
+  ObservableList<MarketSectorModel> marketSectors = ObservableList.of([]);
 
   @action
   void setMarketSectorsModelData(MarketSectorsMessageModel data) {
-    marketSectors = data;
+    final list = ObservableList.of(data.sectors);
+    list.sort(
+      (a, b) => b.weight.compareTo(
+        a.weight,
+      ),
+    );
+    marketSectors = list;
   }
 
   @action
