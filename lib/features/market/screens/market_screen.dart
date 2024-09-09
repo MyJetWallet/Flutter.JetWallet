@@ -37,6 +37,8 @@ class MarketScreen extends StatefulWidget {
 class _MarketScreenState extends State<MarketScreen> {
   late final ScrollController _controller;
 
+  bool isReorderingMod = false;
+
   bool isScroolStarted = false;
 
   @override
@@ -193,6 +195,22 @@ class _MarketScreenState extends State<MarketScreen> {
                         ),
                       ),
                     ),
+                    if (isReorderingMod)
+                      SliverPadding(
+                        padding: const EdgeInsets.only(bottom: 16),
+                        sliver: SliverToBoxAdapter(
+                          child: SCommandBar(
+                            title: intl.market_edit_favorites,
+                            description: intl.market_move_assets_or_delete,
+                            buttonText: intl.market_done,
+                            onTap: () {
+                              setState(() {
+                                isReorderingMod = false;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
                     if (listsStore.activeMarketTab != MarketTab.favorites) ...[
                       SliverPadding(
                         padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -301,7 +319,11 @@ class _MarketScreenState extends State<MarketScreen> {
                               SButtonContext(
                                 type: SButtonContextType.iconedSmall,
                                 text: intl.market_edit_list,
-                                onTap: () {},
+                                onTap: () {
+                                  setState(() {
+                                    isReorderingMod = true;
+                                  });
+                                },
                                 icon: Assets.svg.medium.edit,
                               ),
                             ],

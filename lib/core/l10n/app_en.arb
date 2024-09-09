@@ -1771,5 +1771,7 @@
     "market_edit_list": "Edit list",
     "market_tokens": "tokens",
     "market_100_instruments": "+100 instruments",
-    "market_done": "Done"
+    "market_done": "Done",
+    "market_edit_favorites": "Edit favorites",
+    "market_move_assets_or_delete": "Move assets or delete"
 }
