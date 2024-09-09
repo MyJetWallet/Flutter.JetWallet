@@ -42,7 +42,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
     }
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (store.withdrawalInputModel?.currency != null) {
+      if (store.withdrawalInputModel?.currency != null && store.withdrawalType != WithdrawalType.jar) {
         if (!store.withdrawalInputModel!.currency!.isSingleNetworkForBlockchainSend) {
           showNetworkBottomSheet(
             context,

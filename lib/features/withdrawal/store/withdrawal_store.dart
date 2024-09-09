@@ -335,7 +335,11 @@ abstract class _WithdrawalStoreBase with Store {
 
   @computed
   Decimal get feeAmount => currency.withdrawalFeeSize(
-        network: addressIsInternal ? 'internal-send' : networkController.text,
+        network: withdrawalType == WithdrawalType.jar
+            ? networkController.text
+            : addressIsInternal
+                ? 'internal-send'
+                : networkController.text,
         amount: Decimal.parse(withAmount),
       );
 
@@ -375,13 +379,11 @@ abstract class _WithdrawalStoreBase with Store {
     if (withdrawalInputModel!.jar != null) {
       withdrawalType = WithdrawalType.jar;
 
-      if (withdrawalInputModel!.currency!.isSingleNetworkForBlockchainSend) {
-        updateNetwork(
-          networks.firstWhere(
-            (net) => net.id == withdrawalInputModel!.jar!.addresses.first.blockchain,
-          ),
-        );
-      }
+      updateNetwork(
+        networks.firstWhere(
+              (net) => net.id == withdrawalInputModel!.jar!.addresses.first.blockchain,
+        ),
+      );
     } else if (withdrawalInputModel!.currency != null) {
       withdrawalType = WithdrawalType.asset;
 
@@ -1113,7 +1115,7 @@ abstract class _WithdrawalStoreBase with Store {
 
     try {
       final feeSize = withdrawalInputModel!.currency!.withdrawalFeeSize(
-        network: addressIsInternal ? 'internal-send' : networkController.text,
+        network: networkController.text,
         amount: Decimal.parse(withAmount),
       );
 
