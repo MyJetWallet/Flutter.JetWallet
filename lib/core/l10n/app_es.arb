@@ -349,7 +349,7 @@
     "showError_youHaveConfirmed": "Ha confirmado una operación incorrecta",
     "withdrawalAmount_available": "Disponible",
     "withdrawalAmount_enterMoreThan": "Ingrese más de",
-    "withdrawalAmount_youWillSend": "Usted enviará",
+    "withdrawalAmount_youWillSend": "Pagarás",
     "withdrawalAmount_wallet": "billetera",
     "withdrawalPreview_confirm": "Confirmar",
     "uploadKycDocuments_done": "Listo",
@@ -1751,6 +1751,6 @@
     "withdrawal_recipient_gets": "El destinatario recibe",
     "jar_creating": "Creando...",
     "jar_close_withdrawal_hint": "Por favor, retire {balance} para cerrar el tarro. Tiene un límite de {limit} {jarAsset} por día.",
-    "jar_withdrawal_error": "Los retiros a una dirección cripto Simple están limitados a 5,000 USDT por día",
+    "jar_withdrawal_error": "Los retiros a una dirección cripto Simple están limitados a {amount} por día",
     "kyc_verification": "Verificación"
 }

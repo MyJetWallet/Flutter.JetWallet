@@ -10,6 +10,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
+import 'package:jetwallet/utils/formatting/base/format_percent.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -143,7 +144,7 @@ class _AssetItem extends HookWidget {
               style: STStyles.body2Medium,
             ),
             Text(
-              '${asset.dayPercentChange}%',
+              formatPercent(asset.dayPercentChange),
               style: STStyles.subtitle1.copyWith(
                 color: asset.dayPercentChange.isNegative ? colors.red : colors.green,
               ),

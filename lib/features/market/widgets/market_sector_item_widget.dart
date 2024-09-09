@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/market/helper/sector_extensions.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
@@ -35,7 +36,7 @@ class MarketSectorItemWidget extends StatelessWidget {
             style: STStyles.body1Semibold,
           ),
           Text(
-            '${sector.countOfTokens} tokens',
+            '${sector.countOfTokens} ${intl.market_tokens}',
             style: STStyles.captionMedium.copyWith(
               color: colors.gray10,
             ),

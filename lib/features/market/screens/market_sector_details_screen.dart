@@ -109,7 +109,7 @@ class _MarketSectorDetailsBodyState extends State<_MarketSectorDetailsBody> with
                               child: SizedBox(width: 8),
                             ),
                             TextSpan(
-                              text: '${store.sector.countOfTokens} tokens',
+                              text: '${store.sector.countOfTokens} ${intl.market_tokens}',
                               style: STStyles.body2Semibold.copyWith(
                                 color: colors.gray10,
                               ),

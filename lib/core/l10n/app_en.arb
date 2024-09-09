@@ -349,7 +349,7 @@
     "showError_youHaveConfirmed": "You have confirmed an incorrect operation",
     "withdrawalAmount_available": "Available",
     "withdrawalAmount_enterMoreThan": "Enter more than",
-    "withdrawalAmount_youWillSend": "You will send",
+    "withdrawalAmount_youWillSend": "You will pay",
     "withdrawalAmount_wallet": "wallet",
     "withdrawalPreview_confirm": "Confirm",
     "uploadKycDocuments_done": "Done",
@@ -1764,5 +1764,11 @@
     "jar_creating": "Creating...",
     "jar_close_withdrawal_hint": "Please withdraw {balance} to close the jar. You have a limit of {limit} {jarAsset} per day.",
     "jar_withdrawal_error": "Withdrawals to a Simple crypto address are capped at {amount} per day",
-    "kyc_verification": "Verification"
+    "kyc_verification": "Verification",
+    "market_sectors": "Sectors",
+    "market_favorites": "Favorites",
+    "market_add_assets": "Add assets",
+    "market_edit_list": "Edit list",
+    "market_tokens": "tokens",
+    "market_100_instruments": "+100 instruments"
 }

@@ -108,9 +108,9 @@ class _MarketScreenState extends State<MarketScreen> {
                   physics: const AlwaysScrollableScrollPhysics(),
                   controller: _controller,
                   slivers: [
-                    const SliverToBoxAdapter(
+                    SliverToBoxAdapter(
                       child: STableHeader(
-                        title: 'Sectors',
+                        title: intl.market_sectors,
                       ),
                     ),
                     SliverPadding(
@@ -144,7 +144,7 @@ class _MarketScreenState extends State<MarketScreen> {
                           spacing: 4,
                           children: [
                             STagButton(
-                              lable: 'Favorites',
+                              lable: intl.market_favorites,
                               state: listsStore.activeMarketTab == MarketTab.favorites
                                   ? TagButtonState.selected
                                   : TagButtonState.defaultt,
@@ -153,7 +153,7 @@ class _MarketScreenState extends State<MarketScreen> {
                               },
                             ),
                             STagButton(
-                              lable: 'All',
+                              lable: intl.market_all,
                               state: listsStore.activeMarketTab == MarketTab.all
                                   ? TagButtonState.selected
                                   : TagButtonState.defaultt,
@@ -162,7 +162,7 @@ class _MarketScreenState extends State<MarketScreen> {
                               },
                             ),
                             STagButton(
-                              lable: 'Gainers',
+                              lable: intl.market_bottomTabLabel4,
                               state: listsStore.activeMarketTab == MarketTab.gainers
                                   ? TagButtonState.selected
                                   : TagButtonState.defaultt,
@@ -171,7 +171,7 @@ class _MarketScreenState extends State<MarketScreen> {
                               },
                             ),
                             STagButton(
-                              lable: 'Loosers',
+                              lable: intl.market_bottomTabLabel5,
                               state: listsStore.activeMarketTab == MarketTab.lossers
                                   ? TagButtonState.selected
                                   : TagButtonState.defaultt,
@@ -253,13 +253,13 @@ class _MarketScreenState extends State<MarketScreen> {
                             children: [
                               SButtonContext(
                                 type: SButtonContextType.iconedSmall,
-                                text: 'Add assets',
+                                text: intl.market_add_assets,
                                 onTap: () {},
                               ),
                               const SizedBox(width: 8),
                               SButtonContext(
                                 type: SButtonContextType.iconedSmall,
-                                text: 'Edit list',
+                                text: intl.market_edit_list,
                                 onTap: () {},
                                 icon: Assets.svg.medium.edit,
                               ),

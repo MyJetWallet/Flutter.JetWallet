@@ -1705,7 +1705,7 @@
         "description": "Введите больше, чем",
         "type": "text"
     },
-    "withdrawalAmount_youWillSend": "Ви надішлете",
+    "withdrawalAmount_youWillSend": "Ви заплатите",
     "@withdrawalAmount_youWillSend": {
         "description": "Вы отправите",
         "type": "text"
@@ -5882,7 +5882,7 @@
     "jar_close": "Закрити",
     "jar_more": "Більше",
     "jar_transactions": "Транзакції",
-    "jar_active": "Активно",
+    "jar_active": "Активні",
     "jar_all": "Всі",
     "jar_description_title": "Розкажіть нам мету цієї банки",
     "jar_description": "Опис",
@@ -5907,6 +5907,6 @@
     "withdrawal_recipient_gets": "Адресат отримує",
     "jar_creating": "Створення...",
     "jar_close_withdrawal_hint": "Будь ласка, зніміть {balance}, щоб закрити банку. Ваш ліміт — {limit} {jarAsset} на день.",
-    "jar_withdrawal_error": "Виведення коштів на криптоадресу Simple обмежено 5,000 USDT на добу",
+    "jar_withdrawal_error": "Виведення коштів на криптоадресу Simple обмежено {amount} на добу",
     "kyc_verification": "Верифікація"
 }

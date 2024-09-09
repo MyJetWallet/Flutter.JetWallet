@@ -349,7 +349,7 @@
     "showError_youHaveConfirmed": "Potwierdziłeś nieprawidłową operację",
     "withdrawalAmount_available": "Dostępne",
     "withdrawalAmount_enterMoreThan": "Wprowadź więcej niż",
-    "withdrawalAmount_youWillSend": "Wyślesz",
+    "withdrawalAmount_youWillSend": "Zapłacisz",
     "withdrawalAmount_wallet": "portfel",
     "withdrawalPreview_confirm": "Potwierdź",
     "uploadKycDocuments_done": "Gotowe",
@@ -1815,6 +1815,6 @@
     "withdrawal_recipient_gets": "Odbiorca otrzymuje",
     "jar_creating": "Tworzenie...",
     "jar_close_withdrawal_hint": "Proszę wypłacić {balance}, aby zamknąć słoik. Masz limit {limit} {jarAsset} na dzień.",
-    "jar_withdrawal_error": "Wypłaty na Simple adres krypto są ograniczone do 5,000 USDT na dzień",
+    "jar_withdrawal_error": "Wypłaty na Simple adres krypto są ograniczone do {amount} na dzień",
     "kyc_verification": "Weryfikacja"
 }

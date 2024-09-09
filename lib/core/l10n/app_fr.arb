@@ -349,7 +349,7 @@
     "showError_youHaveConfirmed": "Opération incorrecte confirmée",
     "withdrawalAmount_available": "Disponible",
     "withdrawalAmount_enterMoreThan": "Entrez plus que",
-    "withdrawalAmount_youWillSend": "Vous enverrez",
+    "withdrawalAmount_youWillSend": "Vous paierez",
     "withdrawalAmount_wallet": "portefeuille",
     "withdrawalPreview_confirm": "Confirmer",
     "uploadKycDocuments_done": "Terminé",
@@ -1727,6 +1727,6 @@
     "withdrawal_recipient_gets": "Le destinataire reçoit",
     "jar_creating": "Création...",
     "jar_close_withdrawal_hint": "Veuillez retirer {balance} pour fermer le bocal. Vous avez une limite de {limit} {jarAsset} par jour.",
-    "jar_withdrawal_error": "Les retraits vers une adresse crypto Simple sont limités à 5,000 USDT par jour",
+    "jar_withdrawal_error": "Les retraits vers une adresse crypto Simple sont limités à {amount} par jour",
     "kyc_verification": "Vérification"
 }

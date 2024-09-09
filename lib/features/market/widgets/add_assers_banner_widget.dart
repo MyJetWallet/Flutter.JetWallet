@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
@@ -43,7 +44,7 @@ class AddAssersBannerWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  '+100 instruments',
+                  intl.market_100_instruments,
                   style: STStyles.subtitle1.copyWith(
                     color: colors.white,
                     height: 1.2,
@@ -79,7 +80,7 @@ class _AddAssetsButton extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            'Add assets',
+            intl.market_add_assets,
             textAlign: TextAlign.center,
             style: STStyles.body1Bold.copyWith(
               color: colors.white,
