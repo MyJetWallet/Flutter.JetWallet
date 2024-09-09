@@ -2,12 +2,14 @@ import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/helper/show_add_assets_bottom_sheet.dart';
 import 'package:jetwallet/features/market/store/market_instruments_lists_store.dart';
+import 'package:jetwallet/features/market/store/watchlist_store.dart';
 import 'package:jetwallet/features/market/widgets/add_assets_banner_widget.dart';
 import 'package:jetwallet/features/market/widgets/market_sector_item_widget.dart';
 import 'package:jetwallet/features/market/widgets/top_movers_market_section.dart';
@@ -66,6 +68,8 @@ class _MarketScreenState extends State<MarketScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = SColorsLight();
+
     return VisibilityDetector(
       key: const Key('market-screen-key'),
       onVisibilityChanged: (info) {
@@ -76,10 +80,15 @@ class _MarketScreenState extends State<MarketScreen> {
               );
         }
       },
-      child: Provider(
-        create: (context) => MarketInstrumentsListsStore(),
+      child: MultiProvider(
+        providers: [
+          Provider<MarketInstrumentsListsStore>(create: (_) => MarketInstrumentsListsStore()),
+          Provider<WatchlistStore>(create: (_) => WatchlistStore()),
+        ],
         builder: (context, child) {
           final listsStore = MarketInstrumentsListsStore.of(context);
+          final watchlistIdsN = WatchlistStore.of(context);
+
           return SPageFrame(
             loaderText: '',
             header: AnimatedCrossFade(
@@ -222,27 +231,56 @@ class _MarketScreenState extends State<MarketScreen> {
                               findInHideTerminalList: true,
                               assetSymbol: activeAssetsList[index].symbol,
                             );
-                        return SimpleTableAsset(
-                          assetIcon: NetworkIconWidget(
-                            currency.iconUrl,
-                          ),
-                          label: currency.description,
-                          rightValue: (baseCurrency.symbol == currency.symbol ? Decimal.one : currency.currentPrice)
-                              .toFormatPrice(
-                            prefix: baseCurrency.prefix,
-                            accuracy: activeAssetsList[index].priceAccuracy,
-                          ),
-                          supplement: currency.symbol,
-                          isRightValueMarket: true,
-                          rightMarketValue: formatPercent(currency.dayPercentChange),
-                          rightValueMarketPositive: currency.dayPercentChange > 0,
-                          onTableAssetTap: () {
-                            sRouter.push(
-                              MarketDetailsRouter(
-                                marketItem: activeAssetsList[index],
+                        final isInWatchlist = watchlistIdsN.state.contains(currency.symbol);
+
+                        return Slidable(
+                          startActionPane: ActionPane(
+                            extentRatio: 0.2,
+                            motion: const ScrollMotion(),
+                            children: [
+                              Builder(
+                                builder: (context) {
+                                  return CustomSlidableAction(
+                                    onPressed: (context) {
+                                      isInWatchlist
+                                          ? watchlistIdsN.removeFromWatchlist(currency.symbol)
+                                          : watchlistIdsN.addToWatchlist(currency.symbol);
+                                    },
+                                    backgroundColor: colors.blue,
+                                    child: isInWatchlist
+                                        ? Assets.svg.medium.favourite3.simpleSvg(
+                                            color: colors.white,
+                                          )
+                                        : Assets.svg.medium.favourite.simpleSvg(
+                                            color: colors.white,
+                                          ),
+                                  );
+                                },
                               ),
-                            );
-                          },
+                            ],
+                          ),
+                          child: SimpleTableAsset(
+                            assetIcon: NetworkIconWidget(
+                              currency.iconUrl,
+                            ),
+                            label: currency.description,
+                            rightValue: (baseCurrency.symbol == currency.symbol ? Decimal.one : currency.currentPrice)
+                                .toFormatPrice(
+                              prefix: baseCurrency.prefix,
+                              accuracy: activeAssetsList[index].priceAccuracy,
+                            ),
+                            supplement: currency.symbol,
+                            isRightValueMarket: true,
+                            rightMarketValue: formatPercent(currency.dayPercentChange),
+                            rightValueMarketPositive: currency.dayPercentChange > 0,
+                            onTableAssetTap: () {
+                              sRouter.push(
+                                MarketDetailsRouter(
+                                  marketItem: activeAssetsList[index],
+                                ),
+                              );
+                            },
+                          ),
                         );
                       },
                     ),
