@@ -8,6 +8,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/helper/show_add_assets_bottom_sheet.dart';
+import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/features/market/store/market_instruments_lists_store.dart';
 import 'package:jetwallet/features/market/store/watchlist_store.dart';
 import 'package:jetwallet/features/market/widgets/add_assets_banner_widget.dart';
@@ -116,6 +117,8 @@ class _MarketScreenState extends State<MarketScreen> {
 
                 final activeAssetsList = listsStore.activeAssetsList;
 
+                final list = reorderingItems(activeAssetsList, context);
+
                 return CustomScrollView(
                   physics: const AlwaysScrollableScrollPhysics(),
                   controller: _controller,
@@ -163,6 +166,9 @@ class _MarketScreenState extends State<MarketScreen> {
                                   ? TagButtonState.selected
                                   : TagButtonState.defaultt,
                               onTap: () {
+                                setState(() {
+                                  isReorderingMod = false;
+                                });
                                 listsStore.setActiveMarketTab(MarketTab.favorites);
                               },
                             ),
@@ -172,6 +178,9 @@ class _MarketScreenState extends State<MarketScreen> {
                                   ? TagButtonState.selected
                                   : TagButtonState.defaultt,
                               onTap: () {
+                                setState(() {
+                                  isReorderingMod = false;
+                                });
                                 listsStore.setActiveMarketTab(MarketTab.all);
                               },
                             ),
@@ -181,6 +190,9 @@ class _MarketScreenState extends State<MarketScreen> {
                                   ? TagButtonState.selected
                                   : TagButtonState.defaultt,
                               onTap: () {
+                                setState(() {
+                                  isReorderingMod = false;
+                                });
                                 listsStore.setActiveMarketTab(MarketTab.gainers);
                               },
                             ),
@@ -190,6 +202,9 @@ class _MarketScreenState extends State<MarketScreen> {
                                   ? TagButtonState.selected
                                   : TagButtonState.defaultt,
                               onTap: () {
+                                setState(() {
+                                  isReorderingMod = false;
+                                });
                                 listsStore.setActiveMarketTab(MarketTab.lossers);
                               },
                             ),
@@ -244,67 +259,94 @@ class _MarketScreenState extends State<MarketScreen> {
                           child: AddAssetsBannerWidget(),
                         ),
                       ),
-                    SliverList.builder(
-                      itemCount: activeAssetsList.length,
-                      itemBuilder: (context, index) {
-                        final currency = getIt.get<FormatService>().findCurrency(
-                              findInHideTerminalList: true,
-                              assetSymbol: activeAssetsList[index].symbol,
-                            );
-                        final isInWatchlist = watchlistIdsN.state.contains(currency.symbol);
+                    if (listsStore.activeMarketTab == MarketTab.favorites && isReorderingMod)
+                      SliverReorderableList(
+                        proxyDecorator: (child, index, animation) {
+                          return _proxyDecorator(
+                            child: child,
+                            index: index,
+                            animation: animation,
+                          );
+                        },
+                        onReorder: (int oldIndex, int newIndex) {
+                          watchlistIdsN.changePosition(oldIndex, newIndex);
 
-                        return Slidable(
-                          startActionPane: ActionPane(
-                            extentRatio: 0.2,
-                            motion: const ScrollMotion(),
-                            children: [
-                              Builder(
-                                builder: (context) {
-                                  return CustomSlidableAction(
-                                    onPressed: (context) {
-                                      isInWatchlist
-                                          ? watchlistIdsN.removeFromWatchlist(currency.symbol)
-                                          : watchlistIdsN.addToWatchlist(currency.symbol);
-                                    },
-                                    backgroundColor: colors.blue,
-                                    child: isInWatchlist
-                                        ? Assets.svg.medium.favourite3.simpleSvg(
-                                            color: colors.white,
-                                          )
-                                        : Assets.svg.medium.favourite.simpleSvg(
-                                            color: colors.white,
-                                          ),
-                                  );
-                                },
-                              ),
-                            ],
-                          ),
-                          child: SimpleTableAsset(
-                            assetIcon: NetworkIconWidget(
-                              currency.iconUrl,
-                            ),
-                            label: currency.description,
-                            rightValue: (baseCurrency.symbol == currency.symbol ? Decimal.one : currency.currentPrice)
-                                .toFormatPrice(
-                              prefix: baseCurrency.prefix,
-                              accuracy: activeAssetsList[index].priceAccuracy,
-                            ),
-                            supplement: currency.symbol,
-                            isRightValueMarket: true,
-                            rightMarketValue: formatPercent(currency.dayPercentChange),
-                            rightValueMarketPositive: currency.dayPercentChange > 0,
-                            onTableAssetTap: () {
-                              sRouter.push(
-                                MarketDetailsRouter(
-                                  marketItem: activeAssetsList[index],
-                                ),
+                          setState(() {});
+                        },
+                        itemCount: list.length,
+                        itemBuilder: (context, index) {
+                          return ReorderableDelayedDragStartListener(
+                            key: list[index].key,
+                            enabled: isReorderingMod,
+                            index: index,
+                            child: list[index],
+                          );
+                        },
+                      )
+                    else
+                      SliverList.builder(
+                        itemCount: activeAssetsList.length,
+                        itemBuilder: (context, index) {
+                          final currency = getIt.get<FormatService>().findCurrency(
+                                findInHideTerminalList: true,
+                                assetSymbol: activeAssetsList[index].symbol,
                               );
-                            },
-                          ),
-                        );
-                      },
-                    ),
-                    if (listsStore.activeMarketTab == MarketTab.favorites && activeAssetsList.isNotEmpty)
+                          final isInWatchlist = watchlistIdsN.state.contains(currency.symbol);
+
+                          return Slidable(
+                            startActionPane: ActionPane(
+                              extentRatio: 0.2,
+                              motion: const ScrollMotion(),
+                              children: [
+                                Builder(
+                                  builder: (context) {
+                                    return CustomSlidableAction(
+                                      onPressed: (context) {
+                                        isInWatchlist
+                                            ? watchlistIdsN.removeFromWatchlist(currency.symbol)
+                                            : watchlistIdsN.addToWatchlist(currency.symbol);
+                                      },
+                                      backgroundColor: colors.blue,
+                                      child: isInWatchlist
+                                          ? Assets.svg.medium.favourite3.simpleSvg(
+                                              color: colors.white,
+                                            )
+                                          : Assets.svg.medium.favourite.simpleSvg(
+                                              color: colors.white,
+                                            ),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                            child: SimpleTableAsset(
+                              assetIcon: NetworkIconWidget(
+                                currency.iconUrl,
+                              ),
+                              label: currency.description,
+                              rightValue: (baseCurrency.symbol == currency.symbol ? Decimal.one : currency.currentPrice)
+                                  .toFormatPrice(
+                                prefix: baseCurrency.prefix,
+                                accuracy: activeAssetsList[index].priceAccuracy,
+                              ),
+                              supplement: currency.symbol,
+                              isRightValueMarket: true,
+                              rightMarketValue: formatPercent(currency.dayPercentChange),
+                              rightValueMarketPositive: currency.dayPercentChange >= 0,
+                              onTableAssetTap: () {
+                                sRouter.push(
+                                  MarketDetailsRouter(
+                                    marketItem: activeAssetsList[index],
+                                  ),
+                                );
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                    if (listsStore.activeMarketTab == MarketTab.favorites &&
+                        activeAssetsList.isNotEmpty &&
+                        !isReorderingMod)
                       SliverToBoxAdapter(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -350,6 +392,90 @@ class _MarketScreenState extends State<MarketScreen> {
           );
         },
       ),
+    );
+  }
+
+  List<Widget> reorderingItems(List<MarketItemModel> marketItems, BuildContext context) {
+    final watchlistIdsN = WatchlistStore.of(context);
+
+    final baseCurrency = sSignalRModules.baseCurrency;
+
+    final list = <Widget>[];
+
+    for (final marketItem in marketItems) {
+      final currency = getIt.get<FormatService>().findCurrency(
+            findInHideTerminalList: true,
+            assetSymbol: marketItem.symbol,
+          );
+      list.add(
+        SimpleTableAsset(
+          key: ValueKey(marketItem.symbol),
+          assetIcon: NetworkIconWidget(
+            marketItem.iconUrl,
+          ),
+          label: currency.description,
+          rightValue: currency.currentPrice.toFormatPrice(
+            prefix: baseCurrency.prefix,
+            accuracy: marketItem.priceAccuracy,
+          ),
+          supplement: currency.symbol,
+          onTableAssetTap: () {
+            sRouter.push(
+              MarketDetailsRouter(
+                marketItem: marketItem,
+              ),
+            );
+          },
+          customRightWidget: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(
+                children: [
+                  SafeGesture(
+                    onTap: () {
+                      watchlistIdsN.removeFromWatchlist(marketItem.symbol);
+                    },
+                    child: Assets.svg.medium.delete.simpleSvg(),
+                  ),
+                  const SizedBox(width: 16),
+                  Assets.svg.small.reorder.simpleSvg(),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    return list;
+  }
+
+  Widget _proxyDecorator({
+    required Widget child,
+    required int index,
+    required Animation<double> animation,
+  }) {
+    final colors = sKit.colors;
+
+    return AnimatedBuilder(
+      animation: animation,
+      builder: (BuildContext context, Widget? child) {
+        return Material(
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              color: colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: colors.grey1.withOpacity(0.2),
+                  blurRadius: 20,
+                ),
+              ],
+            ),
+            child: child,
+          ),
+        );
+      },
+      child: child,
     );
   }
 }
