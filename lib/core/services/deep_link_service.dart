@@ -1106,7 +1106,6 @@ class DeepLinkService {
     }
 
     final jarId = parameters[_jwJarId];
-    print('#@#@#@ jarId: $jarId');
 
     if (getIt.isRegistered<AppStore>() &&
         getIt.get<AppStore>().remoteConfigStatus is Success &&
