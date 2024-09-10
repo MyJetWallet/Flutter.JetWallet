@@ -742,6 +742,22 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
         );
       }
     }
+
+    if (marketItems.isNotEmpty) {
+      for (final marketItem in marketItems) {
+        final index = marketItems.indexOf(marketItem);
+
+        final assetPrice = basePriceFrom(
+          prices: value.prices,
+          assetSymbol: marketItem.symbol,
+        );
+
+        marketItems[index] = marketItem.copyWith(
+          dayPercentChange: assetPrice.dayPercentChange,
+          dayPriceChange: assetPrice.dayPriceChange,
+        );
+      }
+    }
   }
 
   AssetWithdrawalFeeModel? assetsWithdrawalFees;
