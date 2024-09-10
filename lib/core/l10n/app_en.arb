@@ -1773,5 +1773,7 @@
     "market_100_instruments": "+100 instruments",
     "market_done": "Done",
     "market_edit_favorites": "Edit favorites",
-    "market_move_assets_or_delete": "Move assets or delete"
+    "market_move_assets_or_delete": "Move assets or delete",
+    "market_market_cap": "Market cap",
+    "market_price": "Price"
 }

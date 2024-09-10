@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:mobx/mobx.dart';
@@ -13,6 +15,18 @@ class MarketInstrumentsListsStore extends _MarketInstrumentsListsStoreBase with 
 }
 
 abstract class _MarketInstrumentsListsStoreBase with Store {
+  _MarketInstrumentsListsStoreBase() {
+    searchContriller.addListener(() {
+      _searchText = searchContriller.text;
+    });
+  }
+  final searchContriller = TextEditingController();
+
+  final searchFocusNode = FocusNode();
+
+  @observable
+  String _searchText = '';
+
   @observable
   MarketTab activeMarketTab = MarketTab.favorites;
 
@@ -28,7 +42,20 @@ abstract class _MarketInstrumentsListsStoreBase with Store {
         b.weight,
       ),
     );
-    return  ObservableList<MarketItemModel>.of(assets);
+    return ObservableList<MarketItemModel>.of(assets);
+  }
+
+  @computed
+  ObservableList<MarketItemModel> get allListFiltred {
+    final afterSearch = allList.where((marketItem) {
+      final currency = getIt.get<FormatService>().findCurrency(
+            findInHideTerminalList: true,
+            assetSymbol: marketItem.symbol,
+          );
+      return currency.description.toLowerCase().contains(_searchText.toLowerCase()) ||
+          currency.symbol.toLowerCase().contains(_searchText.toLowerCase());
+    });
+    return ObservableList<MarketItemModel>.of(afterSearch);
   }
 
   @computed
@@ -44,6 +71,19 @@ abstract class _MarketInstrumentsListsStoreBase with Store {
   }
 
   @computed
+  ObservableList<MarketItemModel> get gainersListFiltred {
+    final afterSearch = gainersList.where((marketItem) {
+      final currency = getIt.get<FormatService>().findCurrency(
+            findInHideTerminalList: true,
+            assetSymbol: marketItem.symbol,
+          );
+      return currency.description.toLowerCase().contains(_searchText.toLowerCase()) ||
+          currency.symbol.toLowerCase().contains(_searchText.toLowerCase());
+    });
+    return ObservableList<MarketItemModel>.of(afterSearch);
+  }
+
+  @computed
   ObservableList<MarketItemModel> get loosersList {
     final losers = allList.where((item) => item.dayPercentChange < 0).toList();
     losers.sort(
@@ -56,14 +96,27 @@ abstract class _MarketInstrumentsListsStoreBase with Store {
   }
 
   @computed
+  ObservableList<MarketItemModel> get loosersListFiltred {
+    final afterSearch = loosersList.where((marketItem) {
+      final currency = getIt.get<FormatService>().findCurrency(
+            findInHideTerminalList: true,
+            assetSymbol: marketItem.symbol,
+          );
+      return currency.description.toLowerCase().contains(_searchText.toLowerCase()) ||
+          currency.symbol.toLowerCase().contains(_searchText.toLowerCase());
+    });
+    return ObservableList<MarketItemModel>.of(afterSearch);
+  }
+
+  @computed
   ObservableList<MarketItemModel> get activeAssetsList {
     switch (activeMarketTab) {
       case MarketTab.all:
-        return allList;
+        return allListFiltred;
       case MarketTab.gainers:
-        return gainersList;
+        return gainersListFiltred;
       case MarketTab.lossers:
-        return loosersList;
+        return loosersListFiltred;
       default:
         return ObservableList<MarketItemModel>.of([]);
     }
@@ -71,7 +124,20 @@ abstract class _MarketInstrumentsListsStoreBase with Store {
 
   @action
   void setActiveMarketTab(MarketTab marketTab) {
+    clearSearch();
     activeMarketTab = marketTab;
+  }
+
+  @action
+  void clearSearch() {
+    searchFocusNode.unfocus();
+    searchContriller.clear();
+    _searchText = '';
+  }
+
+  @action
+  void dispose() {
+    searchContriller.dispose();
   }
 }
 

@@ -85,7 +85,10 @@ class _MarketScreenState extends State<MarketScreen> {
       },
       child: MultiProvider(
         providers: [
-          Provider<MarketInstrumentsListsStore>(create: (_) => MarketInstrumentsListsStore()),
+          Provider<MarketInstrumentsListsStore>(
+            create: (_) => MarketInstrumentsListsStore(),
+            dispose: (context ,store) => store.dispose(),
+          ),
           Provider<WatchlistStore>(create: (_) => WatchlistStore()),
         ],
         builder: (context, child) {
@@ -237,6 +240,8 @@ class _MarketScreenState extends State<MarketScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 24),
                         sliver: SliverToBoxAdapter(
                           child: SStandardField(
+                            controller: listsStore.searchContriller,
+                            focusNode: listsStore.searchFocusNode,
                             hintText: intl.showKycCountryPicker_search,
                             onChanged: (value) {},
                             height: 44,

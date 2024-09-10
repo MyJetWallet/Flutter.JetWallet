@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
@@ -37,9 +38,9 @@ abstract class _MarketSectorStoreBase with Store {
   @observable
   String _searchText = '';
 
-  List<MarketItemsFilter> marketItemsFilter = const [
-    MarketItemsFilter(name: 'Market cap', value: MarketItem.marketCap),
-    MarketItemsFilter(name: 'Price', value: MarketItem.price),
+  List<MarketItemsFilter> marketItemsFilter =  [
+    MarketItemsFilter(name: intl.market_market_cap, value: MarketItem.marketCap),
+    MarketItemsFilter(name: intl.market_price, value: MarketItem.price),
   ];
 
   @observable
