@@ -10,9 +10,15 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 
 Future<void> showAddAssetsBottomSheet(BuildContext context) async {
-  final currenciesList = [...sSignalRModules.currenciesList];
+  final currenciesList = [...sSignalRModules.currenciesList].where((asset) => asset.type == AssetType.crypto).toList()
+    ..sort(
+      (a, b) => a.weight.compareTo(
+        b.weight,
+      ),
+    );
 
   final searchStore = ActionSearchStore()..init(customCurrencies: currenciesList);
 
