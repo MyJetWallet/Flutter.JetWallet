@@ -21,28 +21,14 @@ abstract class _MarketInstrumentsListsStoreBase with Store {
 
   @computed
   ObservableList<MarketItemModel> get allList {
-    final assets = sSignalRModules.marketItems;
+    final assets = [...sSignalRModules.marketItems];
 
     assets.sort(
       (a, b) => a.weight.compareTo(
         b.weight,
       ),
     );
-    return assets;
-  }
-
-  @computed
-  ObservableList<MarketItemModel> get favoritesList {
-    final output = ObservableList<MarketItemModel>.of([]);
-
-    for (var i = 0; i < watchListIds.length; i++) {
-      final obj = allList.indexWhere((element) => element.symbol == watchListIds[i]);
-      if (obj != -1) {
-        output.add(allList[obj]);
-      }
-    }
-
-    return output;
+    return  ObservableList<MarketItemModel>.of(assets);
   }
 
   @computed
@@ -74,8 +60,6 @@ abstract class _MarketInstrumentsListsStoreBase with Store {
     switch (activeMarketTab) {
       case MarketTab.all:
         return allList;
-      case MarketTab.favorites:
-        return favoritesList;
       case MarketTab.gainers:
         return gainersList;
       case MarketTab.lossers:

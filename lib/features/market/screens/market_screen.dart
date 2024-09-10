@@ -115,9 +115,13 @@ class _MarketScreenState extends State<MarketScreen> {
                 final baseCurrency = sSignalRModules.baseCurrency;
                 final sectors = sSignalRModules.marketSectors;
 
-                final activeAssetsList = listsStore.activeAssetsList;
+                final watchListMarketItems = watchlistIdsN.watchListMarketItems;
 
-                final list = reorderingItems(activeAssetsList, context);
+                final activeAssetsList = listsStore.activeMarketTab == MarketTab.favorites
+                    ? watchListMarketItems
+                    : listsStore.activeAssetsList;
+
+                final list = reorderingItems(watchListMarketItems, context);
 
                 return CustomScrollView(
                   physics: const AlwaysScrollableScrollPhysics(),

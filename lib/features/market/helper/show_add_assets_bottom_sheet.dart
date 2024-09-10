@@ -16,7 +16,7 @@ Future<void> showAddAssetsBottomSheet(BuildContext context) async {
 
   final searchStore = ActionSearchStore()..init(customCurrencies: currenciesList);
 
-  final watchlistIdsN = WatchlistStore();
+  final watchlistIdsN = WatchlistStore.of(context);
 
   sShowBasicModalBottomSheet(
     context: context,
