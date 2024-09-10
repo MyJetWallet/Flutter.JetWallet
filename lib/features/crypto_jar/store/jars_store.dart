@@ -37,6 +37,17 @@ abstract class _JarsStoreBase with Store {
     selectedJar = value;
   }
 
+  @action
+  void setSelectedJarById(String jarId) {
+    final index = allJar.indexWhere(
+      (jar) => jar.id == jarId,
+    );
+
+    if (index != -1) {
+      selectedJar = allJar[index];
+    }
+  }
+
   @observable
   double? limit;
 

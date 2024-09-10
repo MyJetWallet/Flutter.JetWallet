@@ -22,12 +22,14 @@ import 'package:jetwallet/features/app/store/models/authorization_union.dart';
 import 'package:jetwallet/features/app/store/models/authorized_union.dart';
 import 'package:jetwallet/features/auth/email_verification/store/email_verification_store.dart';
 import 'package:jetwallet/features/auth/register/store/referral_code_store.dart';
+import 'package:jetwallet/features/crypto_jar/store/jars_store.dart';
 import 'package:jetwallet/features/earn/store/earn_store.dart';
 import 'package:jetwallet/features/earn/widgets/offers_overlay_content.dart';
 import 'package:jetwallet/features/home/store/bottom_bar_store.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
+import 'package:jetwallet/features/my_wallets/store/my_wallets_scroll_store.dart';
 import 'package:jetwallet/features/send_gift/widgets/share_gift_result_bottom_sheet.dart';
 import 'package:jetwallet/features/simple_card/store/simple_card_store.dart';
 import 'package:jetwallet/features/simple_card/ui/widgets/card_options.dart';
@@ -110,6 +112,10 @@ const _mySimpleCoinsScreen = 'my_simple_coins_screen';
 const jwOperationPtpManage = 'jw_operation_ptp_manage';
 
 const String _loggerService = 'DeepLinkService';
+
+//Jar
+const _jar = 'jar';
+const _jwJarId = 'jw_jar_id';
 
 enum SourceScreen {
   bannerOnMarket,
@@ -206,6 +212,8 @@ class DeepLinkService {
       _pushAssetScreen(parameters);
     } else if (command == _mySimpleCoinsScreen) {
       _pushMySimpleCoinsScreen(parameters);
+    } else if (command == _jar) {
+      _pushJar(parameters);
     } else {
       if (parameters.containsKey('jw_operation_id')) {
         pushCryptoHistory(parameters);
@@ -1072,6 +1080,56 @@ class DeepLinkService {
             );
             if (isSimpleCoinAvaible) {
               await sRouter.push(const MySimpleCoinsRouter());
+            }
+          },
+        ),
+      );
+    }
+  }
+
+  Future<void> _pushJar(
+    Map<String, String> parameters,
+  ) async {
+    Future<void> func(String? jarId) async {
+      getIt.get<MyWalletsScrollStore>().scrollToJarTitle();
+      if (jarId != null) {
+        getIt.get<JarsStore>().setSelectedJarById(jarId);
+        await Future.delayed(const Duration(milliseconds: 500));
+        if (getIt.get<JarsStore>().selectedJar != null) {
+          await getIt<AppRouter>().push(
+            JarRouter(
+              hasLeftIcon: true,
+            ),
+          );
+        }
+      }
+    }
+
+    final jarId = parameters[_jwJarId];
+    print('#@#@#@ jarId: $jarId');
+
+    if (getIt.isRegistered<AppStore>() &&
+        getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home &&
+        getIt<TimerService>().isPinScreenOpen == false) {
+      final isJarAvailable = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
+        (element) => element.id == AssetPaymentProductsEnum.jar,
+      );
+      if (isJarAvailable) {
+        sRouter.popUntilRoot();
+        getIt<BottomBarStore>().setHomeTab(BottomItemType.home);
+
+        await func(jarId);
+      }
+    } else {
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          func: () async {
+            final isJarAvailable = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
+              (element) => element.id == AssetPaymentProductsEnum.jar,
+            );
+            if (isJarAvailable) {
+              await func(jarId);
             }
           },
         ),
