@@ -25,6 +25,7 @@ class SimpleTableAsset extends HookWidget {
     this.rightValueMarketPositive = true,
     this.isLoading = false,
     this.isHighlated = false,
+    this.chartWidget,
   });
 
   final VoidCallback? onTableAssetTap;
@@ -52,6 +53,8 @@ class SimpleTableAsset extends HookWidget {
 
   final bool isLoading;
   final bool isHighlated;
+
+  final Widget? chartWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -223,6 +226,12 @@ class SimpleTableAsset extends HookWidget {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
+                                  if (chartWidget != null) ...[
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 8),
+                                      child: chartWidget!,
+                                    ),
+                                  ],
                                   Text(
                                     rightMarketValue ?? '',
                                     style: STStyles.body2Semibold.copyWith(

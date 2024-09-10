@@ -7,6 +7,9 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/chart/model/chart_input.dart';
+import 'package:jetwallet/features/chart/store/chart_store.dart';
+import 'package:jetwallet/features/invest/ui/widgets/small_chart.dart';
 import 'package:jetwallet/features/market/helper/show_add_assets_bottom_sheet.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/features/market/store/market_instruments_lists_store.dart';
@@ -87,7 +90,7 @@ class _MarketScreenState extends State<MarketScreen> {
         providers: [
           Provider<MarketInstrumentsListsStore>(
             create: (_) => MarketInstrumentsListsStore(),
-            dispose: (context ,store) => store.dispose(),
+            dispose: (context, store) => store.dispose(),
           ),
           Provider<WatchlistStore>(create: (_) => WatchlistStore()),
         ],
@@ -328,24 +331,45 @@ class _MarketScreenState extends State<MarketScreen> {
                                 ),
                               ],
                             ),
-                            child: SimpleTableAsset(
-                              assetIcon: NetworkIconWidget(
-                                currency.iconUrl,
+                            child: Provider(
+                              create: (context) => ChartStore(
+                                ChartInput(
+                                  creationDate: activeAssetsList[index].startMarketTime,
+                                  instrumentId: activeAssetsList[index].associateAssetPair,
+                                ),
                               ),
-                              label: currency.description,
-                              rightValue: (baseCurrency.symbol == currency.symbol ? Decimal.one : currency.currentPrice)
-                                  .toFormatPrice(
-                                prefix: baseCurrency.prefix,
-                                accuracy: activeAssetsList[index].priceAccuracy,
-                              ),
-                              supplement: currency.symbol,
-                              isRightValueMarket: true,
-                              rightMarketValue: formatPercent(currency.dayPercentChange),
-                              rightValueMarketPositive: currency.dayPercentChange >= 0,
-                              onTableAssetTap: () {
-                                sRouter.push(
-                                  MarketDetailsRouter(
-                                    marketItem: activeAssetsList[index],
+                              builder: (context, child) {
+                                final store = ChartStore.of(context);
+                                final candles = store.candles[store.resolution] ?? [];
+
+                                return SimpleTableAsset(
+                                  assetIcon: NetworkIconWidget(
+                                    currency.iconUrl,
+                                  ),
+                                  label: currency.description,
+                                  rightValue:
+                                      (baseCurrency.symbol == currency.symbol ? Decimal.one : currency.currentPrice)
+                                          .toFormatPrice(
+                                    prefix: baseCurrency.prefix,
+                                    accuracy: activeAssetsList[index].priceAccuracy,
+                                  ),
+                                  supplement: currency.symbol,
+                                  isRightValueMarket: true,
+                                  rightMarketValue: formatPercent(currency.dayPercentChange),
+                                  rightValueMarketPositive: currency.dayPercentChange >= 0,
+                                  onTableAssetTap: () {
+                                    sRouter.push(
+                                      MarketDetailsRouter(
+                                        marketItem: activeAssetsList[index],
+                                      ),
+                                    );
+                                  },
+                                  chartWidget: SmallChart(
+                                    candles: candles.reversed.toList(),
+                                    width: 32,
+                                    height: 12,
+                                    lineWith: 1.8,
+                                    maxCandles: 20,
                                   ),
                                 );
                               },
