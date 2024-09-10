@@ -7,6 +7,8 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/invest/stores/chart/invest_chart_store.dart';
+import 'package:jetwallet/features/invest/ui/widgets/small_chart.dart';
 import 'package:jetwallet/features/market/helper/sector_extensions.dart';
 import 'package:jetwallet/features/market/store/market_sector_store.dart';
 import 'package:jetwallet/utils/formatting/base/format_percent.dart';
@@ -57,6 +59,8 @@ class _MarketSectorDetailsBodyState extends State<_MarketSectorDetailsBody> with
     final colors = SColorsLight();
     final store = MarketSectorStore.of(context);
     final baseCurrency = sSignalRModules.baseCurrency;
+
+    final chartStore = getIt.get<InvestChartStore>();
 
     return SPageFrame(
       loaderText: '',
@@ -198,6 +202,9 @@ class _MarketSectorDetailsBodyState extends State<_MarketSectorDetailsBody> with
                         findInHideTerminalList: true,
                         assetSymbol: store.filtredMarketItems[index].symbol,
                       );
+
+                  final candles = chartStore.getAssetCandles(store.filtredMarketItems[index].associateAssetPair);
+
                   return SimpleTableAsset(
                     assetIcon: NetworkIconWidget(
                       currency.iconUrl,
@@ -219,6 +226,13 @@ class _MarketSectorDetailsBodyState extends State<_MarketSectorDetailsBody> with
                         ),
                       );
                     },
+                    chartWidget: SmallChart(
+                      candles: candles,
+                      width: 32,
+                      height: 12,
+                      lineWith: 1.8,
+                      maxCandles: 20,
+                    ),
                   );
                 },
               ),

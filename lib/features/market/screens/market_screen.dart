@@ -75,7 +75,7 @@ class _MarketScreenState extends State<MarketScreen> {
   Widget build(BuildContext context) {
     final colors = SColorsLight();
 
-    final investChartStore = getIt.get<InvestChartStore>();
+    final chartStore = getIt.get<InvestChartStore>();
 
     return VisibilityDetector(
       key: const Key('market-screen-key'),
@@ -306,7 +306,7 @@ class _MarketScreenState extends State<MarketScreen> {
                               );
                           final isInWatchlist = watchlistIdsN.state.contains(currency.symbol);
 
-                          final candles = investChartStore.getAssetCandles(activeAssetsList[index].associateAssetPair);
+                          final candles = chartStore.getAssetCandles(activeAssetsList[index].associateAssetPair);
 
                           return Slidable(
                             startActionPane: ActionPane(
