@@ -3,6 +3,7 @@ import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/features/crypto_jar/store/jar_update_store.dart';
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
@@ -69,15 +70,13 @@ abstract class _JarsStoreBase with Store {
       if (resultAll != null) {
         allJar.clear();
         allJar.addAll(resultAll);
-      }
 
-      final responseActive = await sNetwork.getWalletModule().postJarActiveList();
-
-      final resultActive = responseActive.data;
-
-      if (resultActive != null) {
         activeJar.clear();
-        activeJar.addAll(resultActive);
+        for (var i = 0; i < allJar.length; i++) {
+          if (allJar[i].status != JarStatus.closed) {
+            activeJar.add(allJar[i]);
+          }
+        }
       }
 
       final responseLimit = await sNetwork.getWalletModule().postWithdrawJarLimitRequest(
@@ -104,6 +103,11 @@ abstract class _JarsStoreBase with Store {
   @action
   Future<void> refreshJarsStore() async {
     await initStore();
+    if (activeJar.where((jar) => jar.status == JarStatus.creating).isNotEmpty) {
+      getIt.get<JarUpdateStore>().start(refreshJarsStore);
+    } else {
+      getIt.get<JarUpdateStore>().stop();
+    }
 
     if (selectedJar != null) {
       setSelectedJar(allJar.firstWhere((element) => element.id == selectedJar!.id));

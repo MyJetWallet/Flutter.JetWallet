@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:rive/rive.dart' as rive;
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -26,6 +28,7 @@ import 'package:simple_kit/modules/bottom_sheets/components/basic_bottom_sheet/s
 import 'package:simple_kit/modules/colors/simple_colors.dart';
 import 'package:simple_kit/modules/shared/simple_show_alert_popup.dart';
 import 'package:simple_kit/simple_kit.dart' as sk;
+import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/jar/jar_response_model.dart';
@@ -100,128 +103,177 @@ class _JarScreenState extends State<JarScreen> {
         child: Observer(
           builder: (context) {
             final selectedJar = store.selectedJar!;
-            return CustomScrollView(
-              slivers: [
-                SliverToBoxAdapter(
-                  child: Align(
-                    child: selectedJar.getIcon(height: 200.0, width: 200.0),
+
+            return CustomRefreshIndicator(
+              notificationPredicate: (_) => true,
+              offsetToArmed: 10,
+              onRefresh: () async {
+                await getIt.get<JarsStore>().refreshJarsStore();
+              },
+              builder: (BuildContext context, Widget child, IndicatorController controller) {
+                return Stack(
+                  alignment: Alignment.topCenter,
+                  children: <Widget>[
+                    Opacity(
+                      opacity: !controller.isIdle ? 1 : 0,
+                      child: AnimatedBuilder(
+                        animation: controller,
+                        builder: (BuildContext context, Widget? _) {
+                          return SizedBox(
+                            height: controller.value * 75,
+                            child: Container(
+                              width: 24.0,
+                              decoration: BoxDecoration(
+                                color: colors.grey5,
+                                shape: BoxShape.circle,
+                              ),
+                              alignment: Alignment.center,
+                              child: const rive.RiveAnimation.asset(
+                                loadingAnimationAsset,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    AnimatedBuilder(
+                      builder: (context, _) {
+                        return Transform.translate(
+                          offset: Offset(
+                            0.0,
+                            !controller.isIdle ? (controller.value * 75) : 0,
+                          ),
+                          child: child,
+                        );
+                      },
+                      animation: controller,
+                    ),
+                  ],
+                );
+              },
+              child: CustomScrollView(
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: Align(
+                      child: selectedJar.getIcon(height: 200.0, width: 200.0),
+                    ),
                   ),
-                ),
-                const SliverToBoxAdapter(
-                  child: SizedBox(
-                    height: 24,
+                  const SliverToBoxAdapter(
+                    child: SizedBox(
+                      height: 24,
+                    ),
                   ),
-                ),
-                SliverToBoxAdapter(
-                  child: sk.SPaddingH24(
-                    child: Text(
-                      intl.jar_crypto_jar,
-                      style: STStyles.body2Semibold.copyWith(
-                        color: SColorsLight().gray10,
+                  SliverToBoxAdapter(
+                    child: sk.SPaddingH24(
+                      child: Text(
+                        intl.jar_crypto_jar,
+                        style: STStyles.body2Semibold.copyWith(
+                          color: SColorsLight().gray10,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                SliverToBoxAdapter(
-                  child: sk.SPaddingH24(
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            selectedJar.title,
+                  SliverToBoxAdapter(
+                    child: sk.SPaddingH24(
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              selectedJar.title,
+                              style: STStyles.header5.copyWith(
+                                color: SColorsLight().black,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 8.0,
+                          ),
+                          Text(
+                            getIt<AppStore>().isBalanceHide
+                                ? '**** ${sSignalRModules.baseCurrency.symbol}'
+                                : Decimal.parse(selectedJar.balance.toString()).toFormatCount(
+                                    accuracy: sSignalRModules.baseCurrency.accuracy,
+                                    symbol: sSignalRModules.baseCurrency.symbol,
+                                  ),
                             style: STStyles.header5.copyWith(
                               color: SColorsLight().black,
                             ),
                           ),
-                        ),
-                        const SizedBox(
-                          width: 8.0,
-                        ),
-                        Text(
-                          getIt<AppStore>().isBalanceHide
-                              ? '**** ${sSignalRModules.baseCurrency.symbol}'
-                              : Decimal.parse(selectedJar.balance.toString()).toFormatCount(
-                                  accuracy: sSignalRModules.baseCurrency.accuracy,
-                                  symbol: sSignalRModules.baseCurrency.symbol,
-                                ),
-                          style: STStyles.header5.copyWith(
-                            color: SColorsLight().black,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SliverToBoxAdapter(
-                  child: sk.SPaddingH24(
-                    child: Text(
-                      getIt<AppStore>().isBalanceHide
-                          ? '******* ${selectedJar.assetSymbol}'
-                          : '${Decimal.parse(selectedJar.balanceInJarAsset.toString()).toFormatCount(
-                              accuracy: accuracy,
-                              symbol: selectedJar.assetSymbol,
-                            )} / ${Decimal.parse(selectedJar.target.toString()).toFormatCount(
-                              accuracy: 0,
-                              symbol: selectedJar.assetSymbol,
-                            )}',
-                      style: STStyles.body1Medium.copyWith(
-                        color: SColorsLight().gray10,
+                        ],
                       ),
                     ),
                   ),
-                ),
-                const SliverToBoxAdapter(
-                  child: SizedBox(
-                    height: 36.0,
-                  ),
-                ),
-                SliverToBoxAdapter(
-                  child: sk.SPaddingH24(
-                    child: _buildButtons(
-                      kycState,
-                      selectedJar,
-                      colors,
-                      accuracy,
+                  SliverToBoxAdapter(
+                    child: sk.SPaddingH24(
+                      child: Text(
+                        getIt<AppStore>().isBalanceHide
+                            ? '******* ${selectedJar.assetSymbol}'
+                            : '${Decimal.parse(selectedJar.balanceInJarAsset.toString()).toFormatCount(
+                                accuracy: accuracy,
+                                symbol: selectedJar.assetSymbol,
+                              )} / ${Decimal.parse(selectedJar.target.toString()).toFormatCount(
+                                accuracy: 0,
+                                symbol: selectedJar.assetSymbol,
+                              )}',
+                        style: STStyles.body1Medium.copyWith(
+                          color: SColorsLight().gray10,
+                        ),
+                      ),
                     ),
                   ),
-                ),
-                const SliverToBoxAdapter(
-                  child: SizedBox(
-                    height: 44.0,
+                  const SliverToBoxAdapter(
+                    child: SizedBox(
+                      height: 36.0,
+                    ),
                   ),
-                ),
-                SliverToBoxAdapter(
-                  child: SBasicHeader(
-                    title: intl.jar_transactions,
-                    buttonTitle: intl.wallet_history_view_all,
-                    showLinkButton: showViewAllButtonOnHistory,
-                    onTap: () {
-                      sAnalytics.jarTapOnButtonViewAllTrxOnJarScreen();
+                  SliverToBoxAdapter(
+                    child: sk.SPaddingH24(
+                      child: _buildButtons(
+                        kycState,
+                        selectedJar,
+                        colors,
+                        accuracy,
+                      ),
+                    ),
+                  ),
+                  const SliverToBoxAdapter(
+                    child: SizedBox(
+                      height: 44.0,
+                    ),
+                  ),
+                  SliverToBoxAdapter(
+                    child: SBasicHeader(
+                      title: intl.jar_transactions,
+                      buttonTitle: intl.wallet_history_view_all,
+                      showLinkButton: showViewAllButtonOnHistory,
+                      onTap: () {
+                        sAnalytics.jarTapOnButtonViewAllTrxOnJarScreen();
 
-                      sRouter.push(
-                        JarTransactionHistoryRouter(
-                          jarId: selectedJar.id,
-                          jarTitle: selectedJar.title,
-                        ),
-                      );
+                        sRouter.push(
+                          JarTransactionHistoryRouter(
+                            jarId: selectedJar.id,
+                            jarTitle: selectedJar.title,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  TransactionsList(
+                    scrollController: ScrollController(),
+                    jarId: selectedJar.id,
+                    onItemTapLisener: (symbol) {},
+                    source: TransactionItemSource.history,
+                    mode: TransactionListMode.preview,
+                    onData: (items) {
+                      if (items.length >= 5) {
+                        setState(() {
+                          showViewAllButtonOnHistory = true;
+                        });
+                      }
                     },
                   ),
-                ),
-                TransactionsList(
-                  scrollController: ScrollController(),
-                  jarId: selectedJar.id,
-                  onItemTapLisener: (symbol) {},
-                  source: TransactionItemSource.history,
-                  mode: TransactionListMode.preview,
-                  onData: (items) {
-                    if (items.length >= 5) {
-                      setState(() {
-                        showViewAllButtonOnHistory = true;
-                      });
-                    }
-                  },
-                ),
-              ],
+                ],
+              ),
             );
           },
         ),

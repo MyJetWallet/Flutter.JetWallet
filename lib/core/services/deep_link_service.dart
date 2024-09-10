@@ -1091,6 +1091,7 @@ class DeepLinkService {
     Map<String, String> parameters,
   ) async {
     Future<void> func(String? jarId) async {
+      unawaited(getIt.get<JarsStore>().refreshJarsStore());
       getIt.get<MyWalletsScrollStore>().scrollToJarTitle();
       if (jarId != null) {
         getIt.get<JarsStore>().setSelectedJarById(jarId);
