@@ -46,6 +46,8 @@ abstract class _JarsStoreBase with Store {
 
     if (index != -1) {
       selectedJar = allJar[index];
+    } else {
+      selectedJar = null;
     }
   }
 
