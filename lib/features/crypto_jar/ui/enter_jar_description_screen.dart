@@ -13,13 +13,15 @@ import 'package:simple_networking/modules/wallet_api/models/jar/jar_response_mod
 @RoutePage(name: 'EnterJarDescriptionRouter')
 class EnterJarDescriptionScreen extends StatefulWidget {
   const EnterJarDescriptionScreen({
-    required this.jar,
-    this.isOnlyEdit = true,
+    required this.name,
+    this.isCreatingNewJar = true,
+    this.jar,
     super.key,
   });
 
-  final JarResponseModel jar;
-  final bool isOnlyEdit;
+  final String name;
+  final bool isCreatingNewJar;
+  final JarResponseModel? jar;
 
   @override
   State<EnterJarDescriptionScreen> createState() => _EnterJarDescriptionScreenState();
@@ -36,8 +38,10 @@ class _EnterJarDescriptionScreenState extends State<EnterJarDescriptionScreen> {
 
     sAnalytics.jarScreenViewJarDescription();
 
-    if (widget.jar.description != null) {
-      _descriptionController.text = widget.jar.description!;
+    if (widget.jar != null) {
+      if (widget.jar!.description != null) {
+        _descriptionController.text = widget.jar!.description!;
+      }
     }
 
     _descriptionController.addListener(() {
@@ -59,19 +63,14 @@ class _EnterJarDescriptionScreenState extends State<EnterJarDescriptionScreen> {
       color: colors.white,
       header: GlobalBasicAppBar(
         title: '',
-        hasRightIcon: !widget.isOnlyEdit,
+        hasRightIcon: widget.isCreatingNewJar,
         rightIcon: SafeGesture(
           onTap: () {
-            getIt.get<JarsStore>().updateJar(
-              jarId: widget.jar.id,
-              title: widget.jar.title,
-              target: widget.jar.target.toInt(),
-              description: '',
-              imageUrl: widget.jar.imageUrl,
-            );
-
             getIt<AppRouter>().push(
-              const JarShareRouter(),
+              EnterJarGoalRouter(
+                name: widget.name,
+                description: '',
+              ),
             );
           },
           child: Text(
@@ -128,41 +127,44 @@ class _EnterJarDescriptionScreenState extends State<EnterJarDescriptionScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 24.0),
                         child: SButton.black(
                           isLoading: isLoading,
-                          text: widget.isOnlyEdit ? intl.jar_confirm : intl.jar_next,
-                          callback: _descriptionController.text.trim() != widget.jar.description &&
+                          text: widget.isCreatingNewJar ? intl.jar_next : intl.jar_confirm,
+                          callback: _descriptionController.text.trim() != widget.jar?.description &&
                                   _descriptionController.text.trim().isNotEmpty &&
                                   _descriptionController.text.length <= jarDescriptionLength
                               ? () async {
-                                  setState(() {
-                                    isLoading = true;
-                                  });
                                   sAnalytics.jarTapOnButtonNextOnJarDescription();
 
-                                  final result = await getIt.get<JarsStore>().updateJar(
-                                        jarId: widget.jar.id,
-                                        title: widget.jar.title,
-                                        target: widget.jar.target.toInt(),
+                                  if (widget.isCreatingNewJar) {
+                                    await getIt<AppRouter>().push(
+                                      EnterJarGoalRouter(
+                                        name: widget.name,
                                         description: _descriptionController.text.trim(),
-                                        imageUrl: widget.jar.imageUrl,
-                                      );
+                                      ),
+                                    );
+                                  } else {
+                                    setState(() {
+                                      isLoading = true;
+                                    });
 
-                                  if (result != null) {
-                                    getIt.get<JarsStore>().setSelectedJar(result);
-                                    if (widget.isOnlyEdit) {
+                                    final result = await getIt.get<JarsStore>().updateJar(
+                                          jarId: widget.jar!.id,
+                                          title: widget.jar!.title,
+                                          target: widget.jar!.target.toInt(),
+                                          description: _descriptionController.text.trim(),
+                                          imageUrl: widget.jar!.imageUrl,
+                                        );
+
+                                    if (result != null) {
+                                      getIt.get<JarsStore>().setSelectedJar(result);
+
                                       setState(() {
                                         isLoading = false;
                                       });
+
                                       await getIt<AppRouter>().push(
                                         JarRouter(
                                           hasLeftIcon: false,
                                         ),
-                                      );
-                                    } else {
-                                      setState(() {
-                                        isLoading = false;
-                                      });
-                                      await getIt<AppRouter>().push(
-                                        const JarShareRouter(),
                                       );
                                     }
                                   }

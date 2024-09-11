@@ -53,9 +53,9 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
         paymentFee: store.addressIsInternal
             ? intl.noFee
             : store.withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(
-          network: store.networkController.text,
-          amount: Decimal.parse(store.withAmount),
-        ),
+                network: store.networkController.text,
+                amount: Decimal.parse(store.withAmount),
+              ),
       );
     }
 
@@ -77,7 +77,11 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
     final formatService = getIt.get<FormatService>();
 
     final feeSize = store.withdrawalInputModel!.currency!.withdrawalFeeSize(
-      network: store.addressIsInternal ? 'internal-send' : store.networkController.text,
+      network: store.withdrawalType == WithdrawalType.jar
+          ? store.networkController.text
+          : store.addressIsInternal
+              ? 'internal-send'
+              : store.networkController.text,
       amount: Decimal.parse(store.withAmount),
     );
 

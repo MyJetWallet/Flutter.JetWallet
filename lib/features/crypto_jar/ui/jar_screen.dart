@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:rive/rive.dart' as rive;
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -23,10 +22,8 @@ import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
 import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:jetwallet/widgets/loaders/loader.dart';
+import 'package:rive/rive.dart' as rive;
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/modules/bottom_sheets/components/basic_bottom_sheet/show_basic_modal_bottom_sheet.dart';
-import 'package:simple_kit/modules/colors/simple_colors.dart';
-import 'package:simple_kit/modules/shared/simple_show_alert_popup.dart';
 import 'package:simple_kit/simple_kit.dart' as sk;
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
@@ -266,9 +263,11 @@ class _JarScreenState extends State<JarScreen> {
                     mode: TransactionListMode.preview,
                     onData: (items) {
                       if (items.length >= 5) {
-                        setState(() {
-                          showViewAllButtonOnHistory = true;
-                        });
+                        if (mounted) {
+                          setState(() {
+                            showViewAllButtonOnHistory = true;
+                          });
+                        }
                       }
                     },
                   ),
@@ -300,18 +299,9 @@ class _JarScreenState extends State<JarScreen> {
                   or: () {
                     sAnalytics.jarTapOnButtonShareOnJar();
 
-                    if (selectedJar.description != null) {
-                      getIt<AppRouter>().push(
-                        const JarShareRouter(),
-                      );
-                    } else {
-                      getIt<AppRouter>().push(
-                        EnterJarDescriptionRouter(
-                          isOnlyEdit: false,
-                          jar: selectedJar,
-                        ),
-                      );
-                    }
+                    getIt<AppRouter>().push(
+                      const JarShareRouter(),
+                    );
                   },
                 );
               }
@@ -536,6 +526,7 @@ class _JarScreenState extends State<JarScreen> {
                       getIt<AppRouter>().push(
                         EnterJarGoalRouter(
                           name: selectedJar.title,
+                          description: selectedJar.description ?? '',
                           isCreatingNewJar: false,
                           jar: selectedJar,
                         ),
@@ -569,6 +560,8 @@ class _JarScreenState extends State<JarScreen> {
                       Navigator.pop(context);
                       getIt<AppRouter>().push(
                         EnterJarDescriptionRouter(
+                          name: selectedJar.title,
+                          isCreatingNewJar: false,
                           jar: selectedJar,
                         ),
                       );

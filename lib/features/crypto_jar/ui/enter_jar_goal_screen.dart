@@ -16,12 +16,14 @@ import 'package:simple_networking/modules/wallet_api/models/jar/jar_response_mod
 class EnterJarGoalScreen extends StatefulWidget {
   const EnterJarGoalScreen({
     required this.name,
+    required this.description,
     this.isCreatingNewJar = true,
     this.jar,
     super.key,
   });
 
   final String name;
+  final String description;
   final bool isCreatingNewJar;
   final JarResponseModel? jar;
 
@@ -177,6 +179,7 @@ class _EnterJarGoalScreenState extends State<EnterJarGoalScreen> {
                                     await getIt<AppRouter>().push(
                                       CreateNewJarRouter(
                                         name: widget.name,
+                                        description: widget.description,
                                         goal: goal,
                                       ),
                                     );

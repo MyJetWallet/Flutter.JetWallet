@@ -115,7 +115,7 @@ class _EnterJarNameScreenState extends State<EnterJarNameScreen> {
                                   sAnalytics.jarTapOnButtonNextOnJarName();
                                   if (widget.isCreatingNewJar) {
                                     await getIt<AppRouter>().push(
-                                      EnterJarGoalRouter(
+                                      EnterJarDescriptionRouter(
                                         name: nameController.text.trim(),
                                       ),
                                     );

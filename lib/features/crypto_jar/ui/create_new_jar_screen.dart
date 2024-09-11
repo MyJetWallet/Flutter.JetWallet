@@ -17,11 +17,13 @@ import 'package:simple_kit_updated/simple_kit_updated.dart';
 class CreateNewJarScreen extends StatefulWidget {
   const CreateNewJarScreen({
     required this.name,
+    required this.description,
     required this.goal,
     super.key,
   });
 
   final String name;
+  final String description;
   final int goal;
 
   @override
@@ -131,7 +133,11 @@ class _CreateNewJarScreenState extends State<CreateNewJarScreen> {
                           );
 
                           await getIt.get<LocalStorageService>().setString(isJarTermsConfirmed, true.toString());
-                          final result = await getIt.get<CreateJarStore>().createNewJar(widget.name, widget.goal);
+                          final result = await getIt.get<CreateJarStore>().createNewJar(
+                                widget.name,
+                                widget.description,
+                                widget.goal,
+                              );
 
                           if (result != null) {
                             getIt.get<JarsStore>().addNewJar(result);

@@ -25,7 +25,11 @@ abstract class _CreateJarStoreBase with Store {
   bool loading = false;
 
   @action
-  Future<JarResponseModel?> createNewJar(String title, int goal) async {
+  Future<JarResponseModel?> createNewJar(
+    String title,
+    String description,
+    int goal,
+  ) async {
     loading = true;
 
     try {
@@ -35,7 +39,7 @@ abstract class _CreateJarStoreBase with Store {
             target: goal,
             imageUrl: '',
             title: title,
-            description: null,
+            description: description,
           );
 
       if (response.hasData) {

@@ -181,6 +181,7 @@ abstract class _JarsStoreBase with Store {
   void clearData() {
     activeJar = ObservableList.of([]);
     allJar = ObservableList.of([]);
+    selectedJar = null;
   }
 
   Future<String?> shareJar({

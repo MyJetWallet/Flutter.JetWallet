@@ -319,14 +319,14 @@ abstract class _WithdrawalStoreBase with Store {
       final jarBalance = Decimal.parse(withdrawalInputModel!.jar!.balanceInJarAsset.toString());
       result = jarBalance -
           currency.withdrawalFeeSize(
-            network: networkController.text,
+            network: network.id,
             amount: jarBalance,
           );
     } else {
       result = currency.assetBalance -
           currency.cardReserve -
           currency.withdrawalFeeSize(
-            network: networkController.text,
+            network: addressIsInternal ? 'internal-send' : network.id,
             amount: currency.assetBalance,
           );
     }
@@ -336,10 +336,10 @@ abstract class _WithdrawalStoreBase with Store {
   @computed
   Decimal get feeAmount => currency.withdrawalFeeSize(
         network: withdrawalType == WithdrawalType.jar
-            ? networkController.text
+            ? network.id
             : addressIsInternal
                 ? 'internal-send'
-                : networkController.text,
+                : network.id,
         amount: Decimal.parse(withAmount),
       );
 
@@ -381,7 +381,7 @@ abstract class _WithdrawalStoreBase with Store {
 
       updateNetwork(
         networks.firstWhere(
-              (net) => net.id == withdrawalInputModel!.jar!.addresses.first.blockchain,
+          (net) => net.id == withdrawalInputModel!.jar!.addresses.first.blockchain,
         ),
       );
     } else if (withdrawalInputModel!.currency != null) {
@@ -957,7 +957,7 @@ abstract class _WithdrawalStoreBase with Store {
 
     if (withdrawalType == WithdrawalType.jar &&
         addressIsInternal &&
-        Decimal.parse(jarWithdrawalLeftAmount.toString()) < Decimal.parse(withAmount)) {
+        Decimal.parse(jarWithdrawalLeftAmount.toString()) < youWillSendAmount) {
       limitError = intl.jar_withdrawal_error(
         Decimal.parse(jarWithdrawalLimit.toString()).toFormatCount(
           accuracy: 2,
@@ -1015,7 +1015,7 @@ abstract class _WithdrawalStoreBase with Store {
       sendMethodType: '0',
       totalSendAmount: withAmount,
       paymentFee: withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(
-        network: networkController.text,
+        network: network.id,
         amount: Decimal.parse(withAmount),
       ),
     );
@@ -1030,7 +1030,7 @@ abstract class _WithdrawalStoreBase with Store {
     }
 
     final feeSize = withdrawalInputModel!.currency!.withdrawalFeeSize(
-      network: addressIsInternal ? 'internal-send' : networkController.text,
+      network: addressIsInternal ? 'internal-send' : network.id,
       amount: Decimal.parse(withAmount),
     );
 
@@ -1115,7 +1115,7 @@ abstract class _WithdrawalStoreBase with Store {
 
     try {
       final feeSize = withdrawalInputModel!.currency!.withdrawalFeeSize(
-        network: networkController.text,
+        network: network.id,
         amount: Decimal.parse(withAmount),
       );
 
@@ -1161,7 +1161,7 @@ abstract class _WithdrawalStoreBase with Store {
       sendMethodType: '0',
       totalSendAmount: withAmount,
       paymentFee: withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(
-        network: networkController.text,
+        network: network.id,
         amount: Decimal.parse(withAmount),
       ),
       failedReason: error,
@@ -1199,7 +1199,7 @@ abstract class _WithdrawalStoreBase with Store {
       sendMethodType: '0',
       totalSendAmount: withAmount,
       paymentFee: withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(
-        network: networkController.text,
+        network: network.id,
         amount: Decimal.parse(withAmount),
       ),
       failedReason: error.cause,
@@ -1329,7 +1329,7 @@ abstract class _WithdrawalStoreBase with Store {
         sendMethodType: '0',
         totalSendAmount: withAmount,
         paymentFee: withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(
-          network: networkController.text,
+          network: network.id,
           amount: Decimal.parse(withAmount),
         ),
       );
