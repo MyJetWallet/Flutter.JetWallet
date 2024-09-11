@@ -17,7 +17,7 @@ class JarUpdateStore extends _JarUpdateStoreBase with _$JarUpdateStore {
 abstract class _JarUpdateStoreBase with Store {
   Timer? _timer;
 
-  static const Duration _timerTime = Duration(seconds: 10);
+  static const Duration _timerTime = Duration(seconds: 5);
 
   @observable
   bool started = false;
