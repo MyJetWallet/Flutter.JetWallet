@@ -89,10 +89,12 @@ class _EnterJarNameScreenState extends State<EnterJarNameScreen> {
                   hasCloseIcon: true,
                   autofocus: true,
                   textCapitalization: TextCapitalization.sentences,
+                  keyboardType: TextInputType.text,
                   onCloseIconTap: () {
                     nameController.clear();
                   },
                   inputFormatters: [
+                    FilteringTextInputFormatter.deny(RegExp(r'\n')),
                     LengthLimitingTextInputFormatter(jarNameLength),
                   ],
                 ),

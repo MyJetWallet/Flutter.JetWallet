@@ -113,6 +113,7 @@ class _EnterJarDescriptionScreenState extends State<EnterJarDescriptionScreen> {
                     _descriptionController.clear();
                   },
                   inputFormatters: [
+                    FilteringTextInputFormatter.deny(RegExp(r'\n')),
                     LengthLimitingTextInputFormatter(jarDescriptionLength),
                   ],
                 ),
