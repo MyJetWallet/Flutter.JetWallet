@@ -68,7 +68,7 @@ LAST_COMMITS=$(git log -5 --pretty=format:"%h %s" | awk '{printf "%s\\n", $0}')
 execute_command "cat > release_notes.json <<EOL
 [
     {
-        \"language\": \"en-US\",
+        \"language\": \"en-GB\",
         \"text\": \"Git branch: $BRANCH_NAME\\n\\nLast commits:\\n$LAST_COMMITS\"
     }
 ]
