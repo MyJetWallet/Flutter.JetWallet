@@ -116,7 +116,6 @@ class _MarketScreenState extends State<MarketScreen> {
               crossFadeState: isScroolStarted ? CrossFadeState.showFirst : CrossFadeState.showSecond,
               duration: const Duration(milliseconds: 200),
             ),
-
             child: Observer(
               builder: (context) {
                 final baseCurrency = sSignalRModules.baseCurrency;
@@ -373,7 +372,9 @@ class _MarketScreenState extends State<MarketScreen> {
                       SliverToBoxAdapter(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                          child: Row(
+                          child: Wrap(
+                            spacing: 8,
+                            runSpacing: 16,
                             children: [
                               SButtonContext(
                                 type: SButtonContextType.iconedSmall,
@@ -382,7 +383,6 @@ class _MarketScreenState extends State<MarketScreen> {
                                   showAddAssetsBottomSheet(context);
                                 },
                               ),
-                              const SizedBox(width: 8),
                               SButtonContext(
                                 type: SButtonContextType.iconedSmall,
                                 text: intl.market_edit_list,
@@ -404,14 +404,6 @@ class _MarketScreenState extends State<MarketScreen> {
                 );
               },
             ),
-
-            //  MarketNestedScrollView(
-            //   marketShowType: MarketShowType.crypto,
-            //   showBanners: true,
-            //   showSearch: true,
-            //   showFilter: true,
-            //   sourceScreen: FilterMarketTabAction.all,
-            // ),
           );
         },
       ),
