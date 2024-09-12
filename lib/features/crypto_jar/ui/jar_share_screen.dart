@@ -161,7 +161,7 @@ class _JarShareScreenState extends State<JarShareScreen> {
                       } else {
                         shareText = '${selectedJar.title}\n\n🔗 Посилання на банку:\n${result ?? ''}';
                       }
-                      await Share.share(shareText);
+                      await Share.share(shareText, subject: selectedJar.title);
                     },
                   ),
                 ),
