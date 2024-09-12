@@ -156,6 +156,8 @@ enum AssetPaymentProductsEnum {
   prepaidCard,
   @JsonValue('SimpleTapToken')
   simpleTapToken,
+  @JsonValue('Jar')
+  jar,
   @JsonValue('Unknows')
   unknown,
 }

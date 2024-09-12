@@ -5870,7 +5870,7 @@
     "jar_next": "Далі",
     "jar_input_jar_goal": "Яка мета банки?",
     "jar_input_jar_goal_error": "Введіть суму від 1 до 15 000",
-    "jar_purpose": "Мета",
+    "jar_purpose": "Сума накопичення",
     "jar_creating_jar_title": "Ви створюєте банку {name}",
     "jar_target_amount_hint": "Цільова сума {goal} {assetSymbol}",
     "jar_terms1": "Я прочитав(ла) і погоджуюсь з ",

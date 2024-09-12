@@ -10,6 +10,7 @@ class ValidateAddressResponseModel with _$ValidateAddressResponseModel {
 
     /// Internal address doesn't have a fee on withdraw
     required bool isInternal,
+    required bool isJar,
   }) = _ValidateAddressResponseModel;
 
   factory ValidateAddressResponseModel.fromJson(Map<String, dynamic> json) =>

@@ -73,69 +73,80 @@ class SInput extends HookWidget {
           padding: label == null
               ? const EdgeInsets.symmetric(horizontal: 24, vertical: 26)
               : const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
-          child: Center(
-            child: TextFormField(
-              readOnly: isDisabled,
-              style: STStyles.subtitle1,
-              controller: controller,
-              maxLines: null,
-              focusNode: focusNode,
-              obscureText: obscureText,
-              keyboardType: keyboardType,
-              autofocus: autofocus,
-              inputFormatters: inputFormatters,
-              textCapitalization: textCapitalization ?? TextCapitalization.none,
-              cursorWidth: 3.0,
-              cursorColor: SColorsLight().blue,
-              cursorRadius: Radius.zero,
-              decoration: InputDecoration(
-                isDense: true,
-                contentPadding: EdgeInsets.zero,
-                border: InputBorder.none,
-                labelText: label ?? '',
-                labelStyle: STStyles.captionMedium.copyWith(
-                  color: SColorsLight().gray8,
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      label ?? '',
+                      style: STStyles.captionMedium.copyWith(
+                        color: SColorsLight().gray8,
+                      ),
+                    ),
+                    TextFormField(
+                      readOnly: isDisabled,
+                      style: STStyles.subtitle1,
+                      controller: controller,
+                      maxLines: null,
+                      focusNode: focusNode,
+                      obscureText: obscureText,
+                      keyboardType: keyboardType,
+                      autofocus: autofocus,
+                      inputFormatters: inputFormatters,
+                      textCapitalization: textCapitalization ?? TextCapitalization.none,
+                      cursorWidth: 3.0,
+                      cursorColor: SColorsLight().blue,
+                      cursorRadius: Radius.zero,
+                      decoration: InputDecoration(
+                        isDense: true,
+                        contentPadding: EdgeInsets.zero,
+                        border: InputBorder.none,
+                        floatingLabelBehavior: FloatingLabelBehavior.always,
+                        hintText: hint,
+                        hintStyle: STStyles.subtitle1.copyWith(
+                          color: SColorsLight().gray8,
+                        ),
+                        suffixIconConstraints: const BoxConstraints(),
+                      ),
+                    ),
+                  ],
                 ),
-                floatingLabelBehavior: FloatingLabelBehavior.always,
-                hintText: hint,
-                hintStyle: STStyles.subtitle1.copyWith(
-                  color: SColorsLight().gray8,
-                ),
-                suffixIconConstraints: const BoxConstraints(),
-                suffixIcon: suffixIcon ??
-                    (hasCloseIcon || hasErrorIcon
-                        ? Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Gap(24),
-                              if (hasCloseIcon) ...[
-                                SafeGesture(
-                                  highlightColor: Colors.transparent,
-                                  onTap: onCloseIconTap,
-                                  child: Assets.svg.medium.closeAlt.simpleSvg(
-                                    width: 24,
-                                    height: 24,
-                                    color: SColorsLight().gray6,
-                                  ),
-                                ),
-                              ],
-                              if (hasErrorIcon) ...[
-                                const Gap(16),
-                                SafeGesture(
-                                  highlightColor: Colors.transparent,
-                                  onTap: onErrorIconTap,
-                                  child: Assets.svg.small.warning.simpleSvg(
-                                    width: 24,
-                                    height: 24,
-                                    color: SColorsLight().red,
-                                  ),
-                                ),
-                              ],
-                            ],
-                          )
-                        : null),
               ),
-            ),
+              suffixIcon ??
+                  (hasCloseIcon || hasErrorIcon
+                      ? Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Gap(24),
+                            if (hasCloseIcon) ...[
+                              SafeGesture(
+                                highlightColor: Colors.transparent,
+                                onTap: onCloseIconTap,
+                                child: Assets.svg.medium.closeAlt.simpleSvg(
+                                  width: 24,
+                                  height: 24,
+                                  color: SColorsLight().gray6,
+                                ),
+                              ),
+                            ],
+                            if (hasErrorIcon) ...[
+                              const Gap(16),
+                              SafeGesture(
+                                highlightColor: Colors.transparent,
+                                onTap: onErrorIconTap,
+                                child: Assets.svg.small.warning.simpleSvg(
+                                  width: 24,
+                                  height: 24,
+                                  color: SColorsLight().red,
+                                ),
+                              ),
+                            ],
+                          ],
+                        )
+                      : Container()),
+            ],
           ),
         ),
       ),

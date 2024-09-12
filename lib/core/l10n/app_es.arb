@@ -1714,7 +1714,7 @@
     "jar_next": "Siguiente",
     "jar_input_jar_goal": "¿Cuál es tu objetivo?",
     "jar_input_jar_goal_error": "Introduce una cantidad de 1 a 15 000",
-    "jar_purpose": "Propósito",
+    "jar_purpose": "Importe",
     "jar_creating_jar_title": "Estás creando el tarro {name}",
     "jar_target_amount_hint": "La cantidad objetivo es {goal} {assetSymbol}",
     "jar_terms1": "He leído y estoy de acuerdo con ",

@@ -28,6 +28,7 @@ part 'operation_history.g.dart';
 class OperationHistory extends _OperationHistoryBase with _$OperationHistory {
   OperationHistory({
     super.assetId,
+    super.jarId,
     super.filter,
     super.isRecurring,
     super.jwOperationId,
@@ -46,6 +47,7 @@ class OperationHistory extends _OperationHistoryBase with _$OperationHistory {
 abstract class _OperationHistoryBase with Store {
   _OperationHistoryBase({
     this.assetId,
+    this.jarId,
     this.filter,
     this.isRecurring,
     this.jwOperationId,
@@ -63,6 +65,7 @@ abstract class _OperationHistoryBase with Store {
   }
 
   final String? assetId;
+  final String? jarId;
   final TransactionType? filter;
   final bool? isRecurring;
   final bool? isCard;
@@ -136,6 +139,7 @@ abstract class _OperationHistoryBase with Store {
         oh_req.OperationHistoryRequestModel(
           assetId: assetId,
           batchSize: mode == TransactionListMode.full ? 20 : 5,
+          jarId: jarId,
           pendingOnly: pendingOnly,
           accountId: accountId,
         ),
@@ -186,7 +190,7 @@ abstract class _OperationHistoryBase with Store {
       }
     } catch (e) {
       sNotification.showError(
-        intl.something_went_wrong,
+        '${intl.something_went_wrong} 2',
         id: 1,
       );
       if (isCard != null && isCard!) {
@@ -230,6 +234,7 @@ abstract class _OperationHistoryBase with Store {
     final operationHistory = await _requestOperationHistory(
       oh_req.OperationHistoryRequestModel(
         assetId: assetId,
+        jarId: jarId,
         batchSize: 20,
         lastDate: operationHistoryItems.last.timeStamp,
         pendingOnly: pendingOnly,
@@ -320,6 +325,8 @@ Set<oh_resp.OperationType> avaibleOperationTypes = {
   oh_resp.OperationType.earnPayroll,
   oh_resp.OperationType.buyPrepaidCard,
   oh_resp.OperationType.p2pBuy,
+  oh_resp.OperationType.jarDeposit,
+  oh_resp.OperationType.jarWithdrawal,
 };
 
 List<oh_resp.OperationHistoryItem> _filterUnusedOperationTypeItemsFrom(

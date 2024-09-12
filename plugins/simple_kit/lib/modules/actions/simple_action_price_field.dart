@@ -15,6 +15,7 @@ class SActionPriceField extends StatelessWidget {
     required this.widgetSize,
     required this.pasteLabel,
     required this.onPaste,
+    this.errorMaxLines = 1,
   });
 
   final String price;
@@ -25,6 +26,7 @@ class SActionPriceField extends StatelessWidget {
   final Widget? additionalWidget;
   final String pasteLabel;
   final VoidCallback onPaste;
+  final int errorMaxLines;
 
   @override
   Widget build(BuildContext context) {
@@ -133,7 +135,7 @@ class SActionPriceField extends StatelessWidget {
                 isErrorActive ? error : helper,
                 textAlign: TextAlign.center,
                 minFontSize: 4.0,
-                maxLines: 1,
+                maxLines: errorMaxLines,
                 strutStyle: const StrutStyle(
                   fontSize: 16.0,
                   fontWeight: FontWeight.w600,

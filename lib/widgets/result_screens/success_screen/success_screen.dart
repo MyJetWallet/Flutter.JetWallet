@@ -1,8 +1,10 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/features/crypto_jar/store/jars_store.dart';
 import 'package:jetwallet/utils/store/timer_store.dart';
 import 'package:jetwallet/widgets/result_screens/widgets/progress_bar.dart';
 import 'package:jetwallet/widgets/result_screens/widgets/result_screen_title.dart';
@@ -28,6 +30,7 @@ class SuccessScreen extends StatelessWidget {
     this.onCloseButton,
     this.bottomWidget,
     this.time = 3,
+    this.isJarFlow,
   });
 
   final Function(BuildContext)? onSuccess;
@@ -38,6 +41,7 @@ class SuccessScreen extends StatelessWidget {
   final Widget? bottomWidget;
   final int time;
   final String? actionButtonName;
+  final bool? isJarFlow;
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +57,7 @@ class SuccessScreen extends StatelessWidget {
         time: time,
         actionButtonName: actionButtonName,
         onCloseButton: onCloseButton,
+        isJarFlow: isJarFlow ?? false,
       ),
     );
   }
@@ -68,6 +73,7 @@ class _SuccessScreenBody extends StatefulWidget {
     this.bottomWidget,
     this.actionButtonName,
     required this.time,
+    this.isJarFlow,
   });
 
   final Function(BuildContext)? onSuccess;
@@ -78,6 +84,7 @@ class _SuccessScreenBody extends StatefulWidget {
   final Widget? bottomWidget;
   final int time;
   final String? actionButtonName;
+  final bool? isJarFlow;
 
   @override
   State<_SuccessScreenBody> createState() => _SuccessScreenBodyState();
@@ -99,8 +106,13 @@ class _SuccessScreenBodyState extends State<_SuccessScreenBody> with WidgetsBind
   }
 
   void onClose() {
-    navigateToRouter();
-    widget.onCloseButton?.call();
+    if (widget.isJarFlow ?? false) {
+      sRouter.popUntil((route) => route.settings.name == JarRouter.name);
+      getIt.get<JarsStore>().refreshJarsStore();
+    } else {
+      navigateToRouter();
+      widget.onCloseButton?.call();
+    }
   }
 
   @override

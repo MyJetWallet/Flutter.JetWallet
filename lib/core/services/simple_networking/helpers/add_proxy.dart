@@ -10,8 +10,8 @@ import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:native_flutter_proxy/native_proxy_reader.dart';
 
 Future<void> addProxy(
-    Dio dio,
-    ) async {
+  Dio dio,
+) async {
   final dioProxy = getIt.get<DioProxyService>();
 
   final flavor = flavorService();
