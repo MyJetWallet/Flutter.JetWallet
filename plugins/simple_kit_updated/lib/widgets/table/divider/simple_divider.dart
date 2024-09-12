@@ -16,7 +16,7 @@ class SDivider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Divider(
-      height: 0,
+      height: 1,
       indent: 0,
       thickness: height ?? 1.0,
       color: color ?? SColorsLight().gray4,

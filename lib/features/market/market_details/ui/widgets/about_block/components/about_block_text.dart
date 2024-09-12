@@ -4,19 +4,17 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/market_info/market_info_response_model.dart';
-import 'clickable_underlined_text.dart';
 
 class AboutBlockText extends StatefulWidget {
   const AboutBlockText({
     super.key,
     required this.marketInfo,
-    required this.showDivider,
     required this.isCpower,
   });
 
   final MarketInfoResponseModel marketInfo;
-  final bool showDivider;
   final bool isCpower;
 
   @override
@@ -50,6 +48,7 @@ class _AboutBlockTextState extends State<AboutBlockText> with WidgetsBindingObse
 
   @override
   Widget build(BuildContext context) {
+    final colors = SColorsLight();
     return SizedBox(
       width: double.infinity,
       child: Column(
@@ -59,53 +58,54 @@ class _AboutBlockTextState extends State<AboutBlockText> with WidgetsBindingObse
             Text(
               expandText ? widget.marketInfo.aboutMore : widget.marketInfo.aboutLess,
               maxLines: expandText ? 20 : 4,
-              style: sBodyText1Style.copyWith(color: Colors.black),
+              style: sBodyText1Style.copyWith(color: colors.gray10),
             ),
-          Row(
+          Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (!expandText && widget.marketInfo.aboutLess.isNotEmpty) ...[
-                    const SpaceH18(),
-                    ClickableUnderlinedText(
-                      text: intl.aboutBlockText_readMore,
-                      onTap: () {
-                        setState(() {
-                          expandText = !expandText;
-                        });
-                      },
-                    ),
-                  ],
-                  if (_urlValid(widget.marketInfo.whitepaperUrl)) ...[
-                    if (widget.marketInfo.aboutLess.isNotEmpty) const SpaceH15(),
-                    ClickableUnderlinedText(
-                      text: intl.aboutBlockText_whitepaper,
-                      onTap: () {
-                        _openUrl(widget.marketInfo.whitepaperUrl!);
-                      },
-                    ),
-                  ],
-                  if (_urlValid(widget.marketInfo.officialWebsiteUrl)) ...[
-                    const SpaceH15(),
-                    ClickableUnderlinedText(
-                      text: intl.aboutBlockText_officialWebsite,
-                      onTap: () {
-                        if (canTapOnLink) {
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: Wrap(
+                  spacing: 24,
+                  runSpacing: 24,
+                  children: [
+                    if (!expandText && widget.marketInfo.aboutLess.isNotEmpty) ...[
+                      SHyperlink(
+                        text: intl.aboutBlockText_readMore,
+                        onTap: () {
                           setState(() {
-                            canTapOnLink = false;
+                            expandText = !expandText;
                           });
-                          launchURL(
-                            context,
-                            widget.marketInfo.officialWebsiteUrl!,
-                          );
-                        }
-                      },
-                    ),
+                        },
+                      ),
+                    ],
+                    if (_urlValid(widget.marketInfo.whitepaperUrl)) ...[
+                      SHyperlink(
+                        text: intl.aboutBlockText_whitepaper,
+                        onTap: () {
+                          _openUrl(widget.marketInfo.whitepaperUrl!);
+                        },
+                      ),
+                    ],
+                    if (_urlValid(widget.marketInfo.officialWebsiteUrl)) ...[
+                      SHyperlink(
+                        text: intl.aboutBlockText_officialWebsite,
+                        onTap: () {
+                          if (canTapOnLink) {
+                            setState(() {
+                              canTapOnLink = false;
+                            });
+                            launchURL(
+                              context,
+                              widget.marketInfo.officialWebsiteUrl!,
+                            );
+                          }
+                        },
+                      ),
+                    ],
                   ],
-                ],
+                ),
               ),
               if (widget.isCpower) ...[
                 Column(
@@ -121,8 +121,6 @@ class _AboutBlockTextState extends State<AboutBlockText> with WidgetsBindingObse
               ],
             ],
           ),
-          const SpaceH33(),
-          if (widget.showDivider || widget.isCpower) const SDivider(),
         ],
       ),
     );

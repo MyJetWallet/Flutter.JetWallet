@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/key_value_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
@@ -22,11 +23,29 @@ class WatchlistStore extends _WatchlistStoreBase with _$WatchlistStore {
 
 abstract class _WatchlistStoreBase with Store {
   _WatchlistStoreBase() {
-    watchListIds = sSignalRModules.keyValue.watchlist?.value ?? <String>[];
+    watchListIds = ObservableList.of(sSignalRModules.keyValue.watchlist?.value ?? <String>[]);
     state = ObservableList.of(watchListIds);
   }
 
-  List<String> watchListIds = [];
+  @observable
+  ObservableList<String> watchListIds = ObservableList.of([]);
+
+  @computed
+  ObservableList<MarketItemModel> get watchListMarketItems {
+    final ids = state;
+    final output = ObservableList<MarketItemModel>.of([]);
+
+    final assets = sSignalRModules.marketItems;
+
+    for (var i = 0; i < ids.length; i++) {
+      final obj = assets.indexWhere((element) => element.symbol == ids[i]);
+      if (obj != -1) {
+        output.add(assets[obj]);
+      }
+    }
+
+    return output;
+  }
 
   static final _logger = Logger('WatchlistStore');
 

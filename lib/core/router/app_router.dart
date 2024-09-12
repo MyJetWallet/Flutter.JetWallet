@@ -90,7 +90,8 @@ import 'package:jetwallet/features/kyc/upload_documents/ui/widgets/upload_verifi
 import 'package:jetwallet/features/market/market_details/ui/market_details.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/about_block/components/pdf_view_screen.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
-import 'package:jetwallet/features/market/ui/market_screen.dart';
+import 'package:jetwallet/features/market/screens/market_screen.dart';
+import 'package:jetwallet/features/market/screens/market_sector_details_screen.dart';
 import 'package:jetwallet/features/my_wallets/screens/my_wallets_screen.dart';
 import 'package:jetwallet/features/p2p_buy/screens/buy_p2p_confrimation_screen.dart';
 import 'package:jetwallet/features/p2p_buy/screens/buy_p2p_peyment_method_screen.dart';
@@ -152,6 +153,7 @@ import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
+import 'package:simple_networking/modules/signal_r/models/market_sectors_message_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_preview_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_preview_response.dart';
@@ -765,9 +767,13 @@ class AppRouter extends _$AppRouter {
       path: '/kyc_aid_web_view',
       page: KycAidWebViewRouter.page,
     ),
-     AutoRoute(
+    AutoRoute(
       path: '/kyc_aid_choose_country',
       page: KycAidChooseCountryRouter.page,
+    ),
+    AutoRoute(
+      path: '/market_sector_details',
+      page: MarketSectorDetailsRouter.page,
     ),
     AutoRoute(
       path: '/enter_jar_name',

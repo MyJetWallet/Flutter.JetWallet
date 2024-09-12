@@ -11,12 +11,14 @@ class SmallChart extends StatelessWidget {
     this.height = 30.0,
     this.width = 100.0,
     this.lineWith = 1,
+    this.maxCandles = 30,
   });
 
   final List<CandleModel> candles;
   final double height;
   final double width;
   final double lineWith;
+  final int maxCandles;
 
   @override
   Widget build(BuildContext context) {
@@ -27,10 +29,7 @@ class SmallChart extends StatelessWidget {
     );
   }
 
-  List<CandleModel> sampleCandles(
-    List<CandleModel> candles, {
-    int maxCandles = 30,
-  }) {
+  List<CandleModel> sampleCandles(List<CandleModel> candles) {
     if (candles.length <= maxCandles) {
       return candles;
     }

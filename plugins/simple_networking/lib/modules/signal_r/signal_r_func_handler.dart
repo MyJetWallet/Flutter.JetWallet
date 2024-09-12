@@ -23,6 +23,7 @@ import 'package:simple_networking/modules/signal_r/models/key_value_model.dart';
 import 'package:simple_networking/modules/signal_r/models/kyc_countries_response_model.dart';
 import 'package:simple_networking/modules/signal_r/models/market_info_model.dart';
 import 'package:simple_networking/modules/signal_r/models/market_references_model.dart';
+import 'package:simple_networking/modules/signal_r/models/market_sectors_message_model.dart';
 import 'package:simple_networking/modules/signal_r/models/period_prices_model.dart';
 import 'package:simple_networking/modules/signal_r/models/price_accuracies.dart';
 import 'package:simple_networking/modules/signal_r/models/referral_info_model.dart';
@@ -479,6 +480,18 @@ class SignalRFuncHandler {
       final activeEarnPositions = SmplWalletModel.fromJson(_json(data));
 
       sTransport.smplWalletModel(activeEarnPositions);
+
+      SignalRModuleNew.handlePackage();
+    } catch (e) {
+      instance.handleError(investWalletMessage, e);
+    }
+  }
+
+  void marketSectorsMessageHandler(List<Object?>? data) {
+    try {
+      final marketSectorsMessageModel = MarketSectorsMessageModel.fromJson(_json(data));
+
+      sTransport.marketSectorsMessage(marketSectorsMessageModel);
 
       SignalRModuleNew.handlePackage();
     } catch (e) {

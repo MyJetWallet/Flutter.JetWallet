@@ -1764,5 +1764,21 @@
     "jar_creating": "Creating...",
     "jar_close_withdrawal_hint": "Please withdraw {balance} to close the jar. You have a limit of {limit} {jarAsset} per day.",
     "jar_withdrawal_error": "Withdrawals to a Simple crypto address are capped at {amount} per day",
-    "kyc_verification": "Verification"
+    "kyc_verification": "Verification",
+    "market_sectors": "Sectors",
+    "market_favorites": "Favorites",
+    "market_add_assets": "Add assets",
+    "market_edit_list": "Edit list",
+    "market_tokens": "tokens",
+    "market_100_instruments": "+100 instruments",
+    "market_done": "Done",
+    "market_edit_favorites": "Edit favorites",
+    "market_move_assets_or_delete": "Move assets or delete",
+    "market_market_cap": "Market cap",
+    "market_price": "Price",
+    "market_added_to_favorites": "Added to favorites",
+    "market_diversify_portfolio": "Diversify portfolio",
+    "market_my_balance": "My balance",
+    "market_total": "Total",
+    "market_wallet": "Waller"
 }

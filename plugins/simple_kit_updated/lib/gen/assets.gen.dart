@@ -316,6 +316,12 @@ class $AssetsSvgMediumGen {
   /// File path: assets/svg/medium/favourite.svg
   SvgGenImage get favourite => const SvgGenImage('assets/svg/medium/favourite.svg');
 
+  /// File path: assets/svg/medium/favourite_2.svg
+  SvgGenImage get favourite2 => const SvgGenImage('assets/svg/medium/favourite_2.svg');
+
+  /// File path: assets/svg/medium/favourite_3.svg
+  SvgGenImage get favourite3 => const SvgGenImage('assets/svg/medium/favourite_3.svg');
+
   /// File path: assets/svg/medium/filter.svg
   SvgGenImage get filter => const SvgGenImage('assets/svg/medium/filter.svg');
 
@@ -400,6 +406,12 @@ class $AssetsSvgMediumGen {
   /// File path: assets/svg/medium/show.svg
   SvgGenImage get show => const SvgGenImage('assets/svg/medium/show.svg');
 
+  /// File path: assets/svg/medium/sorting_down.svg
+  SvgGenImage get sortingDown => const SvgGenImage('assets/svg/medium/sorting_down.svg');
+
+  /// File path: assets/svg/medium/sorting_up.svg
+  SvgGenImage get sortingUp => const SvgGenImage('assets/svg/medium/sorting_up.svg');
+
   /// File path: assets/svg/medium/swap.svg
   SvgGenImage get swap => const SvgGenImage('assets/svg/medium/swap.svg');
 
@@ -473,6 +485,8 @@ class $AssetsSvgMediumGen {
         faceId,
         facebook,
         favourite,
+        favourite2,
+        favourite3,
         filter,
         freeze,
         gift,
@@ -501,6 +515,8 @@ class $AssetsSvgMediumGen {
         share,
         shevronRight,
         show,
+        sortingDown,
+        sortingUp,
         swap,
         swap2,
         telegram,
@@ -562,6 +578,12 @@ class $AssetsSvgPaymentMethodsCardsGen {
 class $AssetsSvgSmallGen {
   const $AssetsSvgSmallGen();
 
+  /// File path: assets/svg/small/arrow_down.svg
+  SvgGenImage get arrowDown => const SvgGenImage('assets/svg/small/arrow_down.svg');
+
+  /// File path: assets/svg/small/arrow_up.svg
+  SvgGenImage get arrowUp => const SvgGenImage('assets/svg/small/arrow_up.svg');
+
   /// File path: assets/svg/small/bank.svg
   SvgGenImage get bank => const SvgGenImage('assets/svg/small/bank.svg');
 
@@ -602,8 +624,23 @@ class $AssetsSvgSmallGen {
   SvgGenImage get xCricle => const SvgGenImage('assets/svg/small/x_cricle.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values =>
-      [bank, bullet, check, checkCircle, clock, info, loading, minusCircle, reorder, user, warning, x, xCricle];
+  List<SvgGenImage> get values => [
+        arrowDown,
+        arrowUp,
+        bank,
+        bullet,
+        check,
+        checkCircle,
+        clock,
+        info,
+        loading,
+        minusCircle,
+        reorder,
+        user,
+        warning,
+        x,
+        xCricle
+      ];
 }
 
 class $AssetsSvgAssetsCryptoGen {

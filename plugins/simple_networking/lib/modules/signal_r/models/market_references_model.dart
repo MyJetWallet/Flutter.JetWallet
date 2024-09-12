@@ -1,4 +1,6 @@
+import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:simple_networking/helpers/decimal_serialiser.dart';
 
 part 'market_references_model.freezed.dart';
 part 'market_references_model.g.dart';
@@ -27,6 +29,8 @@ class MarketReferenceModel with _$MarketReferenceModel {
     required String startMarketTime,
     required bool isMainNet,
     required MarketType type,
+    String? sectorId,
+    @DecimalSerialiser() required Decimal marketCap,
   }) = _MarketReferenceModel;
 
   factory MarketReferenceModel.fromJson(Map<String, dynamic> json) => _$MarketReferenceModelFromJson(json);

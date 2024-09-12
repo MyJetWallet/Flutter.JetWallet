@@ -59,6 +59,7 @@ import 'package:simple_networking/modules/signal_r/models/key_value_model.dart';
 import 'package:simple_networking/modules/signal_r/models/kyc_countries_response_model.dart';
 import 'package:simple_networking/modules/signal_r/models/market_info_model.dart';
 import 'package:simple_networking/modules/signal_r/models/market_references_model.dart';
+import 'package:simple_networking/modules/signal_r/models/market_sectors_message_model.dart';
 import 'package:simple_networking/modules/signal_r/models/period_prices_model.dart';
 import 'package:simple_networking/modules/signal_r/models/price_accuracies.dart';
 import 'package:simple_networking/modules/signal_r/models/referral_info_model.dart';
@@ -249,6 +250,8 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
             priceAccuracy: marketReference.priceAccuracy,
             startMarketTime: marketReference.startMarketTime,
             type: currency.type,
+            sectorId: marketReference.sectorId,
+            marketCap: marketReference.marketCap,
           ),
         );
       }
@@ -739,6 +742,22 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
         );
       }
     }
+
+    if (marketItems.isNotEmpty) {
+      for (final marketItem in marketItems) {
+        final index = marketItems.indexOf(marketItem);
+
+        final assetPrice = basePriceFrom(
+          prices: value.prices,
+          assetSymbol: marketItem.symbol,
+        );
+
+        marketItems[index] = marketItem.copyWith(
+          dayPercentChange: assetPrice.dayPercentChange,
+          dayPriceChange: assetPrice.dayPriceChange,
+        );
+      }
+    }
   }
 
   AssetWithdrawalFeeModel? assetsWithdrawalFees;
@@ -1105,6 +1124,20 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
     if (smplWalletModel.requests.isNotEmpty) {
       ClaimSimplecoin().pushCollectSimplecoinDialog(requests: smplWalletModel.requests);
     }
+  }
+
+  @observable
+  ObservableList<MarketSectorModel> marketSectors = ObservableList.of([]);
+
+  @action
+  void setMarketSectorsModelData(MarketSectorsMessageModel data) {
+    final list = ObservableList.of(data.sectors);
+    list.sort(
+      (a, b) => b.weight.compareTo(
+        a.weight,
+      ),
+    );
+    marketSectors = list;
   }
 
   @action
