@@ -58,6 +58,7 @@ class _EnterJarGoalScreenState extends State<EnterJarGoalScreen> {
       if ((int.tryParse(_goalController.text.replaceAll(' ', '')) ?? 0) > jarMaxGoal) {
         if (!showError) {
           showError = true;
+          // TODO (Yaroslav): chech this with Stanislav
           sNotification.showError(intl.jar_input_jar_goal_error(jarMaxGoal));
         }
       } else {

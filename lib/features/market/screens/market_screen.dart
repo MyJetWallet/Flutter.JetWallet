@@ -434,13 +434,6 @@ class _MarketScreenState extends State<MarketScreen> {
             accuracy: marketItem.priceAccuracy,
           ),
           supplement: currency.symbol,
-          onTableAssetTap: () {
-            sRouter.push(
-              MarketDetailsRouter(
-                marketItem: marketItem,
-              ),
-            );
-          },
           customRightWidget: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
