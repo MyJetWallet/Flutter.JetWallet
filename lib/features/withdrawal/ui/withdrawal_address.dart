@@ -185,7 +185,9 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                     child: SPaddingH24(
                       child: SStandardField(
                         isError: store.tagError,
-                        labelText: intl.currencyWithdraw_enterTag,
+                        labelText: store.withdrawalInputModel!.currency!.symbol == 'XRP'
+                            ? intl.currencyWithdraw_enterTagOrMemo
+                            : intl.currencyWithdraw_enterTag,
                         focusNode: store.tagFocus,
                         controller: store.tagController,
                         onChanged: (value) => store.updateTag(value),
