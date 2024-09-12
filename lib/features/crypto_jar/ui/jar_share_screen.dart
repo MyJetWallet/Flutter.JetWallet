@@ -119,7 +119,7 @@ class _JarShareScreenState extends State<JarShareScreen> {
                         symbol: selectedJar.addresses.first.assetSymbol,
                       ),
                       false,
-                      true,
+                      false,
                     ),
                     _buildShareItem(
                       intl.jar_address,
@@ -132,7 +132,7 @@ class _JarShareScreenState extends State<JarShareScreen> {
                       intl.jar_network,
                       networks.firstWhere((value) => value.id == selectedJar.addresses.first.blockchain).description,
                       false,
-                      true,
+                      false,
                     ),
                     const SizedBox(
                       height: 20.0 + 56.0,
