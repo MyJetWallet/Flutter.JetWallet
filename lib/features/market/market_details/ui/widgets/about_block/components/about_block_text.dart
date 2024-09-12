@@ -99,7 +99,11 @@ class _AboutBlockTextState extends State<AboutBlockText> with WidgetsBindingObse
                             launchURL(
                               context,
                               widget.marketInfo.officialWebsiteUrl!,
-                            );
+                            ).then((_) {
+                              setState(() {
+                                canTapOnLink = true;
+                              });
+                            });
                           }
                         },
                       ),
@@ -141,7 +145,11 @@ class _AboutBlockTextState extends State<AboutBlockText> with WidgetsBindingObse
       setState(() {
         canTapOnLink = false;
       });
-      launchURL(context, url);
+      launchURL(context, url).then((_) {
+        setState(() {
+          canTapOnLink = true;
+        });
+      });
     }
   }
 }

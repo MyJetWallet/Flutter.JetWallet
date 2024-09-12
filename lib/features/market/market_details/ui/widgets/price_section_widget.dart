@@ -1,5 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/chart/model/chart_state.dart';
 import 'package:jetwallet/features/chart/store/chart_store.dart';
@@ -23,68 +24,73 @@ class PriceSectionWidget extends StatelessWidget {
     final colors = SColorsLight();
 
     final chart = ChartStore.of(context);
-    final baseCurrency = sSignalRModules.baseCurrency;
 
-    final currency =
-        sSignalRModules.getMarketPrices.firstWhere((element) => element.symbol == marketItem.associateAsset);
+    return Observer(
+      builder: (context) {
+        final baseCurrency = sSignalRModules.baseCurrency;
 
-    final periodChange = _periodChange(
-      ChartState(
-        selectedCandle: chart.selectedCandle,
-        candles: chart.candles,
-        type: chart.type,
-        resolution: chart.resolution,
-        union: chart.union,
-      ),
-      marketItem,
-      baseCurrency,
-    );
+        final currency =
+            sSignalRModules.getMarketPrices.firstWhere((element) => element.symbol == marketItem.associateAsset);
 
-    return Container(
-      padding: const EdgeInsets.only(
-        top: 20,
-        left: 24,
-        right: 24,
-        bottom: 24,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
+        final periodChange = _periodChange(
+          ChartState(
+            selectedCandle: chart.selectedCandle,
+            candles: chart.candles,
+            type: chart.type,
+            resolution: chart.resolution,
+            union: chart.union,
+          ),
+          marketItem,
+          baseCurrency,
+        );
+
+        return Container(
+          padding: const EdgeInsets.only(
+            top: 20,
+            left: 24,
+            right: 24,
+            bottom: 24,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              NetworkIconWidget(
-                marketItem.iconUrl,
+              Row(
+                children: [
+                  NetworkIconWidget(
+                    marketItem.iconUrl,
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    marketItem.symbol,
+                    style: STStyles.subtitle1,
+                  ),
+                ],
               ),
-              const SizedBox(width: 8),
               Text(
-                marketItem.symbol,
-                style: STStyles.subtitle1,
+                _price(
+                  marketItem,
+                  ChartState(
+                    selectedCandle: chart.selectedCandle,
+                    candles: chart.candles,
+                    type: chart.type,
+                    resolution: chart.resolution,
+                    union: chart.union,
+                  ),
+                  baseCurrency,
+                  currency,
+                ),
+                style: STStyles.header2,
+              ),
+              Text(
+                '${periodChange[0]} ${periodChange[1]}',
+                style: STStyles.body2Medium.copyWith(
+                  color: periodChange[0].contains('-') ? colors.red : colors.green,
+                ),
               ),
             ],
           ),
-          Text(
-            _price(
-              marketItem,
-              ChartState(
-                selectedCandle: chart.selectedCandle,
-                candles: chart.candles,
-                type: chart.type,
-                resolution: chart.resolution,
-                union: chart.union,
-              ),
-              baseCurrency,
-              currency,
-            ),
-            style: STStyles.header2,
-          ),
-          Text(
-            '${periodChange[0]} ${periodChange[1]}',
-            style: STStyles.body2Medium.copyWith(
-              color: periodChange[0].contains('-') ? colors.red : colors.green,
-            ),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 
