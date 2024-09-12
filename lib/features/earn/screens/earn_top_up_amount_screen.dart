@@ -41,22 +41,18 @@ class _EarnTopUpAmountScreenState extends State<EarnTopUpAmountScreen> {
   void initState() {
     super.initState();
     store = EarnTopUpAmountStore(earnPosition: widget.earnPosition);
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
 
     if (store.isShowTopUpModal) {
-      WidgetsBinding.instance.addPostFrameCallback((_) async {
-        sAnalytics.earnDepositCryptoWalletPopupView(
-          assetName: widget.earnPosition.offers.first.assetId,
-          earnAPYrate: widget.earnPosition.offers.first.apyRate?.toStringAsFixed(2) ?? Decimal.zero.toString(),
-          earnPlanName: widget.earnPosition.offers.first.description ?? '',
-          earnWithdrawalType: widget.earnPosition.offers.first.withdrawType.name,
-        );
+      print('#@#@#@ 1');
+      sAnalytics.earnDepositCryptoWalletPopupView(
+        assetName: widget.earnPosition.offers.first.assetId,
+        earnAPYrate: widget.earnPosition.offers.first.apyRate?.toStringAsFixed(2) ?? Decimal.zero.toString(),
+        earnPlanName: widget.earnPosition.offers.first.description ?? '',
+        earnWithdrawalType: widget.earnPosition.offers.first.withdrawType.name,
+      );
 
-        await sShowAlertPopup(
+      Future.delayed(const Duration(milliseconds: 250)).then((_) {
+        sShowAlertPopup(
           context,
           primaryText: intl.earn_deposit_crypto_wallet,
           secondaryText: intl.tost_convert_message_1,
@@ -69,10 +65,7 @@ class _EarnTopUpAmountScreenState extends State<EarnTopUpAmountScreen> {
             package: 'simple_kit',
           ),
           barrierDismissible: false,
-          onWillPop: () async {
-            await context.router.maybePop();
-            context.router.popUntilRouteWithName(EarnPositionActiveRouter.name);
-          },
+          willPopScope: false,
           onPrimaryButtonTap: () {
             sAnalytics.tapOnTheTopUpEarnWalletButton(
               assetName: widget.earnPosition.offers.first.assetId,
@@ -82,7 +75,7 @@ class _EarnTopUpAmountScreenState extends State<EarnTopUpAmountScreen> {
             );
             navigateToWallet(context, store.currency);
           },
-          onSecondaryButtonTap: () async {
+          onSecondaryButtonTap: () {
             sAnalytics.tapOnTheCancelTopUpEarnWalletButton(
               assetName: widget.earnPosition.offers.first.assetId,
               earnAPYrate: widget.earnPosition.offers.first.apyRate?.toStringAsFixed(2) ?? Decimal.zero.toString(),
@@ -90,7 +83,6 @@ class _EarnTopUpAmountScreenState extends State<EarnTopUpAmountScreen> {
               earnWithdrawalType: widget.earnPosition.offers.first.withdrawType.name,
             );
 
-            await context.router.maybePop();
             context.router.popUntilRouteWithName(EarnPositionActiveRouter.name);
           },
         );
