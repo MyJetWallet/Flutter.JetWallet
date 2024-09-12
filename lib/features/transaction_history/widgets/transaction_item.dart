@@ -467,9 +467,10 @@ class _TransactionItemState extends State<TransactionItem> with SingleTickerProv
                   ),
                 ],
                 Visibility(
-                  visible: isTXIDExist(widget.transactionListItem) != null &&
-                      getBlockChainURL(widget.transactionListItem).isNotEmpty &&
-                      !checkTransactionIsInternal(widget.transactionListItem),
+                  visible: (widget.transactionListItem.operationType == OperationType.jarWithdrawal) ||
+                      (isTXIDExist(widget.transactionListItem) != null &&
+                          getBlockChainURL(widget.transactionListItem).isNotEmpty &&
+                          !checkTransactionIsInternal(widget.transactionListItem)),
                   child: Padding(
                     padding: const EdgeInsets.only(
                       left: 24,
