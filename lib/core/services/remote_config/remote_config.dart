@@ -231,6 +231,7 @@ class RemoteConfig {
     usePhoneForSendGift = remoteConfig!.appConfig.usePhoneForSendGift;
     simpleCoinRoadmapCompletedSteep = remoteConfig!.appConfig.simpleCoinRoadmapCompletedSteep;
     rewardsAssets = remoteConfig!.appConfig.rewardsAssets;
+    jarTerms = remoteConfig!.appConfig.jarTerms;
   }
 
   void overrideVersioningValues() {

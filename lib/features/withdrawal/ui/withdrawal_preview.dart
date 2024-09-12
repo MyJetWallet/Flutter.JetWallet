@@ -17,6 +17,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'package:simple_networking/modules/wallet_api/models/jar/jar_response_model.dart';
 
 import '../../pin_screen/model/pin_flow_union.dart';
 
@@ -33,18 +34,30 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
   void initState() {
     final store = WithdrawalStore.of(context);
 
-    sAnalytics.cryptoSendOrderSummarySend(
-      asset: store.withdrawalInputModel!.currency!.symbol,
-      network: store.network.description,
-      sendMethodType: '0',
-      totalSendAmount: store.withAmount,
-      paymentFee: store.addressIsInternal
-          ? intl.noFee
-          : store.withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(
-              network: store.networkController.text,
-              amount: Decimal.parse(store.withAmount),
-            ),
-    );
+    if (store.withdrawalType == WithdrawalType.jar) {
+      sAnalytics.jarScreenViewOrderSummaryWithdrawJar(
+        asset: store.withdrawalInputModel!.jar!.assetSymbol,
+        network: 'TRC20',
+        target: store.withdrawalInputModel!.jar!.target.toInt(),
+        balance: store.withdrawalInputModel!.jar!.balanceInJarAsset,
+        isOpen: store.withdrawalInputModel!.jar!.status == JarStatus.active,
+      );
+    }
+
+    if (store.withdrawalType == WithdrawalType.asset) {
+      sAnalytics.cryptoSendOrderSummarySend(
+        asset: store.withdrawalInputModel!.currency!.symbol,
+        network: store.network.description,
+        sendMethodType: '0',
+        totalSendAmount: store.withAmount,
+        paymentFee: store.addressIsInternal
+            ? intl.noFee
+            : store.withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(
+                network: store.networkController.text,
+                amount: Decimal.parse(store.withAmount),
+              ),
+      );
+    }
 
     super.initState();
   }
@@ -64,7 +77,11 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
     final formatService = getIt.get<FormatService>();
 
     final feeSize = store.withdrawalInputModel!.currency!.withdrawalFeeSize(
-      network: store.addressIsInternal ? 'internal-send' : store.networkController.text,
+      network: store.withdrawalType == WithdrawalType.jar
+          ? store.networkController.text
+          : store.addressIsInternal
+              ? 'internal-send'
+              : store.networkController.text,
       amount: Decimal.parse(store.withAmount),
     );
 
@@ -98,21 +115,14 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
                     isLoading: false,
                     assetIconUrl: store.withdrawalInputModel!.currency!.iconUrl,
                     assetDescription: store.withdrawalInputModel!.currency!.description,
-                    assetValue: store.addressIsInternal
-                        ? Decimal.parse(store.withAmount).toFormatCount(
-                            accuracy: store.withdrawalInputModel!.currency!.accuracy,
-                            symbol: store.withdrawalInputModel!.currency!.symbol,
-                          )
-                        : (Decimal.parse(store.withAmount) + feeSize).toFormatCount(
-                            accuracy: store.withdrawalInputModel!.currency!.accuracy,
-                            symbol: store.withdrawalInputModel!.currency!.symbol,
-                          ),
+                    assetValue: (Decimal.parse(store.withAmount) + feeSize).toFormatCount(
+                      accuracy: store.withdrawalInputModel!.currency!.accuracy,
+                      symbol: store.withdrawalInputModel!.currency!.symbol,
+                    ),
                     assetBaseAmount: formatService
                         .convertOneCurrencyToAnotherOne(
                           fromCurrency: store.withdrawalInputModel!.currency!.symbol,
-                          fromCurrencyAmmount: store.addressIsInternal
-                              ? Decimal.parse(store.withAmount)
-                              : Decimal.parse(store.withAmount) + feeSize,
+                          fromCurrencyAmmount: Decimal.parse(store.withAmount) + feeSize,
                           toCurrency: sSignalRModules.baseCurrency.symbol,
                           baseCurrency: sSignalRModules.baseCurrency.symbol,
                           isMin: false,
@@ -144,7 +154,7 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
                 TwoColumnCell(
                   label: intl.withdrawal_recipient_gets,
                   value:
-                      '''${store.withAmount} ${store.withdrawalType == WithdrawalType.asset ? store.withdrawalInputModel!.currency!.symbol : store.withdrawalInputModel!.nft!.name}''',
+                      '''${store.withAmount} ${store.withdrawalType != WithdrawalType.nft ? store.withdrawalInputModel!.currency!.symbol : store.withdrawalInputModel!.nft!.name}''',
                   needHorizontalPadding: false,
                 ),
                 ProcessingFeeRowWidget(
@@ -160,30 +170,46 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
                   active: !store.previewLoading && isUserEnoughMaticForWithdraw,
                   name: intl.withdrawalPreview_confirm,
                   onTap: () {
-                    sAnalytics.cryptoSendTapConfirmOrder(
-                      asset: store.withdrawalInputModel!.currency!.symbol,
-                      network: store.network.description,
-                      sendMethodType: '0',
-                      totalSendAmount: store.withAmount,
-                      paymentFee: store.addressIsInternal ? intl.noFee : feeSizeWithSymbol,
-                    );
+                    if (store.withdrawalType == WithdrawalType.jar) {
+                      sAnalytics.jarTapOnButtonConfirmJarWithdrawOnOrderSummary(
+                        asset: store.withdrawalInputModel!.jar!.assetSymbol,
+                        network: 'TRC20',
+                        target: store.withdrawalInputModel!.jar!.target.toInt(),
+                        balance: store.withdrawalInputModel!.jar!.balanceInJarAsset,
+                        isOpen: store.withdrawalInputModel!.jar!.status == JarStatus.active,
+                      );
+                    } else {
+                      sAnalytics.cryptoSendTapConfirmOrder(
+                        asset: store.withdrawalInputModel!.currency!.symbol,
+                        network: store.network.description,
+                        sendMethodType: '0',
+                        totalSendAmount: store.withAmount,
+                        paymentFee: store.addressIsInternal ? intl.noFee : feeSizeWithSymbol,
+                      );
+                    }
 
                     sRouter.push(
                       PinScreenRoute(
                         union: const Change(),
                         isChangePhone: true,
                         onChangePhone: (String newPin) {
-                          sAnalytics.cryptoSendBioApprove(
-                            asset: store.withdrawalInputModel!.currency!.symbol,
-                            network: store.network.description,
-                            sendMethodType: '0',
-                            totalSendAmount: store.withAmount,
-                            paymentFee: store.addressIsInternal ? intl.noFee : feeSizeWithSymbol,
-                          );
+                          if (store.withdrawalType == WithdrawalType.jar) {
+                            sRouter.maybePop();
 
-                          sRouter.maybePop();
+                            store.withdrawJar(newPin: newPin);
+                          } else {
+                            sAnalytics.cryptoSendBioApprove(
+                              asset: store.withdrawalInputModel!.currency!.symbol,
+                              network: store.network.description,
+                              sendMethodType: '0',
+                              totalSendAmount: store.withAmount,
+                              paymentFee: store.addressIsInternal ? intl.noFee : feeSizeWithSymbol,
+                            );
 
-                          store.withdraw(newPin: newPin);
+                            sRouter.maybePop();
+
+                            store.withdraw(newPin: newPin);
+                          }
                         },
                         onWrongPin: (String error) {
                           sAnalytics.errorWrongPin(

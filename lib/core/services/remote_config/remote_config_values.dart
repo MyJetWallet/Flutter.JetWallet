@@ -29,6 +29,7 @@ late int changePasswordLockHours;
 late int changePhoneLockHours;
 late String cardLimitsLearnMoreLink;
 late String p2pTerms;
+late String jarTerms;
 bool rateUp = true;
 bool displayCardPreorderScreen = false;
 String prepaidCardPartnerLink = '';

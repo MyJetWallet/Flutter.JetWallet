@@ -93,7 +93,9 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
             transactionListItem.operationType == OperationType.earnWithdrawal ||
             transactionListItem.operationType == OperationType.cardTransfer ||
             transactionListItem.operationType == OperationType.buyPrepaidCard ||
-            transactionListItem.operationType == OperationType.p2pBuy) ...[
+            transactionListItem.operationType == OperationType.p2pBuy ||
+            transactionListItem.operationType == OperationType.jarDeposit ||
+            transactionListItem.operationType == OperationType.jarWithdrawal) ...[
           const SpaceH26(),
         ] else ...[
           const SpaceH67(),
@@ -135,7 +137,9 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
             transactionListItem.operationType == OperationType.earnWithdrawal ||
             transactionListItem.operationType == OperationType.cardTransfer ||
             transactionListItem.operationType == OperationType.buyPrepaidCard ||
-            transactionListItem.operationType == OperationType.p2pBuy)
+            transactionListItem.operationType == OperationType.p2pBuy ||
+            transactionListItem.operationType == OperationType.jarDeposit ||
+            transactionListItem.operationType == OperationType.jarWithdrawal)
           const SizedBox()
         else if ((!nftTypes.contains(transactionListItem.operationType) || catchingTypes) &&
             !operationWithoutBalanceShow) ...[
@@ -191,7 +195,9 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
             transactionListItem.operationType == OperationType.earnWithdrawal ||
             transactionListItem.operationType == OperationType.cardTransfer ||
             transactionListItem.operationType == OperationType.buyPrepaidCard ||
-            transactionListItem.operationType == OperationType.p2pBuy)
+            transactionListItem.operationType == OperationType.p2pBuy ||
+            transactionListItem.operationType == OperationType.jarDeposit ||
+            transactionListItem.operationType == OperationType.jarWithdrawal)
           const SizedBox.shrink()
         else
           const SpaceH72(),

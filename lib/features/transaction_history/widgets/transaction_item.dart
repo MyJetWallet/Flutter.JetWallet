@@ -134,7 +134,9 @@ class _TransactionItemState extends State<TransactionItem> with SingleTickerProv
                     widget.transactionListItem.operationType == OperationType.earnWithdrawal ||
                     widget.transactionListItem.operationType == OperationType.cardTransfer ||
                     widget.transactionListItem.operationType == OperationType.buyPrepaidCard ||
-                    widget.transactionListItem.operationType == OperationType.p2pBuy) ...[
+                    widget.transactionListItem.operationType == OperationType.p2pBuy ||
+                    widget.transactionListItem.operationType == OperationType.jarDeposit ||
+                    widget.transactionListItem.operationType == OperationType.jarWithdrawal) ...[
                   const SizedBox.shrink(),
                 ] else if (widget.transactionListItem.operationType != OperationType.sendGlobally) ...[
                   if (isOperationSupportCopy(widget.transactionListItem))
@@ -157,7 +159,8 @@ class _TransactionItemState extends State<TransactionItem> with SingleTickerProv
                 ] else ...[
                   const SpaceH32(),
                 ],
-                if (widget.transactionListItem.operationType == OperationType.deposit) ...[
+                if (widget.transactionListItem.operationType == OperationType.deposit ||
+                    widget.transactionListItem.operationType == OperationType.jarDeposit) ...[
                   Material(
                     color: colors.white,
                     child: DepositDetails(
@@ -172,7 +175,8 @@ class _TransactionItemState extends State<TransactionItem> with SingleTickerProv
                     ),
                   ),
                 ],
-                if (widget.transactionListItem.operationType == OperationType.withdraw) ...[
+                if (widget.transactionListItem.operationType == OperationType.withdraw ||
+                    widget.transactionListItem.operationType == OperationType.jarWithdrawal) ...[
                   Material(
                     color: colors.white,
                     child: WithdrawDetails(

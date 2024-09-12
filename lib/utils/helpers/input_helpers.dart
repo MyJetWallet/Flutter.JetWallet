@@ -163,6 +163,27 @@ InputError onWithdrawInputErrorHandler({
   return InputError.none;
 }
 
+InputError onWithdrawJarInputErrorHandler({
+  required Decimal youWillSendAmount,
+  required Decimal inputAmount,
+  required double jarBalance,
+  required String network,
+  required CurrencyModel currency,
+  bool addressIsInternal = false,
+}) {
+  if (youWillSendAmount != Decimal.zero) {
+    final balance = Decimal.parse(jarBalance.toString());
+
+    if (balance < inputAmount) {
+      return InputError.notEnoughFunds;
+    } else if (currency.withdrawalFeeSize(network: network, amount: youWillSendAmount) >= youWillSendAmount) {
+      return addressIsInternal ? InputError.none : InputError.enterHigherAmount;
+    }
+  }
+
+  return InputError.none;
+}
+
 InputError onGloballyWithdrawInputErrorHandler(
   String input,
   CurrencyModel currency,

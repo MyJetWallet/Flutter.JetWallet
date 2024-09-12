@@ -15,9 +15,12 @@ import 'package:jetwallet/core/services/intercom/intercom_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/features/crypto_jar/store/jars_store.dart';
+import 'package:jetwallet/features/crypto_jar/ui/widgets/jars_list_widget.dart';
 import 'package:jetwallet/features/earn/widgets/earn_dashboard_section_widget.dart';
 import 'package:jetwallet/features/market/market_details/store/market_news_store.dart';
 import 'package:jetwallet/features/my_wallets/store/banners_store.dart';
+import 'package:jetwallet/features/my_wallets/store/my_wallets_scroll_store.dart';
 import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
 import 'package:jetwallet/features/my_wallets/widgets/actions_my_wallets_row_widget.dart';
 import 'package:jetwallet/features/my_wallets/widgets/add_wallet_bottom_sheet.dart';
@@ -64,6 +67,13 @@ class MyWalletsScreen extends StatefulWidget {
 
 class _MyWalletsScreenState extends State<MyWalletsScreen> with TickerProviderStateMixin {
   @override
+  void initState() {
+    super.initState();
+
+    getIt.get<JarsStore>().initStore();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
@@ -87,8 +97,6 @@ class _MyWalletsScreenBody extends StatefulObserverWidget {
 }
 
 class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
-  final _controller = ScrollController();
-
   // for analytic
   GlobalHistoryTab historyTab = GlobalHistoryTab.pending;
 
@@ -120,19 +128,23 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
       },
     );
 
-    _controller.addListener(() {
-      if (_controller.offset >= _controller.position.maxScrollExtent) {
+    store = MyWalletsSrore.of(context) as MyWalletsSrore;
+    getIt.get<MyWalletsScrollStore>().init();
+
+    getIt.get<MyWalletsScrollStore>().controller.addListener(() {
+      if (getIt.get<MyWalletsScrollStore>().controller.offset >=
+          getIt.get<MyWalletsScrollStore>().controller.position.maxScrollExtent) {
         final newsStore = MarketNewsStore.of(context);
         newsStore.loadMoreNews();
       }
     });
 
     getIt<EventBus>().on<ResetScrollMyWallets>().listen((event) {
-      _controller.animateTo(
-        0.0,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeIn,
-      );
+      getIt.get<MyWalletsScrollStore>().controller.animateTo(
+            0.0,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeIn,
+          );
     });
 
     getIt<EventBus>().on<EndReordering>().listen((event) {
@@ -164,11 +176,11 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
 
   Future<void> goTop() async {
     await Future.delayed(const Duration(milliseconds: 110), () {
-      _controller.animateTo(
-        0,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeIn,
-      );
+      getIt.get<MyWalletsScrollStore>().controller.animateTo(
+            0,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeIn,
+          );
     });
   }
 
@@ -177,8 +189,6 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
-
-    store = MyWalletsSrore.of(context) as MyWalletsSrore;
 
     final list = slidableItems(store);
 
@@ -209,7 +219,7 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
             child: Column(
               children: [
                 CollapsedMainscreenAppbar(
-                  scrollController: _controller,
+                  scrollController: getIt.get<MyWalletsScrollStore>().controller,
                   mainHeaderValue: !getIt<AppStore>().isBalanceHide
                       ? _price(
                           currenciesWithBalanceFrom(
@@ -305,7 +315,7 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                       child: store.isLoading
                           ? const _LoadingAssetsList()
                           : CustomScrollView(
-                              controller: _controller,
+                              controller: getIt.get<MyWalletsScrollStore>().controller,
                               physics: const AlwaysScrollableScrollPhysics(),
                               slivers: [
                                 if (store.countOfPendingTransactions > 0) ...[
@@ -415,6 +425,15 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                                           ],
                                         ),
                                       ),
+                                    ),
+                                  ),
+                                if ((sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
+                                  (element) => element.id == AssetPaymentProductsEnum.jar,
+                                ))
+                                  SliverToBoxAdapter(
+                                    child: JarsListWidget(
+                                      titleKey: getIt.get<MyWalletsScrollStore>().jarTitleKey,
+                                      scrollToTitle: getIt.get<MyWalletsScrollStore>().scrollToJarTitle,
                                     ),
                                   ),
                                 const SliverToBoxAdapter(

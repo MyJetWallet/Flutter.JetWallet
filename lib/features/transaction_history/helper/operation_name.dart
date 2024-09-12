@@ -80,6 +80,10 @@ String operationName(
       return intl.earn_received;
     case OperationType.buyPrepaidCard:
       return intl.prepaid_card_buy_voucher;
+    case OperationType.jarDeposit:
+      return intl.operationName_received;
+    case OperationType.jarWithdrawal:
+      return intl.operationName_sent;
     default:
       return 'Unknown';
   }
