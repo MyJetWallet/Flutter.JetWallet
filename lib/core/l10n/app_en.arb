@@ -70,7 +70,6 @@
     "currencyWithdraw_continue": "Continue",
     "currencyWithdraw_chooseNetwork": "Choose Network",
     "currencyWithdraw_enterTag": "Enter Tag",
-    "currencyWithdraw_enterTagOrMemo": "Enter Tag/Memo",
     "kycVerifyYourProfile_continue": "Continue",
     "kycVerifyYourProfile_verifyYourProfile": "Verify your profile",
     "disclaimer_continue": "Continue",
@@ -311,7 +310,6 @@
     "cryptoDepositWithAddressAndTag_walletAddress": "Wallet address",
     "cryptoDepositWithAddressAndTag_addressCopied": "Address copied",
     "tag": "Tag",
-    "tagOrMemo": "Tag/Memo",
     "depositInfo_text": "Ensure the network you choose to deposit matches the withdrawal network",
     "showDepositDisclaimer_primatyText": "to this deposit address. Receiving any other coin or token to this address may result in loss of the transfer amount.",
     "showDepositDisclaimer_gotIt": "Got it",
@@ -1772,6 +1770,7 @@
     "market_add_assets": "Add assets",
     "market_edit_list": "Edit list",
     "market_tokens": "tokens",
+    "market_token": "token",
     "market_100_instruments": "+100 instruments",
     "market_done": "Done",
     "market_edit_favorites": "Edit favorites",
@@ -1782,5 +1781,7 @@
     "market_diversify_portfolio": "Diversify portfolio",
     "market_my_balance": "My balance",
     "market_total": "Total",
-    "market_wallet": "Waller"
+    "market_wallet": "Waller",
+    "currencyWithdraw_enterTagOrMemo": "Enter Tag/Memo",
+    "tagOrMemo": "Tag/Memo"
 }
