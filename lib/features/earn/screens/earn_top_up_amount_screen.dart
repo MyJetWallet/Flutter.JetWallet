@@ -68,6 +68,7 @@ class _EarnTopUpAmountScreenState extends State<EarnTopUpAmountScreen> {
             height: 80,
             package: 'simple_kit',
           ),
+          barrierDismissible: false,
           onWillPop: () async {
             sRouter.popUntilRouteWithName(EarnPositionActiveRouter.name);
           },
@@ -87,6 +88,7 @@ class _EarnTopUpAmountScreenState extends State<EarnTopUpAmountScreen> {
               earnPlanName: widget.earnPosition.offers.first.description ?? '',
               earnWithdrawalType: widget.earnPosition.offers.first.withdrawType.name,
             );
+
             sRouter.popUntilRouteWithName(EarnPositionActiveRouter.name);
           },
         );
@@ -113,6 +115,7 @@ class _EarnTopUpAmountScreenState extends State<EarnTopUpAmountScreen> {
 
 class _EarnWithdrawalAmountBody extends StatelessWidget {
   const _EarnWithdrawalAmountBody();
+
   @override
   Widget build(BuildContext context) {
     final store = EarnTopUpAmountStore.of(context);
