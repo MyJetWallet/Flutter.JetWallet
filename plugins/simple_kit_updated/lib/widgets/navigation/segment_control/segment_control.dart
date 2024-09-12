@@ -13,6 +13,7 @@ class SegmentControl extends HookWidget {
     this.expand = false,
     this.expandWidth,
     this.shrinkWrap = false,
+    this.isInvest = false,
   });
 
   final TabController tabController;
@@ -20,6 +21,7 @@ class SegmentControl extends HookWidget {
   final bool expand; // Если нужно растянуть по все ширине
   final double? expandWidth; // MediaQuery.of(context).size.width
   final bool shrinkWrap;
+  final bool isInvest;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,7 @@ class SegmentControl extends HookWidget {
     useListenable(tabController);
 
     return Container(
-      height: 32,
+      height: isInvest ? 28 : 32,
       decoration: BoxDecoration(
         color: SColorsLight().gray2,
         borderRadius: baseRadius,
@@ -70,7 +72,7 @@ class SegmentControl extends HookWidget {
                                 : _getWidthBaseOnType(item),
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+                        padding: EdgeInsets.symmetric(vertical: 4, horizontal: isInvest ? 12 : 16),
                         child: _getWidgetBaseOnType(item, index),
                       ),
                     ),

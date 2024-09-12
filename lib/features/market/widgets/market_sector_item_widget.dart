@@ -36,7 +36,7 @@ class MarketSectorItemWidget extends StatelessWidget {
             style: STStyles.body1Semibold,
           ),
           Text(
-            '${sector.countOfTokens} ${intl.market_tokens}',
+            '${sector.countOfTokens} ${sector.countOfTokens == 1 ? intl.market_token : intl.market_tokens}',
             style: STStyles.captionMedium.copyWith(
               color: colors.gray10,
             ),

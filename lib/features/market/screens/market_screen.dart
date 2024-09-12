@@ -170,6 +170,7 @@ class _MarketScreenState extends State<MarketScreen> {
                       sliver: SliverToBoxAdapter(
                         child: Wrap(
                           spacing: 4,
+                          runSpacing: 8,
                           children: [
                             STagButton(
                               lable: intl.market_favorites,
