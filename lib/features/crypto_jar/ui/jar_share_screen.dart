@@ -79,6 +79,7 @@ class _JarShareScreenState extends State<JarShareScreen> {
       ),
       child: SafeArea(
         top: false,
+        bottom: false,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Stack(
@@ -135,7 +136,7 @@ class _JarShareScreenState extends State<JarShareScreen> {
                       false,
                     ),
                     const SizedBox(
-                      height: 20.0 + 56.0,
+                      height: 50.0 + 56.0,
                     ),
                   ],
                 ),
@@ -143,7 +144,7 @@ class _JarShareScreenState extends State<JarShareScreen> {
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Padding(
-                  padding: const EdgeInsets.only(bottom: 20.0),
+                  padding: const EdgeInsets.only(bottom: 50.0),
                   child: SButton.black(
                     text: intl.jar_share,
                     callback: () async {
