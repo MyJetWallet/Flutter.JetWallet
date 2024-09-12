@@ -43,7 +43,6 @@ class _EarnTopUpAmountScreenState extends State<EarnTopUpAmountScreen> {
     store = EarnTopUpAmountStore(earnPosition: widget.earnPosition);
 
     if (store.isShowTopUpModal) {
-      print('#@#@#@ 1');
       sAnalytics.earnDepositCryptoWalletPopupView(
         assetName: widget.earnPosition.offers.first.assetId,
         earnAPYrate: widget.earnPosition.offers.first.apyRate?.toStringAsFixed(2) ?? Decimal.zero.toString(),

@@ -114,7 +114,7 @@ class DemoAppState extends State<DemoApp> {
                           Platform.isLinux ||
                           Platform.isWindows)) {
                     // Using `package:file_selector` on windows, macos & Linux, since `package:image_picker` is not supported.
-                    const XTypeGroup typeGroup = XTypeGroup(
+                    const typeGroup = XTypeGroup(
                       label: 'images',
                       extensions: <String>['jpg', 'jpeg', 'png', 'gif'],
                     );
@@ -282,9 +282,9 @@ class DemoAppState extends State<DemoApp> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Share result: ${result.status}"),
+          Text('Share result: ${result.status}'),
           if (result.status == ShareResultStatus.success)
-            Text("Shared to: ${result.raw}")
+            Text('Shared to: ${result.raw}')
         ],
       ),
     );
