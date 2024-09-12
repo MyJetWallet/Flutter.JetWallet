@@ -144,8 +144,8 @@ class _MarketScreenState extends State<MarketScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 24),
                         sliver: SliverGrid.builder(
                           itemCount: sectors.length,
-                          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                            maxCrossAxisExtent: 64,
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 4,
                             mainAxisExtent: 112,
                             mainAxisSpacing: 24,
                             crossAxisSpacing: 24,
