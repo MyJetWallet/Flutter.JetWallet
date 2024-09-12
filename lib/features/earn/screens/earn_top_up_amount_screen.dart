@@ -70,6 +70,7 @@ class _EarnTopUpAmountScreenState extends State<EarnTopUpAmountScreen> {
           ),
           barrierDismissible: false,
           onWillPop: () async {
+            await context.router.maybePop();
             context.router.popUntilRouteWithName(EarnPositionActiveRouter.name);
           },
           onPrimaryButtonTap: () {
@@ -89,6 +90,7 @@ class _EarnTopUpAmountScreenState extends State<EarnTopUpAmountScreen> {
               earnWithdrawalType: widget.earnPosition.offers.first.withdrawType.name,
             );
 
+            await context.router.maybePop();
             context.router.popUntilRouteWithName(EarnPositionActiveRouter.name);
           },
         );
