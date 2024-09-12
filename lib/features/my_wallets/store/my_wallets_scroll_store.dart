@@ -61,7 +61,7 @@ abstract class _MyWalletsScrollStoreBase with Store {
         curve: Curves.easeInOut,
       );
 
-      Future.delayed(const Duration(milliseconds: 450)).then((_) {
+      Future.delayed(const Duration(milliseconds: 500)).then((_) {
         scroll();
       });
     } else {

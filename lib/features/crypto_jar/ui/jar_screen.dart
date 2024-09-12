@@ -263,7 +263,7 @@ class _JarScreenState extends State<JarScreen> {
                     mode: TransactionListMode.preview,
                     onData: (items) {
                       if (items.length >= 5) {
-                        if (mounted) {
+                        if (!showViewAllButtonOnHistory) {
                           setState(() {
                             showViewAllButtonOnHistory = true;
                           });
@@ -278,6 +278,13 @@ class _JarScreenState extends State<JarScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void setState(fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
   }
 
   Widget _buildButtons(KycService kycState, JarResponseModel selectedJar, SimpleColors colors, int accuracy) {
