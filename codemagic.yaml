@@ -68,7 +68,9 @@ definitions:
       script: app-store-connect fetch-signing-files $BUNDLE_ID --type IOS_APP_STORE --create
 
     - name: Generate release notes
-      script: ./scripts/generate_release_notes.sh
+      script: |
+        chmod +x ./scripts/generate_release_notes.sh
+        ./scripts/generate_release_notes.sh
 
     - name: Use system default keychain
       script: keychain add-certificates
