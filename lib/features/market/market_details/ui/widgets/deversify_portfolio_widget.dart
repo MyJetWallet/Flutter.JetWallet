@@ -6,8 +6,6 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/earn/widgets/basic_header.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/features/market/widgets/top_movers_asset_item.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
-import 'package:simple_kit_updated/widgets/table/divider/simple_divider.dart';
 
 class DeversifyPortfolioWidget extends StatelessWidget {
   const DeversifyPortfolioWidget({super.key, required this.marketItem});
@@ -16,8 +14,6 @@ class DeversifyPortfolioWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = SColorsLight();
-
     return Observer(
       builder: (context) {
         final marketItems = sSignalRModules.getMarketPrices;
@@ -67,18 +63,7 @@ class DeversifyPortfolioWidget extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      top: 32,
-                      left: 24,
-                      right: 24,
-                      bottom: 8,
-                    ),
-                    child: SDivider(
-                      height: 2,
-                      color: colors.gray2,
-                    ),
-                  ),
+                  const SizedBox(height: 16),
                 ],
               )
             : const Offstage();
