@@ -17,20 +17,20 @@ class ResolutionButton extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        /*const SizedBox(
-          height: 10,
-        ),
-        */
         InkWell(
           splashColor: Colors.transparent,
           highlightColor: Colors.transparent,
           onTap: onTap,
           child: Container(
-            width: 44,
+            width: 62,
             height: 27,
-            margin: const EdgeInsets.symmetric(
-              horizontal: 5,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 6),
+            decoration: showUnderline
+                ? BoxDecoration(
+                    color: const Color(0x0A001B4B),
+                    borderRadius: BorderRadius.circular(14),
+                  )
+                : null,
             child: Center(
               child: Text(
                 text,
@@ -45,24 +45,8 @@ class ResolutionButton extends StatelessWidget {
           ),
         ),
         const SizedBox(
-          height: 1.5,
+          height: 9.5,
         ),
-        if (showUnderline)
-          Container(
-            width: 44,
-            height: 3,
-            margin: const EdgeInsets.only(
-              top: 5,
-            ),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(2),
-              color: Colors.black,
-            ),
-          )
-        else
-          const SizedBox(
-            height: 8,
-          ),
       ],
     );
   }

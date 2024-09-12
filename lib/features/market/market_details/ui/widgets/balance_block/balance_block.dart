@@ -41,7 +41,6 @@ class _BalanceBlockBody extends StatelessObserverWidget {
       height: 127,
       child: Column(
         children: [
-          const SDivider(),
           const SpaceH16(),
           BalanceActionButtons(
             marketItem: marketItem,

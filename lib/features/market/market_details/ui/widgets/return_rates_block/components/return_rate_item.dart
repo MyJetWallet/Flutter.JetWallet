@@ -23,16 +23,14 @@ class ReturnRateItem extends StatelessWidget {
           baseline: 44,
           child: Text(
             header,
-            style: sBodyText2Style.copyWith(
-              color: colors.grey1,
-            ),
+            style: sBodyText2Style,
           ),
         ),
         SBaselineChild(
           baseline: 24,
           child: Text(
             value,
-            style: sBodyText1Style.copyWith(
+            style: sSubtitle2Style.copyWith(
               color: periodChangeColor,
             ),
           ),

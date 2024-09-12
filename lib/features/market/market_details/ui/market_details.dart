@@ -4,26 +4,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/chart/model/chart_input.dart';
-import 'package:jetwallet/features/chart/model/chart_union.dart';
 import 'package:jetwallet/features/chart/store/chart_store.dart';
 import 'package:jetwallet/features/chart/ui/asset_chart.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/features/market/market_details/helper/get_market_info.dart';
 import 'package:jetwallet/features/market/market_details/store/market_news_store.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/about_block/about_block.dart';
-import 'package:jetwallet/features/market/market_details/ui/widgets/asset_day_change.dart';
-import 'package:jetwallet/features/market/market_details/ui/widgets/asset_price.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/balance_block/balance_block.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/cpower_block/cpower_block.dart';
+import 'package:jetwallet/features/market/market_details/ui/widgets/deversify_portfolio_widget.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/index_allocation_block/index_allocation_block.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/market_info_loader_block/market_info_loader_block.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/market_stats_block/market_stats_block.dart';
+import 'package:jetwallet/features/market/market_details/ui/widgets/price_section_widget.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/return_rates_block/return_rates_block.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/features/market/store/watchlist_store.dart';
 import 'package:jetwallet/features/my_wallets/widgets/news_dashboard_section.dart';
+import 'package:jetwallet/features/wallet/widgets/wallet_earn_section.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:provider/provider.dart';
@@ -124,8 +125,6 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
     final chart = ChartStore.of(context);
     final watchlistIdsN = WatchlistStore.of(context);
 
-    final news = MarketNewsStore.of(context);
-
     final currency = currencyFrom(currencies, widget.marketItem.symbol);
 
     var isInWatchlist = watchlistIdsN.state.contains(widget.marketItem.associateAsset);
@@ -141,33 +140,35 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
 
     return SPageFrame(
       loaderText: intl.loader_please_wait,
-      header: Material(
-        color: chart.union != const ChartUnion.loading() ? Colors.transparent : colors.white,
-        child: SPaddingH24(
-          child: SSmallHeader(
-            title: '${widget.marketItem.name} (${widget.marketItem.symbol})',
-            showStarButton: true,
-            isStarSelected: isInWatchlist,
-            onStarButtonTap: () {
-              if (isInWatchlist) {
-                watchlistIdsN.removeFromWatchlist(widget.marketItem.associateAsset);
-                isInWatchlist = false;
-              } else {
-                watchlistIdsN.addToWatchlist(widget.marketItem.associateAsset);
-                isInWatchlist = true;
-              }
-            },
-            onBackButtonTap: () {
-              sAnalytics.tapOnTheBackButtonFromMarketAssetScreen(
-                asset: widget.marketItem.symbol,
-              );
-              sRouter.maybePop();
-            },
-          ),
-        ),
-      ),
-      bottomNavigationBar: BalanceBlock(
-        marketItem: widget.marketItem,
+      header: GlobalBasicAppBar(
+        title: widget.marketItem.name,
+        subtitle: widget.marketItem.symbol,
+        rightIcon: isInWatchlist
+            ? Assets.svg.medium.favourite2.simpleSvg(
+                width: 24,
+              )
+            : Assets.svg.medium.favourite.simpleSvg(
+                width: 24,
+              ),
+        onRightIconTap: () {
+          if (isInWatchlist) {
+            watchlistIdsN.removeFromWatchlist(widget.marketItem.associateAsset);
+            isInWatchlist = false;
+          } else {
+            watchlistIdsN.addToWatchlist(widget.marketItem.associateAsset);
+            isInWatchlist = true;
+            sNotification.showError(
+              intl.market_added_to_favorites,
+              isError: false,
+            );
+          }
+        },
+        onLeftIconTap: () {
+          sAnalytics.tapOnTheBackButtonFromMarketAssetScreen(
+            asset: widget.marketItem.symbol,
+          );
+          sRouter.maybePop();
+        },
       ),
       child: Stack(
         children: [
@@ -180,58 +181,28 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
                     controller: _controller,
                     child: Column(
                       children: [
-                        if (chart.union != const ChartUnion.loading())
-                          SizedBox(
-                            height: 104,
-                            child: Column(
-                              children: [
-                                AssetPrice(
-                                  marketItem: widget.marketItem,
-                                ),
-                                AssetDayChange(
-                                  marketItem: widget.marketItem,
-                                ),
-                              ],
-                            ),
-                          ),
-                        if (chart.union == const ChartUnion.loading())
-                          Container(
-                            height: 104,
-                            width: double.infinity,
-                            color: colors.grey5,
-                            child: const Column(
-                              children: [
-                                SpaceH17(),
-                                SSkeletonTextLoader(
-                                  height: 24,
-                                  width: 152,
-                                ),
-                                SpaceH10(),
-                                SSkeletonTextLoader(
-                                  height: 16,
-                                  width: 80,
-                                ),
-                                SpaceH37(),
-                              ],
-                            ),
-                          ),
+                        PriceSectionWidget(
+                          marketItem: widget.marketItem,
+                        ),
                         AssetChart(
                           marketItem: widget.marketItem,
                           onCandleSelected: (ChartInfoModel? chartInfo) {
                             chart.updateSelectedCandle(chartInfo?.right);
                           },
                         ),
+                        BalanceBlock(
+                          marketItem: widget.marketItem,
+                        ),
+                        WalletEarnSection(currency: currency),
+                        DeversifyPortfolioWidget(marketItem: widget.marketItem),
                         ReturnRatesBlock(
                           assetSymbol: widget.marketItem.associateAsset,
                         ),
                         const SpaceH20(),
-                        const SDivider(),
-                        const SpaceH2(),
                         if (widget.marketItem.type == AssetType.indices) ...[
                           IndexAllocationBlock(
                             marketItem: widget.marketItem,
                           ),
-                          // const IndexOverviewBlock(),
                         ],
                         FutureBuilder<MarketInfoResponseModel?>(
                           future: marketInfo,
@@ -251,11 +222,10 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
                                       ],
                                       AboutBlock(
                                         marketInfo: marketInfo.data!,
-                                        showDivider: news.news.isNotEmpty,
                                         isCpower: widget.marketItem.symbol == 'CPWR',
                                       ),
                                     ],
-                                    const SpaceH46(),
+                                    const SpaceH8(),
                                   ],
                                 ),
                               );

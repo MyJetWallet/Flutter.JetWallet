@@ -23,6 +23,7 @@ class SHyperlink extends StatelessWidget {
         onTap: isDisabled ? null : onTap,
         highlightColor: Colors.transparent,
         child: Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               text,
