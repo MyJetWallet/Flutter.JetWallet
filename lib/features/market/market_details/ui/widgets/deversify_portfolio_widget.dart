@@ -24,7 +24,7 @@ class DeversifyPortfolioWidget extends StatelessWidget {
 
         final sectorAssets = marketItems
             .where(
-              (item) => item.sectorId == marketItem.sectorId && item.symbol != marketItem.symbol,
+              (item) => item.sectorIds.contains(marketItem.sectorIds.firstOrNull) && item.symbol != marketItem.symbol,
             )
             .toList();
 

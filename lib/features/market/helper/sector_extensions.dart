@@ -4,7 +4,7 @@ import 'package:simple_networking/modules/signal_r/models/market_sectors_message
 extension MarketSectorModelExtension on MarketSectorModel {
   int get countOfTokens {
     final marketItems = sSignalRModules.marketItems;
-    final filtredMarketItems = marketItems.where((marketItem) => marketItem.sectorId == id);
+    final filtredMarketItems = marketItems.where((marketItem) => marketItem.sectorIds.contains(id));
     return filtredMarketItems.length;
   }
 }

@@ -25,7 +25,7 @@ class MarketItemModel with _$MarketItemModel {
     required Decimal baseBalance,
     required int assetAccuracy,
     required int priceAccuracy,
-    String? sectorId,
+    @Default([]) List<String> sectorIds,
     @DecimalSerialiser() required Decimal marketCap,
   }) = _MarketItemModel;
 
