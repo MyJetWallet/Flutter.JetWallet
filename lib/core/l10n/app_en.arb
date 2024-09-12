@@ -1770,6 +1770,7 @@
     "market_add_assets": "Add assets",
     "market_edit_list": "Edit list",
     "market_tokens": "tokens",
+    "market_token": "token",
     "market_100_instruments": "+100 instruments",
     "market_done": "Done",
     "market_edit_favorites": "Edit favorites",
@@ -1780,5 +1781,7 @@
     "market_diversify_portfolio": "Diversify portfolio",
     "market_my_balance": "My balance",
     "market_total": "Total",
-    "market_wallet": "Waller"
+    "market_wallet": "Waller",
+    "currencyWithdraw_enterTagOrMemo": "Enter Tag/Memo",
+    "tagOrMemo": "Tag/Memo"
 }
