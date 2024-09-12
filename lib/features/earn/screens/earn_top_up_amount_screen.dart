@@ -70,7 +70,7 @@ class _EarnTopUpAmountScreenState extends State<EarnTopUpAmountScreen> {
           ),
           barrierDismissible: false,
           onWillPop: () async {
-            sRouter.popUntilRouteWithName(EarnPositionActiveRouter.name);
+            context.router.popUntilRouteWithName(EarnPositionActiveRouter.name);
           },
           onPrimaryButtonTap: () {
             sAnalytics.tapOnTheTopUpEarnWalletButton(
@@ -89,7 +89,7 @@ class _EarnTopUpAmountScreenState extends State<EarnTopUpAmountScreen> {
               earnWithdrawalType: widget.earnPosition.offers.first.withdrawType.name,
             );
 
-            sRouter.popUntilRouteWithName(EarnPositionActiveRouter.name);
+            context.router.popUntilRouteWithName(EarnPositionActiveRouter.name);
           },
         );
       });
