@@ -77,80 +77,94 @@ class _JarShareScreenState extends State<JarShareScreen> {
           });
         },
       ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: SingleChildScrollView(
-          child: Column(
+      child: SafeArea(
+        top: false,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Stack(
             children: [
-              const SizedBox(
-                height: 24.0,
-              ),
-              QrImageView(
-                data: selectedJar.addresses.first.address,
-                size: 200.0,
-                padding: EdgeInsets.zero,
-                errorCorrectionLevel: QrErrorCorrectLevel.H,
-                embeddedImage: AssetImage(
-                  Assets.svg.assets.crypto.tether.path,
-                  package: 'simple_kit_updated',
+              SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 24.0,
+                    ),
+                    QrImageView(
+                      data: selectedJar.addresses.first.address,
+                      size: 200.0,
+                      padding: EdgeInsets.zero,
+                      errorCorrectionLevel: QrErrorCorrectLevel.H,
+                      embeddedImage: AssetImage(
+                        Assets.svg.assets.crypto.tether.path,
+                        package: 'simple_kit_updated',
+                      ),
+                      embeddedImageStyle: const QrEmbeddedImageStyle(
+                        size: Size(32, 32),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 24.0,
+                    ),
+                    _buildShareItem(
+                      intl.jar_language,
+                      '',
+                      true,
+                      false,
+                    ),
+                    _buildShareItem(
+                      intl.jar_remained_amount,
+                      Decimal.parse((remainedAmount).toString()).toFormatCount(
+                        accuracy:
+                            getIt.get<FormatService>().findCurrency(assetSymbol: selectedJar.assetSymbol).accuracy,
+                        symbol: selectedJar.addresses.first.assetSymbol,
+                      ),
+                      false,
+                      true,
+                    ),
+                    _buildShareItem(
+                      intl.jar_address,
+                      selectedJar.addresses.first.address,
+                      false,
+                      true,
+                      true,
+                    ),
+                    _buildShareItem(
+                      intl.jar_network,
+                      networks.firstWhere((value) => value.id == selectedJar.addresses.first.blockchain).description,
+                      false,
+                      true,
+                    ),
+                    const SizedBox(
+                      height: 20.0 + 56.0,
+                    ),
+                  ],
                 ),
-                embeddedImageStyle: const QrEmbeddedImageStyle(
-                  size: Size(32, 32),
-                ),
               ),
-              const SizedBox(
-                height: 24.0,
-              ),
-              _buildShareItem(
-                intl.jar_language,
-                '',
-                true,
-                false,
-              ),
-              _buildShareItem(
-                intl.jar_remained_amount,
-                Decimal.parse((remainedAmount).toString()).toFormatCount(
-                  accuracy: getIt.get<FormatService>().findCurrency(assetSymbol: selectedJar.assetSymbol).accuracy,
-                  symbol: selectedJar.addresses.first.assetSymbol,
-                ),
-                false,
-                true,
-              ),
-              _buildShareItem(
-                intl.jar_address,
-                selectedJar.addresses.first.address,
-                false,
-                true,
-                true,
-              ),
-              _buildShareItem(
-                intl.jar_network,
-                networks.firstWhere((value) => value.id == selectedJar.addresses.first.blockchain).description,
-                false,
-                true,
-              ),
-              SButton.black(
-                text: intl.jar_share,
-                callback: () async {
-                  sAnalytics.jarTapOnButtonShareJarOnShareJar(
-                    language: selectedLanguage == 'GB' ? 'English' : 'Ukrainian',
-                  );
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 20.0),
+                  child: SButton.black(
+                    text: intl.jar_share,
+                    callback: () async {
+                      sAnalytics.jarTapOnButtonShareJarOnShareJar(
+                        language: selectedLanguage == 'GB' ? 'English' : 'Ukrainian',
+                      );
 
-                  final result = await getIt
-                      .get<JarsStore>()
-                      .shareJar(jarId: selectedJar.id, lang: selectedLanguage == 'GB' ? 'en' : 'uk');
+                      final result = await getIt
+                          .get<JarsStore>()
+                          .shareJar(jarId: selectedJar.id, lang: selectedLanguage == 'GB' ? 'en' : 'uk');
 
-                  String shareText;
-                  if (selectedLanguage == 'GB') {
-                    shareText = '${selectedJar.title}\n\n🔗 Link to the jar:\n${result ?? ''}';
-                  } else {
-                    shareText = '${selectedJar.title}\n\n🔗 Посилання на банку:\n${result ?? ''}';
-                  }
-                  await Share.share(shareText);
-                },
-              ),
-              const SizedBox(
-                height: 50.0,
+                      String shareText;
+                      if (selectedLanguage == 'GB') {
+                        shareText = '${selectedJar.title}\n\n🔗 Link to the jar:\n${result ?? ''}';
+                      } else {
+                        shareText = '${selectedJar.title}\n\n🔗 Посилання на банку:\n${result ?? ''}';
+                      }
+                      await Share.share(shareText);
+                    },
+                  ),
+                ),
               ),
             ],
           ),
