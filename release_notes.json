@@ -1,0 +1,6 @@
+[
+    {
+        "language": "en-US",
+        "text": "Git branch: fix/3.0.0\n\nLast commits:\n21f6084b4 Fix jar banner scroll\ne328eea3c Fix jar transactions\n29991c590 Fix jar title and description input field\nd80ec5c67  Fix earn top up dialog\ndf504d6e1 Add new create jar goal limit\n"
+    }
+]
