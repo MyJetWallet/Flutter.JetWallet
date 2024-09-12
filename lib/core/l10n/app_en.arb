@@ -1777,5 +1777,8 @@
     "market_market_cap": "Market cap",
     "market_price": "Price",
     "market_added_to_favorites": "Added to favorites",
-    "market_diversify_portfolio": "Diversify portfolio"
+    "market_diversify_portfolio": "Diversify portfolio",
+    "market_my_balance": "My balance",
+    "market_total": "Total",
+    "market_wallet": "Waller"
 }

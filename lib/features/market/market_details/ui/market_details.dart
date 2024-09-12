@@ -19,14 +19,13 @@ import 'package:jetwallet/features/market/market_details/ui/widgets/deversify_po
 import 'package:jetwallet/features/market/market_details/ui/widgets/index_allocation_block/index_allocation_block.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/market_info_loader_block/market_info_loader_block.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/market_stats_block/market_stats_block.dart';
+import 'package:jetwallet/features/market/market_details/ui/widgets/my_balance_widget.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/price_section_widget.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/return_rates_block/return_rates_block.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/features/market/store/watchlist_store.dart';
 import 'package:jetwallet/features/my_wallets/widgets/news_dashboard_section.dart';
 import 'package:jetwallet/features/wallet/widgets/wallet_earn_section.dart';
-import 'package:jetwallet/utils/formatting/formatting.dart';
-import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -37,9 +36,6 @@ import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../../core/di/di.dart';
 import '../../../../core/services/prevent_duplication_events_servise.dart';
-import '../../../../utils/models/currency_model.dart';
-import '../../../app/store/app_store.dart';
-import '../../../wallet/helper/navigate_to_wallet.dart';
 
 @RoutePage(name: 'MarketDetailsRouter')
 class MarketDetails extends StatelessWidget {
@@ -119,7 +115,6 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
     final currencies = sSignalRModules.currenciesList;
 
     final chart = ChartStore.of(context);
@@ -128,15 +123,6 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
     final currency = currencyFrom(currencies, widget.marketItem.symbol);
 
     var isInWatchlist = watchlistIdsN.state.contains(widget.marketItem.associateAsset);
-
-    final baseCurrency = sSignalRModules.baseCurrency;
-
-    void onMarketItemTap({
-      required BuildContext context,
-      required CurrencyModel currency,
-    }) {
-      navigateToWallet(context, currency);
-    }
 
     return SPageFrame(
       loaderText: intl.loader_please_wait,
@@ -170,133 +156,76 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
           sRouter.maybePop();
         },
       ),
-      child: Stack(
-        children: [
-          Column(
-            children: [
-              Expanded(
-                child: Material(
-                  color: colors.white,
-                  child: SingleChildScrollView(
-                    controller: _controller,
-                    child: Column(
-                      children: [
-                        PriceSectionWidget(
-                          marketItem: widget.marketItem,
-                        ),
-                        AssetChart(
-                          marketItem: widget.marketItem,
-                          onCandleSelected: (ChartInfoModel? chartInfo) {
-                            chart.updateSelectedCandle(chartInfo?.right);
-                          },
-                        ),
-                        BalanceBlock(
-                          marketItem: widget.marketItem,
-                        ),
-                        WalletEarnSection(currency: currency),
-                        DeversifyPortfolioWidget(marketItem: widget.marketItem),
-                        ReturnRatesBlock(
-                          assetSymbol: widget.marketItem.associateAsset,
-                        ),
-                        const SpaceH20(),
-                        if (widget.marketItem.type == AssetType.indices) ...[
-                          IndexAllocationBlock(
-                            marketItem: widget.marketItem,
-                          ),
-                        ],
-                        FutureBuilder<MarketInfoResponseModel?>(
-                          future: marketInfo,
-                          builder: (context, marketInfo) {
-                            if (marketInfo.hasData) {
-                              return SPaddingH24(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    if (marketInfo.data != null) ...[
-                                      if (widget.marketItem.type != AssetType.indices) ...[
-                                        const SpaceH20(),
-                                        MarketStatsBlock(
-                                          marketInfo: marketInfo.data!,
-                                          isCPower: widget.marketItem.symbol == 'CPWR',
-                                        ),
-                                      ],
-                                      AboutBlock(
-                                        marketInfo: marketInfo.data!,
-                                        isCpower: widget.marketItem.symbol == 'CPWR',
-                                      ),
-                                    ],
-                                    const SpaceH8(),
-                                  ],
-                                ),
-                              );
-                            } else if (!marketInfo.hasData) {
-                              return const SizedBox();
-                            } else {
-                              return const MarketInfoLoaderBlock();
-                            }
-                          },
-                        ),
-                        if (widget.marketItem.symbol == 'CPWR') ...[
-                          const SPaddingH24(
-                            child: CpowerBlock(),
-                          ),
-                        ],
-                        const NewsDashboardSection(),
-                        const SpaceH120(),
-                      ],
-                    ),
-                  ),
-                ),
+      child: SingleChildScrollView(
+        controller: _controller,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            PriceSectionWidget(
+              marketItem: widget.marketItem,
+            ),
+            AssetChart(
+              marketItem: widget.marketItem,
+              onCandleSelected: (ChartInfoModel? chartInfo) {
+                chart.updateSelectedCandle(chartInfo?.right);
+              },
+            ),
+            BalanceBlock(
+              marketItem: widget.marketItem,
+            ),
+            MyBalanceWidget(marketItem: widget.marketItem),
+            WalletEarnSection(currency: currency),
+            DeversifyPortfolioWidget(marketItem: widget.marketItem),
+            ReturnRatesBlock(
+              assetSymbol: widget.marketItem.associateAsset,
+            ),
+            const SpaceH20(),
+            if (widget.marketItem.type == AssetType.indices) ...[
+              IndexAllocationBlock(
+                marketItem: widget.marketItem,
               ),
             ],
-          ),
-          Positioned(
-            top: MediaQuery.of(context).size.height - 347,
-            left: 24,
-            child: Container(
-              width: MediaQuery.of(context).size.width - 48,
-              height: 88,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(
-                  color: colors.grey4,
-                ),
-              ),
-              child: Material(
-                color: colors.white,
-                borderRadius: BorderRadius.circular(16),
-                child: SimpleTableAccount(
-                  assetIcon: NetworkIconWidget(
-                    widget.marketItem.iconUrl,
-                  ),
-                  label: intl.portfolioHeader_balance,
-                  rightValue: getIt<AppStore>().isBalanceHide
-                      ? '**** ${baseCurrency.symbol}'
-                      : widget.marketItem.baseBalance.toFormatSum(
-                          symbol: baseCurrency.symbol,
-                          accuracy: baseCurrency.accuracy,
-                        ),
-                  supplement: getIt<AppStore>().isBalanceHide
-                      ? '******* ${widget.marketItem.symbol}'
-                      : widget.marketItem.assetBalance.toFormatCount(
-                          symbol: widget.marketItem.symbol,
-                          accuracy: widget.marketItem.assetAccuracy,
-                        ),
-                  onTableAssetTap: () {
-                    sAnalytics.tapOnTheBalanceButtonOnMarketAssetScreen(
-                      asset: widget.marketItem.symbol,
-                    );
-
-                    onMarketItemTap(
-                      context: context,
-                      currency: currency,
-                    );
-                  },
-                ),
-              ),
+            FutureBuilder<MarketInfoResponseModel?>(
+              future: marketInfo,
+              builder: (context, marketInfo) {
+                if (marketInfo.hasData) {
+                  return SPaddingH24(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (marketInfo.data != null) ...[
+                          if (widget.marketItem.type != AssetType.indices) ...[
+                            const SpaceH20(),
+                            MarketStatsBlock(
+                              marketInfo: marketInfo.data!,
+                              isCPower: widget.marketItem.symbol == 'CPWR',
+                            ),
+                          ],
+                          AboutBlock(
+                            marketInfo: marketInfo.data!,
+                            isCpower: widget.marketItem.symbol == 'CPWR',
+                          ),
+                        ],
+                        const SpaceH8(),
+                      ],
+                    ),
+                  );
+                } else if (!marketInfo.hasData) {
+                  return const SizedBox();
+                } else {
+                  return const MarketInfoLoaderBlock();
+                }
+              },
             ),
-          ),
-        ],
+            if (widget.marketItem.symbol == 'CPWR') ...[
+              const SPaddingH24(
+                child: CpowerBlock(),
+              ),
+            ],
+            const NewsDashboardSection(),
+            const SpaceH120(),
+          ],
+        ),
       ),
     );
   }
