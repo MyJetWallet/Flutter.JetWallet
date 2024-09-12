@@ -74,6 +74,7 @@ class _MyWalletsScreenState extends State<MyWalletsScreen> with TickerProviderSt
     if ((sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
       (element) => element.id == AssetPaymentProductsEnum.jar,
     )) {
+      getIt.get<MyWalletsScrollStore>().setIsTopPosition(true);
       getIt.get<JarsStore>().initStore();
       getIt.get<CreateJarStore>().getJarGoalLimit();
     }
