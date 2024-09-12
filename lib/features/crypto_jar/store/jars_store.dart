@@ -13,7 +13,6 @@ import 'package:simple_networking/modules/wallet_api/models/jar/jar_response_mod
 part 'jars_store.g.dart';
 
 const int jarNameLength = 18;
-const int jarMaxGoal = 15000;
 const int jarDescriptionLength = 60;
 
 @lazySingleton

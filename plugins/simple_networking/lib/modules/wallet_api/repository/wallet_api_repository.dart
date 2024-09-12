@@ -1312,6 +1312,10 @@ class WalletApiRepository {
     );
   }
 
+  Future<DC<ServerRejectException, int>> getJarGoalLimit() async {
+    return _walletApiDataSources.getJarGoalLimit();
+  }
+
   Future<DC<ServerRejectException, JarResponseModel>> postUpdateJarRequest({
     required String jarId,
     int? target,
