@@ -29,8 +29,7 @@ class MarketReferenceModel with _$MarketReferenceModel {
     required String startMarketTime,
     required bool isMainNet,
     required MarketType type,
-    // TODO (Yaroslav): змінити дефолтне значення коли бек пофіксить баг
-    @Default(['2', '3', '4']) List<String> sectorIds,
+    @Default([]) List<String> sectorIds,
     @DecimalSerialiser() required Decimal marketCap,
   }) = _MarketReferenceModel;
 
