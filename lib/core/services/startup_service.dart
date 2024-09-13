@@ -305,6 +305,7 @@ class StartupService {
     ///
     try {
       if (!userInfo.isSignalRInited) {
+        print('#@#@#@ 0001');
         await getIt.get<SignalRService>().start();
 
         userInfo.updateSignalRStatus(true);

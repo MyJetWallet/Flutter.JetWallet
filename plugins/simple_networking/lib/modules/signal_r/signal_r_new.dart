@@ -160,6 +160,7 @@ class SignalRModuleNew {
 
       connectionId = _hubConnection?.connectionId;
 
+      print('#@#@#@ 01');
       await sendInitMessage('New Session');
 
       _startPing();
@@ -183,6 +184,7 @@ class SignalRModuleNew {
   Future<void> sendInitMessage(String from) async {
     if (_hubConnection?.state == HubConnectionState.connected) {
       try {
+        print('#@#@#@ 1');
         final token = await getToken();
 
         log(
@@ -302,7 +304,10 @@ class SignalRModuleNew {
     if (_reconnectTimer == null || !_reconnectTimer!.isActive) {
       _reconnectTimer = Timer(
         const Duration(seconds: _reconnectTime),
-        () => openConnection(),
+        () {
+          print('#@#@#@ 002');
+          openConnection();
+        },
       );
     }
   }

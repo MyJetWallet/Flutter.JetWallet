@@ -22,6 +22,8 @@ class SignalRService {
   final _logger = getIt.get<SimpleLoggerService>();
   final _loggerValue = 'SignalRService';
 
+  bool isRegisterSingleton = false;
+
   /// CreateService and Start Init
   Future<void> start({bool isInit = true}) async {
     getIt.get<SimpleLoggerService>().log(
@@ -34,11 +36,15 @@ class SignalRService {
       await _getSignalRModule();
     }
 
-    if (!getIt.isRegistered<SignalRModuleNew>()) {
+    print('#@#@#@ 00111');
+    if (!getIt.isRegistered<SignalRModuleNew>() && !isRegisterSingleton) {
+      print('#@#@#@ 001i');
       try {
         getIt.registerSingletonAsync<SignalRModuleNew>(
           () async {
+            isRegisterSingleton = true;
             final service = await createNewService();
+            print('#@#@#@ 001');
             await service.openConnection();
 
             return service;
@@ -46,9 +52,11 @@ class SignalRService {
           instanceName: 'SignalRModuleNew',
         );
       } catch (e) {
+        print('#@#@#@ 001e $e');
         await forceReconnectSignalR();
       }
     } else {
+      print('#@#@#@ 001w');
       await forceReconnectSignalR();
     }
   }
@@ -61,6 +69,7 @@ class SignalRService {
         );
 
     try {
+      isRegisterSingleton = false;
       await getIt.unregister<SignalRModuleNew>(
         instanceName: signalRSingletinName,
         disposingFunction: (p0) {
@@ -85,9 +94,11 @@ class SignalRService {
           );
     }
 
-    await Future.delayed(const Duration(milliseconds: 560), () {
-      start(isInit: false);
-    });
+    await Future.delayed(
+      const Duration(seconds: 1),
+    );
+    print('#@#@#@ 001 1 1 1');
+    await start(isInit: false);
 
     sSignalRModules.setInitFinished(true);
   }
@@ -123,6 +134,7 @@ class SignalRService {
 
     try {
       if (getIt.isRegistered<SignalRModuleNew>()) {
+        isRegisterSingleton = false;
         await getIt.unregister<SignalRModuleNew>(
           instanceName: signalRSingletinName,
           disposingFunction: (p0) {
