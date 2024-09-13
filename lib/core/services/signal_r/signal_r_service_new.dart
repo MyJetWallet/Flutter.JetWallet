@@ -1133,8 +1133,8 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
   void setMarketSectorsModelData(MarketSectorsMessageModel data) {
     final list = ObservableList.of(data.sectors);
     list.sort(
-      (a, b) => b.weight.compareTo(
-        a.weight,
+      (a, b) => a.weight.compareTo(
+        b.weight,
       ),
     );
     marketSectors = list;

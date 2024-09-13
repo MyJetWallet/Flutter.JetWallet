@@ -76,8 +76,8 @@ class DeversifyPortfolioWidget extends StatelessWidget {
     final sectorsForAsset =
         sSignalRModules.marketSectors.where((sectro) => marketItem.sectorIds.contains(sectro.id)).toList();
     sectorsForAsset.sort(
-      (a, b) => b.weight.compareTo(
-        a.weight,
+      (a, b) => a.weight.compareTo(
+        b.weight,
       ),
     );
 
