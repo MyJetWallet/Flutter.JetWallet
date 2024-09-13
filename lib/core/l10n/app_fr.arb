@@ -1747,5 +1747,7 @@
     "market_total": "Total",
     "market_wallet": "Portefeuille",
     "currencyWithdraw_enterTagOrMemo": "Entrer le Tag/Memo",
-    "tagOrMemo": "Tag/Memo"
+    "tagOrMemo": "Tag/Memo",
+    "market_volume": "Volume",
+    "market_circulating_supply": "Alimentation en circulation"
 }

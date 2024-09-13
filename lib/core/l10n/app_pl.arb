@@ -1835,5 +1835,7 @@
     "market_total": "Razem",
     "market_wallet": "Portfel",
     "currencyWithdraw_enterTagOrMemo": "Wprowadź Tag/Memo",
-    "tagOrMemo": "Tag/Memo"
+    "tagOrMemo": "Tag/Memo",
+    "market_volume": "Wolumen",
+    "market_circulating_supply": "Zasilanie obiegowe"
 }

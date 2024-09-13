@@ -5927,5 +5927,7 @@
     "market_total": "Всього",
     "market_wallet": "Гаманець",
     "currencyWithdraw_enterTagOrMemo": "Введіть Tag/Memo",
-    "tagOrMemo": "Tag/Memo"
+    "tagOrMemo": "Tag/Memo",
+    "market_volume": "Обсяг",
+    "market_circulating_supply": "Циркулюючий обсяг"
 }
