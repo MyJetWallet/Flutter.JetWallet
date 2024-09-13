@@ -9,6 +9,7 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/chart/model/chart_input.dart';
 import 'package:jetwallet/features/chart/store/chart_store.dart';
 import 'package:jetwallet/features/chart/ui/asset_chart.dart';
+import 'package:jetwallet/features/earn/store/earn_store.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/features/market/market_details/helper/get_market_info.dart';
 import 'package:jetwallet/features/market/market_details/store/market_news_store.dart';
@@ -73,6 +74,9 @@ class MarketDetails extends StatelessWidget {
           ),
           Provider<MarketNewsStore>(
             create: (_) => MarketNewsStore()..loadNews(marketItem.symbol),
+          ),
+          Provider<EarnStore>(
+            create: (_) => EarnStore(),
           ),
         ],
         builder: (context, child) => _MarketDetailsBody(
