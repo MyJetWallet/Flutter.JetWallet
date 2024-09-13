@@ -160,7 +160,6 @@ class SignalRModuleNew {
 
       connectionId = _hubConnection?.connectionId;
 
-      print('#@#@#@ 01');
       await sendInitMessage('New Session');
 
       _startPing();
@@ -184,7 +183,6 @@ class SignalRModuleNew {
   Future<void> sendInitMessage(String from) async {
     if (_hubConnection?.state == HubConnectionState.connected) {
       try {
-        print('#@#@#@ 1');
         final token = await getToken();
 
         log(
@@ -305,7 +303,6 @@ class SignalRModuleNew {
       _reconnectTimer = Timer(
         const Duration(seconds: _reconnectTime),
         () {
-          print('#@#@#@ 002');
           openConnection();
         },
       );
@@ -360,6 +357,7 @@ class SignalRModuleNew {
     disableHandlerConnection();
 
     _hubConnection?.stop();
+
     _hubConnection = null;
 
     _pingTimer?.cancel();
@@ -605,6 +603,5 @@ class SignalRModuleNew {
     _hubConnection?.on(smplWalletProfile, handler.smplWalletProfileMessageHandler);
 
     _hubConnection?.on(marketSectors, handler.marketSectorsMessageHandler);
-    
   }
 }

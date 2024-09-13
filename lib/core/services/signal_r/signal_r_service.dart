@@ -36,27 +36,22 @@ class SignalRService {
       await _getSignalRModule();
     }
 
-    print('#@#@#@ 00111');
-    if (!getIt.isRegistered<SignalRModuleNew>() && !isRegisterSingleton) {
-      print('#@#@#@ 001i');
+    if (!getIt.isRegistered<SignalRModuleNew>(
+          instanceName: signalRSingletinName,
+        ) &&
+        !isRegisterSingleton) {
       try {
-        getIt.registerSingletonAsync<SignalRModuleNew>(
-          () async {
-            isRegisterSingleton = true;
-            final service = await createNewService();
-            print('#@#@#@ 001');
-            await service.openConnection();
-
-            return service;
-          },
-          instanceName: 'SignalRModuleNew',
+        isRegisterSingleton = true;
+        getIt.registerSingleton<SignalRModuleNew>(
+          await createNewService(),
+          instanceName: signalRSingletinName,
         );
+        final service = getIt<SignalRModuleNew>(instanceName: signalRSingletinName);
+        await service.openConnection();
       } catch (e) {
-        print('#@#@#@ 001e $e');
         await forceReconnectSignalR();
       }
     } else {
-      print('#@#@#@ 001w');
       await forceReconnectSignalR();
     }
   }
@@ -69,15 +64,10 @@ class SignalRService {
         );
 
     try {
-      isRegisterSingleton = false;
-      await getIt.unregister<SignalRModuleNew>(
+      if (getIt.isRegistered<SignalRModuleNew>(
         instanceName: signalRSingletinName,
-        disposingFunction: (p0) {
-          p0.dispose();
-        },
-      );
-
-      /*if (getIt.isRegistered<SignalRModuleNew>()) {
+      )) {
+        isRegisterSingleton = false;
         await getIt.unregister<SignalRModuleNew>(
           instanceName: signalRSingletinName,
           disposingFunction: (p0) {
@@ -85,7 +75,6 @@ class SignalRService {
           },
         );
       }
-      */
     } catch (e) {
       getIt.get<SimpleLoggerService>().log(
             level: Level.error,
@@ -95,10 +84,11 @@ class SignalRService {
     }
 
     await Future.delayed(
-      const Duration(seconds: 1),
+      const Duration(seconds: 2),
     );
-    print('#@#@#@ 001 1 1 1');
-    await start(isInit: false);
+    if (!isRegisterSingleton) {
+      await start(isInit: false);
+    }
 
     sSignalRModules.setInitFinished(true);
   }
@@ -133,7 +123,7 @@ class SignalRService {
         );
 
     try {
-      if (getIt.isRegistered<SignalRModuleNew>()) {
+      if (getIt.isRegistered<SignalRModuleNew>(instanceName: signalRSingletinName)) {
         isRegisterSingleton = false;
         await getIt.unregister<SignalRModuleNew>(
           instanceName: signalRSingletinName,
