@@ -167,6 +167,7 @@ internal class Share(
                 activity!!.startActivity(intent)
             }
         } else {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             if (withResult) {
                 // We need to cancel the callback to avoid deadlocking on the Dart side
                 manager.unavailable()

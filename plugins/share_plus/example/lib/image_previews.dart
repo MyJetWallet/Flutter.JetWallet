@@ -5,15 +5,15 @@ import 'package:flutter/material.dart';
 
 /// Widget for displaying a preview of images
 class ImagePreviews extends StatelessWidget {
-  /// Creates a widget for preview of images. [imagePaths] can not be empty
-  /// and all contained paths need to be non empty.
-  const ImagePreviews(this.imagePaths, {super.key, this.onDelete});
-
   /// The image paths of the displayed images
   final List<String> imagePaths;
 
   /// Callback when an image should be removed
   final Function(int)? onDelete;
+
+  /// Creates a widget for preview of images. [imagePaths] can not be empty
+  /// and all contained paths need to be non empty.
+  const ImagePreviews(this.imagePaths, {super.key, this.onDelete});
 
   @override
   Widget build(BuildContext context) {
@@ -37,10 +37,10 @@ class ImagePreviews extends StatelessWidget {
 }
 
 class _ImagePreview extends StatelessWidget {
-  const _ImagePreview(this.imagePath, {this.onDelete});
-
   final String imagePath;
   final VoidCallback? onDelete;
+
+  const _ImagePreview(this.imagePath, {this.onDelete});
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +61,9 @@ class _ImagePreview extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: FloatingActionButton(
-                  backgroundColor: Colors.red, onPressed: onDelete, child: const Icon(Icons.delete)),
+                  backgroundColor: Colors.red,
+                  onPressed: onDelete,
+                  child: const Icon(Icons.delete)),
             ),
           ),
         ],

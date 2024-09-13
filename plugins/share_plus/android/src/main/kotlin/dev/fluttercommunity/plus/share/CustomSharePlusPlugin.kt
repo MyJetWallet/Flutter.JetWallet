@@ -7,7 +7,7 @@ import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import io.flutter.plugin.common.MethodChannel
 
 /** Plugin method host for presenting a share sheet via Intent  */
-class SharePlusPlugin : FlutterPlugin, ActivityAware {
+class CustomSharePlusPlugin : FlutterPlugin, ActivityAware {
     private lateinit var share: Share
     private lateinit var manager: ShareSuccessManager
     private lateinit var methodChannel: MethodChannel

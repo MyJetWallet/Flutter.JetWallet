@@ -1,9 +1,9 @@
 import 'dart:async';
 
+import 'package:custom_share_plus/custom_share_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/features/iban/store/iban_store.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:simple_kit/modules/bottom_navigation_bar/components/notification_box.dart';
 import 'package:simple_kit/simple_kit.dart';
 

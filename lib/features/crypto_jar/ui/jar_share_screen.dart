@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:custom_share_plus/custom_share_plus.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,7 +14,6 @@ import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:jetwallet/widgets/flag_item.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart' as sk;
 import 'package:simple_kit/simple_kit.dart';

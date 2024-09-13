@@ -4,5 +4,5 @@
 
 #import <Flutter/Flutter.h>
 
-@interface FPPSharePlusPlugin : NSObject <FlutterPlugin>
+@interface CustomFPPSharePlusPlugin : NSObject <FlutterPlugin>
 @end
