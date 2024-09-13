@@ -1783,5 +1783,9 @@
     "market_total": "Total",
     "market_wallet": "Waller",
     "currencyWithdraw_enterTagOrMemo": "Enter Tag/Memo",
-    "tagOrMemo": "Tag/Memo"
+    "tagOrMemo": "Tag/Memo",
+    "jar_insufficient_funds_for_withdrawal": "Insufficient Funds for Withdrawal",
+    "jar_insufficient_funds_for_withdrawal_hint": "It looks like the balance in your jar isn’t enough to cover the withdrawal fee. If you close the jar now, the remaining amount will be lost. Are you sure you want to close the jar?",
+    "jar_insufficient_funds_for_withdrawal_yes": "Yes",
+    "jar_insufficient_funds_for_withdrawal_no": "No"
 }
