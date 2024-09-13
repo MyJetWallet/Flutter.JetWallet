@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
+import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -16,6 +19,7 @@ import 'package:jetwallet/features/market/store/watchlist_store.dart';
 import 'package:jetwallet/features/market/widgets/add_assets_banner_widget.dart';
 import 'package:jetwallet/features/market/widgets/market_sector_item_widget.dart';
 import 'package:jetwallet/features/market/widgets/top_movers_market_section.dart';
+import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:jetwallet/utils/formatting/base/format_percent.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
@@ -44,6 +48,8 @@ class _MarketScreenState extends State<MarketScreen> {
 
   bool isScroolStarted = false;
 
+  StreamSubscription<EndReordering>? endReorderingSubscription;
+
   @override
   void initState() {
     _controller = ScrollController();
@@ -62,12 +68,19 @@ class _MarketScreenState extends State<MarketScreen> {
       },
     );
 
+    endReorderingSubscription = getIt<EventBus>().on<EndReordering>().listen((event) {
+      setState(() {
+        isReorderingMod = false;
+      });
+    });
+
     super.initState();
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    endReorderingSubscription?.cancel();
     super.dispose();
   }
 
@@ -93,7 +106,7 @@ class _MarketScreenState extends State<MarketScreen> {
             create: (_) => MarketInstrumentsListsStore(),
             dispose: (context, store) => store.dispose(),
           ),
-          Provider<WatchlistStore>(create: (_) => WatchlistStore()),
+          Provider<WatchlistStore>(create: (_) => getIt.get<WatchlistStore>()),
         ],
         builder: (context, child) {
           final listsStore = MarketInstrumentsListsStore.of(context);
@@ -116,7 +129,6 @@ class _MarketScreenState extends State<MarketScreen> {
               crossFadeState: isScroolStarted ? CrossFadeState.showFirst : CrossFadeState.showSecond,
               duration: const Duration(milliseconds: 200),
             ),
-
             child: Observer(
               builder: (context) {
                 final baseCurrency = sSignalRModules.baseCurrency;
@@ -144,8 +156,8 @@ class _MarketScreenState extends State<MarketScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 24),
                         sliver: SliverGrid.builder(
                           itemCount: sectors.length,
-                          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                            maxCrossAxisExtent: 64,
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 4,
                             mainAxisExtent: 112,
                             mainAxisSpacing: 24,
                             crossAxisSpacing: 24,
@@ -170,6 +182,7 @@ class _MarketScreenState extends State<MarketScreen> {
                       sliver: SliverToBoxAdapter(
                         child: Wrap(
                           spacing: 4,
+                          runSpacing: 8,
                           children: [
                             STagButton(
                               lable: intl.market_favorites,
@@ -177,9 +190,7 @@ class _MarketScreenState extends State<MarketScreen> {
                                   ? TagButtonState.selected
                                   : TagButtonState.defaultt,
                               onTap: () {
-                                setState(() {
-                                  isReorderingMod = false;
-                                });
+                                getIt.get<EventBus>().fire(EndReordering());
                                 listsStore.setActiveMarketTab(MarketTab.favorites);
                               },
                             ),
@@ -189,9 +200,7 @@ class _MarketScreenState extends State<MarketScreen> {
                                   ? TagButtonState.selected
                                   : TagButtonState.defaultt,
                               onTap: () {
-                                setState(() {
-                                  isReorderingMod = false;
-                                });
+                                getIt.get<EventBus>().fire(EndReordering());
                                 listsStore.setActiveMarketTab(MarketTab.all);
                               },
                             ),
@@ -201,9 +210,7 @@ class _MarketScreenState extends State<MarketScreen> {
                                   ? TagButtonState.selected
                                   : TagButtonState.defaultt,
                               onTap: () {
-                                setState(() {
-                                  isReorderingMod = false;
-                                });
+                                getIt.get<EventBus>().fire(EndReordering());
                                 listsStore.setActiveMarketTab(MarketTab.gainers);
                               },
                             ),
@@ -213,9 +220,7 @@ class _MarketScreenState extends State<MarketScreen> {
                                   ? TagButtonState.selected
                                   : TagButtonState.defaultt,
                               onTap: () {
-                                setState(() {
-                                  isReorderingMod = false;
-                                });
+                                getIt.get<EventBus>().fire(EndReordering());
                                 listsStore.setActiveMarketTab(MarketTab.lossers);
                               },
                             ),
@@ -232,9 +237,7 @@ class _MarketScreenState extends State<MarketScreen> {
                             description: intl.market_move_assets_or_delete,
                             buttonText: intl.market_done,
                             onTap: () {
-                              setState(() {
-                                isReorderingMod = false;
-                              });
+                              getIt.get<EventBus>().fire(EndReordering());
                             },
                           ),
                         ),
@@ -349,6 +352,7 @@ class _MarketScreenState extends State<MarketScreen> {
                               rightMarketValue: formatPercent(currency.dayPercentChange),
                               rightValueMarketPositive: currency.dayPercentChange >= 0,
                               onTableAssetTap: () {
+                                getIt.get<EventBus>().fire(EndReordering());
                                 sRouter.push(
                                   MarketDetailsRouter(
                                     marketItem: activeAssetsList[index],
@@ -372,7 +376,9 @@ class _MarketScreenState extends State<MarketScreen> {
                       SliverToBoxAdapter(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                          child: Row(
+                          child: Wrap(
+                            spacing: 8,
+                            runSpacing: 16,
                             children: [
                               SButtonContext(
                                 type: SButtonContextType.iconedSmall,
@@ -381,7 +387,6 @@ class _MarketScreenState extends State<MarketScreen> {
                                   showAddAssetsBottomSheet(context);
                                 },
                               ),
-                              const SizedBox(width: 8),
                               SButtonContext(
                                 type: SButtonContextType.iconedSmall,
                                 text: intl.market_edit_list,
@@ -403,14 +408,6 @@ class _MarketScreenState extends State<MarketScreen> {
                 );
               },
             ),
-
-            //  MarketNestedScrollView(
-            //   marketShowType: MarketShowType.crypto,
-            //   showBanners: true,
-            //   showSearch: true,
-            //   showFilter: true,
-            //   sourceScreen: FilterMarketTabAction.all,
-            // ),
           );
         },
       ),
@@ -441,13 +438,6 @@ class _MarketScreenState extends State<MarketScreen> {
             accuracy: marketItem.priceAccuracy,
           ),
           supplement: currency.symbol,
-          onTableAssetTap: () {
-            sRouter.push(
-              MarketDetailsRouter(
-                marketItem: marketItem,
-              ),
-            );
-          },
           customRightWidget: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

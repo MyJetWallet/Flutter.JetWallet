@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/key_value_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
@@ -15,6 +16,7 @@ import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_
 
 part 'watchlist_store.g.dart';
 
+@lazySingleton
 class WatchlistStore extends _WatchlistStoreBase with _$WatchlistStore {
   WatchlistStore() : super();
 

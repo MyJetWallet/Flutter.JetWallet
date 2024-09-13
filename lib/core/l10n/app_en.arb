@@ -1725,7 +1725,7 @@
     "jar_jar_name": "Jar name",
     "jar_next": "Next",
     "jar_input_jar_goal": "What is your goal?",
-    "jar_input_jar_goal_error": "Enter an amount from 1 to 15 000",
+    "jar_input_jar_goal_error": "Enter an amount from 1 to {limit}",
     "jar_purpose": "Amount",
     "jar_creating_jar_title": "You are creating jar {name}",
     "jar_target_amount_hint": "The target amount is {goal} {assetSymbol}",
@@ -1770,6 +1770,7 @@
     "market_add_assets": "Add assets",
     "market_edit_list": "Edit list",
     "market_tokens": "tokens",
+    "market_token": "token",
     "market_100_instruments": "+100 instruments",
     "market_done": "Done",
     "market_edit_favorites": "Edit favorites",
@@ -1780,5 +1781,9 @@
     "market_diversify_portfolio": "Diversify portfolio",
     "market_my_balance": "My balance",
     "market_total": "Total",
-    "market_wallet": "Waller"
+    "market_wallet": "Wallet",
+    "currencyWithdraw_enterTagOrMemo": "Enter Tag/Memo",
+    "tagOrMemo": "Tag/Memo",
+    "market_volume": "Volume",
+    "market_circulating_supply": "Circulating supply"
 }

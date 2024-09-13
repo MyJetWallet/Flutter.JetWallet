@@ -411,19 +411,17 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                                         top: 16,
                                         bottom: 32,
                                       ),
-                                      child: SPaddingH24(
-                                        child: Row(
-                                          children: [
-                                            SButtonContext(
-                                              type: SButtonContextType.iconedSmall,
-                                              text: intl.my_wallets_add_wallet,
-                                              onTap: () {
-                                                sAnalytics.tapOnTheButtonAddWalletOnWalletsScreen();
-                                                showAddWalletBottomSheet(context);
-                                              },
-                                            ),
-                                          ],
-                                        ),
+                                      child: Row(
+                                        children: [
+                                          SButtonContext(
+                                            type: SButtonContextType.iconedSmall,
+                                            text: intl.my_wallets_add_wallet,
+                                            onTap: () {
+                                              sAnalytics.tapOnTheButtonAddWalletOnWalletsScreen();
+                                              showAddWalletBottomSheet(context);
+                                            },
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ),

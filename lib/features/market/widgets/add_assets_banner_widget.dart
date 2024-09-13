@@ -1,7 +1,10 @@
+import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/market/helper/show_add_assets_bottom_sheet.dart';
 import 'package:jetwallet/utils/constants.dart';
+import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class AddAssetsBannerWidget extends StatelessWidget {
@@ -70,6 +73,7 @@ class _AddAssetsButton extends StatelessWidget {
 
     return SafeGesture(
       onTap: () {
+        getIt.get<EventBus>().fire(EndReordering());
         showAddAssetsBottomSheet(context);
       },
       child: Container(

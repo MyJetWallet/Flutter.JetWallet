@@ -108,11 +108,11 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                   hasSecondAsset: false,
                 ),
                 BuyP2PConfirmationInfoGrid(
-                  paymentFee: (store.depositFeeAmount ?? Decimal.zero).toFormatCount(
+                  paymentFee: (store.depositFeeAmount ?? Decimal.zero).toFormatSum(
                     accuracy: store.depositFeeCurrency.accuracy,
                     symbol: store.depositFeeCurrency.symbol,
                   ),
-                  ourFee: (store.tradeFeeAmount ?? Decimal.zero).toFormatCount(
+                  ourFee: (store.tradeFeeAmount ?? Decimal.zero).toFormatSum(
                     accuracy: store.tradeFeeCurreny.accuracy,
                     symbol: store.tradeFeeCurreny.symbol,
                   ),
