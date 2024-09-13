@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
@@ -22,7 +23,7 @@ Future<void> showAddAssetsBottomSheet(BuildContext context) async {
 
   final searchStore = ActionSearchStore()..init(customCurrencies: currenciesList);
 
-  final watchlistIdsN = WatchlistStore.of(context);
+  final watchlistIdsN = getIt.get<WatchlistStore>();
 
   sShowBasicModalBottomSheet(
     context: context,

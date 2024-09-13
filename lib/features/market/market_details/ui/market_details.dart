@@ -69,7 +69,7 @@ class MarketDetails extends StatelessWidget {
             ),
           ),
           Provider<WatchlistStore>(
-            create: (_) => WatchlistStore(),
+            create: (_) => getIt.get<WatchlistStore>(),
           ),
           Provider<MarketNewsStore>(
             create: (_) => MarketNewsStore()..loadNews(marketItem.symbol),

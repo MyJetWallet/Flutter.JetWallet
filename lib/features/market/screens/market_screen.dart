@@ -93,7 +93,7 @@ class _MarketScreenState extends State<MarketScreen> {
             create: (_) => MarketInstrumentsListsStore(),
             dispose: (context, store) => store.dispose(),
           ),
-          Provider<WatchlistStore>(create: (_) => WatchlistStore()),
+          Provider<WatchlistStore>(create: (_) => getIt.get<WatchlistStore>()),
         ],
         builder: (context, child) {
           final listsStore = MarketInstrumentsListsStore.of(context);
