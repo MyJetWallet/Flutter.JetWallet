@@ -7,13 +7,11 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:file_selector/file_selector.dart'
-    hide XFile; // hides to test if share_plus exports XFile
+import 'package:file_selector/file_selector.dart' hide XFile; // hides to test if share_plus exports XFile
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:image_picker/image_picker.dart'
-    hide XFile; // hides to test if share_plus exports XFile
+import 'package:image_picker/image_picker.dart' hide XFile; // hides to test if share_plus exports XFile
 import 'package:share_plus/share_plus.dart';
 
 import 'image_previews.dart';
@@ -109,17 +107,13 @@ class DemoAppState extends State<DemoApp> {
                 label: const Text('Add image'),
                 onPressed: () async {
                   // Using `package:image_picker` to get image from gallery.
-                  if (!kIsWeb &&
-                      (Platform.isMacOS ||
-                          Platform.isLinux ||
-                          Platform.isWindows)) {
+                  if (!kIsWeb && (Platform.isMacOS || Platform.isLinux || Platform.isWindows)) {
                     // Using `package:file_selector` on windows, macos & Linux, since `package:image_picker` is not supported.
                     const typeGroup = XTypeGroup(
                       label: 'images',
                       extensions: <String>['jpg', 'jpeg', 'png', 'gif'],
                     );
-                    final file = await openFile(
-                        acceptedTypeGroups: <XTypeGroup>[typeGroup]);
+                    final file = await openFile(acceptedTypeGroups: <XTypeGroup>[typeGroup]);
                     if (file != null) {
                       setState(() {
                         imagePaths.add(file.path);
@@ -149,9 +143,7 @@ class DemoAppState extends State<DemoApp> {
                       foregroundColor: Theme.of(context).colorScheme.onPrimary,
                       backgroundColor: Theme.of(context).colorScheme.primary,
                     ),
-                    onPressed: text.isEmpty && imagePaths.isEmpty
-                        ? null
-                        : () => _onShareWithResult(context),
+                    onPressed: text.isEmpty && imagePaths.isEmpty ? null : () => _onShareWithResult(context),
                     child: const Text('Share'),
                   );
                 },
@@ -179,9 +171,7 @@ class DemoAppState extends State<DemoApp> {
                       foregroundColor: Theme.of(context).colorScheme.onPrimary,
                       backgroundColor: Theme.of(context).colorScheme.primary,
                     ),
-                    onPressed: fileName.isEmpty || text.isEmpty
-                        ? null
-                        : () => _onShareTextAsXFile(context),
+                    onPressed: fileName.isEmpty || text.isEmpty ? null : () => _onShareTextAsXFile(context),
                     child: const Text('Share text as XFile'),
                   );
                 },
@@ -283,8 +273,7 @@ class DemoAppState extends State<DemoApp> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('Share result: ${result.status}'),
-          if (result.status == ShareResultStatus.success)
-            Text('Shared to: ${result.raw}')
+          if (result.status == ShareResultStatus.success) Text('Shared to: ${result.raw}')
         ],
       ),
     );
