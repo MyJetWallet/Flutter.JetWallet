@@ -652,4 +652,7 @@ class EventName {
   static const jarTapOnButtonJarItemOnDashboard = "Tap on the button 'Jar item' on 'Dashboard' screen";
   static const jarTapOnButtonAllJarsItemOnDashboard = "Tap on the button 'All Jars items' on 'Dashboard' screen";
   static const jarTapOnButtonActiveJarsItemsOnDashboard = "Tap on the button 'Active Jars items' on 'Dashboard' screen";
+  static const jarScreenViewCloseBalanceErrorDialogOnJar = "'Close balance error dialog' view screen";
+  static const jarTapOnButtonYesOnCloseBalanceErrorDialog = "Tap on the button 'Yes' on 'Close balance error' dialog";
+  static const jarTapOnButtonNoOnCloseBalanceErrorDialog = "Tap on the button 'No' on 'Close balance error' dialog";
 }

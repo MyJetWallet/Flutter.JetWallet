@@ -391,9 +391,14 @@ class _JarScreenState extends State<JarScreen> {
                         amount: Decimal.parse(selectedJar.balanceInJarAsset.toString()),
                       );
                       if (fee > jarBalance) {
-                        ///
-                        /// TODO Maybe add analytic
-                        ///
+                        sAnalytics.jarScreenViewCloseBalanceErrorDialogOnJar(
+                          asset: selectedJar.assetSymbol,
+                          network: 'TRC20',
+                          target: selectedJar.target.toInt(),
+                          balance: selectedJar.balanceInJarAsset,
+                          isOpen: selectedJar.status == JarStatus.active,
+                        );
+
                         sShowAlertPopup(
                           sRouter.navigatorKey.currentContext!,
                           image: Assets.svg.brand.small.infoYellow.simpleSvg(),
@@ -401,9 +406,13 @@ class _JarScreenState extends State<JarScreen> {
                           secondaryText: intl.jar_insufficient_funds_for_withdrawal_hint,
                           primaryButtonName: intl.jar_insufficient_funds_for_withdrawal_yes,
                           onPrimaryButtonTap: () {
-                            ///
-                            /// TODO Maybe add analytic
-                            ///
+                            sAnalytics.jarTapOnButtonYesOnCloseBalanceErrorDialog(
+                              asset: selectedJar.assetSymbol,
+                              network: 'TRC20',
+                              target: selectedJar.target.toInt(),
+                              balance: selectedJar.balanceInJarAsset,
+                              isOpen: selectedJar.status == JarStatus.active,
+                            );
 
                             getIt.get<JarsStore>().closeJar(selectedJar.id);
                             getIt<AppRouter>().push(
@@ -414,9 +423,13 @@ class _JarScreenState extends State<JarScreen> {
                           },
                           secondaryButtonName: intl.jar_insufficient_funds_for_withdrawal_no,
                           onSecondaryButtonTap: () {
-                            ///
-                            /// TODO Maybe add analytic
-                            ///
+                            sAnalytics.jarTapOnButtonNoOnCloseBalanceErrorDialog(
+                              asset: selectedJar.assetSymbol,
+                              network: 'TRC20',
+                              target: selectedJar.target.toInt(),
+                              balance: selectedJar.balanceInJarAsset,
+                              isOpen: selectedJar.status == JarStatus.active,
+                            );
 
                             Navigator.pop(context);
                           },
