@@ -283,8 +283,13 @@ abstract class _WithdrawalStoreBase with Store {
       return '${intl.withdrawalAddress_invalid} $bassAsset'
           ' ${intl.withdrawalAddress_address} & ${intl.tag}';
     } else if (addressValidation is Valid && tagValidation is Valid) {
-      return '${intl.valid} $bassAsset'
-          ' ${intl.withdrawalAddress_address} & ${intl.tag}';
+      if (withdrawalInputModel!.currency!.symbol == 'XRP') {
+        return '${intl.valid} $bassAsset'
+            ' ${intl.withdrawalAddress_address}';
+      } else {
+        return '${intl.valid} $bassAsset'
+            ' ${intl.withdrawalAddress_address} & ${intl.tag}';
+      }
     } else if (addressValidation is Valid) {
       return '${intl.valid} $bassAsset'
           ' ${intl.withdrawalAddress_address}';
