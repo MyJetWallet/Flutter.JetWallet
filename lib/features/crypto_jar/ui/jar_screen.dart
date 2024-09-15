@@ -188,7 +188,7 @@ class _JarScreenState extends State<JarScreen> {
                           Text(
                             getIt<AppStore>().isBalanceHide
                                 ? '**** ${sSignalRModules.baseCurrency.symbol}'
-                                : Decimal.parse(selectedJar.balance.toString()).toFormatCount(
+                                : Decimal.parse(selectedJar.balance.toString()).toFormatSum(
                                     accuracy: sSignalRModules.baseCurrency.accuracy,
                                     symbol: sSignalRModules.baseCurrency.symbol,
                                   ),
