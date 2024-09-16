@@ -39,6 +39,7 @@ class Chart extends StatefulWidget {
     required Decimal decimal,
     required int accuracy,
     required String symbol,
+    required String prefix,
   }) formatPrice;
   final List<CandleModel>? candles;
   final ChartType chartType;

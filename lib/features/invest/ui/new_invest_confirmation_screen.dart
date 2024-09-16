@@ -210,6 +210,7 @@ class _NewInvestConfirmationScreenState extends State<NewInvestConfirmationScree
                   required Decimal decimal,
                   required bool onlyFullPart,
                   required String symbol,
+                  required String prefix,
                 }) {
                   return decimal.toFormatSum(
                     accuracy: accuracy,

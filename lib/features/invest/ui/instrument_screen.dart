@@ -320,6 +320,7 @@ class _InstrumentScreenState extends State<InstrumentScreen> {
                   required Decimal decimal,
                   required bool onlyFullPart,
                   required String symbol,
+                  required String prefix,
                 }) {
                   return decimal.toFormatSum(
                     accuracy: accuracy,

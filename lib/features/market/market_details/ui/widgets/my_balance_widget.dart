@@ -139,6 +139,9 @@ class MyBalanceWidget extends StatelessWidget {
     required BuildContext context,
     required CurrencyModel currency,
   }) {
+    sRouter.popUntilRoot();
+    getIt<BottomBarStore>().setHomeTab(BottomItemType.home);
+
     navigateToWallet(context, currency);
   }
 }
