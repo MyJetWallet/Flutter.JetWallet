@@ -136,6 +136,7 @@ dependencies:
   dotted_border: ^2.1.0
   intercom_flutter: 9.0.4
   gap: ^3.0.1
+  file_picker: ^8.0.7
 
   # CRYPTOGRAPHY:
   rsa_encrypt: 2.0.0 # RSA encryption
