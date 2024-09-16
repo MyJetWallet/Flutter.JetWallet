@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/features/crypto_jar/helpers/jar_extension.dart';
 import 'package:jetwallet/features/crypto_jar/store/jars_store.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart' as sk;
@@ -69,10 +70,13 @@ class _EnterJarNameScreenState extends State<EnterJarNameScreen> {
           child: IntrinsicHeight(
             child: Column(
               children: [
-                Assets.images.jar.jarEmpty.simpleImg(
-                  height: 160.0,
-                  width: 160.0,
-                ),
+                if (widget.jar != null)
+                  widget.jar!.getIcon(height: 160.0, width: 160.0)
+                else
+                  Assets.images.jar.jarEmpty.simpleImg(
+                    height: 160.0,
+                    width: 160.0,
+                  ),
                 const SizedBox(
                   height: 12.0,
                 ),
