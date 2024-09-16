@@ -286,10 +286,10 @@ abstract class _WithdrawalStoreBase with Store {
       if (withdrawalInputModel!.currency!.symbol == 'XRP') {
         if (tag.isNotEmpty) {
           return '${intl.valid} $bassAsset'
-              ' ${intl.withdrawalAddress_address} & ${intl.tag}';
+              ' ${intl.withdrawalAddress_address} & ${intl.tagOrMemo}';
         } else {
           return '${intl.valid} $bassAsset'
-              ' ${intl.withdrawalAddress_address} 1';
+              ' ${intl.withdrawalAddress_address}';
         }
       } else {
         return '${intl.valid} $bassAsset'
@@ -298,7 +298,7 @@ abstract class _WithdrawalStoreBase with Store {
     } else if (addressValidation is Valid) {
       if (withdrawalInputModel!.currency!.symbol == 'XRP' && tag.isNotEmpty) {
         return '${intl.valid} $bassAsset'
-            ' ${intl.withdrawalAddress_address} & ${intl.tag}';
+            ' ${intl.withdrawalAddress_address} & ${intl.tagOrMemo}';
       } else {
         return '${intl.valid} $bassAsset'
             ' ${intl.withdrawalAddress_address}';
