@@ -4041,7 +4041,26 @@ class WalletApiDataSources {
     }
   }
 
-  // Post Update jar
+  // Get jar goal limit
+  Future<DC<ServerRejectException, int>> getJarGoalLimit() async {
+    try {
+      final response = await _apiClient.get(
+        '${_apiClient.options.walletApi}/jar/limit',
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+
+        return DC.data(responseData['data']['sizeLimit']);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+// Post Update jar
   Future<DC<ServerRejectException, JarResponseModel>> postUpdateJarRequest({
     required String jarId,
     int? target,
@@ -4074,7 +4093,7 @@ class WalletApiDataSources {
     }
   }
 
-  // Post Close jar
+// Post Close jar
   Future<DC<ServerRejectException, JarResponseModel>> postCloseJarRequest({
     required String jarId,
   }) async {
@@ -4099,7 +4118,7 @@ class WalletApiDataSources {
     }
   }
 
-  // Post Share jar
+// Post Share jar
   Future<DC<ServerRejectException, String>> postShareJarRequest({
     required String jarId,
     required String lang,

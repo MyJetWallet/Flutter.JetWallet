@@ -4,6 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/features/crypto_jar/store/create_jar_store.dart';
 import 'package:jetwallet/features/crypto_jar/store/jars_store.dart';
 import 'package:jetwallet/features/crypto_jar/ui/widgets/jar_list_item_widget.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
@@ -132,6 +133,14 @@ class _JarsListWidgetState extends State<JarsListWidget> {
             text: intl.jar_add_jar,
             isDisabled: isAddButtonDisabled,
             onTap: () {
+              void func() {
+                getIt.get<CreateJarStore>().getJarGoalLimit();
+
+                widget.scrollToTitle();
+
+                getIt<AppRouter>().push(EnterJarNameRouter());
+              }
+
               getIt.get<EventBus>().fire(EndReordering());
 
               getIt.get<JarsStore>().refreshJarsStore();
@@ -144,9 +153,7 @@ class _JarsListWidgetState extends State<JarsListWidget> {
                 kycState.tradeStatus,
                 kycState.withdrawalStatus,
               )) {
-                widget.scrollToTitle();
-
-                getIt<AppRouter>().push(EnterJarNameRouter());
+                func();
               } else {
                 final kycHandler = getIt.get<KycAlertHandler>();
 
@@ -162,7 +169,7 @@ class _JarsListWidgetState extends State<JarsListWidget> {
                   showWalletVerifyAccount(
                     context,
                     after: () {
-                      getIt<AppRouter>().push(EnterJarNameRouter());
+                      func();
                     },
                     isBanking: false,
                   );

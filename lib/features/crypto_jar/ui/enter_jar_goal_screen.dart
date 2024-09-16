@@ -6,6 +6,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
+import 'package:jetwallet/features/crypto_jar/store/create_jar_store.dart';
 import 'package:jetwallet/features/crypto_jar/store/jars_store.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart' as sk;
@@ -55,11 +56,14 @@ class _EnterJarGoalScreenState extends State<EnterJarGoalScreen> {
     }
 
     _goalController.addListener(() {
-      if ((int.tryParse(_goalController.text.replaceAll(' ', '')) ?? 0) > jarMaxGoal) {
+      if ((int.tryParse(_goalController.text.replaceAll(' ', '')) ?? 0) > getIt.get<CreateJarStore>().goalLimit) {
         if (!showError) {
           showError = true;
-          // TODO (Yaroslav): chech this with Stanislav
-          sNotification.showError(intl.jar_input_jar_goal_error(jarMaxGoal));
+          sNotification.showError(
+            intl.jar_input_jar_goal_error(
+              intl_l.NumberFormat('#,###', 'en_US').format(getIt.get<CreateJarStore>().goalLimit).replaceAll(',', ' '),
+            ),
+          );
         }
       } else {
         showError = false;
@@ -114,7 +118,10 @@ class _EnterJarGoalScreenState extends State<EnterJarGoalScreen> {
                       hasCloseIcon: true,
                       autofocus: true,
                       inputFormatters: [
-                        LengthLimitingTextInputFormatter(6),
+                        LengthLimitingTextInputFormatter(
+                          getIt.get<CreateJarStore>().goalLimit.toString().length +
+                              getIt.get<CreateJarStore>().goalLimit.toString().length ~/ 3,
+                        ),
                         FilteringTextInputFormatter.allow(
                           RegExp('[0-9]'),
                         ),
@@ -164,7 +171,8 @@ class _EnterJarGoalScreenState extends State<EnterJarGoalScreen> {
                           isLoading: isLoading,
                           text: widget.isCreatingNewJar ? intl.jar_next : intl.jar_confirm,
                           callback: _goalController.text.isNotEmpty &&
-                                  (int.tryParse(_goalController.text.replaceAll(' ', '')) ?? 0) <= jarMaxGoal &&
+                                  (int.tryParse(_goalController.text.replaceAll(' ', '')) ?? 0) <=
+                                      getIt.get<CreateJarStore>().goalLimit &&
                                   (int.tryParse(_goalController.text.replaceAll(' ', '')) ?? 0) >= 1 &&
                                   (int.tryParse(_goalController.text.replaceAll(' ', '')) ?? 0) != widget.jar?.target
                               ? () async {

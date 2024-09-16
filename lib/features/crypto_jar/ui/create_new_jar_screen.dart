@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:intl/intl.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
@@ -76,7 +77,10 @@ class _CreateNewJarScreenState extends State<CreateNewJarScreen> {
               height: 8.0,
             ),
             Text(
-              intl.jar_target_amount_hint('USDT', widget.goal),
+              intl.jar_target_amount_hint(
+                'USDT',
+                NumberFormat('#,###', 'en_US').format(widget.goal).replaceAll(',', ' '),
+              ),
               style: STStyles.body1Medium.copyWith(
                 color: SColorsLight().gray10,
               ),

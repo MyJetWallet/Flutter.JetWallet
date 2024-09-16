@@ -190,7 +190,7 @@ abstract class _OperationHistoryBase with Store {
       }
     } catch (e) {
       sNotification.showError(
-        '${intl.something_went_wrong} 2',
+        intl.something_went_wrong,
         id: 1,
       );
       if (isCard != null && isCard!) {

@@ -41,22 +41,17 @@ class _EarnTopUpAmountScreenState extends State<EarnTopUpAmountScreen> {
   void initState() {
     super.initState();
     store = EarnTopUpAmountStore(earnPosition: widget.earnPosition);
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
 
     if (store.isShowTopUpModal) {
-      WidgetsBinding.instance.addPostFrameCallback((_) async {
-        sAnalytics.earnDepositCryptoWalletPopupView(
-          assetName: widget.earnPosition.offers.first.assetId,
-          earnAPYrate: widget.earnPosition.offers.first.apyRate?.toStringAsFixed(2) ?? Decimal.zero.toString(),
-          earnPlanName: widget.earnPosition.offers.first.description ?? '',
-          earnWithdrawalType: widget.earnPosition.offers.first.withdrawType.name,
-        );
+      sAnalytics.earnDepositCryptoWalletPopupView(
+        assetName: widget.earnPosition.offers.first.assetId,
+        earnAPYrate: widget.earnPosition.offers.first.apyRate?.toStringAsFixed(2) ?? Decimal.zero.toString(),
+        earnPlanName: widget.earnPosition.offers.first.description ?? '',
+        earnWithdrawalType: widget.earnPosition.offers.first.withdrawType.name,
+      );
 
-        await sShowAlertPopup(
+      Future.delayed(const Duration(milliseconds: 250)).then((_) {
+        sShowAlertPopup(
           context,
           primaryText: intl.earn_deposit_crypto_wallet,
           secondaryText: intl.tost_convert_message_1,
@@ -68,9 +63,8 @@ class _EarnTopUpAmountScreenState extends State<EarnTopUpAmountScreen> {
             height: 80,
             package: 'simple_kit',
           ),
-          onWillPop: () async {
-            sRouter.popUntilRouteWithName(EarnPositionActiveRouter.name);
-          },
+          barrierDismissible: false,
+          willPopScope: false,
           onPrimaryButtonTap: () {
             sAnalytics.tapOnTheTopUpEarnWalletButton(
               assetName: widget.earnPosition.offers.first.assetId,
@@ -80,14 +74,15 @@ class _EarnTopUpAmountScreenState extends State<EarnTopUpAmountScreen> {
             );
             navigateToWallet(context, store.currency);
           },
-          onSecondaryButtonTap: () async {
+          onSecondaryButtonTap: () {
             sAnalytics.tapOnTheCancelTopUpEarnWalletButton(
               assetName: widget.earnPosition.offers.first.assetId,
               earnAPYrate: widget.earnPosition.offers.first.apyRate?.toStringAsFixed(2) ?? Decimal.zero.toString(),
               earnPlanName: widget.earnPosition.offers.first.description ?? '',
               earnWithdrawalType: widget.earnPosition.offers.first.withdrawType.name,
             );
-            sRouter.popUntilRouteWithName(EarnPositionActiveRouter.name);
+
+            context.router.popUntilRouteWithName(EarnPositionActiveRouter.name);
           },
         );
       });
@@ -113,6 +108,7 @@ class _EarnTopUpAmountScreenState extends State<EarnTopUpAmountScreen> {
 
 class _EarnWithdrawalAmountBody extends StatelessWidget {
   const _EarnWithdrawalAmountBody();
+
   @override
   Widget build(BuildContext context) {
     final store = EarnTopUpAmountStore.of(context);

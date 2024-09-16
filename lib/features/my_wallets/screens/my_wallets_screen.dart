@@ -15,6 +15,7 @@ import 'package:jetwallet/core/services/intercom/intercom_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/features/crypto_jar/store/create_jar_store.dart';
 import 'package:jetwallet/features/crypto_jar/store/jars_store.dart';
 import 'package:jetwallet/features/crypto_jar/ui/widgets/jars_list_widget.dart';
 import 'package:jetwallet/features/earn/widgets/earn_dashboard_section_widget.dart';
@@ -70,7 +71,13 @@ class _MyWalletsScreenState extends State<MyWalletsScreen> with TickerProviderSt
   void initState() {
     super.initState();
 
-    getIt.get<JarsStore>().initStore();
+    if ((sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
+      (element) => element.id == AssetPaymentProductsEnum.jar,
+    )) {
+      getIt.get<MyWalletsScrollStore>().setIsTopPosition(true);
+      getIt.get<JarsStore>().initStore();
+      getIt.get<CreateJarStore>().getJarGoalLimit();
+    }
   }
 
   @override

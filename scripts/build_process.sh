@@ -71,7 +71,7 @@ execute_command "flutter pub get" "Running flutter pub get for the root project"
 cd "$original_dir"
 
 # Run flutter pub get for each plugin
-for plugin in ../plugins/sift ../plugins/simple_analytics ../plugins/simple_chart ../plugins/simple_kit ../plugins/simple_kit_updated ../plugins/simple_networking; do
+for plugin in ../plugins/sift ../plugins/simple_analytics ../plugins/simple_chart ../plugins/simple_kit ../plugins/simple_kit_updated ../plugins/simple_networking  ../plugins/share_plus; do
   execute_command "cd $plugin && flutter pub get" "Running flutter pub get for $(basename $plugin)"
 done
 

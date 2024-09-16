@@ -24,6 +24,33 @@ abstract class _CreateJarStoreBase with Store {
   @observable
   bool loading = false;
 
+  @observable
+  int goalLimit = 0;
+
+  @action
+  void setGoalLimit(int value) => goalLimit = value;
+
+  @action
+  Future<void> getJarGoalLimit() async {
+    try {
+      final response = await sNetwork.getWalletModule().getJarGoalLimit();
+
+      if (response.hasData) {
+        final result = response.data;
+
+        if (result != null) {
+          setGoalLimit(result);
+        }
+      } else {
+        if (response.hasError) {
+          sNotification.showError(response.error!.cause);
+        }
+      }
+    } catch (e) {
+      sNotification.showError(intl.something_went_wrong_try_again);
+    }
+  }
+
   @action
   Future<JarResponseModel?> createNewJar(
     String title,

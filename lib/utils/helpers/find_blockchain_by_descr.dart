@@ -3,8 +3,9 @@ import 'package:simple_networking/modules/signal_r/models/blockchains_model.dart
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 
 String? isTXIDExist(OperationHistoryItem transactionListItem) {
-  if (transactionListItem.operationType == OperationType.withdraw ||
-      transactionListItem.operationType == OperationType.jarWithdrawal) {
+  if (transactionListItem.operationType == OperationType.jarWithdrawal) {
+    return transactionListItem.withdrawalInfo!.txId;
+  } else if (transactionListItem.operationType == OperationType.withdraw) {
     if (!transactionListItem.withdrawalInfo!.isInternal) {
       if (transactionListItem.withdrawalInfo?.txId != null && transactionListItem.withdrawalInfo!.txId!.isNotEmpty) {
         return transactionListItem.withdrawalInfo!.txId;
@@ -21,8 +22,9 @@ String? isTXIDExist(OperationHistoryItem transactionListItem) {
 }
 
 String? getNetworkFromItem(OperationHistoryItem transactionListItem) {
-  if (transactionListItem.operationType == OperationType.withdraw ||
-      transactionListItem.operationType == OperationType.jarWithdrawal) {
+  if (transactionListItem.operationType == OperationType.jarWithdrawal) {
+    return transactionListItem.withdrawalInfo?.network;
+  } else if (transactionListItem.operationType == OperationType.withdraw) {
     if (!transactionListItem.withdrawalInfo!.isInternal) {
       if (transactionListItem.withdrawalInfo?.network != null &&
           transactionListItem.withdrawalInfo!.network!.isNotEmpty) {
@@ -47,7 +49,7 @@ bool checkTransactionIsInternal(OperationHistoryItem transactionListItem) {
   } else if (transactionListItem.operationType == OperationType.jarDeposit) {
     return transactionListItem.depositInfo!.isInternal;
   } else if (transactionListItem.operationType == OperationType.jarWithdrawal) {
-    return transactionListItem.depositInfo!.isInternal;
+    return transactionListItem.withdrawalInfo!.isInternal;
   }
 
   return false;
