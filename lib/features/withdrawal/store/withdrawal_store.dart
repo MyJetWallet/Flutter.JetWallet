@@ -1005,7 +1005,7 @@ abstract class _WithdrawalStoreBase with Store {
     }
 
     var availableBalanceError = '';
-    if (availableBalance < Decimal.zero) {
+    if (availableBalance <= Decimal.zero) {
       availableBalanceError = intl.input_error_not_enough_balance_to_cover_fee;
     }
 

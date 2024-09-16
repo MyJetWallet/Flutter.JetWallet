@@ -9,7 +9,7 @@ extension JarIcon on JarResponseModel {
     } else {
       if (balance == 0) {
         return Assets.images.jar.jarEmpty.simpleImg(height: height, width: width);
-      } else if (balance == target) {
+      } else if (balance >= target) {
         return Assets.images.jar.jarFull.simpleImg(height: height, width: width);
       } else {
         return Assets.images.jar.jarProgress.simpleImg(height: height, width: width);

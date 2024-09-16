@@ -6,6 +6,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
+import 'package:jetwallet/features/crypto_jar/helpers/jar_extension.dart';
 import 'package:jetwallet/features/crypto_jar/store/create_jar_store.dart';
 import 'package:jetwallet/features/crypto_jar/store/jars_store.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -96,10 +97,13 @@ class _EnterJarGoalScreenState extends State<EnterJarGoalScreen> {
           child: IntrinsicHeight(
             child: Column(
               children: [
-                Assets.images.jar.jarEmpty.simpleImg(
-                  height: 160.0,
-                  width: 160.0,
-                ),
+                if (widget.jar != null)
+                  widget.jar!.getIcon(height: 160.0, width: 160.0)
+                else
+                  Assets.images.jar.jarEmpty.simpleImg(
+                    height: 160.0,
+                    width: 160.0,
+                  ),
                 const SizedBox(
                   height: 12,
                 ),
