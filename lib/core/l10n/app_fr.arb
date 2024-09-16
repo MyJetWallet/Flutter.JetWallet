@@ -1750,9 +1750,9 @@
     "tagOrMemo": "Tag/Memo",
     "market_volume": "Volume",
     "market_circulating_supply": "Alimentation en circulation",
-    "jar_insufficient_funds_for_withdrawal": "",
-    "jar_insufficient_funds_for_withdrawal_hint": "",
-    "jar_insufficient_funds_for_withdrawal_yes": "",
-    "jar_insufficient_funds_for_withdrawal_no": "",
+    "jar_insufficient_funds_for_withdrawal": "Insuffisance de fonds pour le retrait",
+    "jar_insufficient_funds_for_withdrawal_hint": "Il semble que le solde de votre jarre ne soit pas suffisant pour couvrir les frais de retrait. Si vous fermez le pot maintenant, le montant restant sera perdu. Êtes-vous sûr de vouloir fermer le pot ?",
+    "jar_insufficient_funds_for_withdrawal_yes": "Oui",
+    "jar_insufficient_funds_for_withdrawal_no": "Non",
     "input_error_not_enough_balance_to_cover_fee": "Solde insuffisant pour couvrir les frais. Veuillez ajouter des fonds."
 }

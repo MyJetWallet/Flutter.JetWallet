@@ -125,3 +125,7 @@ temp
 
 # FVM Version Cache
 **/.fvm/
+gi
+
+# Release notes
+release_notes.json

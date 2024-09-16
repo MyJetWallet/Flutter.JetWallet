@@ -5930,9 +5930,9 @@
     "tagOrMemo": "Tag/Memo",
     "market_volume": "Обсяг",
     "market_circulating_supply": "Циркулюючий обсяг",
-    "jar_insufficient_funds_for_withdrawal": "",
-    "jar_insufficient_funds_for_withdrawal_hint": "",
-    "jar_insufficient_funds_for_withdrawal_yes": "",
-    "jar_insufficient_funds_for_withdrawal_no": "",
+    "jar_insufficient_funds_for_withdrawal": "Недостатньо Коштів для Виведення",
+    "jar_insufficient_funds_for_withdrawal_hint": "Схоже, що залишку коштів у вашій банці недостатньо для сплати комісії за виведення. Якщо ви зараз закриєте банку, решту коштів буде втрачено. Ви впевнені, що хочете закрити банку?",
+    "jar_insufficient_funds_for_withdrawal_yes": "Так",
+    "jar_insufficient_funds_for_withdrawal_no": "Ні",
     "input_error_not_enough_balance_to_cover_fee": "Недостатньо коштів для оплати комісії. Будь ласка, поповніть рахунок."
 }

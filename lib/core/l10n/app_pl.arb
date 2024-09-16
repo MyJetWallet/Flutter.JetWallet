@@ -1838,9 +1838,9 @@
     "tagOrMemo": "Tag/Memo",
     "market_volume": "Wolumen",
     "market_circulating_supply": "Zasilanie obiegowe",
-    "jar_insufficient_funds_for_withdrawal": "",
-    "jar_insufficient_funds_for_withdrawal_hint": "",
-    "jar_insufficient_funds_for_withdrawal_yes": "",
-    "jar_insufficient_funds_for_withdrawal_no": "",
+    "jar_insufficient_funds_for_withdrawal": "Niewystarczające środki na wypłatę",
+    "jar_insufficient_funds_for_withdrawal_hint": "Wygląda na to, że saldo w słoiku nie wystarcza na pokrycie opłaty za wypłatę. Jeśli zamkniesz teraz słoik, pozostała kwota zostanie utracona. Czy na pewno chcesz zamknąć słoik?",
+    "jar_insufficient_funds_for_withdrawal_yes": "Tak",
+    "jar_insufficient_funds_for_withdrawal_no": "Nie",
     "input_error_not_enough_balance_to_cover_fee": "Niewystarczające saldo do pokrycia opłaty. Proszę dodać środki."
 }
