@@ -127,8 +127,8 @@ class MyBalanceWidget extends StatelessWidget {
                     accuracy: marketItem.assetAccuracy,
                   ),
             onTableAssetTap: () {
-              sRouter.popUntilRoot();
               getIt<BottomBarStore>().setHomeTab(BottomItemType.earn);
+              sRouter.popUntilRoot();
             },
           ),
       ],

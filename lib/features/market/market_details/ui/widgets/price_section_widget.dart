@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -66,20 +67,28 @@ class PriceSectionWidget extends StatelessWidget {
                   ),
                 ],
               ),
-              Text(
-                _price(
-                  marketItem,
-                  ChartState(
-                    selectedCandle: chart.selectedCandle,
-                    candles: chart.candles,
-                    type: chart.type,
-                    resolution: chart.resolution,
-                    union: chart.union,
+              Row(
+                children: [
+                  Flexible(
+                    child: AutoSizeText(
+                      _price(
+                        marketItem,
+                        ChartState(
+                          selectedCandle: chart.selectedCandle,
+                          candles: chart.candles,
+                          type: chart.type,
+                          resolution: chart.resolution,
+                          union: chart.union,
+                        ),
+                        baseCurrency,
+                        currency,
+                      ),
+                      style: STStyles.header2,
+                      minFontSize: 4.0,
+                      maxLines: 1,
+                    ),
                   ),
-                  baseCurrency,
-                  currency,
-                ),
-                style: STStyles.header2,
+                ],
               ),
               Text(
                 '${periodChange[0]} ${periodChange[1]}',

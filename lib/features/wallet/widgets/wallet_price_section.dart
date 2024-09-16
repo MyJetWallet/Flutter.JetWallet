@@ -61,12 +61,12 @@ class WalletPriceSection extends HookWidget {
 
           return SafeGesture(
             onTap: () async {
+              getIt<BottomBarStore>().setHomeTab(BottomItemType.market);
               await sRouter.replace(
                 MarketDetailsRouter(
                   marketItem: markerItem,
                 ),
               );
-              getIt<BottomBarStore>().setHomeTab(BottomItemType.market);
             },
             highlightColor: colors.gray2,
             onHighlightChanged: (p0) {
