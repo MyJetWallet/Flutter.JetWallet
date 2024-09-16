@@ -1781,7 +1781,9 @@
     "market_diversify_portfolio": "Diversify portfolio",
     "market_my_balance": "My balance",
     "market_total": "Total",
-    "market_wallet": "Waller",
+    "market_wallet": "Wallet",
     "currencyWithdraw_enterTagOrMemo": "Enter Tag/Memo",
-    "tagOrMemo": "Tag/Memo"
+    "tagOrMemo": "Tag/Memo",
+    "market_volume": "Volume",
+    "market_circulating_supply": "Circulating supply"
 }

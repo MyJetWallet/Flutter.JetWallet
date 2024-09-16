@@ -29,7 +29,7 @@ class MarketReferenceModel with _$MarketReferenceModel {
     required String startMarketTime,
     required bool isMainNet,
     required MarketType type,
-    String? sectorId,
+    @Default([]) List<String> sectorIds,
     @DecimalSerialiser() required Decimal marketCap,
   }) = _MarketReferenceModel;
 

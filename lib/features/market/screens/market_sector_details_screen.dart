@@ -113,7 +113,8 @@ class _MarketSectorDetailsBodyState extends State<_MarketSectorDetailsBody> with
                               child: SizedBox(width: 8),
                             ),
                             TextSpan(
-                              text: '${store.sector.countOfTokens} ${intl.market_tokens}',
+                              text:
+                                  '${store.sector.countOfTokens} ${store.sector.countOfTokens == 1 ? intl.market_token : intl.market_tokens}',
                               style: STStyles.body2Semibold.copyWith(
                                 color: colors.gray10,
                               ),
@@ -122,22 +123,27 @@ class _MarketSectorDetailsBodyState extends State<_MarketSectorDetailsBody> with
                         ),
                       ),
                       const SizedBox(height: 16),
-                      ReadMoreText(
-                        store.sector.description,
-                        isCollapsed: ValueNotifier<bool>(true),
-                        trimLines: 3,
-                        trimMode: TrimMode.Line,
-                        colorClickableText: Colors.blue,
-                        trimCollapsedText: ' ${intl.prepaid_card_more}',
-                        trimExpandedText: ' ${intl.prepaid_card_less}',
-                        style: STStyles.body1Medium.copyWith(
-                          color: colors.gray10,
-                        ),
-                        moreStyle: STStyles.body1Medium.copyWith(
-                          color: colors.blue,
-                        ),
-                        lessStyle: STStyles.body1Medium.copyWith(
-                          color: colors.blue,
+                      InkWell(
+                        onTap: () {
+                          store.setShortDescription();
+                        },
+                        child: ReadMoreText(
+                          store.sector.description,
+                          isCollapsed: ValueNotifier<bool>(store.isShortDescription),
+                          trimLines: 3,
+                          trimMode: TrimMode.Line,
+                          colorClickableText: Colors.blue,
+                          trimCollapsedText: ' ${intl.prepaid_card_more}',
+                          trimExpandedText: ' ${intl.prepaid_card_less}',
+                          style: STStyles.body1Medium.copyWith(
+                            color: colors.gray10,
+                          ),
+                          moreStyle: STStyles.body1Medium.copyWith(
+                            color: colors.blue,
+                          ),
+                          lessStyle: STStyles.body1Medium.copyWith(
+                            color: colors.blue,
+                          ),
                         ),
                       ),
                     ],
@@ -180,6 +186,7 @@ class _MarketSectorDetailsBodyState extends State<_MarketSectorDetailsBody> with
                       SegmentControl(
                         tabController: store.tabController,
                         shrinkWrap: true,
+                        isInvest: true,
                         items: [
                           SegmentControlData(
                             type: SegmentControlType.icon,

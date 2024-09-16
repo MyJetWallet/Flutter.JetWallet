@@ -63,16 +63,14 @@ class _SDropdownmenuButtonState<T> extends State<SDropdownmenuButton<T>> {
           iconSize: 16,
         ),
         buttonStyleData: ButtonStyleData(
-          width: 112,
           height: 28,
-          padding: const EdgeInsets.only(top: 5, left: 12, right: 8, bottom: 5),
+          padding: const EdgeInsets.only(top: 5, left: 0, right: 8, bottom: 5),
           decoration: BoxDecoration(
             color: isDropDownOpened ? colors.black : colors.gray2,
             borderRadius: BorderRadius.circular(16),
           ),
         ),
         dropdownStyleData: DropdownStyleData(
-          width: 134,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
             color: colors.white,

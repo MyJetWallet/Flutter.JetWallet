@@ -24,7 +24,7 @@ class ResolutionButton extends StatelessWidget {
           child: Container(
             width: 62,
             height: 27,
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 6),
+            padding: const EdgeInsets.symmetric(vertical: 6),
             decoration: showUnderline
                 ? BoxDecoration(
                     color: const Color(0x0A001B4B),

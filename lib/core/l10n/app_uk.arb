@@ -5918,7 +5918,7 @@
     "market_100_instruments": "+100 інструментів",
     "market_done": "Готово",
     "market_edit_favorites": "Редагувати обране",
-    "market_move_assets_or_delete": "Перемістити активи або видалити",
+    "market_move_assets_or_delete": "Перемістити/видалити активи",
     "market_market_cap": "Ринкова вартість",
     "market_price": " Ціна",
     "market_added_to_favorites": "Додано до обраного",
@@ -5927,5 +5927,7 @@
     "market_total": "Всього",
     "market_wallet": "Гаманець",
     "currencyWithdraw_enterTagOrMemo": "Введіть Tag/Memo",
-    "tagOrMemo": "Tag/Memo"
+    "tagOrMemo": "Tag/Memo",
+    "market_volume": "Обсяг",
+    "market_circulating_supply": "Циркулюючий обсяг"
 }

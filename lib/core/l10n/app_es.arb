@@ -1771,5 +1771,7 @@
     "market_total": "Total",
     "market_wallet": "Cartera",
     "currencyWithdraw_enterTagOrMemo": "Introducir Tag/Memo",
-    "tagOrMemo": "Tag/Memo"
+    "tagOrMemo": "Tag/Memo",
+    "market_volume": "Volumen",
+    "market_circulating_supply": "Suministro circulante"
 }

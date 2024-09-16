@@ -30,7 +30,7 @@ class MarketStatsBlock extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         TwoColumnCell(
-          label: intl.marketStatsBlock_markCap,
+          label: intl.market_market_cap,
           value: '${baseCurrency.prefix ?? ''}'
               ' ${formatNumber(marketInfo.marketCap.toDouble())}'
               '''${baseCurrency.prefix == null ? ' ${baseCurrency.symbol}' : ''}''',
@@ -44,14 +44,14 @@ class MarketStatsBlock extends StatelessWidget {
           )
         else
           TwoColumnCell(
-            label: '${intl.vol} (24${intl.h})',
+            label: '${intl.market_volume} (24${intl.h})',
             value: '${baseCurrency.prefix ?? ''}'
                 ' ${formatNumber(marketInfo.dayVolume.toDouble())}'
                 '''${baseCurrency.prefix == null ? ' ${baseCurrency.symbol}' : ''}''',
             needHorizontalPadding: false,
           ),
         TwoColumnCell(
-          label: intl.marketStatsBlock_circSupply,
+          label: intl.market_circulating_supply,
           value: '${baseCurrency.prefix ?? ''}'
           ' ${formatNumber(marketInfo.supply.toDouble())}'
           '''${baseCurrency.prefix == null ? ' ${baseCurrency.symbol}' : ''}''',
