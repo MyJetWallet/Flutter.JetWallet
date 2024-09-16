@@ -225,7 +225,7 @@ workflows:
     <<: *build_config
 
     integrations:
-      app_store_connect: $APP_STORE_CONNECT_API_KEY_NAME
+      app_store_connect: Codemagic
 
     environment:
       vars:
