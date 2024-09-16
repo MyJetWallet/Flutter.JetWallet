@@ -1842,5 +1842,6 @@
     "jar_insufficient_funds_for_withdrawal_hint": "Wygląda na to, że saldo w słoiku nie wystarcza na pokrycie opłaty za wypłatę. Jeśli zamkniesz teraz słoik, pozostała kwota zostanie utracona. Czy na pewno chcesz zamknąć słoik?",
     "jar_insufficient_funds_for_withdrawal_yes": "Tak",
     "jar_insufficient_funds_for_withdrawal_no": "Nie",
-    "input_error_not_enough_balance_to_cover_fee": "Niewystarczające saldo do pokrycia opłaty. Proszę dodać środki."
+    "input_error_not_enough_balance_to_cover_fee": "Niewystarczające saldo do pokrycia opłaty. Proszę dodać środki.",
+    "jar_close_transactions_in_processed_error": "Twoja wypłata jest obecnie przetwarzana. Spróbuj ponownie później."
 }

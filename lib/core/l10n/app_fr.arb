@@ -1754,5 +1754,6 @@
     "jar_insufficient_funds_for_withdrawal_hint": "Il semble que le solde de votre jarre ne soit pas suffisant pour couvrir les frais de retrait. Si vous fermez le pot maintenant, le montant restant sera perdu. Êtes-vous sûr de vouloir fermer le pot ?",
     "jar_insufficient_funds_for_withdrawal_yes": "Oui",
     "jar_insufficient_funds_for_withdrawal_no": "Non",
-    "input_error_not_enough_balance_to_cover_fee": "Solde insuffisant pour couvrir les frais. Veuillez ajouter des fonds."
+    "input_error_not_enough_balance_to_cover_fee": "Solde insuffisant pour couvrir les frais. Veuillez ajouter des fonds.",
+    "jar_close_transactions_in_processed_error": "Votre retrait est en cours de traitement. Veuillez réessayer plus tard."
 }

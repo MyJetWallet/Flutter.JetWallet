@@ -409,7 +409,7 @@ class _JarScreenState extends State<JarScreen> {
                         network: selectedJar.addresses.first.blockchain,
                         amount: Decimal.parse(getIt.get<JarsStore>().selectedJar!.balanceInJarAsset.toString()),
                       );
-                      if (fee > jarBalance) {
+                      if (fee >= jarBalance) {
                         sAnalytics.jarScreenViewCloseBalanceErrorDialogOnJar(
                           asset: selectedJar.assetSymbol,
                           network: 'TRC20',
