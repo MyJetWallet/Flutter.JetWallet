@@ -358,7 +358,12 @@ class DeepLinkService {
           message: 'handleOneLinkAction \n\n $deepLinkValue',
         );
 
-    final uri = Uri.parse('http://simple.app/$deepLinkValue');
+    Uri uri;
+    if (deepLinkValue.contains('http') || deepLinkValue.contains('https')) {
+      uri = Uri.parse(deepLinkValue);
+    } else {
+      uri = Uri.parse('http://simple.app/$deepLinkValue');
+    }
 
     final isValidUrl = uri.isAbsolute && uri.hasScheme && uri.host.isNotEmpty;
 
