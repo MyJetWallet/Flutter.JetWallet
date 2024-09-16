@@ -29,6 +29,7 @@ class TopMoversAssetItem extends HookWidget {
         isHighlated.value = p0;
       },
       onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
         getIt.get<EventBus>().fire(EndReordering());
         sRouter.push(
           MarketDetailsRouter(
