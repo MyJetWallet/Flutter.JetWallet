@@ -113,6 +113,7 @@ abstract class _JarsStoreBase with Store {
     if (selectedJar != null) {
       setSelectedJar(allJar.firstWhere((element) => element.id == selectedJar!.id));
     }
+    print('#@#@#@ ${selectedJar!.balanceInJarAsset}');
   }
 
   @action

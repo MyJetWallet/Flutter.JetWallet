@@ -108,7 +108,9 @@ class _SuccessScreenBodyState extends State<_SuccessScreenBody> with WidgetsBind
   void onClose() {
     if (widget.isJarFlow ?? false) {
       sRouter.popUntil((route) => route.settings.name == JarRouter.name);
-      getIt.get<JarsStore>().refreshJarsStore();
+      Future.delayed(const Duration(seconds: 2)).then((_) {
+        getIt.get<JarsStore>().refreshJarsStore();
+      });
     } else {
       navigateToRouter();
       widget.onCloseButton?.call();

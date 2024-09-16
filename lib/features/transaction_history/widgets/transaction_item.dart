@@ -467,7 +467,8 @@ class _TransactionItemState extends State<TransactionItem> with SingleTickerProv
                   ),
                 ],
                 Visibility(
-                  visible: (widget.transactionListItem.operationType == OperationType.jarWithdrawal) ||
+                  visible: (widget.transactionListItem.operationType == OperationType.jarWithdrawal &&
+                          isTXIDExist(widget.transactionListItem) != null) ||
                       (isTXIDExist(widget.transactionListItem) != null &&
                           getBlockChainURL(widget.transactionListItem).isNotEmpty &&
                           !checkTransactionIsInternal(widget.transactionListItem)),

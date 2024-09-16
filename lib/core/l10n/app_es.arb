@@ -1778,5 +1778,6 @@
     "jar_insufficient_funds_for_withdrawal_hint": "Parece que el saldo de tu jarra no es suficiente para cubrir la comisión por retirada. Si cierras el tarro ahora, perderás el importe restante. ¿Está seguro de que desea cerrar la cuenta?",
     "jar_insufficient_funds_for_withdrawal_yes": "Sí",
     "jar_insufficient_funds_for_withdrawal_no": "No",
-    "input_error_not_enough_balance_to_cover_fee": "Saldo insuficiente para cubrir la comisión. Por favor, añada fondos."
+    "input_error_not_enough_balance_to_cover_fee": "Saldo insuficiente para cubrir la comisión. Por favor, añada fondos.",
+    "jar_close_transactions_in_processed_error": "Su retirada está siendo procesada. Vuelva a intentarlo más tarde."
 }

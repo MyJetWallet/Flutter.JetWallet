@@ -123,8 +123,10 @@ definitions:
 
   publishing: &publishing
     app_store_connect:
-      apple_id: $APPLE_ID
-      password: $APPLE_APP_SPECIFIC_PASSWORD
+      auth: integration
+      submit_to_testflight: true
+#      apple_id: $APPLE_ID
+#      password: $APPLE_APP_SPECIFIC_PASSWORD
 
     google_play:
       credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
@@ -196,95 +198,13 @@ definitions:
     cancel_previous_builds: false  
 
 workflows:
-  flavor_development_target_stage:
-    name: Flavor (Development) Target (Stage)
-    <<: *build_config
 
-    environment:
-      vars:
-        MAIN_TARGET: "lib/main_stage.dart"
-        <<: *flavor_development_vars
-
-      <<: *flavor_development_groups
-      <<: *versioning
-
-    cache: *cache
-    scripts: *scripts
-    publishing: *publishing
-    artifacts: *artifacts
-
-  flavor_development_target_production:
-    name: Flavor (Development) Target (Production)
-    <<: *build_config
-
-    environment:
-      vars:
-        MAIN_TARGET: "lib/main_production.dart"
-        <<: *flavor_development_vars
-
-      <<: *flavor_development_groups
-      <<: *versioning
-
-    cache: *cache
-    scripts: *scripts
-    publishing: *publishing
-    artifacts: *artifacts
-  
-  flavor_stage_target_stage:
-    name: Flavor (Stage) Target (Stage)
-    <<: *build_config
-
-    environment:
-      vars:
-        MAIN_TARGET: "lib/main_stage.dart"
-        <<: *flavor_staging_vars
-
-      <<: *flavor_staging_groups
-      <<: *versioning
-
-    cache: *cache
-    scripts: *scripts
-    publishing: *publishing
-    artifacts: *artifacts
-
-  flavor_stage_target_production:
-    name: Flavor (Stage) Target (Production)
-    <<: *build_config
-
-    environment:
-      vars:
-        MAIN_TARGET: "lib/main_production.dart"
-        <<: *flavor_staging_vars
-
-      <<: *flavor_staging_groups
-      <<: *versioning
-
-    cache: *cache
-    scripts: *scripts
-    publishing: *publishing
-    artifacts: *artifacts
-    triggering: *stage_triggering
-
-  flavor_production_target_stage:
-    name: Flavor (Production) Target (Stage)
-    <<: *build_config
-
-    environment:
-      vars:
-        MAIN_TARGET: "lib/main_stage.dart"
-        <<: *flavor_production_vars
-
-      <<: *flavor_production_groups
-      <<: *versioning
-
-    cache: *cache
-    scripts: *scripts
-    publishing: *publishing
-    artifacts: *artifacts
-  
   flavor_production_target_production:
     name: Flavor (Production) Target (Production)
     <<: *build_config
+
+    integrations:
+      app_store_connect: Codemagic Api Key
 
     environment:
       vars:
@@ -299,3 +219,92 @@ workflows:
     publishing: *publishing
     artifacts: *artifacts
     triggering: *prod_triggering
+
+  flavor_stage_target_stage:
+    name: Flavor (Stage) Target (Stage)
+    <<: *build_config
+
+    integrations:
+      app_store_connect: Codemagic Api Key
+
+    environment:
+      vars:
+        MAIN_TARGET: "lib/main_stage.dart"
+        <<: *flavor_staging_vars
+
+      <<: *flavor_staging_groups
+      <<: *versioning
+
+    cache: *cache
+    scripts: *scripts
+    publishing: *publishing
+    artifacts: *artifacts
+
+#  flavor_development_target_stage:
+#    name: Flavor (Development) Target (Stage)
+#    <<: *build_config
+#
+#    environment:
+#      vars:
+#        MAIN_TARGET: "lib/main_stage.dart"
+#        <<: *flavor_development_vars
+#
+#      <<: *flavor_development_groups
+#      <<: *versioning
+#
+#    cache: *cache
+#    scripts: *scripts
+#    publishing: *publishing
+#    artifacts: *artifacts
+
+#  flavor_development_target_production:
+#    name: Flavor (Development) Target (Production)
+#    <<: *build_config
+#
+#    environment:
+#      vars:
+#        MAIN_TARGET: "lib/main_production.dart"
+#        <<: *flavor_development_vars
+#
+#      <<: *flavor_development_groups
+#      <<: *versioning
+#
+#    cache: *cache
+#    scripts: *scripts
+#    publishing: *publishing
+#    artifacts: *artifacts
+
+#  flavor_stage_target_production:
+#    name: Flavor (Stage) Target (Production)
+#    <<: *build_config
+#
+#    environment:
+#      vars:
+#        MAIN_TARGET: "lib/main_production.dart"
+#        <<: *flavor_staging_vars
+#
+#      <<: *flavor_staging_groups
+#      <<: *versioning
+#
+#    cache: *cache
+#    scripts: *scripts
+#    publishing: *publishing
+#    artifacts: *artifacts
+#    triggering: *stage_triggering
+
+#  flavor_production_target_stage:
+#    name: Flavor (Production) Target (Stage)
+#    <<: *build_config
+#
+#    environment:
+#      vars:
+#        MAIN_TARGET: "lib/main_stage.dart"
+#        <<: *flavor_production_vars
+#
+#      <<: *flavor_production_groups
+#      <<: *versioning
+#
+#    cache: *cache
+#    scripts: *scripts
+#    publishing: *publishing
+#    artifacts: *artifacts

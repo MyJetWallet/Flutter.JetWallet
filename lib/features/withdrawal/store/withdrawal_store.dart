@@ -284,15 +284,25 @@ abstract class _WithdrawalStoreBase with Store {
           ' ${intl.withdrawalAddress_address} & ${intl.tag}';
     } else if (addressValidation is Valid && tagValidation is Valid) {
       if (withdrawalInputModel!.currency!.symbol == 'XRP') {
-        return '${intl.valid} $bassAsset'
-            ' ${intl.withdrawalAddress_address}';
+        if (tag.isNotEmpty) {
+          return '${intl.valid} $bassAsset'
+              ' ${intl.withdrawalAddress_address} & ${intl.tag}';
+        } else {
+          return '${intl.valid} $bassAsset'
+              ' ${intl.withdrawalAddress_address} 1';
+        }
       } else {
         return '${intl.valid} $bassAsset'
             ' ${intl.withdrawalAddress_address} & ${intl.tag}';
       }
     } else if (addressValidation is Valid) {
-      return '${intl.valid} $bassAsset'
-          ' ${intl.withdrawalAddress_address}';
+      if (withdrawalInputModel!.currency!.symbol == 'XRP' && tag.isNotEmpty) {
+        return '${intl.valid} $bassAsset'
+            ' ${intl.withdrawalAddress_address} & ${intl.tag}';
+      } else {
+        return '${intl.valid} $bassAsset'
+            ' ${intl.withdrawalAddress_address}';
+      }
     } else if (tagValidation is Valid) {
       return '${intl.valid} $bassAsset ${intl.tag}';
     } else {
@@ -357,7 +367,7 @@ abstract class _WithdrawalStoreBase with Store {
 
   @computed
   Decimal? get minLimit => _sendWithdrawalMethod.symbolNetworkDetails?.firstWhere(
-        (element) => element.network == network.id && element.symbol == withdrawalInputModel?.currency?.symbol,
+        (element) => element.network == getNetworkForFee() && element.symbol == withdrawalInputModel?.currency?.symbol,
         orElse: () {
           return const SymbolNetworkDetails();
         },
@@ -366,7 +376,7 @@ abstract class _WithdrawalStoreBase with Store {
   @computed
   Decimal? get maxLimit {
     final limit = _sendWithdrawalMethod.symbolNetworkDetails?.firstWhere(
-      (element) => element.network == network.id && element.symbol == withdrawalInputModel?.currency?.symbol,
+      (element) => element.network == getNetworkForFee() && element.symbol == withdrawalInputModel?.currency?.symbol,
       orElse: () {
         return const SymbolNetworkDetails();
       },
