@@ -232,36 +232,46 @@ class SimpleTableAsset extends HookWidget {
                                       child: chartWidget!,
                                     ),
                                   ],
-                                  Text(
-                                    rightMarketValue ?? '',
-                                    style: STStyles.body2Semibold.copyWith(
-                                      color: rightValueMarketPositive ? SColorsLight().green : SColorsLight().red,
+                                  ConstrainedBox(
+                                    constraints: const BoxConstraints(
+                                      minWidth: 65,
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          rightMarketValue ?? '',
+                                          style: STStyles.body2Semibold.copyWith(
+                                            color: rightValueMarketPositive ? SColorsLight().green : SColorsLight().red,
+                                          ),
+                                        ),
+                                        const Gap(2),
+                                        rightValueMarketPositive
+                                            ? isDot
+                                                ? Assets.svg.medium.dot.simpleSvg(
+                                                    width: 16,
+                                                    height: 16,
+                                                    color: SColorsLight().green,
+                                                  )
+                                                : Assets.svg.medium.arrowUp.simpleSvg(
+                                                    width: 16,
+                                                    height: 16,
+                                                    color: SColorsLight().green,
+                                                  )
+                                            : isDot
+                                                ? Assets.svg.medium.dot.simpleSvg(
+                                                    width: 16,
+                                                    height: 16,
+                                                    color: SColorsLight().red,
+                                                  )
+                                                : Assets.svg.medium.arrowDown.simpleSvg(
+                                                    width: 16,
+                                                    height: 16,
+                                                    color: SColorsLight().red,
+                                                  ),
+                                      ],
                                     ),
                                   ),
-                                  const Gap(2),
-                                  rightValueMarketPositive
-                                      ? isDot
-                                          ? Assets.svg.medium.dot.simpleSvg(
-                                              width: 16,
-                                              height: 16,
-                                              color: SColorsLight().green,
-                                            )
-                                          : Assets.svg.medium.arrowUp.simpleSvg(
-                                              width: 16,
-                                              height: 16,
-                                              color: SColorsLight().green,
-                                            )
-                                      : isDot
-                                          ? Assets.svg.medium.dot.simpleSvg(
-                                              width: 16,
-                                              height: 16,
-                                              color: SColorsLight().red,
-                                            )
-                                          : Assets.svg.medium.arrowDown.simpleSvg(
-                                              width: 16,
-                                              height: 16,
-                                              color: SColorsLight().red,
-                                            ),
                                 ],
                               ),
                             ],

@@ -36,9 +36,12 @@ abstract class _MarketSectorStoreBase with Store {
   late TabController tabController;
 
   @observable
+  bool isShortDescription = true;
+
+  @observable
   String _searchText = '';
 
-  List<MarketItemsFilter> marketItemsFilter =  [
+  List<MarketItemsFilter> marketItemsFilter = [
     MarketItemsFilter(name: intl.market_market_cap, value: MarketItem.marketCap),
     MarketItemsFilter(name: intl.market_price, value: MarketItem.price),
   ];
@@ -47,12 +50,12 @@ abstract class _MarketSectorStoreBase with Store {
   late MarketItemsFilter selectedFilter;
 
   @observable
-  Sorting sorting = Sorting.asc;
+  Sorting sorting = Sorting.desc;
 
   @computed
   ObservableList<MarketItemModel> get marketItems {
     final marketItems = sSignalRModules.marketItems;
-    final filtredMarketItems = marketItems.where((marketItem) => marketItem.sectorId == sector.id);
+    final filtredMarketItems = marketItems.where((marketItem) => marketItem.sectorIds.contains(sector.id));
     return ObservableList.of(filtredMarketItems);
   }
 
@@ -123,10 +126,15 @@ abstract class _MarketSectorStoreBase with Store {
   @action
   void changeSorting(int index) {
     if (index == 0) {
-      sorting = Sorting.asc;
-    } else {
       sorting = Sorting.desc;
+    } else {
+      sorting = Sorting.asc;
     }
+  }
+
+  @action
+  void setShortDescription() {
+    isShortDescription = !isShortDescription;
   }
 
   @action

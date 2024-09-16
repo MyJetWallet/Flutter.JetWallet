@@ -10,10 +10,10 @@ import 'package:jetwallet/features/earn/widgets/earn_offer_item.dart';
 import 'package:jetwallet/features/earn/widgets/earn_offers_list.dart';
 import 'package:jetwallet/features/earn/widgets/offers_overlay_content.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/bottom_sheets/components/basic_bottom_sheet/show_basic_modal_bottom_sheet.dart';
-import 'package:simple_kit/modules/shared/simple_network_svg.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
@@ -107,8 +107,8 @@ class _OfferForAssetWidget extends StatelessWidget {
                 : store.highestApyOffersPerCurrency[currency.description]?.apyRate,
           ),
           cryptoName: currency.description,
-          trailingIcon: SNetworkSvg(
-            url: currency.iconUrl,
+          trailingIcon: NetworkIconWidget(
+            currency.iconUrl,
             width: 40,
             height: 40,
           ),

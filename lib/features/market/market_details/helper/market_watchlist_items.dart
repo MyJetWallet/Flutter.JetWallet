@@ -1,3 +1,4 @@
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/features/market/store/watchlist_store.dart';
@@ -5,7 +6,7 @@ import 'package:jetwallet/features/market/store/watchlist_store.dart';
 List<MarketItemModel> marketWatchlistItems() {
   final watchlistIds = sSignalRModules.keyValue.watchlist?.value ?? <String>[];
   final items = sSignalRModules.getMarketPrices;
-  final watchlistIdsN = WatchlistStore();
+  final watchlistIdsN = getIt.get<WatchlistStore>();
   final watchlistItems = items
       .where(
         (item) => watchlistIdsN.isInWatchlist(item.associateAsset),
