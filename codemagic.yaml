@@ -123,7 +123,7 @@ definitions:
 
   publishing: &publishing
     app_store_connect:
-      auth: $APP_STORE_CONNECT_API_KEY_NAME
+      auth: integration
       submit_to_testflight: true
 #      apple_id: $APPLE_ID
 #      password: $APPLE_APP_SPECIFIC_PASSWORD
