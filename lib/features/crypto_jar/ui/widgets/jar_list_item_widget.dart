@@ -140,7 +140,7 @@ class JarListItemWidget extends HookWidget {
             Text(
               getIt<AppStore>().isBalanceHide
                   ? '**** ${sSignalRModules.baseCurrency.symbol}'
-                  : Decimal.parse(jar.balance.toString()).toFormatCount(
+                  : Decimal.parse(jar.balance.toString()).toFormatSum(
                       accuracy: sSignalRModules.baseCurrency.accuracy,
                       symbol: sSignalRModules.baseCurrency.symbol,
                     ),

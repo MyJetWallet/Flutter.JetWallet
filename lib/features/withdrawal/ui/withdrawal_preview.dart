@@ -50,12 +50,10 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
         network: store.network.description,
         sendMethodType: '0',
         totalSendAmount: store.withAmount,
-        paymentFee: store.addressIsInternal
-            ? intl.noFee
-            : store.withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(
-                network: store.networkController.text,
-                amount: Decimal.parse(store.withAmount),
-              ),
+        paymentFee: store.withdrawalInputModel!.currency!.withdrawalFeeSize(
+          network: store.getNetworkForFee(),
+          amount: Decimal.parse(store.withAmount),
+        ).toString(),
       );
     }
 
@@ -77,11 +75,7 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
     final formatService = getIt.get<FormatService>();
 
     final feeSize = store.withdrawalInputModel!.currency!.withdrawalFeeSize(
-      network: store.withdrawalType == WithdrawalType.jar
-          ? store.networkController.text
-          : store.addressIsInternal
-              ? 'internal-send'
-              : store.networkController.text,
+      network: store.getNetworkForFee(),
       amount: Decimal.parse(store.withAmount),
     );
 
@@ -184,7 +178,7 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
                         network: store.network.description,
                         sendMethodType: '0',
                         totalSendAmount: store.withAmount,
-                        paymentFee: store.addressIsInternal ? intl.noFee : feeSizeWithSymbol,
+                        paymentFee: feeSize == Decimal.zero ? intl.noFee : feeSizeWithSymbol,
                       );
                     }
 
@@ -203,7 +197,7 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
                               network: store.network.description,
                               sendMethodType: '0',
                               totalSendAmount: store.withAmount,
-                              paymentFee: store.addressIsInternal ? intl.noFee : feeSizeWithSymbol,
+                              paymentFee: feeSize == Decimal.zero ? intl.noFee : feeSizeWithSymbol,
                             );
 
                             sRouter.maybePop();

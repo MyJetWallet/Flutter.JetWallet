@@ -5929,5 +5929,10 @@
     "currencyWithdraw_enterTagOrMemo": "Введіть Tag/Memo",
     "tagOrMemo": "Tag/Memo",
     "market_volume": "Обсяг",
-    "market_circulating_supply": "Циркулюючий обсяг"
+    "market_circulating_supply": "Циркулюючий обсяг",
+    "jar_insufficient_funds_for_withdrawal": "",
+    "jar_insufficient_funds_for_withdrawal_hint": "",
+    "jar_insufficient_funds_for_withdrawal_yes": "",
+    "jar_insufficient_funds_for_withdrawal_no": "",
+    "input_error_not_enough_balance_to_cover_fee": "Недостатньо коштів для оплати комісії. Будь ласка, поповніть рахунок."
 }

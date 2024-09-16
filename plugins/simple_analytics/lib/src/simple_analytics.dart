@@ -9316,4 +9316,76 @@ class SimpleAnalytics {
       },
     );
   }
+
+  void jarScreenViewCloseBalanceErrorDialogOnJar({
+    required String asset,
+    required String network,
+    required int target,
+    required double balance,
+    required bool isOpen,
+  }) {
+    _analytics.logEvent(
+      EventName.jarScreenViewCloseBalanceErrorDialogOnJar,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '665',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.jar.id,
+        PropertyType.asset: asset,
+        PropertyType.network: network,
+        PropertyType.target: target,
+        PropertyType.balance: balance.toStringAsFixed(2),
+        PropertyType.isOpen: isOpen,
+      },
+    );
+  }
+
+  void jarTapOnButtonYesOnCloseBalanceErrorDialog({
+    required String asset,
+    required String network,
+    required int target,
+    required double balance,
+    required bool isOpen,
+  }) {
+    _analytics.logEvent(
+      EventName.jarTapOnButtonYesOnCloseBalanceErrorDialog,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '666',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.jar.id,
+        PropertyType.asset: asset,
+        PropertyType.network: network,
+        PropertyType.target: target,
+        PropertyType.balance: balance.toStringAsFixed(2),
+        PropertyType.isOpen: isOpen,
+      },
+    );
+  }
+
+  void jarTapOnButtonNoOnCloseBalanceErrorDialog({
+    required String asset,
+    required String network,
+    required int target,
+    required double balance,
+    required bool isOpen,
+  }) {
+    _analytics.logEvent(
+      EventName.jarTapOnButtonNoOnCloseBalanceErrorDialog,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '667',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.jar.id,
+        PropertyType.asset: asset,
+        PropertyType.network: network,
+        PropertyType.target: target,
+        PropertyType.balance: balance.toStringAsFixed(2),
+        PropertyType.isOpen: isOpen,
+      },
+    );
+  }
 }

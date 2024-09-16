@@ -1837,5 +1837,10 @@
     "currencyWithdraw_enterTagOrMemo": "Wprowadź Tag/Memo",
     "tagOrMemo": "Tag/Memo",
     "market_volume": "Wolumen",
-    "market_circulating_supply": "Zasilanie obiegowe"
+    "market_circulating_supply": "Zasilanie obiegowe",
+    "jar_insufficient_funds_for_withdrawal": "",
+    "jar_insufficient_funds_for_withdrawal_hint": "",
+    "jar_insufficient_funds_for_withdrawal_yes": "",
+    "jar_insufficient_funds_for_withdrawal_no": "",
+    "input_error_not_enough_balance_to_cover_fee": "Niewystarczające saldo do pokrycia opłaty. Proszę dodać środki."
 }

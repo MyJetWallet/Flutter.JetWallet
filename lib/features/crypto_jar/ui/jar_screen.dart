@@ -188,7 +188,7 @@ class _JarScreenState extends State<JarScreen> {
                           Text(
                             getIt<AppStore>().isBalanceHide
                                 ? '**** ${sSignalRModules.baseCurrency.symbol}'
-                                : Decimal.parse(selectedJar.balance.toString()).toFormatCount(
+                                : Decimal.parse(selectedJar.balance.toString()).toFormatSum(
                                     accuracy: sSignalRModules.baseCurrency.accuracy,
                                     symbol: sSignalRModules.baseCurrency.symbol,
                                   ),
@@ -382,56 +382,110 @@ class _JarScreenState extends State<JarScreen> {
                     );
 
                     if (selectedJar.balance != 0) {
-                      sShowAlertPopup(
-                        sRouter.navigatorKey.currentContext!,
-                        image: Assets.svg.brand.small.infoYellow.simpleSvg(),
-                        primaryText: '',
-                        secondaryText: intl.jar_close_withdrawal_hint(
-                          getIt<AppStore>().isBalanceHide
-                              ? '**** ${sSignalRModules.baseCurrency.symbol}'
-                              : Decimal.parse(selectedJar.balanceInJarAsset.toString()).toFormatCount(
-                                  accuracy: accuracy,
-                                  symbol: selectedJar.assetSymbol,
-                                ),
-                          selectedJar.assetSymbol,
-                          (getIt.get<JarsStore>().limit ?? 5000).toInt(),
-                        ),
-                        primaryButtonName: intl.jar_confirm,
-                        onPrimaryButtonTap: () {
-                          sAnalytics.jarTapOnButtonConfirmCloseOnJarClosePopUp(
-                            asset: selectedJar.assetSymbol,
-                            network: 'TRC20',
-                            target: selectedJar.target.toInt(),
-                            balance: selectedJar.balanceInJarAsset,
-                            isOpen: selectedJar.status == JarStatus.active,
-                          );
-
-                          Navigator.pop(context);
-                          sRouter.push(
-                            WithdrawRouter(
-                              withdrawal: WithdrawalModel(
-                                currency: currencyFrom(
-                                  sSignalRModules.currenciesList,
-                                  selectedJar.assetSymbol,
-                                ),
-                                jar: selectedJar,
-                              ),
-                            ),
-                          );
-                        },
-                        secondaryButtonName: intl.jar_cancel,
-                        onSecondaryButtonTap: () {
-                          sAnalytics.jarTapOnButtonCancelCloseOnJarClosePopUp(
-                            asset: selectedJar.assetSymbol,
-                            network: 'TRC20',
-                            target: selectedJar.target.toInt(),
-                            balance: selectedJar.balanceInJarAsset,
-                            isOpen: selectedJar.status == JarStatus.active,
-                          );
-
-                          Navigator.pop(context);
-                        },
+                      final jarBalance = Decimal.parse(selectedJar.balanceInJarAsset.toString());
+                      final fee = currencyFrom(
+                        sSignalRModules.currenciesList,
+                        selectedJar.assetSymbol,
+                      ).withdrawalFeeSize(
+                        network: selectedJar.addresses.first.blockchain,
+                        amount: Decimal.parse(selectedJar.balanceInJarAsset.toString()),
                       );
+                      if (fee > jarBalance) {
+                        sAnalytics.jarScreenViewCloseBalanceErrorDialogOnJar(
+                          asset: selectedJar.assetSymbol,
+                          network: 'TRC20',
+                          target: selectedJar.target.toInt(),
+                          balance: selectedJar.balanceInJarAsset,
+                          isOpen: selectedJar.status == JarStatus.active,
+                        );
+
+                        sShowAlertPopup(
+                          sRouter.navigatorKey.currentContext!,
+                          image: Assets.svg.brand.small.infoYellow.simpleSvg(),
+                          primaryText: intl.jar_insufficient_funds_for_withdrawal,
+                          secondaryText: intl.jar_insufficient_funds_for_withdrawal_hint,
+                          primaryButtonName: intl.jar_insufficient_funds_for_withdrawal_yes,
+                          onPrimaryButtonTap: () {
+                            sAnalytics.jarTapOnButtonYesOnCloseBalanceErrorDialog(
+                              asset: selectedJar.assetSymbol,
+                              network: 'TRC20',
+                              target: selectedJar.target.toInt(),
+                              balance: selectedJar.balanceInJarAsset,
+                              isOpen: selectedJar.status == JarStatus.active,
+                            );
+
+                            getIt.get<JarsStore>().closeJar(selectedJar.id);
+                            getIt<AppRouter>().push(
+                              JarClosedConfirmationRouter(
+                                name: selectedJar.title,
+                              ),
+                            );
+                          },
+                          secondaryButtonName: intl.jar_insufficient_funds_for_withdrawal_no,
+                          onSecondaryButtonTap: () {
+                            sAnalytics.jarTapOnButtonNoOnCloseBalanceErrorDialog(
+                              asset: selectedJar.assetSymbol,
+                              network: 'TRC20',
+                              target: selectedJar.target.toInt(),
+                              balance: selectedJar.balanceInJarAsset,
+                              isOpen: selectedJar.status == JarStatus.active,
+                            );
+
+                            Navigator.pop(context);
+                          },
+                        );
+                      } else {
+                        sShowAlertPopup(
+                          sRouter.navigatorKey.currentContext!,
+                          image: Assets.svg.brand.small.infoYellow.simpleSvg(),
+                          primaryText: '',
+                          secondaryText: intl.jar_close_withdrawal_hint(
+                            getIt<AppStore>().isBalanceHide
+                                ? '**** ${sSignalRModules.baseCurrency.symbol}'
+                                : Decimal.parse(selectedJar.balanceInJarAsset.toString()).toFormatCount(
+                              accuracy: accuracy,
+                              symbol: selectedJar.assetSymbol,
+                            ),
+                            selectedJar.assetSymbol,
+                            (getIt.get<JarsStore>().limit ?? 5000).toInt(),
+                          ),
+                          primaryButtonName: intl.jar_confirm,
+                          onPrimaryButtonTap: () {
+                            sAnalytics.jarTapOnButtonConfirmCloseOnJarClosePopUp(
+                              asset: selectedJar.assetSymbol,
+                              network: 'TRC20',
+                              target: selectedJar.target.toInt(),
+                              balance: selectedJar.balanceInJarAsset,
+                              isOpen: selectedJar.status == JarStatus.active,
+                            );
+
+                            Navigator.pop(context);
+                            sRouter.push(
+                              WithdrawRouter(
+                                withdrawal: WithdrawalModel(
+                                  currency: currencyFrom(
+                                    sSignalRModules.currenciesList,
+                                    selectedJar.assetSymbol,
+                                  ),
+                                  jar: selectedJar,
+                                ),
+                              ),
+                            );
+                          },
+                          secondaryButtonName: intl.jar_cancel,
+                          onSecondaryButtonTap: () {
+                            sAnalytics.jarTapOnButtonCancelCloseOnJarClosePopUp(
+                              asset: selectedJar.assetSymbol,
+                              network: 'TRC20',
+                              target: selectedJar.target.toInt(),
+                              balance: selectedJar.balanceInJarAsset,
+                              isOpen: selectedJar.status == JarStatus.active,
+                            );
+
+                            Navigator.pop(context);
+                          },
+                        );
+                      }
                     } else {
                       sShowAlertPopup(
                         sRouter.navigatorKey.currentContext!,

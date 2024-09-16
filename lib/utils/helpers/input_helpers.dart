@@ -108,6 +108,7 @@ enum InputError {
   amountTooLarge,
   amountTooLow,
   limitError,
+  notEnoughBalanceToCoverFee,
 }
 
 extension InputErrorValue on InputError {
@@ -120,6 +121,8 @@ extension InputErrorValue on InputError {
       return '${intl.input_error_smaller_amount} $errorInfo';
     } else if (this == InputError.amountTooLow) {
       return '${intl.input_error_higher_amount}. $errorInfo';
+    } else if (this == InputError.notEnoughBalanceToCoverFee) {
+      return intl.input_error_not_enough_balance_to_cover_fee;
     } else {
       return 'None';
     }

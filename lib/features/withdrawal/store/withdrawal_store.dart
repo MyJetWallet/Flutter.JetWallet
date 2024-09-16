@@ -149,6 +149,14 @@ abstract class _WithdrawalStoreBase with Store {
   }
 
   @observable
+  bool addressIsJar = false;
+
+  @action
+  void _updateAddressIsJar(bool value) {
+    addressIsJar = value;
+  }
+
+  @observable
   double jarWithdrawalLimit = 0;
 
   @action
@@ -275,8 +283,13 @@ abstract class _WithdrawalStoreBase with Store {
       return '${intl.withdrawalAddress_invalid} $bassAsset'
           ' ${intl.withdrawalAddress_address} & ${intl.tag}';
     } else if (addressValidation is Valid && tagValidation is Valid) {
-      return '${intl.valid} $bassAsset'
-          ' ${intl.withdrawalAddress_address} & ${intl.tag}';
+      if (withdrawalInputModel!.currency!.symbol == 'XRP') {
+        return '${intl.valid} $bassAsset'
+            ' ${intl.withdrawalAddress_address}';
+      } else {
+        return '${intl.valid} $bassAsset'
+            ' ${intl.withdrawalAddress_address} & ${intl.tag}';
+      }
     } else if (addressValidation is Valid) {
       return '${intl.valid} $bassAsset'
           ' ${intl.withdrawalAddress_address}';
@@ -319,14 +332,14 @@ abstract class _WithdrawalStoreBase with Store {
       final jarBalance = Decimal.parse(withdrawalInputModel!.jar!.balanceInJarAsset.toString());
       result = jarBalance -
           currency.withdrawalFeeSize(
-            network: network.id,
+            network: getNetworkForFee(),
             amount: jarBalance,
           );
     } else {
       result = currency.assetBalance -
           currency.cardReserve -
           currency.withdrawalFeeSize(
-            network: addressIsInternal ? 'internal-send' : network.id,
+            network: getNetworkForFee(),
             amount: currency.assetBalance,
           );
     }
@@ -335,11 +348,7 @@ abstract class _WithdrawalStoreBase with Store {
 
   @computed
   Decimal get feeAmount => currency.withdrawalFeeSize(
-        network: withdrawalType == WithdrawalType.jar
-            ? network.id
-            : addressIsInternal
-                ? 'internal-send'
-                : network.id,
+        network: getNetworkForFee(),
         amount: Decimal.parse(withAmount),
       );
 
@@ -512,6 +521,7 @@ abstract class _WithdrawalStoreBase with Store {
       response.pick(
         onData: (data) {
           _updateAddressIsInternal(data.isInternal);
+          _updateAddressIsJar(data.isJar);
 
           if (data.isValid) {
             _updateValidationOfBothFields(const Valid());
@@ -575,6 +585,7 @@ abstract class _WithdrawalStoreBase with Store {
       response.pick(
         onData: (data) {
           _updateAddressIsInternal(data.isInternal);
+          _updateAddressIsJar(data.isJar);
 
           if (data.isValid) {
             updateValidation(const Valid());
@@ -923,6 +934,11 @@ abstract class _WithdrawalStoreBase with Store {
   }
 
   @action
+  void initWithdrawalAmountScreen() {
+    _validateAmount();
+  }
+
+  @action
   void _validateAmount() {
     InputError error;
     if (withdrawalType == WithdrawalType.jar) {
@@ -978,13 +994,20 @@ abstract class _WithdrawalStoreBase with Store {
       limitError = '';
     }
 
-    withAmmountInputError = double.parse(withAmount) != 0
-        ? error == InputError.none
-            ? limitError.isEmpty
-                ? InputError.none
-                : InputError.limitError
-            : error
-        : InputError.none;
+    var availableBalanceError = '';
+    if (availableBalance < Decimal.zero) {
+      availableBalanceError = intl.input_error_not_enough_balance_to_cover_fee;
+    }
+
+    withAmmountInputError = availableBalanceError.isNotEmpty
+        ? InputError.notEnoughBalanceToCoverFee
+        : double.parse(withAmount) != 0
+            ? error == InputError.none
+                ? limitError.isEmpty
+                    ? InputError.none
+                    : InputError.limitError
+                : error
+            : InputError.none;
 
     withValid = withAmmountInputError == InputError.none && isInputValid(withAmount);
   }
@@ -1030,7 +1053,7 @@ abstract class _WithdrawalStoreBase with Store {
     }
 
     final feeSize = withdrawalInputModel!.currency!.withdrawalFeeSize(
-      network: addressIsInternal ? 'internal-send' : network.id,
+      network: getNetworkForFee(),
       amount: Decimal.parse(withAmount),
     );
 
@@ -1115,7 +1138,7 @@ abstract class _WithdrawalStoreBase with Store {
 
     try {
       final feeSize = withdrawalInputModel!.currency!.withdrawalFeeSize(
-        network: network.id,
+        network: getNetworkForFee(),
         amount: Decimal.parse(withAmount),
       );
 
@@ -1405,6 +1428,18 @@ abstract class _WithdrawalStoreBase with Store {
   @action
   void dispose() {
     withdrawSubscription.cancel();
+  }
+
+  String getNetworkForFee() {
+    if (withdrawalType == WithdrawalType.jar) {
+      return network.id;
+    } else if (addressIsJar && addressIsInternal) {
+      return network.id;
+    } else if (addressIsInternal) {
+      return 'internal-send';
+    }
+
+    return network.id;
   }
 }
 
