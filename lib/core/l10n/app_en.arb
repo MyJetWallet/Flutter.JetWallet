@@ -1781,11 +1781,14 @@
     "market_diversify_portfolio": "Diversify portfolio",
     "market_my_balance": "My balance",
     "market_total": "Total",
-    "market_wallet": "Waller",
+    "market_wallet": "Wallet",
     "currencyWithdraw_enterTagOrMemo": "Enter Tag/Memo",
     "tagOrMemo": "Tag/Memo",
+    "market_volume": "Volume",
+    "market_circulating_supply": "Circulating supply",
     "jar_insufficient_funds_for_withdrawal": "Insufficient Funds for Withdrawal",
     "jar_insufficient_funds_for_withdrawal_hint": "It looks like the balance in your jar isn’t enough to cover the withdrawal fee. If you close the jar now, the remaining amount will be lost. Are you sure you want to close the jar?",
     "jar_insufficient_funds_for_withdrawal_yes": "Yes",
-    "jar_insufficient_funds_for_withdrawal_no": "No"
+    "jar_insufficient_funds_for_withdrawal_no": "No",
+    "input_error_not_enough_balance_to_cover_fee": "Not enough balance to cover fee. Please add funds."
 }

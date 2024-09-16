@@ -934,6 +934,11 @@ abstract class _WithdrawalStoreBase with Store {
   }
 
   @action
+  void initWithdrawalAmountScreen() {
+    _validateAmount();
+  }
+
+  @action
   void _validateAmount() {
     InputError error;
     if (withdrawalType == WithdrawalType.jar) {
@@ -989,13 +994,20 @@ abstract class _WithdrawalStoreBase with Store {
       limitError = '';
     }
 
-    withAmmountInputError = double.parse(withAmount) != 0
-        ? error == InputError.none
-            ? limitError.isEmpty
-                ? InputError.none
-                : InputError.limitError
-            : error
-        : InputError.none;
+    var availableBalanceError = '';
+    if (availableBalance < Decimal.zero) {
+      availableBalanceError = intl.input_error_not_enough_balance_to_cover_fee;
+    }
+
+    withAmmountInputError = availableBalanceError.isNotEmpty
+        ? InputError.notEnoughBalanceToCoverFee
+        : double.parse(withAmount) != 0
+            ? error == InputError.none
+                ? limitError.isEmpty
+                    ? InputError.none
+                    : InputError.limitError
+                : error
+            : InputError.none;
 
     withValid = withAmmountInputError == InputError.none && isInputValid(withAmount);
   }

@@ -5918,7 +5918,7 @@
     "market_100_instruments": "+100 інструментів",
     "market_done": "Готово",
     "market_edit_favorites": "Редагувати обране",
-    "market_move_assets_or_delete": "Перемістити активи або видалити",
+    "market_move_assets_or_delete": "Перемістити/видалити активи",
     "market_market_cap": "Ринкова вартість",
     "market_price": " Ціна",
     "market_added_to_favorites": "Додано до обраного",
@@ -5927,5 +5927,12 @@
     "market_total": "Всього",
     "market_wallet": "Гаманець",
     "currencyWithdraw_enterTagOrMemo": "Введіть Tag/Memo",
-    "tagOrMemo": "Tag/Memo"
+    "tagOrMemo": "Tag/Memo",
+    "market_volume": "Обсяг",
+    "market_circulating_supply": "Циркулюючий обсяг",
+    "jar_insufficient_funds_for_withdrawal": "",
+    "jar_insufficient_funds_for_withdrawal_hint": "",
+    "jar_insufficient_funds_for_withdrawal_yes": "",
+    "jar_insufficient_funds_for_withdrawal_no": "",
+    "input_error_not_enough_balance_to_cover_fee": "Недостатньо коштів для оплати комісії. Будь ласка, поповніть рахунок."
 }

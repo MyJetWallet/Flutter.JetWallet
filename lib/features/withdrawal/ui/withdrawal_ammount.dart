@@ -39,6 +39,8 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
       );
     }
 
+    store.initWithdrawalAmountScreen();
+
     super.initState();
   }
 
@@ -115,23 +117,24 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
                     },
                   ),
                 ),
-                Baseline(
-                  baseline: deviceSize.when(
-                    small: () => -36,
-                    medium: () => 20,
-                  ),
-                  baselineType: TextBaseline.alphabetic,
-                  child: Text(
-                    '${intl.withdrawalAmount_available}: '
-                    '${getIt<AppStore>().isBalanceHide ? '**** ${store.withdrawalInputModel!.currency!.symbol}' : store.availableBalance.toFormatCount(
-                        accuracy: store.withdrawalInputModel!.currency!.accuracy,
-                        symbol: store.withdrawalInputModel!.currency!.symbol,
-                      )}',
-                    style: sSubtitle3Style.copyWith(
-                      color: colors.grey2,
+                if (store.withAmmountInputError != InputError.notEnoughBalanceToCoverFee)
+                  Baseline(
+                    baseline: deviceSize.when(
+                      small: () => -36,
+                      medium: () => 20,
+                    ),
+                    baselineType: TextBaseline.alphabetic,
+                    child: Text(
+                      '${intl.withdrawalAmount_available}: '
+                      '${getIt<AppStore>().isBalanceHide ? '**** ${store.withdrawalInputModel!.currency!.symbol}' : (store.availableBalance < Decimal.zero ? Decimal.zero : store.availableBalance).toFormatCount(
+                          accuracy: store.withdrawalInputModel!.currency!.accuracy,
+                          symbol: store.withdrawalInputModel!.currency!.symbol,
+                        )}',
+                      style: sSubtitle3Style.copyWith(
+                        color: colors.grey2,
+                      ),
                     ),
                   ),
-                ),
                 Baseline(
                   baseline: deviceSize.when(
                     small: () => -6,

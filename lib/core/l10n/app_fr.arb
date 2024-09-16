@@ -1738,7 +1738,7 @@
     "market_100_instruments": "+100 instruments",
     "market_done": "Terminé",
     "market_edit_favorites": "Modifier les favoris",
-    "market_move_assets_or_delete": "Déplacer ou supprimer des actifs",
+    "market_move_assets_or_delete": "Déplacer/supprimer des actifs",
     "market_market_cap": "Capitalisation boursière",
     "market_price": "Prix",
     "market_added_to_favorites": "Ajouté aux favoris",
@@ -1747,5 +1747,12 @@
     "market_total": "Total",
     "market_wallet": "Portefeuille",
     "currencyWithdraw_enterTagOrMemo": "Entrer le Tag/Memo",
-    "tagOrMemo": "Tag/Memo"
+    "tagOrMemo": "Tag/Memo",
+    "market_volume": "Volume",
+    "market_circulating_supply": "Alimentation en circulation",
+    "jar_insufficient_funds_for_withdrawal": "",
+    "jar_insufficient_funds_for_withdrawal_hint": "",
+    "jar_insufficient_funds_for_withdrawal_yes": "",
+    "jar_insufficient_funds_for_withdrawal_no": "",
+    "input_error_not_enough_balance_to_cover_fee": "Solde insuffisant pour couvrir les frais. Veuillez ajouter des fonds."
 }

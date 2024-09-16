@@ -1771,5 +1771,12 @@
     "market_total": "Total",
     "market_wallet": "Cartera",
     "currencyWithdraw_enterTagOrMemo": "Introducir Tag/Memo",
-    "tagOrMemo": "Tag/Memo"
+    "tagOrMemo": "Tag/Memo",
+    "market_volume": "Volumen",
+    "market_circulating_supply": "Suministro circulante",
+    "jar_insufficient_funds_for_withdrawal": "",
+    "jar_insufficient_funds_for_withdrawal_hint": "",
+    "jar_insufficient_funds_for_withdrawal_yes": "",
+    "jar_insufficient_funds_for_withdrawal_no": "",
+    "input_error_not_enough_balance_to_cover_fee": "Saldo insuficiente para cubrir la comisión. Por favor, añada fondos."
 }
