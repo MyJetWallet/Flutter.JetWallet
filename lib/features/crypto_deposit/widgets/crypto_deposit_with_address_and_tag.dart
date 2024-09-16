@@ -169,7 +169,7 @@ class _CryptoDepositWithAddressAndTagState extends State<CryptoDepositWithAddres
                         ),
                         const SizedBox(width: 32),
                         Text(
-                          intl.tag,
+                          widget.currency.symbol == 'XRP' ? intl.tagOrMemo : intl.tag,
                           style: sSubtitle3Style.copyWith(
                             color: colors.grey3,
                             height: 1,
@@ -217,7 +217,7 @@ class _CryptoDepositWithAddressAndTagState extends State<CryptoDepositWithAddres
                         vertical: 8,
                       ),
                       child: Text(
-                        intl.tag,
+                        widget.currency.symbol == 'XRP' ? intl.tagOrMemo : intl.tag,
                         style: sSubtitle3Style.copyWith(
                           color: colors.white,
                           height: 1,
@@ -231,7 +231,7 @@ class _CryptoDepositWithAddressAndTagState extends State<CryptoDepositWithAddres
           const Spacer(),
           if (currentPage == 1)
             SAddressFieldWithCopy(
-              header: intl.tag,
+              header: widget.currency.symbol == 'XRP' ? intl.tagOrMemo : intl.tag,
               value: deposit.tag!,
               realValue: deposit.tag,
               afterCopyText: intl.cryptoDepositWithAddress_tagCopied,
