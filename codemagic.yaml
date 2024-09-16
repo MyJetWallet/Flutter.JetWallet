@@ -60,6 +60,9 @@ definitions:
       - $HOME/.gradle/caches
       - $HOME/Library/Caches/CocoaPods
 
+  integrations:
+    app_store_connect: Codemagic
+
   scripts: &scripts
     - name: Set up keychain
       script: keychain initialize
@@ -123,8 +126,10 @@ definitions:
 
   publishing: &publishing
     app_store_connect:
-      apple_id: $APPLE_ID
-      password: $APPLE_APP_SPECIFIC_PASSWORD
+      auth: integration
+      submit_to_testflight: true
+#      apple_id: $APPLE_ID
+#      password: $APPLE_APP_SPECIFIC_PASSWORD
 
     google_play:
       credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
