@@ -189,6 +189,7 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
                     required Decimal decimal,
                     required bool onlyFullPart,
                     required String symbol,
+                    required String prefix,
                   }) {
                     return decimal.toFormatSum(
                       accuracy: accuracy,

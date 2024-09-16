@@ -58,9 +58,11 @@ class SBasicHeader extends StatelessWidget {
                   ],
                 ),
               ] else
-                Text(
-                  title,
-                  style: sTextH4Style,
+                Flexible(
+                  child: Text(
+                    title,
+                    style: sTextH4Style,
+                  ),
                 ),
               if (onTap != null && buttonTitle != null) ...[
                 const SizedBox(width: 8),

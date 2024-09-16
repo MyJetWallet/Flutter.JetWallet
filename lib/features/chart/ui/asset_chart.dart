@@ -50,10 +50,11 @@ class _AssetChartState extends State<AssetChart> with SingleTickerProviderStateM
             required Decimal decimal,
             required bool onlyFullPart,
             required String symbol,
+            required String prefix,
           }) {
-            return decimal.toFormatSum(
+            return decimal.toFormatPrice(
               accuracy: accuracy,
-              symbol: symbol,
+              prefix: prefix,
             );
           },
           candles: chartStore.candles[chartStore.resolution],
