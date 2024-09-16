@@ -23,7 +23,7 @@ abstract class _BottomBarStoreBase with Store {
 
     if (value == BottomItemType.home) {
       if ((sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
-            (element) => element.id == AssetPaymentProductsEnum.jar,
+        (element) => element.id == AssetPaymentProductsEnum.jar,
       )) {
         getIt.get<JarsStore>().refreshJarsStore();
       }

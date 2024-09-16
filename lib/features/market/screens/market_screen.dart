@@ -352,6 +352,7 @@ class _MarketScreenState extends State<MarketScreen> {
                               rightMarketValue: formatPercent(currency.dayPercentChange),
                               rightValueMarketPositive: currency.dayPercentChange >= 0,
                               onTableAssetTap: () {
+                                FocusManager.instance.primaryFocus?.unfocus();
                                 getIt.get<EventBus>().fire(EndReordering());
                                 sRouter.push(
                                   MarketDetailsRouter(

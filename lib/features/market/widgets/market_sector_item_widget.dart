@@ -18,6 +18,7 @@ class MarketSectorItemWidget extends StatelessWidget {
     final colors = SColorsLight();
     return SafeGesture(
       onTap: () async {
+        FocusManager.instance.primaryFocus?.unfocus();
         getIt.get<EventBus>().fire(EndReordering());
         await sRouter.push(
           MarketSectorDetailsRouter(
