@@ -141,3 +141,31 @@ This script runs `flutter pub get` and `build_runner` for the root project only,
    3. Run the script: `./simple_build_process.sh`
 
   **Note:** For Windows users, use Git Bash or a similar Bash emulator to run the script.
+
+### `generate_release_notes.sh`
+
+This script automatically generates release notes in JSON format for the project, including the current Git branch name and the last 5 commit messages.
+
+- **Tasks Performed:**
+    1. Retrieves the current Git branch name.
+    2. Retrieves the last 5 Git commit messages.
+    3. Creates a `release_notes.json` file in the root directory with the branch name and commit messages.
+
+- **Usage:**
+    1. Navigate to the `scripts` directory in your terminal.
+    2. Ensure the script is executable (on macOS/Linux): `chmod +x generate_release_notes.sh`
+    3. Run the script: `./generate_release_notes.sh`
+
+- **Platform-specific Instructions:**
+    - **macOS/Linux:**
+        1. Open Terminal and navigate to the `scripts` directory.
+        2. Make the script executable: `chmod +x generate_release_notes.sh`
+        3. Run the script: `./generate_release_notes.sh`
+
+    - **Windows:**
+        1. Open Command Prompt, PowerShell, or Git Bash and navigate to the `scripts` directory.
+        2. Use Git Bash or another Bash emulator to run the script.
+        3. Run the script: `./generate_release_notes.sh` (or `bash generate_release_notes.sh` in Command Prompt/PowerShell).
+
+- **Note:**
+    - Ensure Git is installed and configured in your environment.

@@ -1,5 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:simple_networking/helpers/decimal_serialiser.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 
 part 'market_item_model.freezed.dart';
@@ -24,6 +25,8 @@ class MarketItemModel with _$MarketItemModel {
     required Decimal baseBalance,
     required int assetAccuracy,
     required int priceAccuracy,
+    @Default([]) List<String> sectorIds,
+    @DecimalSerialiser() required Decimal marketCap,
   }) = _MarketItemModel;
 
   factory MarketItemModel.empty() => MarketItemModel(
@@ -42,6 +45,7 @@ class MarketItemModel with _$MarketItemModel {
         lastPrice: Decimal.zero,
         assetAccuracy: 0,
         priceAccuracy: 0,
+        marketCap: Decimal.zero,
       );
 
   factory MarketItemModel.fromJson(Map<String, dynamic> json) => _$MarketItemModelFromJson(json);

@@ -8820,4 +8820,572 @@ class SimpleAnalytics {
       },
     );
   }
+
+  void jarTapOnButtonAddCryptoJarOnDashboard() {
+    _analytics.logEvent(
+      EventName.jarTapOnButtonAddCryptoJarOnDashboard,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '636',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.jar.id,
+      },
+    );
+  }
+
+  void jarScreenViewJarName() {
+    _analytics.logEvent(
+      EventName.jarScreenViewJarName,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '637',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.jar.id,
+      },
+    );
+  }
+
+  void jarTapOnButtonNextOnJarName() {
+    _analytics.logEvent(
+      EventName.jarTapOnButtonNextOnJarName,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '638',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.jar.id,
+      },
+    );
+  }
+
+  void jarScreenViewJarGoal() {
+    _analytics.logEvent(
+      EventName.jarScreenViewJarGoal,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '639',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.jar.id,
+      },
+    );
+  }
+
+  void jarTapOnButtonNextOnJarGoal({
+    required String asset,
+    required String network,
+    required int target,
+  }) {
+    _analytics.logEvent(
+      EventName.jarTapOnButtonNextOnJarGoal,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '640',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.jar.id,
+        PropertyType.asset: asset,
+        PropertyType.network: network,
+        PropertyType.target: target,
+      },
+    );
+  }
+
+  void jarScreenViewCreatingJar() {
+    _analytics.logEvent(
+      EventName.jarScreenViewCreatingJar,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '641',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.jar.id,
+      },
+    );
+  }
+
+  void jarTapOnButtonCreateOnCreatingJar({
+    required String asset,
+    required String network,
+    required int target,
+  }) {
+    _analytics.logEvent(
+      EventName.jarTapOnButtonCreateOnCreatingJar,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '642',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.jar.id,
+        PropertyType.asset: asset,
+        PropertyType.network: network,
+        PropertyType.target: target,
+      },
+    );
+  }
+
+  void jarScreenViewJar({
+    required String jarName,
+    required String asset,
+    required String network,
+    required int target,
+    required double balance,
+    required bool isOpen,
+  }) {
+    _analytics.logEvent(
+      EventName.jarScreenViewJar,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '643',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.jar.id,
+        PropertyType.jarName: jarName,
+        PropertyType.asset: asset,
+        PropertyType.network: network,
+        PropertyType.target: target,
+        PropertyType.balance: balance.toStringAsFixed(2),
+        PropertyType.isOpen: isOpen,
+      },
+    );
+  }
+
+  void jarTapOnButtonMoreOnJar() {
+    _analytics.logEvent(
+      EventName.jarTapOnButtonMoreOnJar,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '644',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.jar.id,
+      },
+    );
+  }
+
+  void jarTapOnButtonChangeJarNameOnJarAction() {
+    _analytics.logEvent(
+      EventName.jarTapOnButtonChangeJarNameOnJarAction,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '645',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.jar.id,
+      },
+    );
+  }
+
+  void jarTapOnButtonChangeGoalOnJarAction() {
+    _analytics.logEvent(
+      EventName.jarTapOnButtonChangeGoalOnJarAction,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '646',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.jar.id,
+      },
+    );
+  }
+
+  void jarTapOnButtonChangeDescriptionOnJarAction() {
+    _analytics.logEvent(
+      EventName.jarTapOnButtonChangeDescriptionOnJarAction,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '647',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.jar.id,
+      },
+    );
+  }
+
+  void jarScreenViewJarDescription() {
+    _analytics.logEvent(
+      EventName.jarScreenViewJarDescription,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '648',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.jar.id,
+      },
+    );
+  }
+
+  void jarTapOnButtonNextOnJarDescription() {
+    _analytics.logEvent(
+      EventName.jarTapOnButtonNextOnJarDescription,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '649',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.jar.id,
+      },
+    );
+  }
+
+  void jarTapOnButtonShareOnJar() {
+    _analytics.logEvent(
+      EventName.jarTapOnButtonShareOnJar,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '650',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.jar.id,
+      },
+    );
+  }
+
+  void jarScreenViewShareJar() {
+    _analytics.logEvent(
+      EventName.jarScreenViewShareJar,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '651',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.jar.id,
+      },
+    );
+  }
+
+  void jarTapOnButtonShareJarOnShareJar({required String language}) {
+    _analytics.logEvent(
+      EventName.jarTapOnButtonShareJarOnShareJar,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '652',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.jar.id,
+        PropertyType.language: language,
+      },
+    );
+  }
+
+  void jarTapOnButtonWithdrawOnJar({
+    required String asset,
+    required String network,
+    required int target,
+    required double balance,
+    required bool isOpen,
+  }) {
+    _analytics.logEvent(
+      EventName.jarTapOnButtonWithdrawOnJar,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '653',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.jar.id,
+        PropertyType.asset: asset,
+        PropertyType.network: network,
+        PropertyType.target: target,
+        PropertyType.balance: balance.toStringAsFixed(2),
+        PropertyType.isOpen: isOpen,
+      },
+    );
+  }
+
+  void jarScreenViewWithdrawJar({
+    required String asset,
+    required String network,
+    required int target,
+    required double balance,
+    required bool isOpen,
+  }) {
+    _analytics.logEvent(
+      EventName.jarScreenViewWithdrawJar,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '654',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.jar.id,
+        PropertyType.asset: asset,
+        PropertyType.network: network,
+        PropertyType.target: target,
+        PropertyType.balance: balance.toStringAsFixed(2),
+        PropertyType.isOpen: isOpen,
+      },
+    );
+  }
+
+  void jarTapOnButtonContinueJarWithdrawOnWithdraw({
+    required String asset,
+    required String network,
+    required int target,
+    required double balance,
+    required bool isOpen,
+  }) {
+    _analytics.logEvent(
+      EventName.jarTapOnButtonContinueJarWithdrawOnWithdraw,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '655',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.jar.id,
+        PropertyType.asset: asset,
+        PropertyType.network: network,
+        PropertyType.target: target,
+        PropertyType.balance: balance.toStringAsFixed(2),
+        PropertyType.isOpen: isOpen,
+      },
+    );
+  }
+
+  void jarScreenViewOrderSummaryWithdrawJar({
+    required String asset,
+    required String network,
+    required int target,
+    required double balance,
+    required bool isOpen,
+  }) {
+    _analytics.logEvent(
+      EventName.jarScreenViewOrderSummaryWithdrawJar,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '656',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.jar.id,
+        PropertyType.asset: asset,
+        PropertyType.network: network,
+        PropertyType.target: target,
+        PropertyType.balance: balance.toStringAsFixed(2),
+        PropertyType.isOpen: isOpen,
+      },
+    );
+  }
+
+  void jarTapOnButtonConfirmJarWithdrawOnOrderSummary({
+    required String asset,
+    required String network,
+    required int target,
+    required double balance,
+    required bool isOpen,
+  }) {
+    _analytics.logEvent(
+      EventName.jarTapOnButtonConfirmJarWithdrawOnOrderSummary,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '657',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.jar.id,
+        PropertyType.asset: asset,
+        PropertyType.network: network,
+        PropertyType.target: target,
+        PropertyType.balance: balance.toStringAsFixed(2),
+        PropertyType.isOpen: isOpen,
+      },
+    );
+  }
+
+  void jarTapOnButtonCloseOnJar({
+    required String asset,
+    required String network,
+    required int target,
+    required double balance,
+    required bool isOpen,
+  }) {
+    _analytics.logEvent(
+      EventName.jarTapOnButtonCloseOnJar,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '658',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.jar.id,
+        PropertyType.asset: asset,
+        PropertyType.network: network,
+        PropertyType.target: target,
+        PropertyType.balance: balance.toStringAsFixed(2),
+        PropertyType.isOpen: isOpen,
+      },
+    );
+  }
+
+  void jarTapOnButtonConfirmCloseOnJarClosePopUp({
+    required String asset,
+    required String network,
+    required int target,
+    required double balance,
+    required bool isOpen,
+  }) {
+    _analytics.logEvent(
+      EventName.jarTapOnButtonConfirmCloseOnJarClosePopUp,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '659',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.jar.id,
+        PropertyType.asset: asset,
+        PropertyType.network: network,
+        PropertyType.target: target,
+        PropertyType.balance: balance.toStringAsFixed(2),
+        PropertyType.isOpen: isOpen,
+      },
+    );
+  }
+
+  void jarTapOnButtonCancelCloseOnJarClosePopUp({
+    required String asset,
+    required String network,
+    required int target,
+    required double balance,
+    required bool isOpen,
+  }) {
+    _analytics.logEvent(
+      EventName.jarTapOnButtonCancelCloseOnJarClosePopUp,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '660',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.jar.id,
+        PropertyType.asset: asset,
+        PropertyType.network: network,
+        PropertyType.target: target,
+        PropertyType.balance: balance.toStringAsFixed(2),
+        PropertyType.isOpen: isOpen,
+      },
+    );
+  }
+
+  void jarTapOnButtonViewAllTrxOnJarScreen() {
+    _analytics.logEvent(
+      EventName.jarTapOnButtonViewAllTrxOnJarScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '661',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.jar.id,
+      },
+    );
+  }
+
+  void jarTapOnButtonJarItemOnDashboard({
+    required String jarName,
+  }) {
+    _analytics.logEvent(
+      EventName.jarTapOnButtonJarItemOnDashboard,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '662',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.jar.id,
+        PropertyType.jarName: jarName,
+      },
+    );
+  }
+
+  void jarTapOnButtonAllJarsItemOnDashboard() {
+    _analytics.logEvent(
+      EventName.jarTapOnButtonAllJarsItemOnDashboard,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '663',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.jar.id,
+      },
+    );
+  }
+
+  void jarTapOnButtonActiveJarsItemsOnDashboard() {
+    _analytics.logEvent(
+      EventName.jarTapOnButtonActiveJarsItemsOnDashboard,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '664',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.jar.id,
+      },
+    );
+  }
+
+  void jarScreenViewCloseBalanceErrorDialogOnJar({
+    required String asset,
+    required String network,
+    required int target,
+    required double balance,
+    required bool isOpen,
+  }) {
+    _analytics.logEvent(
+      EventName.jarScreenViewCloseBalanceErrorDialogOnJar,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '665',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.jar.id,
+        PropertyType.asset: asset,
+        PropertyType.network: network,
+        PropertyType.target: target,
+        PropertyType.balance: balance.toStringAsFixed(2),
+        PropertyType.isOpen: isOpen,
+      },
+    );
+  }
+
+  void jarTapOnButtonYesOnCloseBalanceErrorDialog({
+    required String asset,
+    required String network,
+    required int target,
+    required double balance,
+    required bool isOpen,
+  }) {
+    _analytics.logEvent(
+      EventName.jarTapOnButtonYesOnCloseBalanceErrorDialog,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '666',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.jar.id,
+        PropertyType.asset: asset,
+        PropertyType.network: network,
+        PropertyType.target: target,
+        PropertyType.balance: balance.toStringAsFixed(2),
+        PropertyType.isOpen: isOpen,
+      },
+    );
+  }
+
+  void jarTapOnButtonNoOnCloseBalanceErrorDialog({
+    required String asset,
+    required String network,
+    required int target,
+    required double balance,
+    required bool isOpen,
+  }) {
+    _analytics.logEvent(
+      EventName.jarTapOnButtonNoOnCloseBalanceErrorDialog,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '667',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.jar.id,
+        PropertyType.asset: asset,
+        PropertyType.network: network,
+        PropertyType.target: target,
+        PropertyType.balance: balance.toStringAsFixed(2),
+        PropertyType.isOpen: isOpen,
+      },
+    );
+  }
 }

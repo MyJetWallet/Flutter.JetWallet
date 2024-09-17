@@ -302,7 +302,9 @@ class SignalRModuleNew {
     if (_reconnectTimer == null || !_reconnectTimer!.isActive) {
       _reconnectTimer = Timer(
         const Duration(seconds: _reconnectTime),
-        () => openConnection(),
+        () {
+          openConnection();
+        },
       );
     }
   }
@@ -355,6 +357,7 @@ class SignalRModuleNew {
     disableHandlerConnection();
 
     _hubConnection?.stop();
+
     _hubConnection = null;
 
     _pingTimer?.cancel();
@@ -491,6 +494,11 @@ class SignalRModuleNew {
       bannerList,
       method: handler.bannerListMessageHandler,
     );
+
+    _hubConnection?.off(
+      marketSectors,
+      method: handler.marketSectorsMessageHandler,
+    );
   }
 
   Future<void> setupMessageHandler() async {
@@ -593,5 +601,7 @@ class SignalRModuleNew {
 
     // Simple Coin
     _hubConnection?.on(smplWalletProfile, handler.smplWalletProfileMessageHandler);
+
+    _hubConnection?.on(marketSectors, handler.marketSectorsMessageHandler);
   }
 }

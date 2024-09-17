@@ -21,3 +21,20 @@ class WithdrawRequestModel with _$WithdrawRequestModel {
 
   factory WithdrawRequestModel.fromJson(Map<String, dynamic> json) => _$WithdrawRequestModelFromJson(json);
 }
+
+@freezed
+class WithdrawJarRequestModel with _$WithdrawJarRequestModel {
+  const factory WithdrawJarRequestModel({
+    required String requestId,
+    required String assetSymbol,
+    @DecimalSerialiser() required Decimal amount,
+    required String toAddress,
+    String? toTag,
+    required String blockchain,
+    required String pin,
+    String? lang,
+    required String jarId,
+  }) = _WithdrawJarRequestModel;
+
+  factory WithdrawJarRequestModel.fromJson(Map<String, dynamic> json) => _$WithdrawJarRequestModelFromJson(json);
+}

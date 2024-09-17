@@ -31,11 +31,15 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
   void initState() {
     final store = WithdrawalStore.of(context);
 
-    sAnalytics.cryptoSendAssetNameAmountScreenView(
-      asset: store.withdrawalInputModel!.currency!.symbol,
-      network: store.network.description,
-      sendMethodType: '0',
-    );
+    if (store.withdrawalType != WithdrawalType.jar) {
+      sAnalytics.cryptoSendAssetNameAmountScreenView(
+        asset: store.withdrawalInputModel!.currency!.symbol,
+        network: store.network.description,
+        sendMethodType: '0',
+      );
+    }
+
+    store.initWithdrawalAmountScreen();
 
     super.initState();
   }
@@ -97,6 +101,10 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
                     )}',
                     error: error,
                     isErrorActive: store.withAmmountInputError.isActive,
+                    errorMaxLines: deviceSize.when(
+                      small: () => 1,
+                      medium: () => 2,
+                    ),
                     pasteLabel: intl.paste,
                     onPaste: () async {
                       final data = await Clipboard.getData('text/plain');
@@ -109,23 +117,24 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
                     },
                   ),
                 ),
-                Baseline(
-                  baseline: deviceSize.when(
-                    small: () => -36,
-                    medium: () => 20,
-                  ),
-                  baselineType: TextBaseline.alphabetic,
-                  child: Text(
-                    '${intl.withdrawalAmount_available}: '
-                    '${getIt<AppStore>().isBalanceHide ? '**** ${store.withdrawalInputModel!.currency!.symbol}' : store.availableBalance.toFormatCount(
-                        accuracy: store.withdrawalInputModel!.currency!.accuracy,
-                        symbol: store.withdrawalInputModel!.currency!.symbol,
-                      )}',
-                    style: sSubtitle3Style.copyWith(
-                      color: colors.grey2,
+                if (store.withAmmountInputError != InputError.notEnoughBalanceToCoverFee)
+                  Baseline(
+                    baseline: deviceSize.when(
+                      small: () => -36,
+                      medium: () => 20,
+                    ),
+                    baselineType: TextBaseline.alphabetic,
+                    child: Text(
+                      '${intl.withdrawalAmount_available}: '
+                      '${getIt<AppStore>().isBalanceHide ? '**** ${store.withdrawalInputModel!.currency!.symbol}' : (store.availableBalance < Decimal.zero ? Decimal.zero : store.availableBalance).toFormatCount(
+                          accuracy: store.withdrawalInputModel!.currency!.accuracy,
+                          symbol: store.withdrawalInputModel!.currency!.symbol,
+                        )}',
+                      style: sSubtitle3Style.copyWith(
+                        color: colors.grey2,
+                      ),
                     ),
                   ),
-                ),
                 Baseline(
                   baseline: deviceSize.when(
                     small: () => -6,
@@ -176,12 +185,14 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
             submitButtonActive: store.withValid,
             submitButtonName: intl.withdraw_continue,
             onSubmitPressed: () {
-              sAnalytics.cryptoSendTapContinueAmountScreen(
-                asset: store.withdrawalInputModel!.currency!.symbol,
-                network: store.network.description,
-                sendMethodType: '0',
-                totalSendAmount: store.withAmount,
-              );
+              if (store.withdrawalType != WithdrawalType.jar) {
+                sAnalytics.cryptoSendTapContinueAmountScreen(
+                  asset: store.withdrawalInputModel!.currency!.symbol,
+                  network: store.network.description,
+                  sendMethodType: '0',
+                  totalSendAmount: store.withAmount,
+                );
+              }
 
               store.withdrawalPush(WithdrawStep.preview);
             },

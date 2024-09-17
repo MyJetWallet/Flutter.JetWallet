@@ -20,7 +20,8 @@ enum EventCategory {
   earn(19),
   prepaidCard(20),
   banners(21),
-  withdrawSimpleCoin(22);
+  withdrawSimpleCoin(22),
+  jar(23);
 
   const EventCategory(this.id);
   final int id;

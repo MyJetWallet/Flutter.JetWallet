@@ -20,6 +20,7 @@ import 'package:simple_networking/modules/signal_r/models/key_value_model.dart';
 import 'package:simple_networking/modules/signal_r/models/kyc_countries_response_model.dart';
 import 'package:simple_networking/modules/signal_r/models/market_info_model.dart';
 import 'package:simple_networking/modules/signal_r/models/market_references_model.dart';
+import 'package:simple_networking/modules/signal_r/models/market_sectors_message_model.dart';
 import 'package:simple_networking/modules/signal_r/models/period_prices_model.dart';
 import 'package:simple_networking/modules/signal_r/models/price_accuracies.dart';
 import 'package:simple_networking/modules/signal_r/models/referral_info_model.dart';
@@ -77,6 +78,7 @@ class SignalRTransport {
     required this.activeEarnPositions,
     required this.banersListMessage,
     required this.smplWalletModel,
+    required this.marketSectorsMessage,
   });
 
   final void Function(bool) initFinished;
@@ -128,6 +130,8 @@ class SignalRTransport {
   final void Function(BanersListMessage) banersListMessage;
 
   final void Function(SmplWalletModel) smplWalletModel;
+
+  final void Function(MarketSectorsMessageModel) marketSectorsMessage;
 
   /// Logs
 

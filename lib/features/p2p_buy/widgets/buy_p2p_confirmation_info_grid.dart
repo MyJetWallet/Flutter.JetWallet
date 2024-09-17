@@ -1,7 +1,9 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/features/p2p_buy/store/buy_p2p_confirmation_store.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/icon_url_from.dart';
@@ -107,40 +109,54 @@ class _ConfirmationInfoGridState extends State<BuyP2PConfirmationInfoGrid> with 
           ),
         ),
         const SizedBox(height: 16),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              intl.p2p_buy_conversion_rate,
-              style: sBodyText2Style.copyWith(color: sKit.colors.grey1),
-            ),
-            const Spacer(),
-            if (store.isDataLoaded) ...[
-              Padding(
-                padding: const EdgeInsets.only(top: 4),
-                child: Baseline(
-                  baseline: 16,
-                  baselineType: TextBaseline.alphabetic,
-                  child: SConfirmActionTimer(
-                    animation: store.timerAnimation!,
-                    loading: store.timerLoading,
-                  ),
+        Builder(
+          builder: (context) {
+            final paymentCurrency = getIt.get<FormatService>().findCurrency(
+                  findInHideTerminalList: true,
+                  assetSymbol: store.paymentAsset?.asset ?? '',
+                );
+
+            final prefix = paymentCurrency.prefixSymbol;
+            final sumbol = store.paymentAsset?.asset;
+
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  intl.p2p_buy_conversion_rate,
+                  style: sBodyText2Style.copyWith(color: sKit.colors.grey1),
                 ),
-              ),
-              const SizedBox(width: 8),
-              Text(
-                '${Decimal.one.toFormatCount(
-                  accuracy: widget.asset.accuracy,
-                  symbol: widget.asset.symbol,
-                )} = ${(store.rate ?? Decimal.zero).toFormatCount(
-                  symbol: store.paymentAsset?.asset ?? '',
-                )}',
-                style: sSubtitle3Style,
-              ),
-            ] else ...[
-              textPreloader(),
-            ],
-          ],
+                const Spacer(),
+                if (store.isDataLoaded) ...[
+                  Padding(
+                    padding: const EdgeInsets.only(top: 4),
+                    child: Baseline(
+                      baseline: 16,
+                      baselineType: TextBaseline.alphabetic,
+                      child: SConfirmActionTimer(
+                        animation: store.timerAnimation!,
+                        loading: store.timerLoading,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    '${Decimal.one.toFormatCount(
+                      accuracy: widget.asset.accuracy,
+                      symbol: widget.asset.symbol,
+                    )} = ${prefix != null ? (store.rate ?? Decimal.zero).toFormatPrice(
+                        prefix: prefix,
+                      ) : (store.rate ?? Decimal.zero).toFormatCount(
+                        symbol: sumbol,
+                      )}',
+                    style: sSubtitle3Style,
+                  ),
+                ] else ...[
+                  textPreloader(),
+                ],
+              ],
+            );
+          },
         ),
         const SizedBox(height: 16),
         if (widget.paymentFee != null) ...[

@@ -44,6 +44,8 @@ List<MarketItemModel> marketReferencesList(
           priceAccuracy: marketReference.priceAccuracy,
           startMarketTime: marketReference.startMarketTime,
           type: currency.type,
+          sectorIds: marketReference.sectorIds,
+          marketCap: marketReference.marketCap,
         ),
       );
     }

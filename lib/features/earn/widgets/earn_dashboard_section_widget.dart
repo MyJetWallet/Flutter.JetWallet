@@ -175,7 +175,7 @@ class _EarnSectionDefaultState extends StatelessWidget {
                 children: [
                   Expanded(
                     child: _GrayBlocWidget(
-                      title: intl.earn_section_earned,
+                      title: intl.earn_earn,
                       value: store.isBalanceHide
                           ? store.positionsTotalValueInVaseCurrency.toFormatSum(
                               symbol: sSignalRModules.baseCurrency.symbol,

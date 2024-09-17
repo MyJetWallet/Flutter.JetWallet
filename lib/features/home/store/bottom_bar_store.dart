@@ -1,7 +1,9 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
+import 'package:jetwallet/features/crypto_jar/store/jars_store.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
@@ -18,6 +20,14 @@ abstract class _BottomBarStoreBase with Store {
     homeTab = value;
     final index = bottomBarItems.indexOf(homeTab);
     _tabsRouter?.setActiveIndex(index);
+
+    if (value == BottomItemType.home) {
+      if ((sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
+        (element) => element.id == AssetPaymentProductsEnum.jar,
+      )) {
+        getIt.get<JarsStore>().refreshJarsStore();
+      }
+    }
   }
 
   @observable

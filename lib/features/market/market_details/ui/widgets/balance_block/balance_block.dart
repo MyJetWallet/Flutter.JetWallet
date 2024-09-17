@@ -19,15 +19,7 @@ class BalanceBlock extends StatelessWidget {
   Widget build(BuildContext context) {
     return Provider<OperationHistory>(
       create: (context) => OperationHistory(
-        marketItem.symbol,
-        null,
-        null,
-        null,
-        false,
-        null,
-        null,
-        null,
-        null,
+        assetId: marketItem.symbol,
       ),
       builder: (context, child) => _BalanceBlockBody(
         marketItem: marketItem,
@@ -49,7 +41,6 @@ class _BalanceBlockBody extends StatelessObserverWidget {
       height: 127,
       child: Column(
         children: [
-          const SDivider(),
           const SpaceH16(),
           BalanceActionButtons(
             marketItem: marketItem,

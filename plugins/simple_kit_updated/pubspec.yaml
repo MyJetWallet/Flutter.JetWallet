@@ -20,6 +20,7 @@ dependencies:
   widgetbook: ^3.8.1
   auto_size_text: ^3.0.0
   collection: ^1.18.0
+  dropdown_button2: ^2.3.9
 
 dev_dependencies:
   flutter_test:
@@ -56,3 +57,4 @@ flutter:
     - assets/svg/assets/crypto/
     - assets/svg/brand/small/
     - assets/images/
+    - assets/images/jar/

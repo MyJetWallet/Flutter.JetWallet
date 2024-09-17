@@ -102,8 +102,16 @@ class _EarnDepositScreenState extends State<EarnDepositScreen> {
 
   void closeScreen() {
     final containsOffersRouter = sRouter.stack.any((element) => element.restorationId == OffersRouter.name);
+    final containsWallerRouter = sRouter.stack.any((element) => element.restorationId == WalletRouter.name);
+    final containsMarketDetailsRouter =
+        sRouter.stack.any((element) => element.restorationId == MarketDetailsRouter.name);
+
     if (containsOffersRouter) {
       sRouter.popUntilRouteWithName(OffersRouter.name);
+    } else if (containsWallerRouter) {
+      sRouter.popUntilRouteWithName(WalletRouter.name);
+    } else if (containsMarketDetailsRouter) {
+      sRouter.popUntilRouteWithName(MarketDetailsRouter.name);
     } else {
       sRouter.popUntilRouteWithName(HomeRouter.name);
     }

@@ -49,6 +49,7 @@ class ChartPainter extends BaseChartPainter {
     required Decimal decimal,
     required int accuracy,
     required String symbol,
+    required String prefix,
   }) formatPrice;
   final bool isAssetChart;
   final double chartWidth;
@@ -320,6 +321,7 @@ class ChartPainter extends BaseChartPainter {
             decimal: Decimal.parse(mMainLowMinValue.toString()),
             onlyFullPart: false,
             symbol: '',
+            prefix: prefix,
           ),
           color: ChartColors.maxMinTextColor,
         );
@@ -331,6 +333,7 @@ class ChartPainter extends BaseChartPainter {
             decimal: Decimal.parse(mMainLowMinValue.toString()),
             onlyFullPart: false,
             symbol: '',
+            prefix: prefix,
           ),
           color: ChartColors.maxMinTextColor,
         );
@@ -345,6 +348,7 @@ class ChartPainter extends BaseChartPainter {
             decimal: Decimal.parse(mMainHighMaxValue.toString()),
             onlyFullPart: false,
             symbol: '',
+            prefix: prefix,
           ),
           color: ChartColors.maxMinTextColor,
         );
@@ -356,6 +360,7 @@ class ChartPainter extends BaseChartPainter {
             decimal: Decimal.parse(mMainHighMaxValue.toString()),
             onlyFullPart: false,
             symbol: '',
+            prefix: prefix,
           ),
           color: ChartColors.maxMinTextColor,
         );

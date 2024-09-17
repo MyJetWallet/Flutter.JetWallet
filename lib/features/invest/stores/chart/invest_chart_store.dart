@@ -1,6 +1,5 @@
 import 'package:charts/simple_chart.dart';
 import 'package:injectable/injectable.dart';
-import 'package:jetwallet/features/invest/stores/dashboard/invest_dashboard_store.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/modules/candles_api/models/candles_request_model.dart';
@@ -42,19 +41,7 @@ abstract class _InvestChartStoreBase with Store {
   List<CandleModel> getAssetCandles(String instrumentId) {
     final candleAsset = candlesList.where((element) => element.instrumentId == instrumentId).toList();
     if (candleAsset.isNotEmpty) {
-      final price = getIt<InvestDashboardStore>().getPendingPriceBySymbol(instrumentId);
-      final lastCandle = CandleModel(
-        open: price.toDouble(),
-        close: price.toDouble(),
-        high: price.toDouble(),
-        low: price.toDouble(),
-        date: DateTime.now().millisecondsSinceEpoch,
-      );
-
-      return [
-        lastCandle,
-        ...candleAsset[0].candles,
-      ];
+      return candleAsset[0].candles;
     } else {
       fetchAssetCandles(instrumentId);
 
@@ -127,34 +114,11 @@ abstract class _InvestChartStoreBase with Store {
                 : candlesFull4List;
     final candleAsset = candlesFullList.where((element) => element.instrumentId == instrument).toList();
     if (candleAsset.isNotEmpty) {
-      final price = getIt<InvestDashboardStore>().getPendingPriceBySymbol(instrumentId);
-      final lastCandle = CandleModel(
-        open: price.toDouble(),
-        close: price.toDouble(),
-        high: price.toDouble(),
-        low: price.toDouble(),
-        date: DateTime.now().millisecondsSinceEpoch,
-      );
-
-      return [
-        ...candleAsset[0].candles,
-        lastCandle,
-      ];
+      return candleAsset[0].candles;
     } else {
       final fetchedCandles = await fetchAssetFullCandles(instrument);
-      final price = getIt<InvestDashboardStore>().getPendingPriceBySymbol(instrumentId);
-      final lastCandle = CandleModel(
-        open: price.toDouble(),
-        close: price.toDouble(),
-        high: price.toDouble(),
-        low: price.toDouble(),
-        date: DateTime.now().millisecondsSinceEpoch,
-      );
 
-      return [
-        ...fetchedCandles,
-        lastCandle,
-      ];
+      return fetchedCandles;
     }
   }
 

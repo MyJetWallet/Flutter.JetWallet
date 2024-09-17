@@ -1,12 +1,17 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+
+import 'package:webview_flutter_android/webview_flutter_android.dart';
+import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 
 @RoutePage(name: 'Circle3dSecureWebViewRouter')
 class Circle3dSecureWebView extends StatefulWidget {
@@ -39,7 +44,31 @@ class _Circle3dSecureWebViewState extends State<Circle3dSecureWebView> {
 
   @override
   void initState() {
-    controller = WebViewController()
+    late final PlatformWebViewControllerCreationParams params;
+    if (WebViewPlatform.instance is WebKitWebViewPlatform) {
+      params = WebKitWebViewControllerCreationParams(
+        allowsInlineMediaPlayback: true,
+      );
+    } else {
+      params = const PlatformWebViewControllerCreationParams();
+    }
+
+    controller = WebViewController.fromPlatformCreationParams(
+      params,
+      onPermissionRequest: (request) async {
+        await request.grant();
+      },
+    );
+
+    if (controller.platform is AndroidWebViewController) {
+      (controller.platform as AndroidWebViewController).setMediaPlaybackRequiresUserGesture(false);
+    }
+
+    if (Platform.isAndroid) {
+      (controller.platform as AndroidWebViewController).setOnShowFileSelector((params) => _androidFilePicker(params));
+    }
+
+    controller
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setBackgroundColor(Colors.white)
       ..setNavigationDelegate(
@@ -74,6 +103,18 @@ class _Circle3dSecureWebViewState extends State<Circle3dSecureWebView> {
       ..loadRequest(Uri.parse(widget.url));
 
     super.initState();
+  }
+
+  Future<List<String>> _androidFilePicker(
+    FileSelectorParams params,
+  ) async {
+    final result = await FilePicker.platform.pickFiles();
+
+    if (result != null && result.files.single.path != null) {
+      final file = File(result.files.single.path!);
+      return [file.uri.toString()];
+    }
+    return [];
   }
 
   @override

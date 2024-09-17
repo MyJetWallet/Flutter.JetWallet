@@ -25,6 +25,7 @@ class SimpleTableAsset extends HookWidget {
     this.rightValueMarketPositive = true,
     this.isLoading = false,
     this.isHighlated = false,
+    this.chartWidget,
   });
 
   final VoidCallback? onTableAssetTap;
@@ -52,6 +53,8 @@ class SimpleTableAsset extends HookWidget {
 
   final bool isLoading;
   final bool isHighlated;
+
+  final Widget? chartWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -223,36 +226,52 @@ class SimpleTableAsset extends HookWidget {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  Text(
-                                    rightMarketValue ?? '',
-                                    style: STStyles.body2Semibold.copyWith(
-                                      color: rightValueMarketPositive ? SColorsLight().green : SColorsLight().red,
+                                  if (chartWidget != null) ...[
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 8),
+                                      child: chartWidget!,
+                                    ),
+                                  ],
+                                  ConstrainedBox(
+                                    constraints: const BoxConstraints(
+                                      minWidth: 65,
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          rightMarketValue ?? '',
+                                          style: STStyles.body2Semibold.copyWith(
+                                            color: rightValueMarketPositive ? SColorsLight().green : SColorsLight().red,
+                                          ),
+                                        ),
+                                        const Gap(2),
+                                        rightValueMarketPositive
+                                            ? isDot
+                                                ? Assets.svg.medium.dot.simpleSvg(
+                                                    width: 16,
+                                                    height: 16,
+                                                    color: SColorsLight().green,
+                                                  )
+                                                : Assets.svg.medium.arrowUp.simpleSvg(
+                                                    width: 16,
+                                                    height: 16,
+                                                    color: SColorsLight().green,
+                                                  )
+                                            : isDot
+                                                ? Assets.svg.medium.dot.simpleSvg(
+                                                    width: 16,
+                                                    height: 16,
+                                                    color: SColorsLight().red,
+                                                  )
+                                                : Assets.svg.medium.arrowDown.simpleSvg(
+                                                    width: 16,
+                                                    height: 16,
+                                                    color: SColorsLight().red,
+                                                  ),
+                                      ],
                                     ),
                                   ),
-                                  const Gap(2),
-                                  rightValueMarketPositive
-                                      ? isDot
-                                          ? Assets.svg.medium.dot.simpleSvg(
-                                              width: 16,
-                                              height: 16,
-                                              color: SColorsLight().green,
-                                            )
-                                          : Assets.svg.medium.arrowUp.simpleSvg(
-                                              width: 16,
-                                              height: 16,
-                                              color: SColorsLight().green,
-                                            )
-                                      : isDot
-                                          ? Assets.svg.medium.dot.simpleSvg(
-                                              width: 16,
-                                              height: 16,
-                                              color: SColorsLight().red,
-                                            )
-                                          : Assets.svg.medium.arrowDown.simpleSvg(
-                                              width: 16,
-                                              height: 16,
-                                              color: SColorsLight().red,
-                                            ),
                                 ],
                               ),
                             ],

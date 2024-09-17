@@ -108,6 +108,7 @@ enum InputError {
   amountTooLarge,
   amountTooLow,
   limitError,
+  notEnoughBalanceToCoverFee,
 }
 
 extension InputErrorValue on InputError {
@@ -120,6 +121,8 @@ extension InputErrorValue on InputError {
       return '${intl.input_error_smaller_amount} $errorInfo';
     } else if (this == InputError.amountTooLow) {
       return '${intl.input_error_higher_amount}. $errorInfo';
+    } else if (this == InputError.notEnoughBalanceToCoverFee) {
+      return intl.input_error_not_enough_balance_to_cover_fee;
     } else {
       return 'None';
     }
@@ -154,6 +157,27 @@ InputError onWithdrawInputErrorHandler({
 }) {
   if (youWillSendAmount != Decimal.zero) {
     if (currency.assetBalance < inputAmount) {
+      return InputError.notEnoughFunds;
+    } else if (currency.withdrawalFeeSize(network: network, amount: youWillSendAmount) >= youWillSendAmount) {
+      return addressIsInternal ? InputError.none : InputError.enterHigherAmount;
+    }
+  }
+
+  return InputError.none;
+}
+
+InputError onWithdrawJarInputErrorHandler({
+  required Decimal youWillSendAmount,
+  required Decimal inputAmount,
+  required double jarBalance,
+  required String network,
+  required CurrencyModel currency,
+  bool addressIsInternal = false,
+}) {
+  if (youWillSendAmount != Decimal.zero) {
+    final balance = Decimal.parse(jarBalance.toString());
+
+    if (balance < inputAmount) {
       return InputError.notEnoughFunds;
     } else if (currency.withdrawalFeeSize(network: network, amount: youWillSendAmount) >= youWillSendAmount) {
       return addressIsInternal ? InputError.none : InputError.enterHigherAmount;

@@ -10,39 +10,42 @@ class SmallChart extends StatelessWidget {
     required this.candles,
     this.height = 30.0,
     this.width = 100.0,
+    this.lineWith = 1,
+    this.maxCandles = 30,
   });
 
   final List<CandleModel> candles;
   final double height;
   final double width;
+  final double lineWith;
+  final int maxCandles;
 
   @override
   Widget build(BuildContext context) {
     final sampledCandles = sampleCandles(candles);
     return CustomPaint(
       size: Size(width, height),
-      painter: _ChartPainter(sampledCandles),
+      painter: _ChartPainter(sampledCandles, lineWith),
     );
   }
 
-  List<CandleModel> sampleCandles(
-    List<CandleModel> candles, {
-    int maxCandles = 60,
-  }) {
+  List<CandleModel> sampleCandles(List<CandleModel> candles) {
     if (candles.length <= maxCandles) {
       return candles;
     }
     final step = candles.length / maxCandles;
     return List.generate(maxCandles, (index) {
-      final idx = (index * step).floor();
-      return candles[idx];
-    });
+          final idx = (index * step).floor();
+          return candles[idx];
+        }) +
+        [candles.last];
   }
 }
 
 class _ChartPainter extends CustomPainter {
-  _ChartPainter(this.candles);
+  _ChartPainter(this.candles, this.lineWith);
   final List<CandleModel> candles;
+  final double lineWith;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -56,13 +59,13 @@ class _ChartPainter extends CustomPainter {
     final minPrice = candles.map((c) => c.low).reduce(min);
 
     final priceDiff = maxPrice - minPrice;
-    final scale = size.height / priceDiff;
+    final scale = priceDiff != 0 ? size.height / priceDiff : 1;
 
-    final overallTrendColor = candles.last.close >= candles.first.open ? colors.red : colors.green;
+    final overallTrendColor = candles.last.close > candles.first.close ? colors.red : colors.green;
 
     final linePaint = Paint()
       ..color = overallTrendColor
-      ..strokeWidth = 1.0;
+      ..strokeWidth = lineWith;
 
     for (var i = 0; i < candles.length - 1; i++) {
       final x1 = size.width - (size.width * i / candles.length);
@@ -70,7 +73,11 @@ class _ChartPainter extends CustomPainter {
       final x2 = size.width - (size.width * (i + 1) / candles.length);
       final y2 = size.height - (candles[i + 1].close - minPrice) * scale;
 
-      canvas.drawLine(Offset(x1, y1), Offset(x2, y2), linePaint);
+      canvas.drawLine(
+        Offset(x1, priceDiff == 0 ? size.height / 2 : y1),
+        Offset(x2, priceDiff == 0 ? size.height / 2 : y2),
+        linePaint,
+      );
     }
   }
 
