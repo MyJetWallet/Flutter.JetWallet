@@ -119,26 +119,11 @@ class _BiometricBody extends StatelessObserverWidget {
                       final userInfoN = getIt.get<UserInfoService>();
                       await userInfoN.initBiometricStatus();
 
-                      sAnalytics.signInFlowFaceIDScreenView(
-                        biometric: bioStatus.toString(),
-                      );
-
-                      sAnalytics.signInFlowEnableFaceID(
-                        biometric: bioStatus.toString(),
-                      );
-
                       if (bioStatus == BiometricStatus.none) {
-                        sAnalytics.signInFlowFaceDontAllowFaceID(
-                          biometric: bioStatus.toString(),
-                        );
-
                         await getIt.get<AppRouter>().push(
                               const AllowBiometricRoute(),
                             );
                       } else {
-                        sAnalytics.signInFlowFaceAllowFaceID(
-                          biometric: bioStatus.toString(),
-                        );
                         if (userInfoN.isJustLogged) {
                           sAnalytics.signInFlowVerificationPassed();
                           final appsFlyerService = getIt.get<AppsFlyerService>();
@@ -168,8 +153,6 @@ class _BiometricBody extends StatelessObserverWidget {
                     active: true,
                     name: intl.bio_screen_button_late_text,
                     onTap: () async {
-                      sAnalytics.signInFlowLaterFaceID(biometric: 'None');
-
                       if (isAccSettings) {
                         Navigator.pop(context);
                       } else {

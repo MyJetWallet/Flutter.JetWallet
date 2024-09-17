@@ -144,10 +144,6 @@ abstract class _OnboardingStoreBase with Store {
   void onSliderChange() {
     if (currentIndex == 0) {
       sAnalytics.onboardingFinanceIsSimpleScreenView();
-    } else if (currentIndex == 1) {
-      sAnalytics.onboardingCryptoIsSimpleScreenView();
-    } else if (currentIndex == 2) {
-      sAnalytics.onboardingSendMoneyGloballyScreenView();
     }
   }
 

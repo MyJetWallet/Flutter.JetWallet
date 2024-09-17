@@ -82,10 +82,6 @@ class SumsubService {
       final countries = getIt.get<KycCountryStore>();
       if (isCard) {
         sAnalytics.viewKYCSumsubCreation();
-      } else {
-        sAnalytics.kycFlowSumsubShow(
-          country: countries.activeCountry?.countryName ?? '',
-        );
       }
 
       getIt.get<SimpleLoggerService>().log(
@@ -102,10 +98,6 @@ class SumsubService {
           _logMessage(
             'The SDK status was changed: $prevStatus -> $newStatus',
           ),
-        );
-
-        sAnalytics.kycFlowSumsubClose(
-          country: countries.activeCountry?.countryName ?? '',
         );
 
         getIt.get<GlobalLoader>().setLoading(false);

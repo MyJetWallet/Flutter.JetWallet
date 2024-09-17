@@ -81,7 +81,6 @@ class _ConvertConfirmationScreenBody extends StatelessObserverWidget {
           color: colors.grey1,
         ),
         onBackButtonTap: () {
-          sAnalytics.tapOnTheBackFromCovertOrderSummaryButton();
           sRouter.maybePop();
         },
       ),

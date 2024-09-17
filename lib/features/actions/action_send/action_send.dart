@@ -39,14 +39,6 @@ Future<void> showSendAction(BuildContext context) async {
   final isGlobalAvaible = checkGlobalAvaible();
   final isGiftAvaible = checkGiftAvaible();
 
-  sAnalytics.sendToSheetScreenView(
-    sendMethods: [
-      if (isToCryptoWalletAvaible) AnalyticsSendMethods.cryptoWallet,
-      if (isGlobalAvaible) AnalyticsSendMethods.globally,
-      if (isGiftAvaible) AnalyticsSendMethods.gift,
-    ],
-  );
-
   if (!(isToCryptoWalletAvaible || isGlobalAvaible || isGiftAvaible)) {
     handler.handle(
       multiStatus: [
@@ -107,7 +99,6 @@ Future<void> showSendAction(BuildContext context) async {
         SCardRow(
           icon: const SGiftSendIcon(),
           onTap: () {
-            sAnalytics.tapOnTheGiftButton();
             Navigator.pop(context);
             sRouter.push(const GiftSelectAssetRouter());
           },

@@ -141,7 +141,6 @@ class _OnboardingScreenBodyState extends State<OnboardingScreenBody> with Ticker
               active: true,
               name: intl.onboarding_getStarted,
               onTap: () {
-                sAnalytics.tapOnTheOnboardingGetStartedButton();
                 sAnalytics.signInFlowEnterEmailView();
                 sRouter.push(
                   SingInRouter(),

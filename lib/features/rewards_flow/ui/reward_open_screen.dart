@@ -21,7 +21,6 @@ import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/rewards/reward_spin_response.dart';
 
@@ -132,8 +131,6 @@ abstract class _RewardOpenStoreBase with Store {
     lastController = controller;
     showBackgroundStars = true;
 
-    sAnalytics.rewardsOpenRewardTapCard(cardNumber: index, source: source);
-
     subtitleText = intl.reward_open_openings;
 
     isCardOpened = true;
@@ -159,8 +156,6 @@ abstract class _RewardOpenStoreBase with Store {
       height = 377;
     });
 
-    sAnalytics.rewardsOpenCardProcesing(source: source);
-
     await sendSpinRequest();
 
     Future.delayed(const Duration(seconds: 1), () {
@@ -177,13 +172,6 @@ abstract class _RewardOpenStoreBase with Store {
       }
 
       showBottomButton = true;
-
-      sAnalytics.rewardsCardFlipSuccess(
-        rewardToClaime: '${sSignalRModules.rewardsData?.availableSpins ?? 0}',
-        winAsset: spinData?.assetSymbol ?? '',
-        winAmount: '${spinData?.amount ?? ''}',
-        source: source,
-      );
     });
   }
 
@@ -214,8 +202,6 @@ abstract class _RewardOpenStoreBase with Store {
   }
 
   Future<void> shareCard(String source) async {
-    sAnalytics.rewardsCardShare(source: source);
-
     final currency = currencyFrom(
       sSignalRModules.currenciesWithHiddenList,
       //TODO Anna Bielikh need refactoring
@@ -333,9 +319,6 @@ class _RewardOpenScreenBody extends StatefulObserverWidget {
 class _RewardOpenScreenBodyState extends State<_RewardOpenScreenBody> with TickerProviderStateMixin {
   @override
   void initState() {
-    sAnalytics.rewardsChooseRewardCard(
-      source: widget.source,
-    );
     super.initState();
   }
 
@@ -355,12 +338,6 @@ class _RewardOpenScreenBodyState extends State<_RewardOpenScreenBody> with Ticke
         showBackButton: false,
         onCLoseButton: () {
           sRouter.maybePop();
-
-          if (store.showBottomButton) {
-            sAnalytics.rewardsCloseFlowAfterCardFlip(source: widget.source);
-          } else {
-            sAnalytics.rewardsOpenRewardClose(source: widget.source);
-          }
         },
         onShareButtonTap: () => store.shareCard(widget.source),
       ),
@@ -422,10 +399,6 @@ class _RewardOpenScreenBodyState extends State<_RewardOpenScreenBody> with Ticke
                     SPrimaryButton1(
                       active: true,
                       onTap: () async {
-                        sAnalytics.rewardsClickNextReward(
-                          source: widget.source,
-                        );
-
                         store.nextReward();
                       },
                       name: intl.reward_open_next_reward,
@@ -442,10 +415,6 @@ class _RewardOpenScreenBodyState extends State<_RewardOpenScreenBody> with Ticke
                     SPrimaryButton1(
                       active: true,
                       onTap: () async {
-                        sAnalytics.rewardsCloseFlowAfterCardFlip(
-                          source: widget.source,
-                        );
-
                         await sRouter.maybePop();
                       },
                       name: intl.reward_close,

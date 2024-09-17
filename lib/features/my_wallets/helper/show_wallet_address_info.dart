@@ -4,7 +4,6 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 void showWalletAdressInfo(
@@ -26,8 +25,6 @@ void showWalletAdressInfo(
       package: 'simple_kit',
     ),
     onPrimaryButtonTap: () {
-      sAnalytics.eurWalletTapContinueOnAdreeInfo();
-
       Navigator.pop(context);
       final isDepositAllow = kycState.depositStatus != kycOperationStatus(KycStatus.allowed);
       final isWithdrawalAllow = kycState.withdrawalStatus != kycOperationStatus(KycStatus.allowed);

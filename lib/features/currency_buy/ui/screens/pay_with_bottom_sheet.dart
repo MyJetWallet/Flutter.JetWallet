@@ -123,20 +123,14 @@ void _showPayWithBottomSheet({
   })? onSelectedCryptoAsset,
   required PaymentMethodStore store,
 }) {
-  sRouter
-      .push(
-        PayWithScreenRouter(
-          asset: currency,
-          onSelected: onSelected,
-          store: store,
-          onSelectedCryptoAsset: onSelectedCryptoAsset,
-        ),
-      )
-      .then(
-        (value) => sAnalytics.tapOnTheButtonCloseForClosingSheetOnPayWithPMSheet(
-          destinationWallet: currency?.symbol ?? '',
-        ),
-      );
+  sRouter.push(
+    PayWithScreenRouter(
+      asset: currency,
+      onSelected: onSelected,
+      store: store,
+      onSelectedCryptoAsset: onSelectedCryptoAsset,
+    ),
+  );
 }
 
 @RoutePage(name: 'PayWithScreenRouter')

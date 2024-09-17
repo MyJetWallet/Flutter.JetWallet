@@ -18,7 +18,6 @@ import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
@@ -72,14 +71,6 @@ class _BuyVouncherConfirmationBody extends StatelessObserverWidget {
             color: colors.gray10,
           ),
           onBackButtonTap: () {
-            sAnalytics.tapOnTheBackButtonFromOrderSummaryBuyCoucherScreenView(
-              amount: store.amount.toFormatCount(
-                symbol: store.payCurrency.symbol,
-                accuracy: store.payCurrency.accuracy,
-              ),
-              country: store.country?.isoCode ?? '',
-              isAvailableAppleGooglePay: store.prewievResponce?.brand.isMobile ?? false,
-            );
             sRouter.maybePop();
           },
         ),
@@ -215,14 +206,6 @@ class _BuyVouncherConfirmationBody extends StatelessObserverWidget {
                       active: !store.loader.loading && store.getCheckbox,
                       name: intl.previewBuyWithAsset_confirm,
                       onTap: () {
-                        sAnalytics.tapOnTheConfirmButtonOnOrderSummaryBuyVoucherScreenView(
-                          amount: store.amount.toFormatCount(
-                            symbol: store.payCurrency.symbol,
-                            accuracy: store.payCurrency.accuracy,
-                          ),
-                          country: store.country?.isoCode ?? '',
-                          isAvailableAppleGooglePay: store.prewievResponce?.brand.isMobile ?? false,
-                        );
                         store.createPayment();
                       },
                     ),

@@ -12,7 +12,6 @@ import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../utils/constants.dart';
@@ -25,7 +24,6 @@ void shareGiftResultBottomSheet({
   String? email,
   void Function()? onClose,
 }) {
-  sAnalytics.shareGiftSheetScreenView();
   sShowBasicModalBottomSheet(
     scrollable: sDeviceSize == const DeviceSizeUnion.small(),
     context: context,
@@ -300,7 +298,6 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
                     padding: const EdgeInsets.all(10),
                     child: SIconButton(
                       onTap: () {
-                        sAnalytics.tapOnTheButtonCopyOnShareSheet();
                         sNotification.showError(
                           intl.copy_message,
                           id: 1,
@@ -329,8 +326,6 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
                     padding: const EdgeInsets.all(10),
                     child: SIconButton(
                       onTap: () async {
-                        sAnalytics.tapOnTheButtonShareOnShareSheet();
-
                         final boundary = widgetForImageKey.currentContext!.findRenderObject()! as RenderRepaintBoundary;
 
                         final image = await boundary.toImage(pixelRatio: 3.0);

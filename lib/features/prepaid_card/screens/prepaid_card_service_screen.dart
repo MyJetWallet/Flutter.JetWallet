@@ -17,7 +17,6 @@ import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
 import 'package:rive/rive.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
@@ -25,7 +24,6 @@ import 'package:simple_networking/modules/wallet_api/models/prepaid_card/buy_pre
 import 'package:simple_networking/modules/wallet_api/models/prepaid_card/get_purchase_card_list_request_model.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
-import '../../../core/services/prevent_duplication_events_servise.dart';
 
 @RoutePage(name: 'PrepaidCardServiceRouter')
 class PrepaidCardServiceScreen extends StatelessWidget {
@@ -35,12 +33,7 @@ class PrepaidCardServiceScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return VisibilityDetector(
       key: const Key('prepaid-card-screen-key'),
-      onVisibilityChanged: (info) {
-        getIt.get<PreventDuplicationEventsService>().sendEvent(
-              id: 'prepaid-card-screen-key',
-              event: sAnalytics.prepaidCardServiceScreenView,
-            );
-      },
+      onVisibilityChanged: (info) {},
       child: Provider(
         create: (context) => MyVounchersStore(),
         dispose: (context, srore) {
@@ -92,7 +85,6 @@ class _PrepaidCardServiceScreenBodyState extends State<_PrepaidCardServiceScreen
         child: SSmallHeader(
           title: '',
           onBackButtonTap: () {
-            sAnalytics.tapOnTheBackButtonFromPrepaidCardServiceScreen();
             sRouter.maybePop();
           },
         ),
@@ -222,7 +214,6 @@ class _PrepaidCardServiceScreenBodyState extends State<_PrepaidCardServiceScreen
               child: SButton.blue(
                 text: intl.prepaid_card_buy_card,
                 callback: () {
-                  sAnalytics.tapOnTheBuyCardButton();
                   sRouter.push(const PrepaidCardPreBuyTabsRouter()).then((value) {
                     if (voucherHasJustBeenPurchased) {
                       store.getListMyVouchers();
@@ -290,7 +281,6 @@ class _TopPartOfPage extends StatelessWidget {
           SHyperlink(
             text: intl.prepaid_card_card_management,
             onTap: () {
-              sAnalytics.tapOnTheCardManagementButtonOnPrepaidCardServiceScreen();
               showPrepaidCardRedirectDialog(context: context);
             },
           ),
@@ -313,9 +303,6 @@ class _VouncherItem extends StatelessWidget {
         );
     return TransactionBaseItem(
       onTap: () {
-        sAnalytics.tapOnTheAnyoucherButton(
-          voucher: voucher.voucherCode ?? '',
-        );
         sRouter.push(PrepaidCardDetailsRouter(voucher: voucher));
       },
       icon: NetworkIconWidget(

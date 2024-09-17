@@ -9,7 +9,6 @@ import 'package:jetwallet/features/prepaid_card/screens/buy_voucher_text_third_s
 import 'package:jetwallet/features/prepaid_card/screens/choose_country_and_plan_screen.dart';
 import 'package:jetwallet/features/prepaid_card/store/choose_country_and_plan_store.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
@@ -49,8 +48,6 @@ class _PrepaidCardPreBuyTabsBodyState extends State<_PrepaidCardPreBuyTabsBody> 
       vsync: this,
     );
 
-    sAnalytics.guideToUsingScreenView();
-
     tabController.addListener(() {
       setState(() {
         if (tabController.index == 0) {
@@ -60,37 +57,6 @@ class _PrepaidCardPreBuyTabsBodyState extends State<_PrepaidCardPreBuyTabsBody> 
         }
       });
       if (!tabController.indexIsChanging) {
-        switch (tabController.index) {
-          case 0:
-            if (previosTabIndex == 1) {
-              sAnalytics.tapOnTheBackButtonOnPrivacyScreen();
-            }
-            sAnalytics.guideToUsingScreenView();
-
-          case 1:
-            if (previosTabIndex == 0) {
-              sAnalytics.tapOnTheNextButtonOnGuideToUsingScreen();
-            } else if (previosTabIndex == 2) {
-              sAnalytics.tapOnTheBackButtonOnVoucherActivationScreen();
-            }
-            sAnalytics.privacyScreenView();
-
-          case 2:
-            if (previosTabIndex == 1) {
-              sAnalytics.tapOnTheNextButtonOnPrivacyScreen();
-            } else if (previosTabIndex == 3) {
-              sAnalytics.tapOnTheBackButtonOnChoosePrepaidCardScreen();
-            }
-            sAnalytics.voucherActivationScreenView();
-
-          case 3:
-            if (previosTabIndex == 2) {
-              sAnalytics.tapOnTheNextButtonOnVoucherActivationScreen();
-            }
-            sAnalytics.choosePrepaidCardScreenView();
-
-          default:
-        }
         previosTabIndex = tabController.index;
       }
     });
@@ -112,7 +78,6 @@ class _PrepaidCardPreBuyTabsBodyState extends State<_PrepaidCardPreBuyTabsBody> 
       final selectedBrand = ChooseCountryAndPlanStore.of(context).selectedBrand;
       final selectedCountry = ChooseCountryAndPlanStore.of(context).selectedCountry;
       if (selectedBrand != null) {
-        sAnalytics.tapOnTheNextButtonOnChoosePrepaidCardScreen();
         sRouter.push(
           BuyVouncherAmountRouter(
             selectedBrand: selectedBrand,
@@ -143,17 +108,6 @@ class _PrepaidCardPreBuyTabsBodyState extends State<_PrepaidCardPreBuyTabsBody> 
             _goToPreviosTab();
           },
           onCLoseButton: () {
-            switch (tabController.index) {
-              case 0:
-                sAnalytics.tapOnTheCloseButtonOnGuideToUsingScreen();
-              case 1:
-                sAnalytics.tapOnTheCloseButtonOnPrivacyScreen();
-              case 2:
-                sAnalytics.tapOnTheCloseButtonOnVoucherActivationScreen();
-              case 3:
-                sAnalytics.tapOnTheCloseButtonOnChoosePrepaidCardScreen();
-              default:
-            }
             sRouter.popUntilRouteWithName(PrepaidCardServiceRouter.name);
           },
         ),
