@@ -58,7 +58,7 @@ class WithdrawalNetworkItem extends StatelessWidget {
       label: network.description,
       hasRightValue: false,
       supplement: networkInfo != null
-          ? '~ ${networkInfo.time} minutes · ${intl.fee}: ${networkInfo.feeAmount.toFormatCount(symbol: feeAsset.symbol)}'
+          ? '~ ${networkInfo.time} ${networkInfo.time == 1 ? intl.withdrawal_network_minute : intl.withdrawal_network_minutes} · ${intl.fee}: ${networkInfo.feeAmount.toFormatCount(symbol: feeAsset.symbol)}'
           : null,
       onTableAssetTap: onTap,
     );

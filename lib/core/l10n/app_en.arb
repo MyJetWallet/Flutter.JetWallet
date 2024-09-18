@@ -1791,5 +1791,7 @@
     "jar_insufficient_funds_for_withdrawal_yes": "Yes",
     "jar_insufficient_funds_for_withdrawal_no": "No",
     "input_error_not_enough_balance_to_cover_fee": "Not enough balance to cover fee. Please add funds.",
-    "jar_close_transactions_in_processed_error": "Your withdrawal is currently being processed. Please try again later."
+    "jar_close_transactions_in_processed_error": "Your withdrawal is currently being processed. Please try again later.",
+    "withdrawal_network_minutes": "minutes",
+    "withdrawal_network_minute": "minute"
 }
