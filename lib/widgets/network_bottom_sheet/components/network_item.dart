@@ -12,17 +12,19 @@ class WithdrawalNetworkItem extends StatelessWidget {
     super.key,
     required this.network,
     required this.onTap,
+    required this.iconUrl,
   });
-
   final BlockchainModel network;
-
   final void Function() onTap;
+  final String iconUrl;
 
   @override
   Widget build(BuildContext context) {
-    final currency = getIt.get<FormatService>().findCurrency(
+    final networkInfo = network.info;
+
+    final feeAsset = getIt.get<FormatService>().findCurrency(
           findInHideTerminalList: true,
-          assetSymbol: network.info?.feeAsset ?? '',
+          assetSymbol: networkInfo?.feeAsset ?? '',
         );
 
     return SimpleTableAccount(
@@ -32,30 +34,32 @@ class WithdrawalNetworkItem extends StatelessWidget {
         child: Stack(
           children: [
             NetworkIconWidget(
-              currency.iconUrl,
+              iconUrl,
             ),
-            Positioned(
-              left: 15,
-              top: 9,
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.white),
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: NetworkIconWidget(
-                  width: 16,
-                  height: 16,
-                  currency.iconUrl,
+            if (networkInfo != null)
+              Positioned(
+                left: 15,
+                top: 9,
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.white),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: NetworkIconWidget(
+                    width: 16,
+                    height: 16,
+                    feeAsset.iconUrl,
+                  ),
                 ),
               ),
-            ),
           ],
         ),
       ),
       label: network.description,
       hasRightValue: false,
-      supplement:
-          '~ ${network.info?.time} minutes · ${intl.fee}: ${network.info?.feeAmount.toFormatCount(symbol: network.info?.feeAsset)}',
+      supplement: networkInfo != null
+          ? '~ ${networkInfo.time} minutes · ${intl.fee}: ${networkInfo.feeAmount.toFormatCount(symbol: feeAsset.symbol)}'
+          : null,
       onTableAssetTap: onTap,
     );
   }

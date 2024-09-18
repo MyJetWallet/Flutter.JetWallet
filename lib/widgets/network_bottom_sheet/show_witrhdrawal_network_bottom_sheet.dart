@@ -53,6 +53,7 @@ void showWithdrawalNetworkBottomSheet(
     children: [
       for (final network in availableNetworks)
         WithdrawalNetworkItem(
+          iconUrl: iconUrl,
           network: network,
           onTap: () {
             setNetwork(network);
