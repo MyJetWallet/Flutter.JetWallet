@@ -1,13 +1,11 @@
-import 'dart:ui' as ui;
-
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/core/services/device_size/models/device_size_union.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
@@ -76,10 +74,12 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     final sColors = sKit.colors;
 
+    final appUrl = sSignalRModules.rewardsData?.referralLink ?? appDownloadUrl;
+
     final String shareText;
     shareText = email != '' && email != null
-        ? '''${intl.send_gift_message_1_part} ${amount.toFormatCount(accuracy: currency.accuracy, symbol: currency.symbol)} ${intl.send_gift_share_text_2_part} $appDownloadUrl, ${intl.send_gift_share_text_email_part} $email ${intl.send_gift_share_text_3_part}'''
-        : '''${intl.send_gift_message_1_part} ${amount.toFormatCount(accuracy: currency.accuracy, symbol: currency.symbol)} ${intl.send_gift_share_text_2_part} $appDownloadUrl, ${intl.send_gift_share_text_phone_part} $phoneNumber ${intl.send_gift_share_text_3_part}''';
+        ? '''${intl.send_gift_message_1_part} ${amount.toFormatCount(accuracy: currency.accuracy, symbol: currency.symbol)} ${intl.send_gift_share_text_2_part} $appUrl, ${intl.send_gift_share_text_email_part} $email ${intl.send_gift_share_text_3_part}'''
+        : '''${intl.send_gift_message_1_part} ${amount.toFormatCount(accuracy: currency.accuracy, symbol: currency.symbol)} ${intl.send_gift_share_text_2_part} $appUrl, ${intl.send_gift_share_text_phone_part} $phoneNumber ${intl.send_gift_share_text_3_part}''';
 
     final cardMessage =
         '''${intl.send_gift_message_1_part} ${amount.toFormatCount(accuracy: currency.accuracy, symbol: currency.symbol)} ${intl.send_gift_message_2_part}''';
@@ -331,28 +331,30 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
                       onTap: () async {
                         sAnalytics.tapOnTheButtonShareOnShareSheet();
 
-                        final boundary = widgetForImageKey.currentContext!.findRenderObject()! as RenderRepaintBoundary;
+                        await Share.share(shareText);
 
-                        final image = await boundary.toImage(pixelRatio: 3.0);
-
-                        final byteData = await image.toByteData(
-                          format: ui.ImageByteFormat.png,
-                        );
-                        final buffer = byteData!.buffer;
-
-                        await Share.shareXFiles(
-                          [
-                            XFile.fromData(
-                              buffer.asUint8List(
-                                byteData.offsetInBytes,
-                                byteData.lengthInBytes,
-                              ),
-                              name: 'share_gift.png',
-                              mimeType: 'image/png',
-                            ),
-                          ],
-                          text: shareText,
-                        );
+                        // final boundary = widgetForImageKey.currentContext!.findRenderObject()! as RenderRepaintBoundary;
+                        //
+                        // final image = await boundary.toImage(pixelRatio: 3.0);
+                        //
+                        // final byteData = await image.toByteData(
+                        //   format: ui.ImageByteFormat.png,
+                        // );
+                        // final buffer = byteData!.buffer;
+                        //
+                        // await Share.shareXFiles(
+                        //   [
+                        //     XFile.fromData(
+                        //       buffer.asUint8List(
+                        //         byteData.offsetInBytes,
+                        //         byteData.lengthInBytes,
+                        //       ),
+                        //       name: 'share_gift.png',
+                        //       mimeType: 'image/png',
+                        //     ),
+                        //   ],
+                        //   text: shareText,
+                        // );
                       },
                       defaultIcon: const SShareIcon(),
                     ),
