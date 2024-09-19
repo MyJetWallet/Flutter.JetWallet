@@ -9,7 +9,6 @@ import 'package:jetwallet/core/services/internet_checker_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/refresh_token_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config.dart';
-import 'package:jetwallet/core/services/sentry_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/splash_error/splash_error_service.dart';
 import 'package:jetwallet/core/services/startup_service.dart';
