@@ -40,6 +40,7 @@ import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_
 import 'package:simple_networking/modules/signal_r/models/blockchains_model.dart';
 import 'package:simple_networking/modules/validation_api/models/validation/verify_withdrawal_verification_code_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/validate_address/validate_address_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/withdraw/withdraw_preview_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/withdraw/withdraw_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/withdrawal_info/withdrawal_info_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/withdrawal_info/withdrawal_info_response_model.dart';
@@ -93,6 +94,12 @@ abstract class _WithdrawalStoreBase with Store {
 
   @action
   bool setTagError(bool value) => tagError = value;
+
+  @observable
+  double? previewFee;
+
+  @action
+  void setPreviewFee(double value) => previewFee = value;
 
   @action
   void _triggerErrorOfTagField() => tagError = true;
@@ -512,6 +519,8 @@ abstract class _WithdrawalStoreBase with Store {
         await withdrawNFT();
       }
       if (context.mounted) {
+        await getWithdrawalFeeByPreview();
+
         return _pushWithdrawalAmount(context);
       }
     }
@@ -541,6 +550,8 @@ abstract class _WithdrawalStoreBase with Store {
           }
 
           if (credentialsValid) {
+            getWithdrawalFeeByPreview();
+
             _pushWithdrawalAmount(context);
           }
         },
@@ -858,6 +869,66 @@ abstract class _WithdrawalStoreBase with Store {
     );
 
     return CameraStatus.denied;
+  }
+
+  @action
+  Future<void> getWithdrawalFeeByPreview() async {
+    void onError(error, [stackTrace]) {
+      if (kDebugMode) {
+        print('WithdrawalStore get preview fee error $error, stackTrace: $stackTrace');
+      }
+
+      sNotification.showError(
+        '${intl.something_went_wrong_try_again}!',
+        id: 1,
+      );
+    }
+
+    if (withdrawalType == WithdrawalType.jar) {
+      try {
+        final previewResponseModel = await sNetwork.getWalletModule().postWithdrawJarPreviewRequest(
+              withdrawalInputModel!.currency!.symbol,
+              10,
+              address,
+              network.id,
+              withdrawalInputModel!.jar!.id,
+            );
+
+        previewResponseModel.pick(
+          onData: (preview) {
+            setPreviewFee(preview.feeAmount);
+            print('#@#@#@ ${preview.feeAmount}');
+          },
+          onError: (error) {
+            onError(error);
+          },
+        );
+      } catch (e, stackTrace) {
+        onError(e, stackTrace);
+      }
+    } else {
+      try {
+        final previewResponseModel = await sNetwork.getWalletModule().postWithdrawPreviewRequest(
+          withdrawalInputModel!.currency!.symbol,
+          10,
+          address,
+          tag,
+          network.id,
+        );
+
+        previewResponseModel.pick(
+          onData: (preview) {
+            setPreviewFee(preview.feeAmount);
+            print('#@#@#@ ${preview.feeAmount}');
+          },
+          onError: (error) {
+            onError(error);
+          },
+        );
+      } catch (e, stackTrace) {
+        onError(e, stackTrace);
+      }
+    }
   }
 
   @action

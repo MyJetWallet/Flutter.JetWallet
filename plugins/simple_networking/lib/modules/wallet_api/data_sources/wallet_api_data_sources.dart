@@ -145,6 +145,7 @@ import 'package:simple_networking/modules/wallet_api/models/wallet/set_active_as
 import 'package:simple_networking/modules/wallet_api/models/wallet_history/wallet_history_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/wallet_history/wallet_history_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/wire_countries/wire_countries_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/withdraw/withdraw_preview_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/withdraw/withdraw_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/withdraw/withdraw_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/withdrawal_info/withdrawal_info_request_model.dart';
@@ -298,6 +299,52 @@ class WalletApiDataSources {
         final data = handleFullResponse<Map>(responseData);
 
         return DC.data(WithdrawJarLimitResponseModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, WithdrawPreviewResponseModel>> postWithdrawJarPreviewRequest(
+      Map<String, dynamic> body,
+      ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/blockchain/withdrawal/jar/preview',
+        data: body,
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(WithdrawPreviewResponseModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, WithdrawPreviewResponseModel>> postWithdrawPreviewRequest(
+      Map<String, dynamic> body,
+      ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/blockchain/withdrawal/preview',
+        data: body,
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(WithdrawPreviewResponseModel.fromJson(data));
       } catch (e) {
         rethrow;
       }
