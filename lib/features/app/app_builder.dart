@@ -117,7 +117,6 @@ class _AppBuilderBodyState extends State<AppBuilderBody> with WidgetsBindingObse
     getIt.get<StartupService>().firstAction().onError(
       (e, stackTrace) async {
         if (e is SplashErrorException) {
-          getIt.get<SentryService>().captureException('Splash error exception with code: ${e.errorCode}', stackTrace);
           if (e.errorCode > 9 && e.errorCode != 21 && e.errorCode != 22) {
             unawaited(
               getIt.get<SNetwork>().simpleNetworkingUnathorized.getLogsApiModule().postAddLog(

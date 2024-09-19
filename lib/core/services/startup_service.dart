@@ -216,8 +216,7 @@ class StartupService {
           if (resultRefreshToken == RefreshTokenStatus.success) {
             await userInfo.initPinStatus();
           }
-        } catch (e, stackTrace) {
-          getIt.get<SentryService>().captureException(e, stackTrace);
+        } catch (e) {
           throw SplashErrorException(13);
         }
 
@@ -321,8 +320,7 @@ class StartupService {
               ),
         );
       }
-    } catch (e, stackTrace) {
-      getIt.get<SentryService>().captureException(e, stackTrace);
+    } catch (e) {
       throw SplashErrorException(17);
     }
 
