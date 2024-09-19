@@ -77,7 +77,7 @@ abstract class _WithdrawalStoreBase with Store {
         (element) => element.id == WithdrawalMethods.blockchainSend,
       );
 
-  @observable
+  @computed
   List<BlockchainModel> get networks => withdrawalInputModel?.currency?.networksForBlockchainSend ?? [];
 
   @observable
