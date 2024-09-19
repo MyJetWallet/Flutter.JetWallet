@@ -163,7 +163,7 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
                 const SDivider(),
                 const SpaceH32(),
                 SPrimaryButton2(
-                  active: !store.previewLoading && isUserEnoughMaticForWithdraw,
+                  active: !store.previewLoading && isUserEnoughMaticForWithdraw && !store.previewError,
                   name: intl.withdrawalPreview_confirm,
                   onTap: () {
                     if (store.withdrawalType == WithdrawalType.jar) {

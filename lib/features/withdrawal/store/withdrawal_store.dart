@@ -40,7 +40,6 @@ import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_
 import 'package:simple_networking/modules/signal_r/models/blockchains_model.dart';
 import 'package:simple_networking/modules/validation_api/models/validation/verify_withdrawal_verification_code_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/validate_address/validate_address_request_model.dart';
-import 'package:simple_networking/modules/wallet_api/models/withdraw/withdraw_preview_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/withdraw/withdraw_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/withdrawal_info/withdrawal_info_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/withdrawal_info/withdrawal_info_response_model.dart';
@@ -100,6 +99,12 @@ abstract class _WithdrawalStoreBase with Store {
 
   @action
   void setPreviewFee(double value) => previewFee = value;
+
+  @observable
+  bool previewError = false;
+
+  @action
+  void setPreviewError(bool value) => previewError = value;
 
   @action
   void _triggerErrorOfTagField() => tagError = true;
@@ -348,26 +353,32 @@ abstract class _WithdrawalStoreBase with Store {
     if (withdrawalType == WithdrawalType.jar) {
       final jarBalance = Decimal.parse(withdrawalInputModel!.jar!.balanceInJarAsset.toString());
       result = jarBalance -
-          currency.withdrawalFeeSize(
-            network: getNetworkForFee(),
-            amount: jarBalance,
-          );
+          (previewFee != null
+              ? Decimal.parse(previewFee.toString())
+              : currency.withdrawalFeeSize(
+                  network: getNetworkForFee(),
+                  amount: currency.assetBalance,
+                ));
     } else {
       result = currency.assetBalance -
           currency.cardReserve -
-          currency.withdrawalFeeSize(
-            network: getNetworkForFee(),
-            amount: currency.assetBalance,
-          );
+          (previewFee != null
+              ? Decimal.parse(previewFee.toString())
+              : currency.withdrawalFeeSize(
+                  network: getNetworkForFee(),
+                  amount: currency.assetBalance,
+                ));
     }
     return result;
   }
 
   @computed
-  Decimal get feeAmount => currency.withdrawalFeeSize(
-        network: getNetworkForFee(),
-        amount: Decimal.parse(withAmount),
-      );
+  Decimal get feeAmount => previewFee != null
+      ? Decimal.parse(previewFee.toString())
+      : currency.withdrawalFeeSize(
+          network: getNetworkForFee(),
+          amount: Decimal.parse(withAmount),
+        );
 
   @computed
   Decimal get youWillSendAmount => withAmount != '0' ? Decimal.parse(withAmount) + feeAmount : Decimal.zero;
@@ -450,6 +461,7 @@ abstract class _WithdrawalStoreBase with Store {
         }
 
       case WithdrawStep.preview:
+        getWithdrawalFeeByPreview();
         if (isReplace) {
           sRouter.popUntil((route) => route.settings is WithdrawalPreviewRouter);
         } else {
@@ -874,21 +886,30 @@ abstract class _WithdrawalStoreBase with Store {
   @action
   Future<void> getWithdrawalFeeByPreview() async {
     void onError(error, [stackTrace]) {
+      setPreviewError(true);
+
       if (kDebugMode) {
         print('WithdrawalStore get preview fee error $error, stackTrace: $stackTrace');
       }
 
-      sNotification.showError(
-        '${intl.something_went_wrong_try_again}!',
-        id: 1,
-      );
+      if (error is ServerRejectException) {
+        sNotification.showError(
+          error.cause,
+          id: 1,
+        );
+      } else {
+        sNotification.showError(
+          intl.something_went_wrong_try_again,
+          id: 1,
+        );
+      }
     }
 
     if (withdrawalType == WithdrawalType.jar) {
       try {
         final previewResponseModel = await sNetwork.getWalletModule().postWithdrawJarPreviewRequest(
               withdrawalInputModel!.currency!.symbol,
-              10,
+              double.parse(withAmount),
               address,
               network.id,
               withdrawalInputModel!.jar!.id,
@@ -897,7 +918,9 @@ abstract class _WithdrawalStoreBase with Store {
         previewResponseModel.pick(
           onData: (preview) {
             setPreviewFee(preview.feeAmount);
-            print('#@#@#@ ${preview.feeAmount}');
+            if (previewError) {
+              setPreviewError(false);
+            }
           },
           onError: (error) {
             onError(error);
@@ -909,17 +932,19 @@ abstract class _WithdrawalStoreBase with Store {
     } else {
       try {
         final previewResponseModel = await sNetwork.getWalletModule().postWithdrawPreviewRequest(
-          withdrawalInputModel!.currency!.symbol,
-          10,
-          address,
-          tag,
-          network.id,
-        );
+              withdrawalInputModel!.currency!.symbol,
+              double.parse(withAmount),
+              address,
+              tag,
+              network.id,
+            );
 
         previewResponseModel.pick(
           onData: (preview) {
             setPreviewFee(preview.feeAmount);
-            print('#@#@#@ ${preview.feeAmount}');
+            if (previewError) {
+              setPreviewError(false);
+            }
           },
           onError: (error) {
             onError(error);
@@ -1133,10 +1158,12 @@ abstract class _WithdrawalStoreBase with Store {
       );
     }
 
-    final feeSize = withdrawalInputModel!.currency!.withdrawalFeeSize(
-      network: getNetworkForFee(),
-      amount: Decimal.parse(withAmount),
-    );
+    final feeSize = previewFee != null
+        ? Decimal.parse(previewFee.toString())
+        : withdrawalInputModel!.currency!.withdrawalFeeSize(
+            network: getNetworkForFee(),
+            amount: Decimal.parse(withAmount),
+          );
 
     try {
       final model = WithdrawRequestModel(
@@ -1218,10 +1245,12 @@ abstract class _WithdrawalStoreBase with Store {
     previewLoading = true;
 
     try {
-      final feeSize = withdrawalInputModel!.currency!.withdrawalFeeSize(
-        network: getNetworkForFee(),
-        amount: Decimal.parse(withAmount),
-      );
+      final feeSize = previewFee != null
+          ? Decimal.parse(previewFee.toString())
+          : withdrawalInputModel!.currency!.withdrawalFeeSize(
+              network: getNetworkForFee(),
+              amount: Decimal.parse(withAmount),
+            );
 
       final model = WithdrawJarRequestModel(
         requestId: DateTime.now().microsecondsSinceEpoch.toString(),
