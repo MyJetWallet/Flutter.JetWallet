@@ -11,9 +11,9 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_android/webview_flutter_android.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 
-@RoutePage(name: 'HelpCenterWebViewRouter')
-class HelpCenterWebView extends StatefulWidget {
-  const HelpCenterWebView({
+@RoutePage(name: 'WebViewRouter')
+class WebViewScreen extends StatefulWidget {
+  const WebViewScreen({
     super.key,
     required this.link,
     this.title,
@@ -23,10 +23,10 @@ class HelpCenterWebView extends StatefulWidget {
   final String? title;
 
   @override
-  State<HelpCenterWebView> createState() => _HelpCenterWebViewState();
+  State<WebViewScreen> createState() => _WebViewScreenState();
 }
 
-class _HelpCenterWebViewState extends State<HelpCenterWebView> {
+class _WebViewScreenState extends State<WebViewScreen> {
   late WebViewController controller;
 
   @override
@@ -55,10 +55,9 @@ class _HelpCenterWebViewState extends State<HelpCenterWebView> {
       (controller.platform as AndroidWebViewController).setOnShowFileSelector((params) => _androidFilePicker(params));
     }
 
-    controller
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setBackgroundColor(Colors.white)
-      ..loadRequest(Uri.parse(widget.link));
+    controller.setJavaScriptMode(JavaScriptMode.unrestricted);
+    controller.setBackgroundColor(Colors.white);
+    controller.loadRequest(Uri.parse(widget.link));
 
     super.initState();
   }
@@ -81,7 +80,7 @@ class _HelpCenterWebViewState extends State<HelpCenterWebView> {
       loaderText: intl.register_pleaseWait,
       header: SPaddingH24(
         child: SSmallHeader(
-          title: widget.title ?? intl.helpCenterWebView,
+          title: widget.title ?? '',
           onBackButtonTap: () {
             if (context.mounted) {
               Navigator.pop(context);

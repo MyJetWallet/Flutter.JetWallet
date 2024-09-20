@@ -13,7 +13,6 @@ import 'package:jetwallet/features/account/profile_details/ui/profile_details.da
 import 'package:jetwallet/features/account/profile_details/ui/widgets/change_password.dart';
 import 'package:jetwallet/features/account/profile_details/ui/widgets/default_asset_change.dart';
 import 'package:jetwallet/features/account/profile_details/ui/widgets/set_new_password.dart';
-import 'package:jetwallet/features/account/widgets/help_center_web_view.dart';
 import 'package:jetwallet/features/add_circle_card/ui/add_circle_card.dart';
 import 'package:jetwallet/features/add_circle_card/ui/circle_billing_address/circle_billing_address.dart';
 import 'package:jetwallet/features/auth/biometric/ui/biometric.dart';
@@ -137,12 +136,12 @@ import 'package:jetwallet/features/withdrawal/ui/withdrawal_confirm.dart';
 import 'package:jetwallet/features/withdrawal/ui/withdrawal_preview.dart';
 import 'package:jetwallet/features/withdrawal/ui/withdrawal_screen.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:jetwallet/widgets/info_web_view.dart';
 import 'package:jetwallet/widgets/result_screens/failure_screen/failure_screen.dart';
 import 'package:jetwallet/widgets/result_screens/success_screen/success_screen.dart';
 import 'package:jetwallet/widgets/result_screens/verifying_screen/success_verifying_screen.dart';
 import 'package:jetwallet/widgets/result_screens/verifying_screen/verifying_screen.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
+import 'package:jetwallet/widgets/web_view/web_view_screen.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:simple_kit/modules/account/phone_number/simple_number.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
@@ -308,14 +307,6 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/crisp',
       page: CrispRouter.page,
-    ),
-    AutoRoute(
-      path: '/help_center_webview',
-      page: HelpCenterWebViewRouter.page,
-    ),
-    AutoRoute(
-      path: '/info_web_view',
-      page: InfoWebViewRouter.page,
     ),
     AutoRoute(
       path: '/choose_documents',
@@ -802,6 +793,10 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/jar_share',
       page: JarShareRouter.page,
+    ),
+    AutoRoute(
+      path: '/web_view',
+      page: WebViewRouter.page,
     ),
   ];
 }

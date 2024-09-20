@@ -247,8 +247,9 @@ class _AccountScreenState extends State<AccountScreen> with SingleTickerProvider
                       icon: const SQuestionIcon(),
                       onTap: () {
                         sRouter.push(
-                          HelpCenterWebViewRouter(
+                          WebViewRouter(
                             link: faqLink,
+                            title: intl.helpCenterWebView,
                           ),
                         );
                       },
