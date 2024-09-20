@@ -142,9 +142,9 @@ abstract class _OnboardingStoreBase with Store {
   }
 
   void onSliderChange() {
-    if (currentIndex == 0) {
-      sAnalytics.onboardingFinanceIsSimpleScreenView();
-    }
+  //   if (currentIndex == 0) {
+  //     sAnalytics.onboardingFinanceIsSimpleScreenView();
+  //   }
   }
 
   String showImages(int index) {
