@@ -1755,7 +1755,7 @@
     "jar_address": "Address",
     "jar_network": "Network",
     "jar_skip": "Skip",
-    "jar_empty_list": "You don't have jars yet",
+    "jar_empty_list": " You don't have jars yet",
     "jar_closed_title": "You closed the jar titled {name}",
     "jar_closed_hint": "The jar will no longer be refilled",
     "jar_done": "Done",
@@ -1791,5 +1791,8 @@
     "jar_insufficient_funds_for_withdrawal_yes": "Yes",
     "jar_insufficient_funds_for_withdrawal_no": "No",
     "input_error_not_enough_balance_to_cover_fee": "Not enough balance to cover fee. Please add funds.",
-    "jar_close_transactions_in_processed_error": "Your withdrawal is currently being processed. Please try again later."
+    "jar_close_transactions_in_processed_error": "Your withdrawal is currently being processed. Please try again later.",
+    "jar_view_all": "View all",
+    "jar_view_closed_jars": "View closed jars",
+    "jar_you_dont_have_any_open_jars": "You don’t have any open jars. Open a new one or check your closed jars."
 }

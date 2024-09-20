@@ -35,6 +35,7 @@ import 'package:jetwallet/features/convert/ui/convert.dart';
 import 'package:jetwallet/features/convert/ui/preview_convert.dart';
 import 'package:jetwallet/features/convert_flow/screens/convetr_confrimation_screen.dart';
 import 'package:jetwallet/features/crypto_deposit/crypto_deposit_screen.dart';
+import 'package:jetwallet/features/crypto_jar/ui/all_jars_screen.dart';
 import 'package:jetwallet/features/crypto_jar/ui/create_new_jar_screen.dart';
 import 'package:jetwallet/features/crypto_jar/ui/enter_jar_description_screen.dart';
 import 'package:jetwallet/features/crypto_jar/ui/enter_jar_goal_screen.dart';
@@ -794,6 +795,10 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/jar',
       page: JarRouter.page,
+    ),
+    AutoRoute(
+      path: '/all-jars',
+      page: AllJarsRouter.page,
     ),
     AutoRoute(
       path: '/jar_closed_confirmation',

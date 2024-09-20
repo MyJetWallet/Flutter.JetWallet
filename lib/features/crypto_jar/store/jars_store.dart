@@ -29,6 +29,13 @@ abstract class _JarsStoreBase with Store {
   @observable
   ObservableList<JarResponseModel> activeJar = ObservableList.of([]);
 
+  @computed
+  List<JarResponseModel> get shownJars => activeJar.isNotEmpty
+      ? activeJar.length >= 5
+          ? activeJar.sublist(0, 5)
+          : activeJar.sublist(0, activeJar.length)
+      : [];
+
   @observable
   JarResponseModel? selectedJar;
 
