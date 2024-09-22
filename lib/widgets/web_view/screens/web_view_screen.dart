@@ -16,15 +16,17 @@ class WebViewScreen extends StatelessWidget {
     super.key,
     required this.link,
     this.title,
+    this.navigationDelegate,
   });
 
   final String link;
   final String? title;
+  final NavigationDelegate? navigationDelegate;
 
   @override
   Widget build(BuildContext context) {
     return Provider(
-      create: (context) => WebViewStore(Uri.parse(link)),
+      create: (context) => WebViewStore(Uri.parse(link))..setNavigationDelegate(navigationDelegate),
       builder: (context, child) {
         final store = WebViewStore.of(context);
 

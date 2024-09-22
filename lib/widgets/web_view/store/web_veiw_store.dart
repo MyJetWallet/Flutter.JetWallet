@@ -66,4 +66,11 @@ abstract class _WebViewStoreBase with Store {
     }
     return [];
   }
+
+  @action
+  void setNavigationDelegate(NavigationDelegate? navigationDelegate) {
+    if (navigationDelegate != null) {
+      controller.setNavigationDelegate(navigationDelegate);
+    }
+  }
 }
