@@ -17,7 +17,6 @@ import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/kyc/kyc_plan_responce_model.dart';
 
 import '../../../../utils/constants.dart';
-import '../../choose_documents/store/kyc_country_store.dart';
 
 @RoutePage(name: 'KycVerificationRouter')
 class KycVerification extends StatefulObserverWidget {
@@ -158,29 +157,12 @@ class _KycVerificationState extends State<KycVerification> {
                     style: STStyles.body1Medium.copyWith(color: colors.gray10),
                   ),
                   const SpaceH24(),
-                  _verificationItem(
+                  VerificationItem(
                     itemString: intl.kycAlertHandler_secureYourAccount,
-                    step: '1',
                     isDone: isPhoneDone,
-                    linkText: intl.provide_information,
-                    haveLink: !isPhoneDone,
-                    linkAction: () {
-                      navigateVerifiedNavigate();
-                    },
                   ),
-                  _verificationItem(
+                  VerificationItem(
                     itemString: intl.kycAlertHandler_verifyYourIdentity,
-                    step: '2',
-                    haveLink: isPhoneDone,
-                    linkText: intl.provide_information,
-                    linkAction: () {
-                      final countries = getIt.get<KycCountryStore>();
-                      sAnalytics.kycFlowProvideInformation();
-                      sAnalytics.kycFlowVerifyWait(
-                        country: countries.activeCountry?.countryName ?? '',
-                      );
-                      navigateVerifiedNavigate();
-                    },
                     isDisabled: !isPhoneDone,
                   ),
                   const Spacer(),
@@ -201,79 +183,55 @@ class _KycVerificationState extends State<KycVerification> {
       ),
     );
   }
+}
 
-  Widget _verificationItem({
-    required String itemString,
-    required String step,
-    bool isDone = false,
-    bool haveLink = false,
-    String? linkText,
-    Function()? linkAction,
-    bool isDisabled = false,
-  }) {
-    final colors = sKit.colors;
+class VerificationItem extends StatelessWidget {
+  const VerificationItem({
+    required this.itemString,
+    this.isDone = false,
+    this.isDisabled = false,
+  });
+
+  final String itemString;
+  final bool isDone;
+  final bool isDisabled;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = SColorsLight();
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Column(
-            children: [
-              if (isDisabled) const SpaceH3() else const SpaceH4(),
-              if (!isDone) ...[
-                Padding(
-                  padding: const EdgeInsets.only(left: 2),
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: isDisabled ? null : colors.blue,
-                      border: isDisabled ? Border.all(color: colors.grey1) : null,
-                    ),
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          left: 6,
-                          right: 6,
-                          bottom: 3,
-                        ),
-                        child: Text(
-                          step,
-                          style: sBodyText2Style.copyWith(
-                            color: isDisabled ? colors.grey1 : colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ] else ...[
-                const SBlueDoneIcon(),
-              ],
-            ],
-          ),
-          const SpaceW14(),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                itemString,
-                style: sSubtitle2Style,
+          if (isDisabled)
+            Assets.svg.small.minusCircle.simpleSvg(
+              color: colors.gray10,
+            )
+          else if (!isDone)
+            Container(
+              width: 16,
+              height: 16,
+              margin: const EdgeInsets.only(left: 2),
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: colors.black,
               ),
-              if (haveLink) ...[
-                const SpaceH12(),
-                SLinkButtonText(
-                  active: true,
-                  name: linkText ?? '',
-                  onTap: linkAction ?? () {},
-                  defaultIcon: const SBlueRightArrowIcon(),
-                  pressedIcon: SBlueRightArrowIcon(
-                    color: colors.blue.withOpacity(0.8),
-                  ),
-                  inactiveIcon: const SBlueRightArrowIcon(),
-                ),
-              ],
-            ],
+            )
+          else
+            Assets.svg.small.minusCircle.simpleSvg(
+              color: colors.blue,
+            ),
+          const SpaceW16(),
+          Text(
+            itemString,
+            style: STStyles.subtitle1.copyWith(
+              color: isDisabled
+                  ? colors.gray10
+                  : isDone
+                      ? colors.blue
+                      : colors.black,
+            ),
           ),
         ],
       ),
