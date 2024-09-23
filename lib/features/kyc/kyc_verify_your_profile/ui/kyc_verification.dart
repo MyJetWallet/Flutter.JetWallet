@@ -169,7 +169,7 @@ class _KycVerificationState extends State<KycVerification> {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 50),
                     child: SButton.blue(
-                      text: isPhoneDone ? 'Verify identity' : 'Secure account',
+                      text: isPhoneDone ? intl.kyc_verify_identity : intl.kyc_secure_account,
                       callback: () {
                         navigateVerifiedNavigate();
                       },
