@@ -300,6 +300,7 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/kyc_verification',
       page: KycVerificationRouter.page,
+      fullscreenDialog: true,
     ),
     AutoRoute(
       path: '/account',
