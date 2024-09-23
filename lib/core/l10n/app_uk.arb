@@ -5899,7 +5899,6 @@
     "jar_address": "Адреса",
     "jar_network": "Мережа",
     "jar_skip": "Пропустити",
-    "jar_empty_list": "У вас ще немає банок",
     "jar_closed_title": "Ви закрили банку {name}",
     "jar_closed_hint": "Банка більше не буде поповнюватися",
     "jar_done": "Завершено",
@@ -5935,5 +5934,17 @@
     "jar_insufficient_funds_for_withdrawal_yes": "Так",
     "jar_insufficient_funds_for_withdrawal_no": "Ні",
     "input_error_not_enough_balance_to_cover_fee": "Недостатньо коштів для оплати комісії. Будь ласка, поповніть рахунок.",
-    "jar_close_transactions_in_processed_error": "Ваш запит на виведення коштів зараз обробляється. Будь ласка, спробуйте пізніше."
+    "jar_close_transactions_in_processed_error": "Ваш запит на виведення коштів зараз обробляється. Будь ласка, спробуйте пізніше.",
+    "withdrawal_network_minutes": "хвилини",
+    "withdrawal_network_minute": "хвилина",
+    "jar_view_all": "Переглянути все",
+    "jar_view_closed_jars": "Переглянути закриті банки",
+    "jar_you_dont_have_any_open_jars": "У вас немає відкритих банок. Відкрийте нову або перевірте закриті.",
+    "jar_empty_list": "У вас ще немає банок",
+    "wallet_this_asset_is_only_tradable_within_simple": "Цим активом можна торгувати тільки в додатку Simple",
+    "wallet_got_it": "Зрозуміло",
+    "wallet_please_add_funds_to_your_balance": "Будь ласка, спершу поповніть свій баланс",
+    "wallet_buy_crypto": "Купити криптовалюту",
+    "earn_offering_no_longer_accepts_deposits": "Ця пропозиція більше не приймає депозити. Розпочніть нову позицію Доходу, щоб продовжити збільшення ваших заощаджень.",
+    "earn_start_new_earn": "Розпочніть новий Дохід"
 }

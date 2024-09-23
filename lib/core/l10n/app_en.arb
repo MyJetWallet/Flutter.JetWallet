@@ -1755,7 +1755,6 @@
     "jar_address": "Address",
     "jar_network": "Network",
     "jar_skip": "Skip",
-    "jar_empty_list": "You don't have jars yet",
     "jar_closed_title": "You closed the jar titled {name}",
     "jar_closed_hint": "The jar will no longer be refilled",
     "jar_done": "Done",
@@ -1791,5 +1790,18 @@
     "jar_insufficient_funds_for_withdrawal_yes": "Yes",
     "jar_insufficient_funds_for_withdrawal_no": "No",
     "input_error_not_enough_balance_to_cover_fee": "Not enough balance to cover fee. Please add funds.",
-    "jar_close_transactions_in_processed_error": "Your withdrawal is currently being processed. Please try again later."
+    "jar_close_transactions_in_processed_error": "Your withdrawal is currently being processed. Please try again later.",
+    "withdrawal_network_minutes": "minutes",
+    "withdrawal_network_minute": "minute",
+    "jar_view_all": "View all",
+    "jar_view_closed_jars": "View closed jars",
+    "jar_you_dont_have_any_open_jars": "You don’t have any open jars. Open a new one or check your closed jars.",
+    "jar_empty_list": "You don't have jars yet",
+    "wallet_this_asset_is_only_tradable_within_simple": "This asset is only tradable within Simple app",
+    "wallet_got_it": "Got it",
+    "wallet_please_add_funds_to_your_balance": "Please add funds to your balance first",
+    "wallet_buy_crypto": "Buy crypto",
+    "earn_offering_no_longer_accepts_deposits": "This offering no longer accepts deposits. Start a new Earn position to continue growing your savings.",
+    "earn_start_new_earn": "Start a new Earn",
+    "market_gainers_losers_placeholder": "The market is steady. Check back later for updates"
 }
