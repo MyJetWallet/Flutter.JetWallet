@@ -2,8 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/features/buy_flow/store/buy_confirmation_store.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/confirmation_widgets/confirmation_info_grid.dart';
@@ -16,7 +18,7 @@ import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
@@ -74,6 +76,8 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
     final store = BuyConfirmationStore.of(context);
     final colors = sKit.colors;
 
+    final currency = getIt.get<FormatService>().findCurrency(assetSymbol: store.buyCurrency.symbol);
+
     return SPageFrameWithPadding(
       loading: store.loader,
       loaderText: intl.register_pleaseWait,
@@ -100,6 +104,7 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
             hasScrollBody: false,
             child: Column(
               children: [
+                if (currency.networksForBlockchainSend.isEmpty) _buildInfoWidget(),
                 WhatToWhatConvertWidget(
                   isLoading: !store.isDataLoaded,
                   fromAssetIconUrl: store.payCurrency.iconUrl,
@@ -235,6 +240,38 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                 ),
                 const SpaceH40(),
               ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildInfoWidget() {
+    return Container(
+      height: 84.0,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: SColorsLight().yellowExtralight,
+        borderRadius: BorderRadius.circular(16.0),
+      ),
+      padding: const EdgeInsets.only(left: 16.0, top: 22.0, right: 36.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Assets.svg.small.info.simpleSvg(height: 20.0, width: 20.0),
+          const SizedBox(
+            width: 12.0,
+          ),
+          Expanded(
+            child: Text(
+              intl.wallet_this_asset_is_only_tradable_within_simple,
+              maxLines: 2,
+              softWrap: true,
+              overflow: TextOverflow.visible,
+              style: STStyles.body2Medium.copyWith(
+                color: SColorsLight().black,
+              ),
             ),
           ),
         ],
