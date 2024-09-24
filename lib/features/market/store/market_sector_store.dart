@@ -61,7 +61,7 @@ abstract class _MarketSectorStoreBase with Store {
 
   @computed
   ObservableList<MarketItemModel> get filtredMarketItems {
-    final result = <MarketItemModel>[];
+    final result = ObservableList.of(<MarketItemModel>[]);
     final afterSearch = marketItems.where((marketItem) {
       final currency = getIt.get<FormatService>().findCurrency(
             findInHideTerminalList: true,
@@ -99,7 +99,7 @@ abstract class _MarketSectorStoreBase with Store {
         );
       }
     }
-    return ObservableList.of(result);
+    return result;
   }
 
   @action

@@ -69,6 +69,7 @@ class _MarketSectorDetailsBodyState extends State<_MarketSectorDetailsBody> with
       ),
       child: Observer(
         builder: (context) {
+          final assets = store.filtredMarketItems;
           return CustomScrollView(
             slivers: [
               SliverPadding(
@@ -203,14 +204,14 @@ class _MarketSectorDetailsBodyState extends State<_MarketSectorDetailsBody> with
                 ),
               ),
               SliverList.builder(
-                itemCount: store.filtredMarketItems.length,
+                itemCount: assets.length,
                 itemBuilder: (context, index) {
                   final currency = getIt.get<FormatService>().findCurrency(
                         findInHideTerminalList: true,
-                        assetSymbol: store.filtredMarketItems[index].symbol,
+                        assetSymbol: assets[index].symbol,
                       );
 
-                  final candles = chartStore.getAssetCandles(store.filtredMarketItems[index].associateAssetPair);
+                  final candles = chartStore.getAssetCandles(assets[index].associateAssetPair);
 
                   return SimpleTableAsset(
                     assetIcon: NetworkIconWidget(
@@ -220,7 +221,7 @@ class _MarketSectorDetailsBodyState extends State<_MarketSectorDetailsBody> with
                     rightValue:
                         (baseCurrency.symbol == currency.symbol ? Decimal.one : currency.currentPrice).toFormatPrice(
                       prefix: baseCurrency.prefix,
-                      accuracy: store.filtredMarketItems[index].priceAccuracy,
+                      accuracy: assets[index].priceAccuracy,
                     ),
                     supplement: currency.symbol,
                     isRightValueMarket: true,
@@ -229,7 +230,7 @@ class _MarketSectorDetailsBodyState extends State<_MarketSectorDetailsBody> with
                     onTableAssetTap: () {
                       sRouter.push(
                         MarketDetailsRouter(
-                          marketItem: store.filtredMarketItems[index],
+                          marketItem: assets[index],
                         ),
                       );
                     },
