@@ -1,3 +1,7 @@
+import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/services/user_info/user_info_service.dart';
+import 'package:jetwallet/features/kyc/kyc_service.dart';
+import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:mobx/mobx.dart';
 
 part 'verification_store.g.dart';
@@ -20,6 +24,12 @@ abstract class _VerificationStoreBase with Store {
 
   @observable
   bool isRefreshPin = false;
+
+  @computed
+  bool get showPhoneNumberSteep {
+    return getIt.get<KycService>().requiredVerifications.contains(RequiredVerified.proofOfPhone) &&
+        sUserInfo.phone != '';
+  }
 
   @action
   void setPhoneDone(bool value) => isPhoneDone = value;
