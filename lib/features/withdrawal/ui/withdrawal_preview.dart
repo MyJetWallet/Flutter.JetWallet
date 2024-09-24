@@ -76,10 +76,7 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
 
     final formatService = getIt.get<FormatService>();
 
-    final feeSize = store.withdrawalInputModel!.currency!.withdrawalFeeSize(
-      network: store.getNetworkForFee(),
-      amount: Decimal.parse(store.withAmount),
-    );
+    final feeSize = store.feeAmount;
 
     final feeSizeWithSymbol = feeSize.toFormatCount(
       symbol: store.withdrawalInputModel?.currency?.symbol ?? '',

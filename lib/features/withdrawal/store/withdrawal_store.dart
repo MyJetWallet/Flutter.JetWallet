@@ -461,7 +461,6 @@ abstract class _WithdrawalStoreBase with Store {
         }
 
       case WithdrawStep.preview:
-        getWithdrawalFeeByPreview();
         if (isReplace) {
           sRouter.popUntil((route) => route.settings is WithdrawalPreviewRouter);
         } else {

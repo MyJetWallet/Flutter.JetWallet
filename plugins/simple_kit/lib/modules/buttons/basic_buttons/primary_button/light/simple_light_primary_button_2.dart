@@ -9,12 +9,14 @@ class SimpleLightPrimaryButton2 extends StatelessWidget {
     required this.active,
     required this.name,
     required this.onTap,
+    this.isLoading = false,
   });
 
   final Widget? icon;
   final bool active;
   final String name;
   final Function() onTap;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +29,7 @@ class SimpleLightPrimaryButton2 extends StatelessWidget {
       activeNameColor: SColorsLight().white,
       inactiveColor: SColorsLight().blue.withOpacity(0.3),
       inactiveNameColor: SColorsLight().white,
+      isLoading: isLoading,
     );
   }
 }

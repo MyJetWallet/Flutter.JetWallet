@@ -12,6 +12,7 @@ class SimpleBasePrimaryButton extends StatefulWidget {
     required this.activeNameColor,
     required this.inactiveColor,
     required this.inactiveNameColor,
+    this.isLoading = false,
   });
 
   final Widget? icon;
@@ -22,6 +23,7 @@ class SimpleBasePrimaryButton extends StatefulWidget {
   final Color activeNameColor;
   final Color inactiveColor;
   final Color inactiveNameColor;
+  final bool isLoading;
 
   @override
   State<SimpleBasePrimaryButton> createState() => _SimpleBasePrimaryButtonState();
@@ -61,6 +63,7 @@ class _SimpleBasePrimaryButtonState extends State<SimpleBasePrimaryButton> {
       decoration: BoxDecoration(
         color: currentColor,
       ),
+      isLoading: widget.isLoading,
     );
   }
 }
