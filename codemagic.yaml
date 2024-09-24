@@ -52,7 +52,7 @@ definitions:
     BUNDLE_ID: "app.simple.com"
     APP_STORE_ID: 1603406843
     FIREBASE_ANDROID_ID: 1:403762259621:android:e4cb6f9d00b51a0d020f4c
-FIREBASE_IOS_ID: 1:403762259621:ios:a8d8f569a60c9eec020f4c
+    FIREBASE_IOS_ID: 1:403762259621:ios:a8d8f569a60c9eec020f4c
 
   cache: &cache
     cache_paths:
