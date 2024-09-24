@@ -909,7 +909,7 @@ abstract class _WithdrawalStoreBase with Store {
       try {
         final previewResponseModel = await sNetwork.getWalletModule().postWithdrawJarPreviewRequest(
               withdrawalInputModel!.currency!.symbol,
-              double.parse(withAmount),
+              double.parse(withAmount) == 0 ? 0 : double.parse(withAmount) + feeAmount.toDouble(),
               address,
               network.id,
               withdrawalInputModel!.jar!.id,
@@ -933,7 +933,7 @@ abstract class _WithdrawalStoreBase with Store {
       try {
         final previewResponseModel = await sNetwork.getWalletModule().postWithdrawPreviewRequest(
               withdrawalInputModel!.currency!.symbol,
-              double.parse(withAmount),
+              double.parse(withAmount) == 0 ? 0 : double.parse(withAmount) + feeAmount.toDouble(),
               address,
               tag,
               network.id,

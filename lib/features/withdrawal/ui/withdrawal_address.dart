@@ -8,6 +8,7 @@ import 'package:jetwallet/features/withdrawal/store/withdrawal_store.dart';
 import 'package:jetwallet/widgets/network_bottom_sheet/show_network_bottom_sheet.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/jar/jar_response_model.dart';
 
@@ -21,6 +22,8 @@ class WithdrawalAddressScreen extends StatefulObserverWidget {
 
 class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
   final scrollController = ScrollController();
+
+  bool loading = false;
 
   @override
   void initState() {
@@ -255,33 +258,38 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                 const SpaceH19(),
                 Observer(
                   builder: (context) {
-                    return SPaddingH24(
-                      child: Material(
-                        color: colors.grey5,
-                        child: SPrimaryButton2(
-                          active: store.isReadyToContinue,
-                          name: intl.currencyWithdraw_continue,
-                          onTap: () {
-                            if (store.withdrawalType == WithdrawalType.jar) {
-                              sAnalytics.jarTapOnButtonContinueJarWithdrawOnWithdraw(
-                                asset: store.withdrawalInputModel!.jar!.assetSymbol,
-                                network: 'TRC20',
-                                target: store.withdrawalInputModel!.jar!.target.toInt(),
-                                balance: store.withdrawalInputModel!.jar!.balanceInJarAsset,
-                                isOpen: store.withdrawalInputModel!.jar!.status == JarStatus.active,
-                              );
-                            } else {
-                              sAnalytics.cryptoSendTapContinue(
-                                asset: store.withdrawalInputModel!.currency!.symbol,
-                                sendMethodType: '0',
-                              );
-                            }
+                    return Padding(
+                      padding: const EdgeInsets.all(24.0),
+                      child: SButton.blue(
+                        isLoading: loading,
+                        text: intl.currencyWithdraw_continue,
+                        callback: store.isReadyToContinue ? () async {
+                          setState(() {
+                            loading = true;
+                          });
+                          if (store.withdrawalType == WithdrawalType.jar) {
+                            sAnalytics.jarTapOnButtonContinueJarWithdrawOnWithdraw(
+                              asset: store.withdrawalInputModel!.jar!.assetSymbol,
+                              network: 'TRC20',
+                              target: store.withdrawalInputModel!.jar!.target.toInt(),
+                              balance: store.withdrawalInputModel!.jar!.balanceInJarAsset,
+                              isOpen: store.withdrawalInputModel!.jar!.status == JarStatus.active,
+                            );
+                          } else {
+                            sAnalytics.cryptoSendTapContinue(
+                              asset: store.withdrawalInputModel!.currency!.symbol,
+                              sendMethodType: '0',
+                            );
+                          }
 
-                            FocusScope.of(context).unfocus();
+                          FocusScope.of(context).unfocus();
 
-                            store.validateOnContinue(context);
-                          },
-                        ),
+                          await store.validateOnContinue(context);
+
+                          setState(() {
+                            loading = false;
+                          });
+                        } : null,
                       ),
                     );
                   },
