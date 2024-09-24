@@ -40,6 +40,8 @@ class _OnboardingScreenBodyState extends State<OnboardingScreenBody> with Ticker
 
   @override
   void initState() {
+    sAnalytics.onboardingFinanceIsSimpleScreenView();
+
     OnboardingStore.of(context).init(_slidesAnimationController);
     super.initState();
   }
