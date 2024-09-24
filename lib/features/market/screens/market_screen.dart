@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:charts/simple_chart.dart';
 import 'package:decimal/decimal.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
@@ -309,8 +310,6 @@ class _MarketScreenState extends State<MarketScreen> {
                               );
                           final isInWatchlist = watchlistIdsN.state.contains(currency.symbol);
 
-                          final candles = chartStore.getAssetCandles(activeAssetsList[index].associateAssetPair);
-
                           return Slidable(
                             startActionPane: ActionPane(
                               extentRatio: 0.2,
@@ -337,36 +336,44 @@ class _MarketScreenState extends State<MarketScreen> {
                                 ),
                               ],
                             ),
-                            child: SimpleTableAsset(
-                              assetIcon: NetworkIconWidget(
-                                currency.iconUrl,
-                              ),
-                              label: currency.description,
-                              rightValue: (baseCurrency.symbol == currency.symbol ? Decimal.one : currency.currentPrice)
-                                  .toFormatPrice(
-                                prefix: baseCurrency.prefix,
-                                accuracy: activeAssetsList[index].priceAccuracy,
-                              ),
-                              supplement: currency.symbol,
-                              isRightValueMarket: true,
-                              rightMarketValue: formatPercent(currency.dayPercentChange),
-                              rightValueMarketPositive: currency.dayPercentChange >= 0,
-                              onTableAssetTap: () {
-                                FocusManager.instance.primaryFocus?.unfocus();
-                                getIt.get<EventBus>().fire(EndReordering());
-                                sRouter.push(
-                                  MarketDetailsRouter(
-                                    marketItem: activeAssetsList[index],
+                            child: FutureBuilder<List<CandleModel>>(
+                              future: chartStore.getAssetCandles(activeAssetsList[index].associateAssetPair),
+                              builder: (context, snapshot) {
+                                return SimpleTableAsset(
+                                  assetIcon: NetworkIconWidget(
+                                    currency.iconUrl,
                                   ),
+                                  label: currency.description,
+                                  rightValue:
+                                      (baseCurrency.symbol == currency.symbol ? Decimal.one : currency.currentPrice)
+                                          .toFormatPrice(
+                                    prefix: baseCurrency.prefix,
+                                    accuracy: activeAssetsList[index].priceAccuracy,
+                                  ),
+                                  supplement: currency.symbol,
+                                  isRightValueMarket: true,
+                                  rightMarketValue: formatPercent(currency.dayPercentChange),
+                                  rightValueMarketPositive: currency.dayPercentChange >= 0,
+                                  onTableAssetTap: () {
+                                    FocusManager.instance.primaryFocus?.unfocus();
+                                    getIt.get<EventBus>().fire(EndReordering());
+                                    sRouter.push(
+                                      MarketDetailsRouter(
+                                        marketItem: activeAssetsList[index],
+                                      ),
+                                    );
+                                  },
+                                  chartWidget: (snapshot.connectionState == ConnectionState.done)
+                                      ? SmallChart(
+                                          candles: snapshot.data ?? <CandleModel>[],
+                                          width: 32,
+                                          height: 12,
+                                          lineWith: 1.8,
+                                          maxCandles: 20,
+                                        )
+                                      : null,
                                 );
                               },
-                              chartWidget: SmallChart(
-                                candles: candles,
-                                width: 32,
-                                height: 12,
-                                lineWith: 1.8,
-                                maxCandles: 20,
-                              ),
                             ),
                           );
                         },

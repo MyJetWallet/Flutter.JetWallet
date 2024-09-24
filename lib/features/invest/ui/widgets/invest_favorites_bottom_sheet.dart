@@ -1,3 +1,4 @@
+import 'package:charts/simple_chart.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -203,28 +204,33 @@ class InstrumentsList extends StatelessObserverWidget {
                 ),
                 const SpaceH4(),
                 for (final instrument in investStore.instrumentsSortedList) ...[
-                  SymbolInfoLine(
-                    percent: investStore.getPercentSymbol(instrument.symbol ?? ''),
-                    instrument: instrument,
-                    amount: getGroupedAmount(instrument.symbol!),
-                    profit: getGroupedProfit(instrument.symbol!),
-                    price: investStore.getPriceBySymbol(instrument.symbol ?? ''),
-                    withFavorites: true,
-                    isFavorite: investStore.favoritesSymbols.contains(instrument.name),
-                    candles: investChartStore.getAssetCandles(instrument.symbol ?? ''),
-                    onTapFavorites: () {
-                      if (investStore.favoritesSymbols.contains(instrument.name)) {
-                        investStore.removeFromFavorites(instrument.name!);
-                      } else {
-                        investStore.addToFavorites(instrument.name!);
-                      }
-                    },
-                    onTap: () {
-                      if (investStore.favoritesSymbols.contains(instrument.name)) {
-                        investStore.removeFromFavorites(instrument.name!);
-                      } else {
-                        investStore.addToFavorites(instrument.name!);
-                      }
+                  FutureBuilder<List<CandleModel>>(
+                    future: investChartStore.getAssetCandles(instrument.symbol ?? ''),
+                    builder: (context, snapshot) {
+                      return SymbolInfoLine(
+                        percent: investStore.getPercentSymbol(instrument.symbol ?? ''),
+                        instrument: instrument,
+                        amount: getGroupedAmount(instrument.symbol!),
+                        profit: getGroupedProfit(instrument.symbol!),
+                        price: investStore.getPriceBySymbol(instrument.symbol ?? ''),
+                        withFavorites: true,
+                        isFavorite: investStore.favoritesSymbols.contains(instrument.name),
+                        candles: snapshot.data ?? [],
+                        onTapFavorites: () {
+                          if (investStore.favoritesSymbols.contains(instrument.name)) {
+                            investStore.removeFromFavorites(instrument.name!);
+                          } else {
+                            investStore.addToFavorites(instrument.name!);
+                          }
+                        },
+                        onTap: () {
+                          if (investStore.favoritesSymbols.contains(instrument.name)) {
+                            investStore.removeFromFavorites(instrument.name!);
+                          } else {
+                            investStore.addToFavorites(instrument.name!);
+                          }
+                        },
+                      );
                     },
                   ),
                   const SDivider(),
@@ -241,23 +247,28 @@ class InstrumentsList extends StatelessObserverWidget {
                   sortState: investStore.favoritesSort,
                 ),
                 for (final instrument in investStore.favoritesSortedList) ...[
-                  SymbolInfoLine(
-                    percent: investStore.getPercentSymbol(instrument.symbol ?? ''),
-                    instrument: instrument,
-                    amount: getGroupedAmount(instrument.symbol!),
-                    profit: getGroupedProfit(instrument.symbol!),
-                    price: investStore.getPriceBySymbol(instrument.symbol ?? ''),
-                    candles: investChartStore.getAssetCandles(instrument.symbol ?? ''),
-                    onTap: () {
-                      if (getGroupedLength(instrument.symbol!) > 0) {
-                        sRouter.push(
-                          InstrumentPageRouter(instrument: instrument),
-                        );
-                      } else {
-                        sRouter.push(
-                          NewInvestPageRouter(instrument: instrument),
-                        );
-                      }
+                  FutureBuilder<List<CandleModel>>(
+                    future: investChartStore.getAssetCandles(instrument.symbol ?? ''),
+                    builder: (context, snapshot) {
+                      return SymbolInfoLine(
+                        percent: investStore.getPercentSymbol(instrument.symbol ?? ''),
+                        instrument: instrument,
+                        amount: getGroupedAmount(instrument.symbol!),
+                        profit: getGroupedProfit(instrument.symbol!),
+                        price: investStore.getPriceBySymbol(instrument.symbol ?? ''),
+                        candles: snapshot.data ?? [],
+                        onTap: () {
+                          if (getGroupedLength(instrument.symbol!) > 0) {
+                            sRouter.push(
+                              InstrumentPageRouter(instrument: instrument),
+                            );
+                          } else {
+                            sRouter.push(
+                              NewInvestPageRouter(instrument: instrument),
+                            );
+                          }
+                        },
+                      );
                     },
                   ),
                   const SDivider(),

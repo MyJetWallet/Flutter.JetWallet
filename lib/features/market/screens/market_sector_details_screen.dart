@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:charts/simple_chart.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -210,36 +211,41 @@ class _MarketSectorDetailsBodyState extends State<_MarketSectorDetailsBody> with
                         assetSymbol: store.filtredMarketItems[index].symbol,
                       );
 
-                  final candles = chartStore.getAssetCandles(store.filtredMarketItems[index].associateAssetPair);
-
-                  return SimpleTableAsset(
-                    assetIcon: NetworkIconWidget(
-                      currency.iconUrl,
-                    ),
-                    label: currency.description,
-                    rightValue:
-                        (baseCurrency.symbol == currency.symbol ? Decimal.one : currency.currentPrice).toFormatPrice(
-                      prefix: baseCurrency.prefix,
-                      accuracy: store.filtredMarketItems[index].priceAccuracy,
-                    ),
-                    supplement: currency.symbol,
-                    isRightValueMarket: true,
-                    rightMarketValue: formatPercent(currency.dayPercentChange),
-                    rightValueMarketPositive: currency.dayPercentChange > 0,
-                    onTableAssetTap: () {
-                      sRouter.push(
-                        MarketDetailsRouter(
-                          marketItem: store.filtredMarketItems[index],
+                  return FutureBuilder<List<CandleModel>>(
+                    future: chartStore.getAssetCandles(store.filtredMarketItems[index].associateAssetPair),
+                    builder: (context, snapshot) {
+                      return SimpleTableAsset(
+                        assetIcon: NetworkIconWidget(
+                          currency.iconUrl,
                         ),
+                        label: currency.description,
+                        rightValue: (baseCurrency.symbol == currency.symbol ? Decimal.one : currency.currentPrice)
+                            .toFormatPrice(
+                          prefix: baseCurrency.prefix,
+                          accuracy: store.filtredMarketItems[index].priceAccuracy,
+                        ),
+                        supplement: currency.symbol,
+                        isRightValueMarket: true,
+                        rightMarketValue: formatPercent(currency.dayPercentChange),
+                        rightValueMarketPositive: currency.dayPercentChange > 0,
+                        onTableAssetTap: () {
+                          sRouter.push(
+                            MarketDetailsRouter(
+                              marketItem: store.filtredMarketItems[index],
+                            ),
+                          );
+                        },
+                        chartWidget: (snapshot.connectionState == ConnectionState.done)
+                            ? SmallChart(
+                                candles: snapshot.data ?? <CandleModel>[],
+                                width: 32,
+                                height: 12,
+                                lineWith: 1.8,
+                                maxCandles: 20,
+                              )
+                            : null,
                       );
                     },
-                    chartWidget: SmallChart(
-                      candles: candles,
-                      width: 32,
-                      height: 12,
-                      lineWith: 1.8,
-                      maxCandles: 20,
-                    ),
                   );
                 },
               ),
