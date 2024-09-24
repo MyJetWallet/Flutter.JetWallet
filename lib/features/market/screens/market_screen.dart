@@ -279,7 +279,7 @@ class _MarketScreenState extends State<MarketScreen> {
                           child: AddAssetsBannerWidget(),
                         ),
                       ),
-                    if (!showPlaceholder)
+                    if (showPlaceholder)
                       SliverToBoxAdapter(
                         child: SPlaceholder(
                           size: SPlaceholderSize.l,
