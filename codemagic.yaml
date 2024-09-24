@@ -21,8 +21,8 @@ definitions:
     FLAVOR: "dev"
     BUNDLE_ID: "dev.app.simple.com"
     APP_STORE_ID: 1604368665
-FIREBASE_ANDROID_ID: 1:440447150598:android:a31f38c8dd14cb677fb187
-FIREBASE_IOS_ID: 1:440447150598:ios:53f280b6b3bd4be77fb187
+    FIREBASE_ANDROID_ID: 1:440447150598:android:a31f38c8dd14cb677fb187
+    FIREBASE_IOS_ID: 1:440447150598:ios:53f280b6b3bd4be77fb187
 
   flavor_staging_groups: &flavor_staging_groups
     groups:
