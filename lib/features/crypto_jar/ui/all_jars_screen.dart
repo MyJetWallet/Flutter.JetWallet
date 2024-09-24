@@ -84,7 +84,7 @@ class _AllJarsScreenState extends State<AllJarsScreen> {
                       isAddButtonDisabled: isAddButtonDisabled,
                       scrollToTitle: null,
                     ),
-                  ]
+                  ],
                 ] else ...[
                   ListView.builder(
                     shrinkWrap: true,

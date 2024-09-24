@@ -4,16 +4,12 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/features/crypto_jar/store/create_jar_store.dart';
 import 'package:jetwallet/features/crypto_jar/store/jars_store.dart';
 import 'package:jetwallet/features/crypto_jar/ui/widgets/create_jar_button_widget.dart';
 import 'package:jetwallet/features/crypto_jar/ui/widgets/jar_list_item_widget.dart';
 import 'package:jetwallet/features/crypto_jar/ui/widgets/no_active_jars_placeholder_widget.dart';
 import 'package:jetwallet/features/earn/widgets/basic_header.dart';
-import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
-import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
-import 'package:jetwallet/features/my_wallets/helper/show_wallet_verify_account.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -114,6 +110,8 @@ class JarsListWidget extends StatelessWidget {
       showLinkButton: store.shownJars.isNotEmpty || store.allJar.isNotEmpty,
       onTap: () {
         getIt.get<EventBus>().fire(EndReordering());
+
+        sAnalytics.jarTapOnButtonViewAllJarsOnDashboard();
 
         sRouter.push(
           const AllJarsRouter(),

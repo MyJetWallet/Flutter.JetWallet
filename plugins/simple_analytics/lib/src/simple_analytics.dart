@@ -9388,4 +9388,17 @@ class SimpleAnalytics {
       },
     );
   }
+
+  void jarTapOnButtonViewAllJarsOnDashboard() {
+    _analytics.logEvent(
+      EventName.jarTapOnButtonViewAllJarsOnDashboard,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '668',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.jar.id,
+      },
+    );
+  }
 }
