@@ -51,11 +51,6 @@ class JarsListWidget extends StatelessWidget {
                   SliverToBoxAdapter(
                     child: _buildJarsHeader(store),
                   ),
-                  const SliverToBoxAdapter(
-                    child: SizedBox(
-                      height: 10.0,
-                    ),
-                  ),
                   SliverList.builder(
                     itemCount: store.shownJars.length,
                     itemBuilder: (context, index) => JarListItemWidget(

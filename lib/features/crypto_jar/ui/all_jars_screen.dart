@@ -63,6 +63,9 @@ class _AllJarsScreenState extends State<AllJarsScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                const SizedBox(
+                  height: 16.0,
+                ),
                 _buildFilterListWidget(),
                 const SizedBox(
                   height: 16.0,
@@ -71,7 +74,7 @@ class _AllJarsScreenState extends State<AllJarsScreen> {
                   if (store.activeJar.isNotEmpty) ...[
                     ListView.builder(
                       shrinkWrap: true,
-                      padding: EdgeInsets.zero,
+                      padding: const EdgeInsets.only(bottom: 16.0),
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: store.activeJar.length,
                       itemBuilder: (context, index) => JarListItemWidget(
@@ -88,7 +91,7 @@ class _AllJarsScreenState extends State<AllJarsScreen> {
                 ] else ...[
                   ListView.builder(
                     shrinkWrap: true,
-                    padding: EdgeInsets.zero,
+                    padding: const EdgeInsets.only(bottom: 16.0),
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: store.allJar.length,
                     itemBuilder: (context, index) => JarListItemWidget(

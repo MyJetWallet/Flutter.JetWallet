@@ -5937,7 +5937,7 @@
     "jar_close_transactions_in_processed_error": "Ваш запит на виведення коштів зараз обробляється. Будь ласка, спробуйте пізніше.",
     "withdrawal_network_minutes": "хвилини",
     "withdrawal_network_minute": "хвилина",
-    "jar_view_all": "Переглянути все",
+    "jar_view_all": "Переглянути всі",
     "jar_view_closed_jars": "Переглянути закриті банки",
     "jar_you_dont_have_any_open_jars": "У вас немає відкритих банок. Відкрийте нову або перевірте закриті.",
     "jar_empty_list": "У вас ще немає банок",
@@ -5945,9 +5945,11 @@
     "wallet_got_it": "Зрозуміло",
     "wallet_please_add_funds_to_your_balance": "Будь ласка, спершу поповніть свій баланс",
     "wallet_buy_crypto": "Купити криптовалюту",
-    "earn_offering_no_longer_accepts_deposits": "Ця пропозиція більше не приймає депозити. Розпочніть нову позицію Доходу, щоб продовжити збільшення ваших заощаджень.",
-    "earn_start_new_earn": "Розпочніть новий Дохід",
+    "earn_offering_no_longer_accepts_deposits": "Ця пропозиція більше не приймає депозити. Відкрийте новий депозит, аби продовжити збільшення ваших заощаджень.",
+    "earn_start_new_earn": "Відкрийте новий депозит",
     "market_gainers_losers_placeholder": "",
     "kyc_verify_identity": "",
-    "kyc_secure_account": ""
+    "kyc_secure_account": "",
+    "market_price_change": "",
+    "kyc_profile_verification": ""
 }
