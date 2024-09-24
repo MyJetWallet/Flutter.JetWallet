@@ -13,6 +13,7 @@ import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/invest/stores/chart/invest_chart_store.dart';
 import 'package:jetwallet/features/invest/ui/widgets/small_chart.dart';
+import 'package:jetwallet/features/market/helper/percent_price_cahange.dart';
 import 'package:jetwallet/features/market/helper/show_add_assets_bottom_sheet.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/features/market/store/market_instruments_lists_store.dart';
@@ -352,7 +353,9 @@ class _MarketScreenState extends State<MarketScreen> {
                                   ),
                                   supplement: currency.symbol,
                                   isRightValueMarket: true,
-                                  rightMarketValue: formatPercent(currency.dayPercentChange),
+                                  rightMarketValue: (snapshot.connectionState == ConnectionState.done)
+                                      ? percentPriceCahange(snapshot.data ?? [])
+                                      : formatPercent(currency.dayPercentChange),
                                   rightValueMarketPositive: currency.dayPercentChange >= 0,
                                   onTableAssetTap: () {
                                     FocusManager.instance.primaryFocus?.unfocus();
@@ -365,7 +368,7 @@ class _MarketScreenState extends State<MarketScreen> {
                                   },
                                   chartWidget: (snapshot.connectionState == ConnectionState.done)
                                       ? SmallChart(
-                                          candles: snapshot.data ?? <CandleModel>[],
+                                          candles: snapshot.data?.reversed.toList() ?? <CandleModel>[],
                                           width: 32,
                                           height: 12,
                                           lineWith: 1.8,

@@ -82,7 +82,7 @@ abstract class _InvestChartStoreBase with Store {
           candlesList.add(
             CandlesWithIdModel(
               instrumentId: instrumentId,
-              candles: candles1.reversed.toList(),
+              candles: candles1,
             ),
           );
 

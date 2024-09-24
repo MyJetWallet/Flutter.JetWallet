@@ -10,6 +10,7 @@ import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/invest/stores/chart/invest_chart_store.dart';
 import 'package:jetwallet/features/invest/ui/widgets/small_chart.dart';
+import 'package:jetwallet/features/market/helper/percent_price_cahange.dart';
 import 'package:jetwallet/features/market/helper/sector_extensions.dart';
 import 'package:jetwallet/features/market/store/market_sector_store.dart';
 import 'package:jetwallet/utils/formatting/base/format_percent.dart';
@@ -226,7 +227,9 @@ class _MarketSectorDetailsBodyState extends State<_MarketSectorDetailsBody> with
                         ),
                         supplement: currency.symbol,
                         isRightValueMarket: true,
-                        rightMarketValue: formatPercent(currency.dayPercentChange),
+                        rightMarketValue: (snapshot.connectionState == ConnectionState.done)
+                            ? percentPriceCahange(snapshot.data ?? [])
+                            : formatPercent(currency.dayPercentChange),
                         rightValueMarketPositive: currency.dayPercentChange > 0,
                         onTableAssetTap: () {
                           sRouter.push(
@@ -237,7 +240,7 @@ class _MarketSectorDetailsBodyState extends State<_MarketSectorDetailsBody> with
                         },
                         chartWidget: (snapshot.connectionState == ConnectionState.done)
                             ? SmallChart(
-                                candles: snapshot.data ?? <CandleModel>[],
+                                candles: snapshot.data?.reversed.toList() ?? <CandleModel>[],
                                 width: 32,
                                 height: 12,
                                 lineWith: 1.8,
