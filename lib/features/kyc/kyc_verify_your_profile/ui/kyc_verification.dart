@@ -6,7 +6,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/core/services/sumsub_service/sumsub_service.dart';
 import 'package:jetwallet/features/kyc/kyc_verify_your_profile/utils/get_kuc_aid_plan.dart';
 import 'package:jetwallet/features/kyc/kyc_verify_your_profile/utils/start_kyc_aid_flow.dart';
@@ -113,19 +112,7 @@ class _KycVerificationState extends State<KycVerification> {
         onLeftIconTap: () {
           Navigator.pop(context);
         },
-        rightIcon: Text(
-          intl.logout,
-          textAlign: TextAlign.right,
-          style: STStyles.button.copyWith(
-            color: colors.blue,
-          ),
-        ),
-        onRightIconTap: () {
-          getIt.get<LogoutService>().logout(
-                'Verification your profile',
-                callbackAfterSend: () {},
-              );
-        },
+        hasRightIcon: false,
       ),
       child: CustomScrollView(
         physics: const ClampingScrollPhysics(),
@@ -144,7 +131,7 @@ class _KycVerificationState extends State<KycVerification> {
                   ),
                   const SpaceH24(),
                   Text(
-                    intl.verification_your_profile,
+                    intl.kyc_profile_verification,
                     textAlign: TextAlign.left,
                     style: STStyles.header5,
                     maxLines: 2,
@@ -163,7 +150,7 @@ class _KycVerificationState extends State<KycVerification> {
                   ),
                   VerificationItem(
                     itemString: intl.kycAlertHandler_verifyYourIdentity,
-                    isDisabled: !isPhoneDone,
+                    isDisabled: isPhoneDone,
                   ),
                   const Spacer(),
                   Padding(
@@ -206,7 +193,7 @@ class VerificationItem extends StatelessWidget {
         children: [
           if (isDisabled)
             Assets.svg.small.minusCircle.simpleSvg(
-              color: colors.gray10,
+              color: colors.black,
             )
           else if (!isDone)
             Container(
@@ -219,18 +206,14 @@ class VerificationItem extends StatelessWidget {
               ),
             )
           else
-            Assets.svg.small.minusCircle.simpleSvg(
+            Assets.svg.small.checkCircle.simpleSvg(
               color: colors.blue,
             ),
           const SpaceW16(),
           Text(
             itemString,
             style: STStyles.subtitle1.copyWith(
-              color: isDisabled
-                  ? colors.gray10
-                  : isDone
-                      ? colors.blue
-                      : colors.black,
+              color: isDone ? colors.blue : colors.black,
             ),
           ),
         ],

@@ -1767,5 +1767,8 @@
     "wallet_buy_crypto": "Acheter de la crypto",
     "earn_offering_no_longer_accepts_deposits": "Cette offre n'accepte plus les dépôts. Lancez une nouvelle position Earn pour continuer à faire croître vos économies.",
     "earn_start_new_earn": "Lancez un nouveau Earn",
-    "market_gainers_losers_placeholder": ""
+    "market_gainers_losers_placeholder": "",
+    "kyc_verify_identity": "",
+    "kyc_secure_account": "",
+    "market_price_change": ""
 }
