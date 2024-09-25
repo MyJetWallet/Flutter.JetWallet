@@ -12,10 +12,10 @@ import 'package:jetwallet/features/kyc/kyc_verify_your_profile/utils/start_kyc_a
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/kyc/kyc_plan_responce_model.dart';
 
 import '../../../../utils/constants.dart';
-import '../../choose_documents/store/kyc_country_store.dart';
 
 @RoutePage(name: 'KycVerificationRouter')
 class KycVerification extends StatefulObserverWidget {
@@ -52,7 +52,7 @@ class _KycVerificationState extends State<KycVerification> {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     void navigateVerifiedNavigate() {
       if (requiredVerifications.contains(RequiredVerified.proofOfPhone)) {
@@ -105,151 +105,119 @@ class _KycVerificationState extends State<KycVerification> {
       }
     }
 
-    return SPageFrameWithPadding(
+    return SPageFrame(
       loaderText: intl.loader_please_wait,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SpaceH64(),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: SIconButton(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              defaultIcon: const SCloseIcon(),
-              pressedIcon: const SClosePressedIcon(),
+      header: GlobalBasicAppBar(
+        leftIcon: Assets.svg.medium.close.simpleSvg(),
+        onLeftIconTap: () {
+          Navigator.pop(context);
+        },
+        hasRightIcon: false,
+      ),
+      child: CustomScrollView(
+        physics: const ClampingScrollPhysics(),
+        slivers: [
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            sliver: SliverFillRemaining(
+              hasScrollBody: false,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Image.asset(
+                    logoGradientRounded,
+                    width: 80,
+                    height: 80,
+                  ),
+                  const SpaceH24(),
+                  Text(
+                    intl.kyc_profile_verification,
+                    textAlign: TextAlign.left,
+                    style: STStyles.header5,
+                    maxLines: 2,
+                  ),
+                  const SpaceH8(),
+                  Text(
+                    intl.verification_your_profile_descr,
+                    textAlign: TextAlign.left,
+                    maxLines: 4,
+                    style: STStyles.body1Medium.copyWith(color: colors.gray10),
+                  ),
+                  const SpaceH24(),
+                  VerificationItem(
+                    itemString: intl.kycAlertHandler_secureYourAccount,
+                    isDone: isPhoneDone,
+                  ),
+                  VerificationItem(
+                    itemString: intl.kycAlertHandler_verifyYourIdentity,
+                    isDisabled: isPhoneDone,
+                  ),
+                  const Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 50),
+                    child: SButton.blue(
+                      text: isPhoneDone ? intl.kyc_verify_identity : intl.kyc_secure_account,
+                      callback: () {
+                        navigateVerifiedNavigate();
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(
-            height: 24,
-          ),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Image.asset(
-              simpleLogo,
-              width: 80,
-              height: 80,
-            ),
-          ),
-          const SpaceH24(),
-          Text(
-            intl.verification_your_profile,
-            textAlign: TextAlign.left,
-            style: sTextH4Style,
-            maxLines: 2,
-          ),
-          const SpaceH8(),
-          Text(
-            intl.verification_your_profile_descr,
-            textAlign: TextAlign.left,
-            maxLines: 4,
-            style: sBodyText1Style.copyWith(color: colors.grey1),
-          ),
-          const SpaceH32(),
-          _verificationItem(
-            intl.kycAlertHandler_secureYourAccount,
-            '1',
-            isDone: isPhoneDone,
-            linkText: intl.provide_information,
-            haveLink: !isPhoneDone,
-            linkAction: () {
-              navigateVerifiedNavigate();
-            },
-          ),
-          const SpaceH24(),
-          _verificationItem(
-            intl.kycAlertHandler_verifyYourIdentity,
-            '2',
-            haveLink: isPhoneDone,
-            linkText: intl.provide_information,
-            linkAction: () {
-              final countries = getIt.get<KycCountryStore>();
-              sAnalytics.kycFlowProvideInformation();
-              sAnalytics.kycFlowVerifyWait(
-                country: countries.activeCountry?.countryName ?? '',
-              );
-              navigateVerifiedNavigate();
-            },
-            isDisabled: !isPhoneDone,
           ),
         ],
       ),
     );
   }
+}
 
-  Widget _verificationItem(
-    String itemString,
-    String step, {
-    bool isDone = false,
-    bool haveLink = false,
-    String? linkText,
-    Function()? linkAction,
-    bool isDisabled = false,
-  }) {
-    final colors = sKit.colors;
+class VerificationItem extends StatelessWidget {
+  const VerificationItem({
+    required this.itemString,
+    this.isDone = false,
+    this.isDisabled = false,
+  });
 
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Column(
-          children: [
-            if (isDisabled) const SpaceH3() else const SpaceH4(),
-            if (!isDone) ...[
-              Padding(
-                padding: const EdgeInsets.only(left: 2),
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: isDisabled ? null : colors.blue,
-                    border: isDisabled ? Border.all(color: colors.grey1) : null,
-                  ),
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                        left: 6,
-                        right: 6,
-                        bottom: 3,
-                      ),
-                      child: Text(
-                        step,
-                        style: sBodyText2Style.copyWith(
-                          color: isDisabled ? colors.grey1 : colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+  final String itemString;
+  final bool isDone;
+  final bool isDisabled;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = SColorsLight();
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      child: Row(
+        children: [
+          if (isDisabled)
+            Assets.svg.small.minusCircle.simpleSvg(
+              color: colors.black,
+            )
+          else if (!isDone)
+            Container(
+              width: 16,
+              height: 16,
+              margin: const EdgeInsets.only(left: 2),
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: colors.black,
               ),
-            ] else ...[
-              const SBlueDoneIcon(),
-            ],
-          ],
-        ),
-        const SpaceW14(),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              itemString,
-              style: sSubtitle2Style,
+            )
+          else
+            Assets.svg.small.checkCircle.simpleSvg(
+              color: colors.blue,
             ),
-            if (haveLink) ...[
-              const SpaceH12(),
-              SLinkButtonText(
-                active: true,
-                name: linkText ?? '',
-                onTap: linkAction ?? () {},
-                defaultIcon: const SBlueRightArrowIcon(),
-                pressedIcon: SBlueRightArrowIcon(
-                  color: colors.blue.withOpacity(0.8),
-                ),
-                inactiveIcon: const SBlueRightArrowIcon(),
-              ),
-            ],
-          ],
-        ),
-      ],
+          const SpaceW16(),
+          Text(
+            itemString,
+            style: STStyles.subtitle1.copyWith(
+              color: isDone ? colors.blue : colors.black,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
