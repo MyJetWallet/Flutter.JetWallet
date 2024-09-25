@@ -41,6 +41,12 @@ void showSendOptions(
     ],
   );
 
+  if (currency.isAssetBalanceEmpty) {
+    showPleaseAddFundsToYourBalanceDialog(onBuyPressed);
+
+    return;
+  }
+
   if (!(isToCryptoWalletAvaible || isGlobalAvaible || isGiftAvaible)) {
     showSendTimerAlertOr(
       context: context,
@@ -56,12 +62,6 @@ void showSendOptions(
       },
       from: [BlockingType.transfer, BlockingType.withdrawal],
     );
-
-    return;
-  }
-
-  if (currency.isAssetBalanceEmpty) {
-    showPleaseAddFundsToYourBalanceDialog(onBuyPressed);
 
     return;
   }

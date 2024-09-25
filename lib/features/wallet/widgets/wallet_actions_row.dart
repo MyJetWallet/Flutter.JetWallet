@@ -83,6 +83,10 @@ class WalletActionsRow extends StatelessWidget {
             source: 'My Assets - Receive',
           );
           final actualAsset = currency;
+          if (currency.networksForBlockchainSend.isEmpty) {
+            showAssetOnlyTradableWithinSimpleAppDialog();
+            return;
+          }
           if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed) && currency.supportsCryptoDeposit) {
             showSendTimerAlertOr(
               context: context,

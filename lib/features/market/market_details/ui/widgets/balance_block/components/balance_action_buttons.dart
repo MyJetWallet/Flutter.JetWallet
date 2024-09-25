@@ -124,6 +124,10 @@ class BalanceActionButtons extends StatelessObserverWidget {
               );
 
               if (currency.type == AssetType.crypto) {
+                if (currency.networksForBlockchainSend.isEmpty) {
+                  showAssetOnlyTradableWithinSimpleAppDialog();
+                  return;
+                }
                 if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed) && currency.supportsCryptoDeposit) {
                   showSendTimerAlertOr(
                     context: context,
@@ -136,7 +140,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
                     from: [BlockingType.deposit],
                   );
                 } else if (!currency.supportsCryptoDeposit) {
-                  if (currentAsset.networksForBlockchainSend.isNotEmpty) {
+                  if (currency.networksForBlockchainSend.isNotEmpty) {
                     sNotification.showError(
                       intl.operation_bloked_text,
                       id: 1,
