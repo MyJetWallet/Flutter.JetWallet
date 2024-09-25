@@ -248,13 +248,7 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                           sRouter.maybePop();
                           state.confirmSendGlobally(newPin: newPin);
                         },
-                        onWrongPin: (error) {
-                          sAnalytics.errorWrongPin(
-                            asset: data.asset ?? '',
-                            errorText: error,
-                            sendMethod: AnalyticsSendMethods.globally,
-                          );
-                        },
+                        onWrongPin: (error) {},
                       ),
                     );
                   },

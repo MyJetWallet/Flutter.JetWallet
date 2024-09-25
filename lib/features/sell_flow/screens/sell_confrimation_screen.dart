@@ -161,7 +161,6 @@ class _SellConfirmationScreenBody extends StatelessObserverWidget {
                   thirdText: '',
                   activeText2: '',
                   onCheckboxTap: () {
-                    sAnalytics.tapToAgreeToTheTCAndPrivacyPolicySell();
                     store.setIsBankTermsChecked();
                   },
                   onUserAgreementTap: () {

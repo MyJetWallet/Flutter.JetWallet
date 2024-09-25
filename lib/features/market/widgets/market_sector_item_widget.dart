@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -6,6 +7,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/market/helper/sector_extensions.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'package:simple_kit_updated/widgets/shared/simple_skeleton_loader.dart';
 import 'package:simple_networking/modules/signal_r/models/market_sectors_message_model.dart';
 
 class MarketSectorItemWidget extends StatelessWidget {
@@ -29,10 +31,22 @@ class MarketSectorItemWidget extends StatelessWidget {
       highlightColor: colors.gray2,
       child: Column(
         children: [
-          CircleAvatar(
-            radius: 32,
-            backgroundImage: NetworkImage(
-              sector.imageUrl,
+          ClipRRect(
+            borderRadius: BorderRadius.circular(64),
+            child: CachedNetworkImage(
+              imageUrl: sector.imageUrl,
+              width: 64,
+              height: 64,
+              fit: BoxFit.cover,
+              fadeInDuration: Duration.zero,
+              fadeOutDuration: Duration.zero,
+              placeholder: (_, __) {
+                return SSkeletonLoader(
+                  width: 64,
+                  height: 64,
+                  borderRadius: BorderRadius.circular(64),
+                );
+              },
             ),
           ),
           const SizedBox(height: 8),

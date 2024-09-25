@@ -14,7 +14,6 @@ import 'package:jetwallet/utils/store/timer_store.dart';
 import 'package:jetwallet/widgets/pin_code_field.dart';
 import 'package:jetwallet/widgets/texts/resend_in_text.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:universal_io/io.dart';
@@ -196,8 +195,6 @@ class __EmailVerificationBodyState extends State<_EmailVerificationBody> with Wi
                       userInfoN.updateIsJustLogged(value: true);
                       verification.loader.startLoadingImmediately();
                       verification.verifyCode();
-
-                      sAnalytics.signInFlowPleaseWait();
                     },
                     autoFocus: true,
                     onChanged: (_) {
@@ -223,8 +220,6 @@ class __EmailVerificationBodyState extends State<_EmailVerificationBody> with Wi
                   name: intl.twoFaPhone_resend,
                   color: colors.blue,
                   onTap: () {
-                    sAnalytics.signInFlowTapResend();
-
                     timer.refreshTimer();
                     verification.resendCode(timer);
                   },

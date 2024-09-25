@@ -40,6 +40,10 @@ class _OnboardingScreenBodyState extends State<OnboardingScreenBody> with Ticker
 
   @override
   void initState() {
+    Future.delayed(const Duration(seconds: 1)).then((_) {
+      sAnalytics.onboardingFinanceIsSimpleScreenView();
+    });
+
     OnboardingStore.of(context).init(_slidesAnimationController);
     super.initState();
   }
@@ -141,7 +145,6 @@ class _OnboardingScreenBodyState extends State<OnboardingScreenBody> with Ticker
               active: true,
               name: intl.onboarding_getStarted,
               onTap: () {
-                sAnalytics.tapOnTheOnboardingGetStartedButton();
                 sAnalytics.signInFlowEnterEmailView();
                 sRouter.push(
                   SingInRouter(),

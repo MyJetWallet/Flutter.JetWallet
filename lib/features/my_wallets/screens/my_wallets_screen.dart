@@ -19,6 +19,7 @@ import 'package:jetwallet/features/crypto_jar/store/create_jar_store.dart';
 import 'package:jetwallet/features/crypto_jar/store/jars_store.dart';
 import 'package:jetwallet/features/crypto_jar/ui/widgets/jars_list_widget.dart';
 import 'package:jetwallet/features/earn/widgets/earn_dashboard_section_widget.dart';
+import 'package:jetwallet/features/iban/store/iban_store.dart';
 import 'package:jetwallet/features/market/market_details/store/market_news_store.dart';
 import 'package:jetwallet/features/my_wallets/store/banners_store.dart';
 import 'package:jetwallet/features/my_wallets/store/my_wallets_scroll_store.dart';
@@ -70,6 +71,8 @@ class _MyWalletsScreenState extends State<MyWalletsScreen> with TickerProviderSt
   @override
   void initState() {
     super.initState();
+
+    unawaited(getIt<IbanStore>().getAddressBook());
 
     if ((sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
       (element) => element.id == AssetPaymentProductsEnum.jar,
@@ -167,14 +170,9 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
     } else {
       getIt<AppStore>().setIsBalanceHide(true);
     }
-    sAnalytics.tapOnTheButtonShowHideBalancesOnWalletsScreen(
-      isShowNow: !getIt<AppStore>().isBalanceHide,
-    );
   }
 
   void _headerTap() {
-    sAnalytics.tapOnTheButtonProfileOnWalletsScreen();
-
     final myWalletsSrore = MyWalletsSrore.of(context);
     myWalletsSrore.endReorderingImmediately();
 

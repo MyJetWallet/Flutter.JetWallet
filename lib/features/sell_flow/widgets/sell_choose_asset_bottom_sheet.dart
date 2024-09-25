@@ -42,9 +42,6 @@ void showSellChooseAssetBottomSheet({
     scrollable: true,
     expanded: showSearch,
     then: (value) {
-      if (value != true) {
-        sAnalytics.tapOnCloseSheetFromSellButton();
-      }
       then?.call(value);
     },
     pinned: ActionBottomSheetHeader(

@@ -6,7 +6,6 @@ import 'package:jetwallet/features/actions/store/action_search_store.dart';
 import 'package:jetwallet/features/send_gift/model/send_gift_info_model.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:mobx/mobx.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
@@ -30,7 +29,6 @@ class _GiftSelectAssetScreenState extends State<GiftSelectAssetScreen> {
 
   @override
   void initState() {
-    sAnalytics.sendingAssetScreenView();
     super.initState();
     final storageService = getIt.get<LocalStorageService>();
     textController = TextEditingController();

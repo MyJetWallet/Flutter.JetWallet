@@ -7,7 +7,6 @@ import 'package:jetwallet/features/send_gift/model/send_gift_info_model.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../core/di/di.dart';
@@ -35,10 +34,6 @@ class _GiftAmountState extends State<GiftAmount> {
 
   @override
   void initState() {
-    sAnalytics.sendGiftAmountScreenView(
-      giftSubmethod: widget.sendGiftInfo.selectedContactType?.name ?? '',
-      asset: widget.sendGiftInfo.currency?.symbol ?? '',
-    );
     geftSendAmountStore = GeftSendAmountStore()
       ..init(
         widget.sendGiftInfo.currency ?? CurrencyModel.empty(),
@@ -114,15 +109,6 @@ class _GiftAmountState extends State<GiftAmount> {
                 widgetSize: widgetSizeFrom(deviceSize),
                 onKeyPressed: (value) {
                   geftSendAmountStore.updateAmount(value);
-                  if (geftSendAmountStore.withAmmountInputError != InputError.none) {
-                    sAnalytics.errorSendLimitExceeded(
-                      asset: geftSendAmountStore.selectedCurrency.symbol,
-                      giftSubmethod: widget.sendGiftInfo.selectedContactType?.name ?? '',
-                      errorText: geftSendAmountStore.withAmmountInputError == InputError.limitError
-                          ? geftSendAmountStore.limitError
-                          : geftSendAmountStore.withAmmountInputError.value(),
-                    );
-                  }
                 },
                 buttonType: SButtonType.primary2,
                 submitButtonActive:
@@ -133,14 +119,6 @@ class _GiftAmountState extends State<GiftAmount> {
                     amount: Decimal.tryParse(geftSendAmountStore.withAmount),
                   );
 
-                  sAnalytics.tapOnTheButtonContinueWithSendGiftAmountScreen(
-                    asset: geftSendAmountStore.selectedCurrency.symbol,
-                    giftSubmethod: tempSendGiftInfo.selectedContactType?.name ?? '',
-                    totalSendAmount: tempSendGiftInfo.amount.toString(),
-                  );
-                  sAnalytics.orderSummarySendScreenView(
-                    giftSubmethod: tempSendGiftInfo.selectedContactType?.name ?? '',
-                  );
                   sRouter.push(
                     GiftOrderSummuryRouter(
                       sendGiftInfo: tempSendGiftInfo,

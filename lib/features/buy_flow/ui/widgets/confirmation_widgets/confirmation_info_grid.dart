@@ -210,17 +210,7 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid> with Single
               );
             },
             isLoaded: store.isDataLoaded,
-            onBotomSheetClose: (_) {
-              sAnalytics.tapOnTheCloseOnPPopap(
-                pmType: store.pmType,
-                buyPM: store.buyPM,
-                sourceCurrency: 'EUR',
-                destinationWallet: store.buyAsset ?? '',
-                sourceBuyAmount: store.paymentAmount.toString(),
-                destinationBuyAmount: store.buyAmount.toString(),
-                feeType: FeeType.payment,
-              );
-            },
+            onBotomSheetClose: (_) {},
           ),
         ],
         const SizedBox(height: 16),
@@ -240,17 +230,7 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid> with Single
               );
             },
             isLoaded: store.isDataLoaded,
-            onBotomSheetClose: (_) {
-              sAnalytics.tapOnTheCloseOnPPopap(
-                pmType: store.pmType,
-                buyPM: store.buyPM,
-                sourceCurrency: 'EUR',
-                destinationWallet: store.buyAsset ?? '',
-                sourceBuyAmount: store.paymentAmount.toString(),
-                destinationBuyAmount: store.buyAmount.toString(),
-                feeType: FeeType.processing,
-              );
-            },
+            onBotomSheetClose: (_) {},
           ),
         ],
       ],

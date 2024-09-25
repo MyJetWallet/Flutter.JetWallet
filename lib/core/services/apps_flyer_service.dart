@@ -63,6 +63,12 @@ class AppsFlyerService {
                 campaignKey,
                 campaign,
               );
+
+              final deepLinkValue = data['deep_link_value'] as String?;
+
+              if (deepLinkValue != null) {
+                await getIt.get<DeepLinkService>().handleOneLinkAction(deepLinkValue);
+              }
             }
           }
         }
