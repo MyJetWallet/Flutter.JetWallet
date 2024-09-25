@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-class NetworkItem extends StatelessObserverWidget {
+class NetworkItem extends StatelessWidget {
   const NetworkItem({
     super.key,
     required this.iconUrl,
@@ -38,7 +37,6 @@ class NetworkItem extends StatelessObserverWidget {
                 ),
                 child: NetworkIconWidget(
                   iconUrl,
-                  //color: selected ? colors.blue : null,
                 ),
               ),
               Expanded(
