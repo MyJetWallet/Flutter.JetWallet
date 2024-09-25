@@ -14,7 +14,6 @@ import 'package:jetwallet/features/invest/ui/widgets/small_chart.dart';
 import 'package:jetwallet/features/market/helper/percent_price_cahange.dart';
 import 'package:jetwallet/features/market/helper/sector_extensions.dart';
 import 'package:jetwallet/features/market/store/market_sector_store.dart';
-import 'package:jetwallet/utils/formatting/base/format_percent.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:provider/provider.dart';
@@ -242,12 +241,8 @@ class _MarketSectorDetailsBodyState extends State<_MarketSectorDetailsBody> with
                         ),
                         supplement: currency.symbol,
                         isRightValueMarket: true,
-                        rightMarketValue: (snapshot.connectionState == ConnectionState.done)
-                            ? formatedPercentPriceCahange(snapshot.data ?? [])
-                            : formatPercent(currency.dayPercentChange),
-                        rightValueMarketPositive: (snapshot.connectionState == ConnectionState.done)
-                            ? percentPriceCahange(snapshot.data ?? []) >= 0
-                            : currency.dayPercentChange >= 0,
+                        rightMarketValue: formatedPercentPriceCahange(snapshot.data ?? []),
+                        rightValueMarketPositive: percentPriceCahange(snapshot.data ?? []) >= 0,
                         onTableAssetTap: () {
                           sRouter.push(
                             MarketDetailsRouter(
@@ -255,15 +250,13 @@ class _MarketSectorDetailsBodyState extends State<_MarketSectorDetailsBody> with
                             ),
                           );
                         },
-                        chartWidget: (snapshot.connectionState == ConnectionState.done)
-                            ? SmallChart(
-                                candles: snapshot.data?.reversed.toList() ?? <CandleModel>[],
-                                width: 32,
-                                height: 12,
-                                lineWith: 1.8,
-                                maxCandles: 20,
-                              )
-                            : null,
+                        chartWidget: SmallChart(
+                          candles: snapshot.data?.reversed.toList() ?? <CandleModel>[],
+                          width: 32,
+                          height: 12,
+                          lineWith: 1.8,
+                          maxCandles: 20,
+                        ),
                       );
                     },
                   );

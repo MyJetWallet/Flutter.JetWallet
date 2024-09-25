@@ -22,7 +22,6 @@ import 'package:jetwallet/features/market/widgets/add_assets_banner_widget.dart'
 import 'package:jetwallet/features/market/widgets/market_sector_item_widget.dart';
 import 'package:jetwallet/features/market/widgets/top_movers_market_section.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
-import 'package:jetwallet/utils/formatting/base/format_percent.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:provider/provider.dart';
@@ -364,12 +363,8 @@ class _MarketScreenState extends State<MarketScreen> {
                                   ),
                                   supplement: currency.symbol,
                                   isRightValueMarket: true,
-                                  rightMarketValue: (snapshot.connectionState == ConnectionState.done)
-                                      ? formatedPercentPriceCahange(snapshot.data ?? [])
-                                      : formatPercent(currency.dayPercentChange),
-                                  rightValueMarketPositive: (snapshot.connectionState == ConnectionState.done)
-                                      ? percentPriceCahange(snapshot.data ?? []) >= 0
-                                      : currency.dayPercentChange >= 0,
+                                  rightMarketValue: formatedPercentPriceCahange(snapshot.data ?? []),
+                                  rightValueMarketPositive: percentPriceCahange(snapshot.data ?? []) >= 0,
                                   onTableAssetTap: () {
                                     FocusManager.instance.primaryFocus?.unfocus();
                                     getIt.get<EventBus>().fire(EndReordering());
@@ -379,15 +374,13 @@ class _MarketScreenState extends State<MarketScreen> {
                                       ),
                                     );
                                   },
-                                  chartWidget: (snapshot.connectionState == ConnectionState.done)
-                                      ? SmallChart(
-                                          candles: snapshot.data?.reversed.toList() ?? <CandleModel>[],
-                                          width: 32,
-                                          height: 12,
-                                          lineWith: 1.8,
-                                          maxCandles: 20,
-                                        )
-                                      : null,
+                                  chartWidget: SmallChart(
+                                    candles: snapshot.data?.reversed.toList() ?? <CandleModel>[],
+                                    width: 32,
+                                    height: 12,
+                                    lineWith: 1.8,
+                                    maxCandles: 20,
+                                  ),
                                 );
                               },
                             ),
