@@ -53,6 +53,8 @@ import 'package:simple_networking/modules/wallet_api/models/earn_offer_request/e
 import 'package:simple_networking/modules/wallet_api/models/earn_offer_withdrawal/earn_offer_withdrawal_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/earn_withdraw_position/earn_withdraw_position_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/encryption_key/encryption_key_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/fee_info/fee_preview_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/fee_info/fee_preview_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/google_pay/google_pay_confirm_model.dart';
@@ -1348,5 +1350,9 @@ class WalletApiRepository {
       jarId: jarId,
       lang: lang,
     );
+  }
+
+  Future<DC<ServerRejectException, FeePreviewRepsonseModel>> postFeeInfo(FeePreviewRequestModel model) async {
+    return _walletApiDataSources.postFeeInfoRequest(model);
   }
 }

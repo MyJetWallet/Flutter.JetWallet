@@ -1790,5 +1790,9 @@
     "wallet_please_add_funds_to_your_balance": "Por favor, añade fondos a tu saldo primero",
     "wallet_buy_crypto": "Comprar cripto",
     "earn_offering_no_longer_accepts_deposits": "Esta oferta ya no acepta depósitos. Inicie una nueva posición de Earn para seguir aumentando sus ahorros.",
-    "earn_start_new_earn": "Inicie un nuevo Earn"
+    "earn_start_new_earn": "Inicie un nuevo Earn",
+    "market_gainers_losers_placeholder": "",
+    "kyc_verify_identity": "",
+    "kyc_secure_account": "",
+    "market_price_change": ""
 }

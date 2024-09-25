@@ -13,7 +13,6 @@ import 'package:jetwallet/features/account/profile_details/ui/profile_details.da
 import 'package:jetwallet/features/account/profile_details/ui/widgets/change_password.dart';
 import 'package:jetwallet/features/account/profile_details/ui/widgets/default_asset_change.dart';
 import 'package:jetwallet/features/account/profile_details/ui/widgets/set_new_password.dart';
-import 'package:jetwallet/features/account/widgets/help_center_web_view.dart';
 import 'package:jetwallet/features/add_circle_card/ui/add_circle_card.dart';
 import 'package:jetwallet/features/add_circle_card/ui/circle_billing_address/circle_billing_address.dart';
 import 'package:jetwallet/features/auth/biometric/ui/biometric.dart';
@@ -45,7 +44,6 @@ import 'package:jetwallet/features/crypto_jar/ui/jar_share_screen.dart';
 import 'package:jetwallet/features/crypto_jar/ui/jar_transaction_history_screen.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/add_bank_card.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/pay_with_bottom_sheet.dart';
-import 'package:jetwallet/features/currency_buy/ui/screens/preview_buy_with_circle/circle_3d_secure_web_view/circle_3d_secure_web_view.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
 import 'package:jetwallet/features/debug_info/debug_history.dart';
 import 'package:jetwallet/features/debug_info/debug_info.dart';
@@ -137,12 +135,12 @@ import 'package:jetwallet/features/withdrawal/ui/withdrawal_confirm.dart';
 import 'package:jetwallet/features/withdrawal/ui/withdrawal_preview.dart';
 import 'package:jetwallet/features/withdrawal/ui/withdrawal_screen.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:jetwallet/widgets/info_web_view.dart';
 import 'package:jetwallet/widgets/result_screens/failure_screen/failure_screen.dart';
 import 'package:jetwallet/widgets/result_screens/success_screen/success_screen.dart';
 import 'package:jetwallet/widgets/result_screens/verifying_screen/success_verifying_screen.dart';
 import 'package:jetwallet/widgets/result_screens/verifying_screen/verifying_screen.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
+import 'package:jetwallet/widgets/web_view/screens/web_view_screen.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:simple_kit/modules/account/phone_number/simple_number.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
@@ -164,6 +162,7 @@ import 'package:simple_networking/modules/wallet_api/models/prepaid_card/buy_pre
 import 'package:simple_networking/modules/wallet_api/models/prepaid_card/purchase_card_brand_list_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_card_response.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_request_model.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../features/auth/splash/splash_screen.dart';
 import '../../features/currency_buy/ui/screens/choose_asset_screen.dart';
@@ -300,6 +299,7 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/kyc_verification',
       page: KycVerificationRouter.page,
+      fullscreenDialog: true,
     ),
     AutoRoute(
       path: '/account',
@@ -308,14 +308,6 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/crisp',
       page: CrispRouter.page,
-    ),
-    AutoRoute(
-      path: '/help_center_webview',
-      page: HelpCenterWebViewRouter.page,
-    ),
-    AutoRoute(
-      path: '/info_web_view',
-      page: InfoWebViewRouter.page,
     ),
     AutoRoute(
       path: '/choose_documents',
@@ -489,10 +481,6 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/success_kyc',
       page: SuccessKycScreenRoute.page,
-    ),
-    AutoRoute(
-      path: '/circle_3d_secure',
-      page: Circle3dSecureWebViewRouter.page,
     ),
     AutoRoute(
       path: '/delete_reasons_screen',
@@ -802,6 +790,10 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/jar_share',
       page: JarShareRouter.page,
+    ),
+    AutoRoute(
+      path: '/web_view',
+      page: WebViewRouter.page,
     ),
   ];
 }

@@ -5946,5 +5946,9 @@
     "wallet_please_add_funds_to_your_balance": "Будь ласка, спершу поповніть свій баланс",
     "wallet_buy_crypto": "Купити криптовалюту",
     "earn_offering_no_longer_accepts_deposits": "Ця пропозиція більше не приймає депозити. Розпочніть нову позицію Доходу, щоб продовжити збільшення ваших заощаджень.",
-    "earn_start_new_earn": "Розпочніть новий Дохід"
+    "earn_start_new_earn": "Розпочніть новий Дохід",
+    "market_gainers_losers_placeholder": "",
+    "kyc_verify_identity": "",
+    "kyc_secure_account": "",
+    "market_price_change": ""
 }

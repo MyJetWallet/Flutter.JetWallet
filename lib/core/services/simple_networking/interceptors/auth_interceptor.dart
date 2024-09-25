@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
@@ -84,21 +85,40 @@ void setAuthInterceptor(
 
         if (code == 401 || code == 403) {
           try {
-            final result = await refreshToken();
+            final authInfo = getIt.get<AppStore>().authState;
+            final tokenFromAuthInfo = authInfo.token;
+            final headerAuth = dioError.requestOptions.headers['Authorization'] as String;
+            final tokenFromError = headerAuth.split(' ').last;
 
-            if (result == RefreshTokenStatus.success) {
-              final response = await retryRequest(
-                dioError.requestOptions,
-              );
+            if (tokenFromAuthInfo != tokenFromError) {
+              try {
+                final response = await retryRequest(
+                  dioError.requestOptions,
+                );
 
-              handler.resolve(response);
+                handler.resolve(response);
+              } catch (e) {
+                if(kDebugMode) {
+                  print('AuthInterceptor Error on refresh $e');
+                }
+              }
             } else {
-              handler.reject(dioError);
+              final result = await refreshToken();
 
-              await getIt.get<LogoutService>().logout(
-                    'INTERCEPTOR, cant update token',
-                    callbackAfterSend: () {},
-                  );
+              if (result == RefreshTokenStatus.success) {
+                final response = await retryRequest(
+                  dioError.requestOptions,
+                );
+
+                handler.resolve(response);
+              } else {
+                handler.reject(dioError);
+
+                await getIt.get<LogoutService>().logout(
+                  'INTERCEPTOR, cant update token',
+                  callbackAfterSend: () {},
+                );
+              }
             }
           } catch (_) {
             handler.reject(dioError);
