@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:charts/simple_chart.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -10,9 +11,9 @@ import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/invest/stores/chart/invest_chart_store.dart';
 import 'package:jetwallet/features/invest/ui/widgets/small_chart.dart';
+import 'package:jetwallet/features/market/helper/percent_price_cahange.dart';
 import 'package:jetwallet/features/market/helper/sector_extensions.dart';
 import 'package:jetwallet/features/market/store/market_sector_store.dart';
-import 'package:jetwallet/utils/formatting/base/format_percent.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:provider/provider.dart';
@@ -225,36 +226,39 @@ class _MarketSectorDetailsBodyState extends State<_MarketSectorDetailsBody> with
                         assetSymbol: assets[index].symbol,
                       );
 
-                  final candles = chartStore.getAssetCandles(assets[index].associateAssetPair);
-
-                  return SimpleTableAsset(
-                    assetIcon: NetworkIconWidget(
-                      currency.iconUrl,
-                    ),
-                    label: currency.description,
-                    rightValue:
-                        (baseCurrency.symbol == currency.symbol ? Decimal.one : currency.currentPrice).toFormatPrice(
-                      prefix: baseCurrency.prefix,
-                      accuracy: assets[index].priceAccuracy,
-                    ),
-                    supplement: currency.symbol,
-                    isRightValueMarket: true,
-                    rightMarketValue: formatPercent(currency.dayPercentChange),
-                    rightValueMarketPositive: currency.dayPercentChange > 0,
-                    onTableAssetTap: () {
-                      sRouter.push(
-                        MarketDetailsRouter(
-                          marketItem: assets[index],
+                  return FutureBuilder<List<CandleModel>>(
+                    future: chartStore.getAssetCandles(store.filtredMarketItems[index].associateAssetPair),
+                    builder: (context, snapshot) {
+                      return SimpleTableAsset(
+                        assetIcon: NetworkIconWidget(
+                          currency.iconUrl,
+                        ),
+                        label: currency.description,
+                        rightValue: (baseCurrency.symbol == currency.symbol ? Decimal.one : currency.currentPrice)
+                            .toFormatPrice(
+                          prefix: baseCurrency.prefix,
+                          accuracy: store.filtredMarketItems[index].priceAccuracy,
+                        ),
+                        supplement: currency.symbol,
+                        isRightValueMarket: true,
+                        rightMarketValue: formatedPercentPriceCahange(snapshot.data ?? []),
+                        rightValueMarketPositive: percentPriceCahange(snapshot.data ?? []) >= 0,
+                        onTableAssetTap: () {
+                          sRouter.push(
+                            MarketDetailsRouter(
+                              marketItem: store.filtredMarketItems[index],
+                            ),
+                          );
+                        },
+                        chartWidget: SmallChart(
+                          candles: snapshot.data?.reversed.toList() ?? <CandleModel>[],
+                          width: 32,
+                          height: 12,
+                          lineWith: 1.8,
+                          maxCandles: 20,
                         ),
                       );
                     },
-                    chartWidget: SmallChart(
-                      candles: candles,
-                      width: 32,
-                      height: 12,
-                      lineWith: 1.8,
-                      maxCandles: 20,
-                    ),
                   );
                 },
               ),
