@@ -206,11 +206,10 @@ class EarnPositionActiveScreen extends StatelessWidget {
           await sRouter.maybePop();
 
           if (offers
-                  .where(
-                    (element) => element.status == EarnOfferStatus.activeShow,
-                  )
-                  .length >
-              1) {
+              .where(
+                (element) => element.status == EarnOfferStatus.activeShow,
+              )
+              .isNotEmpty) {
             final currency = getIt.get<FormatService>().findCurrency(
                   findInHideTerminalList: true,
                   assetSymbol: earnPosition.assetId,
