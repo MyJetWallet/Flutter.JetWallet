@@ -161,7 +161,7 @@ class _RewardsBody extends StatelessObserverWidget {
                   ),
                   onTap: () {
                     sRouter.push(
-                      InfoWebViewRouter(
+                      WebViewRouter(
                         link: infoRewardsLink,
                         title: intl.rewards_rewards,
                       ),
