@@ -228,9 +228,11 @@ class _MarketSectorDetailsBodyState extends State<_MarketSectorDetailsBody> with
                         supplement: currency.symbol,
                         isRightValueMarket: true,
                         rightMarketValue: (snapshot.connectionState == ConnectionState.done)
-                            ? percentPriceCahange(snapshot.data ?? [])
+                            ? formatedPercentPriceCahange(snapshot.data ?? [])
                             : formatPercent(currency.dayPercentChange),
-                        rightValueMarketPositive: currency.dayPercentChange > 0,
+                        rightValueMarketPositive: (snapshot.connectionState == ConnectionState.done)
+                            ? percentPriceCahange(snapshot.data ?? []) >= 0
+                            : currency.dayPercentChange >= 0,
                         onTableAssetTap: () {
                           sRouter.push(
                             MarketDetailsRouter(

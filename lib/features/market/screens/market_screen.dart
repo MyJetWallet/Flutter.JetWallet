@@ -354,9 +354,11 @@ class _MarketScreenState extends State<MarketScreen> {
                                   supplement: currency.symbol,
                                   isRightValueMarket: true,
                                   rightMarketValue: (snapshot.connectionState == ConnectionState.done)
-                                      ? percentPriceCahange(snapshot.data ?? [])
+                                      ? formatedPercentPriceCahange(snapshot.data ?? [])
                                       : formatPercent(currency.dayPercentChange),
-                                  rightValueMarketPositive: currency.dayPercentChange >= 0,
+                                  rightValueMarketPositive: (snapshot.connectionState == ConnectionState.done)
+                                      ? percentPriceCahange(snapshot.data ?? []) >= 0
+                                      : currency.dayPercentChange >= 0,
                                   onTableAssetTap: () {
                                     FocusManager.instance.primaryFocus?.unfocus();
                                     getIt.get<EventBus>().fire(EndReordering());
