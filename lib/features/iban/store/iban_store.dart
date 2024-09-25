@@ -27,7 +27,7 @@ abstract class IbanStoreBase with Store {
   IbanStoreBase() {
     loader = StackLoaderStore();
 
-    getAddressBook();
+    getAddressBook(true);
   }
 
   final formKey = GlobalKey<FormState>();
@@ -413,7 +413,7 @@ abstract class IbanStoreBase with Store {
   ObservableList<AddressBookContactModel> allTopContacts = ObservableList.of([]);
 
   @action
-  Future<void> getAddressBook() async {
+  Future<void> getAddressBook([bool isInit = false]) async {
     if (simpleContacts.isEmpty || allContacts.isEmpty) {
       ibanAdressBookLoaded = false;
     }
@@ -425,6 +425,9 @@ abstract class IbanStoreBase with Store {
     var tempAllTopContacts = <AddressBookContactModel>[];
 
     // Simple
+    if (isInit) {
+      await Future.delayed(const Duration(seconds: 3));
+    }
     final simpleResponse = await sNetwork.getWalletModule().getAddressBook(0);
     simpleResponse.pick(
       onData: (data) {

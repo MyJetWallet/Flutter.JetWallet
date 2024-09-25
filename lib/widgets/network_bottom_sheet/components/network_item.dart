@@ -1,61 +1,66 @@
 import 'package:flutter/material.dart';
+import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/format_service.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'package:simple_networking/modules/signal_r/models/blockchains_model.dart';
 
-class NetworkItem extends StatelessWidget {
-  const NetworkItem({
+class WithdrawalNetworkItem extends StatelessWidget {
+  const WithdrawalNetworkItem({
     super.key,
-    required this.iconUrl,
     required this.network,
-    required this.selected,
     required this.onTap,
+    required this.iconUrl,
   });
-
-  final String iconUrl;
-  final String network;
-  final bool selected;
+  final BlockchainModel network;
   final void Function() onTap;
+  final String iconUrl;
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final networkInfo = network.info;
 
-    return InkWell(
-      highlightColor: colors.grey5,
-      splashColor: Colors.transparent,
-      onTap: onTap,
-      child: SPaddingH24(
-        child: SizedBox(
-          height: 64,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                  right: 20,
-                  top: 10,
-                ),
-                child: NetworkIconWidget(
-                  iconUrl,
-                ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    top: 7,
+    final feeAsset = getIt.get<FormatService>().findCurrency(
+          findInHideTerminalList: true,
+          assetSymbol: networkInfo?.feeAsset ?? '',
+        );
+
+    return SimpleTableAccount(
+      assetIcon: SizedBox(
+        width: 32,
+        height: 27,
+        child: Stack(
+          children: [
+            NetworkIconWidget(
+              iconUrl,
+            ),
+            if (networkInfo != null)
+              Positioned(
+                left: 15,
+                top: 9,
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.white),
+                    borderRadius: BorderRadius.circular(16),
                   ),
-                  child: Text(
-                    network,
-                    style: sSubtitle2Style.copyWith(
-                      color: selected ? colors.blue : null,
-                    ),
+                  child: NetworkIconWidget(
+                    width: 16,
+                    height: 16,
+                    feeAsset.iconUrl,
                   ),
                 ),
               ),
-            ],
-          ),
+          ],
         ),
       ),
+      label: network.description,
+      hasRightValue: false,
+      supplement: networkInfo != null
+          ? '~ ${networkInfo.time} ${networkInfo.time == 1 ? intl.withdrawal_network_minute : intl.withdrawal_network_minutes} · ${intl.fee}: ${networkInfo.feeAmount.toFormatCount(symbol: feeAsset.symbol)}'
+          : null,
+      onTableAssetTap: onTap,
     );
   }
 }
