@@ -395,20 +395,8 @@ abstract class _TransferConfirmationStoreBase with Store {
             sRouter.maybePop();
             onConfirmed?.call();
           },
-          onBackTap: () {
-            sAnalytics.tapOnTheButtonBackOnConfirmCodeViaSMSScreen(
-              transferFrom: fromType.analyticsValue,
-              transferTo: toType.analyticsValue,
-              amount: fromAmount.toString(),
-            );
-          },
-          onLoaderStart: () {
-            sAnalytics.loaderWithSMSCodeOnConfirmTransferScreenView(
-              transferFrom: fromType.analyticsValue,
-              transferTo: toType.analyticsValue,
-              amount: fromAmount.toString(),
-            );
-          },
+          onBackTap: () {},
+          onLoaderStart: () {},
         ),
       ),
     );

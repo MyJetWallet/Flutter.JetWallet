@@ -11,7 +11,6 @@ import 'package:jetwallet/features/send_gift/model/send_gift_info_model.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
@@ -121,16 +120,6 @@ class _GiftOrderSummuryState extends State<GiftOrderSummury> {
                       active: true,
                       name: intl.previewBuyWithAsset_confirm,
                       onTap: () {
-                        sAnalytics.tapOnTheButtonConfirmOrderSummarySend(
-                          giftSubmethod: sendGiftStore.selectedContactType.name,
-                          asset: sendGiftStore.currency.symbol,
-                          totalSendAmount: sendGiftStore.amount.toString(),
-                          paymentFee: (sendGiftStore.currency.fees.withdrawalFee?.size ?? Decimal.zero).toFormatCount(
-                            accuracy: sendGiftStore.currency.accuracy,
-                            symbol: sendGiftStore.currency.symbol,
-                          ),
-                        );
-
                         sRouter.push(
                           PinScreenRoute(
                             union: const Change(),
@@ -140,14 +129,7 @@ class _GiftOrderSummuryState extends State<GiftOrderSummury> {
                                 newPin: newPin,
                               );
                             },
-                            onWrongPin: (error) {
-                              sAnalytics.errorWrongPin(
-                                asset: sendGiftStore.currency.symbol,
-                                giftSubmethod: sendGiftStore.selectedContactType.name,
-                                errorText: error,
-                                sendMethod: AnalyticsSendMethods.gift,
-                              );
-                            },
+                            onWrongPin: (error) {},
                           ),
                         );
                       },

@@ -60,7 +60,6 @@ class _ChooseAssetScreenState extends State<ChooseAssetScreen> {
         child: SSmallHeader(
           title: intl.choose_asser_screan_header,
           onBackButtonTap: () {
-            sAnalytics.tapOnTheBackFromChooseWalletButton();
             Navigator.pop(context);
           },
         ),

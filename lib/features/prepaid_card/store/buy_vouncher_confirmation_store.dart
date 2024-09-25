@@ -17,7 +17,6 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
@@ -144,14 +143,6 @@ abstract class _BuyVouncherConfirmationStoreBase with Store {
       response.pick(
         onData: (data) {
           prewievResponce = data;
-          sAnalytics.orderSummaryBuyVoucherScreenView(
-            amount: amount.toFormatCount(
-              symbol: payCurrency.symbol,
-              accuracy: payCurrency.accuracy,
-            ),
-            country: country?.isoCode ?? '',
-            isAvailableAppleGooglePay: prewievResponce?.brand.isMobile ?? false,
-          );
         },
         onError: (error) {
           loader.finishLoadingImmediately();
@@ -181,15 +172,6 @@ abstract class _BuyVouncherConfirmationStoreBase with Store {
     if (sRouter.currentPath != '/buy_vouncher_confirmation') {
       return;
     }
-
-    sAnalytics.failedPrepaidPurchaseScreenView(
-      amount: amount.toFormatCount(
-        symbol: payCurrency.symbol,
-        accuracy: payCurrency.accuracy,
-      ),
-      country: country?.isoCode ?? '',
-      isAvailableAppleGooglePay: prewievResponce?.brand.isMobile ?? false,
-    );
 
     unawaited(
       sRouter.push(
@@ -274,15 +256,6 @@ abstract class _BuyVouncherConfirmationStoreBase with Store {
 
   @action
   Future<void> _showSuccessScreen() {
-    sAnalytics.successPrepaidPurchaseScreenView(
-      amount: amount.toFormatCount(
-        symbol: payCurrency.symbol,
-        accuracy: payCurrency.accuracy,
-      ),
-      country: country?.isoCode ?? '',
-      isAvailableAppleGooglePay: prewievResponce?.brand.isMobile ?? false,
-    );
-
     return sRouter.push(
       SuccessScreenRouter(
         secondaryText: intl.prepaid_card_success(

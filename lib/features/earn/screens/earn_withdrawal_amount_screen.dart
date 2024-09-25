@@ -35,12 +35,6 @@ class EarnWithdrawalAmountScreen extends StatelessWidget {
       header: SPaddingH24(
         child: SSmallHeader(
           onBackButtonTap: () {
-            sAnalytics.tapOnTheBackFromEarnWithdrawAmountButton(
-              assetName: earnPosition.assetId,
-              earnOfferId: earnPosition.offerId,
-              earnPlanName: earnPosition.offers.first.name ?? '',
-              earnWithdrawalType: earnPosition.withdrawType.name,
-            );
             Navigator.of(context).pop();
           },
           title: intl.earn_partial_withdrawal,

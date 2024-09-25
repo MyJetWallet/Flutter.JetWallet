@@ -6,7 +6,6 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
@@ -21,8 +20,6 @@ class PrepaidCardProfileBanner extends StatelessWidget {
       builder: (context) {
         return SafeGesture(
           onTap: () {
-            sAnalytics.tapOnTheBunnerPrepaidCardsOnProfile();
-
             final kycState = getIt.get<KycService>();
             final handler = getIt.get<KycAlertHandler>();
 

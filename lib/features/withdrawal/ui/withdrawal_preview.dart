@@ -50,10 +50,12 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
         network: store.network.description,
         sendMethodType: '0',
         totalSendAmount: store.withAmount,
-        paymentFee: store.withdrawalInputModel!.currency!.withdrawalFeeSize(
-          network: store.getNetworkForFee(),
-          amount: Decimal.parse(store.withAmount),
-        ).toString(),
+        paymentFee: store.withdrawalInputModel!.currency!
+            .withdrawalFeeSize(
+              network: store.getNetworkForFee(),
+              amount: Decimal.parse(store.withAmount),
+            )
+            .toString(),
       );
     }
 
@@ -205,13 +207,7 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
                             store.withdraw(newPin: newPin);
                           }
                         },
-                        onWrongPin: (String error) {
-                          sAnalytics.errorWrongPin(
-                            asset: store.withdrawalInputModel!.currency!.symbol,
-                            errorText: error,
-                            sendMethod: AnalyticsSendMethods.cryptoWallet,
-                          );
-                        },
+                        onWrongPin: (String error) {},
                       ),
                     );
                   },

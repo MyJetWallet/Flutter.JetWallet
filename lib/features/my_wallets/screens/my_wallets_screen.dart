@@ -170,14 +170,9 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
     } else {
       getIt<AppStore>().setIsBalanceHide(true);
     }
-    sAnalytics.tapOnTheButtonShowHideBalancesOnWalletsScreen(
-      isShowNow: !getIt<AppStore>().isBalanceHide,
-    );
   }
 
   void _headerTap() {
-    sAnalytics.tapOnTheButtonProfileOnWalletsScreen();
-
     final myWalletsSrore = MyWalletsSrore.of(context);
     myWalletsSrore.endReorderingImmediately();
 

@@ -181,8 +181,6 @@ class _SingInBody extends StatelessObserverWidget {
                             );
 
                             credentials.setPolicyChecked();
-
-                            sAnalytics.signInFlowTapToAgreeTCPP();
                           },
                           onUserAgreementTap: () {
                             launchURL(context, userAgreementLink);

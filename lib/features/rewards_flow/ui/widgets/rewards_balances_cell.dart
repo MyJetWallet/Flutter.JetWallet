@@ -11,7 +11,6 @@ import 'package:jetwallet/features/rewards_flow/store/rewards_flow_store.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/rewards_profile_model.dart';
 
@@ -74,11 +73,6 @@ class _BalanceCellState extends State<_BalanceCell> {
       highlightColor: sKit.colors.grey5,
       hoverColor: Colors.transparent,
       onTap: () {
-        sAnalytics.rewardsClickOnReward(
-          transferAmount: '${widget.data.amount}',
-          transferAseet: widget.data.assetSymbol ?? '',
-        );
-
         showDialog(
           context: sRouter.navigatorKey.currentContext!,
           builder: (context) => RewardTransferPopup(
@@ -162,11 +156,6 @@ class _BalanceCellState extends State<_BalanceCell> {
 }
 
 void showSuccessRewardSheet(String assetSymbol, String amount, String fAmout) {
-  sAnalytics.rewardsSuccessRewardTransfer(
-    transferAmount: amount,
-    transferAseet: assetSymbol,
-  );
-
   sShowAlertPopup(
     sRouter.navigatorKey.currentContext!,
     image: Image.asset(
@@ -179,11 +168,6 @@ void showSuccessRewardSheet(String assetSymbol, String amount, String fAmout) {
     primaryButtonName: intl.reward_got_it,
     onPrimaryButtonTap: () {
       Navigator.pop(sRouter.navigatorKey.currentContext!);
-
-      sAnalytics.rewardsSuccessTransferGotItClick(
-        transferAmount: amount,
-        transferAseet: assetSymbol,
-      );
     },
     onSecondaryButtonTap: () => Navigator.pop(sRouter.navigatorKey.currentContext!),
   );
@@ -205,15 +189,6 @@ class RewardTransferPopup extends StatefulWidget {
 
 class _RewardTransferPopupState extends State<RewardTransferPopup> {
   bool isClaimButtonActive = true;
-
-  @override
-  void initState() {
-    sAnalytics.rewardsRewardTransferPopup(
-      transferAmount: '${widget.data.amount}',
-      transferAseet: widget.data.assetSymbol ?? '',
-    );
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -267,11 +242,6 @@ class _RewardTransferPopupState extends State<RewardTransferPopup> {
                   icon: isClaimButtonActive ? null : const LoaderSpinner(),
                   active: isClaimButtonActive,
                   onTap: () async {
-                    sAnalytics.rewardsTransferPopupClickTransfer(
-                      transferAmount: '${widget.data.amount}',
-                      transferAseet: widget.data.assetSymbol ?? '',
-                    );
-
                     setState(() {
                       isClaimButtonActive = false;
                     });
@@ -316,10 +286,6 @@ class _RewardTransferPopupState extends State<RewardTransferPopup> {
                   active: true,
                   name: intl.reward_cancel,
                   onTap: () {
-                    sAnalytics.rewardsTransferPopupClickCancel(
-                      transferAmount: '${widget.data.amount}',
-                      transferAseet: widget.data.assetSymbol ?? '',
-                    );
                     Navigator.pop(sRouter.navigatorKey.currentContext!);
                   },
                 ),

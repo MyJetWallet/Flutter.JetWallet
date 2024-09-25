@@ -4,7 +4,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -89,7 +88,6 @@ class _CJAccountLabelScreenState extends State<CJAccountLabelScreen> {
                           active: isButtonActive,
                           name: intl.iban_edit_save_changes,
                           onTap: () async {
-                            sAnalytics.eurWalletTapSaveChanges();
                             loader.startLoadingImmediately();
 
                             try {

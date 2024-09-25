@@ -62,6 +62,7 @@ abstract class _BuyP2PConfirmationStoreBase with Store {
   }
 
   final cancelToken = CancelToken();
+
   Future<void> cancelAllRequest() async {
     cancelToken.cancel('exit');
 
@@ -152,16 +153,6 @@ abstract class _BuyP2PConfirmationStoreBase with Store {
   @action
   void setIsBankTermsChecked() {
     isP2PTermsChecked = !isP2PTermsChecked;
-
-    sAnalytics.tapToAgreeToTheTCAndPrivacyPolicyBuy(
-      pmType: PaymenthMethodType.ptp,
-      buyPM: 'PTP',
-      sourceCurrency: paymentAsset?.asset ?? '',
-      destinationWallet: buyAsset ?? '',
-      sourceBuyAmount: paymentAmount.toString(),
-      destinationBuyAmount: buyAmount.toString(),
-      isCheckboxNowTrue: isP2PTermsChecked,
-    );
   }
 
   @computed
@@ -314,16 +305,7 @@ abstract class _BuyP2PConfirmationStoreBase with Store {
         FailureScreenRouter(
           primaryText: intl.previewBuyWithAsset_failure,
           secondaryText: error,
-          onPrimaryButtonTap: () {
-            sAnalytics.tapOnTheCloseButtonOnFailedBuyEndScreen(
-              pmType: PaymenthMethodType.ptp,
-              buyPM: 'PTP',
-              sourceCurrency: paymentAsset?.asset ?? '',
-              destinationWallet: buyAsset ?? '',
-              sourceBuyAmount: paymentAmount.toString(),
-              destinationBuyAmount: buyAmount.toString(),
-            );
-          },
+          onPrimaryButtonTap: () {},
         ),
       ),
     );
@@ -478,14 +460,7 @@ abstract class _BuyP2PConfirmationStoreBase with Store {
 
                     return NavigationDecision.navigate;
                   } else if (uri.path == '/unlimint/cancel') {
-                    sAnalytics.tapOnTheCloseButtonOn3DSecureScreen(
-                      pmType: PaymenthMethodType.ptp,
-                      buyPM: 'PTP',
-                      sourceCurrency: paymentAsset?.asset ?? '',
-                      destinationWallet: buyAsset ?? '',
-                      sourceBuyAmount: paymentAmount.toString(),
-                      destinationBuyAmount: buyAmount.toString(),
-                    );
+               
                     onCancel.call(paymentId);
 
                     return NavigationDecision.navigate;
@@ -646,16 +621,7 @@ abstract class _BuyP2PConfirmationStoreBase with Store {
                 accuracy: buyCurrency.accuracy,
                 symbol: buyCurrency.symbol,
               )}',
-        onCloseButton: () {
-          sAnalytics.tapOnTheCloseButtonOnSuccessBuyEndScreen(
-            pmType: PaymenthMethodType.ptp,
-            buyPM: 'PTP',
-            sourceCurrency: paymentAsset?.asset ?? '',
-            destinationWallet: buyAsset ?? '',
-            sourceBuyAmount: paymentAmount.toString(),
-            destinationBuyAmount: buyAmount.toString(),
-          );
-        },
+        onCloseButton: () {},
       ),
     )
         .then(
