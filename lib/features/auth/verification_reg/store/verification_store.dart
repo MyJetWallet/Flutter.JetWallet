@@ -1,7 +1,4 @@
-import 'package:jetwallet/core/di/di.dart';
-import 'package:jetwallet/core/services/user_info/user_info_service.dart';
-import 'package:jetwallet/features/kyc/kyc_service.dart';
-import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
+import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:mobx/mobx.dart';
 
 part 'verification_store.g.dart';
@@ -27,8 +24,7 @@ abstract class _VerificationStoreBase with Store {
 
   @computed
   bool get showPhoneNumberSteep {
-    return getIt.get<KycService>().requiredVerifications.contains(RequiredVerified.proofOfPhone) &&
-        sUserInfo.phone != '';
+    return showPhoneNumberStep;
   }
 
   @action
