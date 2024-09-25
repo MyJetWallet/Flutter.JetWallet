@@ -10,6 +10,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
+import 'package:jetwallet/core/services/sentry_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/crypto_jar/store/jars_store.dart';
@@ -550,6 +551,8 @@ abstract class _WithdrawalStoreBase with Store {
         },
       );
     } catch (error) {
+      getIt.get<SentryService>().captureException(error, StackTrace.empty);
+
       _updateValidationOfBothFields(const Invalid());
       _triggerErrorOfBothFields();
     }
