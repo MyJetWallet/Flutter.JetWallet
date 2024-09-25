@@ -205,21 +205,30 @@ class EarnPositionActiveScreen extends StatelessWidget {
         onPrimaryButtonTap: () async {
           await sRouter.maybePop();
 
-          final currency = getIt.get<FormatService>().findCurrency(
-                findInHideTerminalList: true,
-                assetSymbol: earnPosition.assetId,
-              );
+          if (offers
+                  .where(
+                    (element) => element.status == EarnOfferStatus.activeShow,
+                  )
+                  .length >
+              1) {
+            final currency = getIt.get<FormatService>().findCurrency(
+                  findInHideTerminalList: true,
+                  assetSymbol: earnPosition.assetId,
+                );
 
-          sShowBasicModalBottomSheet(
-            context: sRouter.navigatorKey.currentContext!,
-            scrollable: true,
-            children: [
-              OffersOverlayContent(
-                offers: offers,
-                currency: currency,
-              ),
-            ],
-          );
+            sShowBasicModalBottomSheet(
+              context: sRouter.navigatorKey.currentContext!,
+              scrollable: true,
+              children: [
+                OffersOverlayContent(
+                  offers: offers,
+                  currency: currency,
+                ),
+              ],
+            );
+          } else {
+            await sRouter.popAndPush(const OffersRouter());
+          }
         },
         secondaryButtonName: intl.earn_cancel,
         onSecondaryButtonTap: () {
