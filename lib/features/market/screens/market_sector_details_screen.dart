@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:charts/simple_chart.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:charts/simple_chart.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
