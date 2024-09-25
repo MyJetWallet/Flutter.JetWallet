@@ -4686,11 +4686,6 @@
         "description": "Операция проведена",
         "type": "text"
     },
-    "convert_success_in_process": "В процесі",
-    "@convert_success_in_process": {
-        "description": "В процессе",
-        "type": "text"
-    },
     "convert_amount_convert_to": "Отримуємо",
     "@convert_amount_convert_to": {
         "description": "Получаем",

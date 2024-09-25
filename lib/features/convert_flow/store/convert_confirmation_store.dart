@@ -45,6 +45,7 @@ abstract class _ConvertConfirmationStoreBase with Store {
   bool isDataLoaded = false;
   @observable
   bool terminateUpdates = false;
+
   @action
   void termiteUpdate() {
     terminateUpdates = true;
@@ -52,6 +53,7 @@ abstract class _ConvertConfirmationStoreBase with Store {
   }
 
   final cancelToken = CancelToken();
+
   void cancelAllRequest() {
     cancelToken.cancel('exit');
 
@@ -371,13 +373,7 @@ abstract class _ConvertConfirmationStoreBase with Store {
       nowInput: isFromFixed ? 'ConvertFrom' : 'ConvertTo',
     );
 
-    return sRouter
-        .push(
-      SuccessScreenRouter(
-        secondaryText: intl.convert_success_in_process,
-      ),
-    )
-        .then((value) {
+    return sRouter.push(SuccessScreenRouter()).then((value) {
       sRouter.replaceAll([
         const HomeRouter(
           children: [
