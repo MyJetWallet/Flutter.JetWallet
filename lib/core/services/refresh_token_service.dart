@@ -99,6 +99,9 @@ Future<RefreshTokenStatus> refreshToken({
           refreshRequest.data!.refreshToken,
         );
 
+        final tokenFromAppStore = getIt.get<AppStore>().authState.token;
+        final tokenFromRefreshRequest = refreshRequest.data!.token;
+
         getIt.get<AppStore>().updateAuthState(
               token: refreshRequest.data!.token,
               refreshToken: refreshRequest.data!.refreshToken,
@@ -107,7 +110,9 @@ Future<RefreshTokenStatus> refreshToken({
         /// Recreating a dio object with a token
         await getIt.get<SNetwork>().init(getIt<AppStore>().sessionID);
         if (updateSignalR) {
-          await getIt.get<SignalRService>().forceReconnectSignalR();
+          if (tokenFromAppStore != tokenFromRefreshRequest) {
+            await getIt.get<SignalRService>().forceReconnectSignalR();
+          }
         }
 
         //getIt<SignalRService>().signalR.setUserToken(
