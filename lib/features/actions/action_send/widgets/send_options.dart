@@ -41,7 +41,11 @@ void showSendOptions(
     ],
   );
 
-  if (currency.isAssetBalanceEmpty) {
+  if (currentAsset.networksForBlockchainSend.isEmpty) {
+    showAssetOnlyTradableWithinSimpleAppDialog();
+
+    return;
+  } else if (currency.isAssetBalanceEmpty) {
     showPleaseAddFundsToYourBalanceDialog(onBuyPressed);
 
     return;
