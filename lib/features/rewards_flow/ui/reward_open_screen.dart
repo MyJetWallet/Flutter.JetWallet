@@ -1,11 +1,9 @@
 import 'dart:async';
-import 'dart:ui' as ui;
 
 import 'package:animated_background/animated_background.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
@@ -222,38 +220,47 @@ abstract class _RewardOpenStoreBase with Store {
       spinData != null ? spinData?.assetSymbol ?? 'BTC' : 'BTC',
     );
 
-    RenderRepaintBoundary? boundary;
-    if (lastIndex == 1) {
-      boundary = card1.currentContext!.findRenderObject()! as RenderRepaintBoundary;
-    } else if (lastIndex == 2) {
-      boundary = card2.currentContext!.findRenderObject()! as RenderRepaintBoundary;
-    } else {
-      boundary = card3.currentContext!.findRenderObject()! as RenderRepaintBoundary;
-    }
+    final appUrl = sSignalRModules.rewardsData?.referralLink ?? appDownloadUrl;
 
-    final image = await boundary.toImage(pixelRatio: 3.0);
-
-    final byteData = await image.toByteData(
-      format: ui.ImageByteFormat.png,
-    );
-    final buffer = byteData!.buffer;
-
-    await Share.shareXFiles(
-      [
-        XFile.fromData(
-          buffer.asUint8List(
-            byteData.offsetInBytes,
-            byteData.lengthInBytes,
-          ),
-          name: 'share_gift.png',
-          mimeType: 'image/png',
-        ),
-      ],
-      text: '${intl.reward_share_text} ${(spinData?.amount ?? Decimal.zero).toFormatCount(
+    await Share.share(
+      '${intl.reward_share_text} ${(spinData?.amount ?? Decimal.zero).toFormatCount(
         accuracy: currency.accuracy,
         symbol: currency.symbol,
-      )} ${intl.reward_share_text_2} ${sSignalRModules.rewardsData?.referralLink ?? ''}',
+      )} ${intl.reward_share_text_2} $appUrl',
     );
+
+    // RenderRepaintBoundary? boundary;
+    // if (lastIndex == 1) {
+    //   boundary = card1.currentContext!.findRenderObject()! as RenderRepaintBoundary;
+    // } else if (lastIndex == 2) {
+    //   boundary = card2.currentContext!.findRenderObject()! as RenderRepaintBoundary;
+    // } else {
+    //   boundary = card3.currentContext!.findRenderObject()! as RenderRepaintBoundary;
+    // }
+    //
+    // final image = await boundary.toImage(pixelRatio: 3.0);
+    //
+    // final byteData = await image.toByteData(
+    //   format: ui.ImageByteFormat.png,
+    // );
+    // final buffer = byteData!.buffer;
+    //
+    // await Share.shareXFiles(
+    //   [
+    //     XFile.fromData(
+    //       buffer.asUint8List(
+    //         byteData.offsetInBytes,
+    //         byteData.lengthInBytes,
+    //       ),
+    //       name: 'share_gift.png',
+    //       mimeType: 'image/png',
+    //     ),
+    //   ],
+    //   text: '${intl.reward_share_text} ${(spinData?.amount ?? Decimal.zero).toFormatCount(
+    //     accuracy: currency.accuracy,
+    //     symbol: currency.symbol,
+    //   )} ${intl.reward_share_text_2} ${sSignalRModules.rewardsData?.referralLink ?? ''}',
+    // );
   }
 
   @action
