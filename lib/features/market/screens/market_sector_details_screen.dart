@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -20,6 +21,7 @@ import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_kit_updated/widgets/navigation/segment_control/models/segment_control_data.dart';
 import 'package:simple_kit_updated/widgets/navigation/segment_control/segment_control.dart';
+import 'package:simple_kit_updated/widgets/shared/simple_skeleton_loader.dart';
 import 'package:simple_kit_updated/widgets/table/divider/simple_divider.dart' as divider;
 import 'package:simple_networking/modules/signal_r/models/market_sectors_message_model.dart';
 
@@ -80,10 +82,22 @@ class _MarketSectorDetailsBodyState extends State<_MarketSectorDetailsBody> with
                 sliver: SliverToBoxAdapter(
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(16),
-                    child: Image.network(
-                      store.sector.bigImageUrl,
+                    child: CachedNetworkImage(
+                      imageUrl: store.sector.bigImageUrl,
                       height: 160,
                       fit: BoxFit.cover,
+                      fadeInDuration: Duration.zero,
+                      fadeOutDuration: Duration.zero,
+                      placeholder: (_, __) {
+                        return SSkeletonLoader(
+                          width: MediaQuery.of(context).size.width - 48,
+                          height: 160,
+                          borderRadius: BorderRadius.circular(16),
+                        );
+                      },
+                      errorWidget: (_, __, ___) {
+                        return const SizedBox();
+                      },
                     ),
                   ),
                 ),
