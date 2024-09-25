@@ -16,6 +16,7 @@ class MarketInstrumentsListsStore extends _MarketInstrumentsListsStoreBase with 
 
 abstract class _MarketInstrumentsListsStoreBase with Store {
   _MarketInstrumentsListsStoreBase() {
+    activeMarketTab = watchListIds.isNotEmpty ? MarketTab.favorites : MarketTab.all;
     searchContriller.addListener(() {
       _searchText = searchContriller.text;
     });

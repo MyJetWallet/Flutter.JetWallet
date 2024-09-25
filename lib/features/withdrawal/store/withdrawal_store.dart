@@ -39,6 +39,7 @@ import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/blockchains_model.dart';
 import 'package:simple_networking/modules/validation_api/models/validation/verify_withdrawal_verification_code_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/fee_info/fee_preview_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/validate_address/validate_address_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/withdraw/withdraw_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/withdrawal_info/withdrawal_info_request_model.dart';
@@ -147,6 +148,9 @@ abstract class _WithdrawalStoreBase with Store {
   void _updateAddressIsInternal(bool value) {
     addressIsInternal = value;
   }
+
+  @observable
+  StackLoaderStore loader = StackLoaderStore();
 
   @observable
   bool addressIsJar = false;
@@ -409,14 +413,10 @@ abstract class _WithdrawalStoreBase with Store {
       if (withdrawalInputModel!.currency!.isSingleNetworkForBlockchainSend) {
         updateNetwork(networks[0]);
       }
-
-      //addressController.text = '0x71C7656EC7ab88b098defB751B7401B5f6d8976F';
     } else {
       withdrawalType = WithdrawalType.nft;
 
       networkController.text = withdrawalInputModel!.nft!.blockchain!;
-
-      //addressController.text = '0x9fCD3018a923B5BD3488bBA507e2ceb002AECe1D';
     }
 
     withdrawSubscription = getIt<EventBus>().on<WithdrawalConfirmModel>().listen(updateCode);
@@ -1414,7 +1414,6 @@ abstract class _WithdrawalStoreBase with Store {
       );
 
       pinError.enableError();
-
       await Future.delayed(
         const Duration(seconds: 2),
         () => confirmController.clear(),
@@ -1433,6 +1432,35 @@ abstract class _WithdrawalStoreBase with Store {
         nftInfo = data;
       },
     );
+  }
+
+  @action
+  Future<void> getFeeInfo() async {
+    try {
+      loader.startLoadingImmediately();
+      final model = FeePreviewRequestModel(assetSymbol: withdrawalInputModel?.currency?.symbol ?? '');
+
+      final response = await sNetwork.getWalletModule().postFeeInfo(model);
+
+      response.pick(
+        onData: (data) {
+          for (final networkInfo in data.networks) {
+            final index = networks.indexWhere((network) => network.id == networkInfo.network);
+
+            networks[index] = networks[index].copyWith(info: networkInfo);
+          }
+        },
+        onError: (error) {
+          sNotification.showError(error.cause);
+        },
+      );
+    } on ServerRejectException catch (error) {
+      sNotification.showError(error.cause);
+    } catch (error) {
+      sNotification.showError(intl.something_went_wrong);
+    } finally {
+      loader.finishLoadingImmediately();
+    }
   }
 
   @action

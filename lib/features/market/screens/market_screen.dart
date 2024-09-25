@@ -142,6 +142,10 @@ class _MarketScreenState extends State<MarketScreen> {
 
                 final list = reorderingItems(watchListMarketItems, context);
 
+                final showPlaceholder =
+                    ((listsStore.activeMarketTab == MarketTab.gainers) && listsStore.gainersList.isEmpty) ||
+                        ((listsStore.activeMarketTab == MarketTab.lossers) && listsStore.loosersList.isEmpty);
+
                 return CustomScrollView(
                   physics: const AlwaysScrollableScrollPhysics(),
                   controller: _controller,
@@ -275,7 +279,14 @@ class _MarketScreenState extends State<MarketScreen> {
                           child: AddAssetsBannerWidget(),
                         ),
                       ),
-                    if (listsStore.activeMarketTab == MarketTab.favorites && isReorderingMod)
+                    if (showPlaceholder)
+                      SliverToBoxAdapter(
+                        child: SPlaceholder(
+                          size: SPlaceholderSize.l,
+                          text: intl.market_gainers_losers_placeholder,
+                        ),
+                      )
+                    else if (listsStore.activeMarketTab == MarketTab.favorites && isReorderingMod)
                       SliverReorderableList(
                         proxyDecorator: (child, index, animation) {
                           return _proxyDecorator(

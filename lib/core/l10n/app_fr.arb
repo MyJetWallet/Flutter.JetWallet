@@ -1769,5 +1769,6 @@
     "earn_start_new_earn": "Lancez un nouveau Earn",
     "market_gainers_losers_placeholder": "",
     "kyc_verify_identity": "",
-    "kyc_secure_account": ""
+    "kyc_secure_account": "",
+    "market_price_change": ""
 }
