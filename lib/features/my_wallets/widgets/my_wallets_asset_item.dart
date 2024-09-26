@@ -120,54 +120,30 @@ class MyWalletsAssetItem extends StatelessObserverWidget {
                 } else {
                   if (currency.symbol == 'EUR') {
                     if (sSignalRModules.bankingProfileData?.showState == BankingShowState.onlySimple) {
-                      sRouter
-                          .push(
-                            CJAccountRouter(
-                              bankingAccount: sSignalRModules.bankingProfileData!.simple!.account!,
-                              isCJAccount: true,
-                              eurCurrency: currency,
-                            ),
-                          )
-                          .then(
-                            (value) => sAnalytics.eurWalletTapBackOnAccountWalletScreen(
-                              isCJ: true,
-                              eurAccountLabel: sSignalRModules.bankingProfileData!.simple!.account!.label ?? '',
-                              isHasTransaction: false,
-                            ),
-                          );
+                      sRouter.push(
+                        CJAccountRouter(
+                          bankingAccount: sSignalRModules.bankingProfileData!.simple!.account!,
+                          isCJAccount: true,
+                          eurCurrency: currency,
+                        ),
+                      );
                     } else if (sSignalRModules.bankingProfileData?.showState == BankingShowState.inProgress) {
                       return;
                     } else if (sSignalRModules.bankingProfileData?.showState == BankingShowState.accountList) {
-                      sRouter
-                          .push(
+                      sRouter.push(
                         WalletRouter(
                           currency: currency,
                         ),
-                      )
-                          .then(
-                        (value) {
-                          sAnalytics.tapOnTheButtonBackOrSwipeToBackOnCryptoFavouriteWalletScreen(
-                            openedAsset: currency.symbol,
-                          );
-                        },
                       );
                     }
 
                     return;
                   }
 
-                  sRouter
-                      .push(
+                  sRouter.push(
                     WalletRouter(
                       currency: currency,
                     ),
-                  )
-                      .then(
-                    (value) {
-                      sAnalytics.tapOnTheButtonBackOrSwipeToBackOnCryptoFavouriteWalletScreen(
-                        openedAsset: currency.symbol,
-                      );
-                    },
                   );
                 }
               }
@@ -198,18 +174,10 @@ class MyWalletsAssetItem extends StatelessObserverWidget {
                     ),
                   );
                 } else {
-                  sRouter
-                      .push(
+                  sRouter.push(
                     WalletRouter(
                       currency: currency,
                     ),
-                  )
-                      .then(
-                    (value) {
-                      sAnalytics.tapOnTheButtonBackOrSwipeToBackOnCryptoFavouriteWalletScreen(
-                        openedAsset: currency.symbol,
-                      );
-                    },
                   );
                 }
               }

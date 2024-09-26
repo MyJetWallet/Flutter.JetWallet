@@ -32,6 +32,7 @@ import 'package:simple_networking/modules/wallet_api/models/card_buy_info/card_b
 import 'package:simple_networking/modules/wallet_api/models/card_buy_info/card_buy_info_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/p2p_methods/p2p_methods_responce_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/p2p_methods/p2p_payment_data.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 part 'buy_p2p_confirmation_store.g.dart';
 
@@ -61,6 +62,7 @@ abstract class _BuyP2PConfirmationStoreBase with Store {
   }
 
   final cancelToken = CancelToken();
+
   Future<void> cancelAllRequest() async {
     cancelToken.cancel('exit');
 
@@ -151,16 +153,6 @@ abstract class _BuyP2PConfirmationStoreBase with Store {
   @action
   void setIsBankTermsChecked() {
     isP2PTermsChecked = !isP2PTermsChecked;
-
-    sAnalytics.tapToAgreeToTheTCAndPrivacyPolicyBuy(
-      pmType: PaymenthMethodType.ptp,
-      buyPM: 'PTP',
-      sourceCurrency: paymentAsset?.asset ?? '',
-      destinationWallet: buyAsset ?? '',
-      sourceBuyAmount: paymentAmount.toString(),
-      destinationBuyAmount: buyAmount.toString(),
-      isCheckboxNowTrue: isP2PTermsChecked,
-    );
   }
 
   @computed
@@ -313,16 +305,7 @@ abstract class _BuyP2PConfirmationStoreBase with Store {
         FailureScreenRouter(
           primaryText: intl.previewBuyWithAsset_failure,
           secondaryText: error,
-          onPrimaryButtonTap: () {
-            sAnalytics.tapOnTheCloseButtonOnFailedBuyEndScreen(
-              pmType: PaymenthMethodType.ptp,
-              buyPM: 'PTP',
-              sourceCurrency: paymentAsset?.asset ?? '',
-              destinationWallet: buyAsset ?? '',
-              sourceBuyAmount: paymentAmount.toString(),
-              destinationBuyAmount: buyAmount.toString(),
-            );
-          },
+          onPrimaryButtonTap: () {},
         ),
       ),
     );
@@ -461,25 +444,37 @@ abstract class _BuyP2PConfirmationStoreBase with Store {
             },
           );
           sRouter.push(
-            Circle3dSecureWebViewRouter(
+            WebViewRouter(
               title: intl.previewBuyWithCircle_paymentVerification,
-              url: url,
-              asset: depositFeeCurrency.symbol,
-              amount: paymentAmount.toString(),
-              onSuccess: onSuccess,
-              onFailed: onFailed,
-              onCancel: (text) {
-                sAnalytics.tapOnTheCloseButtonOn3DSecureScreen(
-                  pmType: PaymenthMethodType.ptp,
-                  buyPM: 'PTP',
-                  sourceCurrency: paymentAsset?.asset ?? '',
-                  destinationWallet: buyAsset ?? '',
-                  sourceBuyAmount: paymentAmount.toString(),
-                  destinationBuyAmount: buyAmount.toString(),
-                );
-                onCancel.call(text);
-              },
-              paymentId: paymentId,
+              link: url,
+              navigationDelegate: NavigationDelegate(
+                onNavigationRequest: (NavigationRequest request) {
+                  final uri = Uri.parse(request.url);
+
+                  if (uri.path == '/circle/failure' || uri.path == '/unlimint/failure') {
+                    onFailed(intl.something_went_wrong);
+
+                    return NavigationDecision.navigate;
+                  } else if (uri.path == '/circle/success' || uri.path == '/unlimint/success') {
+                    onSuccess(paymentId, url);
+
+                    return NavigationDecision.navigate;
+                  } else if (uri.path == '/unlimint/cancel') {
+               
+                    onCancel.call(paymentId);
+
+                    return NavigationDecision.navigate;
+                  } else if (uri.path == '/unlimint/inprocess' || uri.path == '/unlimint/return') {
+                    onSuccess(paymentId, url);
+
+                    return NavigationDecision.navigate;
+                  } else if (uri.path.startsWith('text/html')) {
+                    return NavigationDecision.prevent;
+                  }
+
+                  return NavigationDecision.navigate;
+                },
+              ),
             ),
           );
 
@@ -626,16 +621,7 @@ abstract class _BuyP2PConfirmationStoreBase with Store {
                 accuracy: buyCurrency.accuracy,
                 symbol: buyCurrency.symbol,
               )}',
-        onCloseButton: () {
-          sAnalytics.tapOnTheCloseButtonOnSuccessBuyEndScreen(
-            pmType: PaymenthMethodType.ptp,
-            buyPM: 'PTP',
-            sourceCurrency: paymentAsset?.asset ?? '',
-            destinationWallet: buyAsset ?? '',
-            sourceBuyAmount: paymentAmount.toString(),
-            destinationBuyAmount: buyAmount.toString(),
-          );
-        },
+        onCloseButton: () {},
       ),
     )
         .then(

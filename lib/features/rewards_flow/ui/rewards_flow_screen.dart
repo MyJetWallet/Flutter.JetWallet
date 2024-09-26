@@ -12,7 +12,6 @@ import 'package:jetwallet/features/rewards_flow/ui/widgets/reward_share_card.dar
 import 'package:jetwallet/features/rewards_flow/ui/widgets/rewards_balances_cell.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/rewards_profile_model.dart';
@@ -44,20 +43,6 @@ class _RewardsFlowScreenBody extends StatefulObserverWidget {
 
 class _RewardsFlowScreenBodyState extends State<_RewardsFlowScreenBody> {
   @override
-  void initState() {
-    final store = RewardsFlowStore.of(context);
-
-    final assetList = store.balances.where((element) => element.amount != Decimal.zero);
-
-    sAnalytics.rewardsMainScreenView(
-      rewardsToClaim: store.availableSpins,
-      totalReceiveSum: store.totalEarnedBaseCurrency.toString(),
-      assetList: assetList.map((element) => element.assetSymbol ?? '').toList(),
-    );
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final store = RewardsFlowStore.of(context);
 
@@ -83,10 +68,6 @@ class _RewardsFlowScreenBodyState extends State<_RewardsFlowScreenBody> {
                   SPaddingH24(
                     child: InkWell(
                       onTap: () {
-                        sAnalytics.rewardsClickOpenReward(
-                          rewardsToClaim: store.availableSpins,
-                        );
-
                         sRouter.push(
                           RewardOpenRouter(
                             rewardStore: store,

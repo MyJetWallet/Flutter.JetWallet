@@ -158,11 +158,7 @@ class ConvertAmountScreenBodyState extends State<ConvertAmountTabBody> with Auto
                                         Navigator.of(context).pop(true);
                                       },
                                       skipAssetSymbol: store.toAsset?.symbol,
-                                      then: (value) {
-                                        if (value != true) {
-                                          sAnalytics.tapOnCloseSheetConvertFromButton();
-                                        }
-                                      },
+                                      then: (value) {},
                                     );
                                   },
                                   isDisabled: store.isNoCurrencies,
@@ -186,11 +182,7 @@ class ConvertAmountScreenBodyState extends State<ConvertAmountTabBody> with Auto
                                         Navigator.of(context).pop(true);
                                       },
                                       skipAssetSymbol: store.toAsset?.symbol,
-                                      then: (value) {
-                                        if (value != true) {
-                                          sAnalytics.tapOnCloseSheetConvertFromButton();
-                                        }
-                                      },
+                                      then: (value) {},
                                     );
                                   },
                                   isDisabled: store.isNoCurrencies,

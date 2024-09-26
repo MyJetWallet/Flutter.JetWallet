@@ -147,14 +147,6 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                   },
                   onUserAgreementTap: () {
                     launchURL(context, p2pTerms);
-                    sAnalytics.tapOnTheButtonTermsAndConditionsOnBuyOrderSummary(
-                      pmType: PaymenthMethodType.ptp,
-                      buyPM: 'PTP',
-                      sourceCurrency: store.paymentAsset?.asset ?? '',
-                      destinationWallet: store.buyAsset ?? '',
-                      sourceBuyAmount: store.paymentAmount.toString(),
-                      destinationBuyAmount: store.buyAmount.toString(),
-                    );
                   },
                   onPrivacyPolicyTap: () {},
                   onActiveTextTap: () {},

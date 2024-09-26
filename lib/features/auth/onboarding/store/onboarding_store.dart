@@ -5,7 +5,6 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 part 'onboarding_store.g.dart';
@@ -43,8 +42,6 @@ abstract class _OnboardingStoreBase with Store {
 
   @action
   void init(AnimationController controller) {
-    sAnalytics.onboardingFinanceIsSimpleScreenView();
-
     sliderController = controller;
 
     restartAnimation();
@@ -142,13 +139,9 @@ abstract class _OnboardingStoreBase with Store {
   }
 
   void onSliderChange() {
-    if (currentIndex == 0) {
-      sAnalytics.onboardingFinanceIsSimpleScreenView();
-    } else if (currentIndex == 1) {
-      sAnalytics.onboardingCryptoIsSimpleScreenView();
-    } else if (currentIndex == 2) {
-      sAnalytics.onboardingSendMoneyGloballyScreenView();
-    }
+  //   if (currentIndex == 0) {
+  //     sAnalytics.onboardingFinanceIsSimpleScreenView();
+  //   }
   }
 
   String showImages(int index) {

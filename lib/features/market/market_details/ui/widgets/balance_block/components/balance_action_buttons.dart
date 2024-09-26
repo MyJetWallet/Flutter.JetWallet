@@ -168,10 +168,6 @@ class BalanceActionButtons extends StatelessObserverWidget {
               }
             },
             onSend: () {
-              sAnalytics.tabOnTheSendButton(
-                source: 'Market - Asset - Send',
-              );
-
               handler.handle(
                 isProgress: kycState.verificationInProgress,
                 currentNavigate: () => showSendOptions(

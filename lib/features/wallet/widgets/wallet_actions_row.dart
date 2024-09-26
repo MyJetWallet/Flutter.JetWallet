@@ -123,10 +123,6 @@ class WalletActionsRow extends StatelessWidget {
           }
         },
         onSend: () {
-          sAnalytics.tabOnTheSendButton(
-            source: 'My Assets - Asset - Send',
-          );
-
           final actualAsset = currency;
 
           handler.handle(

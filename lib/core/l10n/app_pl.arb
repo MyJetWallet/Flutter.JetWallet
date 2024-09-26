@@ -966,7 +966,6 @@
     "sell_amount_sell_to": "Sprzedawać do",
     "sell_amount_accounts": "Konta",
     "sell_success_cryptocurrencies": "Zamówienie zostało złożone",
-    "convert_success_in_process": "W trakcie",
     "convert_amount_convert_to": "Konwertuj na",
     "convert_amount_convert": "Konwertuj",
     "convert_amount_convert_all": "Konwertuj wszystko",
@@ -1852,5 +1851,12 @@
     "wallet_this_asset_is_only_tradable_within_simple": "Ten aktyw jest handlowy tylko w aplikacji Simple",
     "wallet_got_it": "Rozumiem",
     "wallet_please_add_funds_to_your_balance": "Najpierw doładuj saldo",
-    "wallet_buy_crypto": "Kup krypto"
+    "wallet_buy_crypto": "Kup krypto",
+    "earn_offering_no_longer_accepts_deposits": "Ta oferta już nie akceptuje depozytów. Rozpocznij nową pozycję Earn, aby nadal powiększać swoje oszczędności.",
+    "earn_start_new_earn": "Rozpocznij nowy Earn",
+    "market_gainers_losers_placeholder": "Rynek jest stabilny. Sprawdź później aktualizacje.",
+    "kyc_verify_identity": "Zweryfikuj tożsamość",
+    "kyc_secure_account": "Zabezpiecz konto",
+    "market_price_change": "Zmiana ceny",
+    "kyc_profile_verification": "Weryfikacja profilu"
 }

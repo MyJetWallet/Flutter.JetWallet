@@ -41,7 +41,6 @@ class OffersListWidget extends StatelessWidget {
                 showLinkButton: filteredOffersGroupedByCurrency.isNotEmpty,
                 subtitle: intl.earn_most_profitable_earns,
                 onTap: () {
-                  sAnalytics.tapOnTheViewAllTopOffersButton();
                   context.router.push(const OffersRouter());
                 },
               ),

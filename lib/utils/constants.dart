@@ -39,6 +39,7 @@ const allowCameraAsset = 'assets/images/allow_camera.png';
 const selfiePhotoAsset = 'assets/images/selfie.png';
 const cardPhotoAsset = 'assets/images/credit_card.png';
 const verifiedAsset = 'assets/images/verified.png';
+const logoGradientRounded = 'assets/images/logo_gradient_rounded.png';
 
 // Send by phone
 const usePhonebookImageAsset = 'assets/images/use_phonebook.png';

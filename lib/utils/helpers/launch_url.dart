@@ -28,6 +28,6 @@ Future<void> launchURL(
 
 void launchUrlWevView(String url) {
   sRouter.push(
-    HelpCenterWebViewRouter(link: url, title: ''),
+    WebViewRouter(link: url, title: ''),
   );
 }

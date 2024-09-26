@@ -8,7 +8,6 @@ import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_create_response.dart';
 
@@ -67,21 +66,13 @@ Future<void> onGetAccountClick(
     await store.createSimpleAccount();
   } else if (store.buttonStatus == BankingShowState.onlySimple) {
     if (sSignalRModules.bankingProfileData?.simple?.account != null) {
-      await sRouter
-          .push(
-            CJAccountRouter(
-              bankingAccount: sSignalRModules.bankingProfileData!.simple!.account!,
-              isCJAccount: true,
-              eurCurrency: eurCurrency,
-            ),
-          )
-          .then(
-            (value) => sAnalytics.eurWalletTapBackOnAccountWalletScreen(
-              isCJ: true,
-              eurAccountLabel: sSignalRModules.bankingProfileData!.simple!.account!.label ?? '',
-              isHasTransaction: false,
-            ),
-          );
+      await sRouter.push(
+        CJAccountRouter(
+          bankingAccount: sSignalRModules.bankingProfileData!.simple!.account!,
+          isCJAccount: true,
+          eurCurrency: eurCurrency,
+        ),
+      );
     }
 
     return;

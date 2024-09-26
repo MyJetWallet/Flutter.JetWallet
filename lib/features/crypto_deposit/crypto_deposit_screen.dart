@@ -8,6 +8,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/features/crypto_deposit/store/crypto_deposit_disclaimer_store.dart';
 import 'package:jetwallet/features/crypto_deposit/store/crypto_deposit_store.dart';
+import 'package:jetwallet/features/crypto_deposit/utils/show_deposite_network_bottom_sheet.dart';
 import 'package:jetwallet/features/crypto_deposit/widgets/crypto_deposit_with_address.dart';
 import 'package:jetwallet/features/crypto_deposit/widgets/crypto_deposit_with_address_and_tag.dart';
 import 'package:jetwallet/features/crypto_deposit/widgets/deposit_info.dart';
@@ -18,7 +19,6 @@ import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:jetwallet/widgets/network_bottom_sheet/show_network_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -180,7 +180,7 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
         showAllAlerts: showAlert,
         onDismiss: widget.currency.isSingleNetwork
             ? null
-            : () => showNetworkBottomSheet(
+            : () => showDepositeNetworkBottomSheet(
                   context,
                   deposit.network,
                   widget.currency.depositBlockchains,
@@ -197,7 +197,7 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
       );
     } else {
       if (!widget.currency.isSingleNetwork) {
-        showNetworkBottomSheet(
+        showDepositeNetworkBottomSheet(
           context,
           deposit.network,
           widget.currency.depositBlockchains,
@@ -306,7 +306,7 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
                         asset: widget.currency.symbol,
                       );
 
-                      showNetworkBottomSheet(
+                      showDepositeNetworkBottomSheet(
                         context,
                         deposit.network,
                         widget.currency.depositBlockchains,

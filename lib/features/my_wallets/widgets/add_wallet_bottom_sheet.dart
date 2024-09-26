@@ -19,7 +19,6 @@ void showAddWalletBottomSheet(BuildContext context) {
     then: (isAssetChoosed) {
       final isAssetChoosedTemp = (isAssetChoosed as bool?) ?? false;
       if (!isAssetChoosedTemp) {
-        sAnalytics.tapOnTheButtonCloseOnAddWalletForFavouritesSheet();
         store.onCloseSearchBottomSheetWithoutChoose();
         sAnalytics.walletsScreenView(
           favouritesAssetsList: List.generate(

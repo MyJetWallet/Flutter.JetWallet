@@ -81,9 +81,6 @@ class _PaymentCurrenceBuyScreenState extends State<PaymentCurrenceBuyScreen> {
           child: SSmallHeader(
             title: intl.buy_payment_currency,
             onBackButtonTap: () {
-              sAnalytics.tapOnTheBackFromPTPBuyPaymentCurrencyButton(
-                asset: widget.currency.symbol,
-              );
               sRouter.maybePop();
             },
           ),

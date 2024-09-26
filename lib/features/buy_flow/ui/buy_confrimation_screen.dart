@@ -182,25 +182,9 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                     },
                     onUserAgreementTap: () {
                       launchURL(context, userAgreementLink);
-                      sAnalytics.tapOnTheButtonTermsAndConditionsOnBuyOrderSummary(
-                        pmType: store.pmType,
-                        buyPM: store.buyPM,
-                        sourceCurrency: 'EUR',
-                        destinationWallet: store.buyAsset ?? '',
-                        sourceBuyAmount: store.paymentAmount.toString(),
-                        destinationBuyAmount: store.buyAmount.toString(),
-                      );
                     },
                     onPrivacyPolicyTap: () {
                       launchURL(context, privacyPolicyLink);
-                      sAnalytics.tapOnTheButtonPrivacyPolicyOnBuyOrderSummary(
-                        pmType: store.pmType,
-                        buyPM: store.buyPM,
-                        sourceCurrency: 'EUR',
-                        destinationWallet: store.buyAsset ?? '',
-                        sourceBuyAmount: store.paymentAmount.toString(),
-                        destinationBuyAmount: store.buyAmount.toString(),
-                      );
                     },
                     onActiveTextTap: () {},
                     onActiveText2Tap: () {},

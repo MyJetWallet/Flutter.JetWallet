@@ -3,7 +3,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/features/auth/register/store/referral_code_store.dart';
 import 'package:jetwallet/features/auth/register/ui/widgets/referral_code/components/entered_valid_referal_code.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import 'components/invalid_referral_code.dart';
@@ -36,8 +35,6 @@ class _ReferralCodeState extends State<ReferralCode> {
           input: () {
             return NoReferralCode(
               onAddPressed: () {
-                sAnalytics.tapOnAddRefCodeButton();
-
                 referallStore.resetBottomSheetReferralCodeValidation(
                   isOpening: true,
                 );
@@ -54,8 +51,6 @@ class _ReferralCodeState extends State<ReferralCode> {
             return EnteredValidReferalCode(
               referralCode: referallStore.referralCode ?? '',
               onDelete: () {
-                sAnalytics.tapOnDeleteRefCodeButton();
-
                 referallStore.clearReferralCode();
               },
             );

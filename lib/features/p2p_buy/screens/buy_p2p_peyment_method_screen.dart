@@ -101,10 +101,6 @@ class _BuyP2pPeymentMethodScreenState extends State<BuyP2pPeymentMethodScreen> {
           child: SSmallHeader(
             title: intl.buy_flow_payment_method,
             onBackButtonTap: () {
-              sAnalytics.tapOnTheBackFromPTPBuyPaymentMethodButton(
-                asset: widget.currency.symbol,
-                ptpCurrency: widget.paymentCurrecy.asset,
-              );
               sRouter.maybePop();
             },
           ),

@@ -13,7 +13,6 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/remote_config/models/rewards_asset_model.dart';
@@ -247,8 +246,6 @@ class _RewardShareCardState extends State<RewardShareCard> {
             const SpaceH7(),
             InkWell(
               onTap: () {
-                sAnalytics.rewardsClickShare();
-
                 Clipboard.setData(
                   ClipboardData(
                     text: shareText,
@@ -286,8 +283,6 @@ class _RewardShareCardState extends State<RewardShareCard> {
               children: [
                 InkWell(
                   onTap: () {
-                    sAnalytics.rewardsClickShare();
-
                     final emailLaunchUri = Uri(
                       scheme: 'mailto',
                       query: encodeQueryParameters({
@@ -310,8 +305,6 @@ class _RewardShareCardState extends State<RewardShareCard> {
                 const SpaceW24(),
                 InkWell(
                   onTap: () {
-                    sAnalytics.rewardsClickShare();
-
                     Clipboard.setData(
                       ClipboardData(
                         text: shareText,
@@ -338,8 +331,6 @@ class _RewardShareCardState extends State<RewardShareCard> {
                 const SpaceW24(),
                 InkWell(
                   onTap: () async {
-                    sAnalytics.rewardsClickShare();
-
                     await Share.share(shareText);
                   },
                   child: Container(

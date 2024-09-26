@@ -102,14 +102,6 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
                         label: label,
                       ),
                       onChangeLableTap: () {
-                        sAnalytics.eurWalletTapEditEURAccointScreen(
-                          isCJ: widget.isCJAccount,
-                          eurAccountLabel: widget.bankingAccount.label ?? 'Account',
-                          isHasTransaction: true,
-                        );
-
-                        sAnalytics.eurWalletEditLabelScreen();
-
                         sRouter
                             .push(
                           CJAccountLabelRouter(

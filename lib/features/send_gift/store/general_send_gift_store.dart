@@ -6,7 +6,6 @@ import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/decompose_phone_number.dart';
 import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
 import 'package:mobx/mobx.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/simple_networking.dart';
 import '../../../core/di/di.dart';
@@ -89,10 +88,6 @@ abstract class GeneralSendGiftStoreBase with Store {
 
   Future<void> confirmSendGift({required String newPin}) async {
     loader.startLoadingImmediately();
-    sAnalytics.processingSendScreenView(
-      asset: currency.symbol,
-      giftSubmethod: selectedContactType.name,
-    );
 
     if (selectedContactType == ReceiverContacrType.email) {
       final model = SendGiftByEmailRequestModel(
@@ -138,12 +133,6 @@ abstract class GeneralSendGiftStoreBase with Store {
 
   @action
   Future<void> showFailureScreen(String error) {
-    sAnalytics.failedSendScreenView(
-      asset: currency.symbol,
-      giftSubmethod: selectedContactType.name,
-      failedReason: error,
-    );
-
     return sRouter.push(
       FailureScreenRouter(
         primaryText: intl.failed,
@@ -154,11 +143,6 @@ abstract class GeneralSendGiftStoreBase with Store {
 
   @action
   Future<void> showSuccessScreen() {
-    sAnalytics.successSendScreenView(
-      asset: currency.symbol,
-      giftSubmethod: selectedContactType.name,
-    );
-
     return sRouter.push(
       SuccessScreenRouter(
         secondaryText: '${intl.send_gift_you_sent} ${amount.toFormatCount(
@@ -191,9 +175,7 @@ abstract class GeneralSendGiftStoreBase with Store {
         amount: amount,
         email: selectedContactType == ReceiverContacrType.email ? _email : null,
         phoneNumber: selectedContactType == ReceiverContacrType.phone ? (_phoneCountryCode + _phoneBody) : null,
-        onClose: () {
-          sAnalytics.tapOnTheButtonCloseOrTapInEmptyPlaceForClosingShareSheet();
-        },
+        onClose: () {},
       );
     });
 

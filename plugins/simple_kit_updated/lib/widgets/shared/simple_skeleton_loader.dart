@@ -90,7 +90,7 @@ class _SActionConfirmSkeletonLoaderState extends State<SSkeletonLoader> with Sin
                   decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(
-                        color: SColorsLight().grayAlfa,
+                        color: SColorsLight().gray2.withOpacity(0.12),
                         blurRadius: 10.0,
                         spreadRadius: 10.0,
                       ),

@@ -15,12 +15,10 @@ import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/prepaid_card/purchase_card_brand_list_response_model.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
-import '../../../core/services/prevent_duplication_events_servise.dart';
 
 @RoutePage(name: 'BuyVouncherAmountRouter')
 class BuyVouncherAmountScreen extends StatelessWidget {
@@ -37,20 +35,13 @@ class BuyVouncherAmountScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return VisibilityDetector(
       key: const Key('vouncher-amount-screen-key'),
-      onVisibilityChanged: (info) {
-        getIt.get<PreventDuplicationEventsService>().sendEvent(
-              id: 'vouncher-amount-screen-key',
-              event: sAnalytics.amountBuyVoucherScreenView,
-            );
-      },
+      onVisibilityChanged: (info) {},
       child: SPageFrame(
         loaderText: '',
         header: SPaddingH24(
           child: SSmallHeader(
             title: intl.prepaid_card_buy_voucher,
             onBackButtonTap: () {
-              sAnalytics.tapOnTheBackButtonOnAmountBuyVoucherScreen();
-              sAnalytics.choosePrepaidCardScreenView();
               sRouter.maybePop();
             },
           ),
@@ -69,6 +60,7 @@ class BuyVouncherAmountScreen extends StatelessWidget {
 
 class _EarnWithdrawalAmountBody extends StatelessWidget {
   const _EarnWithdrawalAmountBody();
+
   @override
   Widget build(BuildContext context) {
     final store = BuyVouncherAmountAtore.of(context);
@@ -134,13 +126,6 @@ class _EarnWithdrawalAmountBody extends StatelessWidget {
               submitButtonActive: store.isContinueAvaible,
               submitButtonName: intl.addCircleCard_continue,
               onSubmitPressed: () {
-                sAnalytics.tapOnTheContinueButtonOnAmountBuyVoucherScreen(
-                  amount: formatCurrencyStringAmount(
-                    value: store.cryptoInputValue,
-                    symbol: store.cryptoSymbol,
-                  ),
-                  country: store.country.isoCode,
-                );
                 sRouter.push(
                   BuyVouncherConfirmationRoute(
                     amount: Decimal.parse(store.fiatInputValue),
