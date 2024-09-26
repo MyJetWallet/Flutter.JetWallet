@@ -72,6 +72,40 @@ class EarnPositionActiveScreen extends StatelessWidget {
                     EarnsDetailsRouter(
                       positionId: earnPosition.id,
                       assetName: currency.description,
+                ),
+              );
+              sAnalytics.tapOnTheHistoryFromActiveCryptoSavingsButton(
+                assetName: earnPosition.assetId,
+                earnAPYrate: earnPosition.offers.firstOrNull?.apyRate?.toString() ?? Decimal.zero.toString(),
+                earnDepositAmount: earnPosition.baseAmount.toString(),
+                earnOfferStatus: getTextForStatusAnalytics(earnPosition.status),
+                earnPlanName: earnPosition.offers.firstOrNull?.description ?? '',
+                earnWithdrawalType: earnPosition.withdrawType.name,
+                revenue: earnPosition.incomeAmount.toString(),
+              );
+            },
+            onLeftIconTap: () {
+              Navigator.pop(context);
+            },
+            title: currency.description,
+            rightIcon: Assets.svg.medium.history.simpleSvg(),
+            subtitle: earnPosition.status == EarnPositionStatus.closed
+                ? earnPosition.offerName
+                : earnPosition.offers.firstOrNull?.name,
+          ),
+          child: Column(
+            children: [
+              Expanded(
+                child: CustomScrollView(
+                  slivers: [
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          left: 24,
+                          right: 24,
+                        ),
+                        child: ActiveEarnWidget(earnPosition: earnPosition),
+                      ),
                     ),
                   );
                   sAnalytics.tapOnTheHistoryFromActiveCryptoSavingsButton(

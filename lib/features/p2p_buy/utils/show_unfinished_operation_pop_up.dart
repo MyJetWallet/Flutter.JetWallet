@@ -23,7 +23,6 @@ Future<void> showUnfinishedOperationPopUp({
       package: 'simple_kit',
     ),
     onPrimaryButtonTap: () async {
-      sAnalytics.tapOnTheButtonContinueOnPTPBuyPopup(asset: assetSunbol);
       await sRouter.push(
         TransactionHistoryRouter(
           initialIndex: 1,

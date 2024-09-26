@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:charts/simple_chart.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -152,28 +153,31 @@ class _InvestScreenState extends State<InvestScreen> {
                                   height: 108,
                                   children: [
                                     for (final instrument in myInvestsList)
-                                      SymbolInfo(
-                                        percent: investStore.getPercentSymbol(
-                                          instrument.symbol ?? '',
-                                        ),
-                                        instrument: instrument,
-                                        showProfit: true,
-                                        profit: getGroupedProfit(
-                                          instrument.symbol ?? '',
-                                        ),
-                                        price: investStore.getPriceBySymbol(
-                                          instrument.symbol ?? '',
-                                        ),
-                                        onTap: () {
-                                          sRouter.push(
-                                            InstrumentPageRouter(
-                                              instrument: instrument,
+                                      FutureBuilder<List<CandleModel>>(
+                                        future: investChartStore.getAssetCandles(instrument.symbol ?? ''),
+                                        builder: (context, snapshot) {
+                                          return SymbolInfo(
+                                            percent: investStore.getPercentSymbol(
+                                              instrument.symbol ?? '',
                                             ),
+                                            instrument: instrument,
+                                            showProfit: true,
+                                            profit: getGroupedProfit(
+                                              instrument.symbol ?? '',
+                                            ),
+                                            price: investStore.getPriceBySymbol(
+                                              instrument.symbol ?? '',
+                                            ),
+                                            onTap: () {
+                                              sRouter.push(
+                                                InstrumentPageRouter(
+                                                  instrument: instrument,
+                                                ),
+                                              );
+                                            },
+                                            candles: snapshot.data ?? [],
                                           );
                                         },
-                                        candles: investChartStore.getAssetCandles(
-                                          instrument.symbol ?? '',
-                                        ),
                                       ),
                                   ],
                                 );
@@ -209,28 +213,33 @@ class _InvestScreenState extends State<InvestScreen> {
                             return InvestCarousel(
                               children: [
                                 for (final element in investStore.favouritesList)
-                                  SymbolInfo(
-                                    percent: investStore.getPercentSymbol(element.symbol ?? ''),
-                                    instrument: element,
-                                    showProfit: false,
-                                    price: investStore.getPriceBySymbol(element.symbol ?? ''),
-                                    onTap: () {
-                                      if (investStore.myInvestsList.contains(element) ||
-                                          investStore.myInvestPendingList.contains(element)) {
-                                        sRouter.push(
-                                          InstrumentPageRouter(
-                                            instrument: element,
-                                          ),
-                                        );
-                                      } else {
-                                        sRouter.push(
-                                          NewInvestPageRouter(
-                                            instrument: element,
-                                          ),
-                                        );
-                                      }
+                                  FutureBuilder<List<CandleModel>>(
+                                    future: investChartStore.getAssetCandles(element.symbol ?? ''),
+                                    builder: (context, snapshot) {
+                                      return SymbolInfo(
+                                        percent: investStore.getPercentSymbol(element.symbol ?? ''),
+                                        instrument: element,
+                                        showProfit: false,
+                                        price: investStore.getPriceBySymbol(element.symbol ?? ''),
+                                        onTap: () {
+                                          if (investStore.myInvestsList.contains(element) ||
+                                              investStore.myInvestPendingList.contains(element)) {
+                                            sRouter.push(
+                                              InstrumentPageRouter(
+                                                instrument: element,
+                                              ),
+                                            );
+                                          } else {
+                                            sRouter.push(
+                                              NewInvestPageRouter(
+                                                instrument: element,
+                                              ),
+                                            );
+                                          }
+                                        },
+                                        candles: snapshot.data ?? [],
+                                      );
                                     },
-                                    candles: investChartStore.getAssetCandles(element.symbol ?? ''),
                                   ),
                               ],
                             );
@@ -262,34 +271,39 @@ class _InvestScreenState extends State<InvestScreen> {
                               return InvestCarousel(
                                 children: [
                                   for (final element in investStore.gainersList)
-                                    SymbolInfo(
-                                      percent: investStore.getPercentSymbol(
+                                    FutureBuilder<List<CandleModel>>(
+                                      future: investChartStore.getAssetCandles(
                                         element.symbol ?? '',
                                       ),
-                                      instrument: element,
-                                      showProfit: false,
-                                      price: investStore.getPriceBySymbol(
-                                        element.symbol ?? '',
-                                      ),
-                                      onTap: () {
-                                        if (investStore.myInvestsList.contains(element) ||
-                                            investStore.myInvestPendingList.contains(element)) {
-                                          sRouter.push(
-                                            InstrumentPageRouter(
-                                              instrument: element,
-                                            ),
-                                          );
-                                        } else {
-                                          sRouter.push(
-                                            NewInvestPageRouter(
-                                              instrument: element,
-                                            ),
-                                          );
-                                        }
+                                      builder: (context, snapshot) {
+                                        return SymbolInfo(
+                                          percent: investStore.getPercentSymbol(
+                                            element.symbol ?? '',
+                                          ),
+                                          instrument: element,
+                                          showProfit: false,
+                                          price: investStore.getPriceBySymbol(
+                                            element.symbol ?? '',
+                                          ),
+                                          onTap: () {
+                                            if (investStore.myInvestsList.contains(element) ||
+                                                investStore.myInvestPendingList.contains(element)) {
+                                              sRouter.push(
+                                                InstrumentPageRouter(
+                                                  instrument: element,
+                                                ),
+                                              );
+                                            } else {
+                                              sRouter.push(
+                                                NewInvestPageRouter(
+                                                  instrument: element,
+                                                ),
+                                              );
+                                            }
+                                          },
+                                          candles: snapshot.data ?? [],
+                                        );
                                       },
-                                      candles: investChartStore.getAssetCandles(
-                                        element.symbol ?? '',
-                                      ),
                                     ),
                                 ],
                               );
@@ -321,34 +335,39 @@ class _InvestScreenState extends State<InvestScreen> {
                               return InvestCarousel(
                                 children: [
                                   for (final element in investStore.losersList)
-                                    SymbolInfo(
-                                      percent: investStore.getPercentSymbol(
+                                    FutureBuilder<List<CandleModel>>(
+                                      future: investChartStore.getAssetCandles(
                                         element.symbol ?? '',
                                       ),
-                                      instrument: element,
-                                      showProfit: false,
-                                      price: investStore.getPriceBySymbol(
-                                        element.symbol ?? '',
-                                      ),
-                                      onTap: () {
-                                        if (investStore.myInvestsList.contains(element) ||
-                                            investStore.myInvestPendingList.contains(element)) {
-                                          sRouter.push(
-                                            InstrumentPageRouter(
-                                              instrument: element,
-                                            ),
-                                          );
-                                        } else {
-                                          sRouter.push(
-                                            NewInvestPageRouter(
-                                              instrument: element,
-                                            ),
-                                          );
-                                        }
+                                      builder: (context, snapshot) {
+                                        return SymbolInfo(
+                                          percent: investStore.getPercentSymbol(
+                                            element.symbol ?? '',
+                                          ),
+                                          instrument: element,
+                                          showProfit: false,
+                                          price: investStore.getPriceBySymbol(
+                                            element.symbol ?? '',
+                                          ),
+                                          onTap: () {
+                                            if (investStore.myInvestsList.contains(element) ||
+                                                investStore.myInvestPendingList.contains(element)) {
+                                              sRouter.push(
+                                                InstrumentPageRouter(
+                                                  instrument: element,
+                                                ),
+                                              );
+                                            } else {
+                                              sRouter.push(
+                                                NewInvestPageRouter(
+                                                  instrument: element,
+                                                ),
+                                              );
+                                            }
+                                          },
+                                          candles: snapshot.data ?? [],
+                                        );
                                       },
-                                      candles: investChartStore.getAssetCandles(
-                                        element.symbol ?? '',
-                                      ),
                                     ),
                                 ],
                               );

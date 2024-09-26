@@ -2,7 +2,6 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/features/send_gift/model/send_gift_info_model.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/buttons/basic_buttons/primary_button/public/simple_primary_button_4.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -30,7 +29,6 @@ class _GiftReceiversDetailsScreenState extends State<GiftReceiversDetailsScreen>
 
   @override
   void initState() {
-    sAnalytics.receiverSDetailsScreenView();
     _tabController = TabController(
       length: 2,
       vsync: this,
@@ -158,10 +156,6 @@ class _GiftReceiversDetailsScreenState extends State<GiftReceiversDetailsScreen>
                           active: store.isformValid,
                           name: intl.setPhoneNumber_continue,
                           onTap: () {
-                            sAnalytics.tapOnTheContinueWithReceiverSDetailsButton(
-                              giftSubmethod: store.selectedContactType.name,
-                            );
-
                             sRouter.push(
                               GiftAmountRouter(
                                 sendGiftInfo: widget.sendGiftInfo.copyWith(

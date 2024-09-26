@@ -4,7 +4,6 @@ import 'package:android_intent_plus/android_intent.dart';
 import 'package:android_intent_plus/flag.dart';
 import 'package:flutter/material.dart';
 import 'package:open_mail_app/open_mail_app.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/di/di.dart';
@@ -13,8 +12,6 @@ import 'list_of_mail_apps.dart';
 import 'show_plain_snackbar.dart';
 
 Future<void> openEmailApp(BuildContext context) async {
-  sAnalytics.signInFlowOpenEmailApp();
-
   Future<void> defaultFunction() async {
     if (Platform.isAndroid) {
       const intent = AndroidIntent(

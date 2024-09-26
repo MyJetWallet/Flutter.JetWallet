@@ -68,10 +68,6 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
                     ),
                     CircleActionSend(
                       onTap: () {
-                        sAnalytics.tabOnTheSendButton(
-                          source: 'My Assets - Send',
-                        );
-
                         myWalletsSrore.endReorderingImmediately();
 
                         showSendAction(context);

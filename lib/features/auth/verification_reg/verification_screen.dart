@@ -90,24 +90,26 @@ class _VerificationScreenState extends State<VerificationScreen> {
             isDone: store.isEmailDone,
           ),
           const SpaceH24(),
-          _verificationItem(
-            intl.phone_number,
-            '2',
-            haveLink: !store.isPhoneDone,
-            linkText: intl.provide_information,
-            linkAction: () {
-              sAnalytics.verificationProfileProvideInfo();
-              sAnalytics.kycFlowProvideInformation();
+          if (store.showPhoneNumberSteep) ...[
+            _verificationItem(
+              intl.phone_number,
+              '2',
+              haveLink: !store.isPhoneDone,
+              linkText: intl.provide_information,
+              linkAction: () {
+                sAnalytics.verificationProfileProvideInfo();
+                sAnalytics.kycFlowProvideInformation();
 
-              getIt<AppRouter>().maybePop();
-            },
-            isDisabled: !store.isPhoneDone && store.step != VerificationScreenStep.phone,
-            isDone: store.isPhoneDone,
-          ),
-          const SpaceH24(),
+                getIt<AppRouter>().maybePop();
+              },
+              isDisabled: !store.isPhoneDone && store.step != VerificationScreenStep.phone,
+              isDone: store.isPhoneDone,
+            ),
+            const SpaceH24(),
+          ],
           _verificationItem(
             intl.personal_details,
-            '3',
+            store.showPhoneNumberSteep ? '3' : '2',
             haveSubText: store.step == VerificationScreenStep.personalDetail,
             haveLink: store.step == VerificationScreenStep.personalDetail,
             linkText: intl.provide_information,
@@ -117,7 +119,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
               sAnalytics.kycFlowProvideInformation();
 
               getIt<AppRouter>().maybePop();
-              //sRouter.replace(const UserDataScreenRouter());
             },
             isDisabled: !store.isPersonalDetailsDone && store.step != VerificationScreenStep.personalDetail,
             isDone: store.isPersonalDetailsDone,
@@ -125,7 +126,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
           const SpaceH24(),
           _verificationItem(
             intl.pin_code,
-            '4',
+            store.showPhoneNumberSteep ? '4' : '3',
             haveSubText: store.step == VerificationScreenStep.pin,
             subtext: intl.pin_code_descr,
             haveLink: store.step == VerificationScreenStep.pin,
@@ -134,14 +135,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
               sAnalytics.verificationProfileCreatePIN();
 
               getIt<AppRouter>().maybePop();
-              /*
-              getIt<AppRouter>().replaceAll([
-                PinScreenRoute(
-                  union: Setup(),
-                  cannotLeave: true,
-                ),
-              ]);
-              */
             },
             isDisabled: !store.isCreatePinDone && store.step != VerificationScreenStep.pin,
             isDone: store.isCreatePinDone,

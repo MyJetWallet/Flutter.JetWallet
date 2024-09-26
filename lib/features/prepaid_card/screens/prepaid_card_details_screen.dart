@@ -16,7 +16,6 @@ import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/prepaid_card/buy_prepaid_card_intention_dto_list_response_model.dart';
@@ -32,10 +31,6 @@ class PrepaidCardDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    sAnalytics.prepaidCardActivationScreenView(
-      isCompleted: voucher?.status != BuyPrepaidCardIntentionStatus.purchasing,
-      voucher: voucher?.voucherCode ?? '',
-    );
     return Provider(
       create: (context) => PrepaidCardDetailsStore(
         voucher: voucher,
@@ -66,7 +61,6 @@ class _PrepaidCardDetailsBody extends StatelessWidget {
           showBackButton: false,
           showCloseButton: true,
           onCLoseButton: () {
-            sAnalytics.tapOnTheCloseButtonOnPrepaidCardActivationScreen();
             sRouter.maybePop();
           },
         ),
@@ -147,10 +141,6 @@ class _PrepaidCardDetailsBody extends StatelessWidget {
                     text: intl.prepaid_card_issue_card,
                     callback: store.voucher?.status != BuyPrepaidCardIntentionStatus.purchasing
                         ? () {
-                            sAnalytics.tapOnTheIssueCardButtonOnPrepaidCardActivationScreen(
-                              isCompleted: store.voucher?.status != BuyPrepaidCardIntentionStatus.purchasing,
-                              voucher: store.voucher?.voucherCode ?? '',
-                            );
                             launchURL(
                               context,
                               store.voucher?.voucherUrl ?? '',
@@ -263,7 +253,6 @@ class _VoucherCodeField extends StatelessWidget {
       lable: intl.prepaid_card_voucher_code,
       value: code,
       onIconTap: () {
-        sAnalytics.tapOnTheCopyButtonOnPrepaidCardActivationScreen();
         Clipboard.setData(
           ClipboardData(
             text: code,

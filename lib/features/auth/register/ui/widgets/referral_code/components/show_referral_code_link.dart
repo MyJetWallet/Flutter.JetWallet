@@ -3,7 +3,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/auth/register/store/referral_code_store.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/buttons/basic_buttons/primary_button/public/simple_primary_button_4.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
@@ -16,8 +15,6 @@ import 'valid_referral_code.dart';
 
 void showReferralCode(BuildContext context) {
   final colors = sKit.colors;
-
-  sAnalytics.enterReferralCodeScreenView();
 
   sShowBasicModalBottomSheet(
     context: context,
@@ -76,7 +73,6 @@ class _ReferralCodeLinkBody extends StatelessObserverWidget {
                 suffixIcons: [
                   SIconButton(
                     onTap: () {
-                      sAnalytics.tapOnPasteButtonOnEnterReferralCode();
                       getIt.get<ReferallCodeStore>().pasteCodeReferralLink();
                     },
                     defaultIcon: Assets.svg.medium.copyAlt.simpleSvg(
@@ -107,8 +103,6 @@ class _ReferralCodeLinkBody extends StatelessObserverWidget {
                         );
                       },
                       valid: () {
-                        sAnalytics.validReferralCodeScreenView();
-
                         return const Column(
                           children: [
                             SpaceH12(),
@@ -118,8 +112,6 @@ class _ReferralCodeLinkBody extends StatelessObserverWidget {
                         );
                       },
                       invalid: () {
-                        sAnalytics.errorInvalidReferralCode();
-
                         return const Column(
                           children: [
                             SpaceH12(),
@@ -171,8 +163,6 @@ class _ReferralCodeBottom extends StatelessObserverWidget {
             active: getIt.get<ReferallCodeStore>().enableContinueButton,
             name: intl.showBasicModalBottomSheet_continue,
             onTap: () {
-              sAnalytics.tapOnContinueButtonOnEnterReferralCode();
-
               Navigator.pop(context);
             },
           ),

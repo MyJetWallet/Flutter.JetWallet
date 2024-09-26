@@ -6,7 +6,7 @@ import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/blockchains_model.dart';
 import 'components/network_item.dart';
 
-void showNetworkBottomSheet(
+void showWithdrawalNetworkBottomSheet(
   BuildContext context,
   BlockchainModel currentNetwork,
   List<BlockchainModel> availableNetworks,
@@ -52,10 +52,9 @@ void showNetworkBottomSheet(
     then: (p0) => checkOrClose(p0),
     children: [
       for (final network in availableNetworks)
-        NetworkItem(
+        WithdrawalNetworkItem(
           iconUrl: iconUrl,
-          network: network.description,
-          selected: network.id == currentNetwork.id,
+          network: network,
           onTap: () {
             setNetwork(network);
             Navigator.of(context).pop(true);
