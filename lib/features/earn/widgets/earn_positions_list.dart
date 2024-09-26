@@ -1,7 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/format_service.dart';
+import 'package:jetwallet/features/earn/store/earn_store.dart';
 import 'package:jetwallet/features/earn/widgets/basic_header.dart';
 import 'package:jetwallet/features/earn/widgets/deposit_card.dart';
 import 'package:jetwallet/features/earn/widgets/earn_active_position_badge.dart';
@@ -12,9 +15,12 @@ import 'package:simple_networking/modules/signal_r/models/active_earn_positions_
 class EarnPositionsListWidget extends StatelessWidget {
   const EarnPositionsListWidget({
     super.key,
+    required this.store,
     required this.earnPositions,
     this.showLinkButton = true,
   });
+
+  final EarnStore store;
   final List<EarnPositionClientModel> earnPositions;
   final bool showLinkButton;
 
@@ -50,8 +56,17 @@ class EarnPositionsListWidget extends StatelessWidget {
                   earnWithdrawalType: e.withdrawType.name,
                   revenue: e.incomeAmount.toString(),
                 );
+
+                final currency = getIt.get<FormatService>().findCurrency(
+                      findInHideTerminalList: true,
+                      assetSymbol: e.assetId,
+                    );
+
                 context.router.push(
-                  EarnPositionActiveRouter(earnPosition: e),
+                  EarnPositionActiveRouter(
+                    earnPosition: e,
+                    offers: store.filteredOffersGroupedByCurrency[currency.description] ?? [],
+                  ),
                 );
               },
             ),
