@@ -63,8 +63,6 @@ class EarnPositionActiveScreen extends StatelessWidget {
         return Provider(
           create: (context) => EarnsDetailsStore()..fetchPositionAudits(positionId: earnPosition.id),
           builder: (context, child) {
-            final earnsDetailsStore = Provider.of<EarnsDetailsStore>(context);
-
             return SPageFrame(
               loaderText: '',
               color: colors.white,
@@ -148,9 +146,8 @@ class EarnPositionActiveScreen extends StatelessWidget {
                                     revenue: earnPosition.incomeAmount.toString(),
                                   );
 
-                                  if (earnsDetailsStore.positionAuditsList.isNotEmpty &&
-                                      earnsDetailsStore.positionAuditsList.first.offerStatus ==
-                                          EarnOfferStatus.activeHide) {
+                                  final offer = offers.where((off) => off.id == earnPosition.offerId);
+                                  if (offer.isEmpty || offer.first.status == EarnOfferStatus.activeHide) {
                                     showStartNewEarnDialog(context);
                                   } else {
                                     sRouter.push(
