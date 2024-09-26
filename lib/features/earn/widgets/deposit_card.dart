@@ -61,6 +61,7 @@ class SDepositCard extends StatelessObserverWidget {
               children: [
                 CryptoCardHeader(
                   name: currency.description,
+                  onTap: onTap,
                   iconUrl: earnPosition.assetId,
                   apyRate: earnPosition.status == EarnPositionStatus.closed
                       ? formatApyRate(earnPosition.offerApyRate)
@@ -165,6 +166,7 @@ class CryptoCardHeader extends StatelessWidget {
     this.isShowDate = false,
     required this.earnPositoinStatus,
     required this.period,
+    required this.onTap,
   });
 
   final String? iconUrl;
@@ -173,6 +175,7 @@ class CryptoCardHeader extends StatelessWidget {
   final EarnPositionStatus earnPositoinStatus;
   final bool isShowDate;
   final String period;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -204,7 +207,9 @@ class CryptoCardHeader extends StatelessWidget {
               if (name != null)
                 SLinkLabel(
                   title: name!,
-                  onTap: () {},
+                  onTap: () {
+                    onTap?.call();
+                  },
                 ),
               if (apyRate != null)
                 Text(
