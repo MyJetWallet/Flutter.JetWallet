@@ -85,7 +85,9 @@ class MyBalanceWidget extends StatelessWidget {
           ),
         ),
         SimpleTableAccount(
-          assetIcon: Assets.svg.assets.crypto.defaultPlaceholder.simpleSvg(),
+          assetIcon: Assets.svg.assets.crypto.defaultPlaceholder.simpleSvg(
+            width: 24,
+          ),
           label: intl.market_wallet,
           rightValue: getIt<AppStore>().isBalanceHide
               ? '**** ${baseCurrency.symbol}'
@@ -112,7 +114,9 @@ class MyBalanceWidget extends StatelessWidget {
         ),
         if (isEarnAvaible)
           SimpleTableAccount(
-            assetIcon: Assets.svg.assets.fiat.earn.simpleSvg(),
+            assetIcon: Assets.svg.assets.fiat.earn.simpleSvg(
+              width: 24,
+            ),
             label: intl.earn_earn,
             rightValue: getIt<AppStore>().isBalanceHide
                 ? '**** ${baseCurrency.symbol}'
