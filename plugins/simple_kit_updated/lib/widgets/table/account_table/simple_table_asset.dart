@@ -108,8 +108,6 @@ class SimpleTableAsset extends HookWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 2),
                       child: SizedBox(
-                        width: 24,
-                        height: 24,
                         child: assetIcon ?? Assets.svg.medium.crypto.simpleSvg(),
                       ),
                     ),

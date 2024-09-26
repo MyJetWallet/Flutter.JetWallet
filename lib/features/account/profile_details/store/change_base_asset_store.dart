@@ -97,6 +97,8 @@ abstract class _ChangeBaseAssetStoreBase with Store {
 
     final walletApi = sNetwork.getWalletModule();
 
+    await Future.delayed(const Duration(seconds: 1));
+
     final request = await walletApi.getBaseAssetsList();
 
     request.pick(

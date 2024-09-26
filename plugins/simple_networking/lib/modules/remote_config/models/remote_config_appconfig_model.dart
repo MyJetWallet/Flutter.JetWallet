@@ -47,6 +47,7 @@ class RemoteConfigAppconfigModel with _$RemoteConfigAppconfigModel {
     @Default(3) int simpleCoinRoadmapCompletedSteep,
     @Default([]) List<RewardsAssetModel> rewardsAssets,
     @Default('https://simple.app/terms-and-conditions-jar/') String jarTerms,
+    @Default(false) bool showPhoneNumberStep,
   }) = _RemoteConfigAppconfigModel;
 
   factory RemoteConfigAppconfigModel.fromJson(Map<String, dynamic> json) => _$RemoteConfigAppconfigModelFromJson(json);

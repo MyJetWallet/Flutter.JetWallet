@@ -38,14 +38,12 @@ abstract class _InvestChartStoreBase with Store {
   List<CandlesWithIdModel> candlesFull4List = [];
 
   @action
-  List<CandleModel> getAssetCandles(String instrumentId) {
+  Future<List<CandleModel>> getAssetCandles(String instrumentId) async {
     final candleAsset = candlesList.where((element) => element.instrumentId == instrumentId).toList();
     if (candleAsset.isNotEmpty) {
       return candleAsset[0].candles;
     } else {
-      fetchAssetCandles(instrumentId);
-
-      return [];
+      return fetchAssetCandles(instrumentId);
     }
   }
 
@@ -53,7 +51,7 @@ abstract class _InvestChartStoreBase with Store {
   Future<List<CandleModel>> fetchAssetCandles(String instrumentId) async {
     try {
       final toDate = DateTime.now().toUtc();
-      final fromDate = toDate.subtract(const Duration(hours: 24));
+      final fromDate = toDate.subtract(const Duration(days: 1));
       var candlesToReturn = <CandleModel>[];
 
       final model = CandlesRequestModel(
@@ -62,7 +60,7 @@ abstract class _InvestChartStoreBase with Store {
         bidOrAsk: 0,
         fromDate: fromDate.millisecondsSinceEpoch,
         toDate: toDate.millisecondsSinceEpoch,
-        mergeCandlesCount: 1,
+        mergeCandlesCount: MergeCandlesCount.day,
       );
 
       final candlesResponse = await sNetwork.getCandlesModule().getCandles(model);

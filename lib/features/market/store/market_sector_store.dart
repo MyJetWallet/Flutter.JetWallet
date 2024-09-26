@@ -43,7 +43,7 @@ abstract class _MarketSectorStoreBase with Store {
 
   List<MarketItemsFilter> marketItemsFilter = [
     MarketItemsFilter(name: intl.market_market_cap, value: MarketItem.marketCap),
-    MarketItemsFilter(name: intl.market_price, value: MarketItem.price),
+    MarketItemsFilter(name: intl.market_price_change, value: MarketItem.priceChange),
   ];
 
   @observable
@@ -61,7 +61,7 @@ abstract class _MarketSectorStoreBase with Store {
 
   @computed
   ObservableList<MarketItemModel> get filtredMarketItems {
-    final result = <MarketItemModel>[];
+    final result = ObservableList.of(<MarketItemModel>[]);
     final afterSearch = marketItems.where((marketItem) {
       final currency = getIt.get<FormatService>().findCurrency(
             findInHideTerminalList: true,
@@ -70,33 +70,17 @@ abstract class _MarketSectorStoreBase with Store {
       return currency.description.toLowerCase().contains(_searchText.toLowerCase()) ||
           currency.symbol.toLowerCase().contains(_searchText.toLowerCase());
     });
-    if (selectedFilter.value == MarketItem.price) {
+    if (selectedFilter.value == MarketItem.priceChange) {
       if (sorting == Sorting.asc) {
         result.addAll(
           afterSearch.sorted((a, b) {
-            final currencyA = getIt.get<FormatService>().findCurrency(
-                  findInHideTerminalList: true,
-                  assetSymbol: a.symbol,
-                );
-            final currencyB = getIt.get<FormatService>().findCurrency(
-                  findInHideTerminalList: true,
-                  assetSymbol: b.symbol,
-                );
-            return currencyA.currentPrice.compareTo(currencyB.currentPrice);
+            return a.dayPercentChange.compareTo(b.dayPercentChange);
           }),
         );
       } else {
         result.addAll(
           afterSearch.sorted((a, b) {
-            final currencyA = getIt.get<FormatService>().findCurrency(
-                  findInHideTerminalList: true,
-                  assetSymbol: a.symbol,
-                );
-            final currencyB = getIt.get<FormatService>().findCurrency(
-                  findInHideTerminalList: true,
-                  assetSymbol: b.symbol,
-                );
-            return currencyB.currentPrice.compareTo(currencyA.currentPrice);
+            return b.dayPercentChange.compareTo(a.dayPercentChange);
           }),
         );
       }
@@ -115,7 +99,7 @@ abstract class _MarketSectorStoreBase with Store {
         );
       }
     }
-    return ObservableList.of(result);
+    return result;
   }
 
   @action
@@ -158,7 +142,7 @@ class MarketItemsFilter {
 
 enum MarketItem {
   marketCap,
-  price,
+  priceChange,
 }
 
 enum Sorting {

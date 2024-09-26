@@ -216,8 +216,7 @@ class StartupService {
           if (resultRefreshToken == RefreshTokenStatus.success) {
             await userInfo.initPinStatus();
           }
-        } catch (e, stackTrace) {
-          getIt.get<SentryService>().captureException(e, stackTrace);
+        } catch (e) {
           throw SplashErrorException(13);
         }
 
@@ -321,8 +320,7 @@ class StartupService {
               ),
         );
       }
-    } catch (e, stackTrace) {
-      getIt.get<SentryService>().captureException(e, stackTrace);
+    } catch (e) {
       throw SplashErrorException(17);
     }
 
@@ -472,8 +470,6 @@ class StartupService {
 
       userInfo.updateServicesRegistred(true);
 
-      unawaited(getIt<IbanStore>().getAddressBook());
-
       return;
     } catch (e) {
       _logger.log(
@@ -495,8 +491,6 @@ class StartupService {
       if (getIt.isRegistered<ProfileGetUserCountry>()) {
         await getIt<ProfileGetUserCountry>().init();
       }
-
-      unawaited(getIt<IbanStore>().getAddressBook());
     } catch (e) {
       _logger.log(
         level: Level.error,

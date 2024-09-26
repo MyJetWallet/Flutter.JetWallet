@@ -5,6 +5,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/p2p_buy/store/buy_p2p_confirmation_store.dart';
@@ -72,6 +73,8 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
     final store = BuyP2PConfirmationStore.of(context);
     final colors = SColorsLight();
 
+    final currency = getIt.get<FormatService>().findCurrency(assetSymbol: store.buyCurrency.symbol);
+
     return SPageFrameWithPadding(
       loading: store.loader,
       loaderText: intl.register_pleaseWait,
@@ -95,6 +98,7 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
             hasScrollBody: false,
             child: Column(
               children: [
+                if (currency.networksForBlockchainSend.isEmpty) _buildInfoWidget(),
                 WhatToWhatConvertWidget(
                   isLoading: !store.isDataLoaded,
                   fromAssetIconUrl: store.buyCurrency.iconUrl,
@@ -169,6 +173,38 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                 ),
                 const SpaceH40(),
               ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildInfoWidget() {
+    return Container(
+      height: 84.0,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: SColorsLight().yellowExtralight,
+        borderRadius: BorderRadius.circular(16.0),
+      ),
+      padding: const EdgeInsets.only(left: 16.0, top: 22.0, right: 36.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Assets.svg.small.info.simpleSvg(height: 20.0, width: 20.0),
+          const SizedBox(
+            width: 12.0,
+          ),
+          Expanded(
+            child: Text(
+              intl.wallet_this_asset_is_only_tradable_within_simple,
+              maxLines: 2,
+              softWrap: true,
+              overflow: TextOverflow.visible,
+              style: STStyles.body2Medium.copyWith(
+                color: SColorsLight().black,
+              ),
             ),
           ),
         ],

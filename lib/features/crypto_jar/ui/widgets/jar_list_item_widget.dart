@@ -30,6 +30,7 @@ class JarListItemWidget extends HookWidget {
     final isHighlated = useState(false);
 
     return SafeGesture(
+      intervalMs: 1500,
       onTap: () {
         getIt.get<EventBus>().fire(EndReordering());
 

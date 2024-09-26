@@ -5,7 +5,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/currency_withdraw/model/address_validation_union.dart';
 import 'package:jetwallet/features/withdrawal/store/withdrawal_store.dart';
-import 'package:jetwallet/widgets/network_bottom_sheet/show_network_bottom_sheet.dart';
+import 'package:jetwallet/widgets/network_bottom_sheet/show_witrhdrawal_network_bottom_sheet.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
@@ -44,10 +44,11 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
       );
     }
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (store.withdrawalInputModel?.currency != null && store.withdrawalType != WithdrawalType.jar) {
         if (!store.withdrawalInputModel!.currency!.isSingleNetworkForBlockchainSend) {
-          showNetworkBottomSheet(
+          await store.getFeeInfo();
+          showWithdrawalNetworkBottomSheet(
             context,
             store.network,
             store.networks,
@@ -79,6 +80,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
       color: colors.grey5,
+      loading: store.loader,
       header: SPaddingH24(
         child: SSmallHeader(
           title: store.header,
@@ -102,7 +104,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                     splashColor: Colors.transparent,
                     onTap: () {
                       if (store.withdrawalType == WithdrawalType.asset && store.networks.length > 1) {
-                        showNetworkBottomSheet(
+                        showWithdrawalNetworkBottomSheet(
                           context,
                           store.network,
                           store.networks,
