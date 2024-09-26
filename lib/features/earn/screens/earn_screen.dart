@@ -142,6 +142,7 @@ class _EarnViewState extends State<_EarnView> {
               ),
               SliverToBoxAdapter(
                 child: EarnPositionsListWidget(
+                  store: store,
                   earnPositions: store.earnPositions,
                 ),
               ),

@@ -6,7 +6,6 @@ import 'package:jetwallet/features/my_wallets/helper/currencies_for_my_wallet.da
 import 'package:jetwallet/features/wallet/screens/eur_wallet_body.dart';
 import 'package:jetwallet/features/wallet/screens/wallet_body.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 
 @RoutePage(name: 'WalletRouter')
 class Wallet extends StatefulObserverWidget {
@@ -29,10 +28,6 @@ class _WalletState extends State<Wallet> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-
-    sAnalytics.cryptoFavouriteWalletScreen(
-      openedAsset: widget.currency.symbol,
-    );
 
     final currencies = currenciesForMyWallet(
       currencies: sSignalRModules.currenciesList,
@@ -83,16 +78,11 @@ class _WalletState extends State<Wallet> with TickerProviderStateMixin {
         child: PageView.builder(
           controller: _pageController,
           onPageChanged: (page) {
-            sAnalytics.eurWalletSwipeBetweenWallets();
-
             if (skeepOnPageChanged) {
               skeepOnPageChanged = false;
             } else {
               currentAsset = currencies[page];
               currentPage = page;
-              sAnalytics.cryptoFavouriteWalletScreen(
-                openedAsset: currencies[page].symbol,
-              );
             }
             setState(() {});
           },

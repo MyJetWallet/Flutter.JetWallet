@@ -86,19 +86,6 @@ class SimpleAnalytics {
     );
   }
 
-  void signInFlowTapToAgreeTCPP() {
-    _analytics.logEvent(
-      EventName.signInFlowTapToAgreeTCPP,
-      eventProperties: {
-        PropertyType.techAcc: 'none',
-        PropertyType.eventId: '38',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.signUpSignIn.id,
-      },
-    );
-  }
-
   void signInFlowEmailContinue() {
     _analytics.logEvent(
       EventName.signInFlowEmailContinue,
@@ -118,71 +105,6 @@ class SimpleAnalytics {
       eventProperties: {
         PropertyType.techAcc: 'none',
         PropertyType.eventId: '40',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.signUpSignIn.id,
-      },
-    );
-  }
-
-  void signInFlowOpenEmailApp() {
-    _analytics.logEvent(
-      EventName.signInFlowOpenEmailApp,
-      eventProperties: {
-        PropertyType.techAcc: 'none',
-        PropertyType.eventId: '41',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.signUpSignIn.id,
-      },
-    );
-  }
-
-  void signInFlowSelectAnAppScreenView() {
-    _analytics.logEvent(
-      EventName.signInFlowSelectAnAppScreenView,
-      eventProperties: {
-        PropertyType.techAcc: 'none',
-        PropertyType.eventId: '42',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.signUpSignIn.id,
-      },
-    );
-  }
-
-  void signInFlowTapRememberMyChoice() {
-    _analytics.logEvent(
-      EventName.signInFlowTapRememberMyChoice,
-      eventProperties: {
-        PropertyType.techAcc: 'none',
-        PropertyType.eventId: '43',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.signUpSignIn.id,
-      },
-    );
-  }
-
-  void signInFlowTapResend() {
-    _analytics.logEvent(
-      EventName.signInFlowTapResend,
-      eventProperties: {
-        PropertyType.techAcc: 'none',
-        PropertyType.eventId: '44',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.signUpSignIn.id,
-      },
-    );
-  }
-
-  void signInFlowPleaseWait() {
-    _analytics.logEvent(
-      EventName.signInFlowPleaseWait,
-      eventProperties: {
-        PropertyType.techAcc: 'none',
-        PropertyType.eventId: '45',
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventType: EventType.screenView.name,
         PropertyType.eventCategory: EventCategory.signUpSignIn.id,
@@ -282,32 +204,6 @@ class SimpleAnalytics {
     );
   }
 
-  void signInFlowDateSheetView() {
-    _analytics.logEvent(
-      EventName.signInFlowDateSheetView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '53',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.signUp.id,
-      },
-    );
-  }
-
-  void signInFlowDateContinue() {
-    _analytics.logEvent(
-      EventName.signInFlowDateContinue,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '54',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.signUp.id,
-      },
-    );
-  }
-
   void signInFlowSelectCountryView() {
     _analytics.logEvent(
       EventName.signInFlowSelectCountryView,
@@ -343,19 +239,6 @@ class SimpleAnalytics {
         PropertyType.eventId: '57',
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.signUp.id,
-      },
-    );
-  }
-
-  void signInFlowPersonalScreenViewLoading() {
-    _analytics.logEvent(
-      EventName.signInFlowPersonalScreenViewLoading,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '58',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventType: EventType.screenView.name,
         PropertyType.eventCategory: EventCategory.signUp.id,
       },
     );
@@ -414,86 +297,6 @@ class SimpleAnalytics {
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.biometric: biometric,
         PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.signUpSignIn.id,
-      },
-    );
-  }
-
-  void signInFlowEnableFaceID({
-    required String biometric,
-  }) {
-    _analytics.logEvent(
-      EventName.signInFlowEnableFaceID,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '67',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.biometric: biometric,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.signUpSignIn.id,
-      },
-    );
-  }
-
-  void signInFlowLaterFaceID({
-    required String biometric,
-  }) {
-    _analytics.logEvent(
-      EventName.signInFlowLaterFaceID,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '68',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.biometric: biometric,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.signUpSignIn.id,
-      },
-    );
-  }
-
-  void signInFlowFaceIDScreenView({
-    required String biometric,
-  }) {
-    _analytics.logEvent(
-      EventName.signInFlowFaceIDScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '69',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.biometric: biometric,
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.signUpSignIn.id,
-      },
-    );
-  }
-
-  void signInFlowFaceAllowFaceID({
-    required String biometric,
-  }) {
-    _analytics.logEvent(
-      EventName.signInFlowFaceAllowFaceID,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '70',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.biometric: biometric,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.signUpSignIn.id,
-      },
-    );
-  }
-
-  void signInFlowFaceDontAllowFaceID({
-    required String biometric,
-  }) {
-    _analytics.logEvent(
-      EventName.signInFlowFaceDontAllowFaceID,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '71',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.biometric: biometric,
-        PropertyType.eventType: EventType.tap.name,
         PropertyType.eventCategory: EventCategory.signUpSignIn.id,
       },
     );
@@ -1072,38 +875,6 @@ class SimpleAnalytics {
     );
   }
 
-  void kycFlowSumsubShow({
-    required String country,
-  }) {
-    _analytics.logEvent(
-      EventName.kycFlowSumsubShow,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '184',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.country: country,
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.kyc.id,
-      },
-    );
-  }
-
-  void kycFlowSumsubClose({
-    required String country,
-  }) {
-    _analytics.logEvent(
-      EventName.kycFlowSumsubClose,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '185',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.country: country,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.kyc.id,
-      },
-    );
-  }
-
   void kycFlowVerifyingNowSV({
     required String country,
   }) {
@@ -1142,311 +913,6 @@ class SimpleAnalytics {
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventType: EventType.screenView.name,
         PropertyType.eventCategory: EventCategory.kyc.id,
-      },
-    );
-  }
-
-  void kycFlowYouBlockedSupportTap() {
-    _analytics.logEvent(
-      EventName.kycFlowYouBlockedSupportTap,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '189',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.kyc.id,
-      },
-    );
-  }
-
-  // SEND flow 80-95 120-153
-
-  void tabOnTheSendButton({required String source}) {
-    _analytics.logEvent(
-      EventName.tapOnTheSendButton,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '80',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.source: source,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.sendFlow.id,
-      },
-    );
-  }
-
-  void sendToSheetScreenView({
-    required List<AnalyticsSendMethods> sendMethods,
-  }) {
-    final sendMethodsCodes = <int>[];
-
-    for (final element in sendMethods) {
-      sendMethodsCodes.add(element.code);
-    }
-
-    _analytics.logEvent(
-      EventName.sendToSheetScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '81',
-        PropertyType.sendMethodType: sendMethodsCodes,
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.sendFlow.id,
-      },
-    );
-  }
-
-  void tapOnTheGiftButton() {
-    _analytics.logEvent(
-      EventName.tapOnTheGiftButton,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '82',
-        PropertyType.sendMethodType: AnalyticsSendMethods.gift.code,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.sendFlow.id,
-      },
-    );
-  }
-
-  void sendingAssetScreenView() {
-    _analytics.logEvent(
-      EventName.sendingAssetScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '83',
-        PropertyType.sendMethodType: AnalyticsSendMethods.gift.code,
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.sendFlow.id,
-      },
-    );
-  }
-
-  void receiverSDetailsScreenView() {
-    _analytics.logEvent(
-      EventName.receiverSDetailsScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '84',
-        PropertyType.sendMethodType: AnalyticsSendMethods.gift.code,
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.sendFlow.id,
-      },
-    );
-  }
-
-  void tapOnTheContinueWithReceiverSDetailsButton({
-    required String giftSubmethod,
-  }) {
-    _analytics.logEvent(
-      EventName.tapOnTheContinueWithReceiverSDetailsButton,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '85',
-        PropertyType.sendMethodType: AnalyticsSendMethods.gift.code,
-        PropertyType.giftSendSubmethod: giftSubmethod,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.sendFlow.id,
-      },
-    );
-  }
-
-  void sendGiftAmountScreenView({
-    required String giftSubmethod,
-    required String asset,
-  }) {
-    _analytics.logEvent(
-      EventName.sendGiftAmountScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '86',
-        PropertyType.asset: asset,
-        PropertyType.sendMethodType: AnalyticsSendMethods.gift.code,
-        PropertyType.giftSendSubmethod: giftSubmethod,
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.sendFlow.id,
-      },
-    );
-  }
-
-  void errorSendLimitExceeded({
-    required String giftSubmethod,
-    required String asset,
-    required String errorText,
-  }) {
-    _analytics.logEvent(
-      EventName.errorSendLimitExceeded,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '87',
-        PropertyType.errorCode: errorText,
-        PropertyType.asset: asset,
-        PropertyType.sendMethodType: AnalyticsSendMethods.gift.code,
-        PropertyType.giftSendSubmethod: giftSubmethod,
-        PropertyType.eventType: EventType.error.name,
-        PropertyType.eventCategory: EventCategory.sendFlow.id,
-      },
-    );
-  }
-
-  void tapOnTheButtonContinueWithSendGiftAmountScreen({
-    required String giftSubmethod,
-    required String asset,
-    required String totalSendAmount,
-  }) {
-    _analytics.logEvent(
-      EventName.tapOnTheButtonContinueWithSendGiftAmountScreen,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '88',
-        PropertyType.asset: asset,
-        PropertyType.sendMethodType: AnalyticsSendMethods.gift.code,
-        PropertyType.giftSendSubmethod: giftSubmethod,
-        PropertyType.totalSendAmount: totalSendAmount,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.sendFlow.id,
-      },
-    );
-  }
-
-  void orderSummarySendScreenView({
-    required String giftSubmethod,
-  }) {
-    _analytics.logEvent(
-      EventName.orderSummarySendScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '89',
-        PropertyType.sendMethodType: AnalyticsSendMethods.gift.code,
-        PropertyType.giftSendSubmethod: giftSubmethod,
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.sendFlow.id,
-      },
-    );
-  }
-
-  void tapOnTheButtonConfirmOrderSummarySend({
-    required String giftSubmethod,
-    required String asset,
-    required String totalSendAmount,
-    required String paymentFee,
-  }) {
-    _analytics.logEvent(
-      EventName.tapOnTheButtonConfirmOrderSummarySend,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '90',
-        PropertyType.asset: asset,
-        PropertyType.sendMethodType: AnalyticsSendMethods.gift.code,
-        PropertyType.giftSendSubmethod: giftSubmethod,
-        PropertyType.totalSendAmount: totalSendAmount,
-        PropertyType.paymentFee: paymentFee,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.sendFlow.id,
-      },
-    );
-  }
-
-  void confirmWithPINScreenView() {
-    _analytics.logEvent(
-      EventName.confirmWithPINScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '91',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.sendFlow.id,
-      },
-    );
-  }
-
-  void errorWrongPin({
-    required String asset,
-    required String errorText,
-    required AnalyticsSendMethods sendMethod,
-    String? giftSubmethod,
-  }) {
-    _analytics.logEvent(
-      EventName.errorWrongPin,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '92',
-        PropertyType.errorCode: errorText,
-        PropertyType.asset: asset,
-        PropertyType.sendMethodType: sendMethod.code,
-        PropertyType.giftSendSubmethod: giftSubmethod,
-        PropertyType.eventType: EventType.error.name,
-        PropertyType.eventCategory: EventCategory.sendFlow.id,
-      },
-    );
-  }
-
-  void processingSendScreenView({
-    required String asset,
-    required String giftSubmethod,
-  }) {
-    _analytics.logEvent(
-      EventName.processingSendScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '93',
-        PropertyType.asset: asset,
-        PropertyType.sendMethodType: AnalyticsSendMethods.gift.code,
-        PropertyType.giftSendSubmethod: giftSubmethod,
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.sendFlow.id,
-      },
-    );
-  }
-
-  void successSendScreenView({
-    required String asset,
-    required String giftSubmethod,
-  }) {
-    _analytics.logEvent(
-      EventName.successSendScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '94',
-        PropertyType.asset: asset,
-        PropertyType.sendMethodType: AnalyticsSendMethods.gift.code,
-        PropertyType.giftSendSubmethod: giftSubmethod,
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.sendFlow.id,
-      },
-    );
-  }
-
-  void failedSendScreenView({
-    required String asset,
-    required String giftSubmethod,
-    required String failedReason,
-  }) {
-    _analytics.logEvent(
-      EventName.failedSendScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '95',
-        PropertyType.asset: asset,
-        PropertyType.sendMethodType: AnalyticsSendMethods.gift.code,
-        PropertyType.giftSendSubmethod: giftSubmethod,
-        PropertyType.errorCode: failedReason,
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
@@ -1884,622 +1350,6 @@ class SimpleAnalytics {
     );
   }
 
-  // Send gift 96-104
-
-  void shareGiftSheetScreenView() {
-    _analytics.logEvent(
-      EventName.shareGiftSheetScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '96',
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.sendFlow.id,
-      },
-    );
-  }
-
-  void tapOnTheButtonShareOnShareSheet() {
-    _analytics.logEvent(
-      EventName.tapOnTheButtonShareOnShareSheet,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '97',
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.sendFlow.id,
-      },
-    );
-  }
-
-  void tapOnTheButtonCopyOnShareSheet() {
-    _analytics.logEvent(
-      EventName.tapOnTheButtonCopyOnShareSheet,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '98',
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.sendFlow.id,
-      },
-    );
-  }
-
-  void tapOnTheButtonCloseOrTapInEmptyPlaceForClosingShareSheet() {
-    _analytics.logEvent(
-      EventName.tapOnTheButtonCloseOrTapInEmptyPlaceForClosingShareSheet,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '99',
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.sendFlow.id,
-      },
-    );
-  }
-
-  void tapOnTheButtonRemindOnSentHistoryDetailsSheet() {
-    _analytics.logEvent(
-      EventName.tapOnTheButtonRemindOnSentHistoryDetailsSheet,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '100',
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.sendFlow.id,
-      },
-    );
-  }
-
-  void tapOnTheButtonCancelTransactiononSentHistoryDetails() {
-    _analytics.logEvent(
-      EventName.tapOnTheButtonCancelTransactiononSentHistoryDetailsSheet,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '101',
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.sendFlow.id,
-      },
-    );
-  }
-
-  void tapOnTheButtonCloseOrTapOnSentHistoryDetailsSheet() {
-    _analytics.logEvent(
-      EventName.tapOnTheButtonCloseOrTapOnSentHistoryDetailsSheet,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '102',
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.sendFlow.id,
-      },
-    );
-  }
-
-  // claim gift
-
-  void claimGiftScreenView({
-    required String giftAmount,
-    required String giftFrom,
-  }) {
-    _analytics.logEvent(
-      EventName.claimGiftScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '105',
-        PropertyType.giftAmount: giftAmount,
-        PropertyType.giftFrom: giftFrom,
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.receiveGift.id,
-      },
-    );
-  }
-
-  void tapOnTheButtonClaimOnClaimGiftSheet({
-    required String giftAmount,
-    required String giftFrom,
-  }) {
-    _analytics.logEvent(
-      EventName.tapOnTheButtonClaimOnClaimGiftSheet,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '106',
-        PropertyType.giftAmount: giftAmount,
-        PropertyType.giftFrom: giftFrom,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.receiveGift.id,
-      },
-    );
-  }
-
-  void tapOnTheButtonCloseOrTapInEmptyPlaceForClosingClaimGiftSheet({
-    required String giftAmount,
-    required String giftFrom,
-  }) {
-    _analytics.logEvent(
-      EventName.tapOnTheButtonCloseOrTapInEmptyPlaceForClosingClaimGiftSheet,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '107',
-        PropertyType.giftAmount: giftAmount,
-        PropertyType.giftFrom: giftFrom,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.receiveGift.id,
-      },
-    );
-  }
-
-  void tapOnTheButtonRejectOnClaimGiftSheet({
-    required String giftAmount,
-    required String giftFrom,
-  }) {
-    _analytics.logEvent(
-      EventName.tapOnTheButtonRejectOnClaimGiftSheet,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '108',
-        PropertyType.giftAmount: giftAmount,
-        PropertyType.giftFrom: giftFrom,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.receiveGift.id,
-      },
-    );
-  }
-
-  void cancelClaimTransactionGiftScreenView({
-    required String giftAmount,
-    required String giftFrom,
-  }) {
-    _analytics.logEvent(
-      EventName.cancelClaimTransactionGiftScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '109',
-        PropertyType.giftAmount: giftAmount,
-        PropertyType.giftFrom: giftFrom,
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.receiveGift.id,
-      },
-    );
-  }
-
-  void tapOnTheButtonYesCancelOnCancelClaimTransactionGiftPopup({
-    required String giftAmount,
-    required String giftFrom,
-  }) {
-    _analytics.logEvent(
-      EventName.tapOnTheButtonYesCancelOnCancelClaimTransactionGiftPopup,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '110',
-        PropertyType.giftAmount: giftAmount,
-        PropertyType.giftFrom: giftFrom,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.receiveGift.id,
-      },
-    );
-  }
-
-  void tapOnTheButtonNoOnCancelClaimTransactionGiftPopup({
-    required String giftAmount,
-    required String giftFrom,
-  }) {
-    _analytics.logEvent(
-      EventName.tapOnTheButtonNoOnCancelClaimTransactionGiftPopup,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '111',
-        PropertyType.giftAmount: giftAmount,
-        PropertyType.giftFrom: giftFrom,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.receiveGift.id,
-      },
-    );
-  }
-
-  void processingClaimGiftScreenView({
-    required String giftAmount,
-    required String giftFrom,
-  }) {
-    _analytics.logEvent(
-      EventName.processingClaimGiftScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '112',
-        PropertyType.giftAmount: giftAmount,
-        PropertyType.giftFrom: giftFrom,
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.receiveGift.id,
-      },
-    );
-  }
-
-  void failedClaimGiftScreenView({
-    required String giftAmount,
-    required String giftFrom,
-  }) {
-    _analytics.logEvent(
-      EventName.failedClaimGiftScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '113',
-        PropertyType.giftAmount: giftAmount,
-        PropertyType.giftFrom: giftFrom,
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.receiveGift.id,
-      },
-    );
-  }
-
-  void tapOnTheButtonCloseOnFailedClaimGiftScreen({
-    required String giftAmount,
-    required String giftFrom,
-    required String failedReason,
-  }) {
-    _analytics.logEvent(
-      EventName.tapOnTheButtonCloseOnFailedClaimGiftScreen,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '114',
-        PropertyType.giftAmount: giftAmount,
-        PropertyType.giftFrom: giftFrom,
-        PropertyType.errorCode: failedReason,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.receiveGift.id,
-      },
-    );
-  }
-
-  void successClaimedGiftScreenView({
-    required String giftAmount,
-    required String giftFrom,
-  }) {
-    _analytics.logEvent(
-      EventName.successClaimedGiftScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '115',
-        PropertyType.giftAmount: giftAmount,
-        PropertyType.giftFrom: giftFrom,
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.receiveGift.id,
-      },
-    );
-  }
-
-  // Rewards
-
-  void rewardsTapOnTheTabBar() {
-    _analytics.logEvent(
-      EventName.rewardsTapOnTheTabBar,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '190',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.rewards.id,
-      },
-    );
-  }
-
-  void rewardsEmptyRewards() {
-    _analytics.logEvent(
-      EventName.rewardsEmptyRewards,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '191',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.rewards.id,
-      },
-    );
-  }
-
-  void rewardsMainScreenView({
-    required int rewardsToClaim,
-    required String totalReceiveSum,
-    required List<String> assetList,
-  }) {
-    _analytics.logEvent(
-      EventName.rewardsMainScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '192',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.rewardsToClaim: rewardsToClaim,
-        PropertyType.totalReceiveSum: totalReceiveSum,
-        PropertyType.assetsList: assetList.toList(),
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.rewards.id,
-      },
-    );
-  }
-
-  void rewardsClickOpenReward({
-    required int rewardsToClaim,
-  }) {
-    _analytics.logEvent(
-      EventName.rewardsClickOpenReward,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '193',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.rewardsToClaim: rewardsToClaim,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.rewards.id,
-      },
-    );
-  }
-
-  void rewardsChooseRewardCard({
-    required String source,
-  }) {
-    _analytics.logEvent(
-      EventName.rewardsChooseRewardCard,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '194',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.source: source,
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.rewards.id,
-      },
-    );
-  }
-
-  void rewardsOpenRewardClose({
-    required String source,
-  }) {
-    _analytics.logEvent(
-      EventName.rewardsOpenRewardClose,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '195',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.source: source,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.rewards.id,
-      },
-    );
-  }
-
-  void rewardsOpenRewardTapCard({
-    required int cardNumber,
-    required String source,
-  }) {
-    _analytics.logEvent(
-      EventName.rewardsOpenRewardTapCard,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '196',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.source: source,
-        PropertyType.cardNumber: cardNumber,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.rewards.id,
-      },
-    );
-  }
-
-  void rewardsOpenCardProcesing({
-    required String source,
-  }) {
-    _analytics.logEvent(
-      EventName.rewardsOpenCardProcesing,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '197',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.source: source,
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.rewards.id,
-      },
-    );
-  }
-
-  void rewardsCardFlipSuccess({
-    required String winAsset,
-    required String winAmount,
-    required String source,
-    required String rewardToClaime,
-  }) {
-    _analytics.logEvent(
-      EventName.rewardsCardFlipSuccess,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '198',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.source: source,
-        PropertyType.rewardsToClaim: rewardToClaime,
-        PropertyType.asset: winAsset,
-        PropertyType.amount: winAmount,
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.rewards.id,
-      },
-    );
-  }
-
-  void rewardsCloseFlowAfterCardFlip({
-    required String source,
-  }) {
-    _analytics.logEvent(
-      EventName.rewardsCloseFlowAfterCardFlip,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '199',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.source: source,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.rewards.id,
-      },
-    );
-  }
-
-  void rewardsCardShare({
-    required String source,
-  }) {
-    _analytics.logEvent(
-      EventName.rewardsCardShare,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '200',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.source: source,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.rewards.id,
-      },
-    );
-  }
-
-  void rewardsClickNextReward({
-    required String source,
-  }) {
-    _analytics.logEvent(
-      EventName.rewardsClickNextReward,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '201',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.source: source,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.rewards.id,
-      },
-    );
-  }
-
-  void rewardsClickOnReward({
-    required String transferAseet,
-    required String transferAmount,
-  }) {
-    _analytics.logEvent(
-      EventName.rewardsClickOnReward,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '202',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.asset: transferAseet,
-        PropertyType.amount: transferAmount,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.rewards.id,
-      },
-    );
-  }
-
-  void rewardsRewardTransferPopup({
-    required String transferAseet,
-    required String transferAmount,
-  }) {
-    _analytics.logEvent(
-      EventName.rewardsRewardTransferPopup,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '203',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.asset: transferAseet,
-        PropertyType.amount: transferAmount,
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.rewards.id,
-      },
-    );
-  }
-
-  void rewardsTransferPopupClickTransfer({
-    required String transferAseet,
-    required String transferAmount,
-  }) {
-    _analytics.logEvent(
-      EventName.rewardsTransferPopupClickTransfer,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '204',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.asset: transferAseet,
-        PropertyType.amount: transferAmount,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.rewards.id,
-      },
-    );
-  }
-
-  void rewardsTransferPopupClickCancel({
-    required String transferAseet,
-    required String transferAmount,
-  }) {
-    _analytics.logEvent(
-      EventName.rewardsTransferPopupClickCancel,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '205',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.asset: transferAseet,
-        PropertyType.amount: transferAmount,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.rewards.id,
-      },
-    );
-  }
-
-  void rewardsSuccessRewardTransfer({
-    required String transferAseet,
-    required String transferAmount,
-  }) {
-    _analytics.logEvent(
-      EventName.rewardsSuccessRewardTransfer,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '206',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.asset: transferAseet,
-        PropertyType.amount: transferAmount,
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.rewards.id,
-      },
-    );
-  }
-
-  void rewardsSuccessTransferGotItClick({
-    required String transferAseet,
-    required String transferAmount,
-  }) {
-    _analytics.logEvent(
-      EventName.rewardsSuccessTransferGotItClick,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '207',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.asset: transferAseet,
-        PropertyType.amount: transferAmount,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.rewards.id,
-      },
-    );
-  }
-
-  void rewardsClickShare() {
-    _analytics.logEvent(
-      EventName.rewardsClickShare,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '208',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.rewards.id,
-      },
-    );
-  }
-
   // wallet screen with favourites assets
 
   void walletsScreenView({
@@ -2513,35 +1363,6 @@ class SimpleAnalytics {
         PropertyType.favouritesAssetsList: favouritesAssetsList,
         PropertyType.eventId: '256',
         PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
-      },
-    );
-  }
-
-  void tapOnTheButtonProfileOnWalletsScreen() {
-    _analytics.logEvent(
-      EventName.tapOnTheButtonProfileOnWalletsScreen,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '257',
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
-      },
-    );
-  }
-
-  void tapOnTheButtonShowHideBalancesOnWalletsScreen({
-    required bool isShowNow,
-  }) {
-    _analytics.logEvent(
-      EventName.tapOnTheButtonShowHideBalancesOnWalletsScreen,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.isShowNow: isShowNow,
-        PropertyType.eventId: '258',
-        PropertyType.eventType: EventType.tap.name,
         PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
@@ -2613,19 +1434,6 @@ class SimpleAnalytics {
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '263',
         PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
-      },
-    );
-  }
-
-  void tapOnTheButtonCloseOnAddWalletForFavouritesSheet() {
-    _analytics.logEvent(
-      EventName.tapOnTheButtonCloseOnAddWalletForFavouritesSheet,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '264',
-        PropertyType.eventType: EventType.tap.name,
         PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
@@ -2712,32 +1520,6 @@ class SimpleAnalytics {
     );
   }
 
-  void eurWalletShowUpdateAddressInfo() {
-    _analytics.logEvent(
-      EventName.eurWalletShowUpdateAddressInfo,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '271',
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
-      },
-    );
-  }
-
-  void eurWalletTapContinueOnAdreeInfo() {
-    _analytics.logEvent(
-      EventName.eurWalletTapContinueOnAdreeInfo,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '272',
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
-      },
-    );
-  }
-
   void eurWalletShowToastLestCreateAccount() {
     _analytics.logEvent(
       EventName.eurWalletShowToastLestCreateAccount,
@@ -2760,19 +1542,6 @@ class SimpleAnalytics {
         PropertyType.eventId: '274',
         PropertyType.numberOfOpenedEurAccounts: numberOfEurAccounts,
         PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
-      },
-    );
-  }
-
-  void eurWalletSwipeBetweenWallets() {
-    _analytics.logEvent(
-      EventName.eurWalletSwipeBetweenWallets,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '276',
-        PropertyType.eventType: EventType.swipe.name,
         PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
@@ -2856,54 +1625,6 @@ class SimpleAnalytics {
     );
   }
 
-  void cryptoFavouriteWalletScreen({
-    required String openedAsset,
-  }) {
-    _analytics.logEvent(
-      EventName.cryptoFavouriteWalletScreen,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.asset: openedAsset,
-        PropertyType.eventId: '283',
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
-      },
-    );
-  }
-
-  void tapOnTheButtonBackOrSwipeToBackOnCryptoFavouriteWalletScreen({
-    required String openedAsset,
-  }) {
-    _analytics.logEvent(
-      EventName.tapOnTheButtonBackOrSwipeToBackOnCryptoFavouriteWalletScreen,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.asset: openedAsset,
-        PropertyType.eventId: '284',
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
-      },
-    );
-  }
-
-  void swipeHistoryListOnCryptoFavouriteWalletScreen({
-    required String openedAsset,
-  }) {
-    _analytics.logEvent(
-      EventName.swipeHistoryListOnCryptoFavouriteWalletScreen,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.asset: openedAsset,
-        PropertyType.eventId: '285',
-        PropertyType.eventType: EventType.swipe.name,
-        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
-      },
-    );
-  }
-
   void eurWalletEURAccountWallet({
     required bool isCJ,
     required String eurAccountLabel,
@@ -2919,72 +1640,6 @@ class SimpleAnalytics {
         PropertyType.eurAccountLabel: eurAccountLabel,
         PropertyType.isHasTransactions: isHasTransaction,
         PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
-      },
-    );
-  }
-
-  void eurWalletTapBackOnAccountWalletScreen({
-    required bool isCJ,
-    required String eurAccountLabel,
-    required bool isHasTransaction,
-  }) {
-    _analytics.logEvent(
-      EventName.eurWalletTapBackOnAccountWalletScreen,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '287',
-        PropertyType.eurAccountType: isCJ ? _accountTypeSimple : _accountTypePersonal,
-        PropertyType.eurAccountLabel: eurAccountLabel,
-        PropertyType.isHasTransactions: isHasTransaction,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
-      },
-    );
-  }
-
-  void eurWalletTapEditEURAccointScreen({
-    required bool isCJ,
-    required String eurAccountLabel,
-    required bool isHasTransaction,
-  }) {
-    _analytics.logEvent(
-      EventName.eurWalletTapEditEURAccointScreen,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '288',
-        PropertyType.eurAccountType: isCJ ? _accountTypeSimple : _accountTypePersonal,
-        PropertyType.eurAccountLabel: eurAccountLabel,
-        PropertyType.isHasTransactions: isHasTransaction,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
-      },
-    );
-  }
-
-  void eurWalletEditLabelScreen() {
-    _analytics.logEvent(
-      EventName.eurWalletEditLabelScreen,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '289',
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
-      },
-    );
-  }
-
-  void eurWalletTapSaveChanges() {
-    _analytics.logEvent(
-      EventName.eurWalletTapSaveChanges,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '290',
-        PropertyType.eventType: EventType.tap.name,
         PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
@@ -3133,22 +1788,6 @@ class SimpleAnalytics {
         PropertyType.globalHistoryTab: globalHistoryTab.name,
         PropertyType.eventId: '301',
         PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
-      },
-    );
-  }
-
-  void swipeHistoryListOnGlobalTransactionHistoryScreen({
-    required GlobalHistoryTab globalHistoryTab,
-  }) {
-    _analytics.logEvent(
-      EventName.swipeHistoryListOnGlobalTransactionHistoryScreen,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.globalHistoryTab: globalHistoryTab.name,
-        PropertyType.eventId: '302',
-        PropertyType.eventType: EventType.swipe.name,
         PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
@@ -3805,19 +2444,6 @@ class SimpleAnalytics {
     );
   }
 
-  void tapOnTheBackFromChooseWalletButton() {
-    _analytics.logEvent(
-      EventName.tapOnTheBackFromChooseWalletButton,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '316',
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.buyFlow.id,
-      },
-    );
-  }
-
   void tapOnTheAnyWalletForBuyButton({
     required String destinationWallet,
   }) {
@@ -3882,54 +2508,6 @@ class SimpleAnalytics {
     );
   }
 
-  void addACustomNameScreenView({
-    required String destinationWallet,
-  }) {
-    _analytics.logEvent(
-      EventName.addACustomNameScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '321',
-        PropertyType.asset: destinationWallet,
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.buyFlow.id,
-      },
-    );
-  }
-
-  void tapOnTheBackFromCardLabelCreationButton({
-    required String destinationWallet,
-  }) {
-    _analytics.logEvent(
-      EventName.tapOnTheBackFromCardLabelCreationButton,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '322',
-        PropertyType.asset: destinationWallet,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.buyFlow.id,
-      },
-    );
-  }
-
-  void tapOnTheContinueSaveCardLabelButton({
-    required String destinationWallet,
-  }) {
-    _analytics.logEvent(
-      EventName.tapOnTheContinueSaveCardLabelButton,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '323',
-        PropertyType.asset: destinationWallet,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.buyFlow.id,
-      },
-    );
-  }
-
   void payWithPMSheetView({
     required String destinationWallet,
     List<String> listOfAvailablePMs = const [],
@@ -3943,22 +2521,6 @@ class SimpleAnalytics {
         PropertyType.asset: destinationWallet,
         PropertyType.listOfAvailablePMs: listOfAvailablePMs,
         PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.buyFlow.id,
-      },
-    );
-  }
-
-  void tapOnTheButtonCloseForClosingSheetOnPayWithPMSheet({
-    required String destinationWallet,
-  }) {
-    _analytics.logEvent(
-      EventName.tapOnTheButtonCloseForClosingSheetOnPayWithPMSheet,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '325',
-        PropertyType.asset: destinationWallet,
-        PropertyType.eventType: EventType.tap.name,
         PropertyType.eventCategory: EventCategory.buyFlow.id,
       },
     );
@@ -4146,34 +2708,6 @@ class SimpleAnalytics {
     );
   }
 
-  void tapToAgreeToTheTCAndPrivacyPolicyBuy({
-    required String destinationWallet,
-    required PaymenthMethodType pmType,
-    required String buyPM,
-    required String sourceCurrency,
-    required String sourceBuyAmount,
-    required String destinationBuyAmount,
-    required bool isCheckboxNowTrue,
-  }) {
-    _analytics.logEvent(
-      EventName.tapToAgreeToTheTCAndPrivacyPolicyBuy,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '334',
-        PropertyType.asset: destinationWallet,
-        PropertyType.pmType: pmType.name,
-        PropertyType.buyPM: buyPM,
-        PropertyType.currency: sourceCurrency,
-        PropertyType.amountInFiat: sourceBuyAmount,
-        PropertyType.amountInCrypto: destinationBuyAmount,
-        PropertyType.isCheckboxNowTrue: isCheckboxNowTrue,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.buyFlow.id,
-      },
-    );
-  }
-
   void tapOnTheButtonPaymentFeeInfoOnBuyCheckout() {
     _analytics.logEvent(
       EventName.tapOnTheButtonPaymentFeeInfoOnBuyCheckout,
@@ -4215,34 +2749,6 @@ class SimpleAnalytics {
     );
   }
 
-  void tapOnTheCloseOnPPopap({
-    required String destinationWallet,
-    required PaymenthMethodType pmType,
-    required String buyPM,
-    required String sourceCurrency,
-    required String sourceBuyAmount,
-    required String destinationBuyAmount,
-    required FeeType feeType,
-  }) {
-    _analytics.logEvent(
-      EventName.tapOnTheCloseOnPPopap,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '337',
-        PropertyType.asset: destinationWallet,
-        PropertyType.pmType: pmType.name,
-        PropertyType.buyPM: buyPM,
-        PropertyType.currency: sourceCurrency,
-        PropertyType.amountInFiat: sourceBuyAmount,
-        PropertyType.amountInCrypto: destinationBuyAmount,
-        PropertyType.type: feeType.name,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.buyFlow.id,
-      },
-    );
-  }
-
   void tapOnTheButtonConfirmOnBuyOrderSummary({
     required String destinationWallet,
     required PaymenthMethodType pmType,
@@ -4257,162 +2763,6 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '338',
-        PropertyType.asset: destinationWallet,
-        PropertyType.pmType: pmType.name,
-        PropertyType.buyPM: buyPM,
-        PropertyType.currency: sourceCurrency,
-        PropertyType.amountInFiat: sourceBuyAmount,
-        PropertyType.amountInCrypto: destinationBuyAmount,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.buyFlow.id,
-      },
-    );
-  }
-
-  void tapOnTheButtonTermsAndConditionsOnBuyOrderSummary({
-    required String destinationWallet,
-    required PaymenthMethodType pmType,
-    required String buyPM,
-    required String sourceCurrency,
-    required String sourceBuyAmount,
-    required String destinationBuyAmount,
-  }) {
-    _analytics.logEvent(
-      EventName.tapOnTheButtonTermsAndConditionsOnBuyOrderSummary,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '339',
-        PropertyType.asset: destinationWallet,
-        PropertyType.pmType: pmType.name,
-        PropertyType.buyPM: buyPM,
-        PropertyType.currency: sourceCurrency,
-        PropertyType.amountInFiat: sourceBuyAmount,
-        PropertyType.amountInCrypto: destinationBuyAmount,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.buyFlow.id,
-      },
-    );
-  }
-
-  void tapOnTheButtonPrivacyPolicyOnBuyOrderSummary({
-    required String destinationWallet,
-    required PaymenthMethodType pmType,
-    required String buyPM,
-    required String sourceCurrency,
-    required String sourceBuyAmount,
-    required String destinationBuyAmount,
-  }) {
-    _analytics.logEvent(
-      EventName.tapOnTheButtonPrivacyPolicyOnBuyOrderSummary,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '340',
-        PropertyType.asset: destinationWallet,
-        PropertyType.pmType: pmType.name,
-        PropertyType.buyPM: buyPM,
-        PropertyType.currency: sourceCurrency,
-        PropertyType.amountInFiat: sourceBuyAmount,
-        PropertyType.amountInCrypto: destinationBuyAmount,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.buyFlow.id,
-      },
-    );
-  }
-
-  void enterCVVForBuyScreenView({
-    required String destinationWallet,
-    required PaymenthMethodType pmType,
-    required String buyPM,
-    required String sourceCurrency,
-    required String sourceBuyAmount,
-    required String destinationBuyAmount,
-  }) {
-    _analytics.logEvent(
-      EventName.enterCVVForBuyScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '341',
-        PropertyType.asset: destinationWallet,
-        PropertyType.pmType: pmType.name,
-        PropertyType.buyPM: buyPM,
-        PropertyType.currency: sourceCurrency,
-        PropertyType.amountInFiat: sourceBuyAmount,
-        PropertyType.amountInCrypto: destinationBuyAmount,
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.buyFlow.id,
-      },
-    );
-  }
-
-  void tapOnTheCloseOnCVVPopup({
-    required String destinationWallet,
-    required PaymenthMethodType pmType,
-    required String buyPM,
-    required String sourceCurrency,
-    required String sourceBuyAmount,
-    required String destinationBuyAmount,
-  }) {
-    _analytics.logEvent(
-      EventName.tapOnTheCloseOnCVVPopup,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '342',
-        PropertyType.asset: destinationWallet,
-        PropertyType.pmType: pmType.name,
-        PropertyType.buyPM: buyPM,
-        PropertyType.currency: sourceCurrency,
-        PropertyType.amountInFiat: sourceBuyAmount,
-        PropertyType.amountInCrypto: destinationBuyAmount,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.buyFlow.id,
-      },
-    );
-  }
-
-  void threeDSecureScreenView({
-    required String destinationWallet,
-    required PaymenthMethodType pmType,
-    required String buyPM,
-    required String sourceCurrency,
-    required String sourceBuyAmount,
-    required String destinationBuyAmount,
-  }) {
-    _analytics.logEvent(
-      EventName.threeDSecureScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '343',
-        PropertyType.asset: destinationWallet,
-        PropertyType.pmType: pmType.name,
-        PropertyType.buyPM: buyPM,
-        PropertyType.currency: sourceCurrency,
-        PropertyType.amountInFiat: sourceBuyAmount,
-        PropertyType.amountInCrypto: destinationBuyAmount,
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.buyFlow.id,
-      },
-    );
-  }
-
-  void tapOnTheCloseButtonOn3DSecureScreen({
-    required String destinationWallet,
-    required PaymenthMethodType pmType,
-    required String buyPM,
-    required String sourceCurrency,
-    required String sourceBuyAmount,
-    required String destinationBuyAmount,
-  }) {
-    _analytics.logEvent(
-      EventName.tapOnTheCloseButtonOn3DSecureScreen,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '344',
         PropertyType.asset: destinationWallet,
         PropertyType.pmType: pmType.name,
         PropertyType.buyPM: buyPM,
@@ -4451,32 +2801,6 @@ class SimpleAnalytics {
     );
   }
 
-  void tapOnTheCloseButtonOnSuccessBuyEndScreen({
-    required String destinationWallet,
-    required PaymenthMethodType pmType,
-    required String buyPM,
-    required String sourceCurrency,
-    required String sourceBuyAmount,
-    required String destinationBuyAmount,
-  }) {
-    _analytics.logEvent(
-      EventName.tapOnTheCloseButtonOnSuccessBuyEndScreen,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '346',
-        PropertyType.asset: destinationWallet,
-        PropertyType.pmType: pmType.name,
-        PropertyType.buyPM: buyPM,
-        PropertyType.currency: sourceCurrency,
-        PropertyType.amountInFiat: sourceBuyAmount,
-        PropertyType.amountInCrypto: destinationBuyAmount,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.buyFlow.id,
-      },
-    );
-  }
-
   void failedBuyEndScreenView({
     required String destinationWallet,
     required PaymenthMethodType pmType,
@@ -4498,58 +2822,6 @@ class SimpleAnalytics {
         PropertyType.amountInFiat: sourceBuyAmount,
         PropertyType.amountInCrypto: destinationBuyAmount,
         PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.buyFlow.id,
-      },
-    );
-  }
-
-  void tapOnTheCloseButtonOnFailedBuyEndScreen({
-    required String destinationWallet,
-    required PaymenthMethodType pmType,
-    required String buyPM,
-    required String sourceCurrency,
-    required String sourceBuyAmount,
-    required String destinationBuyAmount,
-  }) {
-    _analytics.logEvent(
-      EventName.tapOnTheCloseButtonOnFailedBuyEndScreen,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '348',
-        PropertyType.asset: destinationWallet,
-        PropertyType.pmType: pmType.name,
-        PropertyType.buyPM: buyPM,
-        PropertyType.currency: sourceCurrency,
-        PropertyType.amountInFiat: sourceBuyAmount,
-        PropertyType.amountInCrypto: destinationBuyAmount,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.buyFlow.id,
-      },
-    );
-  }
-
-  void unsupportedCurrencyPopupView() {
-    _analytics.logEvent(
-      EventName.unsupportedCurrencyPopupView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '349',
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.buyFlow.id,
-      },
-    );
-  }
-
-  void tapOnTheGotItButtonOnUnsupportedCurrencyScreen() {
-    _analytics.logEvent(
-      EventName.tapOnTheGotItButtonOnUnsupportedCurrencyScreen,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '350',
-        PropertyType.eventType: EventType.tap.name,
         PropertyType.eventCategory: EventCategory.buyFlow.id,
       },
     );
@@ -4680,19 +2952,6 @@ class SimpleAnalytics {
     );
   }
 
-  void tapOnCloseSheetFromSellButton() {
-    _analytics.logEvent(
-      EventName.tapOnCloseSheetFromSellButton,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '357',
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.sellFlow.id,
-      },
-    );
-  }
-
   void tapOnSelectedNewSellFromAssetButton({
     required String newSellFromAsset,
   }) {
@@ -4733,19 +2992,6 @@ class SimpleAnalytics {
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '360',
         PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.sellFlow.id,
-      },
-    );
-  }
-
-  void tapOnCloseSheetSellToButton() {
-    _analytics.logEvent(
-      EventName.tapOnCloseSheetSellToButton,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '361',
-        PropertyType.eventType: EventType.tap.name,
         PropertyType.eventCategory: EventCategory.sellFlow.id,
       },
     );
@@ -4863,19 +3109,6 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '369',
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.sellFlow.id,
-      },
-    );
-  }
-
-  void tapToAgreeToTheTCAndPrivacyPolicySell() {
-    _analytics.logEvent(
-      EventName.tapToAgreeToTheTCAndPrivacyPolicySell,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '370',
         PropertyType.eventType: EventType.tap.name,
         PropertyType.eventCategory: EventCategory.sellFlow.id,
       },
@@ -5062,19 +3295,6 @@ class SimpleAnalytics {
     );
   }
 
-  void tapOnCloseSheetConvertFromButton() {
-    _analytics.logEvent(
-      EventName.tapOnCloseSheetConvertFromButton,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '381',
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.convertFlow.id,
-      },
-    );
-  }
-
   void tapOnSelectedNewConvertFromAssetButton({
     required String newConvertFromAsset,
   }) {
@@ -5178,19 +3398,6 @@ class SimpleAnalytics {
     );
   }
 
-  void tapOnTheBackFromConvertAmountButton() {
-    _analytics.logEvent(
-      EventName.tapOnTheBackFromConvertAmountButton,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '390',
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.convertFlow.id,
-      },
-    );
-  }
-
   void tapOnTContinueWithConvertAmountCutton({
     required String enteredAmount,
     required String convertFromAsset,
@@ -5230,19 +3437,6 @@ class SimpleAnalytics {
         PropertyType.nowInput: nowInput,
         PropertyType.amount: enteredAmount,
         PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.convertFlow.id,
-      },
-    );
-  }
-
-  void tapOnTheBackFromCovertOrderSummaryButton() {
-    _analytics.logEvent(
-      EventName.tapOnTheBackFromCovertOrderSummaryButton,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '393',
-        PropertyType.eventType: EventType.tap.name,
         PropertyType.eventCategory: EventCategory.convertFlow.id,
       },
     );
@@ -6246,97 +4440,6 @@ class SimpleAnalytics {
     );
   }
 
-  void tapOnAddRefCodeButton() {
-    _analytics.logEvent(
-      EventName.tapOnAddRefCodeButton,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '306',
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.signUpSignIn.id,
-      },
-    );
-  }
-
-  void enterReferralCodeScreenView() {
-    _analytics.logEvent(
-      EventName.enterReferralCodeScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '307',
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.signUpSignIn.id,
-      },
-    );
-  }
-
-  void tapOnPasteButtonOnEnterReferralCode() {
-    _analytics.logEvent(
-      EventName.tapOnPasteButtonOnEnterReferralCode,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '308',
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.signUpSignIn.id,
-      },
-    );
-  }
-
-  void validReferralCodeScreenView() {
-    _analytics.logEvent(
-      EventName.validReferralCodeScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '309',
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.signUpSignIn.id,
-      },
-    );
-  }
-
-  void errorInvalidReferralCode() {
-    _analytics.logEvent(
-      EventName.errorInvalidReferralCode,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '310',
-        PropertyType.eventType: EventType.error.name,
-        PropertyType.eventCategory: EventCategory.signUpSignIn.id,
-      },
-    );
-  }
-
-  void tapOnContinueButtonOnEnterReferralCode() {
-    _analytics.logEvent(
-      EventName.tapOnContinueButtonOnEnterReferralCode,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '311',
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.signUpSignIn.id,
-      },
-    );
-  }
-
-  void tapOnDeleteRefCodeButton() {
-    _analytics.logEvent(
-      EventName.tapOnDeleteRefCodeButton,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '312',
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.signUpSignIn.id,
-      },
-    );
-  }
-
   void onboardingFinanceIsSimpleScreenView() {
     _analytics.logEvent(
       EventName.onboardingFinanceIsSimpleScreenView,
@@ -6345,45 +4448,6 @@ class SimpleAnalytics {
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '489',
         PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.onboarding.id,
-      },
-    );
-  }
-
-  void onboardingCryptoIsSimpleScreenView() {
-    _analytics.logEvent(
-      EventName.onboardingCryptoIsSimpleScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '490',
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.onboarding.id,
-      },
-    );
-  }
-
-  void onboardingSendMoneyGloballyScreenView() {
-    _analytics.logEvent(
-      EventName.onboardingSendMoneyGloballyScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '491',
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.onboarding.id,
-      },
-    );
-  }
-
-  void tapOnTheOnboardingGetStartedButton() {
-    _analytics.logEvent(
-      EventName.tapOnTheOnboardingGetStartedButton,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '492',
-        PropertyType.eventType: EventType.tap.name,
         PropertyType.eventCategory: EventCategory.onboarding.id,
       },
     );
@@ -6597,19 +4661,6 @@ class SimpleAnalytics {
     );
   }
 
-  void tapOnTheBackFromTransferAmountButton() {
-    _analytics.logEvent(
-      EventName.tapOnTheBackFromTransferAmountButton,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '513',
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.transferFlow.id,
-      },
-    );
-  }
-
   void tapOnTheContinueWithTransferAmountButton({
     required String transferFrom,
     required String transferTo,
@@ -6645,26 +4696,6 @@ class SimpleAnalytics {
         PropertyType.transferTo: transferTo,
         PropertyType.amount: enteredAmount,
         PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.transferFlow.id,
-      },
-    );
-  }
-
-  void tapOnTheBackFromTransferOrderSummaryButton({
-    required String transferFrom,
-    required String transferTo,
-    required String enteredAmount,
-  }) {
-    _analytics.logEvent(
-      EventName.tapOnTheBackFromTransferOrderSummaryButton,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '516',
-        PropertyType.transferFrom: transferFrom,
-        PropertyType.transferTo: transferTo,
-        PropertyType.amount: enteredAmount,
-        PropertyType.eventType: EventType.tap.name,
         PropertyType.eventCategory: EventCategory.transferFlow.id,
       },
     );
@@ -6818,19 +4849,6 @@ class SimpleAnalytics {
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '521',
         PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.earn.id,
-      },
-    );
-  }
-
-  void tapOnTheViewAllTopOffersButton() {
-    _analytics.logEvent(
-      EventName.tapOnTheViewAllTopOffersButton,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '522',
-        PropertyType.eventType: EventType.tap.name,
         PropertyType.eventCategory: EventCategory.earn.id,
       },
     );
@@ -7192,38 +5210,6 @@ class SimpleAnalytics {
     );
   }
 
-  void tapOnTheBackFromActiveCryptoSavingsButton({
-    required String assetName,
-    required String earnPlanName,
-    required String earnAPYrate,
-    required String earnWithdrawalType,
-    required String earnDepositAmount,
-    required String earnOfferStatus,
-    required String revenue,
-    required String earnOfferId,
-  }) {
-    final finalEarnAPYrate = '${double.parse(earnAPYrate) * 100}%';
-
-    _analytics.logEvent(
-      EventName.tapOnTheBackFromActiveCryptoSavingsButton,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '538',
-        PropertyType.assetName: assetName,
-        PropertyType.earnPlanName: earnPlanName,
-        PropertyType.earnAPYrate: finalEarnAPYrate,
-        PropertyType.earnWithdrawalType: earnWithdrawalType,
-        PropertyType.earnDepositAmount: earnDepositAmount,
-        PropertyType.earnOfferStatus: earnOfferStatus,
-        PropertyType.revenue: revenue,
-        PropertyType.earnOfferId: earnOfferId,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.earn.id,
-      },
-    );
-  }
-
   void tapOnTheHistoryFromActiveCryptoSavingsButton({
     required String assetName,
     required String earnPlanName,
@@ -7449,28 +5435,6 @@ class SimpleAnalytics {
         PropertyType.earnWithdrawalType: earnWithdrawalType,
         PropertyType.fullWithdrawType: fullWithdrawType,
         PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.earn.id,
-      },
-    );
-  }
-
-  void tapOnTheBackFromEarnWithdrawAmountButton({
-    required String assetName,
-    required String earnPlanName,
-    required String earnWithdrawalType,
-    required String earnOfferId,
-  }) {
-    _analytics.logEvent(
-      EventName.tapOnTheBackFromEarnWithdrawAmountButton,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '548',
-        PropertyType.assetName: assetName,
-        PropertyType.earnPlanName: earnPlanName,
-        PropertyType.earnOfferId: earnOfferId,
-        PropertyType.earnWithdrawalType: earnWithdrawalType,
-        PropertyType.eventType: EventType.tap.name,
         PropertyType.eventCategory: EventCategory.earn.id,
       },
     );
@@ -7784,608 +5748,6 @@ class SimpleAnalytics {
     );
   }
 
-  void tapOnTheButtonBackOnConfirmCodeViaSMSScreen({
-    required String transferFrom,
-    required String transferTo,
-    required String amount,
-  }) {
-    _analytics.logEvent(
-      EventName.tapOnTheButtonBackOnConfirmCodeViaSMSScreen,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '565',
-        PropertyType.transferFrom: transferFrom,
-        PropertyType.transferTo: transferTo,
-        PropertyType.amount: amount,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.transferFlow.id,
-      },
-    );
-  }
-
-  void loaderWithSMSCodeOnConfirmTransferScreenView({
-    required String transferFrom,
-    required String transferTo,
-    required String amount,
-  }) {
-    _analytics.logEvent(
-      EventName.loaderWithSMSCodeOnConfirmTransferScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '566',
-        PropertyType.transferFrom: transferFrom,
-        PropertyType.transferTo: transferTo,
-        PropertyType.amount: amount,
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.transferFlow.id,
-      },
-    );
-  }
-
-  // Prepaid card
-
-  void tapOnTheBunnerPrepaidCardOnWallet() {
-    _analytics.logEvent(
-      EventName.tapOnTheBunnerPrepaidCardOnWallet,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '567',
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.prepaidCard.id,
-      },
-    );
-  }
-
-  void tapOnTheCloseButtonOnBunnerPrepaidCard() {
-    _analytics.logEvent(
-      EventName.tapOnTheCloseButtonOnBunnerPrepaidCard,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '568',
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.prepaidCard.id,
-      },
-    );
-  }
-
-  void tapOnTheBunnerPrepaidCardsOnProfile() {
-    _analytics.logEvent(
-      EventName.tapOnTheBunnerPrepaidCardsOnProfile,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '569',
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.prepaidCard.id,
-      },
-    );
-  }
-
-  void prepaidCardServiceScreenView() {
-    _analytics.logEvent(
-      EventName.prepaidCardServiceScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '570',
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.prepaidCard.id,
-      },
-    );
-  }
-
-  void tapOnTheBackButtonFromPrepaidCardServiceScreen() {
-    _analytics.logEvent(
-      EventName.tapOnTheBackButtonFromPrepaidCardServiceScreen,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '571',
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.prepaidCard.id,
-      },
-    );
-  }
-
-  void tapOnTheCardManagementButtonOnPrepaidCardServiceScreen() {
-    _analytics.logEvent(
-      EventName.tapOnTheCardManagementButtonOnPrepaidCardServiceScreen,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '572',
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.prepaidCard.id,
-      },
-    );
-  }
-
-  void redirectingPrepaidCardPopupView() {
-    _analytics.logEvent(
-      EventName.redirectingPrepaidCardPopupView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '573',
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.prepaidCard.id,
-      },
-    );
-  }
-
-  void tapOnTheContinueRedirectingButton() {
-    _analytics.logEvent(
-      EventName.tapOnTheContinueRedirectingButton,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '574',
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.prepaidCard.id,
-      },
-    );
-  }
-
-  void tapOnTheCancelRedirectingButton() {
-    _analytics.logEvent(
-      EventName.tapOnTheCancelRedirectingButton,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '575',
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.prepaidCard.id,
-      },
-    );
-  }
-
-  void tapOnTheBuyCardButton() {
-    _analytics.logEvent(
-      EventName.tapOnTheBuyCardButton,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '576',
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.prepaidCard.id,
-      },
-    );
-  }
-
-  void guideToUsingScreenView() {
-    _analytics.logEvent(
-      EventName.guideToUsingScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '577',
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.prepaidCard.id,
-      },
-    );
-  }
-
-  void tapOnTheNextButtonOnGuideToUsingScreen() {
-    _analytics.logEvent(
-      EventName.tapOnTheNextButtonOnGuideToUsingScreen,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '578',
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.prepaidCard.id,
-      },
-    );
-  }
-
-  void tapOnTheCloseButtonOnGuideToUsingScreen() {
-    _analytics.logEvent(
-      EventName.tapOnTheCloseButtonOnGuideToUsingScreen,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '579',
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.prepaidCard.id,
-      },
-    );
-  }
-
-  void privacyScreenView() {
-    _analytics.logEvent(
-      EventName.privacyScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '580',
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.prepaidCard.id,
-      },
-    );
-  }
-
-  void tapOnTheNextButtonOnPrivacyScreen() {
-    _analytics.logEvent(
-      EventName.tapOnTheNextButtonOnPrivacyScreen,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '581',
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.prepaidCard.id,
-      },
-    );
-  }
-
-  void tapOnTheCloseButtonOnPrivacyScreen() {
-    _analytics.logEvent(
-      EventName.tapOnTheCloseButtonOnPrivacyScreen,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '582',
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.prepaidCard.id,
-      },
-    );
-  }
-
-  void tapOnTheBackButtonOnPrivacyScreen() {
-    _analytics.logEvent(
-      EventName.tapOnTheBackButtonOnPrivacyScreen,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '583',
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.prepaidCard.id,
-      },
-    );
-  }
-
-  void voucherActivationScreenView() {
-    _analytics.logEvent(
-      EventName.voucherActivationScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '584',
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.prepaidCard.id,
-      },
-    );
-  }
-
-  void tapOnTheNextButtonOnVoucherActivationScreen() {
-    _analytics.logEvent(
-      EventName.tapOnTheNextButtonOnVoucherActivationScreen,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '585',
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.prepaidCard.id,
-      },
-    );
-  }
-
-  void tapOnTheCloseButtonOnVoucherActivationScreen() {
-    _analytics.logEvent(
-      EventName.tapOnTheCloseButtonOnVoucherActivationScreen,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '586',
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.prepaidCard.id,
-      },
-    );
-  }
-
-  void tapOnTheBackButtonOnVoucherActivationScreen() {
-    _analytics.logEvent(
-      EventName.tapOnTheBackButtonOnVoucherActivationScreen,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '587',
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.prepaidCard.id,
-      },
-    );
-  }
-
-  void choosePrepaidCardScreenView() {
-    _analytics.logEvent(
-      EventName.choosePrepaidCardScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '588',
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.prepaidCard.id,
-      },
-    );
-  }
-
-  void tapOnTheBackButtonOnChoosePrepaidCardScreen() {
-    _analytics.logEvent(
-      EventName.tapOnTheBackButtonOnChoosePrepaidCardScreen,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '589',
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.prepaidCard.id,
-      },
-    );
-  }
-
-  void tapOnTheCloseButtonOnChoosePrepaidCardScreen() {
-    _analytics.logEvent(
-      EventName.tapOnTheCloseButtonOnChoosePrepaidCardScreen,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '590',
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.prepaidCard.id,
-      },
-    );
-  }
-
-  void tapOnTheNextButtonOnChoosePrepaidCardScreen() {
-    _analytics.logEvent(
-      EventName.tapOnTheNextButtonOnChoosePrepaidCardScreen,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '591',
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.prepaidCard.id,
-      },
-    );
-  }
-
-  void tapOnTheChooseResidentialCountryButtonOnChoosePrepaidCardScreen() {
-    _analytics.logEvent(
-      EventName.tapOnTheChooseResidentialCountryButtonOnChoosePrepaidCardScreen,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '592',
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.prepaidCard.id,
-      },
-    );
-  }
-
-  void amountBuyVoucherScreenView() {
-    _analytics.logEvent(
-      EventName.amountBuyVoucherScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '593',
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.prepaidCard.id,
-      },
-    );
-  }
-
-  void tapOnTheBackButtonOnAmountBuyVoucherScreen() {
-    _analytics.logEvent(
-      EventName.tapOnTheBackButtonOnAmountBuyVoucherScreen,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '594',
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.prepaidCard.id,
-      },
-    );
-  }
-
-  void tapOnTheContinueButtonOnAmountBuyVoucherScreen({
-    required String amount,
-    required String country,
-  }) {
-    _analytics.logEvent(
-      EventName.tapOnTheContinueButtonOnAmountBuyVoucherScreen,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '595',
-        PropertyType.amount: amount,
-        PropertyType.country: country,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.prepaidCard.id,
-      },
-    );
-  }
-
-  void orderSummaryBuyVoucherScreenView({
-    required String amount,
-    required String country,
-    required bool isAvailableAppleGooglePay,
-  }) {
-    _analytics.logEvent(
-      EventName.orderSummaryBuyVoucherScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '596',
-        PropertyType.amount: amount,
-        PropertyType.country: country,
-        PropertyType.isAvailableAppleGooglePay: isAvailableAppleGooglePay,
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.prepaidCard.id,
-      },
-    );
-  }
-
-  void tapOnTheBackButtonFromOrderSummaryBuyCoucherScreenView({
-    required String amount,
-    required String country,
-    required bool isAvailableAppleGooglePay,
-  }) {
-    _analytics.logEvent(
-      EventName.tapOnTheBackButtonFromOrderSummaryBuyCoucherScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '597',
-        PropertyType.amount: amount,
-        PropertyType.country: country,
-        PropertyType.isAvailableAppleGooglePay: isAvailableAppleGooglePay,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.prepaidCard.id,
-      },
-    );
-  }
-
-  void tapOnTheConfirmButtonOnOrderSummaryBuyVoucherScreenView({
-    required String amount,
-    required String country,
-    required bool isAvailableAppleGooglePay,
-  }) {
-    _analytics.logEvent(
-      EventName.tapOnTheConfirmButtonOnOrderSummaryBuyVoucherScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '598',
-        PropertyType.amount: amount,
-        PropertyType.country: country,
-        PropertyType.isAvailableAppleGooglePay: isAvailableAppleGooglePay,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.prepaidCard.id,
-      },
-    );
-  }
-
-  void successPrepaidPurchaseScreenView({
-    required String amount,
-    required String country,
-    required bool isAvailableAppleGooglePay,
-  }) {
-    _analytics.logEvent(
-      EventName.successPrepaidPurchaseScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '599',
-        PropertyType.amount: amount,
-        PropertyType.country: country,
-        PropertyType.isAvailableAppleGooglePay: isAvailableAppleGooglePay,
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.prepaidCard.id,
-      },
-    );
-  }
-
-  void failedPrepaidPurchaseScreenView({
-    required String amount,
-    required String country,
-    required bool isAvailableAppleGooglePay,
-  }) {
-    _analytics.logEvent(
-      EventName.failedPrepaidPurchaseScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '600',
-        PropertyType.amount: amount,
-        PropertyType.country: country,
-        PropertyType.isAvailableAppleGooglePay: isAvailableAppleGooglePay,
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.prepaidCard.id,
-      },
-    );
-  }
-
-  void tapOnTheAnyoucherButton({
-    required String voucher,
-  }) {
-    _analytics.logEvent(
-      EventName.tapOnTheAnyoucherButton,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '601',
-        PropertyType.voucher: voucher,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.prepaidCard.id,
-      },
-    );
-  }
-
-  void prepaidCardActivationScreenView({
-    required String voucher,
-    required bool isCompleted,
-  }) {
-    _analytics.logEvent(
-      EventName.prepaidCardActivationScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '602',
-        PropertyType.voucher: voucher,
-        PropertyType.isCompleted: isCompleted,
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.prepaidCard.id,
-      },
-    );
-  }
-
-  void tapOnTheCloseButtonOnPrepaidCardActivationScreen() {
-    _analytics.logEvent(
-      EventName.tapOnTheCloseButtonOnPrepaidCardActivationScreen,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '603',
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.prepaidCard.id,
-      },
-    );
-  }
-
-  void tapOnTheCopyButtonOnPrepaidCardActivationScreen() {
-    _analytics.logEvent(
-      EventName.tapOnTheCopyButtonOnPrepaidCardActivationScreen,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '604',
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.prepaidCard.id,
-      },
-    );
-  }
-
-  void tapOnTheIssueCardButtonOnPrepaidCardActivationScreen({
-    required String voucher,
-    required bool isCompleted,
-  }) {
-    _analytics.logEvent(
-      EventName.tapOnTheIssueCardButtonOnPrepaidCardActivationScreen,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '605',
-        PropertyType.voucher: voucher,
-        PropertyType.isCompleted: isCompleted,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.prepaidCard.id,
-      },
-    );
-  }
-
   // Market
   void tapOnTheTabbarButtonMarket() {
     _analytics.logEvent(
@@ -8663,24 +6025,6 @@ class SimpleAnalytics {
     );
   }
 
-  void tapOnTheBackFromPTPBuyPaymentCurrencyButton({
-    required String asset,
-  }) {
-    _analytics.logEvent(
-      EventName.tapOnTheBackFromPTPBuyPaymentCurrencyButton,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '617',
-        PropertyType.pmType: 'PTP',
-        PropertyType.buyPM: 'PTP',
-        PropertyType.asset: asset,
-        PropertyType.eventType: EventType.tap.name,
-        PropertyType.eventCategory: EventCategory.buyFlow.id,
-      },
-    );
-  }
-
   void tapOnThePTPBuyCurrencyButton({
     required String asset,
     required String ptpCurrency,
@@ -8715,26 +6059,6 @@ class SimpleAnalytics {
         PropertyType.buyPM: 'PTP',
         PropertyType.asset: asset,
         PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.buyFlow.id,
-        PropertyType.ptpCurrency: ptpCurrency,
-      },
-    );
-  }
-
-  void tapOnTheBackFromPTPBuyPaymentMethodButton({
-    required String asset,
-    required String ptpCurrency,
-  }) {
-    _analytics.logEvent(
-      EventName.tapOnTheBackFromPTPBuyPaymentMethodButton,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '620',
-        PropertyType.pmType: 'PTP',
-        PropertyType.buyPM: 'PTP',
-        PropertyType.asset: asset,
-        PropertyType.eventType: EventType.tap.name,
         PropertyType.eventCategory: EventCategory.buyFlow.id,
         PropertyType.ptpCurrency: ptpCurrency,
       },
@@ -8798,24 +6122,6 @@ class SimpleAnalytics {
         PropertyType.buyPM: 'PTP',
         PropertyType.asset: asset,
         PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.buyFlow.id,
-      },
-    );
-  }
-
-  void tapOnTheButtonContinueOnPTPBuyPopup({
-    required String asset,
-  }) {
-    _analytics.logEvent(
-      EventName.tapOnTheButtonContinueOnPTPBuyPopup,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '624',
-        PropertyType.pmType: 'PTP',
-        PropertyType.buyPM: 'PTP',
-        PropertyType.asset: asset,
-        PropertyType.eventType: EventType.tap.name,
         PropertyType.eventCategory: EventCategory.buyFlow.id,
       },
     );
@@ -9385,6 +6691,19 @@ class SimpleAnalytics {
         PropertyType.target: target,
         PropertyType.balance: balance.toStringAsFixed(2),
         PropertyType.isOpen: isOpen,
+      },
+    );
+  }
+
+  void jarTapOnButtonViewAllJarsOnDashboard() {
+    _analytics.logEvent(
+      EventName.jarTapOnButtonViewAllJarsOnDashboard,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '668',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.jar.id,
       },
     );
   }

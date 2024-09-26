@@ -41,9 +41,6 @@ void showSellPayWithBottomSheet({
   sShowBasicModalBottomSheet(
     context: context,
     then: (value) {
-      if (value != true) {
-        sAnalytics.tapOnCloseSheetSellToButton();
-      }
       then?.call(value);
     },
     scrollable: true,

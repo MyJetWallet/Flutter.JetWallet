@@ -207,10 +207,6 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                 onNotification: (scrollNotification) {
                   if (!_scrollingHasAlreadyOccurred) {
                     _scrollingHasAlreadyOccurred = true;
-                    sAnalytics.swipeHistoryListOnGlobalTransactionHistoryScreen(
-                      globalHistoryTab:
-                          OperationHistory.of(context).pendingOnly ? GlobalHistoryTab.pending : GlobalHistoryTab.all,
-                    );
                   }
 
                   return false;

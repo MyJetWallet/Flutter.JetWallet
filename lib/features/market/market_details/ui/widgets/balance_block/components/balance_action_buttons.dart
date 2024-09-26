@@ -16,6 +16,7 @@ import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/features/sell_flow/widgets/sell_with_bottom_sheet.dart';
+import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
@@ -74,7 +75,6 @@ class BalanceActionButtons extends StatelessObserverWidget {
           ),
         ] else ...[
           CircleActionButtons(
-            isSendDisabled: currency.isAssetBalanceEmpty,
             isSellDisabled: currency.isAssetBalanceEmpty,
             isConvertDisabled: currency.isAssetBalanceEmpty,
             onBuy: () {
@@ -82,66 +82,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
                 source: 'Market - Wallet - Buy',
               );
 
-              final isCardsAvailable = currency.buyMethods.any((element) => element.id == PaymentMethodType.bankCard);
-
-              final isSimpleAccountAvaible = sSignalRModules.paymentProducts?.any(
-                    (element) => element.id == AssetPaymentProductsEnum.simpleIbanAccount,
-                  ) ??
-                  false;
-
-              final isBankingAccountsAvaible = currency.buyMethods.any(
-                (element) => element.id == PaymentMethodType.ibanTransferUnlimint,
-              );
-
-              final isBuyAvaible = isCardsAvailable || isSimpleAccountAvaible || isBankingAccountsAvaible;
-
-              final isDepositBlocker = sSignalRModules.clientDetail.clientBlockers.any(
-                (element) => element.blockingType == BlockingType.deposit,
-              );
-
-              if (kycState.tradeStatus == kycOperationStatus(KycStatus.blocked) || !isBuyAvaible) {
-                sNotification.showError(
-                  intl.operation_bloked_text,
-                  id: 1,
-                );
-                sAnalytics.errorBuyIsUnavailable();
-              } else if ((kycState.depositStatus == kycOperationStatus(KycStatus.blocked)) &&
-                  !(sSignalRModules.bankingProfileData?.isAvaibleAnyAccount ?? false)) {
-                sNotification.showError(
-                  intl.operation_bloked_text,
-                  id: 1,
-                );
-                sAnalytics.errorBuyIsUnavailable();
-              } else if (isDepositBlocker && !(sSignalRModules.bankingProfileData?.isAvaibleAnyAccount ?? false)) {
-                showSendTimerAlertOr(
-                  context: context,
-                  or: () => showPayWithBottomSheet(
-                    context: context,
-                    currency: currency,
-                  ),
-                  from: [BlockingType.deposit],
-                );
-              } else if (isBuyAvaible) {
-                showSendTimerAlertOr(
-                  context: context,
-                  or: () => showPayWithBottomSheet(
-                    context: context,
-                    currency: currency,
-                  ),
-                  from: [BlockingType.trade],
-                );
-              } else {
-                handler.handle(
-                  status: kycState.tradeStatus,
-                  isProgress: kycState.verificationInProgress,
-                  currentNavigate: () => showPayWithBottomSheet(
-                    context: context,
-                    currency: currency,
-                  ),
-                  requiredDocuments: kycState.requiredDocuments,
-                  requiredVerifications: kycState.requiredVerifications,
-                );
-              }
+              onBuyPressed(context, currency, kycState, handler);
             },
             onSell: () {
               sAnalytics.tapOnTheSellButton(
@@ -183,6 +124,10 @@ class BalanceActionButtons extends StatelessObserverWidget {
               );
 
               if (currency.type == AssetType.crypto) {
+                if (currency.networksForBlockchainSend.isEmpty) {
+                  showAssetOnlyTradableWithinSimpleAppDialog();
+                  return;
+                }
                 if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed) && currency.supportsCryptoDeposit) {
                   showSendTimerAlertOr(
                     context: context,
@@ -195,10 +140,14 @@ class BalanceActionButtons extends StatelessObserverWidget {
                     from: [BlockingType.deposit],
                   );
                 } else if (!currency.supportsCryptoDeposit) {
-                  sNotification.showError(
-                    intl.operation_bloked_text,
-                    id: 1,
-                  );
+                  if (currency.networksForBlockchainSend.isNotEmpty) {
+                    sNotification.showError(
+                      intl.operation_bloked_text,
+                      id: 1,
+                    );
+                  } else {
+                    showAssetOnlyTradableWithinSimpleAppDialog();
+                  }
                 } else {
                   handler.handle(
                     status: kycState.depositStatus,
@@ -219,15 +168,12 @@ class BalanceActionButtons extends StatelessObserverWidget {
               }
             },
             onSend: () {
-              sAnalytics.tabOnTheSendButton(
-                source: 'Market - Asset - Send',
-              );
-
               handler.handle(
                 isProgress: kycState.verificationInProgress,
                 currentNavigate: () => showSendOptions(
                   context,
                   currency,
+                  onBuyPressed: () => onBuyPressed(context, currency, kycState, handler),
                   navigateBack: false,
                 ),
                 requiredDocuments: kycState.requiredDocuments,
@@ -260,5 +206,68 @@ class BalanceActionButtons extends StatelessObserverWidget {
         ],
       ],
     );
+  }
+
+  void onBuyPressed(BuildContext context, CurrencyModel currency, KycService kycState, KycAlertHandler handler) {
+    final isCardsAvailable = currency.buyMethods.any((element) => element.id == PaymentMethodType.bankCard);
+
+    final isSimpleAccountAvaible = sSignalRModules.paymentProducts?.any(
+          (element) => element.id == AssetPaymentProductsEnum.simpleIbanAccount,
+    ) ??
+        false;
+
+    final isBankingAccountsAvaible = currency.buyMethods.any(
+          (element) => element.id == PaymentMethodType.ibanTransferUnlimint,
+    );
+
+    final isBuyAvaible = isCardsAvailable || isSimpleAccountAvaible || isBankingAccountsAvaible;
+
+    final isDepositBlocker = sSignalRModules.clientDetail.clientBlockers.any(
+          (element) => element.blockingType == BlockingType.deposit,
+    );
+
+    if (kycState.tradeStatus == kycOperationStatus(KycStatus.blocked) || !isBuyAvaible) {
+      sNotification.showError(
+        intl.operation_bloked_text,
+        id: 1,
+      );
+      sAnalytics.errorBuyIsUnavailable();
+    } else if ((kycState.depositStatus == kycOperationStatus(KycStatus.blocked)) &&
+        !(sSignalRModules.bankingProfileData?.isAvaibleAnyAccount ?? false)) {
+      sNotification.showError(
+        intl.operation_bloked_text,
+        id: 1,
+      );
+      sAnalytics.errorBuyIsUnavailable();
+    } else if (isDepositBlocker && !(sSignalRModules.bankingProfileData?.isAvaibleAnyAccount ?? false)) {
+      showSendTimerAlertOr(
+        context: context,
+        or: () => showPayWithBottomSheet(
+          context: context,
+          currency: currency,
+        ),
+        from: [BlockingType.deposit],
+      );
+    } else if (isBuyAvaible) {
+      showSendTimerAlertOr(
+        context: context,
+        or: () => showPayWithBottomSheet(
+          context: context,
+          currency: currency,
+        ),
+        from: [BlockingType.trade],
+      );
+    } else {
+      handler.handle(
+        status: kycState.tradeStatus,
+        isProgress: kycState.verificationInProgress,
+        currentNavigate: () => showPayWithBottomSheet(
+          context: context,
+          currency: currency,
+        ),
+        requiredDocuments: kycState.requiredDocuments,
+        requiredVerifications: kycState.requiredVerifications,
+      );
+    }
   }
 }

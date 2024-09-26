@@ -247,13 +247,7 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                       PinScreenRoute(
                         union: const Change(),
                         isChangePhone: true,
-                        onWrongPin: (String error) {
-                          sAnalytics.errorWrongPin(
-                            asset: 'EUR',
-                            errorText: error,
-                            sendMethod: AnalyticsSendMethods.bankAccount,
-                          );
-                        },
+                        onWrongPin: (String error) {},
                         onChangePhone: (String newPin) {
                           sRouter.maybePop();
 

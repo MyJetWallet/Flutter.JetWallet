@@ -1,7 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/earn/store/earn_store.dart';
 import 'package:jetwallet/features/earn/widgets/deposit_card.dart';
@@ -61,7 +63,10 @@ class _WalletEarnSectionBody extends StatelessWidget {
             size: SHeaderSize.m,
           ),
           if (positions.isNotEmpty)
-            _PositionsForAssetWidget(positions: positions.toList())
+            _PositionsForAssetWidget(
+              positions: positions.toList(),
+              store: store,
+            )
           else if (offers.isNotEmpty)
             _OfferForAssetWidget(entry: offers.first)
           else
@@ -147,9 +152,13 @@ class _OfferForAssetWidget extends StatelessWidget {
 }
 
 class _PositionsForAssetWidget extends StatelessWidget {
-  const _PositionsForAssetWidget({required this.positions});
+  const _PositionsForAssetWidget({
+    required this.positions,
+    required this.store,
+  });
 
   final List<EarnPositionClientModel> positions;
+  final EarnStore store;
 
   @override
   Widget build(BuildContext context) {
@@ -168,8 +177,17 @@ class _PositionsForAssetWidget extends StatelessWidget {
                 earnWithdrawalType: e.withdrawType.name,
                 revenue: e.incomeAmount.toString(),
               );
+
+              final currency = getIt.get<FormatService>().findCurrency(
+                    findInHideTerminalList: true,
+                    assetSymbol: e.assetId,
+                  );
+
               context.router.push(
-                EarnPositionActiveRouter(earnPosition: e),
+                EarnPositionActiveRouter(
+                  earnPosition: e,
+                  offers: store.filteredOffersGroupedByCurrency[currency.description] ?? [],
+                ),
               );
             },
           ),

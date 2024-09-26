@@ -53,6 +53,8 @@ import 'package:simple_networking/modules/wallet_api/models/earn_offer_request/e
 import 'package:simple_networking/modules/wallet_api/models/earn_offer_withdrawal/earn_offer_withdrawal_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/earn_withdraw_position/earn_withdraw_position_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/encryption_key/encryption_key_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/fee_info/fee_preview_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/fee_info/fee_preview_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/google_pay/google_pay_confirm_model.dart';
@@ -142,6 +144,7 @@ import 'package:simple_networking/modules/wallet_api/models/wallet/set_active_as
 import 'package:simple_networking/modules/wallet_api/models/wallet_history/wallet_history_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/wallet_history/wallet_history_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/wire_countries/wire_countries_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/withdraw/withdraw_preview_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/withdraw/withdraw_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/withdraw/withdraw_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/withdrawal_info/withdrawal_info_request_model.dart';
@@ -200,6 +203,49 @@ class WalletApiRepository {
   ) async {
     return _walletApiDataSources.postWithdrawJarRequest(
       model,
+    );
+  }
+
+  Future<DC<ServerRejectException, WithdrawPreviewResponseModel>> postWithdrawJarPreviewRequest(
+    String assetSymbol,
+    double amount,
+    String toAddress,
+    String blockchain,
+    String jarId,
+  ) async {
+    final body = {
+      'assetSymbol': assetSymbol,
+      'amount': amount,
+      'toAddress': toAddress,
+      'blockchain': blockchain,
+      'jarId': jarId,
+    };
+
+    return _walletApiDataSources.postWithdrawJarPreviewRequest(
+      body,
+    );
+  }
+
+  Future<DC<ServerRejectException, WithdrawPreviewResponseModel>> postWithdrawPreviewRequest(
+    String assetSymbol,
+    double amount,
+    String? toAddress,
+    String? toTag,
+    String blockchain,
+  ) async {
+    final body = {
+      'assetSymbol': assetSymbol,
+      'amount': amount,
+      'blockchain': blockchain,
+    };
+    if (toAddress != null) {
+      body.addAll({'toAddress': toAddress});
+    } else if (toTag != null) {
+      body.addAll({'toTag': toTag});
+    }
+
+    return _walletApiDataSources.postWithdrawPreviewRequest(
+      body,
     );
   }
 
@@ -1348,5 +1394,9 @@ class WalletApiRepository {
       jarId: jarId,
       lang: lang,
     );
+  }
+
+  Future<DC<ServerRejectException, FeePreviewRepsonseModel>> postFeeInfo(FeePreviewRequestModel model) async {
+    return _walletApiDataSources.postFeeInfoRequest(model);
   }
 }

@@ -117,6 +117,10 @@ const String _loggerService = 'DeepLinkService';
 const _jar = 'jar';
 const _jwJarId = 'jw_jar_id';
 
+// Market Sector
+const _market_sector = 'market_sector';
+const _jw_sector_id = 'jw_sector_id';
+
 enum SourceScreen {
   bannerOnMarket,
   bannerOnRewards,
@@ -214,6 +218,8 @@ class DeepLinkService {
       _pushMySimpleCoinsScreen(parameters);
     } else if (command == _jar) {
       _pushJar(parameters);
+    } else if (command == _market_sector) {
+      openMarketSectorScreen(parameters);
     } else {
       if (parameters.containsKey('jw_operation_id')) {
         pushCryptoHistory(parameters);
@@ -1135,6 +1141,48 @@ class DeepLinkService {
             );
             if (isJarAvailable) {
               await func(jarId);
+            }
+          },
+        ),
+      );
+    }
+  }
+
+  Future<void> openMarketSectorScreen(
+    Map<String, String> parameters,
+  ) async {
+    final sectorId = parameters[_jw_sector_id];
+
+    if (getIt.isRegistered<AppStore>() &&
+        getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home &&
+        getIt<TimerService>().isPinScreenOpen == false) {
+      await Future.delayed(const Duration(milliseconds: 100));
+      sRouter.popUntilRoot();
+      getIt<BottomBarStore>().setHomeTab(BottomItemType.market);
+
+      final sector = sSignalRModules.marketSectors.firstWhereOrNull((sector) => sector.id == sectorId);
+      if (sector != null) {
+        await sRouter.push(
+          MarketSectorDetailsRouter(
+            sector: sector,
+          ),
+        );
+      }
+    } else {
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          func: () async {
+            sRouter.popUntilRoot();
+            getIt<BottomBarStore>().setHomeTab(BottomItemType.market);
+
+            final sector = sSignalRModules.marketSectors.firstWhereOrNull((sector) => sector.id == sectorId);
+            if (sector != null) {
+              await sRouter.push(
+                MarketSectorDetailsRouter(
+                  sector: sector,
+                ),
+              );
             }
           },
         ),

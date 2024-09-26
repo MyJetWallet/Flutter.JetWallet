@@ -1,11 +1,9 @@
 import 'dart:async';
-import 'dart:ui' as ui;
 
 import 'package:animated_background/animated_background.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
@@ -21,7 +19,6 @@ import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/rewards/reward_spin_response.dart';
 
@@ -132,8 +129,6 @@ abstract class _RewardOpenStoreBase with Store {
     lastController = controller;
     showBackgroundStars = true;
 
-    sAnalytics.rewardsOpenRewardTapCard(cardNumber: index, source: source);
-
     subtitleText = intl.reward_open_openings;
 
     isCardOpened = true;
@@ -159,8 +154,6 @@ abstract class _RewardOpenStoreBase with Store {
       height = 377;
     });
 
-    sAnalytics.rewardsOpenCardProcesing(source: source);
-
     await sendSpinRequest();
 
     Future.delayed(const Duration(seconds: 1), () {
@@ -177,13 +170,6 @@ abstract class _RewardOpenStoreBase with Store {
       }
 
       showBottomButton = true;
-
-      sAnalytics.rewardsCardFlipSuccess(
-        rewardToClaime: '${sSignalRModules.rewardsData?.availableSpins ?? 0}',
-        winAsset: spinData?.assetSymbol ?? '',
-        winAmount: '${spinData?.amount ?? ''}',
-        source: source,
-      );
     });
   }
 
@@ -214,46 +200,53 @@ abstract class _RewardOpenStoreBase with Store {
   }
 
   Future<void> shareCard(String source) async {
-    sAnalytics.rewardsCardShare(source: source);
-
     final currency = currencyFrom(
       sSignalRModules.currenciesWithHiddenList,
       //TODO Anna Bielikh need refactoring
       spinData != null ? spinData?.assetSymbol ?? 'BTC' : 'BTC',
     );
 
-    RenderRepaintBoundary? boundary;
-    if (lastIndex == 1) {
-      boundary = card1.currentContext!.findRenderObject()! as RenderRepaintBoundary;
-    } else if (lastIndex == 2) {
-      boundary = card2.currentContext!.findRenderObject()! as RenderRepaintBoundary;
-    } else {
-      boundary = card3.currentContext!.findRenderObject()! as RenderRepaintBoundary;
-    }
+    final appUrl = sSignalRModules.rewardsData?.referralLink ?? appDownloadUrl;
 
-    final image = await boundary.toImage(pixelRatio: 3.0);
-
-    final byteData = await image.toByteData(
-      format: ui.ImageByteFormat.png,
-    );
-    final buffer = byteData!.buffer;
-
-    await Share.shareXFiles(
-      [
-        XFile.fromData(
-          buffer.asUint8List(
-            byteData.offsetInBytes,
-            byteData.lengthInBytes,
-          ),
-          name: 'share_gift.png',
-          mimeType: 'image/png',
-        ),
-      ],
-      text: '${intl.reward_share_text} ${(spinData?.amount ?? Decimal.zero).toFormatCount(
+    await Share.share(
+      '${intl.reward_share_text} ${(spinData?.amount ?? Decimal.zero).toFormatCount(
         accuracy: currency.accuracy,
         symbol: currency.symbol,
-      )} ${intl.reward_share_text_2} ${sSignalRModules.rewardsData?.referralLink ?? ''}',
+      )} ${intl.reward_share_text_2} $appUrl',
     );
+
+    // RenderRepaintBoundary? boundary;
+    // if (lastIndex == 1) {
+    //   boundary = card1.currentContext!.findRenderObject()! as RenderRepaintBoundary;
+    // } else if (lastIndex == 2) {
+    //   boundary = card2.currentContext!.findRenderObject()! as RenderRepaintBoundary;
+    // } else {
+    //   boundary = card3.currentContext!.findRenderObject()! as RenderRepaintBoundary;
+    // }
+    //
+    // final image = await boundary.toImage(pixelRatio: 3.0);
+    //
+    // final byteData = await image.toByteData(
+    //   format: ui.ImageByteFormat.png,
+    // );
+    // final buffer = byteData!.buffer;
+    //
+    // await Share.shareXFiles(
+    //   [
+    //     XFile.fromData(
+    //       buffer.asUint8List(
+    //         byteData.offsetInBytes,
+    //         byteData.lengthInBytes,
+    //       ),
+    //       name: 'share_gift.png',
+    //       mimeType: 'image/png',
+    //     ),
+    //   ],
+    //   text: '${intl.reward_share_text} ${(spinData?.amount ?? Decimal.zero).toFormatCount(
+    //     accuracy: currency.accuracy,
+    //     symbol: currency.symbol,
+    //   )} ${intl.reward_share_text_2} ${sSignalRModules.rewardsData?.referralLink ?? ''}',
+    // );
   }
 
   @action
@@ -333,9 +326,6 @@ class _RewardOpenScreenBody extends StatefulObserverWidget {
 class _RewardOpenScreenBodyState extends State<_RewardOpenScreenBody> with TickerProviderStateMixin {
   @override
   void initState() {
-    sAnalytics.rewardsChooseRewardCard(
-      source: widget.source,
-    );
     super.initState();
   }
 
@@ -355,12 +345,6 @@ class _RewardOpenScreenBodyState extends State<_RewardOpenScreenBody> with Ticke
         showBackButton: false,
         onCLoseButton: () {
           sRouter.maybePop();
-
-          if (store.showBottomButton) {
-            sAnalytics.rewardsCloseFlowAfterCardFlip(source: widget.source);
-          } else {
-            sAnalytics.rewardsOpenRewardClose(source: widget.source);
-          }
         },
         onShareButtonTap: () => store.shareCard(widget.source),
       ),
@@ -422,10 +406,6 @@ class _RewardOpenScreenBodyState extends State<_RewardOpenScreenBody> with Ticke
                     SPrimaryButton1(
                       active: true,
                       onTap: () async {
-                        sAnalytics.rewardsClickNextReward(
-                          source: widget.source,
-                        );
-
                         store.nextReward();
                       },
                       name: intl.reward_open_next_reward,
@@ -442,10 +422,6 @@ class _RewardOpenScreenBodyState extends State<_RewardOpenScreenBody> with Ticke
                     SPrimaryButton1(
                       active: true,
                       onTap: () async {
-                        sAnalytics.rewardsCloseFlowAfterCardFlip(
-                          source: widget.source,
-                        );
-
                         await sRouter.maybePop();
                       },
                       name: intl.reward_close,

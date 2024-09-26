@@ -156,7 +156,6 @@ class _UserDataScreenBody extends StatelessObserverWidget {
                         readOnly: true,
                         onTap: () {
                           FocusScope.of(context).unfocus();
-                          sAnalytics.signInFlowDateSheetView();
                           showBirthDatePicker(
                             context,
                             birthDateInfo,

@@ -11,8 +11,8 @@ import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/send_gift/model/send_gift_info_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
 CurrencyModel currentAsset = CurrencyModel.empty();
@@ -20,6 +20,7 @@ CurrencyModel currentAsset = CurrencyModel.empty();
 void showSendOptions(
   BuildContext context,
   CurrencyModel currency, {
+  required Function() onBuyPressed,
   bool navigateBack = true,
 }) {
   currentAsset = currency;
@@ -31,22 +32,28 @@ void showSendOptions(
   final isGlobalAvaible = _checkGlobalAvaible();
   final isGiftAvaible = _checkGiftAvaible();
 
-  sAnalytics.sendToSheetScreenView(
-    sendMethods: [
-      if (isToCryptoWalletAvaible) AnalyticsSendMethods.cryptoWallet,
-      if (isGlobalAvaible) AnalyticsSendMethods.globally,
-      if (isGiftAvaible) AnalyticsSendMethods.gift,
-    ],
-  );
+  if (currentAsset.networksForBlockchainSend.isEmpty) {
+    showAssetOnlyTradableWithinSimpleAppDialog();
+
+    return;
+  } else if (currency.isAssetBalanceEmpty) {
+    showPleaseAddFundsToYourBalanceDialog(onBuyPressed);
+
+    return;
+  }
 
   if (!(isToCryptoWalletAvaible || isGlobalAvaible || isGiftAvaible)) {
     showSendTimerAlertOr(
       context: context,
       or: () {
-        sNotification.showError(
-          intl.operation_bloked_text,
-          id: 1,
-        );
+        if (currentAsset.networksForBlockchainSend.isNotEmpty) {
+          sNotification.showError(
+            intl.operation_bloked_text,
+            id: 1,
+          );
+        } else {
+          showAssetOnlyTradableWithinSimpleAppDialog();
+        }
       },
       from: [BlockingType.transfer, BlockingType.withdrawal],
     );
@@ -98,7 +105,6 @@ void showSendOptions(
               name: intl.send_gift,
               description: intl.send_gift_to_simple_wallet,
               onTap: () async {
-                sAnalytics.tapOnTheGiftButton();
                 Navigator.pop(context);
                 await sRouter.push(
                   GiftReceiversDetailsRouter(
@@ -111,6 +117,37 @@ void showSendOptions(
         ],
       ),
     ],
+  );
+}
+
+void showPleaseAddFundsToYourBalanceDialog(Function() onBuyPressed) {
+  sShowAlertPopup(
+    sRouter.navigatorKey.currentContext!,
+    image: Assets.svg.brand.small.infoYellow.simpleSvg(),
+    primaryText: '',
+    secondaryText: intl.wallet_please_add_funds_to_your_balance,
+    primaryButtonName: intl.wallet_buy_crypto,
+    onPrimaryButtonTap: () {
+      sRouter.maybePop();
+      onBuyPressed();
+    },
+    secondaryButtonName: intl.wallet_cancel,
+    onSecondaryButtonTap: () {
+      sRouter.maybePop();
+    },
+  );
+}
+
+void showAssetOnlyTradableWithinSimpleAppDialog() {
+  sShowAlertPopup(
+    sRouter.navigatorKey.currentContext!,
+    image: Assets.svg.brand.small.infoYellow.simpleSvg(),
+    primaryText: '',
+    secondaryText: intl.wallet_this_asset_is_only_tradable_within_simple,
+    primaryButtonName: intl.wallet_got_it,
+    onPrimaryButtonTap: () {
+      sRouter.maybePop();
+    },
   );
 }
 

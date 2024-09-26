@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:charts/simple_chart.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -257,25 +258,30 @@ class InstrumentsList extends StatelessObserverWidget {
                   ),
                   const SpaceH4(),
                   for (final instrument in investStore.instrumentsSortedList) ...[
-                    SymbolInfoLine(
-                      percent: investStore.getPercentSymbol(instrument.symbol ?? ''),
-                      instrument: instrument,
-                      withActiveInvest: getGroupedLength(instrument.symbol!) > 0,
-                      amount: getGroupedAmount(instrument.symbol!),
-                      profit: getGroupedProfit(instrument.symbol!),
-                      price: investStore.getPriceBySymbol(instrument.symbol ?? ''),
-                      candles: investChartStore.getAssetCandles(instrument.symbol ?? ''),
-                      onTap: () {
-                        if (investStore.myInvestsList.contains(instrument) ||
-                            investStore.myInvestPendingList.contains(instrument)) {
-                          sRouter.push(
-                            InstrumentPageRouter(instrument: instrument),
-                          );
-                        } else {
-                          sRouter.push(
-                            NewInvestPageRouter(instrument: instrument),
-                          );
-                        }
+                    FutureBuilder<List<CandleModel>>(
+                      future: investChartStore.getAssetCandles(instrument.symbol ?? ''),
+                      builder: (context, snapshot) {
+                        return SymbolInfoLine(
+                          percent: investStore.getPercentSymbol(instrument.symbol ?? ''),
+                          instrument: instrument,
+                          withActiveInvest: getGroupedLength(instrument.symbol!) > 0,
+                          amount: getGroupedAmount(instrument.symbol!),
+                          profit: getGroupedProfit(instrument.symbol!),
+                          price: investStore.getPriceBySymbol(instrument.symbol ?? ''),
+                          candles: snapshot.data ?? [],
+                          onTap: () {
+                            if (investStore.myInvestsList.contains(instrument) ||
+                                investStore.myInvestPendingList.contains(instrument)) {
+                              sRouter.push(
+                                InstrumentPageRouter(instrument: instrument),
+                              );
+                            } else {
+                              sRouter.push(
+                                NewInvestPageRouter(instrument: instrument),
+                              );
+                            }
+                          },
+                        );
                       },
                     ),
                     const SDivider(),

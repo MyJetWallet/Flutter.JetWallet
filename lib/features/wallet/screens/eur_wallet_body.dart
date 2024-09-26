@@ -285,23 +285,17 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                       if (simpleAccount != null)
                         SimpleTableAsset(
                           onTableAssetTap: () {
-                            sRouter
-                                .push(
-                                  CJAccountRouter(
-                                    bankingAccount: simpleAccount,
-                                    isCJAccount: true,
-                                    eurCurrency: widget.eurCurrency,
-                                  ),
-                                )
-                                .then(
-                                  (value) => sAnalytics.eurWalletTapBackOnAccountWalletScreen(
-                                    isCJ: true,
-                                    eurAccountLabel: simpleAccount.label ?? '',
-                                    isHasTransaction: false,
-                                  ),
-                                );
+                            sRouter.push(
+                              CJAccountRouter(
+                                bankingAccount: simpleAccount,
+                                isCJAccount: true,
+                                eurCurrency: widget.eurCurrency,
+                              ),
+                            );
                           },
-                          assetIcon: const BlueBankIcon(),
+                          assetIcon: const BlueBankIcon(
+                            size: 24.0,
+                          ),
                           label: simpleAccount.label ?? 'Account 1',
                           supplement: simpleAccount.status == AccountStatus.active
                               ? intl.eur_wallet_simple_account
@@ -323,24 +317,18 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                           return SimpleTableAsset(
                             onTableAssetTap: () {
                               if (bankAccounts[index].status == AccountStatus.active) {
-                                sRouter
-                                    .push(
-                                      CJAccountRouter(
-                                        bankingAccount: bankAccounts[index],
-                                        isCJAccount: false,
-                                        eurCurrency: widget.eurCurrency,
-                                      ),
-                                    )
-                                    .then(
-                                      (value) => sAnalytics.eurWalletTapBackOnAccountWalletScreen(
-                                        isCJ: false,
-                                        eurAccountLabel: bankAccounts[index].label ?? '',
-                                        isHasTransaction: false,
-                                      ),
-                                    );
+                                sRouter.push(
+                                  CJAccountRouter(
+                                    bankingAccount: bankAccounts[index],
+                                    isCJAccount: false,
+                                    eurCurrency: widget.eurCurrency,
+                                  ),
+                                );
                               }
                             },
-                            assetIcon: const BlueBankIcon(),
+                            assetIcon: const BlueBankIcon(
+                              size: 24.0,
+                            ),
                             label: bankAccounts[index].label ?? 'Account',
                             supplement: bankAccounts[index].status == AccountStatus.active
                                 ? intl.eur_wallet_personal_account

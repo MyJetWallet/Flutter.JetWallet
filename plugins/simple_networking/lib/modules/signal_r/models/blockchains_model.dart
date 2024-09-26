@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:simple_networking/modules/wallet_api/models/fee_info/fee_preview_response_model.dart';
 
 import 'asset_model.dart';
 
@@ -21,6 +22,8 @@ class BlockchainModel with _$BlockchainModel {
     @Default(TagType.none) TagType tagType,
     @Default('') String description,
     @Default('') String blockchainExplorerUrlTemplate,
+    /// Additional information, take from the endpoint /fee-info
+    NetworkPreviewModel? info,
   }) = _BlockchainModel;
 
   factory BlockchainModel.fromJson(Map<String, dynamic> json) => _$BlockchainModelFromJson(json);

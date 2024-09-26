@@ -40,6 +40,7 @@ String simpleTapLink = '';
 bool usePhoneForSendGift = true;
 int simpleCoinRoadmapCompletedSteep = 3;
 List<RewardsAssetModel> rewardsAssets = [];
+bool showPhoneNumberStep = false;
 
 // Versioning
 late String recommendedVersion;

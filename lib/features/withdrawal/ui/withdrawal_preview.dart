@@ -50,10 +50,12 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
         network: store.network.description,
         sendMethodType: '0',
         totalSendAmount: store.withAmount,
-        paymentFee: store.withdrawalInputModel!.currency!.withdrawalFeeSize(
-          network: store.getNetworkForFee(),
-          amount: Decimal.parse(store.withAmount),
-        ).toString(),
+        paymentFee: store.withdrawalInputModel!.currency!
+            .withdrawalFeeSize(
+              network: store.getNetworkForFee(),
+              amount: Decimal.parse(store.withAmount),
+            )
+            .toString(),
       );
     }
 
@@ -74,10 +76,7 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
 
     final formatService = getIt.get<FormatService>();
 
-    final feeSize = store.withdrawalInputModel!.currency!.withdrawalFeeSize(
-      network: store.getNetworkForFee(),
-      amount: Decimal.parse(store.withAmount),
-    );
+    final feeSize = store.feeAmount;
 
     final feeSizeWithSymbol = feeSize.toFormatCount(
       symbol: store.withdrawalInputModel?.currency?.symbol ?? '',
@@ -161,7 +160,7 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
                 const SDivider(),
                 const SpaceH32(),
                 SPrimaryButton2(
-                  active: !store.previewLoading && isUserEnoughMaticForWithdraw,
+                  active: !store.previewLoading && isUserEnoughMaticForWithdraw && !store.previewError,
                   name: intl.withdrawalPreview_confirm,
                   onTap: () {
                     if (store.withdrawalType == WithdrawalType.jar) {
@@ -205,13 +204,7 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
                             store.withdraw(newPin: newPin);
                           }
                         },
-                        onWrongPin: (String error) {
-                          sAnalytics.errorWrongPin(
-                            asset: store.withdrawalInputModel!.currency!.symbol,
-                            errorText: error,
-                            sendMethod: AnalyticsSendMethods.cryptoWallet,
-                          );
-                        },
+                        onWrongPin: (String error) {},
                       ),
                     );
                   },
