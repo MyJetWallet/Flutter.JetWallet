@@ -14,6 +14,7 @@ class SNumericKeyboardAmount extends StatelessWidget {
     required this.submitButtonActive,
     required this.submitButtonName,
     required this.onSubmitPressed,
+    this.isLoading = false,
   });
 
   final SButtonType buttonType;
@@ -22,6 +23,7 @@ class SNumericKeyboardAmount extends StatelessWidget {
   final bool submitButtonActive;
   final String submitButtonName;
   final void Function() onSubmitPressed;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +61,7 @@ class SNumericKeyboardAmount extends StatelessWidget {
                       active: submitButtonActive,
                       name: submitButtonName,
                       onTap: onSubmitPressed,
+                      isLoading: isLoading,
                     ),
             ),
             const SpaceH42(),
