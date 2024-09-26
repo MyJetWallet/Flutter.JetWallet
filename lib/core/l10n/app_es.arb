@@ -966,7 +966,6 @@
     "sell_amount_sell_to": "Vender a",
     "sell_amount_accounts": "Cuentas",
     "sell_success_cryptocurrencies": "Orden colocada",
-    "convert_success_in_process": "En proceso",
     "convert_amount_convert_to": "Convertir",
     "convert_amount_convert": "Convertir",
     "convert_amount_convert_all": "Convertir todo",
@@ -1791,9 +1790,9 @@
     "wallet_buy_crypto": "Comprar cripto",
     "earn_offering_no_longer_accepts_deposits": "Esta oferta ya no acepta depósitos. Inicie una nueva posición de Earn para seguir aumentando sus ahorros.",
     "earn_start_new_earn": "Inicie un nuevo Earn",
-    "market_gainers_losers_placeholder": "",
-    "kyc_verify_identity": "",
-    "kyc_secure_account": "",
-    "market_price_change": "",
-    "kyc_profile_verification": ""
+    "market_gainers_losers_placeholder": "El mercado está estable. Vuelva más tarde para actualizaciones.",
+    "kyc_verify_identity": "Verificar identidad",
+    "kyc_secure_account": "Asegurar cuenta",
+    "market_price_change": "Cambio de precio",
+    "kyc_profile_verification": "Verificación de perfil"
 }

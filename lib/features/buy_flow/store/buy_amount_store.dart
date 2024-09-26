@@ -191,7 +191,6 @@ abstract class _BuyAmountStoreBase with Store {
       const Duration(milliseconds: 500),
       () {
         if (inputCard != null && inputCard.showUaAlert) {
-          sAnalytics.unsupportedCurrencyPopupView();
           sShowAlertPopup(
             sRouter.navigatorKey.currentContext!,
             primaryText: intl.currencyBuy_alert,
@@ -204,7 +203,6 @@ abstract class _BuyAmountStoreBase with Store {
               package: 'simple_kit',
             ),
             onPrimaryButtonTap: () {
-              sAnalytics.tapOnTheGotItButtonOnUnsupportedCurrencyScreen();
               Navigator.pop(sRouter.navigatorKey.currentContext!);
             },
           );

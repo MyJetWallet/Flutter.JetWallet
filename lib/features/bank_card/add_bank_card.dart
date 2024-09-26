@@ -152,9 +152,6 @@ class _AddBankCardScreenBody extends StatelessObserverWidget {
                           destinationWallet: asset?.symbol ?? '',
                         );
                         if (store.saveCard) {
-                          sAnalytics.addACustomNameScreenView(
-                            destinationWallet: asset?.symbol ?? '',
-                          );
                           await Navigator.push(
                             context,
                             PageRouteBuilder(

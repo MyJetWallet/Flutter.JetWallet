@@ -136,9 +136,6 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                 if (scrollNotification is ScrollStartNotification) {
                   if (!_scrollingHasAlreadyOccurred) {
                     _scrollingHasAlreadyOccurred = true;
-                    sAnalytics.swipeHistoryListOnCryptoFavouriteWalletScreen(
-                      openedAsset: widget.currency.symbol,
-                    );
                   }
                 } else if (scrollNotification is ScrollEndNotification) {
                   _snapAppbar();

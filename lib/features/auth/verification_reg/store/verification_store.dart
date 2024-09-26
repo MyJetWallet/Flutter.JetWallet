@@ -1,3 +1,4 @@
+import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:mobx/mobx.dart';
 
 part 'verification_store.g.dart';
@@ -20,6 +21,11 @@ abstract class _VerificationStoreBase with Store {
 
   @observable
   bool isRefreshPin = false;
+
+  @computed
+  bool get showPhoneNumberSteep {
+    return showPhoneNumberStep;
+  }
 
   @action
   void setPhoneDone(bool value) => isPhoneDone = value;

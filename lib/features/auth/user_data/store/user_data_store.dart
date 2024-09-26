@@ -153,8 +153,6 @@ abstract class _UserDataStoreBase with Store {
 
     loader.startLoadingImmediately();
 
-    sAnalytics.signInFlowPersonalScreenViewLoading();
-
     try {
       final resp = await sNetwork.getAuthModule().postApplyUsedData(model);
 

@@ -9,7 +9,6 @@ import 'package:jetwallet/features/transfer_flow/widgets/transfer_confirmation_i
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
@@ -71,11 +70,6 @@ class _TransferConfirmationScreenBody extends StatelessObserverWidget {
           color: colors.grey1,
         ),
         onBackButtonTap: () {
-          sAnalytics.tapOnTheBackFromTransferOrderSummaryButton(
-            transferFrom: store.fromType.analyticsValue,
-            transferTo: store.toType.analyticsValue,
-            enteredAmount: store.fromAmount.toString(),
-          );
           sRouter.maybePop();
         },
       ),
