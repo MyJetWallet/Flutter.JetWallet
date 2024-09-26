@@ -293,7 +293,9 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                               ),
                             );
                           },
-                          assetIcon: const BlueBankIcon(),
+                          assetIcon: const BlueBankIcon(
+                            size: 24.0,
+                          ),
                           label: simpleAccount.label ?? 'Account 1',
                           supplement: simpleAccount.status == AccountStatus.active
                               ? intl.eur_wallet_simple_account
@@ -324,7 +326,9 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                                 );
                               }
                             },
-                            assetIcon: const BlueBankIcon(),
+                            assetIcon: const BlueBankIcon(
+                              size: 24.0,
+                            ),
                             label: bankAccounts[index].label ?? 'Account',
                             supplement: bankAccounts[index].status == AccountStatus.active
                                 ? intl.eur_wallet_personal_account
