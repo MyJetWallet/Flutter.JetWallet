@@ -96,7 +96,7 @@ abstract class _BuyAmountStoreBase with Store {
   bool inputValid = false;
 
   @observable
-  bool isFiatEntering = true;
+  bool isFiatEntering = false;
 
   @observable
   String fiatInputValue = '0';
@@ -177,6 +177,8 @@ abstract class _BuyAmountStoreBase with Store {
           .paymentAssets
           ?.firstWhere((element) => element.asset == 'EUR');
     }
+
+    isFiatEntering = asset == null;
 
     loadConversionPrice(
       fiatSymbol,
