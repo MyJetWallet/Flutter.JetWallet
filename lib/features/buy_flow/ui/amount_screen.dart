@@ -83,27 +83,38 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
       );
     }
 
-    tabController.addListener(() {
-      if (tabController.indexIsChanging) return;
-
-      setState(() {
-        _currentTabIndex = tabController.index;
-      });
-
-      switch (tabController.index) {
-        case 0:
-          sAnalytics.tapOnTheBuyButtonOnBSCSegmentScreen();
-        case 1:
-          sAnalytics.tapOnTheSellButtonOnBSCSegmentButton();
-        case 2:
-          sAnalytics.tapOnTheConvertButtonOnBSCSegmentButton();
-        case 3:
-          sAnalytics.transferAmountScreenView(
-            sourceTransfer: 'Segment control',
-          );
-        default:
-      }
-    });
+    tabController.animation!.addListener(
+      () {
+        if (tabController.indexIsChanging) {
+          if (_currentTabIndex != tabController.index) {
+            setState(() {
+              _currentTabIndex = tabController.index;
+            });
+          }
+        } else {
+          final temp = tabController.animation!.value.round();
+          if (_currentTabIndex != temp) {
+            setState(() {
+              _currentTabIndex = temp;
+            });
+            tabController.index = _currentTabIndex;
+            switch (tabController.index) {
+              case 0:
+                sAnalytics.tapOnTheBuyButtonOnBSCSegmentScreen();
+              case 1:
+                sAnalytics.tapOnTheSellButtonOnBSCSegmentButton();
+              case 2:
+                sAnalytics.tapOnTheConvertButtonOnBSCSegmentButton();
+              case 3:
+                sAnalytics.transferAmountScreenView(
+                  sourceTransfer: 'Segment control',
+                );
+              default:
+            }
+          }
+        }
+      },
+    );
     super.initState();
   }
 
