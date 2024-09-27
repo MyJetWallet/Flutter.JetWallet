@@ -1,6 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:collection/collection.dart';
 import 'package:decimal/decimal.dart';
@@ -38,7 +39,6 @@ import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:jetwallet/utils/helpers/firebase_analytics.dart';
 import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
 import 'package:logger/logger.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
@@ -762,13 +762,23 @@ class DeepLinkService {
 
     final context = sRouter.navigatorKey.currentContext;
     if (context != null && context.mounted && currencyOffers.isNotEmpty) {
-      sShowBasicModalBottomSheet(
+      VoidCallback? contentOnTap;
+
+      showBasicBottomSheet(
         context: context,
-        scrollable: true,
+        basicBottomSheetButton: BasicBottomSheetButton(
+          title: intl.earn_continue,
+          onTap: () {
+            contentOnTap?.call();
+          },
+        ),
         children: [
           OffersOverlayContent(
             offers: currencyOffers,
             currency: currency,
+            setParentOnTap: (onTap) {
+              contentOnTap = onTap;
+            },
           ),
         ],
       );

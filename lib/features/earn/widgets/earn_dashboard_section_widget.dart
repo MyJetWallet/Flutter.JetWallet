@@ -133,13 +133,23 @@ class _EarnSectionEmptyState extends StatelessWidget {
                           )
                           .length >
                       1) {
-                    sShowBasicModalBottomSheet(
+                    VoidCallback? contentOnTap;
+
+                    showBasicBottomSheet(
                       context: context,
-                      scrollable: true,
+                      basicBottomSheetButton: BasicBottomSheetButton(
+                        title: intl.earn_continue,
+                        onTap: () {
+                          contentOnTap?.call();
+                        },
+                      ),
                       children: [
                         OffersOverlayContent(
                           offers: currencyOffers,
                           currency: currency,
+                          setParentOnTap: (onTap) {
+                            contentOnTap = onTap;
+                          },
                         ),
                       ],
                     );

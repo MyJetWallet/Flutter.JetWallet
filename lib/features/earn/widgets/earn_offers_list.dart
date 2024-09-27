@@ -11,7 +11,7 @@ import 'package:jetwallet/features/earn/widgets/offers_overlay_content.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
 
 class OffersListWidget extends StatelessWidget {
@@ -80,13 +80,23 @@ class OffersListWidget extends StatelessWidget {
                           )
                           .length >
                       1) {
-                    sShowBasicModalBottomSheet(
+                    VoidCallback? contentOnTap;
+
+                    showBasicBottomSheet(
                       context: context,
-                      scrollable: true,
+                      basicBottomSheetButton: BasicBottomSheetButton(
+                        title: intl.earn_continue,
+                        onTap: () {
+                          contentOnTap?.call();
+                        },
+                      ),
                       children: [
                         OffersOverlayContent(
                           offers: currencyOffers,
                           currency: currency,
+                          setParentOnTap: (onTap) {
+                            contentOnTap = onTap;
+                          },
                         ),
                       ],
                     );
