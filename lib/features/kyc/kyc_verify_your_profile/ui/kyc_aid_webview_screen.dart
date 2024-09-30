@@ -137,6 +137,9 @@ Future<void> loadKycAidWebViewController({required String url, bool preload = fa
   if (controller.platform is AndroidWebViewController) {
     await (controller.platform as AndroidWebViewController).setMediaPlaybackRequiresUserGesture(false);
   }
+  if (controller.platform is WebKitWebViewController) {
+    await (controller.platform as WebKitWebViewController).setInspectable(true);
+  }
 
   await controller.setJavaScriptMode(JavaScriptMode.unrestricted);
   await controller.setBackgroundColor(Colors.white);
