@@ -1,42 +1,53 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
-class VerifyStep extends StatelessWidget {
-  const VerifyStep({
-    super.key,
-    this.completeIcon = false,
-    this.isSDivider = false,
-    required this.title,
-    required this.color,
+class VerificationSteep extends StatelessWidget {
+  const VerificationSteep({
+    required this.itemString,
+    this.isDone = false,
+    this.isDisabled = false,
   });
 
-  final bool completeIcon;
-  final bool isSDivider;
-  final String title;
-  final Color color;
+  final String itemString;
+  final bool isDone;
+  final bool isDisabled;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        SizedBox(
-          height: 64.0,
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                child: Text(
-                  title,
-                  style: sSubtitle2Style.copyWith(
-                    color: color,
-                  ),
-                ),
+    final colors = SColorsLight();
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      child: Row(
+        children: [
+          if (isDisabled)
+            Assets.svg.small.minusCircle.simpleSvg(
+              color: colors.black,
+            )
+          else if (!isDone)
+            Container(
+              width: 16,
+              height: 16,
+              margin: const EdgeInsets.only(left: 2),
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: colors.black,
               ),
-              if (completeIcon) const SCompleteIcon(),
-            ],
+            )
+          else
+            Assets.svg.small.checkCircle.simpleSvg(
+              color: colors.blue,
+            ),
+          const SpaceW16(),
+          Text(
+            itemString,
+            style: STStyles.subtitle1.copyWith(
+              color: isDone ? colors.blue : colors.black,
+            ),
           ),
-        ),
-        if (isSDivider) const SDivider(),
-      ],
+        ],
+      ),
     );
   }
 }
