@@ -146,11 +146,11 @@ class _KycVerificationState extends State<KycVerification> {
                   ),
                   const SpaceH24(),
                   VerificationSteep(
-                    itemString: intl.kycAlertHandler_secureYourAccount,
+                    lable: intl.kycAlertHandler_secureYourAccount,
                     isDone: isPhoneDone,
                   ),
                   VerificationSteep(
-                    itemString: intl.kycAlertHandler_verifyYourIdentity,
+                    lable: intl.kycAlertHandler_verifyYourIdentity,
                     isDisabled: isPhoneDone,
                   ),
                   const Spacer(),

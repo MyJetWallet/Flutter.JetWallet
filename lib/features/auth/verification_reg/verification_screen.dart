@@ -88,27 +88,25 @@ class _VerificationScreenState extends State<VerificationScreen> {
                   ),
                   const SpaceH24(),
                   VerificationSteep(
-                    itemString: intl.email_verification,
+                    lable: intl.email_verification,
                     isDone: store.isEmailDone,
                   ),
                   if (store.showPhoneNumberSteep) ...[
                     VerificationSteep(
-                      itemString: intl.phone_number,
+                      lable: intl.phone_number,
                       isDisabled: !store.isPhoneDone && store.step != VerificationScreenStep.phone,
                       isDone: store.isPhoneDone,
                     ),
                   ],
                   VerificationSteep(
-                    itemString: intl.personal_details,
-                    // haveSubText: store.step == VerificationScreenStep.personalDetail,
-                    // subtext: intl.personal_details_descr,
+                    lable: intl.personal_details,
+                    subtext: store.step == VerificationScreenStep.personalDetail ? intl.personal_details_descr : null,
                     isDisabled: !store.isPersonalDetailsDone && store.step != VerificationScreenStep.personalDetail,
                     isDone: store.isPersonalDetailsDone,
                   ),
                   VerificationSteep(
-                    itemString: intl.pin_code,
-                    // haveSubText: store.step == VerificationScreenStep.pin,
-                    // subtext: intl.pin_code_descr,
+                    lable: intl.pin_code,
+                    subtext: store.step == VerificationScreenStep.pin ? intl.pin_code_descr : null,
                     isDisabled: !store.isCreatePinDone && store.step != VerificationScreenStep.pin,
                     isDone: store.isCreatePinDone,
                   ),
