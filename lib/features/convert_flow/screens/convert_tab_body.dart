@@ -18,6 +18,7 @@ import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/icons/24x24/public/crypto/simple_crypto_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -93,8 +94,7 @@ class ConvertAmountScreenBodyState extends State<ConvertAmountTabBody> with Auto
                                 small: () => const SpaceH40(),
                                 medium: () => const Spacer(),
                               ),
-                              SNewActionPriceField(
-                                widgetSize: widgetSizeFrom(deviceSize),
+                              SNumericLargeInput(
                                 primaryAmount: formatCurrencyStringAmount(
                                   value: store.primaryAmount,
                                 ),
@@ -112,12 +112,8 @@ class ConvertAmountScreenBodyState extends State<ConvertAmountTabBody> with Auto
                                   store.swapAssets();
                                 },
                                 errorText: store.paymentMethodInputError,
-                                optionText: store.fromInputValue == '0' &&
-                                        store.fromAsset != null &&
-                                        store.toAsset != null
-                                    ? '''${intl.convert_amount_convert_all} ${getIt<AppStore>().isBalanceHide ? '**** ${store.fromAsset?.symbol}' : store.convertAllAmount.toFormatCount(accuracy: store.fromAsset?.accuracy ?? 1, symbol: store.fromAsset?.symbol ?? '')}'''
-                                    : null,
-                                optionOnTap: () {
+                                showMaxButton: true,
+                                onMaxTap: () {
                                   sAnalytics.tapOnTheConvertAll();
                                   store.onConvetrAll();
                                 },

@@ -217,6 +217,7 @@ abstract class _ConvertAmountStoreBase with Store {
 
   @action
   void onConvetrAll() {
+    fromInputValue = '0';
     fromInputValue = responseOnInputAction(
       oldInput: fromInputValue,
       newInput: convertAllAmount.toString(),

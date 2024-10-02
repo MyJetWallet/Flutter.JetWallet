@@ -75,3 +75,5 @@ export 'widgets/badge/simple_badge_medium.dart';
 export 'widgets/control/simple_check_with_table.dart';
 
 export 'gen/assets.gen.dart';
+
+export 'widgets/input/simple_numeric_large_input.dart';
