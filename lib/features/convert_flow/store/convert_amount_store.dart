@@ -194,6 +194,25 @@ abstract class _ConvertAmountStoreBase with Store {
   }
 
   @action
+  void onSwapAssets() {
+    final temp = toAsset;
+    toAsset = fromAsset;
+    fromAsset = temp;
+
+    isFromEntering = true;
+
+    loadConversionPrice();
+    loadLimits();
+
+    toInputValue = '0';
+    fromInputValue = '0';
+    errorText = null;
+    inputValid = false;
+
+    _checkShowTosts();
+  }
+
+  @action
   Future<void> loadConversionPrice() async {
     if (fromAsset != null && toAsset != null) {
       targetConversionPrice = await getConversionPrice(
