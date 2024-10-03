@@ -310,6 +310,7 @@ abstract class _SellAmountStoreBase with Store {
 
   @action
   void onSellAll() {
+    cryptoInputValue = '0';
     cryptoInputValue = responseOnInputAction(
       oldInput: cryptoInputValue,
       newInput: sellAllValue.toString(),

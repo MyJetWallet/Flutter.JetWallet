@@ -18,6 +18,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
 import 'package:simple_kit/modules/icons/24x24/public/crypto/simple_crypto_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
@@ -102,8 +103,7 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
                                 small: () => const SpaceH40(),
                                 medium: () => const Spacer(),
                               ),
-                              SNewActionPriceField(
-                                widgetSize: widgetSizeFrom(deviceSize),
+                              SNumericLargeInput(
                                 primaryAmount: formatCurrencyStringAmount(
                                   value: store.primaryAmount,
                                 ),
@@ -130,6 +130,8 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
                                     nowInput: store.isFiatEntering ? NowInputType.fiat : NowInputType.crypro,
                                   );
                                 },
+                                showMaxButton: true,
+                                onMaxTap: store.onBuyAll,
                                 errorText: store.paymentMethodInputError,
                                 pasteLabel: intl.paste,
                                 onPaste: () async {

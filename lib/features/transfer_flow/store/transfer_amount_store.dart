@@ -163,6 +163,7 @@ abstract class _TransfetAmountStoreBase with Store {
 
   @action
   void onTransfetAll() {
+    inputValue = '0';
     inputValue = responseOnInputAction(
       oldInput: inputValue,
       newInput: maxLimit.toString(),

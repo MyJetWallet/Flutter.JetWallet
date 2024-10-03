@@ -15,8 +15,7 @@ import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
 import '../../../core/di/di.dart';
@@ -86,8 +85,7 @@ class _TrancferBody extends StatelessWidget {
                           small: () => const SpaceH40(),
                           medium: () => const Spacer(),
                         ),
-                        SNewActionPriceField(
-                          widgetSize: widgetSizeFrom(deviceSize),
+                        SNumericLargeInput(
                           primaryAmount: formatCurrencyStringAmount(
                             value: store.inputValue,
                           ),
@@ -104,10 +102,8 @@ class _TrancferBody extends StatelessWidget {
                               }
                             }
                           },
-                          optionText: store.inputValue == '0' && store.isBothAssetsSeted
-                              ? '''${intl.transfer_amount_transfer_all} ${getIt<AppStore>().isBalanceHide ? '**** EUR' : store.maxLimit.toFormatSum(symbol: 'EUR', accuracy: 2)}'''
-                              : null,
-                          optionOnTap: () {
+                          showMaxButton: true,
+                          onMaxTap: () {
                             store.onTransfetAll();
                           },
                           showSwopButton: false,

@@ -419,6 +419,22 @@ abstract class _BuyAmountStoreBase with Store {
   }
 
   @action
+  void onBuyAll() {
+    fiatInputValue = '0';
+    fiatInputValue = responseOnInputAction(
+      oldInput: fiatInputValue,
+      newInput: _maxSellAmount.toString(),
+      accuracy: fiatAccuracy,
+    );
+
+    isFiatEntering = true;
+
+    _calculateCryptoConversion();
+
+    _validateInput();
+  }
+
+  @action
   void _cutUnnecessaryAccuracy() {
     if (isFiatEntering) {
       fiatInputValue = Decimal.parse(fiatInputValue).floor(scale: buyCurrency.accuracy).toString();
