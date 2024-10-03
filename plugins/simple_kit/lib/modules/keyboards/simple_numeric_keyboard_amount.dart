@@ -51,18 +51,11 @@ class SNumericKeyboardAmount extends StatelessWidget {
               onKeyPressed: onKeyPressed,
             ),
             SPaddingH24(
-              child: buttonType == SButtonType.primary1
-                  ? SPrimaryButton1(
-                      active: submitButtonActive,
-                      name: submitButtonName,
-                      onTap: onSubmitPressed,
-                    )
-                  : SPrimaryButton2(
-                      active: submitButtonActive,
-                      name: submitButtonName,
-                      onTap: onSubmitPressed,
-                      isLoading: isLoading,
-                    ),
+              child: SPrimaryButton1(
+                active: submitButtonActive,
+                name: submitButtonName,
+                onTap: onSubmitPressed,
+              ),
             ),
             const SpaceH42(),
           ],

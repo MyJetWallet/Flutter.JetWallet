@@ -688,6 +688,9 @@ class $AssetsSvgAssetsFiatGen {
   /// File path: assets/svg/assets/fiat/external_transfer.svg
   SvgGenImage get externalTransfer => const SvgGenImage('assets/svg/assets/fiat/external_transfer.svg');
 
+  /// File path: assets/svg/assets/fiat/gift.svg
+  SvgGenImage get gift => const SvgGenImage('assets/svg/assets/fiat/gift.svg');
+
   /// File path: assets/svg/assets/fiat/p2p.svg
   SvgGenImage get p2p => const SvgGenImage('assets/svg/assets/fiat/p2p.svg');
 
@@ -695,7 +698,7 @@ class $AssetsSvgAssetsFiatGen {
   SvgGenImage get simpleInvest => const SvgGenImage('assets/svg/assets/fiat/simple_invest.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values => [account, altMethod, card, cardAlt, earn, externalTransfer, p2p, simpleInvest];
+  List<SvgGenImage> get values => [account, altMethod, card, cardAlt, earn, externalTransfer, gift, p2p, simpleInvest];
 }
 
 class $AssetsSvgBrandSmallGen {

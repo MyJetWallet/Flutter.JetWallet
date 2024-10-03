@@ -19,6 +19,7 @@ import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 
 @RoutePage(name: 'EarnTopUpAmountRouter')
@@ -130,8 +131,7 @@ class _EarnWithdrawalAmountBody extends StatelessWidget {
                           small: () => const SpaceH40(),
                           medium: () => const Spacer(),
                         ),
-                        SNewActionPriceField(
-                          widgetSize: widgetSizeFrom(deviceSize),
+                        SNumericLargeInput(
                           primaryAmount: formatCurrencyStringAmount(
                             value: store.cryptoInputValue,
                           ),
@@ -142,10 +142,8 @@ class _EarnWithdrawalAmountBody extends StatelessWidget {
                           onSwap: null,
                           showSwopButton: false,
                           errorText: store.errorText,
-                          optionText: store.cryptoInputValue == '0'
-                              ? '''${intl.earn_max} ${getIt<AppStore>().isBalanceHide ? '**** ${store.cryptoSymbol}' : store.withdrawAllValue.toFormatSum(accuracy: store.currency.accuracy, symbol: store.cryptoSymbol)}'''
-                              : null,
-                          optionOnTap: () {
+                          showMaxButton: true,
+                          onMaxTap: () {
                             store.onSellAll();
                           },
                           pasteLabel: intl.paste,
