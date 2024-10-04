@@ -110,14 +110,14 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
           ),
           SNumericLargeInput(
             primaryAmount: formatCurrencyStringAmount(
-              value: store.withAmount,
+              value: store.primaryAmount,
             ),
-            primarySymbol: store.withdrawalInputModel!.currency!.symbol,
-            secondaryAmount: '${intl.earn_est} ${Decimal.parse(store.baseConversionValue).toFormatSum(
-              accuracy: store.baseCurrency.accuracy,
+            primarySymbol: store.primarySymbol,
+            secondaryAmount: '${intl.earn_est} ${Decimal.parse(store.secondaryAmount).toFormatSum(
+              accuracy: store.secondaryAccuracy,
             )}',
-            secondarySymbol: store.baseCurrency.symbol,
-            onSwap: () {},
+            secondarySymbol: store.secondarySymbol,
+            onSwap: store.onSwap,
             errorText: store.withAmmountInputError.isActive ? error : null,
             showMaxButton: true,
             onMaxTap: store.onSendAll,

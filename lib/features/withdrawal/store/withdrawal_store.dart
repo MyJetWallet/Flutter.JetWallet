@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/sentry_service.dart';
@@ -387,6 +388,44 @@ abstract class _WithdrawalStoreBase with Store {
     return result;
   }
 
+  @computed
+  String get cryptoSymbol => withdrawalInputModel?.currency?.symbol ?? '';
+
+  @computed
+  String get fiatSymbol {
+    return baseCurrency.symbol;
+  }
+
+  @computed
+  String get primaryAmount {
+    return isCryptoEntering ? withAmount : baseConversionValue;
+  }
+
+  @computed
+  String get primarySymbol {
+    return isCryptoEntering ? cryptoSymbol : fiatSymbol;
+  }
+
+  @computed
+  String get secondaryAmount {
+    return isCryptoEntering ? baseConversionValue : withAmount;
+  }
+
+  @computed
+  String get secondarySymbol {
+    return isCryptoEntering ? fiatSymbol : cryptoSymbol;
+  }
+
+  @computed
+  int get primaryAccuracy {
+    return isCryptoEntering ? currency.accuracy : baseCurrency.accuracy;
+  }
+
+  @computed
+  int get secondaryAccuracy {
+    return isCryptoEntering ? baseCurrency.accuracy : currency.accuracy;
+  }
+
   @action
   void onSendAll() {
     withAmount = '0';
@@ -395,6 +434,8 @@ abstract class _WithdrawalStoreBase with Store {
       newInput: availableBalance.toString(),
       accuracy: withdrawalInputModel!.currency!.accuracy,
     );
+
+    isCryptoEntering = true;
 
     _validateAmount();
     _calculateBaseConversion();
@@ -1044,24 +1085,54 @@ abstract class _WithdrawalStoreBase with Store {
     Navigator.pop(context, capture.barcodes.first);
   }
 
+  @observable
+  bool isCryptoEntering = true;
+
   @action
-  void updateAmount(String value) {
-    withAmount = responseOnInputAction(
-      oldInput: withAmount,
-      newInput: value,
-      accuracy: withdrawalInputModel!.currency!.accuracy,
-    );
+  void onSwap() {
+    isCryptoEntering = !isCryptoEntering;
 
     _validateAmount();
-    _calculateBaseConversion();
+  }
+
+  @action
+  void updateAmount(String value) {
+    if (isCryptoEntering) {
+      withAmount = responseOnInputAction(
+        oldInput: withAmount,
+        newInput: value,
+        accuracy: withdrawalInputModel!.currency!.accuracy,
+      );
+    } else {
+      baseConversionValue = responseOnInputAction(
+        oldInput: baseConversionValue,
+        newInput: value,
+        accuracy: sSignalRModules.baseCurrency.accuracy,
+      );
+    }
+
+    _validateAmount();
+    if (isCryptoEntering) {
+      _calculateBaseConversion();
+    } else {
+      _calculateCryptoConversion();
+    }
   }
 
   @action
   void pasteAmount(String value) {
-    withAmount = value;
+    if (isCryptoEntering) {
+      withAmount = value;
+    } else {
+      baseConversionValue = value;
+    }
+    if (isCryptoEntering) {
+      _calculateBaseConversion();
+    } else {
+      _calculateCryptoConversion();
+    }
 
     _validateAmount();
-    _calculateBaseConversion();
   }
 
   @action
@@ -1155,6 +1226,21 @@ abstract class _WithdrawalStoreBase with Store {
     } else {
       baseConversionValue = zero;
     }
+  }
+
+  @action
+  void _calculateCryptoConversion() {
+    final amount = getIt.get<FormatService>().convertOneCurrencyToAnotherOne(
+          fromCurrency: sSignalRModules.baseCurrency.symbol,
+          fromCurrencyAmmount: Decimal.parse(baseConversionValue),
+          toCurrency: currency.symbol,
+          baseCurrency: sSignalRModules.baseCurrency.symbol,
+          isMin: false,
+        );
+
+    withAmount = truncateZerosFrom(
+      amount.toString(),
+    );
   }
 
   ///
