@@ -1,50 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
-void showBasicBottomSheet({
-  required BuildContext context,
-  required List<Widget> children,
-  BasicBottomSheetButton? basicBottomSheetButton,
-  Function()? onDismiss,
-  bool isDismissible = true,
-  Future Function(bool)? onWillPop,
-  Color? color,
-}) {
-  showModalBottomSheet(
-    context: context,
-    backgroundColor: Colors.transparent,
-    isDismissible: isDismissible,
-    barrierColor: Colors.black54,
-    isScrollControlled: true,
-    enableDrag: false,
-    useSafeArea: true,
-    builder: (context) {
-      return BasicBottomSheet(
-        button: basicBottomSheetButton,
-        onDismiss: onDismiss,
-        onWillPop: onWillPop,
-        color: color ?? SColorsLight().white,
-        children: children,
-      );
-    },
-  );
-}
+part 'widgets/basic_bottom_sheet_button_widget.dart';
+
+part 'widgets/basic_bottom_sheet_header_widget.dart';
 
 class BasicBottomSheet extends StatefulWidget {
   const BasicBottomSheet({
     required this.children,
+    required this.header,
     this.button,
     this.onDismiss,
     this.onWillPop,
     required this.color,
+    this.title,
+    this.searchOptions,
+    required this.topPadding,
+    required this.bottomPadding,
     super.key,
   });
 
   final List<Widget> children;
+  final BasicBottomSheetHeaderWidget header;
   final BasicBottomSheetButton? button;
   final Function()? onDismiss;
   final Future Function(bool)? onWillPop;
   final Color color;
+  final String? title;
+  final SearchOptions? searchOptions;
+  final double topPadding;
+  final double bottomPadding;
 
   @override
   State<BasicBottomSheet> createState() => _BasicBottomSheetState();
@@ -68,10 +53,12 @@ class _BasicBottomSheetState extends State<BasicBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final double buttonBottomPadding = widget.bottomPadding + (widget.bottomPadding < 24.0 ? 8 : 0) + 16.0;
+
     Widget buttonPlaceholder = const SizedBox();
     if (contentTooBig) {
       buttonPlaceholder = SizedBox(
-        height: 48.0 + buttonHeight,
+        height: buttonBottomPadding + buttonHeight + 32.0,
       );
     } else {
       buttonPlaceholder = const SizedBox();
@@ -107,32 +94,39 @@ class _BasicBottomSheetState extends State<BasicBottomSheet> {
               ),
               child: Column(
                 children: [
-                  const SizedBox(
-                    height: 8.0,
-                  ),
-                  const _BasicHeader(),
-                  const SizedBox(
-                    height: 24.0,
+                  BasicBottomSheetHeaderWidget(
+                    title: widget.title,
+                    searchOptions: widget.searchOptions,
                   ),
                   if (contentTooBig)
                     SizedBox(
-                      height:
-                          MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top - 20 - 32 - 6 - 20,
+                      height: MediaQuery.of(context).size.height - widget.topPadding - 20 - _getHeaderHeight(),
                       child: Stack(
                         children: [
-                          SingleChildScrollView(
-                            child: Column(
-                              key: _contentKey,
-                              children: [
-                                ...widget.children,
-                                buttonPlaceholder,
-                              ],
-                            ),
+                          DraggableScrollableSheet(
+                            initialChildSize: 1,
+                            minChildSize: 0.9,
+                            maxChildSize: 1.0,
+                            builder: (context, scrollController) {
+                              return SingleChildScrollView(
+                                controller: scrollController,
+                                child: Column(
+                                  key: _contentKey,
+                                  children: [
+                                    ...widget.children,
+                                    buttonPlaceholder,
+                                  ],
+                                ),
+                              );
+                            },
                           ),
                           if (widget.button != null)
                             Align(
                               alignment: Alignment.bottomCenter,
-                              child: widget.button,
+                              child: Padding(
+                                padding: EdgeInsets.only(bottom: buttonBottomPadding),
+                                child: widget.button,
+                              ),
                             ),
                         ],
                       ),
@@ -142,7 +136,11 @@ class _BasicBottomSheetState extends State<BasicBottomSheet> {
                       key: _contentKey,
                       children: [
                         ...widget.children,
-                        widget.button ?? const SizedBox(),
+                        if (widget.button != null)
+                          Padding(
+                            padding: EdgeInsets.only(bottom: buttonBottomPadding),
+                            child: widget.button,
+                          ),
                       ],
                     ),
                 ],
@@ -175,53 +173,11 @@ class _BasicBottomSheetState extends State<BasicBottomSheet> {
       Navigator.pop(context);
     }
   }
-}
 
-class BasicBottomSheetButton extends StatefulWidget {
-  const BasicBottomSheetButton({
-    required this.title,
-    required this.onTap,
-    this.withLoader = false,
-    super.key,
-  });
+  double _getHeaderHeight() {
+    final double titleHeight = (widget.title != null ? (26 + 24) : 0);
+    final double searchHeight = (widget.searchOptions != null ? (60) : 0);
 
-  final String title;
-  final Function() onTap;
-  final bool withLoader;
-
-  @override
-  State<BasicBottomSheetButton> createState() => _BasicBottomSheetButtonState();
-}
-
-class _BasicBottomSheetButtonState extends State<BasicBottomSheetButton> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(24.0),
-      child: SButton.blue(
-        text: widget.title,
-        callback: () {
-          widget.onTap();
-        },
-      ),
-    );
-  }
-}
-
-class _BasicHeader extends StatelessWidget {
-  const _BasicHeader();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 32,
-      height: 6,
-      decoration: ShapeDecoration(
-        color: SColorsLight().gray4,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(3),
-        ),
-      ),
-    );
+    return 8 + 6 + 24 + titleHeight + searchHeight;
   }
 }

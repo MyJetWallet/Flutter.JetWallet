@@ -8,7 +8,7 @@ import 'package:jetwallet/features/actions/store/action_search_store.dart';
 import 'package:jetwallet/features/market/store/watchlist_store.dart';
 import 'package:jetwallet/features/market/widgets/add_asset_item_widget.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
@@ -25,24 +25,21 @@ Future<void> showAddAssetsBottomSheet(BuildContext context) async {
 
   final watchlistIdsN = getIt.get<WatchlistStore>();
 
-  sShowBasicModalBottomSheet(
+  showBasicBottomSheet(
     context: context,
-    pinned: ActionBottomSheetHeader(
-      name: intl.market_add_assets,
-      showSearch: true,
-      onChanged: (String value) {
+    title: intl.market_add_assets,
+    searchOptions: SearchOptions(
+      hint: intl.actionBottomSheetHeader_search,
+      onChange: (String value) {
         searchStore.search(value);
       },
-      horizontalDividerPadding: 24,
-      addPaddingBelowTitle: true,
-      isNewDesign: true,
-      needBottomPadding: false,
     ),
-    horizontalPinnedPadding: 0,
-    removePinnedPadding: true,
-    horizontalPadding: 0,
-    expanded: true,
-    scrollable: true,
+    basicBottomSheetButton: BasicBottomSheetButton(
+      title: intl.market_done,
+      onTap: () {
+        sRouter.maybePop();
+      },
+    ),
     children: [
       Observer(
         builder: (context) {
@@ -76,18 +73,5 @@ Future<void> showAddAssetsBottomSheet(BuildContext context) async {
       ),
       const SpaceH42(),
     ],
-    pinnedBottom: Container(
-      padding: EdgeInsets.only(
-        left: 24,
-        right: 24,
-        bottom: MediaQuery.of(context).padding.bottom + 32,
-      ),
-      child: SButton.black(
-        text: intl.market_done,
-        callback: () {
-          sRouter.maybePop();
-        },
-      ),
-    ),
   );
 }

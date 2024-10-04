@@ -38,6 +38,7 @@ import 'package:jetwallet/features/withdrawal/model/withdrawal_confirm_model.dar
 import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:jetwallet/utils/helpers/firebase_analytics.dart';
 import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:logger/logger.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';

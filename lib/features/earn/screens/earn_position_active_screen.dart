@@ -14,6 +14,7 @@ import 'package:jetwallet/features/earn/widgets/active_earn_widget.dart';
 import 'package:jetwallet/features/earn/widgets/earn_active_position_badge.dart';
 import 'package:jetwallet/features/earn/widgets/offers_overlay_content.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
