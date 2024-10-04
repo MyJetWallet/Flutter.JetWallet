@@ -53,6 +53,8 @@ enum WithdrawalType { asset, nft, jar }
 
 enum WithdrawStep { address, ammount, preview, confirm }
 
+enum WithdrawalInputMode {youSend, recepientGets}
+
 // TODO: Split
 
 class WithdrawalStore extends _WithdrawalStoreBase with _$WithdrawalStore {
@@ -167,6 +169,14 @@ abstract class _WithdrawalStoreBase with Store {
 
   @observable
   bool addressIsJar = false;
+
+  @observable
+  WithdrawalInputMode inputMode = WithdrawalInputMode.youSend;
+
+  @action
+  void setInputMode(WithdrawalInputMode value) {
+    inputMode = value;
+  }
 
   @action
   void _updateAddressIsJar(bool value) {

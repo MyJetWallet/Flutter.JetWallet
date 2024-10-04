@@ -55,6 +55,7 @@ class SNumericKeyboardAmount extends StatelessWidget {
                 active: submitButtonActive,
                 name: submitButtonName,
                 onTap: onSubmitPressed,
+                isLoading: isLoading,
               ),
             ),
             const SpaceH42(),
