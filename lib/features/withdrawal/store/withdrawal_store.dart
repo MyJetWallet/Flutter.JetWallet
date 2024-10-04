@@ -389,6 +389,28 @@ abstract class _WithdrawalStoreBase with Store {
   }
 
   @computed
+  Decimal get recepientGetsAmount {
+    Decimal result;
+    if (inputMode == WithdrawalInputMode.recepientGets) {
+      result = Decimal.parse(withAmount);
+    } else {
+      result = Decimal.parse(withAmount) - feeAmount;
+    }
+    return result >= Decimal.zero ? result : Decimal.zero;
+  }
+
+  @computed
+  Decimal get youSendAmount {
+    Decimal result;
+    if (inputMode == WithdrawalInputMode.youSend) {
+      result = Decimal.parse(withAmount);
+    } else {
+      result = Decimal.parse(withAmount) + feeAmount;
+    }
+    return result >= Decimal.zero ? result : Decimal.zero;
+  }
+
+  @computed
   String get cryptoSymbol => withdrawalInputModel?.currency?.symbol ?? '';
 
   @computed
@@ -975,7 +997,7 @@ abstract class _WithdrawalStoreBase with Store {
       try {
         final previewResponseModel = await sNetwork.getWalletModule().postWithdrawJarPreviewRequest(
               withdrawalInputModel!.currency!.symbol,
-              double.parse(withAmount) == 0 ? 0 : double.parse(withAmount) + feeAmount.toDouble(),
+              double.parse(withAmount) == 0 ? 0 : youSendAmount.toDouble(),
               address,
               network.id,
               withdrawalInputModel!.jar!.id,
@@ -999,7 +1021,7 @@ abstract class _WithdrawalStoreBase with Store {
       try {
         final previewResponseModel = await sNetwork.getWalletModule().postWithdrawPreviewRequest(
               withdrawalInputModel!.currency!.symbol,
-              double.parse(withAmount) == 0 ? 0 : double.parse(withAmount) + feeAmount.toDouble(),
+              double.parse(withAmount) == 0 ? 0 : youSendAmount.toDouble(),
               address,
               tag,
               network.id,
@@ -1269,18 +1291,11 @@ abstract class _WithdrawalStoreBase with Store {
       );
     }
 
-    final feeSize = previewFee != null
-        ? Decimal.parse(previewFee.toString())
-        : withdrawalInputModel!.currency!.withdrawalFeeSize(
-            network: getNetworkForFee(),
-            amount: Decimal.parse(withAmount),
-          );
-
     try {
       final model = WithdrawRequestModel(
         requestId: DateTime.now().microsecondsSinceEpoch.toString(),
         assetSymbol: withdrawalInputModel!.currency!.symbol,
-        amount: Decimal.parse(withAmount) + feeSize,
+        amount: youSendAmount,
         toAddress: address,
         toTag: tag,
         blockchain: blockchain.id,

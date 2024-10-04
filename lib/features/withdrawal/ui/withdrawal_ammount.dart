@@ -3,8 +3,10 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/suggestion_button_widget.dart';
 
 import 'package:jetwallet/features/withdrawal/store/withdrawal_store.dart';
@@ -66,10 +68,14 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
 
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: '''${intl.withdrawal_send_verb} ${store.withdrawalInputModel!.currency!.description}''',
-        ),
+      header: GlobalBasicAppBar(
+        title: '''${intl.withdrawal_send_verb} ${store.withdrawalInputModel!.currency!.description}''',
+        hasRightIcon: false,
+        subtitle:
+            '${intl.withdrawalAmount_available}: ${getIt<AppStore>().isBalanceHide ? '**** ${store.withdrawalInputModel!.currency!.symbol}' : (store.availableBalance < Decimal.zero ? Decimal.zero : store.availableBalance).toFormatCount(
+                accuracy: store.withdrawalInputModel!.currency!.accuracy,
+                symbol: store.withdrawalInputModel!.currency!.symbol,
+              )}',
       ),
       child: Column(
         children: [
@@ -198,14 +204,20 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
                   TextSpan(
                     children: [
                       TextSpan(
-                        text: Decimal.parse(store.withAmount).toFormatCount(
-                          symbol: store.currency.symbol,
-                          accuracy: store.currency.accuracy,
-                        ),
+                        text: store.inputMode == WithdrawalInputMode.youSend
+                            ? store.recepientGetsAmount.toFormatCount(
+                                symbol: store.currency.symbol,
+                                accuracy: store.currency.accuracy,
+                              )
+                            : store.youSendAmount.toFormatCount(
+                                symbol: store.currency.symbol,
+                                accuracy: store.currency.accuracy,
+                              ),
                         style: STStyles.body2Semibold,
                       ),
                       TextSpan(
-                        text: ' ${intl.withdrawal_recepient_gets}',
+                        text:
+                            ' ${store.inputMode == WithdrawalInputMode.youSend ? intl.withdrawal_recepient_gets : intl.withdrawal_you_send}',
                         style: STStyles.body2Semibold.copyWith(
                           color: colors.gray10,
                         ),
