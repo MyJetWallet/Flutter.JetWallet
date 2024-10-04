@@ -120,7 +120,7 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
             onSwap: () {},
             errorText: store.withAmmountInputError.isActive ? error : null,
             showMaxButton: true,
-            onMaxTap: () {},
+            onMaxTap: store.onSendAll,
             pasteLabel: intl.paste,
             onPaste: () async {
               final data = await Clipboard.getData('text/plain');
@@ -135,7 +135,7 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
           const Spacer(),
           SuggestionButtonWidget(
             subTitle: intl.withdrawOptions_sendTo,
-            trailing: shortAddressForm(store.address),
+            trailing: shortAddressFormThree(store.address),
             title: '${store.currency.symbol} ${intl.withdrawal_wallet}',
             icon: Assets.svg.other.medium.bankAccount.simpleSvg(),
             onTap: () {},

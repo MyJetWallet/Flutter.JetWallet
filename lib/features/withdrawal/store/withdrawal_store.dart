@@ -53,7 +53,7 @@ enum WithdrawalType { asset, nft, jar }
 
 enum WithdrawStep { address, ammount, preview, confirm }
 
-enum WithdrawalInputMode {youSend, recepientGets}
+enum WithdrawalInputMode { youSend, recepientGets }
 
 // TODO: Split
 
@@ -385,6 +385,19 @@ abstract class _WithdrawalStoreBase with Store {
                 ));
     }
     return result;
+  }
+
+  @action
+  void onSendAll() {
+    withAmount = '0';
+    withAmount = responseOnInputAction(
+      oldInput: withAmount,
+      newInput: availableBalance.toString(),
+      accuracy: withdrawalInputModel!.currency!.accuracy,
+    );
+
+    _validateAmount();
+    _calculateBaseConversion();
   }
 
   @computed
