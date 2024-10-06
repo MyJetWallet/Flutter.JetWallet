@@ -123,6 +123,7 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
               accuracy: store.secondaryAccuracy,
             )}',
             secondarySymbol: store.secondarySymbol,
+            showSwopButton: false,
             onSwap: store.onSwap,
             errorText: store.withAmmountInputError.isActive ? error : null,
             showMaxButton: true,
@@ -178,7 +179,7 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
                         style: STStyles.body2Semibold,
                       ),
                       TextSpan(
-                        text: ' ${intl.withdrawal_transfer_fee}',
+                        text: ' ${intl.buy_confirmation_processing_fee}',
                         style: STStyles.body2Semibold.copyWith(
                           color: colors.gray10,
                         ),

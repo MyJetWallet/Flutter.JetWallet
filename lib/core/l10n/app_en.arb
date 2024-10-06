@@ -1810,6 +1810,5 @@
     "send_gift_send_gift_to": "Send gift to",
     "withdrawal_you_send": "You send",
     "withdrawal_recepient_gets": "Recepient gets",
-    "withdrawal_wallet": "Wallet",
-    "withdrawal_transfer_fee": "Transfer fee"
+    "withdrawal_wallet": "Wallet"
 }
