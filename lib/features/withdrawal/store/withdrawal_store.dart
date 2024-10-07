@@ -177,6 +177,7 @@ abstract class _WithdrawalStoreBase with Store {
   @action
   void setInputMode(WithdrawalInputMode value) {
     inputMode = value;
+    _validateAmount();
   }
 
   @action
@@ -453,7 +454,9 @@ abstract class _WithdrawalStoreBase with Store {
     withAmount = '0';
     withAmount = responseOnInputAction(
       oldInput: withAmount,
-      newInput: availableBalance.toString(),
+      newInput: inputMode == WithdrawalInputMode.youSend
+          ? availableBalance.toString()
+          : (availableBalance - feeAmount).toString(),
       accuracy: withdrawalInputModel!.currency!.accuracy,
     );
 
@@ -472,7 +475,13 @@ abstract class _WithdrawalStoreBase with Store {
         );
 
   @computed
-  Decimal get youWillSendAmount => withAmount != '0' ? Decimal.parse(withAmount) + feeAmount : Decimal.zero;
+  Decimal get youWillSendAmount {
+    if (inputMode == WithdrawalInputMode.youSend) {
+      return Decimal.parse(withAmount);
+    } else {
+      return withAmount != '0' ? Decimal.parse(withAmount) + feeAmount : Decimal.zero;
+    }
+  }
 
   @computed
   Decimal? get minLimit => _sendWithdrawalMethod.symbolNetworkDetails?.firstWhere(
@@ -1205,15 +1214,31 @@ abstract class _WithdrawalStoreBase with Store {
         ),
       );
     } else if (minLimit != null && minLimit! > youWillSendAmount) {
-      limitError = '${intl.currencyBuy_paymentInputErrorText1} ${((minLimit ?? Decimal.zero) - feeAmount).toFormatCount(
-        accuracy: withdrawalInputModel?.currency?.accuracy ?? 0,
-        symbol: withdrawalInputModel?.currency?.symbol ?? '',
-      )}';
-    } else if (maxLimit != null && maxLimit! < Decimal.parse(withAmount)) {
-      limitError = '${intl.currencyBuy_paymentInputErrorText2} ${maxLimit?.toFormatCount(
-        accuracy: withdrawalInputModel?.currency?.accuracy ?? 0,
-        symbol: withdrawalInputModel?.currency?.symbol ?? '',
-      )}';
+      if (inputMode == WithdrawalInputMode.recepientGets) {
+        limitError =
+            '${intl.currencyBuy_paymentInputErrorText1} ${((minLimit ?? Decimal.zero) - feeAmount).toFormatCount(
+          accuracy: withdrawalInputModel?.currency?.accuracy ?? 0,
+          symbol: withdrawalInputModel?.currency?.symbol ?? '',
+        )}';
+      } else {
+        limitError = '${intl.currencyBuy_paymentInputErrorText1} ${(minLimit ?? Decimal.zero).toFormatCount(
+          accuracy: withdrawalInputModel?.currency?.accuracy ?? 0,
+          symbol: withdrawalInputModel?.currency?.symbol ?? '',
+        )}';
+      }
+    } else if (maxLimit != null && maxLimit! < youWillSendAmount) {
+      if (inputMode == WithdrawalInputMode.recepientGets) {
+        limitError =
+            '${intl.currencyBuy_paymentInputErrorText2} ${((maxLimit ?? Decimal.zero) - feeAmount).toFormatCount(
+          accuracy: withdrawalInputModel?.currency?.accuracy ?? 0,
+          symbol: withdrawalInputModel?.currency?.symbol ?? '',
+        )}';
+      } else {
+        limitError = '${intl.currencyBuy_paymentInputErrorText2} ${(maxLimit ?? Decimal.zero).toFormatCount(
+          accuracy: withdrawalInputModel?.currency?.accuracy ?? 0,
+          symbol: withdrawalInputModel?.currency?.symbol ?? '',
+        )}';
+      }
     } else {
       limitError = '';
     }
