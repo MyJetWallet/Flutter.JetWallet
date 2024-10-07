@@ -194,20 +194,20 @@ abstract class _ConvertAmountStoreBase with Store {
   }
 
   @action
-  void onSwapAssets() {
+  Future<void> onSwapAssets() async {
     final temp = toAsset;
     toAsset = fromAsset;
     fromAsset = temp;
 
     isFromEntering = true;
 
-    loadConversionPrice();
-    loadLimits();
-
     toInputValue = '0';
     fromInputValue = '0';
     errorText = null;
     inputValid = false;
+
+    unawaited(loadConversionPrice());
+    unawaited(loadLimits());
 
     _checkShowTosts();
   }
@@ -236,16 +236,25 @@ abstract class _ConvertAmountStoreBase with Store {
 
   @action
   void onConvetrAll() {
-    fromInputValue = '0';
-    fromInputValue = responseOnInputAction(
-      oldInput: fromInputValue,
-      newInput: convertAllAmount.toString(),
-      accuracy: fromAsset?.accuracy ?? 2,
-    );
+    if (isFromEntering) {
+      fromInputValue = '0';
+      fromInputValue = responseOnInputAction(
+        oldInput: fromInputValue,
+        newInput: convertAllAmount.toString(),
+        accuracy: fromAsset?.accuracy ?? 2,
+      );
 
-    isFromEntering = true;
+      _calculateToConversion();
+    } else {
+      toInputValue = '0';
+      toInputValue = responseOnInputAction(
+        oldInput: toInputValue,
+        newInput: convertAllAmount.toString(),
+        accuracy: toAsset?.accuracy ?? 2,
+      );
 
-    _calculateToConversion();
+      _calculateFromConversion();
+    }
 
     _validateInput();
   }
@@ -340,7 +349,7 @@ abstract class _ConvertAmountStoreBase with Store {
 
   @computed
   Decimal get convertAllAmount {
-    return fromAsset?.assetBalance ?? Decimal.zero;
+    return isFromEntering ? _maxFromAssetVolume : _maxToAssetVolume;
   }
 
   @observable

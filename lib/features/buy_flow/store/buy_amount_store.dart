@@ -420,16 +420,25 @@ abstract class _BuyAmountStoreBase with Store {
 
   @action
   void onBuyAll() {
-    fiatInputValue = '0';
-    fiatInputValue = responseOnInputAction(
-      oldInput: fiatInputValue,
-      newInput: _maxSellAmount.toString(),
-      accuracy: fiatAccuracy,
-    );
+    if (isFiatEntering) {
+      fiatInputValue = '0';
+      fiatInputValue = responseOnInputAction(
+        oldInput: fiatInputValue,
+        newInput: _maxSellAmount.toString(),
+        accuracy: fiatAccuracy,
+      );
 
-    isFiatEntering = true;
+      _calculateCryptoConversion();
+    } else {
+      cryptoInputValue = '0';
+      cryptoInputValue = responseOnInputAction(
+        oldInput: cryptoInputValue,
+        newInput: _maxBuyAmount.toString(),
+        accuracy: asset?.accuracy ?? 2,
+      );
 
-    _calculateCryptoConversion();
+      _calculateFiatConversion();
+    }
 
     _validateInput();
   }

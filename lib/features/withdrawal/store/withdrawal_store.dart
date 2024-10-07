@@ -402,6 +402,8 @@ abstract class _WithdrawalStoreBase with Store {
 
   @computed
   Decimal get youSendAmount {
+    if (withAmount == '0') return Decimal.zero;
+
     Decimal result;
     if (inputMode == WithdrawalInputMode.youSend) {
       result = Decimal.parse(withAmount);

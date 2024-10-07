@@ -97,7 +97,7 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
                       },
                     ),
                     STagButton(
-                      lable: intl.withdrawal_recepient_gets,
+                      lable: intl.withdrawal_recipient_gets,
                       state: store.inputMode == WithdrawalInputMode.recepientGets
                           ? TagButtonState.selected
                           : TagButtonState.defaultt,
@@ -218,7 +218,7 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
                       ),
                       TextSpan(
                         text:
-                            ' ${store.inputMode == WithdrawalInputMode.youSend ? intl.withdrawal_recepient_gets : intl.withdrawal_you_send}',
+                            ' ${store.inputMode == WithdrawalInputMode.youSend ? intl.withdrawal_recipient_gets : intl.withdrawal_you_send}',
                         style: STStyles.body2Semibold.copyWith(
                           color: colors.gray10,
                         ),
