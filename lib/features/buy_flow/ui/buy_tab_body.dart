@@ -185,7 +185,7 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
                                     );
                                   },
                                 ),
-                              const SpaceH8(),
+                              const SpaceH4(),
                               if (store.category == PaymentMethodCategory.account)
                                 SuggestionButtonWidget(
                                   title: store.account?.label,
@@ -325,7 +325,6 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
                                     );
                                   },
                                 ),
-                              const SpaceH20(),
                             ],
                           ),
                         ),

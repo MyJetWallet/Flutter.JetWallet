@@ -117,7 +117,7 @@ class _EarnWithdrawalAmountBody extends StatelessWidget {
                           onTap: () {},
                           showArrow: false,
                         ),
-                        const SpaceH8(),
+                        const SpaceH4(),
                         SuggestionButtonWidget(
                           title: store.currency.description,
                           subTitle: intl.earn_to_crypto_wallet,
@@ -130,7 +130,6 @@ class _EarnWithdrawalAmountBody extends StatelessWidget {
                           onTap: () {},
                           showArrow: false,
                         ),
-                        const SpaceH20(),
                       ],
                     ),
                   ),

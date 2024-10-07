@@ -112,7 +112,6 @@ class _EarnWithdrawalAmountBody extends StatelessWidget {
               onTap: () {},
               showArrow: false,
             ),
-            const SpaceH20(),
             SNumericKeyboardAmount(
               widgetSize: widgetSizeFrom(deviceSize),
               onKeyPressed: (value) {

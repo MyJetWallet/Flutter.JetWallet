@@ -189,7 +189,7 @@ class ConvertAmountScreenBodyState extends State<ConvertAmountTabBody> with Auto
                                           },
                                           isDisabled: store.isNoCurrencies,
                                         ),
-                                      const SpaceH8(),
+                                      const SpaceH4(),
                                       if (store.toAsset != null)
                                         SuggestionButtonWidget(
                                           title: store.toAsset?.description,
@@ -257,7 +257,6 @@ class ConvertAmountScreenBodyState extends State<ConvertAmountTabBody> with Auto
                                   ),
                                 ],
                               ),
-                              const SpaceH20(),
                             ],
                           ),
                         ),

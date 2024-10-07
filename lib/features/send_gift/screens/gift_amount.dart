@@ -110,10 +110,6 @@ class _GiftAmountState extends State<GiftAmount> {
             ),
             onTap: () {},
           ),
-          deviceSize.when(
-            small: () => const Spacer(),
-            medium: () => const SpaceH20(),
-          ),
           Observer(
             builder: (context) {
               return SNumericKeyboardAmount(

@@ -144,10 +144,6 @@ class _SendGloballyAmountScreenBodyState extends State<SendGloballyAmountScreenB
             showArrow: false,
             onTap: () {},
           ),
-          deviceSize.when(
-            small: () => const Spacer(),
-            medium: () => const SpaceH20(),
-          ),
           SNumericKeyboardAmount(
             widgetSize: widgetSizeFrom(deviceSize),
             onKeyPressed: (value) {

@@ -139,7 +139,7 @@ class _TrancferBody extends StatelessWidget {
                           },
                           isFrom: true,
                         ),
-                        const SpaceH8(),
+                        const SpaceH4(),
                         _AsssetWidget(
                           card: store.toCard,
                           account: store.toAccount,
@@ -170,7 +170,6 @@ class _TrancferBody extends StatelessWidget {
                           },
                           isFrom: false,
                         ),
-                        const SpaceH20(),
                       ],
                     ),
                   ),

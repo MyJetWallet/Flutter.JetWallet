@@ -168,7 +168,7 @@ class _SellAmountScreenBodyState extends State<SellAmountTabBody> with Automatic
                                   },
                                   isDisabled: store.isNoCurrencies,
                                 ),
-                              const SpaceH8(),
+                              const SpaceH4(),
                               if (store.category == PaymentMethodCategory.account)
                                 SuggestionButtonWidget(
                                   title: store.account?.label,
@@ -301,7 +301,6 @@ class _SellAmountScreenBodyState extends State<SellAmountTabBody> with Automatic
                                   },
                                   isDisabled: store.isNoAccounts,
                                 ),
-                              const SpaceH20(),
                             ],
                           ),
                         ),

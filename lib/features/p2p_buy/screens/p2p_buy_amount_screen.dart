@@ -138,7 +138,7 @@ class P2PBuyAmountScreen extends StatelessWidget {
                                   showArrow: false,
                                   onTap: () {},
                                 ),
-                                const SpaceH8(),
+                                const SpaceH4(),
                                 SuggestionButtonWidget(
                                   title: store.p2pMethod?.name,
                                   subTitle: intl.p2p_buy_with,
@@ -151,7 +151,6 @@ class P2PBuyAmountScreen extends StatelessWidget {
                                   showArrow: false,
                                   onTap: () {},
                                 ),
-                                const SpaceH20(),
                               ],
                             ),
                           ),

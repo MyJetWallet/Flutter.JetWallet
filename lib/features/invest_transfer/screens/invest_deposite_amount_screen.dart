@@ -141,7 +141,7 @@ class _EarnWithdrawalAmountBody extends StatelessWidget {
                           onTap: () {},
                           showArrow: false,
                         ),
-                        const SpaceH8(),
+                        const SpaceH4(),
                         SuggestionButtonWidget(
                           title: intl.invest_title,
                           subTitle: intl.invest_transfer_to_invest,
@@ -155,7 +155,6 @@ class _EarnWithdrawalAmountBody extends StatelessWidget {
                           onTap: () {},
                           showArrow: false,
                         ),
-                        const SpaceH20(),
                       ],
                     ),
                   ),
