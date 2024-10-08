@@ -158,7 +158,13 @@ abstract class _ConvertAmountStoreBase with Store {
 
   @action
   void setNewFromAsset(CurrencyModel newAsset) {
-    fromAsset = newAsset;
+    if (newAsset.symbol != toAsset?.symbol) {
+      fromAsset = newAsset;
+    } else {
+      final temp = fromAsset;
+      fromAsset = toAsset;
+      toAsset = temp;
+    }
 
     loadConversionPrice();
     loadLimits();
@@ -182,7 +188,13 @@ abstract class _ConvertAmountStoreBase with Store {
 
   @action
   void setNewToAsset(CurrencyModel newAsset) {
-    toAsset = newAsset;
+    if (newAsset.symbol != fromAsset?.symbol) {
+      toAsset = newAsset;
+    } else {
+      final temp = toAsset;
+      toAsset = fromAsset;
+      fromAsset = temp;
+    }
 
     loadConversionPrice();
     loadLimits();

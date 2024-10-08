@@ -159,7 +159,6 @@ class ConvertAmountScreenBodyState extends State<ConvertAmountTabBody> with Auto
                                                 );
                                                 Navigator.of(context).pop(true);
                                               },
-                                              skipAssetSymbol: store.toAsset?.symbol,
                                               then: (value) {},
                                             );
                                           },
@@ -183,7 +182,6 @@ class ConvertAmountScreenBodyState extends State<ConvertAmountTabBody> with Auto
                                                 );
                                                 Navigator.of(context).pop(true);
                                               },
-                                              skipAssetSymbol: store.toAsset?.symbol,
                                               then: (value) {},
                                             );
                                           },
@@ -211,7 +209,6 @@ class ConvertAmountScreenBodyState extends State<ConvertAmountTabBody> with Auto
                                                 store.setNewToAsset(currency);
                                                 Navigator.of(context).pop(true);
                                               },
-                                              skipAssetSymbol: store.fromAsset?.symbol,
                                             );
                                           },
                                         )
@@ -230,7 +227,6 @@ class ConvertAmountScreenBodyState extends State<ConvertAmountTabBody> with Auto
                                                 store.setNewToAsset(currency);
                                                 Navigator.of(context).pop(true);
                                               },
-                                              skipAssetSymbol: store.fromAsset?.symbol,
                                             );
                                           },
                                         ),
