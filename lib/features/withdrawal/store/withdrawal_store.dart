@@ -354,9 +354,17 @@ abstract class _WithdrawalStoreBase with Store {
   }
 
   @computed
-  SendMethodDto get _sendWithdrawalMethod => sSignalRModules.sendMethods.firstWhere(
+  SendMethodDto get _sendWithdrawalMethod {
+    if (addressIsInternal) {
+      return sSignalRModules.sendMethods.firstWhere(
+        (element) => element.id == WithdrawalMethods.internalSend,
+      );
+    } else {
+      return sSignalRModules.sendMethods.firstWhere(
         (element) => element.id == WithdrawalMethods.blockchainSend,
       );
+    }
+  }
 
   @computed
   CurrencyModel get currency => currencyFrom(
