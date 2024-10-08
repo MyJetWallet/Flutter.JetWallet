@@ -1,8 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
+import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/blockchains_model.dart';
@@ -40,16 +42,20 @@ class WithdrawalNetworkItem extends StatelessWidget {
               Positioned(
                 left: 15,
                 top: 9,
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.white),
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: NetworkIconWidget(
-                    width: 16,
-                    height: 16,
-                    feeAsset.iconUrl,
-                  ),
+                child: CachedNetworkImage(
+                  imageUrl: iconUrlFrom(assetSymbol: networkInfo.network),
+                  width: 16,
+                  height: 16,
+                  errorWidget: (context, url, error) => const SizedBox(),
+                  imageBuilder: (context, imageProvider) {
+                    return Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.white),
+                        borderRadius: BorderRadius.circular(16),
+                        image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
+                      ),
+                    );
+                  },
                 ),
               ),
           ],
