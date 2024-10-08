@@ -72,7 +72,7 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
         title: '''${intl.withdrawal_send_verb} ${store.withdrawalInputModel!.currency!.description}''',
         hasRightIcon: false,
         subtitle:
-            '${intl.withdrawalAmount_available}: ${getIt<AppStore>().isBalanceHide ? '**** ${store.withdrawalInputModel!.currency!.symbol}' : (store.availableBalance < Decimal.zero ? Decimal.zero : store.availableBalance).toFormatCount(
+            '${intl.withdrawalAmount_available}: ${getIt<AppStore>().isBalanceHide ? '**** ${store.withdrawalInputModel!.currency!.symbol}' : ((store.maxLimit ?? Decimal.zero) < Decimal.zero ? Decimal.zero : store.maxLimit)?.toFormatCount(
                 accuracy: store.withdrawalInputModel!.currency!.accuracy,
                 symbol: store.withdrawalInputModel!.currency!.symbol,
               )}',

@@ -108,6 +108,7 @@ class _GiftAmountState extends State<GiftAmount> {
             icon: Assets.svg.assets.fiat.gift.simpleSvg(
               width: 24,
             ),
+            showArrow: false,
             onTap: () {},
           ),
           Observer(

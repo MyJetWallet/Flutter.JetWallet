@@ -457,8 +457,8 @@ abstract class _WithdrawalStoreBase with Store {
     withAmount = responseOnInputAction(
       oldInput: withAmount,
       newInput: inputMode == WithdrawalInputMode.youSend
-          ? availableBalance.toString()
-          : (availableBalance - feeAmount).toString(),
+          ? maxLimit.toString()
+          : ((maxLimit ?? availableBalance) - feeAmount).toString(),
       accuracy: withdrawalInputModel!.currency!.accuracy,
     );
 
@@ -487,7 +487,9 @@ abstract class _WithdrawalStoreBase with Store {
 
   @computed
   Decimal? get minLimit => _sendWithdrawalMethod.symbolNetworkDetails?.firstWhere(
-        (element) => element.network == getNetworkForFee() && element.symbol == withdrawalInputModel?.currency?.symbol,
+        (element) {
+          return element.network == getNetworkForFee() && element.symbol == withdrawalInputModel?.currency?.symbol;
+        },
         orElse: () {
           return const SymbolNetworkDetails();
         },
