@@ -87,7 +87,7 @@ class SplashErrorService {
         if (sRouter.navigatorKey.currentContext!.routeData.name == SplashRoute.name) {
           Navigator.popUntil(
             sRouter.navigatorKey.currentContext!,
-                (route) {
+            (route) {
               return route.settings.name == SplashRoute.name;
             },
           );
@@ -102,10 +102,16 @@ class SplashErrorService {
 }
 
 class SplashErrorException implements Exception {
-  SplashErrorException(this.errorCode);
+  SplashErrorException(
+    this.errorCode, [
+    this.e,
+    this.stackTrace,
+  ]);
 
   final int errorCode;
+  final Object? e;
+  final StackTrace? stackTrace;
 
   @override
-  String toString() => 'SplashErrorException error: $errorCode';
+  String toString() => 'SplashErrorException error: $errorCode, e: $e, stackTrace: $stackTrace';
 }
