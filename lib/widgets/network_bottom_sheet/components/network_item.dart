@@ -24,11 +24,6 @@ class WithdrawalNetworkItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final networkInfo = network.info;
 
-    final feeAsset = getIt.get<FormatService>().findCurrency(
-          findInHideTerminalList: true,
-          assetSymbol: networkInfo?.feeAsset ?? '',
-        );
-
     final networkSubtitle = formatNetworkSubtitlel();
 
     return SimpleTableAccount(
