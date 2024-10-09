@@ -168,7 +168,7 @@ class __ChangeEmailVerificationBodyState extends State<_ChangeEmailVerificationB
         ),
         leftIcon: SIconButton(
           onTap: () {
-            sRouter.replaceAll([const OnboardingRoute()]);
+            sRouter.maybePop();
           },
           defaultIcon: const SCloseIcon(),
           pressedIcon: const SClosePressedIcon(),
