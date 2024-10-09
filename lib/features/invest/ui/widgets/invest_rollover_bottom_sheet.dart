@@ -9,7 +9,6 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/invest/stores/dashboard/invest_dashboard_store.dart';
 import 'package:jetwallet/features/invest/ui/invests/data_line.dart';
-import 'package:jetwallet/utils/formatting/base/format_percent.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -216,7 +215,7 @@ class _InvestListScreenState extends State<InvestList> {
                 const SpaceH8(),
                 DataLine(
                   mainText: intl.invest_report_rollover_rate,
-                  secondaryText: '${item.rollOver > Decimal.zero ? '+' : '-'}${item.rollOver.abs()}%',
+                  secondaryText: item.rollOver.toFormatPercentPriceChange(),
                 ),
                 const SpaceH20(),
               ],

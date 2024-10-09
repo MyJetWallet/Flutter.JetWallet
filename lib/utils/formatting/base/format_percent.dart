@@ -10,12 +10,6 @@ extension FormatPercentExtension on double {
   }
 
   String toFormatPercentCount() {
-    if (compareTo(0) == 0) {
-      return '0.00%';
-    } else if (isNegative) {
-      return '$this%';
-    } else {
-      return '+$this%';
-    }
+    return '${toStringAsFixed(2).replaceFirst(RegExp(r'\.?0*$'), '')}%';
   }
 }

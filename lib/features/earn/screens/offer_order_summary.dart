@@ -133,8 +133,7 @@ class _OfferOrderSummaruBody extends StatelessWidget {
                   if (store.offer.apyRate != null)
                     TwoColumnCell(
                       label: intl.earn_apy_rate,
-                      value:
-                          '${(store.offer.apyRate! * Decimal.fromInt(100)).toStringAsFixed(2).replaceFirst(RegExp(r'\.?0*$'), '')}%',
+                      value: (store.offer.apyRate! * Decimal.fromInt(100)).toFormatPercentCount(),
                       needHorizontalPadding: false,
                     ),
                   TwoColumnCell(

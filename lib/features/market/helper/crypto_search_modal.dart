@@ -11,7 +11,6 @@ import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../core/services/signal_r/signal_r_service_new.dart';
-import '../../../utils/formatting/base/format_percent.dart';
 import '../../../widgets/empty_search_result.dart';
 
 void showCryptoSearch(BuildContext context) {
