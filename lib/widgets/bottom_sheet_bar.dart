@@ -20,7 +20,6 @@ void showBasicBottomSheet({
     isDismissible: isDismissible,
     barrierColor: Colors.black54,
     isScrollControlled: true,
-    enableDrag: true,
     useSafeArea: true,
     builder: (_) {
       return BasicBottomSheet(

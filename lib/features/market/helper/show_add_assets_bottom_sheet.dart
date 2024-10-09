@@ -9,7 +9,6 @@ import 'package:jetwallet/features/market/store/watchlist_store.dart';
 import 'package:jetwallet/features/market/widgets/add_asset_item_widget.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 
@@ -71,7 +70,6 @@ Future<void> showAddAssetsBottomSheet(BuildContext context) async {
           );
         },
       ),
-      const SpaceH42(),
     ],
   );
 }

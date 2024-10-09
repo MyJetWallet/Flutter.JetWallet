@@ -156,7 +156,7 @@ class _BasicBottomSheetState extends State<BasicBottomSheet> {
     final RenderBox contentBox = _contentKey.currentContext?.findRenderObject() as RenderBox;
     final contentHeight = contentBox.size.height;
 
-    final screenHeight = MediaQuery.of(context).size.height;
+    final screenHeight = MediaQuery.of(context).size.height - widget.topPadding - 20 - _getHeaderHeight();
 
     setState(() {
       contentTooBig = contentHeight > screenHeight;
