@@ -27,6 +27,8 @@ import 'package:jetwallet/features/buy_flow/store/payment_method_store.dart';
 import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
 import 'package:jetwallet/features/buy_flow/ui/buy_confrimation_screen.dart';
 import 'package:jetwallet/features/card_coming_soon/card_screen.dart';
+import 'package:jetwallet/features/change_email/screen/change_email_screen.dart';
+import 'package:jetwallet/features/change_email/screen/change_email_verification_screen.dart';
 import 'package:jetwallet/features/cj_banking_accounts/screens/cj_account_label_screen.dart';
 import 'package:jetwallet/features/cj_banking_accounts/screens/cj_account_screen.dart';
 import 'package:jetwallet/features/convert/model/preview_convert_input.dart';
@@ -795,6 +797,14 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/jar_share',
       page: JarShareRouter.page,
+    ),
+    AutoRoute(
+      path: '/change_email',
+      page: ChangeEmailRouter.page,
+    ),
+    AutoRoute(
+      path: '/change_email_verification',
+      page: ChangeEmailVerificationRouter.page,
     ),
     AutoRoute(
       path: '/web_view',

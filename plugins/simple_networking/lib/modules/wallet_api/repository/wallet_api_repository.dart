@@ -103,6 +103,7 @@ import 'package:simple_networking/modules/wallet_api/models/prepaid_card/get_pur
 import 'package:simple_networking/modules/wallet_api/models/prepaid_card/get_purchase_card_list_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/prepaid_card/get_vouncher_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/prepaid_card/purchase_card_brand_list_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/profile/profile_change_email_request.dart';
 import 'package:simple_networking/modules/wallet_api/models/profile/profile_delete_reasons_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/profile_info/profile_info_reponse_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/recurring_manage/recurring_delete_request_model.dart';
@@ -600,6 +601,30 @@ class WalletApiRepository {
     ProfileSetAddressRequestModel model,
   ) async {
     return _walletApiDataSources.postSetAddressRequest(model);
+  }
+
+  Future<DC<ServerRejectException, ProfileChangeEmailRequest>> postEmailChangeRequest(
+    String newEmail,
+    String pin,
+  ) async {
+    final data = {
+      'newEmail': newEmail,
+      'pin': pin,
+    };
+
+    return _walletApiDataSources.postEmailChangeRequest(data);
+  }
+
+  Future<DC<ServerRejectException, void>> postEmailVerifyRequest(
+      String verificationToken,
+      String code,
+      ) async {
+    final data = {
+      'verificationToken': verificationToken,
+      'code': code,
+    };
+
+    return _walletApiDataSources.postEmailVerifyRequest(data);
   }
 
   Future<DC<ServerRejectException, void>> postProfileReport(

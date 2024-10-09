@@ -1794,5 +1794,14 @@
     "kyc_verify_identity": "Verificar identidad",
     "kyc_secure_account": "Asegurar cuenta",
     "market_price_change": "Cambio de precio",
-    "kyc_profile_verification": "Verificación de perfil"
+    "kyc_profile_verification": "Verificación de perfil",
+    "send_gift_send_gift_to": "Enviar regalo a",
+    "withdrawal_you_send": "Usted envía",
+    "withdrawal_wallet": "Billetera",
+    "change_email_enter_new_email": "Ingrese un nuevo email",
+    "change_email_current_email": "Email actual",
+    "change_email_new_email": "Nuevo email",
+    "change_email_email_verification": "Verificación de email",
+    "change_email_email_verification_hint": "Ingrese el código que hemos enviado a su nuevo email",
+    "change_email_success_hint": "Su email fue actualizado exitosamente a {email}"
 }

@@ -9,6 +9,7 @@ import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/account/profile_details/utils/change_languages_popup.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
@@ -58,9 +59,21 @@ class _ProfileDetailsState extends State<ProfileDetails> {
       child: Column(
         children: [
           SProfileDetailsButton(
+            showIcon: true,
             label: intl.profileDetails_email,
             value: getIt.get<AppStore>().authState.email.toLowerCase(),
-            onTap: () {},
+            onTap: () {
+              sRouter.push(
+                PinScreenRoute(
+                  union: const Change(),
+                  isChangePhone: true,
+                  onChangePhone: (String newPin) {
+                    sRouter.replace(ChangeEmailRouter(pin: newPin));
+                  },
+                  onWrongPin: (String error) {},
+                ),
+              );
+            },
           ),
           if (sUserInfo.isPhoneNumberSet)
             SProfileDetailsButton(
