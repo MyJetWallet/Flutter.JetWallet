@@ -9,7 +9,6 @@ import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/widgets/button/main/simple_button.dart';
 import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
 
@@ -18,9 +17,12 @@ class OffersOverlayContent extends StatefulWidget {
     super.key,
     required this.offers,
     required this.currency,
+    required this.setParentOnTap,
   });
+
   final List<EarnOfferClientModel> offers;
   final CurrencyModel currency;
+  final Function(VoidCallback)? setParentOnTap;
 
   @override
   _OffersOverlayContentState createState() => _OffersOverlayContentState();
@@ -40,6 +42,24 @@ class _OffersOverlayContentState extends State<OffersOverlayContent> {
 
   @override
   Widget build(BuildContext context) {
+    if (selectedOfferId != null) {
+      void onTapInContent() {
+        final selectedOffer = widget.offers.firstWhere((offer) => offer.id == selectedOfferId);
+        sAnalytics.tapOnTheContinueWithEarnPlanButton(
+          assetName: selectedOffer.assetId,
+          earnAPYrate: selectedOffer.apyRate?.toString() ?? Decimal.zero.toString(),
+          earnPlanName: selectedOffer.description ?? '',
+          earnWithdrawalType: selectedOffer.withdrawType.name,
+        );
+
+        context.router.push(
+          EarnDepositScreenRouter(offer: selectedOffer),
+        );
+      }
+
+      widget.setParentOnTap?.call(onTapInContent);
+    }
+
     final colors = SColorsLight();
 
     return Column(
@@ -78,32 +98,6 @@ class _OffersOverlayContentState extends State<OffersOverlayContent> {
                 )
               : const Offstage();
         }),
-        const SizedBox(height: 48),
-        Padding(
-          padding: EdgeInsets.only(
-            left: 24,
-            right: 24,
-            bottom: MediaQuery.of(context).padding.bottom + 16,
-          ),
-          child: SButton.blue(
-            text: intl.earn_continue,
-            callback: selectedOfferId != null
-                ? () {
-                    final selectedOffer = widget.offers.firstWhere((offer) => offer.id == selectedOfferId);
-                    sAnalytics.tapOnTheContinueWithEarnPlanButton(
-                      assetName: selectedOffer.assetId,
-                      earnAPYrate: selectedOffer.apyRate?.toString() ?? Decimal.zero.toString(),
-                      earnPlanName: selectedOffer.description ?? '',
-                      earnWithdrawalType: selectedOffer.withdrawType.name,
-                    );
-
-                    context.router.push(
-                      EarnDepositScreenRouter(offer: selectedOffer),
-                    );
-                  }
-                : null,
-          ),
-        ),
       ],
     );
   }
