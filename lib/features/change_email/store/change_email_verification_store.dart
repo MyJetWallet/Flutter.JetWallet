@@ -147,13 +147,9 @@ abstract class _ChangeEmailVerificationStoreBase with Store {
           SuccessScreenRouter(
             secondaryText: intl.change_email_success_hint(newEmail),
             onSuccess: (context) {
-              sRouter.replaceAll([
-                const HomeRouter(
-                  children: [
-                    MyWalletsRouter(),
-                  ],
-                ),
-              ]);
+              sRouter.popUntil(
+                (route) => route.settings.name == ProfileDetailsRouter.name,
+              );
             },
           ),
         );

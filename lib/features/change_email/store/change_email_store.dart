@@ -1,10 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 
 part 'change_email_store.g.dart';
 
@@ -15,11 +17,7 @@ class ChangeEmailStore extends _ChangeEmailStoreBase with _$ChangeEmailStore {
 }
 
 abstract class _ChangeEmailStoreBase with Store {
-  @observable
-  bool isLoading = false;
-
-  @action
-  bool setIsLoading(bool value) => isLoading = value;
+  final loader = StackLoaderStore();
 
   @observable
   bool isEmailError = false;
@@ -30,7 +28,7 @@ abstract class _ChangeEmailStoreBase with Store {
   @action
   Future<void> changeEmail(String newEmail, String pin) async {
     try {
-      setIsLoading(true);
+      loader.startLoadingImmediately();
 
       final response = await sNetwork.getWalletModule().postEmailChangeRequest(
             newEmail,
@@ -56,8 +54,10 @@ abstract class _ChangeEmailStoreBase with Store {
           sNotification.showError(response.error!.cause);
         }
       }
-      setIsLoading(false);
+      loader.finishLoading();
     } catch (e, stackTrace) {
+      sNotification.showError(intl.something_went_wrong_try_again2);
+      loader.finishLoading();
       if (kDebugMode) {
         print('[ChangeEmailStore] change email error: $e, stackTrace: $stackTrace');
       }

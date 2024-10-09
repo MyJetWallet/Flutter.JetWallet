@@ -168,7 +168,9 @@ class __ChangeEmailVerificationBodyState extends State<_ChangeEmailVerificationB
         ),
         leftIcon: SIconButton(
           onTap: () {
-            sRouter.maybePop();
+            sRouter.popUntil(
+              (route) => route.settings.name == ProfileDetailsRouter.name,
+            );
           },
           defaultIcon: const SCloseIcon(),
           pressedIcon: const SClosePressedIcon(),
@@ -180,17 +182,21 @@ class __ChangeEmailVerificationBodyState extends State<_ChangeEmailVerificationB
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SpaceH4(),
-              FittedBox(
-                child: Text(
-                  intl.change_email_email_verification_hint,
-                  style: sBodyText1Style.copyWith(
-                    color: colors.grey1,
+              RichText(
+                text: TextSpan(
+                  text: intl.change_email_email_verification_hint,
+                  style: STStyles.body1Semibold.copyWith(
+                    color: SColorsLight().gray10,
                   ),
+                  children: [
+                    TextSpan(
+                      text: verification.email,
+                      style: STStyles.body1Semibold.copyWith(
+                        color: SColorsLight().black,
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-              Text(
-                verification.email,
-                style: sBodyText1Style,
               ),
               const SpaceH16(),
               SClickableLinkText(

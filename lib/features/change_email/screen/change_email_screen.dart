@@ -33,7 +33,7 @@ class ChangeEmailScreen extends StatelessWidget {
   }
 }
 
-class _ChangeEmailBody extends StatelessWidget {
+class _ChangeEmailBody extends StatelessObserverWidget {
   _ChangeEmailBody(this.pin);
 
   final String pin;
@@ -50,7 +50,8 @@ class _ChangeEmailBody extends StatelessWidget {
     final controller = ScrollController();
 
     return SPageFrame(
-      loaderText: '',
+      loaderText: intl.register_pleaseWait,
+      loading: changeEmailStore.loader,
       color: colors.grey5,
       header: SimpleLargeAppbar(
         title: intl.change_email_enter_new_email,
@@ -74,8 +75,6 @@ class _ChangeEmailBody extends StatelessWidget {
       ),
       child: Observer(
         builder: (context) {
-          final loading = ChangeEmailStore.of(context).isLoading;
-
           return CustomScrollView(
             physics: const ClampingScrollPhysics(),
             controller: controller,
@@ -124,11 +123,11 @@ class _ChangeEmailBody extends StatelessWidget {
                                 credentials.updateAndValidateEmail(value);
 
                                 if (value.isEmpty) {
-                                  ChangeEmailStore.of(context).setIsEmailError(false);
+                                  changeEmailStore.setIsEmailError(false);
                                 }
                               },
                               onErase: () {
-                                ChangeEmailStore.of(context).setIsEmailError(false);
+                                changeEmailStore.setIsEmailError(false);
                               },
                               hideClearButton: credentials.email.isEmpty,
                               onErrorIconTap: () {
@@ -136,7 +135,7 @@ class _ChangeEmailBody extends StatelessWidget {
                                   intl.register_invalidEmail,
                                 );
                               },
-                              isError: ChangeEmailStore.of(context).isEmailError,
+                              isError: changeEmailStore.isEmailError,
                             ),
                           ),
                         ),
@@ -144,15 +143,14 @@ class _ChangeEmailBody extends StatelessWidget {
                       const Spacer(),
                       SPaddingH24(
                         child: SButton.blue(
-                          isLoading: loading,
                           text: intl.register_continue,
                           callback: () {
                             if (credentials.emailValid) {
-                              ChangeEmailStore.of(context).setIsEmailError(false);
+                              changeEmailStore.setIsEmailError(false);
 
                               changeEmailStore.changeEmail(emailController.text, pin);
                             } else {
-                              ChangeEmailStore.of(context).setIsEmailError(true);
+                              changeEmailStore.setIsEmailError(true);
 
                               sNotification.showError(intl.register_invalidEmail);
                             }
