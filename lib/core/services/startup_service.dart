@@ -66,7 +66,7 @@ class StartupService {
       storageService = getIt.get<LocalStorageService>();
     } catch (e, stackTrace) {
       getIt.get<SentryService>().captureException(e, stackTrace);
-      throw SplashErrorException(1);
+      throw SplashErrorException(1, e, stackTrace);
     }
 
     try {
@@ -84,7 +84,7 @@ class StartupService {
     ///
     if (getIt.get<SplashErrorService>().isNetworkError) {
       getIt.get<SplashErrorService>().isNetworkError = false;
-      throw SplashErrorException(22);
+      throw SplashErrorException(22, 'network error');
     }
 
     ///
@@ -119,7 +119,7 @@ class StartupService {
       getIt<AppStore>().generateNewSessionID();
     } catch (e, stackTrace) {
       getIt.get<SentryService>().captureException(e, stackTrace);
-      throw SplashErrorException(7);
+      throw SplashErrorException(7, e, stackTrace);
     }
 
     ///
@@ -130,7 +130,7 @@ class StartupService {
       authStatus = await checkIsUserAuthorized(token);
     } catch (e, stackTrace) {
       getIt.get<SentryService>().captureException(e, stackTrace);
-      throw SplashErrorException(8);
+      throw SplashErrorException(8, e, stackTrace);
     }
 
     ///
@@ -140,7 +140,7 @@ class StartupService {
       await getIt.get<SNetwork>().init(getIt<AppStore>().sessionID);
     } catch (e, stackTrace) {
       getIt.get<SentryService>().captureException(e, stackTrace);
-      throw SplashErrorException(9);
+      throw SplashErrorException(9, e, stackTrace);
     }
 
     ///
@@ -177,7 +177,7 @@ class StartupService {
       );
     } catch (e, stackTrace) {
       getIt.get<SentryService>().captureException(e, stackTrace);
-      throw SplashErrorException(10);
+      throw SplashErrorException(10, e, stackTrace);
     }
 
     ///
@@ -189,7 +189,7 @@ class StartupService {
       }
     } catch (e, stackTrace) {
       getIt.get<SentryService>().captureException(e, stackTrace);
-      throw SplashErrorException(11);
+      throw SplashErrorException(11, e, stackTrace);
     }
 
     if (authStatus) {
@@ -203,7 +203,7 @@ class StartupService {
         );
       } catch (e, stackTrace) {
         getIt.get<SentryService>().captureException(e, stackTrace);
-        throw SplashErrorException(12);
+        throw SplashErrorException(12, e, stackTrace);
       }
 
       try {
@@ -216,8 +216,8 @@ class StartupService {
           if (resultRefreshToken == RefreshTokenStatus.success) {
             await userInfo.initPinStatus();
           }
-        } catch (e) {
-          throw SplashErrorException(13);
+        } catch (e, stackTrace) {
+          throw SplashErrorException(13, e, stackTrace);
         }
 
         await secondAction();
@@ -263,7 +263,7 @@ class StartupService {
       );
     } catch (e, stackTrace) {
       getIt.get<SentryService>().captureException(e, stackTrace);
-      throw SplashErrorException(14);
+      throw SplashErrorException(14, e, stackTrace);
     }
 
     ///
@@ -277,7 +277,7 @@ class StartupService {
       }
     } catch (e, stackTrace) {
       getIt.get<SentryService>().captureException(e, stackTrace);
-      throw SplashErrorException(15);
+      throw SplashErrorException(15, e, stackTrace);
     }
 
     ///
@@ -295,7 +295,7 @@ class StartupService {
       );
     } catch (e, stackTrace) {
       getIt.get<SentryService>().captureException(e, stackTrace);
-      throw SplashErrorException(16);
+      throw SplashErrorException(16, e, stackTrace);
     }
 
     // Запускаем SignlaR
@@ -320,8 +320,8 @@ class StartupService {
               ),
         );
       }
-    } catch (e) {
-      throw SplashErrorException(17);
+    } catch (e, stackTrace) {
+      throw SplashErrorException(17, e, stackTrace);
     }
 
     ///
@@ -331,7 +331,7 @@ class StartupService {
       unawaited(getIt.get<PushNotification>().registerToken());
     } catch (e, stackTrace) {
       getIt.get<SentryService>().captureException(e, stackTrace);
-      throw SplashErrorException(18);
+      throw SplashErrorException(18, e, stackTrace);
     }
 
     await makeSessionCheck();
@@ -367,7 +367,7 @@ class StartupService {
       sAnalytics.setKYCDepositStatus = analyticsKyc;
     } catch (e, stackTrace) {
       getIt.get<SentryService>().captureException(e, stackTrace);
-      throw SplashErrorException(20);
+      throw SplashErrorException(20, e, stackTrace);
     }
 
     //await getIt.get<ZenDeskService>().authZenDesk();
@@ -557,7 +557,7 @@ class StartupService {
       );
     } catch (e, stackTrace) {
       getIt.get<SentryService>().captureException(e, stackTrace);
-      throw SplashErrorException(5);
+      throw SplashErrorException(5, e, stackTrace);
     }
   }
 
@@ -569,7 +569,7 @@ class StartupService {
       await appsFlyerService.updateServerUninstallToken();
     } catch (e, stackTrace) {
       getIt.get<SentryService>().captureException(e, stackTrace);
-      throw SplashErrorException(6);
+      throw SplashErrorException(6, e, stackTrace);
     }
   }
 
@@ -651,7 +651,7 @@ Future<void> launchSift() async {
     );
   } catch (e, stackTrace) {
     getIt.get<SentryService>().captureException(e, stackTrace);
-    throw SplashErrorException(4);
+    throw SplashErrorException(4, e, stackTrace);
   }
 }
 
