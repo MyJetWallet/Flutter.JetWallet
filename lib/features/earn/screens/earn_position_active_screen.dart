@@ -14,13 +14,11 @@ import 'package:jetwallet/features/earn/widgets/active_earn_widget.dart';
 import 'package:jetwallet/features/earn/widgets/earn_active_position_badge.dart';
 import 'package:jetwallet/features/earn/widgets/offers_overlay_content.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
-import 'package:simple_kit_updated/widgets/button/main/simple_button.dart';
-import 'package:simple_kit_updated/widgets/navigation/top_app_bar/global_basic_appbar.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
 
@@ -202,13 +200,23 @@ class EarnPositionActiveScreen extends StatelessWidget {
                   assetSymbol: earnPosition.assetId,
                 );
 
-            sShowBasicModalBottomSheet(
+            VoidCallback? contentOnTap;
+
+            showBasicBottomSheet(
               context: sRouter.navigatorKey.currentContext!,
-              scrollable: true,
+              basicBottomSheetButton: BasicBottomSheetButton(
+                title: intl.earn_continue,
+                onTap: () {
+                  contentOnTap?.call();
+                },
+              ),
               children: [
                 OffersOverlayContent(
                   offers: offers,
                   currency: currency,
+                  setParentOnTap: (onTap) {
+                    contentOnTap = onTap;
+                  },
                 ),
               ],
             );

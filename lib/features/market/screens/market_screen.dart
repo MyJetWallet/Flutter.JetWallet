@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:charts/simple_chart.dart';
@@ -51,6 +52,8 @@ class _MarketScreenState extends State<MarketScreen> {
 
   StreamSubscription<EndReordering>? endReorderingSubscription;
 
+  GlobalKey gainersTitleKey = GlobalKey();
+
   @override
   void initState() {
     _controller = ScrollController();
@@ -72,6 +75,29 @@ class _MarketScreenState extends State<MarketScreen> {
     endReorderingSubscription = getIt<EventBus>().on<EndReordering>().listen((event) {
       setState(() {
         isReorderingMod = false;
+      });
+    });
+
+    getIt<EventBus>().on<ResetScrollMarket>().listen((event) {
+      _controller.animateTo(
+        0.0,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeIn,
+      );
+    });
+
+    getIt<EventBus>().on<ShowMarketGainers>().listen((event) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        final renderBox = gainersTitleKey.currentContext!.findRenderObject()! as RenderBox;
+        final offset = renderBox.localToGlobal(Offset.zero).dy;
+
+        final scrollOffset = min(offset + _controller.offset - 120, _controller.position.maxScrollExtent);
+
+        _controller.animateTo(
+          scrollOffset,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
       });
     });
 
@@ -210,6 +236,7 @@ class _MarketScreenState extends State<MarketScreen> {
                               },
                             ),
                             STagButton(
+                              key: gainersTitleKey,
                               lable: intl.market_bottomTabLabel4,
                               state: listsStore.activeMarketTab == MarketTab.gainers
                                   ? TagButtonState.selected

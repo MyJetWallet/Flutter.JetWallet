@@ -34,7 +34,6 @@ bool rateUp = true;
 bool displayCardPreorderScreen = false;
 String prepaidCardPartnerLink = '';
 String prepaidCardTermsAndConditionsLink = '';
-bool useAmplitude = true;
 String simpleCoinDisclaimerLink = '';
 String simpleTapLink = '';
 bool usePhoneForSendGift = true;
@@ -52,6 +51,7 @@ late String crispWebsiteId;
 
 // Analytics
 late String analyticsApiKey;
+late List<String> amplitudeAllowCountryList;
 
 // Simplex
 late String simplexOrigin;

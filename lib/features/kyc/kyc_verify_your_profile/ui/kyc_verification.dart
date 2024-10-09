@@ -7,6 +7,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/sumsub_service/sumsub_service.dart';
+import 'package:jetwallet/features/kyc/kyc_verify_your_profile/ui/widgets/verify_step.dart';
 import 'package:jetwallet/features/kyc/kyc_verify_your_profile/utils/get_kuc_aid_plan.dart';
 import 'package:jetwallet/features/kyc/kyc_verify_your_profile/utils/start_kyc_aid_flow.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
@@ -144,12 +145,12 @@ class _KycVerificationState extends State<KycVerification> {
                     style: STStyles.body1Medium.copyWith(color: colors.gray10),
                   ),
                   const SpaceH24(),
-                  VerificationItem(
-                    itemString: intl.kycAlertHandler_secureYourAccount,
+                  VerificationSteep(
+                    lable: intl.kycAlertHandler_secureYourAccount,
                     isDone: isPhoneDone,
                   ),
-                  VerificationItem(
-                    itemString: intl.kycAlertHandler_verifyYourIdentity,
+                  VerificationSteep(
+                    lable: intl.kycAlertHandler_verifyYourIdentity,
                     isDisabled: isPhoneDone,
                   ),
                   const Spacer(),
@@ -164,56 +165,6 @@ class _KycVerificationState extends State<KycVerification> {
                   ),
                 ],
               ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class VerificationItem extends StatelessWidget {
-  const VerificationItem({
-    required this.itemString,
-    this.isDone = false,
-    this.isDisabled = false,
-  });
-
-  final String itemString;
-  final bool isDone;
-  final bool isDisabled;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = SColorsLight();
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12),
-      child: Row(
-        children: [
-          if (isDisabled)
-            Assets.svg.small.minusCircle.simpleSvg(
-              color: colors.black,
-            )
-          else if (!isDone)
-            Container(
-              width: 16,
-              height: 16,
-              margin: const EdgeInsets.only(left: 2),
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-                color: colors.black,
-              ),
-            )
-          else
-            Assets.svg.small.checkCircle.simpleSvg(
-              color: colors.blue,
-            ),
-          const SpaceW16(),
-          Text(
-            itemString,
-            style: STStyles.subtitle1.copyWith(
-              color: isDone ? colors.blue : colors.black,
             ),
           ),
         ],
