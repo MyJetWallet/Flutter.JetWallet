@@ -78,7 +78,7 @@ class _ActionCryptoSearch extends StatelessObserverWidget {
                 accuracy: currency.priceAccuracy,
               ),
               supplement: currency.symbol,
-              rightMarketValue: formatPercent(currency.dayPercentChange),
+              rightMarketValue: currency.dayPercentChange.toFormatPercentPriceChange(),
               isRightValueMarket: true,
               rightValueMarketPositive: currency.dayPercentChange > 0,
               onTableAssetTap: () {
@@ -102,7 +102,7 @@ class _ActionCryptoSearch extends StatelessObserverWidget {
                 accuracy: state.filteredMarketCurrencies[i].priceAccuracy,
               ),
               supplement: state.filteredMarketCurrencies[i].symbol,
-              rightMarketValue: formatPercent(state.filteredMarketCurrencies[i].dayPercentChange),
+              rightMarketValue: state.filteredMarketCurrencies[i].dayPercentChange.toFormatPercentPriceChange(),
               rightValueMarketPositive: state.filteredMarketCurrencies[i].dayPercentChange > 0,
               isRightValueMarket: true,
               onTableAssetTap: () {

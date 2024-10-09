@@ -10,6 +10,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/invest/stores/dashboard/invest_dashboard_store.dart';
 import 'package:jetwallet/features/invest/ui/invests/data_line.dart';
+import 'package:jetwallet/utils/formatting/base/format_percent.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -163,8 +164,12 @@ class _InvestListScreenState extends State<InvestList> {
               if (widget.position.status != PositionStatus.cancelled && widget.position.status != PositionStatus.closed)
                 Observer(
                   builder: (BuildContext context) {
-                    final rolloverPercent =
-                        '${((widget.position.direction == Direction.buy ? widget.instrument.rollBuy! : widget.instrument.rollSell!) * Decimal.fromInt(100)).toStringAsFixed(4)}%';
+                    final rolloverPercent = ((widget.position.direction == Direction.buy
+                                ? widget.instrument.rollBuy!
+                                : widget.instrument.rollSell!) *
+                            Decimal.fromInt(100))
+                        .toDouble()
+                        .toFormatPercentPriceChange();
 
                     return RolloverLine(
                       mainText: intl.invest_next_rollover,

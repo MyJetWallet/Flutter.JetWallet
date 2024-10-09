@@ -19,6 +19,7 @@ import 'package:jetwallet/features/invest/ui/widgets/invest_close_bottom_sheet.d
 import 'package:jetwallet/features/invest/ui/widgets/invest_market_watch_bottom_sheet.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_modify_bottom_sheet.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_report_bottom_sheet.dart';
+import 'package:jetwallet/utils/formatting/base/format_percent.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/localized_chart_resolution_button.dart';
 import 'package:simple_kit/core/simple_kit.dart';
@@ -286,8 +287,12 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
           SPaddingH24(
             child: Observer(
               builder: (BuildContext context) {
-                final rolloverPercent =
-                    '${((widget.position.direction == Direction.buy ? widget.instrument.rollBuy! : widget.instrument.rollSell!) * Decimal.fromInt(100)).toStringAsFixed(4)}%';
+                final rolloverPercent = ((widget.position.direction == Direction.buy
+                            ? widget.instrument.rollBuy!
+                            : widget.instrument.rollSell!) *
+                        Decimal.fromInt(100))
+                    .toDouble()
+                    .toFormatPercentPriceChange();
                 return RolloverLine(
                   mainText: intl.invest_next_rollover,
                   secondaryText: '$rolloverPercent / $timerUpdated',

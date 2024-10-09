@@ -72,7 +72,7 @@ class TopMoversAssetItem extends HookWidget {
               style: STStyles.body2Medium,
             ),
             Text(
-              formatPercent(asset.dayPercentChange),
+              asset.dayPercentChange.toFormatPercentPriceChange(),
               style: STStyles.subtitle1.copyWith(
                 color: asset.dayPercentChange.isNegative ? colors.red : colors.green,
               ),

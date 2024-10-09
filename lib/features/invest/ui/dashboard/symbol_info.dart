@@ -5,6 +5,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/utils/formatting/base/format_percent.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -94,7 +95,7 @@ class SymbolInfo extends StatelessObserverWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      formatPercent(percent),
+                      percent.toDouble().toFormatPercentPriceChange(),
                       textAlign: TextAlign.end,
                       overflow: TextOverflow.ellipsis,
                       style: STStyles.body3InvestSM.copyWith(

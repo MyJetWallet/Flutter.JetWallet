@@ -4,6 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/utils/formatting/base/format_percent.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
@@ -131,7 +132,7 @@ class MainInvestBlock extends StatelessObserverWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text(
-                    formatPercent(percent),
+                    percent.toDouble().toFormatPercentPriceChange(),
                     overflow: TextOverflow.ellipsis,
                     style: STStyles.body3InvestSM.copyWith(
                       color: percent == Decimal.zero
