@@ -27,6 +27,8 @@ class WithdrawalNetworkItem extends StatelessWidget {
           assetSymbol: networkInfo?.feeAsset ?? '',
         );
 
+    final networkSubtitle = formatNetworkSubtitlel();
+
     return SimpleTableAccount(
       assetIcon: SizedBox(
         width: 32,
@@ -57,10 +59,33 @@ class WithdrawalNetworkItem extends StatelessWidget {
       ),
       label: network.description,
       hasRightValue: false,
-      supplement: networkInfo != null
-          ? '~ ${networkInfo.time} ${networkInfo.time == 1 ? intl.withdrawal_network_minute : intl.withdrawal_network_minutes} · ${intl.fee}: ${networkInfo.feeAmount.toFormatCount(symbol: feeAsset.symbol)}'
-          : null,
+      supplement: networkInfo != null ? networkSubtitle : null,
       onTableAssetTap: onTap,
     );
+  }
+
+  String? formatNetworkSubtitlel() {
+    final networkInfo = network.info;
+    final feeAsset = getIt.get<FormatService>().findCurrency(
+          findInHideTerminalList: true,
+          assetSymbol: networkInfo?.feeAsset ?? '',
+        );
+
+    if (networkInfo == null) return null;
+
+    var networkSubtitle = '';
+
+    if (networkInfo.time != null && networkInfo.time != 0) {
+      networkSubtitle +=
+          '~ ${networkInfo.time} ${networkInfo.time == 1 ? intl.withdrawal_network_minute : intl.withdrawal_network_minutes}';
+    }
+    if (networkInfo.time != null && networkInfo.time != 0 && networkInfo.feeAmount != null) {
+      networkSubtitle += ' · ';
+    }
+    if (networkInfo.feeAmount != null) {
+      networkSubtitle += '${intl.fee}: ${networkInfo.feeAmount?.toFormatCount(symbol: feeAsset.symbol)}';
+    }
+
+    return networkSubtitle;
   }
 }
