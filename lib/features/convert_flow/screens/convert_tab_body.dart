@@ -234,7 +234,7 @@ class ConvertAmountScreenBodyState extends State<ConvertAmountTabBody> with Auto
                                   ),
                                   Positioned.fill(
                                     child: Align(
-                                      child: SafeGesture(
+                                      child: GestureDetector(
                                         onTap: store.onSwapAssets,
                                         child: Container(
                                           width: 32,

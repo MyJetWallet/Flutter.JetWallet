@@ -218,8 +218,8 @@ abstract class _ConvertAmountStoreBase with Store {
     errorText = null;
     inputValid = false;
 
-    unawaited(loadConversionPrice());
-    unawaited(loadLimits());
+    await loadConversionPrice();
+    await loadLimits();
 
     _checkShowTosts();
   }
