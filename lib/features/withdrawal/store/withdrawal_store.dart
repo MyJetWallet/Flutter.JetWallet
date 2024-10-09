@@ -355,15 +355,9 @@ abstract class _WithdrawalStoreBase with Store {
 
   @computed
   SendMethodDto get _sendWithdrawalMethod {
-    if (addressIsInternal) {
-      return sSignalRModules.sendMethods.firstWhere(
-        (element) => element.id == WithdrawalMethods.internalSend,
-      );
-    } else {
-      return sSignalRModules.sendMethods.firstWhere(
-        (element) => element.id == WithdrawalMethods.blockchainSend,
-      );
-    }
+    return sSignalRModules.sendMethods.firstWhere(
+      (element) => element.id == WithdrawalMethods.blockchainSend,
+    );
   }
 
   @computed
@@ -1270,7 +1264,7 @@ abstract class _WithdrawalStoreBase with Store {
                 : error
             : InputError.none;
 
-    withValid = withAmmountInputError == InputError.none && isInputValid(withAmount);
+    withValid = withAmmountInputError == InputError.none && isInputValid(withAmount) && youSendAmount >= feeAmount;
   }
 
   @action
@@ -1634,7 +1628,7 @@ abstract class _WithdrawalStoreBase with Store {
     sRouter
         .push(
       SuccessScreenRouter(
-        secondaryText: '${intl.withdrawal_successRequest} ${(Decimal.parse(withAmount) + feeAmount).toFormatCount(
+        secondaryText: '${intl.withdrawal_successRequest} ${youSendAmount.toFormatCount(
           symbol: withdrawalInputModel!.currency!.symbol,
         )}'
             ' ${intl.withdrawal_successPlaced}',
