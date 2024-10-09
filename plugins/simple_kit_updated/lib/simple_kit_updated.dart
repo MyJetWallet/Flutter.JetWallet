@@ -75,3 +75,6 @@ export 'widgets/badge/simple_badge_medium.dart';
 export 'widgets/control/simple_check_with_table.dart';
 
 export 'gen/assets.gen.dart';
+
+// Bottom Sheet bar
+export 'widgets/bottom_sheet/basic_bottom_sheet.dart';

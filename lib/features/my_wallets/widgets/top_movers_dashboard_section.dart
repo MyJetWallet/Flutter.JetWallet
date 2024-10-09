@@ -38,9 +38,11 @@ class TopMoversDashboardSection extends StatelessWidget {
             SBasicHeader(
               title: intl.tom_mover_section_top_movers,
               buttonTitle: intl.tom_mover_section_view_all,
-              onTap: () {
+              onTap: () async {
                 getIt.get<EventBus>().fire(EndReordering());
                 getIt<BottomBarStore>().setHomeTab(BottomItemType.market);
+                await Future.delayed(Durations.short4);
+                getIt.get<EventBus>().fire(ShowMarketGainers());
               },
             ),
             Padding(

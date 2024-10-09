@@ -144,9 +144,29 @@ class StartupService {
     }
 
     ///
+    /// SplashErrorException - 11
+    ///
+    try {
+      if (getIt<AppStore>().afterInstall) {
+        unawaited(saveInstallID());
+      }
+    } catch (e, stackTrace) {
+      getIt.get<SentryService>().captureException(e, stackTrace);
+      throw SplashErrorException(11);
+    }
+
+    ///
     /// SplashErrorException - 10
     ///
     try {
+      if (!getIt.isRegistered<ProfileGetUserCountry>()) {
+        getIt.registerSingleton<ProfileGetUserCountry>(ProfileGetUserCountry());
+      }
+      await getIt.get<ProfileGetUserCountry>().init();
+
+      final useAmplitude =
+      amplitudeAllowCountryList.contains(getIt.get<ProfileGetUserCountry>().profileUserCountry.countryCode);
+
       await sAnalytics.init(
         environmentKey: analyticsApiKey,
         techAcc: userInfo.isTechClient,
@@ -178,18 +198,6 @@ class StartupService {
     } catch (e, stackTrace) {
       getIt.get<SentryService>().captureException(e, stackTrace);
       throw SplashErrorException(10);
-    }
-
-    ///
-    /// SplashErrorException - 11
-    ///
-    try {
-      if (getIt<AppStore>().afterInstall) {
-        unawaited(saveInstallID());
-      }
-    } catch (e, stackTrace) {
-      getIt.get<SentryService>().captureException(e, stackTrace);
-      throw SplashErrorException(11);
     }
 
     if (authStatus) {
@@ -447,10 +455,6 @@ class StartupService {
 
       getIt.registerSingletonAsync<KycProfileCountries>(
         () async => KycProfileCountries().init(),
-      );
-
-      getIt.registerSingletonAsync<ProfileGetUserCountry>(
-        () async => ProfileGetUserCountry().init(),
       );
 
       getIt.registerSingletonAsync<FormatService>(

@@ -1,4 +1,5 @@
 import 'package:data_channel/data_channel.dart';
+import 'package:dio/dio.dart';
 import 'package:simple_networking/api_client/api_client.dart';
 import 'package:simple_networking/helpers/handle_api_responses.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
@@ -449,7 +450,7 @@ class AuthApiDataSources {
 
   Future<DC<ServerRejectException, CountryResponseModel>> getUserCountryRequest() async {
     try {
-      final response = await _apiClient.get(
+      final response = await Dio().get(
         '${_apiClient.options.authApi}/common/ip-country',
       );
 

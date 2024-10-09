@@ -7,11 +7,11 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/earn/store/earn_store.dart';
 import 'package:jetwallet/features/earn/widgets/earn_offer_item.dart';
 import 'package:jetwallet/features/earn/widgets/offers_overlay_content.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/core/simple_kit.dart';
-import 'package:simple_kit/modules/bottom_sheets/components/basic_bottom_sheet/show_basic_modal_bottom_sheet.dart';
 import 'package:simple_kit/modules/shared/page_frames/simple_page_frame.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
@@ -72,13 +72,23 @@ class _OffersScreenState extends State<OffersScreen> {
                         );
 
                         if (offers.length > 1) {
-                          sShowBasicModalBottomSheet(
+                          VoidCallback? contentOnTap;
+
+                          showBasicBottomSheet(
                             context: context,
-                            scrollable: true,
+                            basicBottomSheetButton: BasicBottomSheetButton(
+                              title: intl.earn_continue,
+                              onTap: () {
+                                contentOnTap?.call();
+                              },
+                            ),
                             children: [
                               OffersOverlayContent(
                                 offers: offers,
                                 currency: currency,
+                                setParentOnTap: (onTap) {
+                                  contentOnTap = onTap;
+                                },
                               ),
                             ],
                           );
