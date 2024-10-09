@@ -35,7 +35,7 @@ class _OffersOverlayContentState extends State<OffersOverlayContent> {
   void initState() {
     sAnalytics.chooseEarnPlanScreenView(assetName: widget.offers.first.assetId);
     if (widget.offers.isNotEmpty) {
-      selectedOfferId = widget.offers.first.id;
+      selectedOfferId = widget.offers.firstWhere((offer) => offer.status == EarnOfferStatus.activeShow).id;
     }
     super.initState();
   }
