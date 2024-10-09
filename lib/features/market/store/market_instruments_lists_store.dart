@@ -1,8 +1,10 @@
+import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
+import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 
@@ -11,7 +13,8 @@ part 'market_instruments_lists_store.g.dart';
 class MarketInstrumentsListsStore extends _MarketInstrumentsListsStoreBase with _$MarketInstrumentsListsStore {
   MarketInstrumentsListsStore() : super();
 
-  static _MarketInstrumentsListsStoreBase of(BuildContext context) => Provider.of<MarketInstrumentsListsStore>(context);
+  static _MarketInstrumentsListsStoreBase of(BuildContext context) =>
+      Provider.of<MarketInstrumentsListsStore>(context, listen: false);
 }
 
 abstract class _MarketInstrumentsListsStoreBase with Store {
@@ -19,6 +22,10 @@ abstract class _MarketInstrumentsListsStoreBase with Store {
     activeMarketTab = watchListIds.isNotEmpty ? MarketTab.favorites : MarketTab.all;
     searchContriller.addListener(() {
       _searchText = searchContriller.text;
+    });
+
+    getIt<EventBus>().on<ShowMarketGainers>().listen((event) {
+      setActiveMarketTab(MarketTab.gainers);
     });
   }
   final searchContriller = TextEditingController();
