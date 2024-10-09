@@ -7,6 +7,7 @@ part 'remote_config_analytics_model.g.dart';
 class RemoteConfigAnalyticsModel with _$RemoteConfigAnalyticsModel {
   factory RemoteConfigAnalyticsModel({
     required String apiKey,
+    @Default([]) List<String> amplitudeAllowCountryList,
   }) = _RemoteConfigAnalyticsModel;
 
   factory RemoteConfigAnalyticsModel.fromJson(Map<String, dynamic> json) => _$RemoteConfigAnalyticsModelFromJson(json);

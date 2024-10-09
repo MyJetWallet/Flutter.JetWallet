@@ -225,7 +225,6 @@ class RemoteConfig {
     displayCardPreorderScreen = remoteConfig!.appConfig.displayCardPreorderScreen;
     prepaidCardPartnerLink = remoteConfig!.appConfig.prepaidCardPartnerLink;
     prepaidCardTermsAndConditionsLink = remoteConfig!.appConfig.prepaidCardTermsAndConditionsLink;
-    useAmplitude = remoteConfig!.appConfig.useAmplitude;
     simpleCoinDisclaimerLink = remoteConfig!.appConfig.simpleCoinDisclaimerLink;
     simpleTapLink = remoteConfig!.appConfig.simpleTapLink;
     usePhoneForSendGift = remoteConfig!.appConfig.usePhoneForSendGift;
@@ -250,6 +249,7 @@ class RemoteConfig {
 
   void overrideAnalyticsValues() {
     analyticsApiKey = remoteConfig!.analytics.apiKey;
+    amplitudeAllowCountryList = remoteConfig!.analytics.amplitudeAllowCountryList;
   }
 
   void overrideSimplexValues() {

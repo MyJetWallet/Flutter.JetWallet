@@ -19,9 +19,9 @@ class NetworkPreviewModel with _$NetworkPreviewModel {
   const factory NetworkPreviewModel({
     required String network,
     required String description,
-    @DecimalSerialiser() required Decimal feeAmount,
-    required String feeAsset,
-    required int time,
+    @DecimalNullSerialiser() Decimal? feeAmount,
+    String? feeAsset,
+    int? time,
   }) = _NetworkPreviewModel;
 
   factory NetworkPreviewModel.fromJson(Map<String, dynamic> json) => _$NetworkPreviewModelFromJson(json);
