@@ -56,6 +56,8 @@ class WithdrawalNetworkItem extends StatelessWidget {
                       ),
                     );
                   },
+                  fadeInDuration: Duration.zero,
+                  fadeOutDuration: Duration.zero,
                 ),
               ),
           ],
