@@ -183,7 +183,7 @@ class SNumericLargeInput extends StatelessWidget {
                     const SizedBox(height: 4),
                   ],
                   if (showSwopButton) ...[
-                    SafeGesture(
+                    GestureDetector(
                       onTap: onSwap,
                       child: Container(
                         width: 40,
