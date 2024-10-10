@@ -40,7 +40,7 @@ abstract class _ChangeEmailStoreBase with Store {
 
         if (result != null) {
           if (result.isSuccess) {
-            await sRouter.push(
+            await sRouter.replace(
               ChangeEmailVerificationRouter(
                 verificationToken: result.verificationToken,
                 pinCode: pin,

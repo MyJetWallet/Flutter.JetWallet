@@ -143,7 +143,7 @@ abstract class _ChangeEmailVerificationStoreBase with Store {
         union = const EmailVerificationUnion.input();
         loader.finishLoading();
 
-        await sRouter.push(
+        await sRouter.replace(
           SuccessScreenRouter(
             secondaryText: intl.change_email_success_hint(newEmail),
             onSuccess: (context) {
@@ -160,8 +160,22 @@ abstract class _ChangeEmailVerificationStoreBase with Store {
       union = error.cause.contains('50') || error.cause.contains('40')
           ? EmailVerificationUnion.error(intl.something_went_wrong_try_again)
           : EmailVerificationUnion.error(error.cause);
+
+      loader.finishLoading();
+
+      sNotification.showError(
+        error.cause.contains('50') || error.cause.contains('40') ? intl.something_went_wrong_try_again : error.cause,
+        id: 1,
+      );
     } catch (error) {
       pinError.enableError();
+
+      loader.finishLoading();
+
+      sNotification.showError(
+        intl.something_went_wrong_try_again,
+        id: 1,
+      );
 
       union = error.toString().contains('50') || error.toString().contains('40')
           ? EmailVerificationUnion.error(intl.something_went_wrong_try_again)
