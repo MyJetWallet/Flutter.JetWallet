@@ -1181,22 +1181,31 @@ abstract class _WithdrawalStoreBase with Store {
   void _validateAmount() {
     InputError error;
     if (withdrawalType == WithdrawalType.jar) {
-      error = onWithdrawJarInputErrorHandler(
-        youWillSendAmount: youWillSendAmount,
-        inputAmount: Decimal.parse(withAmount),
-        network: blockchain.description,
-        jarBalance: withdrawalInputModel!.jar!.balanceInJarAsset,
-        currency: withdrawalInputModel!.currency!,
-        addressIsInternal: addressIsInternal,
-      );
+      if (youWillSendAmount != Decimal.zero) {
+        final balance = Decimal.parse(withdrawalInputModel!.jar!.balanceInJarAsset.toString());
+
+        if (balance < Decimal.parse(withAmount)) {
+          error = InputError.notEnoughFunds;
+        } else if (feeAmount >= youWillSendAmount) {
+          error = addressIsInternal ? InputError.none : InputError.enterHigherAmount;
+        } else {
+          error = InputError.none;
+        }
+      } else {
+        error = InputError.none;
+      }
     } else {
-      error = onWithdrawInputErrorHandler(
-        youWillSendAmount: youWillSendAmount,
-        inputAmount: Decimal.parse(withAmount),
-        network: blockchain.description,
-        currency: withdrawalInputModel!.currency!,
-        addressIsInternal: addressIsInternal,
-      );
+      if (youWillSendAmount != Decimal.zero) {
+        if (currency.assetBalance < Decimal.parse(withAmount)) {
+          error = InputError.notEnoughFunds;
+        } else if (feeAmount >= youWillSendAmount) {
+          error = addressIsInternal ? InputError.none : InputError.enterHigherAmount;
+        } else {
+          error = InputError.none;
+        }
+      } else {
+        error = InputError.none;
+      }
     }
 
     if (error != InputError.none) {
@@ -1264,7 +1273,7 @@ abstract class _WithdrawalStoreBase with Store {
                 : error
             : InputError.none;
 
-    withValid = withAmmountInputError == InputError.none && isInputValid(withAmount) && youSendAmount >= feeAmount;
+    withValid = withAmmountInputError == InputError.none && isInputValid(withAmount) && youSendAmount > feeAmount;
   }
 
   @action

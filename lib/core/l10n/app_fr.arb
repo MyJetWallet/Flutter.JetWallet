@@ -1779,5 +1779,6 @@
     "change_email_new_email": "Nouvel e-mail",
     "change_email_email_verification": "Vérification de l'email",
     "change_email_email_verification_hint": "Entrez le code que nous avons envoyé à votre nouvel e-mail ",
-    "change_email_success_hint": "Votre email a été mis à jour avec succès à {email}"
+    "change_email_success_hint": "Votre email a été mis à jour avec succès à {email}",
+    "withrawal_amount_error_entered_amount": "Le montant saisi doit couvrir les frais de traitement. Veuillez ajuster la valeur."
 }
