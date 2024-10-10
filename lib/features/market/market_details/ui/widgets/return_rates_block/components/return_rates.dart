@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/features/market/helper/format_day_percentage_change.dart';
 import 'package:jetwallet/features/market/market_details/model/return_rates_model.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 
 import 'return_rate_item.dart';
 
@@ -24,7 +24,7 @@ class ReturnRates extends StatelessWidget {
         if (returnRates != null) ...[
           ReturnRateItem(
             header: intl.returnRates_day,
-            value: formatDayPercentageChange(returnRates!.dayPrice),
+            value: returnRates!.dayPrice.toFormatPercentPriceChange(),
           ),
         ] else ...[
           const ReturnRateItemSketelon(),
@@ -32,7 +32,7 @@ class ReturnRates extends StatelessWidget {
         if (returnRates != null) ...[
           ReturnRateItem(
             header: intl.returnRateItem_week,
-            value: formatDayPercentageChange(returnRates!.weekPrice),
+            value: returnRates!.weekPrice.toFormatPercentPriceChange(),
           ),
         ] else ...[
           const ReturnRateItemSketelon(),
@@ -40,7 +40,7 @@ class ReturnRates extends StatelessWidget {
         if (returnRates != null) ...[
           ReturnRateItem(
             header: intl.returnRateItem_month,
-            value: formatDayPercentageChange(returnRates!.monthPrice),
+            value: returnRates!.monthPrice.toFormatPercentPriceChange(),
           ),
         ] else ...[
           const ReturnRateItemSketelon(),
@@ -48,9 +48,7 @@ class ReturnRates extends StatelessWidget {
         if (returnRates != null) ...[
           ReturnRateItem(
             header: '3 ${intl.returnRates_months}',
-            value: formatDayPercentageChange(
-              returnRates!.threeMonthPrice,
-            ),
+            value: returnRates!.threeMonthPrice.toFormatPercentPriceChange(),
           ),
         ] else ...[
           const ReturnRateItemSketelon(),

@@ -79,7 +79,7 @@ abstract class _SellAmountStoreBase with Store {
   bool inputValid = false;
 
   @observable
-  bool isFiatEntering = true;
+  bool isFiatEntering = false;
 
   @observable
   String fiatInputValue = '0';
@@ -196,6 +196,8 @@ abstract class _SellAmountStoreBase with Store {
     asset = inputAsset;
     account = newAccount;
     card = newCard;
+
+    isFiatEntering = asset == null;
 
     loadConversionPrice(
       fiatSymbol,

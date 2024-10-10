@@ -20,7 +20,7 @@ extension DecimalExtension on Decimal {
 
   /// Leaves zeros at the end of the fractional part and adds a symbol at the end.
   /// Usually used for the amount of asset in the base currency.
-  /// 
+  ///
   ///  Examples: 1 000.00 EUR, 122.10 USD
   String toFormatSum({
     int? accuracy,
@@ -34,9 +34,9 @@ extension DecimalExtension on Decimal {
     return asset.formatSum();
   }
 
-  /// Trims zeroes at the end of the fractional part and adds a prefix at the beginning. 
+  /// Trims zeroes at the end of the fractional part and adds a prefix at the beginning.
   /// Usually used to price a unit of an asset in the base currency.
-  /// 
+  ///
   ///  Examples: € 1 000.00, $ 122.10
   String toFormatPrice({
     int? accuracy,
@@ -52,5 +52,13 @@ extension DecimalExtension on Decimal {
 
   Decimal get negative {
     return this > Decimal.zero ? this * Decimal.parse('-1') : this;
+  }
+
+  String toFormatPercentPriceChange() {
+    return toDouble().toFormatPercentPriceChange();
+  }
+
+  String toFormatPercentCount() {
+    return toDouble().toFormatPercentCount();
   }
 }

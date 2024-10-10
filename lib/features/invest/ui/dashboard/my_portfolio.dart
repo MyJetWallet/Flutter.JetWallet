@@ -169,7 +169,7 @@ class MyPortfolio extends StatelessObserverWidget {
                 ),
                 const SpaceH2(),
                 Text(
-                  '${percent.toFormatSum(accuracy: 2)}%',
+                  percent.toDouble().toFormatPercentPriceChange(),
                   style: STStyles.body1InvestSM.copyWith(
                     color: colors.black,
                   ),

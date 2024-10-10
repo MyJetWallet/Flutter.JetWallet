@@ -29,6 +29,7 @@ class SInput extends HookWidget {
     this.textCapitalization,
     this.obscureText = false,
     this.autofocus = false,
+    this.withoutVerticalPadding = false,
   });
 
   final VoidCallback? onTextFieldTap;
@@ -39,6 +40,7 @@ class SInput extends HookWidget {
   final List<TextInputFormatter>? inputFormatters;
   final TextCapitalization? textCapitalization;
   final Widget? suffixIcon;
+  final bool withoutVerticalPadding;
 
   final String? label;
   final String? hint;
@@ -70,9 +72,11 @@ class SInput extends HookWidget {
           minHeight: height ?? 80,
         ),
         child: Padding(
-          padding: label == null
-              ? const EdgeInsets.symmetric(horizontal: 24, vertical: 26)
-              : const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
+          padding: withoutVerticalPadding
+              ? const EdgeInsets.symmetric(vertical: 8.0)
+              : label == null
+                  ? const EdgeInsets.symmetric(horizontal: 24, vertical: 26)
+                  : const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
           child: Row(
             children: [
               Expanded(

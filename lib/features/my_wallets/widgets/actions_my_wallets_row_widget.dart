@@ -29,7 +29,7 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
       child: Observer(
         builder: (context) {
           final currencies = sSignalRModules.currenciesList;
-          final isEmptyBalanse = currenciesWithBalanceFrom(currencies).isEmpty;
+          final isEmptyBalance = currenciesWithBalanceFrom(currencies).isEmpty;
 
           return myWalletsSrore.isLoading
               ? const SPaddingH24(
@@ -70,9 +70,8 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
                       onTap: () {
                         myWalletsSrore.endReorderingImmediately();
 
-                        showSendAction(context);
+                        showSendAction(isEmptyBalance, context);
                       },
-                      isDisabled: isEmptyBalanse,
                     ),
                     CircleActionAddCash(
                       onTap: () {

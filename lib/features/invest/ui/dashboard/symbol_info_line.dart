@@ -5,6 +5,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jetwallet/features/invest/ui/dashboard/active_invest_line.dart';
 import 'package:jetwallet/features/invest/ui/widgets/small_chart.dart';
+import 'package:jetwallet/utils/formatting/base/format_percent.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
@@ -127,7 +128,7 @@ class SymbolInfoLine extends StatelessObserverWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Text(
-                        formatPercent(percent),
+                        percent.toDouble().toFormatPercentPriceChange(),
                         overflow: TextOverflow.ellipsis,
                         style: STStyles.body3InvestSM.copyWith(
                           color: percent == Decimal.zero

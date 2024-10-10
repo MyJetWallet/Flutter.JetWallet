@@ -23,8 +23,8 @@ class NetworkIconWidget extends StatelessWidget {
       fit: BoxFit.cover,
       height: height,
       width: width,
-      fadeInDuration: const Duration(milliseconds: 50),
-      fadeOutDuration: const Duration(milliseconds: 50),
+      fadeInDuration: Duration.zero,
+      fadeOutDuration: Duration.zero,
       placeholder: (context, url) => placeholder ?? const SAssetPlaceholderIcon(),
       errorWidget: (context, url, error) => const SAssetPlaceholderIcon(),
     );

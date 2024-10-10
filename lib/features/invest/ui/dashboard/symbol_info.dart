@@ -94,7 +94,7 @@ class SymbolInfo extends StatelessObserverWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      formatPercent(percent),
+                      percent.toDouble().toFormatPercentPriceChange(),
                       textAlign: TextAlign.end,
                       overflow: TextOverflow.ellipsis,
                       style: STStyles.body3InvestSM.copyWith(

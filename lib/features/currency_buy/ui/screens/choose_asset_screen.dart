@@ -152,7 +152,7 @@ class ChooseAssetBody extends StatelessObserverWidget {
                   ),
                   supplement: currency.symbol,
                   isRightValueMarket: true,
-                  rightMarketValue: formatPercent(currency.dayPercentChange),
+                  rightMarketValue: currency.dayPercentChange.toFormatPercentPriceChange(),
                   rightValueMarketPositive: currency.dayPercentChange > 0,
                   onTableAssetTap: () => onChooseAsset(currency),
                 );

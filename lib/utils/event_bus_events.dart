@@ -29,3 +29,7 @@ class ResetScrollMyWallets {
 class EndReordering {
   EndReordering();
 }
+
+class ShowMarketGainers {
+  ShowMarketGainers();
+}

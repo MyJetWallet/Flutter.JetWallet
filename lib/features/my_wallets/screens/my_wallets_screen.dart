@@ -72,7 +72,9 @@ class _MyWalletsScreenState extends State<MyWalletsScreen> with TickerProviderSt
   void initState() {
     super.initState();
 
-    unawaited(getIt<IbanStore>().getAddressBook());
+    if (getIt.isRegistered<IbanStore>()) {
+      unawaited(getIt<IbanStore>().getAddressBook());
+    }
 
     if ((sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
       (element) => element.id == AssetPaymentProductsEnum.jar,

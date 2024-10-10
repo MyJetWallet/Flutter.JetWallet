@@ -8,6 +8,8 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/actions/action_buy/action_buy.dart';
+import 'package:jetwallet/features/actions/action_send/widgets/send_options.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/actions/store/action_search_store.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
@@ -31,13 +33,21 @@ import '../../../core/services/local_storage_service.dart';
 import '../../app/store/app_store.dart';
 import '../helpers/show_currency_search.dart';
 
-Future<void> showSendAction(BuildContext context) async {
+Future<void> showSendAction(bool isEmptyBalance, BuildContext context) async {
   final kycState = getIt.get<KycService>();
   final handler = getIt.get<KycAlertHandler>();
 
   final isToCryptoWalletAvaible = checkToCryptoWalletAvaible();
   final isGlobalAvaible = checkGlobalAvaible();
   final isGiftAvaible = checkGiftAvaible();
+
+  if (isEmptyBalance) {
+    showPleaseAddFundsToYourBalanceDialog(() {
+      showBuyAction(context: context);
+    });
+
+    return;
+  }
 
   if (!(isToCryptoWalletAvaible || isGlobalAvaible || isGiftAvaible)) {
     handler.handle(

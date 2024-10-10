@@ -103,7 +103,7 @@ void showConvertToBottomSheet({
                       supplement: isEurAsset ? null : currency.symbol,
                       isRightValueMarket: true,
                       hasRightValue: !isEurAsset,
-                      rightMarketValue: formatPercent(currency.dayPercentChange),
+                      rightMarketValue: currency.dayPercentChange.toFormatPercentPriceChange(),
                       rightValueMarketPositive: currency.dayPercentChange > 0,
                       onTableAssetTap: () {
                         if (currency.symbol == 'EUR') {

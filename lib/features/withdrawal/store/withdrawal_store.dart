@@ -1549,7 +1549,9 @@ abstract class _WithdrawalStoreBase with Store {
           for (final networkInfo in data.networks) {
             final index = networks.indexWhere((network) => network.id == networkInfo.network);
 
-            networks[index] = networks[index].copyWith(info: networkInfo);
+            if (index != -1) {
+              networks[index] = networks[index].copyWith(info: networkInfo);
+            }
           }
         },
         onError: (error) {

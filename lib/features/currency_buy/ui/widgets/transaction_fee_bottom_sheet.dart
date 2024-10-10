@@ -1,6 +1,7 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 void showTransactionFeeBottomSheet({
@@ -27,7 +28,9 @@ void showTransactionFeeBottomSheet({
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              isAbsolute ? tradeFeeAbsolute ?? '' : '${intl.previewBuyWithUnlimint_from} $tradeFeePercentage%',
+              isAbsolute
+                  ? tradeFeeAbsolute ?? ''
+                  : '${intl.previewBuyWithUnlimint_from} ${(tradeFeePercentage ?? Decimal.zero).toFormatPercentCount()}',
               style: sTextH4Style,
             ),
             const SpaceH4(),

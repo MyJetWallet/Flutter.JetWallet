@@ -19,6 +19,7 @@ import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/app/store/models/authorization_union.dart';
 import 'package:jetwallet/features/auth/email_verification/model/email_verification_union.dart';
+import 'package:jetwallet/features/auth/verification_reg/store/verification_store.dart';
 import 'package:jetwallet/utils/helpers/current_platform.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:jetwallet/utils/store/timer_store.dart';
@@ -200,6 +201,8 @@ abstract class _EmailVerificationStoreBase with Store {
           await startSession(authInfo.authState.email);
 
           authInfo.setAuthStatus(const AuthorizationUnion.authorized());
+
+          getIt.get<VerificationStore>().setEmailDone(true);
 
           final statusNotification = await Permission.notification.status;
 

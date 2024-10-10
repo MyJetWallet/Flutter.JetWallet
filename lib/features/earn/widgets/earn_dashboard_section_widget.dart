@@ -20,6 +20,7 @@ import 'package:jetwallet/features/home/store/bottom_bar_store.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -133,13 +134,23 @@ class _EarnSectionEmptyState extends StatelessWidget {
                           )
                           .length >
                       1) {
-                    sShowBasicModalBottomSheet(
+                    VoidCallback? contentOnTap;
+
+                    showBasicBottomSheet(
                       context: context,
-                      scrollable: true,
+                      basicBottomSheetButton: BasicBottomSheetButton(
+                        title: intl.earn_continue,
+                        onTap: () {
+                          contentOnTap?.call();
+                        },
+                      ),
                       children: [
                         OffersOverlayContent(
                           offers: currencyOffers,
                           currency: currency,
+                          setParentOnTap: (onTap) {
+                            contentOnTap = onTap;
+                          },
                         ),
                       ],
                     );

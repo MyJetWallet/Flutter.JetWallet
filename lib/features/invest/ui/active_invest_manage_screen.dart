@@ -286,8 +286,12 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
           SPaddingH24(
             child: Observer(
               builder: (BuildContext context) {
-                final rolloverPercent =
-                    '${((widget.position.direction == Direction.buy ? widget.instrument.rollBuy! : widget.instrument.rollSell!) * Decimal.fromInt(100)).toStringAsFixed(4)}%';
+                final rolloverPercent = ((widget.position.direction == Direction.buy
+                            ? widget.instrument.rollBuy!
+                            : widget.instrument.rollSell!) *
+                        Decimal.fromInt(100))
+                    .toDouble()
+                    .toFormatPercentPriceChange();
                 return RolloverLine(
                   mainText: intl.invest_next_rollover,
                   secondaryText: '$rolloverPercent / $timerUpdated',

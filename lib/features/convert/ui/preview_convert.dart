@@ -176,7 +176,7 @@ class _PreviewConvertBodyState extends State<PreviewConvertBody> with SingleTick
                   name: intl.fee,
                   baseline: 24,
                   contentLoading: store.union is QuoteLoading && !widget.input.toAssetEnabled,
-                  value: '${store.feePercent}%',
+                  value: (store.feePercent ?? Decimal.zero).toFormatPercentCount(),
                 ),
                 const SizedBox(height: 19),
                 const SDivider(),

@@ -119,17 +119,16 @@ class _AppBuilderBodyState extends State<AppBuilderBody> with WidgetsBindingObse
           if (e.errorCode > 9 && e.errorCode != 21 && e.errorCode != 22) {
             unawaited(
               getIt.get<SNetwork>().simpleNetworkingUnathorized.getLogsApiModule().postAddLog(
-                AddLogModel(
-                  level: 'error',
-                  message: 'SplashErrorException: ${e.errorCode}',
-                  source: 'Splash',
-                  process: 'Init',
-                  token: await storageService.getValue(refreshTokenKey),
-                ),
-              ),
+                    AddLogModel(
+                      level: 'error',
+                      message: 'SplashErrorException: ${e.errorCode}, $e, $stackTrace',
+                      source: 'Splash',
+                      process: 'Init',
+                      token: await storageService.getValue(refreshTokenKey),
+                    ),
+                  ),
             );
           }
-
 
           getIt.get<SplashErrorService>().error = e.errorCode;
           await getIt.get<SplashErrorService>().showErrorAlert();

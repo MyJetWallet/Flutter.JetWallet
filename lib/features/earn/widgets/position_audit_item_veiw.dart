@@ -148,7 +148,7 @@ String formatApyRate(Decimal? apyRate) {
   if (apyRate == null) {
     return 'N/A';
   } else {
-    return '${(apyRate * Decimal.fromInt(100)).toStringAsFixed(2).replaceFirst(RegExp(r'\.?0*$'), '')}%';
+    return (apyRate * Decimal.fromInt(100)).toFormatPercentCount();
   }
 }
 

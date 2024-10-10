@@ -205,7 +205,7 @@ class ActiveEarnWidget extends StatelessObserverWidget {
                         style: STStyles.body2Medium.copyWith(color: colors.grey1),
                       ),
                       Text(
-                        '${formatApyRate(earnPosition.offerApyRate)} %',
+                        '${double.tryParse(formatApyRate(earnPosition.offerApyRate) ?? '0')?.toFormatPercentCount()}',
                         style: STStyles.subtitle2.copyWith(color: colors.black),
                       ),
                     ],
@@ -220,7 +220,7 @@ class ActiveEarnWidget extends StatelessObserverWidget {
                         style: STStyles.body2Medium.copyWith(color: colors.grey1),
                       ),
                       Text(
-                        '${getHighestApyRateAsString(earnPosition.offers)} %',
+                        '${double.tryParse(getHighestApyRateAsString(earnPosition.offers))?.toFormatPercentCount()}',
                         style: STStyles.subtitle2.copyWith(color: colors.black),
                       ),
                     ],
