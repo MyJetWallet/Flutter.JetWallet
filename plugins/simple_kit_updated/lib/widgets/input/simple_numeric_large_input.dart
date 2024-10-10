@@ -40,7 +40,7 @@ class SNumericLargeInput extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24),
-      height: 136,
+      height: 140,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
