@@ -207,7 +207,7 @@ class InvestLine extends StatelessObserverWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text(
-                          formatPercent(profitPercent),
+                          profitPercent.toDouble().toFormatPercentPriceChange(),
                           overflow: TextOverflow.ellipsis,
                           style: STStyles.body3InvestSM.copyWith(
                             color: profitPercent == Decimal.zero

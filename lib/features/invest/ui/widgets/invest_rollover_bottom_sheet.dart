@@ -162,8 +162,12 @@ class _InvestListScreenState extends State<InvestList> {
               if (widget.position.status != PositionStatus.cancelled && widget.position.status != PositionStatus.closed)
                 Observer(
                   builder: (BuildContext context) {
-                    final rolloverPercent =
-                        '${((widget.position.direction == Direction.buy ? widget.instrument.rollBuy! : widget.instrument.rollSell!) * Decimal.fromInt(100)).toStringAsFixed(4)}%';
+                    final rolloverPercent = ((widget.position.direction == Direction.buy
+                                ? widget.instrument.rollBuy!
+                                : widget.instrument.rollSell!) *
+                            Decimal.fromInt(100))
+                        .toDouble()
+                        .toFormatPercentPriceChange();
 
                     return RolloverLine(
                       mainText: intl.invest_next_rollover,
@@ -211,7 +215,7 @@ class _InvestListScreenState extends State<InvestList> {
                 const SpaceH8(),
                 DataLine(
                   mainText: intl.invest_report_rollover_rate,
-                  secondaryText: '${item.rollOver > Decimal.zero ? '+' : '-'}${item.rollOver.abs()}%',
+                  secondaryText: item.rollOver.toFormatPercentPriceChange(),
                 ),
                 const SpaceH20(),
               ],

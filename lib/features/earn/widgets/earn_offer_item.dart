@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/utils/formatting/base/format_percent.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class EarnOfferItem extends StatelessWidget {
@@ -27,8 +28,8 @@ class EarnOfferItem extends StatelessWidget {
       ),
       child: ChipsSuggestionM(
         title: isSingleOffer
-            ? '${double.parse(percentage ?? '0').toStringAsFixed(2).replaceFirst(RegExp(r'\.?0*$'), '')}%'
-            : '${intl.earn_up_to} ${double.parse(percentage ?? '0').toStringAsFixed(2).replaceFirst(RegExp(r'\.?0*$'), '')}%',
+            ? double.parse(percentage ?? '0').toFormatPercentCount()
+            : '${intl.earn_up_to} ${double.parse(percentage ?? '0').toFormatPercentCount()}',
         subtitle: cryptoName,
         onTap: onTap,
         icon: trailingIcon != null

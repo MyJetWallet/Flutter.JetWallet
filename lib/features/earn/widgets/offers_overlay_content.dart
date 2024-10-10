@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/earn/widgets/offer_tile.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -106,7 +107,7 @@ class _OffersOverlayContentState extends State<OffersOverlayContent> {
     if (apyRate == null) {
       return 'N/A';
     } else {
-      return '${(apyRate * Decimal.fromInt(100)).toStringAsFixed(2).replaceFirst(RegExp(r'\.?0*$'), '')}%';
+      return (apyRate * Decimal.fromInt(100)).toFormatPercentCount();
     }
   }
 }
