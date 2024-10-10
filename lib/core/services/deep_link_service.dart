@@ -23,6 +23,7 @@ import 'package:jetwallet/features/app/store/models/authorization_union.dart';
 import 'package:jetwallet/features/app/store/models/authorized_union.dart';
 import 'package:jetwallet/features/auth/email_verification/store/email_verification_store.dart';
 import 'package:jetwallet/features/auth/register/store/referral_code_store.dart';
+import 'package:jetwallet/features/change_email/store/change_email_verification_store.dart';
 import 'package:jetwallet/features/crypto_jar/store/jars_store.dart';
 import 'package:jetwallet/features/earn/store/earn_store.dart';
 import 'package:jetwallet/features/earn/widgets/offers_overlay_content.dart';
@@ -290,9 +291,15 @@ class DeepLinkService {
   }
 
   void _confirmEmailCommand(Map<String, String> parameters) {
-    getIt.get<EmailVerificationStore>().updateCode(
-          parameters[_code],
-        );
+    if (getIt.isRegistered<ChangeEmailVerificationStore>()) {
+      getIt.get<ChangeEmailVerificationStore>().updateCode(
+            parameters[_code],
+          );
+    } else {
+      getIt.get<EmailVerificationStore>().updateCode(
+            parameters[_code],
+          );
+    }
   }
 
   void _confirmWithdrawCommand(Map<String, String> parameters) {
