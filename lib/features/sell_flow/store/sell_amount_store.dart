@@ -312,15 +312,25 @@ abstract class _SellAmountStoreBase with Store {
 
   @action
   void onSellAll() {
-    cryptoInputValue = responseOnInputAction(
-      oldInput: cryptoInputValue,
-      newInput: sellAllValue.toString(),
-      accuracy: asset?.accuracy ?? 2,
-    );
+    if (isFiatEntering) {
+      fiatInputValue = '0';
+      fiatInputValue = responseOnInputAction(
+        oldInput: fiatInputValue,
+        newInput: _maxBuyAmount.toString(),
+        accuracy: fiatAccuracy,
+      );
 
-    isFiatEntering = false;
+      _calculateCryptoConversion();
+    } else {
+      cryptoInputValue = '0';
+      cryptoInputValue = responseOnInputAction(
+        oldInput: cryptoInputValue,
+        newInput: _maxSellAmount.toString(),
+        accuracy: asset?.accuracy ?? 2,
+      );
 
-    _calculateFiatConversion();
+      _calculateFiatConversion();
+    }
 
     _validateInput();
   }

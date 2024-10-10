@@ -5,8 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
+import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/suggestion_button_widget.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/store/send_globally_amount_store.dart';
-import 'package:jetwallet/features/withdrawal/send_card_detail/utils/send_globally_limits.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
@@ -23,7 +23,6 @@ import 'package:simple_networking/modules/wallet_api/models/send_globally/send_t
 
 import '../../../core/di/di.dart';
 import '../../app/store/app_store.dart';
-import 'widgets/payment_method_card.dart';
 
 @RoutePage(name: 'SendGloballyAmountRouter')
 class SendGloballyAmountScreen extends StatelessWidget {
@@ -87,7 +86,6 @@ class _SendGloballyAmountScreenBodyState extends State<SendGloballyAmountScreenB
     final store = SendGloballyAmountStore.of(context);
 
     final deviceSize = sDeviceSize;
-    final colors = sKit.colors;
 
     return SPageFrame(
       loading: store.loader,
@@ -104,111 +102,47 @@ class _SendGloballyAmountScreenBodyState extends State<SendGloballyAmountScreenB
       child: Column(
         children: [
           const Spacer(),
-          Baseline(
-            baseline: deviceSize.when(
-              small: () => 20,
-              medium: () => 48,
+          SNumericLargeInput(
+            primaryAmount: formatCurrencyStringAmount(
+              value: store.withAmount,
             ),
-            baselineType: TextBaseline.alphabetic,
-            child: SActionPriceField(
-              widgetSize: widgetSizeFrom(deviceSize),
-              price: formatCurrencyStringAmount(
-                value: store.withAmount,
-                symbol: store.sendCurrency!.symbol,
-              ),
-              helper: '≈ ${Decimal.parse(store.baseConversionValue).toFormatSum(
-                accuracy: store.baseCurrency.accuracy,
-                symbol: store.baseCurrency.symbol,
-              )}',
-              error: store.withAmmountInputError == InputError.limitError
-                  ? store.limitError
-                  : store.withAmmountInputError.value(),
-              isErrorActive: store.withAmmountInputError.isActive,
-              pasteLabel: intl.paste,
-              onPaste: () async {
-                final data = await Clipboard.getData('text/plain');
-                if (data?.text != null) {
-                  final n = double.tryParse(data!.text!);
-                  if (n != null) {
-                    store.pasteAmount(n.toString().trim());
-                  }
+            primarySymbol: store.sendCurrency!.symbol,
+            secondaryAmount: '${intl.earn_est} ${Decimal.parse(store.baseConversionValue).toFormatSum(
+              accuracy: store.baseCurrency.accuracy,
+            )}',
+            secondarySymbol: store.baseCurrency.symbol,
+            onSwap: () {},
+            showSwopButton: false,
+            showMaxButton: true,
+            onMaxTap: store.onSendAll,
+            errorText: store.withAmmountInputError.isActive
+                ? store.withAmmountInputError == InputError.limitError
+                    ? store.limitError
+                    : store.withAmmountInputError.value()
+                : null,
+            pasteLabel: intl.paste,
+            onPaste: () async {
+              final data = await Clipboard.getData('text/plain');
+              if (data?.text != null) {
+                final n = double.tryParse(data!.text!);
+                if (n != null) {
+                  store.pasteAmount(n.toString().trim());
                 }
-              },
-            ),
+              }
+            },
           ),
           const Spacer(),
-          SPaddingH24(
-            child: InkWell(
-              onTap: () {
-                sAnalytics.globalSendAmountLimitsSV(
-                  asset: widget.data.asset ?? '',
-                  sendMethodType: '1',
-                  destCountry: widget.data.countryCode ?? '',
-                  paymentMethod: store.method?.name ?? '',
-                  globalSendType: widget.method.methodId ?? '',
-                );
-
-                showGlobalSendLimits(
-                  context: context,
-                  minAmount: store.minLimitAmount,
-                  maxAmount: store.maxLimitAmount,
-                  currency: store.sendCurrency!,
-                );
-              },
-              highlightColor: sKit.colors.grey4,
-              splashColor: Colors.transparent,
-              borderRadius: BorderRadius.circular(16.0),
-              child: Ink(
-                height: 88,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16.0),
-                  border: Border.all(
-                    color: colors.grey4,
-                  ),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                      children: [
-                        const SpaceW19(), // 1 px border
-                        if (store.cardNetwork != CircleCardNetwork.unsupported) ...[
-                          getNetworkIcon(context),
-                        ] else ...[
-                          NetworkIconWidget(
-                            iconForPaymentMethod(
-                              methodId: store.method?.methodId ?? '',
-                            ),
-                            width: 30,
-                            height: 30,
-                            placeholder: MethodPlaceholder(
-                              name: widget.method.name ?? 'M',
-                            ),
-                          ),
-                        ],
-                        const SpaceW12(),
-                        Flexible(
-                          child: Baseline(
-                            baseline: 18,
-                            baselineType: TextBaseline.alphabetic,
-                            child: Text(
-                              widget.method.name ?? '',
-                              overflow: TextOverflow.ellipsis,
-                              style: sSubtitle2Style,
-                            ),
-                          ),
-                        ),
-                        const SpaceW19(), // 1 px border
-                      ],
-                    ),
-                  ],
-                ),
+          SuggestionButtonWidget(
+            title: widget.method.name ?? '',
+            subTitle: intl.iban_out_sent_to,
+            icon: NetworkIconWidget(
+              iconForPaymentMethod(
+                methodId: store.method?.methodId ?? '',
               ),
+              placeholder: const SizedBox(),
             ),
-          ),
-          deviceSize.when(
-            small: () => const Spacer(),
-            medium: () => const SpaceH20(),
+            showArrow: false,
+            onTap: () {},
           ),
           SNumericKeyboardAmount(
             widgetSize: widgetSizeFrom(deviceSize),

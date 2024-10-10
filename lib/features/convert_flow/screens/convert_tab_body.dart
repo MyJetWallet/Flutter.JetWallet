@@ -18,6 +18,7 @@ import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/icons/24x24/public/crypto/simple_crypto_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -60,6 +61,8 @@ class ConvertAmountScreenBodyState extends State<ConvertAmountTabBody> with Auto
 
     final deviceSize = sDeviceSize;
 
+    final colors = SColorsLight();
+
     return Provider<ConvertAmountStore>(
       create: (context) => ConvertAmountStore()
         ..init(
@@ -93,8 +96,7 @@ class ConvertAmountScreenBodyState extends State<ConvertAmountTabBody> with Auto
                                 small: () => const SpaceH40(),
                                 medium: () => const Spacer(),
                               ),
-                              SNewActionPriceField(
-                                widgetSize: widgetSizeFrom(deviceSize),
+                              SNumericLargeInput(
                                 primaryAmount: formatCurrencyStringAmount(
                                   value: store.primaryAmount,
                                 ),
@@ -112,12 +114,8 @@ class ConvertAmountScreenBodyState extends State<ConvertAmountTabBody> with Auto
                                   store.swapAssets();
                                 },
                                 errorText: store.paymentMethodInputError,
-                                optionText: store.fromInputValue == '0' &&
-                                        store.fromAsset != null &&
-                                        store.toAsset != null
-                                    ? '''${intl.convert_amount_convert_all} ${getIt<AppStore>().isBalanceHide ? '**** ${store.fromAsset?.symbol}' : store.convertAllAmount.toFormatCount(accuracy: store.fromAsset?.accuracy ?? 1, symbol: store.fromAsset?.symbol ?? '')}'''
-                                    : null,
-                                optionOnTap: () {
+                                showMaxButton: true,
+                                onMaxTap: () {
                                   sAnalytics.tapOnTheConvertAll();
                                   store.onConvetrAll();
                                 },
@@ -133,106 +131,128 @@ class ConvertAmountScreenBodyState extends State<ConvertAmountTabBody> with Auto
                                 },
                               ),
                               const Spacer(),
-                              if (store.fromAsset != null)
-                                SuggestionButtonWidget(
-                                  title: store.fromAsset?.description,
-                                  subTitle: intl.amount_screen_convert,
-                                  trailing: getIt<AppStore>().isBalanceHide
-                                      ? '**** ${store.fromAsset?.symbol}'
-                                      : store.fromAsset?.volumeAssetBalance,
-                                  icon: NetworkIconWidget(
-                                    store.fromAsset?.iconUrl ?? '',
+                              Stack(
+                                children: [
+                                  Column(
+                                    children: [
+                                      if (store.fromAsset != null)
+                                        SuggestionButtonWidget(
+                                          title: store.fromAsset?.description,
+                                          subTitle: intl.amount_screen_convert,
+                                          trailing: getIt<AppStore>().isBalanceHide
+                                              ? '**** ${store.fromAsset?.symbol}'
+                                              : store.fromAsset?.volumeAssetBalance,
+                                          icon: NetworkIconWidget(
+                                            store.fromAsset?.iconUrl ?? '',
+                                          ),
+                                          onTap: () {
+                                            sAnalytics.tapOnTheConvertFromButton(
+                                              currentFromValueForSell: store.fromAsset?.symbol ?? '',
+                                            );
+
+                                            showConvertFromChooseAssetBottomSheet(
+                                              context: context,
+                                              onChooseAsset: (currency) {
+                                                store.setNewFromAsset(currency);
+                                                sAnalytics.tapOnSelectedNewConvertFromAssetButton(
+                                                  newConvertFromAsset: currency.symbol,
+                                                );
+                                                Navigator.of(context).pop(true);
+                                              },
+                                              then: (value) {},
+                                            );
+                                          },
+                                          isDisabled: store.isNoCurrencies,
+                                        )
+                                      else
+                                        SuggestionButtonWidget(
+                                          subTitle: intl.amount_screen_convert,
+                                          icon: const SCryptoIcon(),
+                                          onTap: () {
+                                            sAnalytics.tapOnTheConvertFromButton(
+                                              currentFromValueForSell: store.fromAsset?.symbol ?? '',
+                                            );
+
+                                            showConvertFromChooseAssetBottomSheet(
+                                              context: context,
+                                              onChooseAsset: (currency) {
+                                                store.setNewFromAsset(currency);
+                                                sAnalytics.tapOnSelectedNewConvertFromAssetButton(
+                                                  newConvertFromAsset: currency.symbol,
+                                                );
+                                                Navigator.of(context).pop(true);
+                                              },
+                                              then: (value) {},
+                                            );
+                                          },
+                                          isDisabled: store.isNoCurrencies,
+                                        ),
+                                      const SpaceH4(),
+                                      if (store.toAsset != null)
+                                        SuggestionButtonWidget(
+                                          title: store.toAsset?.description,
+                                          subTitle: intl.convert_amount_convert_to,
+                                          trailing: getIt<AppStore>().isBalanceHide
+                                              ? '**** ${store.toAsset?.symbol}'
+                                              : store.toAsset?.volumeAssetBalance,
+                                          icon: NetworkIconWidget(
+                                            store.toAsset?.iconUrl ?? '',
+                                          ),
+                                          onTap: () {
+                                            sAnalytics.tapOnTheConvertToButton(
+                                              currentToValueForConvert: store.toAsset?.symbol ?? '',
+                                            );
+
+                                            showConvertToChooseAssetBottomSheet(
+                                              context: context,
+                                              onChooseAsset: (currency) {
+                                                store.setNewToAsset(currency);
+                                                Navigator.of(context).pop(true);
+                                              },
+                                            );
+                                          },
+                                        )
+                                      else
+                                        SuggestionButtonWidget(
+                                          subTitle: intl.convert_amount_convert_to,
+                                          icon: const SCryptoIcon(),
+                                          onTap: () {
+                                            sAnalytics.tapOnTheConvertToButton(
+                                              currentToValueForConvert: store.toAsset?.symbol ?? '',
+                                            );
+
+                                            showConvertToChooseAssetBottomSheet(
+                                              context: context,
+                                              onChooseAsset: (currency) {
+                                                store.setNewToAsset(currency);
+                                                Navigator.of(context).pop(true);
+                                              },
+                                            );
+                                          },
+                                        ),
+                                    ],
                                   ),
-                                  onTap: () {
-                                    sAnalytics.tapOnTheConvertFromButton(
-                                      currentFromValueForSell: store.fromAsset?.symbol ?? '',
-                                    );
-
-                                    showConvertFromChooseAssetBottomSheet(
-                                      context: context,
-                                      onChooseAsset: (currency) {
-                                        store.setNewFromAsset(currency);
-                                        sAnalytics.tapOnSelectedNewConvertFromAssetButton(
-                                          newConvertFromAsset: currency.symbol,
-                                        );
-                                        Navigator.of(context).pop(true);
-                                      },
-                                      skipAssetSymbol: store.toAsset?.symbol,
-                                      then: (value) {},
-                                    );
-                                  },
-                                  isDisabled: store.isNoCurrencies,
-                                )
-                              else
-                                SuggestionButtonWidget(
-                                  subTitle: intl.amount_screen_convert,
-                                  icon: const SCryptoIcon(),
-                                  onTap: () {
-                                    sAnalytics.tapOnTheConvertFromButton(
-                                      currentFromValueForSell: store.fromAsset?.symbol ?? '',
-                                    );
-
-                                    showConvertFromChooseAssetBottomSheet(
-                                      context: context,
-                                      onChooseAsset: (currency) {
-                                        store.setNewFromAsset(currency);
-                                        sAnalytics.tapOnSelectedNewConvertFromAssetButton(
-                                          newConvertFromAsset: currency.symbol,
-                                        );
-                                        Navigator.of(context).pop(true);
-                                      },
-                                      skipAssetSymbol: store.toAsset?.symbol,
-                                      then: (value) {},
-                                    );
-                                  },
-                                  isDisabled: store.isNoCurrencies,
-                                ),
-                              const SpaceH8(),
-                              if (store.toAsset != null)
-                                SuggestionButtonWidget(
-                                  title: store.toAsset?.description,
-                                  subTitle: intl.convert_amount_convert_to,
-                                  trailing: getIt<AppStore>().isBalanceHide
-                                      ? '**** ${store.toAsset?.symbol}'
-                                      : store.toAsset?.volumeAssetBalance,
-                                  icon: NetworkIconWidget(
-                                    store.toAsset?.iconUrl ?? '',
+                                  Positioned.fill(
+                                    child: Align(
+                                      child: GestureDetector(
+                                        onTap: store.onSwapAssets,
+                                        child: Container(
+                                          width: 32,
+                                          height: 32,
+                                          decoration: ShapeDecoration(
+                                            color: colors.white,
+                                            shape: const OvalBorder(),
+                                          ),
+                                          alignment: Alignment.center,
+                                          child: Assets.svg.medium.swap2.simpleSvg(
+                                            width: 16,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                                   ),
-                                  onTap: () {
-                                    sAnalytics.tapOnTheConvertToButton(
-                                      currentToValueForConvert: store.toAsset?.symbol ?? '',
-                                    );
-
-                                    showConvertToChooseAssetBottomSheet(
-                                      context: context,
-                                      onChooseAsset: (currency) {
-                                        store.setNewToAsset(currency);
-                                        Navigator.of(context).pop(true);
-                                      },
-                                      skipAssetSymbol: store.fromAsset?.symbol,
-                                    );
-                                  },
-                                )
-                              else
-                                SuggestionButtonWidget(
-                                  subTitle: intl.convert_amount_convert_to,
-                                  icon: const SCryptoIcon(),
-                                  onTap: () {
-                                    sAnalytics.tapOnTheConvertToButton(
-                                      currentToValueForConvert: store.toAsset?.symbol ?? '',
-                                    );
-
-                                    showConvertToChooseAssetBottomSheet(
-                                      context: context,
-                                      onChooseAsset: (currency) {
-                                        store.setNewToAsset(currency);
-                                        Navigator.of(context).pop(true);
-                                      },
-                                      skipAssetSymbol: store.fromAsset?.symbol,
-                                    );
-                                  },
-                                ),
-                              const SpaceH20(),
+                                ],
+                              ),
                             ],
                           ),
                         ),

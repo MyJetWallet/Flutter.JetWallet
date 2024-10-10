@@ -5955,5 +5955,6 @@
     "change_email_new_email": "Нова електронна пошта",
     "change_email_email_verification": "Верифікація електронної пошти",
     "change_email_email_verification_hint": "Введіть код, який ми надіслали на вашу нову електронну адресу ",
-    "change_email_success_hint": "Вашу електронну адресу успішно оновлено на {email}"
+    "change_email_success_hint": "Вашу електронну адресу успішно оновлено на {email}",
+    "withrawal_amount_error_entered_amount": "Введена сума має покривати комісію за обробку. Будь ласка, відкоригуйте значення."
 }

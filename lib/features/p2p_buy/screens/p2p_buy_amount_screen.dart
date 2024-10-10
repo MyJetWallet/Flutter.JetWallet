@@ -19,6 +19,7 @@ import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/wallet_api/models/p2p_methods/p2p_methods_responce_model.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -99,8 +100,7 @@ class P2PBuyAmountScreen extends StatelessWidget {
                                   small: () => const SpaceH40(),
                                   medium: () => const Spacer(),
                                 ),
-                                SNewActionPriceField(
-                                  widgetSize: widgetSizeFrom(deviceSize),
+                                SNumericLargeInput(
                                   primaryAmount: formatCurrencyStringAmount(
                                     value: store.primaryAmount,
                                   ),
@@ -113,6 +113,8 @@ class P2PBuyAmountScreen extends StatelessWidget {
                                   secondarySymbol: store.asset != null ? store.secondarySymbol : null,
                                   onSwap: () {},
                                   showSwopButton: false,
+                                  showMaxButton: true,
+                                  onMaxTap: store.onBuyAll,
                                   errorText: store.paymentMethodInputError,
                                   pasteLabel: intl.paste,
                                   onPaste: () async {
@@ -136,7 +138,7 @@ class P2PBuyAmountScreen extends StatelessWidget {
                                   showArrow: false,
                                   onTap: () {},
                                 ),
-                                const SpaceH8(),
+                                const SpaceH4(),
                                 SuggestionButtonWidget(
                                   title: store.p2pMethod?.name,
                                   subTitle: intl.p2p_buy_with,
@@ -149,7 +151,6 @@ class P2PBuyAmountScreen extends StatelessWidget {
                                   showArrow: false,
                                   onTap: () {},
                                 ),
-                                const SpaceH20(),
                               ],
                             ),
                           ),

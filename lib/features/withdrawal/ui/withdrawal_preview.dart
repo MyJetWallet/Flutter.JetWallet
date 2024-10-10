@@ -108,14 +108,14 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
                     isLoading: false,
                     assetIconUrl: store.withdrawalInputModel!.currency!.iconUrl,
                     assetDescription: store.withdrawalInputModel!.currency!.description,
-                    assetValue: (Decimal.parse(store.withAmount) + feeSize).toFormatCount(
+                    assetValue: store.youSendAmount.toFormatCount(
                       accuracy: store.withdrawalInputModel!.currency!.accuracy,
                       symbol: store.withdrawalInputModel!.currency!.symbol,
                     ),
                     assetBaseAmount: formatService
                         .convertOneCurrencyToAnotherOne(
                           fromCurrency: store.withdrawalInputModel!.currency!.symbol,
-                          fromCurrencyAmmount: Decimal.parse(store.withAmount) + feeSize,
+                          fromCurrencyAmmount: store.youSendAmount,
                           toCurrency: sSignalRModules.baseCurrency.symbol,
                           baseCurrency: sSignalRModules.baseCurrency.symbol,
                           isMin: false,
@@ -147,7 +147,7 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
                 TwoColumnCell(
                   label: intl.withdrawal_recipient_gets,
                   value:
-                      '''${store.withAmount} ${store.withdrawalType != WithdrawalType.nft ? store.withdrawalInputModel!.currency!.symbol : store.withdrawalInputModel!.nft!.name}''',
+                      '''${store.recepientGetsAmount} ${store.withdrawalType != WithdrawalType.nft ? store.withdrawalInputModel!.currency!.symbol : store.withdrawalInputModel!.nft!.name}''',
                   needHorizontalPadding: false,
                 ),
                 ProcessingFeeRowWidget(

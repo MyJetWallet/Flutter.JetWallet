@@ -10,15 +10,14 @@ import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/suggestion_button_widget.dart';
 import 'package:jetwallet/features/prepaid_card/store/buy_vouncher_amount_store.dart';
-import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/prepaid_card/purchase_card_brand_list_response_model.dart';
 import 'package:visibility_detector/visibility_detector.dart';
-
 
 @RoutePage(name: 'BuyVouncherAmountRouter')
 class BuyVouncherAmountScreen extends StatelessWidget {
@@ -74,8 +73,7 @@ class _EarnWithdrawalAmountBody extends StatelessWidget {
               small: () => const SpaceH40(),
               medium: () => const Spacer(),
             ),
-            SNewActionPriceField(
-              widgetSize: widgetSizeFrom(deviceSize),
+            SNumericLargeInput(
               primaryAmount: formatCurrencyStringAmount(
                 value: store.fiatInputValue,
               ),
@@ -87,10 +85,8 @@ class _EarnWithdrawalAmountBody extends StatelessWidget {
               onSwap: null,
               showSwopButton: false,
               errorText: store.errorText,
-              optionText: store.cryptoInputValue == '0'
-                  ? '''${intl.earn_max} ${getIt<AppStore>().isBalanceHide ? '**** ${store.cryptoSymbol}' : store.buyAllValue.toFormatCount(accuracy: store.brandCurrency.accuracy, symbol: store.fiatSymbol)}'''
-                  : null,
-              optionOnTap: () {
+              showMaxButton: true,
+              onMaxTap: () {
                 store.onBuyAll();
               },
               pasteLabel: intl.paste,
@@ -116,7 +112,6 @@ class _EarnWithdrawalAmountBody extends StatelessWidget {
               onTap: () {},
               showArrow: false,
             ),
-            const SpaceH20(),
             SNumericKeyboardAmount(
               widgetSize: widgetSizeFrom(deviceSize),
               onKeyPressed: (value) {

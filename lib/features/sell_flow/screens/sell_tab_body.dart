@@ -20,8 +20,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
 import 'package:simple_kit/modules/icons/24x24/public/crypto/simple_crypto_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
@@ -90,8 +89,7 @@ class _SellAmountScreenBodyState extends State<SellAmountTabBody> with Automatic
                                 small: () => const SpaceH40(),
                                 medium: () => const Spacer(),
                               ),
-                              SNewActionPriceField(
-                                widgetSize: widgetSizeFrom(deviceSize),
+                              SNumericLargeInput(
                                 primaryAmount: formatCurrencyStringAmount(
                                   value: store.primaryAmount,
                                 ),
@@ -109,12 +107,8 @@ class _SellAmountScreenBodyState extends State<SellAmountTabBody> with Automatic
                                   store.onSwap();
                                 },
                                 errorText: store.paymentMethodInputError,
-                                optionText: store.cryptoInputValue == '0' &&
-                                        (store.account != null || store.card != null) &&
-                                        store.asset != null
-                                    ? '''${intl.sell_amount_sell_all} ${getIt<AppStore>().isBalanceHide ? '**** ${store.cryptoSymbol}' : store.sellAllValue.toFormatCount(accuracy: store.asset?.accuracy ?? 1, symbol: store.cryptoSymbol)}'''
-                                    : null,
-                                optionOnTap: () {
+                                showMaxButton: true,
+                                onMaxTap: () {
                                   sAnalytics.tapOnTheSellAll();
                                   store.onSellAll();
                                 },
@@ -174,7 +168,7 @@ class _SellAmountScreenBodyState extends State<SellAmountTabBody> with Automatic
                                   },
                                   isDisabled: store.isNoCurrencies,
                                 ),
-                              const SpaceH8(),
+                              const SpaceH4(),
                               if (store.category == PaymentMethodCategory.account)
                                 SuggestionButtonWidget(
                                   title: store.account?.label,
@@ -307,7 +301,6 @@ class _SellAmountScreenBodyState extends State<SellAmountTabBody> with Automatic
                                   },
                                   isDisabled: store.isNoAccounts,
                                 ),
-                              const SpaceH20(),
                             ],
                           ),
                         ),

@@ -3,20 +3,21 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/suggestion_button_widget.dart';
 
 import 'package:jetwallet/features/withdrawal/store/withdrawal_store.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
-import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
-
-import '../../../core/di/di.dart';
-import '../../app/store/app_store.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'WithdrawalAmmountRouter')
 class WithdrawalAmmountScreen extends StatefulObserverWidget {
@@ -51,14 +52,13 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
     final store = WithdrawalStore.of(context);
 
     final deviceSize = sDeviceSize;
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     final String error;
 
     switch (store.withAmmountInputError) {
       case InputError.enterHigherAmount:
-        error =
-            '''${intl.withdrawalAmount_enterMoreThan} ${store.withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(network: store.networkController.text, amount: store.maxLimit ?? Decimal.zero)}''';
+        error = intl.withrawal_amount_error_entered_amount;
       case InputError.limitError:
         error = store.limitError;
       default:
@@ -67,96 +67,120 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
 
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: '''${intl.withdrawal_send_verb} ${store.withdrawalInputModel!.currency!.description}''',
-        ),
+      header: GlobalBasicAppBar(
+        title: '''${intl.withdrawal_send_verb} ${store.withdrawalInputModel!.currency!.description}''',
+        hasRightIcon: false,
+        subtitle:
+            '${intl.withdrawalAmount_available}: ${getIt<AppStore>().isBalanceHide ? '**** ${store.withdrawalInputModel!.currency!.symbol}' : ((store.maxLimit ?? Decimal.zero) < Decimal.zero ? Decimal.zero : store.maxLimit)?.toFormatCount(
+                accuracy: store.withdrawalInputModel!.currency!.accuracy,
+                symbol: store.withdrawalInputModel!.currency!.symbol,
+              )}',
       ),
       child: Column(
         children: [
+          Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Wrap(
+                  spacing: 4,
+                  runSpacing: 8,
+                  children: [
+                    STagButton(
+                      lable: intl.withdrawal_you_send,
+                      state: store.inputMode == WithdrawalInputMode.youSend
+                          ? TagButtonState.selected
+                          : TagButtonState.defaultt,
+                      onTap: () {
+                        store.setInputMode(WithdrawalInputMode.youSend);
+                      },
+                    ),
+                    STagButton(
+                      lable: intl.withdrawal_recipient_gets,
+                      state: store.inputMode == WithdrawalInputMode.recepientGets
+                          ? TagButtonState.selected
+                          : TagButtonState.defaultt,
+                      onTap: () {
+                        store.setInputMode(WithdrawalInputMode.recepientGets);
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
           deviceSize.when(
             small: () => const SizedBox(),
             medium: () => const Spacer(),
           ),
-          SizedBox(
-            height: deviceSize.when(
-              small: () => 116,
-              medium: () => 152,
+          SNumericLargeInput(
+            primaryAmount: formatCurrencyStringAmount(
+              value: store.primaryAmount,
             ),
-            child: Column(
+            primarySymbol: store.primarySymbol,
+            secondaryAmount: '${intl.earn_est} ${Decimal.parse(store.secondaryAmount).toFormatSum(
+              accuracy: store.secondaryAccuracy,
+            )}',
+            secondarySymbol: store.secondarySymbol,
+            showSwopButton: false,
+            onSwap: store.onSwap,
+            errorText: store.withAmmountInputError.isActive ? error : null,
+            showMaxButton: true,
+            onMaxTap: store.onSendAll,
+            pasteLabel: intl.paste,
+            onPaste: () async {
+              final data = await Clipboard.getData('text/plain');
+              if (data?.text != null) {
+                final n = double.tryParse(data!.text!);
+                if (n != null) {
+                  store.pasteAmount(n.toString().trim());
+                }
+              }
+            },
+          ),
+          const Spacer(),
+          SuggestionButtonWidget(
+            subTitle: intl.withdrawOptions_sendTo,
+            trailing: shortAddressFormThree(store.address),
+            title: '${store.currency.symbol} ${intl.withdrawal_wallet}',
+            icon: Assets.svg.other.medium.bankAccount.simpleSvg(),
+            onTap: () {},
+            showArrow: false,
+          ),
+          const SpaceH12(),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 36),
+            child: Row(
               children: [
-                Baseline(
-                  baseline: deviceSize.when(
-                    small: () => 20,
-                    medium: () => 48,
-                  ),
-                  baselineType: TextBaseline.alphabetic,
-                  child: SActionPriceField(
-                    widgetSize: widgetSizeFrom(deviceSize),
-                    price: formatCurrencyStringAmount(
-                      value: store.withAmount,
-                      symbol: store.withdrawalInputModel!.currency!.symbol,
+                Container(
+                  width: 20,
+                  height: 20,
+                  padding: const EdgeInsets.all(4),
+                  decoration: ShapeDecoration(
+                    color: colors.gray2,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    helper: '≈ ${Decimal.parse(store.baseConversionValue).toFormatSum(
-                      accuracy: store.baseCurrency.accuracy,
-                      symbol: store.baseCurrency.symbol,
-                    )}',
-                    error: error,
-                    isErrorActive: store.withAmmountInputError.isActive,
-                    errorMaxLines: deviceSize.when(
-                      small: () => 1,
-                      medium: () => 2,
-                    ),
-                    pasteLabel: intl.paste,
-                    onPaste: () async {
-                      final data = await Clipboard.getData('text/plain');
-                      if (data?.text != null) {
-                        final n = double.tryParse(data!.text!);
-                        if (n != null) {
-                          store.pasteAmount(n.toString().trim());
-                        }
-                      }
-                    },
                   ),
+                  child: store.inputMode == WithdrawalInputMode.youSend
+                      ? Assets.svg.medium.remove.simpleSvg()
+                      : Assets.svg.medium.add.simpleSvg(),
                 ),
-                if (store.withAmmountInputError != InputError.notEnoughBalanceToCoverFee)
-                  Baseline(
-                    baseline: deviceSize.when(
-                      small: () => -36,
-                      medium: () => 20,
-                    ),
-                    baselineType: TextBaseline.alphabetic,
-                    child: Text(
-                      '${intl.withdrawalAmount_available}: '
-                      '${getIt<AppStore>().isBalanceHide ? '**** ${store.withdrawalInputModel!.currency!.symbol}' : (store.availableBalance < Decimal.zero ? Decimal.zero : store.availableBalance).toFormatCount(
-                          accuracy: store.withdrawalInputModel!.currency!.accuracy,
-                          symbol: store.withdrawalInputModel!.currency!.symbol,
-                        )}',
-                      style: sSubtitle3Style.copyWith(
-                        color: colors.grey2,
-                      ),
-                    ),
-                  ),
-                Baseline(
-                  baseline: deviceSize.when(
-                    small: () => -6,
-                    medium: () => 30,
-                  ),
-                  baselineType: TextBaseline.alphabetic,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                const SpaceW12(),
+                Text.rich(
+                  TextSpan(
                     children: [
-                      const SFeeAlertIcon(),
-                      const SpaceW10(),
-                      Text(
-                        _feeDescription(
-                          context: context,
-                          feeAmount: store.feeAmount,
-                          youWillSendAmount: store.youWillSendAmount,
-                          currency: store.currency,
+                      TextSpan(
+                        text: store.feeAmount.toFormatCount(
+                          symbol: store.currency.symbol,
+                          accuracy: store.currency.accuracy,
                         ),
-                        style: sCaptionTextStyle.copyWith(
-                          color: colors.grey2,
+                        style: STStyles.body2Semibold,
+                      ),
+                      TextSpan(
+                        text: ' ${intl.buy_confirmation_processing_fee}',
+                        style: STStyles.body2Semibold.copyWith(
+                          color: colors.gray10,
                         ),
                       ),
                     ],
@@ -165,19 +189,46 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
               ],
             ),
           ),
-          const Spacer(),
-          SPaymentSelectAsset(
-            widgetSize: widgetSizeFrom(deviceSize),
-            icon: SWalletIcon(
-              color: colors.black,
+          const SpaceH8(),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 36),
+            child: Row(
+              children: [
+                NetworkIconWidget(
+                  width: 20,
+                  height: 20,
+                  store.currency.iconUrl,
+                ),
+                const SpaceW12(),
+                Text.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(
+                        text: store.inputMode == WithdrawalInputMode.youSend
+                            ? store.recepientGetsAmount.toFormatCount(
+                                symbol: store.currency.symbol,
+                                accuracy: store.currency.accuracy,
+                              )
+                            : store.youSendAmount.toFormatCount(
+                                symbol: store.currency.symbol,
+                                accuracy: store.currency.accuracy,
+                              ),
+                        style: STStyles.body2Semibold,
+                      ),
+                      TextSpan(
+                        text:
+                            ' ${store.inputMode == WithdrawalInputMode.youSend ? intl.withdrawal_recipient_gets : intl.withdrawal_you_send}',
+                        style: STStyles.body2Semibold.copyWith(
+                          color: colors.gray10,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            name: shortAddressForm(store.address),
-            description: '''${store.withdrawalInputModel!.currency!.symbol} ${intl.withdrawalAmount_wallet}''',
           ),
-          deviceSize.when(
-            small: () => const Spacer(),
-            medium: () => const SpaceH20(),
-          ),
+          const SpaceH8(),
           SNumericKeyboardAmount(
             widgetSize: widgetSizeFrom(deviceSize),
             onKeyPressed: (value) {
@@ -211,24 +262,5 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
         ],
       ),
     );
-  }
-
-  String _feeDescription({
-    required BuildContext context,
-    required Decimal feeAmount,
-    required Decimal youWillSendAmount,
-    required CurrencyModel currency,
-  }) {
-    final feeAmountFormated = feeAmount.toFormatCount(
-      symbol: currency.symbol,
-      accuracy: currency.accuracy,
-    );
-
-    final youWillSend = '${intl.withdrawalAmount_youWillSend}: ${youWillSendAmount.toFormatCount(
-      symbol: currency.symbol,
-      accuracy: currency.accuracy,
-    )}';
-
-    return '${intl.fee}: $feeAmountFormated / $youWillSend';
   }
 }

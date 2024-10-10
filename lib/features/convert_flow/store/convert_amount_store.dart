@@ -158,7 +158,13 @@ abstract class _ConvertAmountStoreBase with Store {
 
   @action
   void setNewFromAsset(CurrencyModel newAsset) {
-    fromAsset = newAsset;
+    if (newAsset.symbol != toAsset?.symbol) {
+      fromAsset = newAsset;
+    } else {
+      final temp = fromAsset;
+      fromAsset = toAsset;
+      toAsset = temp;
+    }
 
     loadConversionPrice();
     loadLimits();
@@ -182,7 +188,13 @@ abstract class _ConvertAmountStoreBase with Store {
 
   @action
   void setNewToAsset(CurrencyModel newAsset) {
-    toAsset = newAsset;
+    if (newAsset.symbol != fromAsset?.symbol) {
+      toAsset = newAsset;
+    } else {
+      final temp = toAsset;
+      toAsset = fromAsset;
+      fromAsset = temp;
+    }
 
     loadConversionPrice();
     loadLimits();
@@ -191,6 +203,25 @@ abstract class _ConvertAmountStoreBase with Store {
     fromInputValue = '0';
     errorText = null;
     inputValid = false;
+  }
+
+  @action
+  Future<void> onSwapAssets() async {
+    final temp = toAsset;
+    toAsset = fromAsset;
+    fromAsset = temp;
+
+    isFromEntering = true;
+
+    toInputValue = '0';
+    fromInputValue = '0';
+    errorText = null;
+    inputValid = false;
+
+    await loadConversionPrice();
+    await loadLimits();
+
+    _checkShowTosts();
   }
 
   @action
@@ -217,15 +248,25 @@ abstract class _ConvertAmountStoreBase with Store {
 
   @action
   void onConvetrAll() {
-    fromInputValue = responseOnInputAction(
-      oldInput: fromInputValue,
-      newInput: convertAllAmount.toString(),
-      accuracy: fromAsset?.accuracy ?? 2,
-    );
+    if (isFromEntering) {
+      fromInputValue = '0';
+      fromInputValue = responseOnInputAction(
+        oldInput: fromInputValue,
+        newInput: convertAllAmount.toString(),
+        accuracy: fromAsset?.accuracy ?? 2,
+      );
 
-    isFromEntering = true;
+      _calculateToConversion();
+    } else {
+      toInputValue = '0';
+      toInputValue = responseOnInputAction(
+        oldInput: toInputValue,
+        newInput: convertAllAmount.toString(),
+        accuracy: toAsset?.accuracy ?? 2,
+      );
 
-    _calculateToConversion();
+      _calculateFromConversion();
+    }
 
     _validateInput();
   }
@@ -320,7 +361,7 @@ abstract class _ConvertAmountStoreBase with Store {
 
   @computed
   Decimal get convertAllAmount {
-    return fromAsset?.assetBalance ?? Decimal.zero;
+    return isFromEntering ? _maxFromAssetVolume : _maxToAssetVolume;
   }
 
   @observable
