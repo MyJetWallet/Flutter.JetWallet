@@ -125,6 +125,9 @@ class _ChangeEmailBody extends StatelessObserverWidget {
                                 if (value.isEmpty) {
                                   changeEmailStore.setIsEmailError(false);
                                 }
+                                if (credentials.emailValid && changeEmailStore.isEmailError) {
+                                  changeEmailStore.setIsEmailError(false);
+                                }
                               },
                               onErase: () {
                                 changeEmailStore.setIsEmailError(false);

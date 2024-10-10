@@ -56,6 +56,7 @@ abstract class _ChangeEmailStoreBase with Store {
       }
       loader.finishLoading();
     } catch (e, stackTrace) {
+      print('#@#@#@ ${e}');
       sNotification.showError(intl.something_went_wrong_try_again2);
       loader.finishLoading();
       if (kDebugMode) {
