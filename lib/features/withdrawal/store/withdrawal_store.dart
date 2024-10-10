@@ -456,13 +456,19 @@ abstract class _WithdrawalStoreBase with Store {
   @action
   void onSendAll() {
     withAmount = '0';
-    withAmount = responseOnInputAction(
+    final sendAllValue = responseOnInputAction(
       oldInput: withAmount,
       newInput: inputMode == WithdrawalInputMode.youSend
           ? maxLimit.toString()
           : ((maxLimit ?? availableBalance) - feeAmount).toString(),
       accuracy: withdrawalInputModel!.currency!.accuracy,
     );
+
+    if (Decimal.parse(sendAllValue) < Decimal.zero) {
+      withAmount = '0';
+    } else {
+      withAmount = sendAllValue;
+    }
 
     isCryptoEntering = true;
 
