@@ -87,6 +87,7 @@ class _BasicBottomSheetHeaderWidgetState extends State<BasicBottomSheetHeaderWid
                 searchController.clear();
               },
               controller: searchController,
+              keyboardType: TextInputType.name
             ),
           ],
         ],

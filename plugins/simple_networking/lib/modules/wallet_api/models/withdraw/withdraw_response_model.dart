@@ -1,4 +1,6 @@
+import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:simple_networking/helpers/decimal_serialiser.dart';
 
 part 'withdraw_response_model.freezed.dart';
 
@@ -16,9 +18,9 @@ class WithdrawResponseModel with _$WithdrawResponseModel {
 @freezed
 class WithdrawJarLimitResponseModel with _$WithdrawJarLimitResponseModel {
   const factory WithdrawJarLimitResponseModel({
-    required double totalAmount,
-    required double limit,
-    required double leftAmount,
+    @DecimalSerialiser() required Decimal totalAmount,
+    @DecimalSerialiser() required Decimal limit,
+    @DecimalSerialiser() required Decimal leftAmount,
   }) = _WithdrawJarLimitResponseModel;
 
   factory WithdrawJarLimitResponseModel.fromJson(Map<String, dynamic> json) =>

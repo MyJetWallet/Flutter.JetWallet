@@ -468,7 +468,7 @@ class _JarScreenState extends State<JarScreen> {
                                           symbol: selectedJar.assetSymbol,
                                         ),
                                   selectedJar.assetSymbol,
-                                  (getIt.get<JarsStore>().limit ?? 5000).toInt(),
+                                  (getIt.get<JarsStore>().limit ?? Decimal.fromInt(5000)).toBigInt(),
                                 ),
                                 primaryButtonName: intl.jar_confirm,
                                 onPrimaryButtonTap: () {
@@ -554,7 +554,7 @@ class _JarScreenState extends State<JarScreen> {
                 : () {
                     sk.showNotification(context, intl.jar_close_transactions_in_processed_error);
                   },
-              allowCloseByTransactions || getIt.get<JarsStore>().selectedJar!.balanceInJarAsset != 0,
+            allowCloseByTransactions || getIt.get<JarsStore>().selectedJar!.balanceInJarAsset != 0,
           ),
           const SizedBox(
             width: 8.0,
