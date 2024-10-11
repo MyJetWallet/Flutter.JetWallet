@@ -1816,5 +1816,5 @@
     "change_email_email_verification": "Email verification",
     "change_email_email_verification_hint": "Enter the code we have sent to your new email ",
     "change_email_success_hint": "Your email was successfully updated to {email}",
-    "withrawal_amount_error_entered_amount": "Entered amount must cover the processing fee. Please adjust the value."
+    "withrawal_amount_error_entered_amount": "Entered amount must cover the processing fee."
 }

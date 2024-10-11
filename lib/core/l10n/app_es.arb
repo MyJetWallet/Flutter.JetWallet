@@ -1804,5 +1804,5 @@
     "change_email_email_verification": "Verificación de email",
     "change_email_email_verification_hint": "Ingrese el código que hemos enviado a su nuevo email",
     "change_email_success_hint": "Su email fue actualizado exitosamente a {email}",
-    "withrawal_amount_error_entered_amount": "El monto ingresado debe cubrir la tarifa de procesamiento. Por favor, ajuste el valor."
+    "withrawal_amount_error_entered_amount": "El monto ingresado debe cubrir la tarifa de procesamiento."
 }

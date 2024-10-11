@@ -1868,5 +1868,5 @@
     "change_email_email_verification": "Weryfikacja email",
     "change_email_email_verification_hint": "Wprowadź kod, który wysłaliśmy na Twój nowy email ",
     "change_email_success_hint": "Twój e-mail został pomyślnie zaktualizowany na {email}",
-    "withrawal_amount_error_entered_amount": "Wprowadzona kwota musi pokryć opłatę za przetwarzanie. Proszę dostosować wartość."
+    "withrawal_amount_error_entered_amount": "Wprowadzona kwota musi pokryć opłatę za przetwarzanie."
 }
