@@ -146,6 +146,9 @@ class _SingInBody extends StatelessObserverWidget {
                                   if (value.isEmpty) {
                                     SingleSingInStore.of(context).setIsEmailError(false);
                                   }
+                                  if (credentials.emailValid && SingleSingInStore.of(context).isEmailError) {
+                                    SingleSingInStore.of(context).setIsEmailError(false);
+                                  }
                                 },
                                 onErase: () {
                                   SingleSingInStore.of(context).setIsEmailError(false);
@@ -209,6 +212,8 @@ class _SingInBody extends StatelessObserverWidget {
                             message: 'credentials.emailValid = ${credentials.emailValid}',
                           );
                           if (credentials.emailValid) {
+                            SingleSingInStore.of(context).setIsEmailError(false);
+
                             sAnalytics.signInFlowEmailContinue();
 
                             logger.log(

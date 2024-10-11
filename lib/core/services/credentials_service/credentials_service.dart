@@ -203,7 +203,9 @@ abstract class _CredentialsServiceBase with Store {
   void clearData() {
     email = '';
     validateEmail();
+    emailValid = false;
 
+    policyChecked = false;
     referralCode = '';
 
     password = '';
