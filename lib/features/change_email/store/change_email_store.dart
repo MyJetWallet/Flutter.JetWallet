@@ -51,12 +51,15 @@ abstract class _ChangeEmailStoreBase with Store {
         }
       } else {
         if (response.hasError) {
-          sNotification.showError(response.error!.cause);
+          if (response.error!.errorCode == 'EmailUnavailable') {
+            sNotification.showError(intl.register_invalidEmail);
+          } else {
+            sNotification.showError(response.error!.cause);
+          }
         }
       }
       loader.finishLoading();
     } catch (e, stackTrace) {
-      print('#@#@#@ ${e}');
       sNotification.showError(intl.something_went_wrong_try_again2);
       loader.finishLoading();
       if (kDebugMode) {
