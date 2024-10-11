@@ -160,12 +160,13 @@ class StartupService {
     ///
     try {
       if (!getIt.isRegistered<ProfileGetUserCountry>()) {
-        getIt.registerSingleton<ProfileGetUserCountry>(ProfileGetUserCountry());
+        getIt.registerSingletonAsync<ProfileGetUserCountry>(() => ProfileGetUserCountry().init());
+      } else {
+        await getIt.get<ProfileGetUserCountry>().init();
       }
-      await getIt.get<ProfileGetUserCountry>().init();
 
       final useAmplitude =
-      amplitudeAllowCountryList.contains(getIt.get<ProfileGetUserCountry>().profileUserCountry.countryCode);
+          amplitudeAllowCountryList.contains(getIt.get<ProfileGetUserCountry>().profileUserCountry.countryCode);
 
       await sAnalytics.init(
         environmentKey: analyticsApiKey,
