@@ -165,6 +165,8 @@ class StartupService {
         await getIt.get<ProfileGetUserCountry>().init();
       }
 
+      await getIt.isReady<ProfileGetUserCountry>();
+
       final useAmplitude =
           amplitudeAllowCountryList.contains(getIt.get<ProfileGetUserCountry>().profileUserCountry.countryCode);
 
