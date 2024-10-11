@@ -1193,7 +1193,7 @@ abstract class _WithdrawalStoreBase with Store {
         if (balance < Decimal.parse(withAmount)) {
           error = InputError.notEnoughFunds;
         } else if (feeAmount >= youWillSendAmount) {
-          error = addressIsInternal ? InputError.none : InputError.enterHigherAmount;
+          error = InputError.enterHigherAmount;
         } else {
           error = InputError.none;
         }
@@ -1205,7 +1205,7 @@ abstract class _WithdrawalStoreBase with Store {
         if (currency.assetBalance < Decimal.parse(withAmount)) {
           error = InputError.notEnoughFunds;
         } else if (feeAmount >= youWillSendAmount) {
-          error = addressIsInternal ? InputError.none : InputError.enterHigherAmount;
+          error = InputError.enterHigherAmount;
         } else {
           error = InputError.none;
         }
