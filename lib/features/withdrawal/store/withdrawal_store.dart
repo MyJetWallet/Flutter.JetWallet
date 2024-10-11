@@ -186,18 +186,18 @@ abstract class _WithdrawalStoreBase with Store {
   }
 
   @observable
-  double jarWithdrawalLimit = 0;
+  Decimal jarWithdrawalLimit = Decimal.zero;
 
   @action
-  void _updateJarWithdrawalLimit(double value) {
+  void _updateJarWithdrawalLimit(Decimal value) {
     jarWithdrawalLimit = value;
   }
 
   @observable
-  double jarWithdrawalLeftAmount = 0;
+  Decimal jarWithdrawalLeftAmount = Decimal.zero;
 
   @action
-  void _updateJarWithdrawalLeftAmount(double value) {
+  void _updateJarWithdrawalLeftAmount(Decimal value) {
     jarWithdrawalLeftAmount = value;
   }
 
@@ -505,12 +505,15 @@ abstract class _WithdrawalStoreBase with Store {
 
   @computed
   Decimal? get maxLimit {
-    final limit = _sendWithdrawalMethod.symbolNetworkDetails?.firstWhere(
-      (element) => element.network == getNetworkForFee() && element.symbol == withdrawalInputModel?.currency?.symbol,
-      orElse: () {
-        return const SymbolNetworkDetails();
-      },
-    ).maxAmount;
+    final limit = withdrawalType == WithdrawalType.asset
+        ? _sendWithdrawalMethod.symbolNetworkDetails?.firstWhere(
+            (element) =>
+                element.network == getNetworkForFee() && element.symbol == withdrawalInputModel?.currency?.symbol,
+            orElse: () {
+              return const SymbolNetworkDetails();
+            },
+          ).maxAmount
+        : jarWithdrawalLeftAmount;
 
     final maxLimit = (limit != null && limit < availableBalance) ? limit : availableBalance;
 

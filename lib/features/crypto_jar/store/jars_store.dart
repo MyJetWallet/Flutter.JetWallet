@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -58,10 +59,10 @@ abstract class _JarsStoreBase with Store {
   }
 
   @observable
-  double? limit;
+  Decimal? limit;
 
   @action
-  void setLimit(double value) {
+  void setLimit(Decimal value) {
     limit = value;
   }
 
