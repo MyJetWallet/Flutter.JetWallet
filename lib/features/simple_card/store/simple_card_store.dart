@@ -435,6 +435,9 @@ abstract class _SimpleCardStoreBase with Store {
       );
 
       loader.finishLoading();
+    } finally {
+      getIt.get<GlobalLoader>().setLoading(false);
+      loader.finishLoading();
     }
   }
 
