@@ -513,7 +513,9 @@ abstract class _WithdrawalStoreBase with Store {
               return const SymbolNetworkDetails();
             },
           ).maxAmount
-        : jarWithdrawalLeftAmount;
+        : addressIsInternal
+            ? jarWithdrawalLeftAmount
+            : Decimal.parse(withdrawalInputModel!.jar!.balanceInJarAsset.toString());
 
     final maxLimit = (limit != null && limit < availableBalance) ? limit : availableBalance;
 
