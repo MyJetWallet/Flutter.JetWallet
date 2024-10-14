@@ -371,22 +371,9 @@ abstract class _WithdrawalStoreBase with Store {
     Decimal result;
     if (withdrawalType == WithdrawalType.jar) {
       final jarBalance = Decimal.parse(withdrawalInputModel!.jar!.balanceInJarAsset.toString());
-      result = jarBalance -
-          (previewFee != null
-              ? Decimal.parse(previewFee.toString())
-              : currency.withdrawalFeeSize(
-                  network: getNetworkForFee(),
-                  amount: currency.assetBalance,
-                ));
+      result = jarBalance;
     } else {
-      result = currency.assetBalance -
-          currency.cardReserve -
-          (previewFee != null
-              ? Decimal.parse(previewFee.toString())
-              : currency.withdrawalFeeSize(
-                  network: getNetworkForFee(),
-                  amount: currency.assetBalance,
-                ));
+      result = currency.assetBalance - currency.cardReserve;
     }
     return result;
   }
@@ -459,7 +446,7 @@ abstract class _WithdrawalStoreBase with Store {
     final sendAllValue = responseOnInputAction(
       oldInput: withAmount,
       newInput: inputMode == WithdrawalInputMode.youSend
-          ? maxLimit.toString()
+          ? (maxLimit ?? availableBalance).toString()
           : ((maxLimit ?? availableBalance) - feeAmount).toString(),
       accuracy: withdrawalInputModel!.currency!.accuracy,
     );
@@ -513,7 +500,15 @@ abstract class _WithdrawalStoreBase with Store {
               return const SymbolNetworkDetails();
             },
           ).maxAmount
-        : jarWithdrawalLeftAmount;
+        : addressIsInternal
+            ? jarWithdrawalLeftAmount
+            : _sendWithdrawalMethod.symbolNetworkDetails?.firstWhere(
+                (element) =>
+                    element.network == getNetworkForFee() && element.symbol == withdrawalInputModel?.currency?.symbol,
+                orElse: () {
+                  return const SymbolNetworkDetails();
+                },
+              ).maxAmount;
 
     final maxLimit = (limit != null && limit < availableBalance) ? limit : availableBalance;
 
