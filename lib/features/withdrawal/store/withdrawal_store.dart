@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/sentry_service.dart';
@@ -52,6 +53,8 @@ part 'withdrawal_store.g.dart';
 enum WithdrawalType { asset, nft, jar }
 
 enum WithdrawStep { address, ammount, preview, confirm }
+
+enum WithdrawalInputMode { youSend, recepientGets }
 
 // TODO: Split
 
@@ -168,24 +171,33 @@ abstract class _WithdrawalStoreBase with Store {
   @observable
   bool addressIsJar = false;
 
+  @observable
+  WithdrawalInputMode inputMode = WithdrawalInputMode.youSend;
+
+  @action
+  void setInputMode(WithdrawalInputMode value) {
+    inputMode = value;
+    _validateAmount();
+  }
+
   @action
   void _updateAddressIsJar(bool value) {
     addressIsJar = value;
   }
 
   @observable
-  double jarWithdrawalLimit = 0;
+  Decimal jarWithdrawalLimit = Decimal.zero;
 
   @action
-  void _updateJarWithdrawalLimit(double value) {
+  void _updateJarWithdrawalLimit(Decimal value) {
     jarWithdrawalLimit = value;
   }
 
   @observable
-  double jarWithdrawalLeftAmount = 0;
+  Decimal jarWithdrawalLeftAmount = Decimal.zero;
 
   @action
-  void _updateJarWithdrawalLeftAmount(double value) {
+  void _updateJarWithdrawalLeftAmount(Decimal value) {
     jarWithdrawalLeftAmount = value;
   }
 
@@ -342,9 +354,11 @@ abstract class _WithdrawalStoreBase with Store {
   }
 
   @computed
-  SendMethodDto get _sendWithdrawalMethod => sSignalRModules.sendMethods.firstWhere(
-        (element) => element.id == WithdrawalMethods.blockchainSend,
-      );
+  SendMethodDto get _sendWithdrawalMethod {
+    return sSignalRModules.sendMethods.firstWhere(
+      (element) => element.id == WithdrawalMethods.blockchainSend,
+    );
+  }
 
   @computed
   CurrencyModel get currency => currencyFrom(
@@ -357,24 +371,96 @@ abstract class _WithdrawalStoreBase with Store {
     Decimal result;
     if (withdrawalType == WithdrawalType.jar) {
       final jarBalance = Decimal.parse(withdrawalInputModel!.jar!.balanceInJarAsset.toString());
-      result = jarBalance -
-          (previewFee != null
-              ? Decimal.parse(previewFee.toString())
-              : currency.withdrawalFeeSize(
-                  network: getNetworkForFee(),
-                  amount: currency.assetBalance,
-                ));
+      result = jarBalance;
     } else {
-      result = currency.assetBalance -
-          currency.cardReserve -
-          (previewFee != null
-              ? Decimal.parse(previewFee.toString())
-              : currency.withdrawalFeeSize(
-                  network: getNetworkForFee(),
-                  amount: currency.assetBalance,
-                ));
+      result = currency.assetBalance - currency.cardReserve;
     }
     return result;
+  }
+
+  @computed
+  Decimal get recepientGetsAmount {
+    Decimal result;
+    if (inputMode == WithdrawalInputMode.recepientGets) {
+      result = Decimal.parse(withAmount);
+    } else {
+      result = Decimal.parse(withAmount) - feeAmount;
+    }
+    return result >= Decimal.zero ? result : Decimal.zero;
+  }
+
+  @computed
+  Decimal get youSendAmount {
+    if (withAmount == '0') return Decimal.zero;
+
+    Decimal result;
+    if (inputMode == WithdrawalInputMode.youSend) {
+      result = Decimal.parse(withAmount);
+    } else {
+      result = Decimal.parse(withAmount) + feeAmount;
+    }
+    return result >= Decimal.zero ? result : Decimal.zero;
+  }
+
+  @computed
+  String get cryptoSymbol => withdrawalInputModel?.currency?.symbol ?? '';
+
+  @computed
+  String get fiatSymbol {
+    return baseCurrency.symbol;
+  }
+
+  @computed
+  String get primaryAmount {
+    return isCryptoEntering ? withAmount : baseConversionValue;
+  }
+
+  @computed
+  String get primarySymbol {
+    return isCryptoEntering ? cryptoSymbol : fiatSymbol;
+  }
+
+  @computed
+  String get secondaryAmount {
+    return isCryptoEntering ? baseConversionValue : withAmount;
+  }
+
+  @computed
+  String get secondarySymbol {
+    return isCryptoEntering ? fiatSymbol : cryptoSymbol;
+  }
+
+  @computed
+  int get primaryAccuracy {
+    return isCryptoEntering ? currency.accuracy : baseCurrency.accuracy;
+  }
+
+  @computed
+  int get secondaryAccuracy {
+    return isCryptoEntering ? baseCurrency.accuracy : currency.accuracy;
+  }
+
+  @action
+  void onSendAll() {
+    withAmount = '0';
+    final sendAllValue = responseOnInputAction(
+      oldInput: withAmount,
+      newInput: inputMode == WithdrawalInputMode.youSend
+          ? (maxLimit ?? availableBalance).toString()
+          : ((maxLimit ?? availableBalance) - feeAmount).toString(),
+      accuracy: withdrawalInputModel!.currency!.accuracy,
+    );
+
+    if (Decimal.parse(sendAllValue) < Decimal.zero) {
+      withAmount = '0';
+    } else {
+      withAmount = sendAllValue;
+    }
+
+    isCryptoEntering = true;
+
+    _validateAmount();
+    _calculateBaseConversion();
   }
 
   @computed
@@ -386,11 +472,19 @@ abstract class _WithdrawalStoreBase with Store {
         );
 
   @computed
-  Decimal get youWillSendAmount => withAmount != '0' ? Decimal.parse(withAmount) + feeAmount : Decimal.zero;
+  Decimal get youWillSendAmount {
+    if (inputMode == WithdrawalInputMode.youSend) {
+      return Decimal.parse(withAmount);
+    } else {
+      return withAmount != '0' ? Decimal.parse(withAmount) + feeAmount : Decimal.zero;
+    }
+  }
 
   @computed
   Decimal? get minLimit => _sendWithdrawalMethod.symbolNetworkDetails?.firstWhere(
-        (element) => element.network == getNetworkForFee() && element.symbol == withdrawalInputModel?.currency?.symbol,
+        (element) {
+          return element.network == getNetworkForFee() && element.symbol == withdrawalInputModel?.currency?.symbol;
+        },
         orElse: () {
           return const SymbolNetworkDetails();
         },
@@ -398,12 +492,23 @@ abstract class _WithdrawalStoreBase with Store {
 
   @computed
   Decimal? get maxLimit {
-    final limit = _sendWithdrawalMethod.symbolNetworkDetails?.firstWhere(
-      (element) => element.network == getNetworkForFee() && element.symbol == withdrawalInputModel?.currency?.symbol,
-      orElse: () {
-        return const SymbolNetworkDetails();
-      },
-    ).maxAmount;
+    final limit = withdrawalType == WithdrawalType.asset
+        ? _sendWithdrawalMethod.symbolNetworkDetails?.firstWhere(
+            (element) =>
+                element.network == getNetworkForFee() && element.symbol == withdrawalInputModel?.currency?.symbol,
+            orElse: () {
+              return const SymbolNetworkDetails();
+            },
+          ).maxAmount
+        : addressIsInternal
+            ? jarWithdrawalLeftAmount
+            : _sendWithdrawalMethod.symbolNetworkDetails?.firstWhere(
+                (element) =>
+                    element.network == getNetworkForFee() && element.symbol == withdrawalInputModel?.currency?.symbol,
+                orElse: () {
+                  return const SymbolNetworkDetails();
+                },
+              ).maxAmount;
 
     final maxLimit = (limit != null && limit < availableBalance) ? limit : availableBalance;
 
@@ -911,7 +1016,7 @@ abstract class _WithdrawalStoreBase with Store {
       try {
         final previewResponseModel = await sNetwork.getWalletModule().postWithdrawJarPreviewRequest(
               withdrawalInputModel!.currency!.symbol,
-              double.parse(withAmount) == 0 ? 0 : double.parse(withAmount) + feeAmount.toDouble(),
+              double.parse(withAmount) == 0 ? 0 : youSendAmount.toDouble(),
               address,
               network.id,
               withdrawalInputModel!.jar!.id,
@@ -935,7 +1040,7 @@ abstract class _WithdrawalStoreBase with Store {
       try {
         final previewResponseModel = await sNetwork.getWalletModule().postWithdrawPreviewRequest(
               withdrawalInputModel!.currency!.symbol,
-              double.parse(withAmount) == 0 ? 0 : double.parse(withAmount) + feeAmount.toDouble(),
+              double.parse(withAmount) == 0 ? 0 : youSendAmount.toDouble(),
               address,
               tag,
               network.id,
@@ -1021,24 +1126,54 @@ abstract class _WithdrawalStoreBase with Store {
     Navigator.pop(context, capture.barcodes.first);
   }
 
+  @observable
+  bool isCryptoEntering = true;
+
   @action
-  void updateAmount(String value) {
-    withAmount = responseOnInputAction(
-      oldInput: withAmount,
-      newInput: value,
-      accuracy: withdrawalInputModel!.currency!.accuracy,
-    );
+  void onSwap() {
+    isCryptoEntering = !isCryptoEntering;
 
     _validateAmount();
-    _calculateBaseConversion();
+  }
+
+  @action
+  void updateAmount(String value) {
+    if (isCryptoEntering) {
+      withAmount = responseOnInputAction(
+        oldInput: withAmount,
+        newInput: value,
+        accuracy: withdrawalInputModel!.currency!.accuracy,
+      );
+    } else {
+      baseConversionValue = responseOnInputAction(
+        oldInput: baseConversionValue,
+        newInput: value,
+        accuracy: sSignalRModules.baseCurrency.accuracy,
+      );
+    }
+
+    _validateAmount();
+    if (isCryptoEntering) {
+      _calculateBaseConversion();
+    } else {
+      _calculateCryptoConversion();
+    }
   }
 
   @action
   void pasteAmount(String value) {
-    withAmount = value;
+    if (isCryptoEntering) {
+      withAmount = value;
+    } else {
+      baseConversionValue = value;
+    }
+    if (isCryptoEntering) {
+      _calculateBaseConversion();
+    } else {
+      _calculateCryptoConversion();
+    }
 
     _validateAmount();
-    _calculateBaseConversion();
   }
 
   @action
@@ -1050,22 +1185,31 @@ abstract class _WithdrawalStoreBase with Store {
   void _validateAmount() {
     InputError error;
     if (withdrawalType == WithdrawalType.jar) {
-      error = onWithdrawJarInputErrorHandler(
-        youWillSendAmount: youWillSendAmount,
-        inputAmount: Decimal.parse(withAmount),
-        network: blockchain.description,
-        jarBalance: withdrawalInputModel!.jar!.balanceInJarAsset,
-        currency: withdrawalInputModel!.currency!,
-        addressIsInternal: addressIsInternal,
-      );
+      if (youWillSendAmount != Decimal.zero) {
+        final balance = Decimal.parse(withdrawalInputModel!.jar!.balanceInJarAsset.toString());
+
+        if (balance < Decimal.parse(withAmount)) {
+          error = InputError.notEnoughFunds;
+        } else if (feeAmount >= youWillSendAmount) {
+          error = InputError.enterHigherAmount;
+        } else {
+          error = InputError.none;
+        }
+      } else {
+        error = InputError.none;
+      }
     } else {
-      error = onWithdrawInputErrorHandler(
-        youWillSendAmount: youWillSendAmount,
-        inputAmount: Decimal.parse(withAmount),
-        network: blockchain.description,
-        currency: withdrawalInputModel!.currency!,
-        addressIsInternal: addressIsInternal,
-      );
+      if (youWillSendAmount != Decimal.zero) {
+        if (currency.assetBalance < Decimal.parse(withAmount)) {
+          error = InputError.notEnoughFunds;
+        } else if (feeAmount >= youWillSendAmount) {
+          error = InputError.enterHigherAmount;
+        } else {
+          error = InputError.none;
+        }
+      } else {
+        error = InputError.none;
+      }
     }
 
     if (error != InputError.none) {
@@ -1089,15 +1233,31 @@ abstract class _WithdrawalStoreBase with Store {
         ),
       );
     } else if (minLimit != null && minLimit! > youWillSendAmount) {
-      limitError = '${intl.currencyBuy_paymentInputErrorText1} ${((minLimit ?? Decimal.zero) - feeAmount).toFormatCount(
-        accuracy: withdrawalInputModel?.currency?.accuracy ?? 0,
-        symbol: withdrawalInputModel?.currency?.symbol ?? '',
-      )}';
-    } else if (maxLimit != null && maxLimit! < Decimal.parse(withAmount)) {
-      limitError = '${intl.currencyBuy_paymentInputErrorText2} ${maxLimit?.toFormatCount(
-        accuracy: withdrawalInputModel?.currency?.accuracy ?? 0,
-        symbol: withdrawalInputModel?.currency?.symbol ?? '',
-      )}';
+      if (inputMode == WithdrawalInputMode.recepientGets) {
+        limitError =
+            '${intl.currencyBuy_paymentInputErrorText1} ${((minLimit ?? Decimal.zero) - feeAmount).toFormatCount(
+          accuracy: withdrawalInputModel?.currency?.accuracy ?? 0,
+          symbol: withdrawalInputModel?.currency?.symbol ?? '',
+        )}';
+      } else {
+        limitError = '${intl.currencyBuy_paymentInputErrorText1} ${(minLimit ?? Decimal.zero).toFormatCount(
+          accuracy: withdrawalInputModel?.currency?.accuracy ?? 0,
+          symbol: withdrawalInputModel?.currency?.symbol ?? '',
+        )}';
+      }
+    } else if (maxLimit != null && maxLimit! < youWillSendAmount) {
+      if (inputMode == WithdrawalInputMode.recepientGets) {
+        limitError =
+            '${intl.currencyBuy_paymentInputErrorText2} ${((maxLimit ?? Decimal.zero) - feeAmount).toFormatCount(
+          accuracy: withdrawalInputModel?.currency?.accuracy ?? 0,
+          symbol: withdrawalInputModel?.currency?.symbol ?? '',
+        )}';
+      } else {
+        limitError = '${intl.currencyBuy_paymentInputErrorText2} ${(maxLimit ?? Decimal.zero).toFormatCount(
+          accuracy: withdrawalInputModel?.currency?.accuracy ?? 0,
+          symbol: withdrawalInputModel?.currency?.symbol ?? '',
+        )}';
+      }
     } else {
       limitError = '';
     }
@@ -1117,7 +1277,7 @@ abstract class _WithdrawalStoreBase with Store {
                 : error
             : InputError.none;
 
-    withValid = withAmmountInputError == InputError.none && isInputValid(withAmount);
+    withValid = withAmmountInputError == InputError.none && isInputValid(withAmount) && youSendAmount > feeAmount;
   }
 
   @action
@@ -1132,6 +1292,21 @@ abstract class _WithdrawalStoreBase with Store {
     } else {
       baseConversionValue = zero;
     }
+  }
+
+  @action
+  void _calculateCryptoConversion() {
+    final amount = getIt.get<FormatService>().convertOneCurrencyToAnotherOne(
+          fromCurrency: sSignalRModules.baseCurrency.symbol,
+          fromCurrencyAmmount: Decimal.parse(baseConversionValue),
+          toCurrency: currency.symbol,
+          baseCurrency: sSignalRModules.baseCurrency.symbol,
+          isMin: false,
+        );
+
+    withAmount = truncateZerosFrom(
+      amount.toString(),
+    );
   }
 
   ///
@@ -1160,18 +1335,11 @@ abstract class _WithdrawalStoreBase with Store {
       );
     }
 
-    final feeSize = previewFee != null
-        ? Decimal.parse(previewFee.toString())
-        : withdrawalInputModel!.currency!.withdrawalFeeSize(
-            network: getNetworkForFee(),
-            amount: Decimal.parse(withAmount),
-          );
-
     try {
       final model = WithdrawRequestModel(
         requestId: DateTime.now().microsecondsSinceEpoch.toString(),
         assetSymbol: withdrawalInputModel!.currency!.symbol,
-        amount: Decimal.parse(withAmount) + feeSize,
+        amount: youSendAmount,
         toAddress: address,
         toTag: tag,
         blockchain: blockchain.id,
@@ -1473,7 +1641,7 @@ abstract class _WithdrawalStoreBase with Store {
     sRouter
         .push(
       SuccessScreenRouter(
-        secondaryText: '${intl.withdrawal_successRequest} ${(Decimal.parse(withAmount) + feeAmount).toFormatCount(
+        secondaryText: '${intl.withdrawal_successRequest} ${youSendAmount.toFormatCount(
           symbol: withdrawalInputModel!.currency!.symbol,
         )}'
             ' ${intl.withdrawal_successPlaced}',
@@ -1549,7 +1717,9 @@ abstract class _WithdrawalStoreBase with Store {
           for (final networkInfo in data.networks) {
             final index = networks.indexWhere((network) => network.id == networkInfo.network);
 
-            networks[index] = networks[index].copyWith(info: networkInfo);
+            if (index != -1) {
+              networks[index] = networks[index].copyWith(info: networkInfo);
+            }
           }
         },
         onError: (error) {

@@ -13,12 +13,14 @@ class SPrimaryButton1 extends StatelessObserverWidget {
     required this.active,
     required this.name,
     required this.onTap,
+    this.isLoading = false,
   });
 
   final Widget? icon;
   final bool active;
   final String name;
   final Function() onTap;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -28,12 +30,14 @@ class SPrimaryButton1 extends StatelessObserverWidget {
             name: name,
             onTap: onTap,
             icon: icon,
+            isLoading: isLoading,
           )
         : SimpleLightPrimaryButton1(
             active: active,
             name: name,
             onTap: onTap,
             icon: icon,
+            isLoading: isLoading,
           );
   }
 }

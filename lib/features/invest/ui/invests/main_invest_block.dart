@@ -131,7 +131,7 @@ class MainInvestBlock extends StatelessObserverWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text(
-                    formatPercent(percent),
+                    percent.toDouble().toFormatPercentPriceChange(),
                     overflow: TextOverflow.ellipsis,
                     style: STStyles.body3InvestSM.copyWith(
                       color: percent == Decimal.zero

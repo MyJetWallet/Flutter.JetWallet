@@ -101,6 +101,7 @@ import 'package:simple_networking/modules/wallet_api/models/prepaid_card/get_pur
 import 'package:simple_networking/modules/wallet_api/models/prepaid_card/get_purchase_card_list_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/prepaid_card/get_vouncher_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/prepaid_card/purchase_card_brand_list_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/profile/profile_change_email_request.dart';
 import 'package:simple_networking/modules/wallet_api/models/profile/profile_delete_account_request.dart';
 import 'package:simple_networking/modules/wallet_api/models/profile/profile_delete_reasons_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/profile/profile_delete_reasons_request_model.dart';
@@ -310,8 +311,8 @@ class WalletApiDataSources {
   }
 
   Future<DC<ServerRejectException, WithdrawPreviewResponseModel>> postWithdrawJarPreviewRequest(
-      Map<String, dynamic> body,
-      ) async {
+    Map<String, dynamic> body,
+  ) async {
     try {
       final response = await _apiClient.post(
         '${_apiClient.options.walletApi}/blockchain/withdrawal/jar/preview',
@@ -333,8 +334,8 @@ class WalletApiDataSources {
   }
 
   Future<DC<ServerRejectException, WithdrawPreviewResponseModel>> postWithdrawPreviewRequest(
-      Map<String, dynamic> body,
-      ) async {
+    Map<String, dynamic> body,
+  ) async {
     try {
       final response = await _apiClient.post(
         '${_apiClient.options.walletApi}/blockchain/withdrawal/preview',
@@ -1756,6 +1757,50 @@ class WalletApiDataSources {
 
       final responseData = response.data as Map<String, dynamic>;
       final _ = handleFullResponse<List>(responseData);
+
+      try {
+        return DC.data(null);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, ProfileChangeEmailRequest>> postEmailChangeRequest(
+    Map<String, dynamic> data,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/profile/email-change-request',
+        data: data,
+      );
+
+      final responseData = response.data as Map<String, dynamic>;
+      final dataResponse = handleFullResponse<Map>(responseData);
+
+      try {
+        return DC.data(ProfileChangeEmailRequest.fromJson(dataResponse));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, void>> postEmailVerifyRequest(
+    Map<String, dynamic> data,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/profile/email-change-verify',
+        data: data,
+      );
+
+      final responseData = response.data as Map<String, dynamic>;
+      final _ = handleFullResponse(responseData);
 
       try {
         return DC.data(null);

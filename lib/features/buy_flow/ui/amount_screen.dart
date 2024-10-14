@@ -210,7 +210,7 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
                 BuyAmountTabBody(
                   asset: widget.asset,
                   card: widget.card,
-                  account: widget.account,
+                  account: widget.fromAccount ?? widget.account,
                   navigateToConvert: ({
                     required fromAsset,
                     required toAsset,
@@ -227,8 +227,8 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
                 ),
                 SellAmountTabBody(
                   asset: widget.asset,
-                  account: widget.account,
-                  simpleCard: widget.simpleCard,
+                  account: widget.toAccount ?? widget.account,
+                  simpleCard: widget.toCard ?? widget.simpleCard,
                   navigateToConvert: ({
                     required fromAsset,
                     required toAsset,

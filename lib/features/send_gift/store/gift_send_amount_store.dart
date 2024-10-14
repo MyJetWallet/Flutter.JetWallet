@@ -95,6 +95,26 @@ abstract class _GeftSendAmountStoreBase with Store {
     _calculateBaseConversion();
   }
 
+  @computed
+  Decimal get sendAllValue {
+    final balance = selectedCurrency.assetBalance;
+    final limit = _maxLimit ?? Decimal.zero;
+    return balance < limit ? balance : limit;
+  }
+
+  @action
+  void onSandAll() {
+    withAmount = '0';
+    withAmount = responseOnInputAction(
+      oldInput: withAmount,
+      newInput: sendAllValue.toString(),
+      accuracy: selectedCurrency.accuracy,
+    );
+
+    _validateAmount();
+    _calculateBaseConversion();
+  }
+
   @action
   void updateAmount(String value) {
     withAmount = responseOnInputAction(

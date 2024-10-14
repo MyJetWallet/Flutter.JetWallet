@@ -533,6 +533,7 @@ abstract class _BuyConfirmationStoreBase with Store {
 
       if (account?.accountId == 'clearjuction_account') {
         final model = ExecuteQuoteRequestModel(
+          isFromFixed: isFromFixed,
           operationId: paymentId,
           price: price,
           fromAssetSymbol: paymentAsset!,

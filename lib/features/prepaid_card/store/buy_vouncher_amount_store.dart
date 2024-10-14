@@ -123,8 +123,9 @@ abstract class _BuyVouncherAmountAtoreBase with Store {
 
   @action
   void onBuyAll() {
+    fiatInputValue = '0';
     fiatInputValue = responseOnInputAction(
-      oldInput: cryptoInputValue,
+      oldInput: fiatInputValue,
       newInput: buyAllValue.toString(),
       accuracy: currency.accuracy,
     );

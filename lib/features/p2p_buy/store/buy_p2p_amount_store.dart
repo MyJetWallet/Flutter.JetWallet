@@ -147,6 +147,24 @@ abstract class _BuyP2PAmountStoreBase with Store {
   }
 
   @computed
+  Decimal get buyAllValue {
+    return maxLimit;
+  }
+
+  @action
+  void onBuyAll() {
+    fiatInputValue = '0';
+    fiatInputValue = responseOnInputAction(
+      oldInput: fiatInputValue,
+      newInput: buyAllValue.toString(),
+      accuracy: fiatAccuracy,
+    );
+
+    _validateInput();
+    _calculateCryptoConversion();
+  }
+
+  @computed
   String get inputErrorValue {
     return paymentMethodInputError != null ? paymentMethodInputError! : inputError.value();
   }

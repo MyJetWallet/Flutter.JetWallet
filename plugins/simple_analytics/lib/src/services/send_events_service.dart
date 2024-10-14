@@ -29,6 +29,7 @@ class SendEventsService {
     _useAmplitude = useAmplitude;
 
     if (_useAmplitude) {
+      await _amplitude.setServerZone('EU');
       await _amplitude.init(apiKey);
     }
   }

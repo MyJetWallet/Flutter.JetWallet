@@ -3,11 +3,15 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/suggestion_button_widget.dart';
 import 'package:jetwallet/features/send_gift/model/send_gift_info_model.dart';
+import 'package:jetwallet/features/send_gift/store/receiver_datails_store.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../core/di/di.dart';
 import '../../../core/l10n/i10n.dart';
@@ -17,7 +21,6 @@ import '../../../utils/helpers/input_helpers.dart';
 import '../../../utils/helpers/widget_size_from.dart';
 import '../../app/store/app_store.dart';
 import '../store/gift_send_amount_store.dart';
-import '../widgets/gift_send_type.dart';
 
 @RoutePage(name: 'GiftAmountRouter')
 class GiftAmount extends StatefulObserverWidget {
@@ -67,41 +70,46 @@ class _GiftAmountState extends State<GiftAmount> {
             small: () => const SizedBox(),
             medium: () => const Spacer(),
           ),
-          Baseline(
-            baseline: 45,
-            baselineType: TextBaseline.alphabetic,
-            child: Observer(
-              builder: (context) {
-                return SActionPriceField(
-                  widgetSize: widgetSizeFrom(deviceSize),
-                  price: formatCurrencyStringAmount(
-                    value: geftSendAmountStore.withAmount,
-                    symbol: geftSendAmountStore.selectedCurrency.symbol,
-                  ),
-                  helper: '',
-                  error: geftSendAmountStore.withAmmountInputError == InputError.limitError
-                      ? geftSendAmountStore.limitError
-                      : geftSendAmountStore.withAmmountInputError.value(),
-                  isErrorActive: geftSendAmountStore.withAmmountInputError.isActive,
-                  pasteLabel: intl.paste,
-                  onPaste: () async {
-                    final data = await Clipboard.getData('text/plain');
-                    if (data?.text != null) {
-                      final n = double.tryParse(data!.text!);
-                      if (n != null) {
-                        geftSendAmountStore.pasteAmount(n.toString().trim());
-                      }
-                    }
-                  },
-                );
-              },
+          SNumericLargeInput(
+            primaryAmount: formatCurrencyStringAmount(
+              value: geftSendAmountStore.withAmount,
             ),
+            primarySymbol: geftSendAmountStore.selectedCurrency.symbol,
+            secondaryAmount: '${intl.earn_est} ${Decimal.parse(geftSendAmountStore.baseConversionValue).toFormatSum(
+              accuracy: sSignalRModules.baseCurrency.accuracy,
+            )}',
+            secondarySymbol: sSignalRModules.baseCurrency.symbol,
+            showSwopButton: false,
+            onSwap: () {},
+            errorText: geftSendAmountStore.withAmmountInputError.isActive
+                ? geftSendAmountStore.withAmmountInputError == InputError.limitError
+                    ? geftSendAmountStore.limitError
+                    : geftSendAmountStore.withAmmountInputError.value()
+                : null,
+            showMaxButton: true,
+            onMaxTap: geftSendAmountStore.onSandAll,
+            pasteLabel: intl.paste,
+            onPaste: () async {
+              final data = await Clipboard.getData('text/plain');
+              if (data?.text != null) {
+                final n = double.tryParse(data!.text!);
+                if (n != null) {
+                  geftSendAmountStore.pasteAmount(n.toString().trim());
+                }
+              }
+            },
           ),
           const Spacer(),
-          const GiftSendType(),
-          deviceSize.when(
-            small: () => const Spacer(),
-            medium: () => const SpaceH20(),
+          SuggestionButtonWidget(
+            title: widget.sendGiftInfo.selectedContactType == ReceiverContacrType.email
+                ? widget.sendGiftInfo.email
+                : '${widget.sendGiftInfo.phoneCountryCode} ${widget.sendGiftInfo.phoneBody}',
+            subTitle: intl.send_gift_send_gift_to,
+            icon: Assets.svg.assets.fiat.gift.simpleSvg(
+              width: 24,
+            ),
+            showArrow: false,
+            onTap: () {},
           ),
           Observer(
             builder: (context) {

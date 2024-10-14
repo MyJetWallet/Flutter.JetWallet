@@ -13,6 +13,7 @@ import 'package:jetwallet/features/earn/widgets/basic_header.dart';
 import 'package:jetwallet/features/home/store/bottom_bar_store.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
+import 'package:jetwallet/utils/formatting/base/format_percent.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
@@ -37,9 +38,11 @@ class TopMoversDashboardSection extends StatelessWidget {
             SBasicHeader(
               title: intl.tom_mover_section_top_movers,
               buttonTitle: intl.tom_mover_section_view_all,
-              onTap: () {
+              onTap: () async {
                 getIt.get<EventBus>().fire(EndReordering());
                 getIt<BottomBarStore>().setHomeTab(BottomItemType.market);
+                await Future.delayed(Durations.short4);
+                getIt.get<EventBus>().fire(ShowMarketGainers());
               },
             ),
             Padding(
@@ -137,7 +140,7 @@ class _AssetItem extends HookWidget {
                     ),
                   const Gap(2),
                   Text(
-                    '${asset.dayPercentChange}%',
+                    asset.dayPercentChange.toFormatPercentPriceChange(),
                     style: STStyles.body2Semibold.copyWith(
                       color: asset.dayPercentChange.isNegative ? colors.red : colors.green,
                     ),

@@ -259,6 +259,9 @@ class $AssetsSvgMediumGen {
   /// File path: assets/svg/medium/cash.svg
   SvgGenImage get cash => const SvgGenImage('assets/svg/medium/cash.svg');
 
+  /// File path: assets/svg/medium/change.svg
+  SvgGenImage get change => const SvgGenImage('assets/svg/medium/change.svg');
+
   /// File path: assets/svg/medium/chat.svg
   SvgGenImage get chat => const SvgGenImage('assets/svg/medium/chat.svg');
 
@@ -466,6 +469,7 @@ class $AssetsSvgMediumGen {
         bank,
         card,
         cash,
+        change,
         chat,
         checkmark,
         checkmarkAlt,
@@ -684,6 +688,9 @@ class $AssetsSvgAssetsFiatGen {
   /// File path: assets/svg/assets/fiat/external_transfer.svg
   SvgGenImage get externalTransfer => const SvgGenImage('assets/svg/assets/fiat/external_transfer.svg');
 
+  /// File path: assets/svg/assets/fiat/gift.svg
+  SvgGenImage get gift => const SvgGenImage('assets/svg/assets/fiat/gift.svg');
+
   /// File path: assets/svg/assets/fiat/p2p.svg
   SvgGenImage get p2p => const SvgGenImage('assets/svg/assets/fiat/p2p.svg');
 
@@ -691,7 +698,7 @@ class $AssetsSvgAssetsFiatGen {
   SvgGenImage get simpleInvest => const SvgGenImage('assets/svg/assets/fiat/simple_invest.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values => [account, altMethod, card, cardAlt, earn, externalTransfer, p2p, simpleInvest];
+  List<SvgGenImage> get values => [account, altMethod, card, cardAlt, earn, externalTransfer, gift, p2p, simpleInvest];
 }
 
 class $AssetsSvgBrandSmallGen {

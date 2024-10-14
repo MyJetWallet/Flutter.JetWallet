@@ -221,7 +221,8 @@ class _BranItem extends StatelessWidget {
         ),
         (
           lable: intl.prepaid_card_commission,
-          value: brand.feePercentage == Decimal.zero ? intl.prepaid_card_free : '${brand.feePercentage}%',
+          value:
+              brand.feePercentage == Decimal.zero ? intl.prepaid_card_free : brand.feePercentage.toFormatPercentCount(),
           customValueStyle: STStyles.body2Medium.copyWith(
             color: brand.feePercentage == Decimal.zero ? SColorsLight().green : null,
           ),

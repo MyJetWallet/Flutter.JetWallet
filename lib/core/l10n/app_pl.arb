@@ -1858,5 +1858,15 @@
     "kyc_verify_identity": "Zweryfikuj tożsamość",
     "kyc_secure_account": "Zabezpiecz konto",
     "market_price_change": "Zmiana ceny",
-    "kyc_profile_verification": "Weryfikacja profilu"
+    "kyc_profile_verification": "Weryfikacja profilu",
+    "send_gift_send_gift_to": "Wyślij prezent do",
+    "withdrawal_you_send": "Ty wysyłasz",
+    "withdrawal_wallet": "Portfel",
+    "change_email_enter_new_email": "Wprowadź nowy email",
+    "change_email_current_email": "Aktualny email",
+    "change_email_new_email": "Nowy email",
+    "change_email_email_verification": "Weryfikacja email",
+    "change_email_email_verification_hint": "Wprowadź kod, który wysłaliśmy na Twój nowy email ",
+    "change_email_success_hint": "Twój e-mail został pomyślnie zaktualizowany na {email}",
+    "withrawal_amount_error_entered_amount": "Wprowadzona kwota musi pokryć opłatę za przetwarzanie."
 }

@@ -96,7 +96,7 @@ abstract class _BuyAmountStoreBase with Store {
   bool inputValid = false;
 
   @observable
-  bool isFiatEntering = true;
+  bool isFiatEntering = false;
 
   @observable
   String fiatInputValue = '0';
@@ -177,6 +177,8 @@ abstract class _BuyAmountStoreBase with Store {
           .paymentAssets
           ?.firstWhere((element) => element.asset == 'EUR');
     }
+
+    isFiatEntering = asset == null;
 
     loadConversionPrice(
       fiatSymbol,
@@ -415,6 +417,31 @@ abstract class _BuyAmountStoreBase with Store {
     }
     isFiatEntering = !isFiatEntering;
     _cutUnnecessaryAccuracy();
+    _validateInput();
+  }
+
+  @action
+  void onBuyAll() {
+    if (isFiatEntering) {
+      fiatInputValue = '0';
+      fiatInputValue = responseOnInputAction(
+        oldInput: fiatInputValue,
+        newInput: _maxSellAmount.toString(),
+        accuracy: fiatAccuracy,
+      );
+
+      _calculateCryptoConversion();
+    } else {
+      cryptoInputValue = '0';
+      cryptoInputValue = responseOnInputAction(
+        oldInput: cryptoInputValue,
+        newInput: _maxBuyAmount.toString(),
+        accuracy: asset?.accuracy ?? 2,
+      );
+
+      _calculateFiatConversion();
+    }
+
     _validateInput();
   }
 

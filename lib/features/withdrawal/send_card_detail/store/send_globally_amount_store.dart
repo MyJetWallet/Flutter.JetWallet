@@ -177,6 +177,25 @@ abstract class _SendGloballyAmountStoreBase with Store {
     }
   }
 
+  @computed
+  Decimal get sendAllValue {
+    final balnce = sendCurrency?.assetBalance ?? Decimal.zero;
+    return maxLimitAmount < balnce ? maxLimitAmount : balnce;
+  }
+
+  @action
+  void onSendAll() {
+    withAmount = '0';
+    withAmount = responseOnInputAction(
+      oldInput: withAmount,
+      newInput: sendAllValue.toString(),
+      accuracy: sendCurrency!.accuracy,
+    );
+
+    _validateAmount();
+    _calculateBaseConversion();
+  }
+
   @action
   void updateAmount(String value) {
     withAmount = responseOnInputAction(

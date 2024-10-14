@@ -3,6 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'rewards_asset_model.dart';
 
 part 'remote_config_appconfig_model.freezed.dart';
+
 part 'remote_config_appconfig_model.g.dart';
 
 @freezed
@@ -40,7 +41,6 @@ class RemoteConfigAppconfigModel with _$RemoteConfigAppconfigModel {
     @Default(false) bool displayCardPreorderScreen,
     @Default('') String prepaidCardPartnerLink,
     @Default('') String prepaidCardTermsAndConditionsLink,
-    @Default(true) bool useAmplitude,
     @Default('https://simple.app/disclaimer/?tpl=blank') String simpleCoinDisclaimerLink,
     @Default('https://t.me/Simple_Tap_Bot') String simpleTapLink,
     @Default(true) bool usePhoneForSendGift,

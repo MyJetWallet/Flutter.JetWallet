@@ -117,6 +117,7 @@ abstract class _EarnDepositStoreBase with Store {
 
   @action
   void onSellAll() {
+    cryptoInputValue = '0';
     cryptoInputValue = responseOnInputAction(
       oldInput: cryptoInputValue,
       newInput: withdrawAllValue.toString(),

@@ -131,6 +131,17 @@ String shortAddressFormTwo(String address) {
   return '$part1...$part2';
 }
 
+String shortAddressFormThree(String address) {
+  final length = address.length;
+
+  if (length <= 12) return address;
+
+  final part1 = address.substring(0, 6);
+  final part2 = address.substring(length - 6, length);
+
+  return '$part1...$part2';
+}
+
 String shortAddressOperationId(String address) {
   final length = address.length;
   if (length <= 8) return address;

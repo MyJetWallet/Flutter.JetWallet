@@ -19,6 +19,7 @@ import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/app/store/models/authorization_union.dart';
 import 'package:jetwallet/features/auth/email_verification/model/email_verification_union.dart';
+import 'package:jetwallet/features/auth/verification_reg/store/verification_store.dart';
 import 'package:jetwallet/utils/helpers/current_platform.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:jetwallet/utils/store/timer_store.dart';
@@ -201,6 +202,8 @@ abstract class _EmailVerificationStoreBase with Store {
 
           authInfo.setAuthStatus(const AuthorizationUnion.authorized());
 
+          getIt.get<VerificationStore>().setEmailDone(true);
+
           final statusNotification = await Permission.notification.status;
 
           final isShowPermissionScreen = [
@@ -238,6 +241,15 @@ abstract class _EmailVerificationStoreBase with Store {
       union = error.cause.contains('50') || error.cause.contains('40')
           ? EmailVerificationUnion.error(intl.something_went_wrong_try_again)
           : EmailVerificationUnion.error(error.cause);
+
+      loader.finishLoading();
+
+      sNotification.showError(
+        error.cause.contains('50') || error.cause.contains('40')
+            ? intl.something_went_wrong_try_again
+            : error.cause,
+        id: 1,
+      );
     } catch (error) {
       _logger.log(stateFlow, 'verifyCode', error);
 
@@ -246,6 +258,13 @@ abstract class _EmailVerificationStoreBase with Store {
       union = error.toString().contains('50') || error.toString().contains('40')
           ? EmailVerificationUnion.error(intl.something_went_wrong_try_again)
           : EmailVerificationUnion.error(error);
+
+      loader.finishLoading();
+
+      sNotification.showError(
+        intl.something_went_wrong_try_again,
+        id: 1,
+      );
     }
   }
 

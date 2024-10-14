@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/credentials_service/credentials_service.dart';
 import 'package:jetwallet/core/services/intercom/intercom_service.dart';
 import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
@@ -50,6 +51,8 @@ abstract class _LogoutServiceBase with Store {
       );
 
       getIt<AppStore>().setAppStatus(AppStatus.end);
+
+      getIt.get<CredentialsService>().clearData();
 
       final authStore = getIt.get<AppStore>().authState;
       if (getIt.get<AppStore>().authStatus is Unauthorized) {
