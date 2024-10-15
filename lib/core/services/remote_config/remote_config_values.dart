@@ -31,7 +31,6 @@ late String cardLimitsLearnMoreLink;
 late String p2pTerms;
 late String jarTerms;
 bool rateUp = true;
-bool displayCardPreorderScreen = false;
 String prepaidCardPartnerLink = '';
 String prepaidCardTermsAndConditionsLink = '';
 String simpleCoinDisclaimerLink = '';

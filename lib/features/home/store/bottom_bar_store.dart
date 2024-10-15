@@ -1,8 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:jetwallet/core/di/di.dart';
-import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/crypto_jar/store/jars_store.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
@@ -58,7 +56,9 @@ abstract class _BottomBarStoreBase with Store {
             .isNotEmpty) ...[
           BottomItemType.invest,
         ],
-        if (sUserInfo.cardAvailable && displayCardPreorderScreen) ...[
+        if ((sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
+          (element) => element.id == AssetPaymentProductsEnum.cardPreorder,
+        )) ...[
           BottomItemType.card,
         ],
         if ((sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])

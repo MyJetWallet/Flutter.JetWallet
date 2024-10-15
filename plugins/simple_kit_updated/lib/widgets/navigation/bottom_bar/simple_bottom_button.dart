@@ -55,7 +55,7 @@ class SBottomButton extends StatelessWidget {
           ),
           if (notification != 0)
             Positioned(
-              right: 15,
+              right: 0,
               top: -5,
               child: NotificationBox(
                 notifications: notification,
