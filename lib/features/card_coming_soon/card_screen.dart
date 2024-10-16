@@ -224,7 +224,7 @@ class _CardScreenBodyState extends State<CardScreen> {
           );
         } else {
           _controllerConfetti.play();
-          Timer(const Duration(seconds: 1), () {
+          Timer(const Duration(microseconds: 100), () {
             sUserInfo.updateCardRequested(
               newValue: true,
             );
