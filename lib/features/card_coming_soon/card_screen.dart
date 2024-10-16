@@ -8,6 +8,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 
 import '../../core/di/di.dart';
 import '../../core/l10n/i10n.dart';
@@ -33,12 +34,12 @@ class CardScreen extends StatefulObserverWidget {
 class _CardScreenBodyState extends State<CardScreen> {
   late ConfettiController _controllerConfetti;
   ScrollController controller = ScrollController();
-  late bool isButtonActive;
+  bool isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    isButtonActive = true;
+
     _controllerConfetti = ConfettiController(duration: const Duration(milliseconds: 200));
     getIt<EventBus>().on<ResetScrollCard>().listen((event) {
       controller.animateTo(
@@ -146,7 +147,8 @@ class _CardScreenBodyState extends State<CardScreen> {
                     padding: const EdgeInsets.only(top: 16, bottom: 24),
                     child: SButton.black(
                       text: intl.join_the_waitlist,
-                      callback: (isButtonActive && !kycBlocked && !verificationInProgress) ? onTap : null,
+                      callback: (!kycBlocked && !verificationInProgress && !userInfo.cardRequested) ? onTap : null,
+                      isLoading: isLoading,
                     ),
                   ),
                 ],
@@ -167,9 +169,7 @@ class _CardScreenBodyState extends State<CardScreen> {
       kycState.tradeStatus,
       kycState.withdrawalStatus,
     );
-    setState(() {
-      isButtonActive = false;
-    });
+
     if (!kycPassed) {
       unawaited(
         sShowAlertPopup(
@@ -207,10 +207,14 @@ class _CardScreenBodyState extends State<CardScreen> {
         ),
       );
       setState(() {
-        isButtonActive = true;
+        isLoading = false;
       });
     } else {
       try {
+        setState(() {
+          isLoading = true;
+        });
+
         final response = await sNetwork.getWalletModule().postCardSoon();
 
         if (response.error != null) {
@@ -218,18 +222,13 @@ class _CardScreenBodyState extends State<CardScreen> {
             response.error!.cause,
             id: 1,
           );
-          setState(() {
-            isButtonActive = true;
-          });
         } else {
           _controllerConfetti.play();
           Timer(const Duration(seconds: 1), () {
             sUserInfo.updateCardRequested(
               newValue: true,
             );
-            setState(() {
-              isButtonActive = true;
-            });
+
             sShowAlertPopup(
               context,
               primaryText: intl.card_congrats,
@@ -247,12 +246,21 @@ class _CardScreenBodyState extends State<CardScreen> {
             );
           });
         }
+      } on ServerRejectException catch (error) {
+        sNotification.showError(
+          error.cause,
+          id: 1,
+        );
       } catch (e) {
         sNotification.showError(
           intl.something_went_wrong_try_again2,
           id: 1,
           needFeedback: true,
         );
+      } finally {
+        setState(() {
+          isLoading = false;
+        });
       }
     }
   }
