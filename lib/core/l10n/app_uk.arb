@@ -5956,5 +5956,12 @@
     "change_email_email_verification": "Верифікація електронної пошти",
     "change_email_email_verification_hint": "Введіть код, який ми надіслали на вашу нову електронну адресу ",
     "change_email_success_hint": "Вашу електронну адресу успішно оновлено на {email}",
-    "withrawal_amount_error_entered_amount": "Введена сума має покривати комісію за обробку."
+    "withrawal_amount_error_entered_amount": "Введена сума має покривати комісію за обробку.",
+    "card_preorder_joibed_description": "Дякуємо за вашу цікавість! Ми повідомимо вас, як тільки Simple Card стане доступною.",
+    "card_preorder_join_description": "Запишіться в лист очікування, і ми повідомимо вас, як тільки розпочнеться прийом заявок.",
+    "card_preorder_highlights": "Основне:",
+    "card_preorder_highlight_1": "Використовуйте свою картку без додаткових KYC перевірок",
+    "card_preorder_highlight_2": "Швидко конвертуйте активи без затримок",
+    "card_preorder_highlight_3": "Легко підключайте будь-який актив до своєї картки",
+    "card_preorder_highlight_4": "Підключайтесь до Apple/Google Wallet і робіть покупки де завгодно"
 }
