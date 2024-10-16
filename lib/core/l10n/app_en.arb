@@ -805,7 +805,7 @@
     "card_update_notification": "Card details were updated",
     "card_delete_notification": "Card details were deleted",
     "buy_crypto": "Buy crypto",
-    "join_the_waitlist": "Join the waitlist",
+    "join_the_waitlist": "Join waitlist",
     "are_you_interested": "Are you interested?",
     "sendOptions_send": "Send",
     "sendOptions_to_crypto_wallet": "To crypto wallet",
@@ -1816,5 +1816,13 @@
     "change_email_email_verification": "Email verification",
     "change_email_email_verification_hint": "Enter the code we have sent to your new email ",
     "change_email_success_hint": "Your email was successfully updated to {email}",
-    "withrawal_amount_error_entered_amount": "Entered amount must cover the processing fee."
+    "withrawal_amount_error_entered_amount": "Entered amount must cover the processing fee.",
+    "card_preorder_joibed_description": "Thanks for your interest! We’ll notify you as soon as the Simple Card is available.",
+    "card_preorder_join_description": "Sign up for the waitlist, and we’ll notify you as soon as applications open.",
+    "card_preorder_highlights": "Highlights:",
+    "card_preorder_highlight_1": "Use your card with no extra KYC checks",
+    "card_preorder_highlight_2": "Swiftly convert assets without delay",
+    "card_preorder_highlight_3": "Easily connect any asset to your card",
+    "card_preorder_highlight_4": "Connect to Apple/Google Wallet and shop anywhere"
+
 }

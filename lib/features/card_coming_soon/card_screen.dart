@@ -101,7 +101,7 @@ class _CardScreenBodyState extends State<CardScreen> {
                   const SpaceH12(),
                   if (userInfo.cardRequested) ...[
                     Text(
-                      'Thanks for your interest! We’ll notify you as soon as the Simple Card is available.',
+                      intl.card_preorder_joibed_description,
                       maxLines: 3,
                       style: STStyles.subtitle2.copyWith(
                         color: colors.gray10,
@@ -109,29 +109,35 @@ class _CardScreenBodyState extends State<CardScreen> {
                     ),
                   ] else ...[
                     Text(
-                      'Sign up for the waitlist, and we’ll notify you as soon as applications open.\n\nHighlights:',
+                      intl.card_preorder_join_description,
+                      maxLines: 4,
+                      style: STStyles.subtitle2,
+                    ),
+                    const SpaceH8(),
+                    Text(
+                      intl.card_preorder_highlights,
                       maxLines: 4,
                       style: STStyles.subtitle2,
                     ),
                     const SpaceH12(),
                     OneColumnCell(
                       icon: Assets.svg.small.check,
-                      text: 'Use your card with no extra KYC checks',
+                      text: intl.card_preorder_highlight_1,
                       needHorizontalPading: false,
                     ),
                     OneColumnCell(
                       icon: Assets.svg.small.check,
-                      text: 'Swiftly convert assets without delay',
+                      text: intl.card_preorder_highlight_2,
                       needHorizontalPading: false,
                     ),
                     OneColumnCell(
                       icon: Assets.svg.small.check,
-                      text: 'Easily connect any asset to your card',
+                      text: intl.card_preorder_highlight_3,
                       needHorizontalPading: false,
                     ),
                     OneColumnCell(
                       icon: Assets.svg.small.check,
-                      text: 'Connect to Apple/Google Wallet and shop anywhere',
+                      text: intl.card_preorder_highlight_4,
                       needHorizontalPading: false,
                     ),
                   ],
