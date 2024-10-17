@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -10,7 +9,6 @@ import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/core/services/prevent_duplication_events_servise.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/suggestion_button_widget.dart';
 import 'package:jetwallet/features/p2p_buy/store/buy_p2p_amount_store.dart';
-import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
@@ -105,12 +103,6 @@ class P2PBuyAmountScreen extends StatelessWidget {
                                     value: store.primaryAmount,
                                   ),
                                   primarySymbol: store.primarySymbol,
-                                  secondaryAmount: store.asset != null
-                                      ? '${intl.earn_est} ${Decimal.parse(
-                                          store.secondaryAmount,
-                                        ).toFormatCount(accuracy: store.secondaryAccuracy)}'
-                                      : null,
-                                  secondarySymbol: store.asset != null ? store.secondarySymbol : null,
                                   onSwap: () {},
                                   showSwopButton: false,
                                   showMaxButton: true,

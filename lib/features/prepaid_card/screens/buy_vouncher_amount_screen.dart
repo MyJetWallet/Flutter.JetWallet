@@ -78,10 +78,6 @@ class _EarnWithdrawalAmountBody extends StatelessWidget {
                 value: store.fiatInputValue,
               ),
               primarySymbol: store.fiatSymbol,
-              secondaryAmount: formatCurrencyStringAmount(
-                value: store.cryptoInputValue,
-              ),
-              secondarySymbol: store.cryptoSymbol,
               onSwap: null,
               showSwopButton: false,
               errorText: store.errorText,
