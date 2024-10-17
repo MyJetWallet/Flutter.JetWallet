@@ -11,6 +11,7 @@ export 'widgets/colors/simple_colors_light.dart';
 export 'widgets/navigation/top_app_bar/global_large_appbar.dart';
 export 'widgets/navigation/top_app_bar/global_basic_appbar.dart';
 export 'widgets/navigation/top_app_bar/global_large_alt_appbar.dart';
+export 'widgets/navigation/top_app_bar/main_appbar.dart';
 
 // Account app bar
 export 'widgets/navigation/top_app_bar/advanced_app_bar/account_app_bar/collapsed_account_appbar.dart';

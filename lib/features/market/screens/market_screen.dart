@@ -151,7 +151,6 @@ class _MarketScreenState extends State<MarketScreen> {
                 title: intl.marketHeaderStats_market,
                 showLabelIcon: false,
                 hasRightIcon: false,
-                hasTopPart: false,
               ),
               crossFadeState: isScroolStarted ? CrossFadeState.showFirst : CrossFadeState.showSecond,
               duration: const Duration(milliseconds: 200),

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_kit_updated/widgets/navigation/top_app_bar/advanced_app_bar/advanced_app_bar_base.dart';
-import 'package:simple_kit_updated/widgets/navigation/top_app_bar/global_large_alt_appbar.dart';
-import 'package:simple_kit_updated/widgets/shared/safe_gesture.dart';
 
 class MainScreenAppbar extends StatelessWidget {
   const MainScreenAppbar({
@@ -44,7 +41,7 @@ class MainScreenAppbar extends StatelessWidget {
       flow: CollapsedAppBarType.mainScreen,
       child: Column(
         children: [
-          SimpleLargeAltAppbar(
+          SimpleMainAppbar(
             title: headerTitle,
             value: headerValue,
             showLabelIcon: true,
