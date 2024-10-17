@@ -99,6 +99,9 @@ abstract class _BuyAmountStoreBase with Store {
   bool isFiatEntering = false;
 
   @observable
+  bool isMaxActive = false;
+
+  @observable
   String fiatInputValue = '0';
 
   @observable
@@ -324,6 +327,7 @@ abstract class _BuyAmountStoreBase with Store {
 
   @action
   void updateInputValue(String value) {
+    isMaxActive = false;
     if (isFiatEntering) {
       fiatInputValue = responseOnInputAction(
         oldInput: fiatInputValue,
@@ -331,6 +335,7 @@ abstract class _BuyAmountStoreBase with Store {
         accuracy: fiatAccuracy,
         wholePartLenght: maxWholePrartLenght,
       );
+      _calculateCryptoConversion();
     } else {
       cryptoInputValue = responseOnInputAction(
         oldInput: cryptoInputValue,
@@ -338,10 +343,6 @@ abstract class _BuyAmountStoreBase with Store {
         accuracy: asset?.accuracy ?? 2,
         wholePartLenght: maxWholePrartLenght,
       );
-    }
-    if (isFiatEntering) {
-      _calculateCryptoConversion();
-    } else {
       _calculateFiatConversion();
     }
 
@@ -416,12 +417,18 @@ abstract class _BuyAmountStoreBase with Store {
       return;
     }
     isFiatEntering = !isFiatEntering;
+
+    if (isMaxActive) {
+      onBuyAll();
+    }
+
     _cutUnnecessaryAccuracy();
     _validateInput();
   }
 
   @action
   void onBuyAll() {
+    isMaxActive = true;
     if (isFiatEntering) {
       fiatInputValue = '0';
       fiatInputValue = responseOnInputAction(

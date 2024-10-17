@@ -60,6 +60,9 @@ abstract class _ConvertAmountStoreBase with Store {
   bool isFromEntering = true;
 
   @observable
+  bool isMaxActive = false;
+
+  @observable
   String fromInputValue = '0';
 
   @observable
@@ -182,7 +185,12 @@ abstract class _ConvertAmountStoreBase with Store {
     if (toAsset == null || fromAsset == null) {
       return;
     }
+
     isFromEntering = !isFromEntering;
+
+    if (isMaxActive) {
+      onConvetrAll();
+    }
     _validateInput();
   }
 
@@ -248,6 +256,7 @@ abstract class _ConvertAmountStoreBase with Store {
 
   @action
   void onConvetrAll() {
+    isMaxActive = true;
     if (isFromEntering) {
       fromInputValue = '0';
       fromInputValue = responseOnInputAction(
@@ -273,6 +282,7 @@ abstract class _ConvertAmountStoreBase with Store {
 
   @action
   void updateInputValue(String value) {
+    isMaxActive = false;
     if (isFromEntering) {
       fromInputValue = responseOnInputAction(
         oldInput: fromInputValue,
@@ -280,6 +290,7 @@ abstract class _ConvertAmountStoreBase with Store {
         accuracy: fromAsset?.accuracy ?? 2,
         wholePartLenght: maxWholePrartLenght,
       );
+      _calculateToConversion();
     } else {
       toInputValue = responseOnInputAction(
         oldInput: toInputValue,
@@ -287,10 +298,6 @@ abstract class _ConvertAmountStoreBase with Store {
         accuracy: toAsset?.accuracy ?? 2,
         wholePartLenght: maxWholePrartLenght,
       );
-    }
-    if (isFromEntering) {
-      _calculateToConversion();
-    } else {
       _calculateFromConversion();
     }
 
