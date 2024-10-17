@@ -108,7 +108,6 @@ class _EarnViewState extends State<_EarnView> {
       header: SimpleLargeAltAppbar(
         title: intl.earn_earn,
         showLabelIcon: false,
-        //  hasTopPart: false,
         rightIcon: SafeGesture(
           onTap: _showBanner,
           child: Assets.svg.small.info.simpleSvg(
