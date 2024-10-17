@@ -159,12 +159,12 @@
         "type": "text"
     },
     "aboutUs_privacyPolicy": "Політика конфіденційності",
-    "sActionItem_description1": "Купуйте криптовалюту банківською карткою",
+    "sActionItem_description1": "Купуйте криптовалюту, використовуючи свою банківську карту",
     "@sActionItem_description1": {
         "description": "Покупайте криптовалюту банковской карточкой",
         "type": "text"
     },
-    "sActionItem_description2": "Купуйте будь-яку криптовалюту, доступну на платформі",
+    "sActionItem_description2": "Купуйте будь-яку криптовалюту, запропоновану на платформі",
     "@sActionItem_description2": {
         "description": "Покупайте любую криптовалюту, доступную на платформе",
         "type": "text"
@@ -174,7 +174,7 @@
         "description": "Продайте криптовалюту из своего портфеля",
         "type": "text"
     },
-    "sActionItem_description4": "Швидко обмінюйте одну криптовалюту на іншу",
+    "sActionItem_description4": "Миттєво обміняйте одну криптовалюту на іншу",
     "@sActionItem_description4": {
         "description": "Быстро обменивайте одну криптовалюту на другую",
         "type": "text"
@@ -184,7 +184,7 @@
         "description": "Получайте криптовалюту с другого кошелька",
         "type": "text"
     },
-    "sActionItem_description6": "Надіслати криптовалюту на інший гаманець або телефон",
+    "sActionItem_description6": "Надішліть криптовалюту на інший гаманець або телефон",
     "@sActionItem_description6": {
         "description": "Отправить криптовалюту на другой кошелек или телефон",
         "type": "text"
@@ -230,7 +230,7 @@
         "description": "Позже",
         "type": "text"
     },
-    "kycAlertHandler_showVerifyingAlertPrimaryText": "Ми зараз перевіряємо",
+    "kycAlertHandler_showVerifyingAlertPrimaryText": "Ми наразі обробляємо вашу верифікацію",
     "@kycAlertHandler_showVerifyingAlertPrimaryText": {
         "description": "Мы сейчас проверяем",
         "type": "text"
@@ -5956,5 +5956,25 @@
     "change_email_email_verification": "Верифікація електронної пошти",
     "change_email_email_verification_hint": "Введіть код, який ми надіслали на вашу нову електронну адресу ",
     "change_email_success_hint": "Вашу електронну адресу успішно оновлено на {email}",
-    "withrawal_amount_error_entered_amount": "Введена сума має покривати комісію за обробку."
+    "withrawal_amount_error_entered_amount": "Введена сума має покривати комісію за обробку.",
+    "card_preorder_joibed_description": "Дякуємо за вашу цікавість! Ми повідомимо вас, як тільки Simple Card стане доступною.",
+    "card_preorder_join_description": "Запишіться в лист очікування, і ми повідомимо вас, як тільки розпочнеться прийом заявок.",
+    "card_preorder_highlights": "Основне:",
+    "card_preorder_highlight_1": "Використовуйте свою картку без додаткових KYC перевірок",
+    "card_preorder_highlight_2": "Швидко конвертуйте активи без затримок",
+    "card_preorder_highlight_3": "Легко підключайте будь-який актив до своєї картки",
+    "card_preorder_highlight_4": "Підключайтесь до Apple/Google Wallet і робіть покупки де завгодно",
+    "bank_transfer": "Банківський переказ",
+    "bank_transfer_to_yourself": "собі або іншій особі",
+    "bank_transfer_to": "Банківський переказ",
+    "bank_transfer_to_myself": "Собі",
+    "bank_transfer_to_business": "Бізнес/Організації",
+    "bank_transfer_to_another_person": "Іншій особі",
+    "bank_transfer_coming_soon": "Скоро буде",
+    "get_personal_iban_title": "Отримайте свій особистий IBAN",
+    "get_personal_iban_hint1_title": "Легкі перекази коштів",
+    "get_personal_iban_hint1_body": "Надсилайте гроші кому завгодно прямісінько з вашого криптобалансу.",
+    "get_personal_iban_hint2_title": "Сплачуйте рахунки без зусиль",
+    "get_personal_iban_hint2_body": "Використовуйте свій особистий рахунок IBAN для миттєвої оплати рахунків, не виходячи з додатка",
+    "get_personal_iban_button": "Відкрити рахунок"
 }

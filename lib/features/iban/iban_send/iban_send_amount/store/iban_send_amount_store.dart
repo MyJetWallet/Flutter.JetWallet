@@ -356,7 +356,7 @@ abstract class _IbanSendAmountStoreBase with Store {
       final accounts = sSignalRModules.bankingProfileData?.banking?.accounts ?? [];
 
       final model = GetCryptoSellRequestModel(
-        buyFixed: true,
+        buyFixed: inputMode != WithdrawalInputMode.youSend,
         paymentAsset: currency?.symbol ?? '',
         buyAsset: eurCurrency.symbol,
         buyAmount: Decimal.parse(baseConversionValue),
