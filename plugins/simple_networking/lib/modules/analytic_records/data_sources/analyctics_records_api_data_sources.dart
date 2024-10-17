@@ -5,13 +5,14 @@ import 'package:simple_networking/api_client/api_client.dart';
 import 'package:simple_networking/helpers/handle_api_responses.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/analytic_records/models/analytic_record.dart';
+import 'package:simple_networking/modules/analytic_records/models/analytic_record_response.dart';
 
 class AnalycticsRecordsApiDataSources {
   final ApiClient _apiClient;
 
   AnalycticsRecordsApiDataSources(this._apiClient);
 
-  Future<DC<ServerRejectException, void>> postAddAnalyticRecordRequest(
+  Future<DC<ServerRejectException, AnalyticRecordResponseModel>> postAddAnalyticRecordRequest(
     List<AnalyticRecordModel> listRecords,
   ) async {
     try {

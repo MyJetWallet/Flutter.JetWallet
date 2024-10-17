@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:data_channel/data_channel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -25,7 +26,9 @@ import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/analytic_records/models/analytic_record.dart';
+import 'package:simple_networking/modules/analytic_records/models/analytic_record_response.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../utils/helpers/country_code_by_user_register.dart';
@@ -459,21 +462,25 @@ abstract class _AppStoreBase with Store {
           required String name,
           required Map<String, dynamic> body,
           required int orderIndex,
+          required bool amp,
         }) async {
           final model = AnalyticRecordModel(
             eventName: name,
             eventBody: body,
             orderIndex: orderIndex,
+            amp: amp,
           );
+          DC<ServerRejectException, AnalyticRecordResponseModel> result;
           if (authStatus == const AuthorizationUnion.authorized()) {
-            await getIt.get<SNetwork>().simpleNetworking.getAnalyticApiModule().postAddAnalyticRecord([model]);
+            result = await getIt.get<SNetwork>().simpleNetworking.getAnalyticApiModule().postAddAnalyticRecord([model]);
           } else {
-            await getIt
+            result = await getIt
                 .get<SNetwork>()
                 .simpleNetworkingUnathorized
                 .getAnalyticApiModule()
                 .postAddAnalyticRecord([model]);
           }
+          return result.data!.limitExceeded;
         },
       );
 
