@@ -113,6 +113,18 @@ void showSendOptions(
                 );
               },
             ),
+          if (isGlobalAvaible)
+            SCardRow(
+              icon: Assets.svg.medium.bank.simpleSvg(color: SColorsLight().blue),
+              onTap: () {
+                Navigator.pop(context);
+                showBankTransferTo(context, currency);
+              },
+              amount: '',
+              description: '',
+              name: intl.bank_transfer,
+              helper: intl.bank_transfer_to_yourself,
+            ),
           const SpaceH40(),
         ],
       ),

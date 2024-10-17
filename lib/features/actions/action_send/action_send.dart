@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -18,6 +19,7 @@ import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_country_model.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/store/send_card_payment_method_store.dart';
+import 'package:jetwallet/features/withdrawal_banking/helpers/show_bank_transfer_select.dart';
 import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
 import 'package:jetwallet/utils/helpers/flag_asset_name.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
@@ -27,6 +29,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
+import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
 import '../../../core/services/local_storage_service.dart';
@@ -116,6 +119,18 @@ Future<void> showSendAction(bool isEmptyBalance, BuildContext context) async {
           description: '',
           name: intl.send_gift,
           helper: intl.send_gift_to_simple_wallet,
+        ),
+      if (isGlobalAvaible)
+        SCardRow(
+          icon: Assets.svg.medium.bank.simpleSvg(color: SColorsLight().blue),
+          onTap: () {
+            Navigator.pop(context);
+            showBankTransferTo(context);
+          },
+          amount: '',
+          description: '',
+          name: intl.bank_transfer,
+          helper: intl.bank_transfer_to_yourself,
         ),
       const SpaceH42(),
     ],
@@ -391,6 +406,72 @@ class _ActionSend extends StatelessObserverWidget {
       ],
     );
   }
+}
+
+void showBankTransferTo(BuildContext context, [CurrencyModel? currency]) {
+  final accounts = sSignalRModules.bankingProfileData?.banking?.accounts ?? [];
+  final bankingShowState = sSignalRModules.bankingProfileData?.banking?.status ?? BankingClientStatus.allowed;
+
+  sShowBasicModalBottomSheet(
+    context: context,
+    pinned: ActionBottomSheetHeader(
+      name: intl.bank_transfer_to,
+    ),
+    horizontalPinnedPadding: 0.0,
+    removePinnedPadding: true,
+    children: [
+      SCardRow(
+        icon: Assets.svg.medium.userAlt.simpleSvg(color: SColorsLight().blue),
+        onTap: () {
+          Navigator.pop(context);
+
+          if (bankingShowState == BankingClientStatus.allowed) {
+            if (accounts.isEmpty) {
+              context.pushRoute(const GetPersonalIbanRouter());
+              return;
+            } else {
+              showBankTransforSelect(
+                context,
+                accounts.first,
+                true,
+                true,
+                currency,
+              );
+            }
+          }
+        },
+        amount: '',
+        description: '',
+        name: intl.bank_transfer_to_myself,
+      ),
+      SCardRow(
+        icon: Assets.svg.medium.userSend.simpleSvg(color: SColorsLight().blue),
+        onTap: () {
+          Navigator.pop(context);
+
+          if (bankingShowState == BankingClientStatus.allowed) {
+            if (accounts.isEmpty) {
+              context.pushRoute(const GetPersonalIbanRouter());
+              return;
+            } else {
+              showBankTransforSelect(
+                context,
+                accounts.first,
+                false,
+                true,
+                currency,
+              );
+            }
+          }
+        },
+        amount: '',
+        description: '',
+        name: intl.bank_transfer_to_another_person,
+        helper: bankingShowState == BankingClientStatus.unsupported ? intl.bank_transfer_coming_soon : '',
+      ),
+      const SpaceH42(),
+    ],
+  );
 }
 
 void showGlobalSendCurrenctSelect(BuildContext context) {

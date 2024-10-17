@@ -1816,5 +1816,18 @@
     "change_email_email_verification": "Email verification",
     "change_email_email_verification_hint": "Enter the code we have sent to your new email ",
     "change_email_success_hint": "Your email was successfully updated to {email}",
-    "withrawal_amount_error_entered_amount": "Entered amount must cover the processing fee."
+    "withrawal_amount_error_entered_amount": "Entered amount must cover the processing fee.",
+    "bank_transfer": "Bank transfer",
+    "bank_transfer_to_yourself": "to yourself or another person",
+    "bank_transfer_to": "Bank transfer to",
+    "bank_transfer_to_myself": "Myself",
+    "bank_transfer_to_business": "Business/Organizations",
+    "bank_transfer_to_another_person": "Another person",
+    "bank_transfer_coming_soon": "Coming Soon",
+    "get_personal_iban_title": "Get your personal IBAN",
+    "get_personal_iban_hint1_title": "Easy fund transfers",
+    "get_personal_iban_hint1_body": "Send money to anyone directly from your crypto balance.",
+    "get_personal_iban_hint2_title": "Pay bills effortlessly",
+    "get_personal_iban_hint2_body": "Use your personal IBAN account to pay bills instantly, without leaving the app.",
+    "get_personal_iban_button": "Open an account"
 }

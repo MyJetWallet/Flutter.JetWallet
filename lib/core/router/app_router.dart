@@ -67,6 +67,7 @@ import 'package:jetwallet/features/earn/screens/offers_screen.dart';
 import 'package:jetwallet/features/email_confirmation/ui/email_confirmation_screen.dart';
 import 'package:jetwallet/features/face_check/ui/face_check_screen.dart';
 import 'package:jetwallet/features/home/home_screen.dart';
+import 'package:jetwallet/features/iban/get_personal_iban_screen.dart';
 import 'package:jetwallet/features/iban/iban_add_bank_account_screen.dart';
 import 'package:jetwallet/features/iban/iban_send/iban_send_amount/ui/iban_send_amount.dart';
 import 'package:jetwallet/features/iban/iban_send/iban_send_confirm/ui/iban_send_confirm.dart';
@@ -163,6 +164,7 @@ import 'package:simple_networking/modules/wallet_api/models/jar/jar_response_mod
 import 'package:simple_networking/modules/wallet_api/models/p2p_methods/p2p_methods_responce_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/prepaid_card/buy_prepaid_card_intention_dto_list_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/prepaid_card/purchase_card_brand_list_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/sell/get_crypto_sell_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_card_response.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_request_model.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -805,6 +807,10 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/change_email_verification',
       page: ChangeEmailVerificationRouter.page,
+    ),
+    AutoRoute(
+      path: '/get_personal_iban',
+      page: GetPersonalIbanRouter.page,
     ),
     AutoRoute(
       path: '/web_view',
