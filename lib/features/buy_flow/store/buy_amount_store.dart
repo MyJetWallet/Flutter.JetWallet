@@ -99,7 +99,7 @@ abstract class _BuyAmountStoreBase with Store {
   bool isFiatEntering = false;
 
   @observable
-  bool isMaxActive = true;
+  bool isMaxActive = false;
 
   @observable
   String fiatInputValue = '0';

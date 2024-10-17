@@ -60,7 +60,7 @@ abstract class _ConvertAmountStoreBase with Store {
   bool isFromEntering = true;
 
   @observable
-  bool isMaxActive = true;
+  bool isMaxActive = false;
 
   @observable
   String fromInputValue = '0';

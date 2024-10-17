@@ -76,7 +76,7 @@ abstract class _SellAmountStoreBase with Store {
   String? errorText;
 
   @observable
-  bool isMaxActive = true;
+  bool isMaxActive = false;
 
   @observable
   bool inputValid = false;
