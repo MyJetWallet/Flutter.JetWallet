@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/earn/store/earn_store.dart';
 import 'package:jetwallet/features/earn/widgets/earn_offers_list.dart';
 import 'package:jetwallet/features/earn/widgets/earn_positions_list.dart';
@@ -88,6 +89,14 @@ class _EarnViewState extends State<_EarnView> {
     });
   }
 
+  void _onShowBalance() {
+    if (getIt<AppStore>().isBalanceHide) {
+      getIt<AppStore>().setIsBalanceHide(false);
+    } else {
+      getIt<AppStore>().setIsBalanceHide(true);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final store = Provider.of<EarnStore>(context);
@@ -99,8 +108,14 @@ class _EarnViewState extends State<_EarnView> {
       header: SimpleLargeAltAppbar(
         title: intl.earn_earn,
         showLabelIcon: false,
-        hasRightIcon: false,
-        hasTopPart: false,
+        //  hasTopPart: false,
+        rightIcon: SafeGesture(
+          onTap: _showBanner,
+          child: Assets.svg.small.info.simpleSvg(
+            width: 24,
+            height: 24,
+          ),
+        ),
       ),
       child: Observer(
         builder: (context) {
@@ -131,12 +146,16 @@ class _EarnViewState extends State<_EarnView> {
                           accuracy: sSignalRModules.baseCurrency.accuracy,
                         ) : '**** ${sSignalRModules.baseCurrency.symbol}'}',
                   lableIcon: SafeGesture(
-                    onTap: _showBanner,
-                    child: Assets.svg.small.info.simpleSvg(
-                      width: 16,
-                      height: 16,
-                      color: SColorsLight().gray10,
-                    ),
+                    onTap: _onShowBalance,
+                    child: getIt<AppStore>().isBalanceHide
+                        ? Assets.svg.medium.hide.simpleSvg(
+                            width: 20,
+                            height: 20,
+                          )
+                        : Assets.svg.medium.show.simpleSvg(
+                            width: 20,
+                            height: 20,
+                          ),
                   ),
                 ),
               ),
