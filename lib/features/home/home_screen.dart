@@ -6,16 +6,12 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/home/store/bottom_bar_store.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/bottom_sheets/components/simple_shade_animation_stack.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
-
-import '../../utils/helpers/check_kyc_status.dart';
-import '../kyc/kyc_service.dart';
 
 @RoutePage(name: 'HomeRouter')
 class HomeScreen extends StatefulObserverWidget {
@@ -30,13 +26,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final kycState = getIt.get<KycService>();
-    final kycBlocked = checkKycBlocked(
-      kycState.depositStatus,
-      kycState.tradeStatus,
-      kycState.withdrawalStatus,
-    );
-
     final store = getIt.get<BottomBarStore>();
 
     return Observer(
@@ -106,7 +95,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     type: BottomItemType.card,
                     text: intl.bottom_bar_card,
                     icon: Assets.svg.large.card,
-                    notification: (sUserInfo.cardRequested || kycBlocked) ? 0 : 1,
                   ),
                 if (bottomBarItems.contains(BottomItemType.rewards))
                   SBottomItemModel(

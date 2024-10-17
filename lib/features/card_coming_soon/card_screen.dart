@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:confetti/confetti.dart';
@@ -7,20 +6,17 @@ import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
-import 'package:jetwallet/features/card_coming_soon/widgets/card_header.dart';
-import 'package:simple_kit/modules/buttons/basic_buttons/primary_button/public/simple_primary_button_4.dart';
-import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 
 import '../../core/di/di.dart';
 import '../../core/l10n/i10n.dart';
-import '../../core/services/device_size/device_size.dart';
 import '../../core/services/notification_service.dart';
 import '../../core/services/simple_networking/simple_networking.dart';
 import '../../utils/constants.dart';
 import '../../utils/event_bus_events.dart';
 import '../../utils/helpers/check_kyc_status.dart';
-import '../../utils/helpers/widget_size_from.dart';
 import '../kyc/helper/kyc_alert_handler.dart';
 import '../kyc/kyc_service.dart';
 import '../kyc/models/kyc_operation_status_model.dart';
@@ -38,13 +34,12 @@ class CardScreen extends StatefulObserverWidget {
 class _CardScreenBodyState extends State<CardScreen> {
   late ConfettiController _controllerConfetti;
   ScrollController controller = ScrollController();
-  final loader = StackLoaderStore();
-  late bool isButtonActive;
+  bool isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    isButtonActive = true;
+
     _controllerConfetti = ConfettiController(duration: const Duration(milliseconds: 200));
     getIt<EventBus>().on<ResetScrollCard>().listen((event) {
       controller.animateTo(
@@ -64,19 +59,10 @@ class _CardScreenBodyState extends State<CardScreen> {
   @override
   Widget build(BuildContext context) {
     final kycState = getIt.get<KycService>();
-    final kycAlertHandler = getIt.get<KycAlertHandler>();
     final userInfo = sUserInfo;
 
-    final colors = sKit.colors;
-    final deviceSize = sDeviceSize;
-    final fullName = '${userInfo.firstName} ${userInfo.lastName}'.toUpperCase();
-    final shortName = '${userInfo.firstName} ${userInfo.lastName[0]}.'.toUpperCase();
+    final colors = SColorsLight();
 
-    final kycPassed = checkKycPassed(
-      kycState.depositStatus,
-      kycState.tradeStatus,
-      kycState.withdrawalStatus,
-    );
     final kycBlocked = checkKycBlocked(
       kycState.depositStatus,
       kycState.tradeStatus,
@@ -84,233 +70,204 @@ class _CardScreenBodyState extends State<CardScreen> {
     );
 
     final verificationInProgress = kycState.inVerificationProgress;
-    final size = widgetSizeFrom(deviceSize) == SWidgetSize.small
-        ? MediaQuery.of(context).size.width * 0.6
-        : MediaQuery.of(context).size.width;
-    final sizeHeight = (size - 48) * 0.54;
-    final sizeWidth = (size - 48) * 0.855;
 
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
-      loading: loader,
-      header: const CardHeader(),
-      child: SingleChildScrollView(
-        controller: controller,
-        child: SPaddingH24(
-          child: Stack(
-            children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height - 220,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      children: [
-                        if (widgetSizeFrom(deviceSize) != SWidgetSize.small) const SpaceH42(),
-                        Stack(
-                          children: [
-                            Image.asset(
-                              simpleCardAsset,
-                              width: size,
-                            ),
-                            Positioned(
-                              left: widgetSizeFrom(deviceSize) != SWidgetSize.small ? 24 : 30,
-                              bottom: widgetSizeFrom(deviceSize) != SWidgetSize.small ? 80 : 60,
-                              child: Transform.rotate(
-                                angle: -pi / 4,
-                                child: Stack(
-                                  children: [
-                                    SizedBox(
-                                      width: sizeWidth,
-                                      height: sizeHeight,
-                                    ),
-                                    Positioned(
-                                      bottom: widgetSizeFrom(deviceSize) != SWidgetSize.small ? 24 : 0,
-                                      left: widgetSizeFrom(deviceSize) != SWidgetSize.small ? 24 : 0,
-                                      child: Text(
-                                        fullName.length > 21 ? shortName : fullName,
-                                        style: sTextH5Style.copyWith(
-                                          color: colors.white,
-                                          height: 1,
-                                          fontSize: 11,
-                                          fontWeight: FontWeight.w600,
-                                          letterSpacing: 1.4,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
+      header: const GlobalBasicAppBar(
+        hasLeftIcon: false,
+        hasRightIcon: false,
+      ),
+      child: Stack(
+        children: [
+          CustomScrollView(
+            physics: const ClampingScrollPhysics(),
+            controller: controller,
+            slivers: [
+              SliverPadding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                sliver: SliverToBoxAdapter(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 32),
+                        child: Image.asset(
+                          preorderCardAsset,
                         ),
-                        if (widgetSizeFrom(deviceSize) != SWidgetSize.small) const SpaceH34() else const SpaceH20(),
-                        if (!userInfo.cardRequested) ...[
-                          Text(
-                            intl.card_main_text,
-                            maxLines: 3,
-                            textAlign: TextAlign.center,
-                            style: sTextH5Style.copyWith(
-                              color: colors.black,
-                            ),
+                      ),
+                      Text(
+                        intl.card_header,
+                        maxLines: 2,
+                        style: STStyles.header5,
+                      ),
+                      const SpaceH12(),
+                      if (userInfo.cardRequested) ...[
+                        Text(
+                          intl.card_preorder_joibed_description,
+                          maxLines: 3,
+                          style: STStyles.subtitle2.copyWith(
+                            color: colors.gray10,
                           ),
-                          const SpaceH8(),
-                          Text(
-                            intl.are_you_interested,
-                            maxLines: 3,
-                            textAlign: TextAlign.center,
-                            style: sBodyText1Style.copyWith(
-                              color: colors.grey1,
-                            ),
-                          ),
-                        ] else ...[
-                          Text(
-                            intl.card_making_desc,
-                            maxLines: 3,
-                            textAlign: TextAlign.center,
-                            style: sBodyText1Style.copyWith(
-                              color: colors.grey1,
-                            ),
-                          ),
-                        ],
+                        ),
+                      ] else ...[
+                        Text(
+                          intl.card_preorder_join_description,
+                          maxLines: 4,
+                          style: STStyles.subtitle2,
+                        ),
+                        const SpaceH8(),
+                        Text(
+                          intl.card_preorder_highlights,
+                          maxLines: 4,
+                          style: STStyles.subtitle2,
+                        ),
+                        const SpaceH12(),
+                        OneColumnCell(
+                          icon: Assets.svg.small.check,
+                          text: intl.card_preorder_highlight_1,
+                          needHorizontalPading: false,
+                        ),
+                        OneColumnCell(
+                          icon: Assets.svg.small.check,
+                          text: intl.card_preorder_highlight_2,
+                          needHorizontalPading: false,
+                        ),
+                        OneColumnCell(
+                          icon: Assets.svg.small.check,
+                          text: intl.card_preorder_highlight_3,
+                          needHorizontalPading: false,
+                        ),
+                        OneColumnCell(
+                          icon: Assets.svg.small.check,
+                          text: intl.card_preorder_highlight_4,
+                          needHorizontalPading: false,
+                        ),
                       ],
-                    ),
-                    if (!userInfo.cardRequested)
-                      Column(
-                        children: [
-                          SPrimaryButton4(
-                            active: isButtonActive && !kycBlocked && !verificationInProgress,
-                            name: intl.join_the_waitlist,
-                            onTap: () async {
-                              setState(() {
-                                isButtonActive = false;
-                              });
-                              if (!kycPassed) {
-                                unawaited(
-                                  sShowAlertPopup(
-                                    context,
-                                    primaryText: '',
-                                    secondaryText: intl.card_verify,
-                                    primaryButtonName: intl.card_proceed,
-                                    image: Image.asset(
-                                      infoLightAsset,
-                                      height: 80,
-                                      width: 80,
-                                      package: 'simple_kit',
-                                    ),
-                                    onPrimaryButtonTap: () {
-                                      Navigator.pop(context);
-                                      final isDepositAllow =
-                                          kycState.depositStatus != kycOperationStatus(KycStatus.allowed);
-                                      final isWithdrawalAllow =
-                                          kycState.withdrawalStatus != kycOperationStatus(KycStatus.allowed);
-
-                                      kycAlertHandler.handle(
-                                        status: isDepositAllow
-                                            ? kycState.depositStatus
-                                            : isWithdrawalAllow
-                                                ? kycState.withdrawalStatus
-                                                : kycState.tradeStatus,
-                                        isProgress: kycState.verificationInProgress,
-                                        currentNavigate: () {},
-                                        requiredDocuments: kycState.requiredDocuments,
-                                        requiredVerifications: kycState.requiredVerifications,
-                                      );
-                                    },
-                                    secondaryButtonName: intl.card_cancel,
-                                    onSecondaryButtonTap: () {
-                                      Navigator.pop(context);
-                                    },
-                                  ),
-                                );
-                                setState(() {
-                                  isButtonActive = true;
-                                });
-                              } else {
-                                loader.startLoading();
-                                try {
-                                  final response = await sNetwork.getWalletModule().postCardSoon();
-
-                                  loader.finishLoadingImmediately();
-                                  loader.finishLoading();
-                                  if (response.error != null) {
-                                    sNotification.showError(
-                                      response.error!.cause,
-                                      id: 1,
-                                    );
-                                    setState(() {
-                                      isButtonActive = true;
-                                    });
-                                  } else {
-                                    _controllerConfetti.play();
-                                    Timer(const Duration(seconds: 1), () {
-                                      sUserInfo.updateCardRequested(
-                                        newValue: true,
-                                      );
-                                      setState(() {
-                                        isButtonActive = true;
-                                      });
-                                      sShowAlertPopup(
-                                        context,
-                                        primaryText: intl.card_congrats,
-                                        secondaryText: intl.card_congrats_desc,
-                                        primaryButtonName: intl.card_got_it,
-                                        image: Image.asset(
-                                          congratsAsset,
-                                          height: 80,
-                                          width: 80,
-                                          package: 'simple_kit',
-                                        ),
-                                        onPrimaryButtonTap: () {
-                                          Navigator.pop(context);
-                                        },
-                                      );
-                                    });
-                                  }
-                                } catch (e) {
-                                  loader.finishLoadingImmediately();
-                                  loader.finishLoading();
-                                  sNotification.showError(
-                                    intl.something_went_wrong_try_again2,
-                                    id: 1,
-                                    needFeedback: true,
-                                  );
-                                }
-                              }
-                            },
-                          ),
-                          const SpaceH24(),
-                        ],
-                      )
-                    else
-                      const SpaceH56(),
-                  ],
-                ),
-              ),
-              Align(
-                alignment: Alignment.topCenter,
-                child: ConfettiWidget(
-                  confettiController: _controllerConfetti,
-                  blastDirectionality: BlastDirectionality.explosive,
-                  emissionFrequency: 0.01,
-                  numberOfParticles: 100,
-                  gravity: 0.01,
-                  colors: [
-                    colors.confetti1,
-                    colors.confetti2,
-                    colors.confetti3,
-                    colors.confetti4,
-                    colors.confetti5,
-                    colors.confetti6,
-                    colors.confetti7,
-                    colors.confetti8,
-                  ],
+                      const SpaceH120(),
+                    ],
+                  ),
                 ),
               ),
             ],
           ),
-        ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              margin: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
+              child: SButton.black(
+                text: intl.join_the_waitlist,
+                callback: (!kycBlocked && !verificationInProgress && !userInfo.cardRequested) ? onTap : null,
+                isLoading: isLoading,
+              ),
+            ),
+          ),
+        ],
       ),
     );
+  }
+
+  Future<void> onTap() async {
+    final kycState = getIt.get<KycService>();
+    final kycAlertHandler = getIt.get<KycAlertHandler>();
+
+    final kycPassed = checkKycPassed(
+      kycState.depositStatus,
+      kycState.tradeStatus,
+      kycState.withdrawalStatus,
+    );
+
+    if (!kycPassed) {
+      unawaited(
+        sShowAlertPopup(
+          context,
+          primaryText: '',
+          secondaryText: intl.card_verify,
+          primaryButtonName: intl.card_proceed,
+          image: Image.asset(
+            infoLightAsset,
+            height: 80,
+            width: 80,
+            package: 'simple_kit',
+          ),
+          onPrimaryButtonTap: () {
+            Navigator.pop(context);
+            final isDepositAllow = kycState.depositStatus != kycOperationStatus(KycStatus.allowed);
+            final isWithdrawalAllow = kycState.withdrawalStatus != kycOperationStatus(KycStatus.allowed);
+
+            kycAlertHandler.handle(
+              status: isDepositAllow
+                  ? kycState.depositStatus
+                  : isWithdrawalAllow
+                      ? kycState.withdrawalStatus
+                      : kycState.tradeStatus,
+              isProgress: kycState.verificationInProgress,
+              currentNavigate: () {},
+              requiredDocuments: kycState.requiredDocuments,
+              requiredVerifications: kycState.requiredVerifications,
+            );
+          },
+          secondaryButtonName: intl.card_cancel,
+          onSecondaryButtonTap: () {
+            Navigator.pop(context);
+          },
+        ),
+      );
+      setState(() {
+        isLoading = false;
+      });
+    } else {
+      try {
+        setState(() {
+          isLoading = true;
+        });
+
+        final response = await sNetwork.getWalletModule().postCardSoon();
+
+        if (response.error != null) {
+          sNotification.showError(
+            response.error!.cause,
+            id: 1,
+          );
+        } else {
+          _controllerConfetti.play();
+          Timer(const Duration(microseconds: 100), () {
+            sUserInfo.updateCardRequested(
+              newValue: true,
+            );
+
+            sShowAlertPopup(
+              context,
+              primaryText: intl.card_congrats,
+              secondaryText: intl.card_congrats_desc,
+              primaryButtonName: intl.card_got_it,
+              image: Image.asset(
+                congratsAsset,
+                height: 80,
+                width: 80,
+                package: 'simple_kit',
+              ),
+              onPrimaryButtonTap: () {
+                Navigator.pop(context);
+              },
+            );
+          });
+        }
+      } on ServerRejectException catch (error) {
+        sNotification.showError(
+          error.cause,
+          id: 1,
+        );
+      } catch (e) {
+        sNotification.showError(
+          intl.something_went_wrong_try_again2,
+          id: 1,
+          needFeedback: true,
+        );
+      } finally {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    }
   }
 }
