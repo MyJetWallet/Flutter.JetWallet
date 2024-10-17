@@ -1804,5 +1804,12 @@
     "change_email_email_verification": "Verificación de email",
     "change_email_email_verification_hint": "Ingrese el código que hemos enviado a su nuevo email",
     "change_email_success_hint": "Su email fue actualizado exitosamente a {email}",
-    "withrawal_amount_error_entered_amount": "El monto ingresado debe cubrir la tarifa de procesamiento."
+    "withrawal_amount_error_entered_amount": "El monto ingresado debe cubrir la tarifa de procesamiento.",
+    "card_preorder_joibed_description": "¡Gracias por su interés! Le notificaremos tan pronto como la Simple Card esté disponible.",
+    "card_preorder_join_description": "Inscríbete en la lista de espera y te notificaremos tan pronto como se abran las aplicaciones.",
+    "card_preorder_highlights": "Destacados:",
+    "card_preorder_highlight_1": "Usa tu tarjeta sin verificaciones KYC adicionales",
+    "card_preorder_highlight_2": "Convierte activos rápidamente sin demora",
+    "card_preorder_highlight_3": "Conecta fácilmente cualquier activo a tu tarjeta",
+    "card_preorder_highlight_4": "Conéctate a Apple/Google Wallet y compra en cualquier lugar"
 }

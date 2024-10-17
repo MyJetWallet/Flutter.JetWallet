@@ -1868,5 +1868,12 @@
     "change_email_email_verification": "Weryfikacja email",
     "change_email_email_verification_hint": "Wprowadź kod, który wysłaliśmy na Twój nowy email ",
     "change_email_success_hint": "Twój e-mail został pomyślnie zaktualizowany na {email}",
-    "withrawal_amount_error_entered_amount": "Wprowadzona kwota musi pokryć opłatę za przetwarzanie."
+    "withrawal_amount_error_entered_amount": "Wprowadzona kwota musi pokryć opłatę za przetwarzanie.",
+    "card_preorder_joibed_description": "Dziękujemy za zainteresowanie! Powiadomimy Cię, jak tylko Simple Card będzie dostępna.",
+    "card_preorder_join_description": "Zapisz się na listę oczekujących, a powiadomimy Cię, jak tylko rozpoczną się zgłoszenia.",
+    "card_preorder_highlights": "Główne punkty:",
+    "card_preorder_highlight_1": "Używaj swojej karty bez dodatkowych kontroli KYC",
+    "card_preorder_highlight_2": "Szybko konwertuj aktywa bez opóźnień",
+    "card_preorder_highlight_3": "Łatwo połącz dowolny aktyw z twoją kartą",
+    "card_preorder_highlight_4": "Połącz się z Apple/Google Wallet i rób zakupy gdziekolwiek"
 }
