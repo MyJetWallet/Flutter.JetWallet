@@ -16,7 +16,6 @@ import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -76,7 +75,6 @@ class IbanSendAmountBody extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final deviceSize = sDeviceSize;
-    final colors = SColorsLight();
 
     final store = IbanSendAmountStore.of(context);
 
@@ -130,18 +128,25 @@ class IbanSendAmountBody extends StatelessObserverWidget {
                           ? TagButtonState.selected
                           : TagButtonState.defaultt,
                       onTap: () {
-                        store.setInputMode(WithdrawalInputMode.youSend);
+                        if (store.inputMode == WithdrawalInputMode.recepientGets) {
+                          store.setInputMode(WithdrawalInputMode.youSend);
+                          store.onSwap();
+                        }
                       },
                     ),
-                    STagButton(
-                      lable: intl.withdrawal_recipient_gets,
-                      state: store.inputMode == WithdrawalInputMode.recepientGets
-                          ? TagButtonState.selected
-                          : TagButtonState.defaultt,
-                      onTap: () {
-                        store.setInputMode(WithdrawalInputMode.recepientGets);
-                      },
-                    ),
+                    if (currency != null)
+                      STagButton(
+                        lable: intl.withdrawal_recipient_gets,
+                        state: store.inputMode == WithdrawalInputMode.recepientGets
+                            ? TagButtonState.selected
+                            : TagButtonState.defaultt,
+                        onTap: () {
+                          if (store.inputMode == WithdrawalInputMode.youSend) {
+                            store.setInputMode(WithdrawalInputMode.recepientGets);
+                            store.onSwap();
+                          }
+                        },
+                      ),
                   ],
                 ),
               ),
@@ -162,8 +167,6 @@ class IbanSendAmountBody extends StatelessObserverWidget {
                   )}'
                 : '',
             secondarySymbol: store.mainCurrency.symbol != 'EUR' ? store.secondarySymbol : '',
-            showSwopButton: store.mainCurrency.symbol != 'EUR',
-            onSwap: store.onSwap,
             errorText: store.withAmmountInputError.isActive ? error : null,
             showMaxButton: true,
             onMaxTap: store.onSendAll,
@@ -177,6 +180,8 @@ class IbanSendAmountBody extends StatelessObserverWidget {
                 }
               }
             },
+            showSwopButton: false,
+            onSwap: () {},
           ),
           const Spacer(),
           SuggestionButtonWidget(
@@ -186,87 +191,6 @@ class IbanSendAmountBody extends StatelessObserverWidget {
             icon: Assets.svg.other.medium.bankAccount.simpleSvg(),
             onTap: () {},
             showArrow: false,
-          ),
-          const SpaceH12(),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 36),
-            child: Row(
-              children: [
-                Container(
-                  width: 20,
-                  height: 20,
-                  padding: const EdgeInsets.all(4),
-                  decoration: ShapeDecoration(
-                    color: colors.gray2,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  child: store.inputMode == WithdrawalInputMode.youSend
-                      ? Assets.svg.medium.remove.simpleSvg()
-                      : Assets.svg.medium.add.simpleSvg(),
-                ),
-                const SpaceW12(),
-                Text.rich(
-                  TextSpan(
-                    children: [
-                      TextSpan(
-                        text: (store.feeAmount + store.simpleFeeAmount).toFormatCount(
-                          symbol: store.mainCurrency.symbol,
-                          accuracy: store.mainCurrency.accuracy,
-                        ),
-                        style: STStyles.body2Semibold,
-                      ),
-                      TextSpan(
-                        text: ' ${intl.buy_confirmation_processing_fee}',
-                        style: STStyles.body2Semibold.copyWith(
-                          color: colors.gray10,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SpaceH8(),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 36),
-            child: Row(
-              children: [
-                NetworkIconWidget(
-                  width: 20,
-                  height: 20,
-                  store.mainCurrency.iconUrl,
-                ),
-                const SpaceW12(),
-                Text.rich(
-                  TextSpan(
-                    children: [
-                      TextSpan(
-                        text: store.inputMode == WithdrawalInputMode.youSend
-                            ? store.recepientGetsAmount.toFormatCount(
-                                symbol: store.mainCurrency.symbol,
-                                accuracy: store.mainCurrency.accuracy,
-                              )
-                            : store.youSendAmount.toFormatCount(
-                                symbol: store.mainCurrency.symbol,
-                                accuracy: store.mainCurrency.accuracy,
-                              ),
-                        style: STStyles.body2Semibold,
-                      ),
-                      TextSpan(
-                        text:
-                            ' ${store.inputMode == WithdrawalInputMode.youSend ? intl.withdrawal_recipient_gets : intl.withdrawal_you_send}',
-                        style: STStyles.body2Semibold.copyWith(
-                          color: colors.gray10,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
           ),
           const SpaceH8(),
           SNumericKeyboardAmount(
