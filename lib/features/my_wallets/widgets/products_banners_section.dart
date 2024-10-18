@@ -21,8 +21,9 @@ class ProductsBannersSection extends StatelessWidget {
             ? Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    height: 144,
+                  Container(
+                    margin: const EdgeInsets.only(top: 7),
+                    height: 96,
                     child: CustomScrollView(
                       scrollDirection: Axis.horizontal,
                       physics: const AlwaysScrollableScrollPhysics(),
@@ -56,7 +57,7 @@ class ProductsBannersSection extends StatelessWidget {
                       ],
                     ),
                   ),
-                  if (productBanners.isNotEmpty) const SizedBox(height: 16),
+                  if (productBanners.isNotEmpty) const SizedBox(height: 20),
                 ],
               )
             : const Offstage();
@@ -81,8 +82,8 @@ class ProductBannerWidget extends StatelessWidget {
     return SafeGesture(
       onTap: onTap,
       child: Container(
-        width: 140,
-        height: 144,
+        width: 100.35,
+        height: 96,
         decoration: ShapeDecoration(
           color: colors.extraLightsPurple,
           shape: RoundedRectangleBorder(

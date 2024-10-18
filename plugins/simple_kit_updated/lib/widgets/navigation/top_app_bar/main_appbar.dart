@@ -8,8 +8,8 @@ import 'package:simple_kit_updated/widgets/shared/safe_gesture.dart';
 import 'package:simple_kit_updated/widgets/shared/simple_skeleton_loader.dart';
 import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 
-class SimpleLargeAltAppbar extends StatelessWidget {
-  const SimpleLargeAltAppbar({
+class SimpleMainAppbar extends StatelessWidget {
+  const SimpleMainAppbar({
     super.key,
     required this.title,
     this.value,
@@ -21,6 +21,8 @@ class SimpleLargeAltAppbar extends StatelessWidget {
     this.labelIcon,
     this.onLabelIconTap,
     this.isLoading = false,
+    this.hasLeftIcon = false,
+    this.leftIcon,
   });
 
   final String title;
@@ -34,6 +36,9 @@ class SimpleLargeAltAppbar extends StatelessWidget {
   final bool hasSecondIcon;
   final Widget? secondIcon;
 
+  final bool hasLeftIcon;
+  final Widget? leftIcon;
+
   final bool hasRightIcon;
   final Widget? rightIcon;
 
@@ -43,14 +48,34 @@ class SimpleLargeAltAppbar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(
-        top: 53 + 10, //отступ шторки (53) + отступ аппбара (10)
+        top: 53 + 8, //отступ шторки (53) + отступ аппбара (8)
         bottom: 10,
         left: 24,
         right: 24,
       ),
-      child: Stack(
-        clipBehavior: Clip.none,
+      child: Column(
         children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (hasLeftIcon) ...[
+                leftIcon ?? Assets.svg.medium.user.simpleSvg(),
+              ],
+              const Spacer(),
+              if (hasSecondIcon) ...[
+                const Gap(24),
+                secondIcon ?? Assets.svg.medium.user.simpleSvg(),
+              ],
+              if (hasRightIcon) ...[
+                const Gap(24),
+                Padding(
+                  padding: const EdgeInsets.only(top: 5.5),
+                  child: rightIcon ?? Assets.svg.medium.user.simpleSvg(),
+                ),
+              ]
+            ],
+          ),
+          const SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,25 +123,6 @@ class SimpleLargeAltAppbar extends StatelessWidget {
                 ],
               ),
             ],
-          ),
-          Positioned(
-            right: 0,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (hasSecondIcon) ...[
-                  const Gap(24),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: secondIcon ?? Assets.svg.medium.user.simpleSvg(),
-                  ),
-                ],
-                if (hasRightIcon) ...[
-                  const Gap(24),
-                  rightIcon ?? Assets.svg.medium.user.simpleSvg(),
-                ]
-              ],
-            ),
           ),
         ],
       ),
