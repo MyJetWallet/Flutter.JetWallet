@@ -123,6 +123,9 @@ const _jwJarId = 'jw_jar_id';
 const _market_sector = 'market_sector';
 const _jw_sector_id = 'jw_sector_id';
 
+//Card Preorder
+const _card_preorder = 'card_preorder';
+
 enum SourceScreen {
   bannerOnMarket,
   bannerOnRewards,
@@ -222,6 +225,8 @@ class DeepLinkService {
       _pushJar(parameters);
     } else if (command == _market_sector) {
       openMarketSectorScreen(parameters);
+    } else if (command == _card_preorder) {
+      openCardPreorderTab(parameters);
     } else {
       if (parameters.containsKey('jw_operation_id')) {
         pushCryptoHistory(parameters);
@@ -1201,6 +1206,38 @@ class DeepLinkService {
                   sector: sector,
                 ),
               );
+            }
+          },
+        ),
+      );
+    }
+  }
+
+  Future<void> openCardPreorderTab(
+    Map<String, String> parameters,
+  ) async {
+    if (getIt.isRegistered<AppStore>() &&
+        getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home &&
+        getIt<TimerService>().isPinScreenOpen == false) {
+      final isPreorderAvaible = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
+        (element) => element.id == AssetPaymentProductsEnum.cardPreorder,
+      );
+      if (isPreorderAvaible) {
+        await Future.delayed(const Duration(milliseconds: 100));
+        sRouter.popUntilRoot();
+        getIt<BottomBarStore>().setHomeTab(BottomItemType.card);
+      }
+    } else {
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          func: () async {
+            final isPreorderAvaible = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
+              (element) => element.id == AssetPaymentProductsEnum.cardPreorder,
+            );
+            if (isPreorderAvaible) {
+              sRouter.popUntilRoot();
+              getIt<BottomBarStore>().setHomeTab(BottomItemType.card);
             }
           },
         ),
