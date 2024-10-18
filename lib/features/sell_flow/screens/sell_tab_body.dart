@@ -94,14 +94,6 @@ class _SellAmountScreenBodyState extends State<SellAmountTabBody> with Automatic
                                   value: store.primaryAmount,
                                 ),
                                 primarySymbol: store.primarySymbol,
-                                secondaryAmount: store.asset != null
-                                    ? '${intl.earn_est} ${store.isFiatEntering ? Decimal.parse(
-                                        store.secondaryAmount,
-                                      ).toFormatCount(accuracy: store.secondaryAccuracy) : Decimal.parse(
-                                        store.secondaryAmount,
-                                      ).toFormatSum(accuracy: store.secondaryAccuracy)}'
-                                    : null,
-                                secondarySymbol: store.asset != null ? store.secondarySymbol : null,
                                 onSwap: () {
                                   sAnalytics.tapOnTheChangeCurrencySell();
                                   store.onSwap();

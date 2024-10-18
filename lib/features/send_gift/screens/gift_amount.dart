@@ -3,7 +3,6 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/suggestion_button_widget.dart';
 import 'package:jetwallet/features/send_gift/model/send_gift_info_model.dart';
 import 'package:jetwallet/features/send_gift/store/receiver_datails_store.dart';
@@ -75,10 +74,6 @@ class _GiftAmountState extends State<GiftAmount> {
               value: geftSendAmountStore.withAmount,
             ),
             primarySymbol: geftSendAmountStore.selectedCurrency.symbol,
-            secondaryAmount: '${intl.earn_est} ${Decimal.parse(geftSendAmountStore.baseConversionValue).toFormatSum(
-              accuracy: sSignalRModules.baseCurrency.accuracy,
-            )}',
-            secondarySymbol: sSignalRModules.baseCurrency.symbol,
             showSwopButton: false,
             onSwap: () {},
             errorText: geftSendAmountStore.withAmmountInputError.isActive

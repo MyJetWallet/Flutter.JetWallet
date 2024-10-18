@@ -118,10 +118,6 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
               value: store.primaryAmount,
             ),
             primarySymbol: store.primarySymbol,
-            secondaryAmount: '${intl.earn_est} ${Decimal.parse(store.secondaryAmount).toFormatSum(
-              accuracy: store.secondaryAccuracy,
-            )}',
-            secondarySymbol: store.secondarySymbol,
             showSwopButton: false,
             onSwap: store.onSwap,
             errorText: store.withAmmountInputError.isActive ? error : null,
