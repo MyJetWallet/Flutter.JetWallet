@@ -368,9 +368,6 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                                   child: ProfileBannersSection(),
                                 ),
                                 const SliverToBoxAdapter(
-                                  child: BannerCarusel(),
-                                ),
-                                const SliverToBoxAdapter(
                                   child: ProductsBannersSection(),
                                 ),
                                 if (store.isReordering)
@@ -444,6 +441,9 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                                       scrollToTitle: getIt.get<MyWalletsScrollStore>().scrollToJarTitle,
                                     ),
                                   ),
+                                const SliverToBoxAdapter(
+                                  child: BannerCarusel(),
+                                ),
                                 if ((sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
                                   (element) => element.id == AssetPaymentProductsEnum.earnProgram,
                                 ))
