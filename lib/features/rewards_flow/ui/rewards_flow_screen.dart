@@ -52,7 +52,6 @@ class _RewardsFlowScreenBodyState extends State<_RewardsFlowScreenBody> {
         title: intl.rewards_flow_tab_title,
         showLabelIcon: false,
         hasRightIcon: false,
-        hasTopPart: false,
       ),
       child: CustomScrollView(
         slivers: [

@@ -49,7 +49,6 @@ class GlobalBasicAppBar extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 53),
       child: SizedBox(
-        height: 64,
         child: Stack(
           children: [
             Padding(
