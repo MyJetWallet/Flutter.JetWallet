@@ -16,10 +16,6 @@ import '../../core/services/notification_service.dart';
 import '../../core/services/simple_networking/simple_networking.dart';
 import '../../utils/constants.dart';
 import '../../utils/event_bus_events.dart';
-import '../../utils/helpers/check_kyc_status.dart';
-import '../kyc/helper/kyc_alert_handler.dart';
-import '../kyc/kyc_service.dart';
-import '../kyc/models/kyc_operation_status_model.dart';
 
 @RoutePage(name: 'CardRouter')
 class CardScreen extends StatefulObserverWidget {
@@ -58,18 +54,9 @@ class _CardScreenBodyState extends State<CardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final kycState = getIt.get<KycService>();
     final userInfo = sUserInfo;
 
     final colors = SColorsLight();
-
-    final kycBlocked = checkKycBlocked(
-      kycState.depositStatus,
-      kycState.tradeStatus,
-      kycState.withdrawalStatus,
-    );
-
-    final verificationInProgress = kycState.inVerificationProgress;
 
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
@@ -156,7 +143,7 @@ class _CardScreenBodyState extends State<CardScreen> {
               margin: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
               child: SButton.black(
                 text: intl.join_the_waitlist,
-                callback: (!kycBlocked && !verificationInProgress && !userInfo.cardRequested) ? onTap : null,
+                callback: !userInfo.cardRequested ? onTap : null,
                 isLoading: isLoading,
               ),
             ),
@@ -167,107 +154,57 @@ class _CardScreenBodyState extends State<CardScreen> {
   }
 
   Future<void> onTap() async {
-    final kycState = getIt.get<KycService>();
-    final kycAlertHandler = getIt.get<KycAlertHandler>();
+    try {
+      setState(() {
+        isLoading = true;
+      });
 
-    final kycPassed = checkKycPassed(
-      kycState.depositStatus,
-      kycState.tradeStatus,
-      kycState.withdrawalStatus,
-    );
+      final response = await sNetwork.getWalletModule().postCardSoon();
 
-    if (!kycPassed) {
-      unawaited(
-        sShowAlertPopup(
-          context,
-          primaryText: '',
-          secondaryText: intl.card_verify,
-          primaryButtonName: intl.card_proceed,
-          image: Image.asset(
-            infoLightAsset,
-            height: 80,
-            width: 80,
-            package: 'simple_kit',
-          ),
-          onPrimaryButtonTap: () {
-            Navigator.pop(context);
-            final isDepositAllow = kycState.depositStatus != kycOperationStatus(KycStatus.allowed);
-            final isWithdrawalAllow = kycState.withdrawalStatus != kycOperationStatus(KycStatus.allowed);
+      if (response.error != null) {
+        sNotification.showError(
+          response.error!.cause,
+          id: 1,
+        );
+      } else {
+        _controllerConfetti.play();
+        Timer(const Duration(microseconds: 100), () {
+          sUserInfo.updateCardRequested(
+            newValue: true,
+          );
 
-            kycAlertHandler.handle(
-              status: isDepositAllow
-                  ? kycState.depositStatus
-                  : isWithdrawalAllow
-                      ? kycState.withdrawalStatus
-                      : kycState.tradeStatus,
-              isProgress: kycState.verificationInProgress,
-              currentNavigate: () {},
-              requiredDocuments: kycState.requiredDocuments,
-              requiredVerifications: kycState.requiredVerifications,
-            );
-          },
-          secondaryButtonName: intl.card_cancel,
-          onSecondaryButtonTap: () {
-            Navigator.pop(context);
-          },
-        ),
+          sShowAlertPopup(
+            context,
+            primaryText: intl.card_congrats,
+            secondaryText: intl.card_congrats_desc,
+            primaryButtonName: intl.card_got_it,
+            image: Image.asset(
+              congratsAsset,
+              height: 80,
+              width: 80,
+              package: 'simple_kit',
+            ),
+            onPrimaryButtonTap: () {
+              Navigator.pop(context);
+            },
+          );
+        });
+      }
+    } on ServerRejectException catch (error) {
+      sNotification.showError(
+        error.cause,
+        id: 1,
       );
+    } catch (e) {
+      sNotification.showError(
+        intl.something_went_wrong_try_again2,
+        id: 1,
+        needFeedback: true,
+      );
+    } finally {
       setState(() {
         isLoading = false;
       });
-    } else {
-      try {
-        setState(() {
-          isLoading = true;
-        });
-
-        final response = await sNetwork.getWalletModule().postCardSoon();
-
-        if (response.error != null) {
-          sNotification.showError(
-            response.error!.cause,
-            id: 1,
-          );
-        } else {
-          _controllerConfetti.play();
-          Timer(const Duration(microseconds: 100), () {
-            sUserInfo.updateCardRequested(
-              newValue: true,
-            );
-
-            sShowAlertPopup(
-              context,
-              primaryText: intl.card_congrats,
-              secondaryText: intl.card_congrats_desc,
-              primaryButtonName: intl.card_got_it,
-              image: Image.asset(
-                congratsAsset,
-                height: 80,
-                width: 80,
-                package: 'simple_kit',
-              ),
-              onPrimaryButtonTap: () {
-                Navigator.pop(context);
-              },
-            );
-          });
-        }
-      } on ServerRejectException catch (error) {
-        sNotification.showError(
-          error.cause,
-          id: 1,
-        );
-      } catch (e) {
-        sNotification.showError(
-          intl.something_went_wrong_try_again2,
-          id: 1,
-          needFeedback: true,
-        );
-      } finally {
-        setState(() {
-          isLoading = false;
-        });
-      }
     }
   }
 }
