@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -107,10 +106,6 @@ class _SendGloballyAmountScreenBodyState extends State<SendGloballyAmountScreenB
               value: store.withAmount,
             ),
             primarySymbol: store.sendCurrency!.symbol,
-            secondaryAmount: '${intl.earn_est} ${Decimal.parse(store.baseConversionValue).toFormatSum(
-              accuracy: store.baseCurrency.accuracy,
-            )}',
-            secondarySymbol: store.baseCurrency.symbol,
             onSwap: () {},
             showSwopButton: false,
             showMaxButton: true,

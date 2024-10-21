@@ -7,7 +7,6 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/suggestion_button_widget.dart';
 import 'package:jetwallet/features/earn/store/earn_deposit_store.dart';
@@ -163,9 +162,6 @@ class _EarnWithdrawalAmountBody extends StatelessWidget {
                             value: store.cryptoInputValue,
                           ),
                           primarySymbol: store.cryptoSymbol,
-                          secondaryAmount:
-                              '${intl.earn_est} ${Decimal.parse(store.fiatInputValue).toFormatSum(accuracy: store.baseCurrency.accuracy)}',
-                          secondarySymbol: sSignalRModules.baseCurrency.symbol,
                           onSwap: null,
                           showSwopButton: false,
                           errorText: store.errorText,
