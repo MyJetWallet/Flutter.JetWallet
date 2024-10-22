@@ -7,7 +7,7 @@ part 'analytic_record_response.g.dart';
 @freezed
 class AnalyticRecordResponseModel with _$AnalyticRecordResponseModel {
   const factory AnalyticRecordResponseModel({
-    required bool limitExceeded,
+    @Default(true) bool limitExceeded,
   }) = _AnalyticRecordResponseModel;
 
   factory AnalyticRecordResponseModel.fromJson(Map<String, dynamic> json) =>

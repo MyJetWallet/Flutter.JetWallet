@@ -206,7 +206,11 @@ class StartupService {
                 .getAnalyticApiModule()
                 .postAddAnalyticRecord([model]);
           }
-          return result.data!.limitExceeded;
+          if (result.data == null) {
+            return true;
+          } else {
+            return result.data!.limitExceeded;
+          }
         },
         userEmail: parsedEmail,
         useAmplitude: useAmplitude,
