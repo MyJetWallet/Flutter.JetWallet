@@ -1787,5 +1787,36 @@
     "card_preorder_highlight_1": "Utilisez votre carte sans vérifications KYC supplémentaires",
     "card_preorder_highlight_2": "Convertissez rapidement les actifs sans délai",
     "card_preorder_highlight_3": "Connectez facilement tout actif à votre carte",
-    "card_preorder_highlight_4": "Connectez-vous à Apple/Google Wallet et faites des achats partout"
+    "card_preorder_highlight_4": "Connectez-vous à Apple/Google Wallet et faites des achats partout",
+    "bank_transfer": "Virement bancaire",
+    "bank_transfer_to_yourself": "à vous-même ou à une autre personne",
+    "bank_transfer_to": "Virement vers",
+    "bank_transfer_to_myself": "Moi-même",
+    "bank_transfer_to_business": "Entreprises/Organisations",
+    "bank_transfer_to_another_person": "Une autre personne",
+    "bank_transfer_coming_soon": "Bientôt disponible",
+    "get_personal_iban_title": "Obtenez votre IBAN personnel",
+    "get_personal_iban_hint1_title": "Transferts de fonds faciles",
+    "get_personal_iban_hint1_body": "Envoyez de l'argent à quiconque directement depuis votre solde crypto",
+    "get_personal_iban_hint2_title": "Payez vos factures sans effort",
+    "get_personal_iban_hint2_body": "Utilisez votre compte IBAN personnel pour payer les factures instantanément, sans quitter l'appli",
+    "get_personal_iban_button": "Ouvrir un compte",
+    "deposit_kyc_alert_title": "",
+    "@deposit_kyc_alert_title": {
+        "placeholders": {
+            "amounty": {
+                "type": "String",
+                "example": "$50"
+            }
+        }
+    },
+    "deposit_kyc_alert_description": "",
+    "@deposit_kyc_alert_description": {
+        "placeholders": {
+            "amounty": {
+                "type": "String",
+                "example": "$50"
+            }
+        }
+    }
 }
