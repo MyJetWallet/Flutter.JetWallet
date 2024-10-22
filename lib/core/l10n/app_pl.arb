@@ -1875,5 +1875,18 @@
     "card_preorder_highlight_1": "Używaj swojej karty bez dodatkowych kontroli KYC",
     "card_preorder_highlight_2": "Szybko konwertuj aktywa bez opóźnień",
     "card_preorder_highlight_3": "Łatwo połącz dowolny aktyw z twoją kartą",
-    "card_preorder_highlight_4": "Połącz się z Apple/Google Wallet i rób zakupy gdziekolwiek"
+    "card_preorder_highlight_4": "Połącz się z Apple/Google Wallet i rób zakupy gdziekolwiek",
+    "bank_transfer": "Przelew bankowy",
+    "bank_transfer_to_yourself": "sobie lub innej osobie",
+    "bank_transfer_to": "Przelew do",
+    "bank_transfer_to_myself": "Siebie",
+    "bank_transfer_to_business": "Biznes/Organizacje",
+    "bank_transfer_to_another_person": "Inna osoba",
+    "bank_transfer_coming_soon": "Wkrótce",
+    "get_personal_iban_title": "Zdobądź swój osobisty IBAN",
+    "get_personal_iban_hint1_title": "Łatwe przelewy środków",
+    "get_personal_iban_hint1_body": "Wyślij pieniądze do kogokolwiek bezpośrednio z Twojego salda kryptowalutowego",
+    "get_personal_iban_hint2_title": "Płać rachunki bez wysiłku",
+    "get_personal_iban_hint2_body": "Użyj swojego osobistego konta IBAN do natychmiastowej płatności rachunków, nie wychodząc z aplikacji",
+    "get_personal_iban_button": "Otwórz konto"
 }

@@ -116,7 +116,7 @@ class _AccountScreenState extends State<AccountScreen> with SingleTickerProvider
                     kycState.depositStatus,
                     kycState.tradeStatus,
                     kycState.withdrawalStatus,
-                  ),
+                  ) && !kycState.earlyKycFlowAllowed,
                   kycBlocked: checkKycBlocked(
                     kycState.depositStatus,
                     kycState.tradeStatus,
