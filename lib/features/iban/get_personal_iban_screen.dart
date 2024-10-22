@@ -64,7 +64,10 @@ class GetPersonalIbanBody extends StatelessObserverWidget {
               ),
               Text(
                 intl.get_personal_iban_title,
-                style: STStyles.header4,
+                softWrap: true,
+                style: STStyles.header4.copyWith(
+                  overflow: TextOverflow.visible,
+                ),
               ),
               const SizedBox(
                 height: 24.0,

@@ -56,9 +56,7 @@ abstract class _IbanSendConfirmStoreBase with Store {
   ) {
     if (data != null) {
       deviceBindingRequired = data.deviceBindingRequired ?? false;
-    } else {
-
-    }
+    } else {}
 
     requestId = const Uuid().v1();
   }
@@ -167,7 +165,10 @@ abstract class _IbanSendConfirmStoreBase with Store {
           enteredAmount: data.amount.toString(),
         );
 
-        await showSuccessScreen(data.sendAmount);
+        await showSuccessScreen(
+          (data.sendAmount ?? Decimal.zero) + (data.feeAmount ?? Decimal.zero) + (data.simpleFeeAmount ?? Decimal.zero),
+          eurCurrency,
+        );
       }
     } on ServerRejectException catch (error) {
       sAnalytics.eurWithdrawFailed(
@@ -194,13 +195,13 @@ abstract class _IbanSendConfirmStoreBase with Store {
 
   @action
   Future<void> confirmCryptoIbanOut(
-      BankingWithdrawalPreviewModel previewRequest,
-      GetCryptoSellResponseModel data,
-      AddressBookContactModel contact,
-      String pin,
-      SimpleBankingAccount account,
-      bool isCJ,
-      ) async {
+    BankingWithdrawalPreviewModel previewRequest,
+    GetCryptoSellResponseModel data,
+    AddressBookContactModel contact,
+    String pin,
+    SimpleBankingAccount account,
+    bool isCJ,
+  ) async {
     try {
       loader.startLoadingImmediately();
 
@@ -209,15 +210,20 @@ abstract class _IbanSendConfirmStoreBase with Store {
       );
 
       final response = await sNetwork.getWalletModule().postSellExecute(
-        model,
-      );
+            model,
+          );
 
       loader.finishLoadingImmediately();
 
       if (response.hasError) {
         await showFailureScreen(response.error?.cause ?? '');
       } else {
-        await showSuccessScreen(response.data!.buyAmount);
+        final currency = currencyFrom(
+          sSignalRModules.currenciesList,
+          response.data!.paymentAssetSymbol,
+        );
+
+        await showSuccessScreen(response.data!.paymentAmount, currency);
       }
     } on ServerRejectException catch (error) {
       unawaited(showFailureScreen(error.cause));
@@ -237,14 +243,14 @@ abstract class _IbanSendConfirmStoreBase with Store {
   }
 
   @action
-  Future<void> showSuccessScreen(Decimal? sendAmount) {
+  Future<void> showSuccessScreen(Decimal? sendAmount, CurrencyModel currency) {
     return sRouter
         .push(
       SuccessScreenRouter(
         primaryText: intl.send_globally_success,
         secondaryText: '${intl.send_globally_success_secondary} ${(sendAmount ?? Decimal.zero).toFormatCount(
-          accuracy: eurCurrency.accuracy,
-          symbol: eurCurrency.symbol,
+          accuracy: currency.accuracy,
+          symbol: currency.symbol,
         )}'
             '\n${intl.send_globally_success_secondary_2}',
       ),

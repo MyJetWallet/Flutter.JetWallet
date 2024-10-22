@@ -71,10 +71,10 @@ void showSendOptions(
       Column(
         children: [
           if (isToCryptoWalletAvaible)
-            SActionItem(
+            SCardRow(
               icon: const SWallet2Icon(),
               name: intl.sendOptions_to_crypto_wallet,
-              description: intl.sendOptions_actionItemDescription2,
+              helper: intl.sendOptions_actionItemDescription2,
               onTap: () {
                 Navigator.pop(context);
                 sRouter.push(
@@ -85,12 +85,14 @@ void showSendOptions(
                   ),
                 );
               },
+              amount: '',
+              description: '',
             ),
           if (isGlobalAvaible)
-            SActionItem(
+            SCardRow(
               icon: const SNetworkIcon(),
               name: intl.global_send_name,
-              description: intl.global_send_helper,
+              helper: intl.global_send_helper,
               onTap: () {
                 Navigator.pop(context);
                 showSendGlobally(
@@ -98,12 +100,14 @@ void showSendOptions(
                   currency,
                 );
               },
+              amount: '',
+              description: '',
             ),
           if (isGiftAvaible)
-            SActionItem(
+            SCardRow(
               icon: const SGiftSendIcon(),
               name: intl.send_gift,
-              description: intl.send_gift_to_simple_wallet,
+              helper: intl.send_gift_to_simple_wallet,
               onTap: () async {
                 Navigator.pop(context);
                 await sRouter.push(
@@ -112,6 +116,8 @@ void showSendOptions(
                   ),
                 );
               },
+              amount: '',
+              description: '',
             ),
           if (isGlobalAvaible)
             SCardRow(

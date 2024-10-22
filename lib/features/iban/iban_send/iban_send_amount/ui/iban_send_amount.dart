@@ -186,7 +186,7 @@ class IbanSendAmountBody extends StatelessObserverWidget {
           const Spacer(),
           SuggestionButtonWidget(
             subTitle: intl.withdrawOptions_sendTo,
-            trailing: store.contact?.iban ?? '',
+            trailing: shortIbanFormTwo(store.contact?.iban ?? ''),
             title: store.contact?.name ?? '',
             icon: Assets.svg.other.medium.bankAccount.simpleSvg(),
             onTap: () {},

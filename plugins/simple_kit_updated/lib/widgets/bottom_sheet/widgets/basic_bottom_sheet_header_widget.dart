@@ -70,6 +70,7 @@ class _BasicBottomSheetHeaderWidgetState extends State<BasicBottomSheetHeaderWid
                 widget.title!,
                 style: STStyles.header5.copyWith(
                   color: SColorsLight().black,
+                  overflow: TextOverflow.visible,
                 ),
               ),
             ),
