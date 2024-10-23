@@ -5,6 +5,7 @@ import 'package:simple_networking/api_client/api_client.dart';
 import 'package:simple_networking/helpers/handle_api_responses.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/analytic_records/models/analytic_record.dart';
+import 'package:simple_networking/modules/analytic_records/models/anchor_record.dart';
 
 class AnalycticsRecordsApiDataSources {
   final ApiClient _apiClient;
@@ -26,6 +27,32 @@ class AnalycticsRecordsApiDataSources {
       final response = await _apiClient.post(
         '${_apiClient.options.walletApi}/analytic-records/add-analytic-record-v2',
         data: listJson,
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+
+        handleResultResponse(responseData);
+
+        return DC.data(null);
+      } catch (e) {
+        rethrow;
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<DC<ServerRejectException, void>> postAddAnchorRequest(
+      AnchorRecordModel anchorRecord,
+      ) async {
+    try {
+      final recordJson = anchorRecord.toJson();
+      recordJson['metadata'] = json.encode(recordJson['metadata']);
+
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/analytic-records/add-anchor',
+        data: recordJson,
       );
 
       try {

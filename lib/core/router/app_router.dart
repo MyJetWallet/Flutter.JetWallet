@@ -3,6 +3,8 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/router/guards/init_guard.dart';
+import 'package:jetwallet/core/services/anchors/models/convert_confirmation_model/convert_confirmation_model.dart';
+import 'package:jetwallet/core/services/anchors/models/crypto_deposit/crypto_deposit_model.dart';
 import 'package:jetwallet/features/account/about_us/about_us.dart';
 import 'package:jetwallet/features/account/account_screen.dart';
 import 'package:jetwallet/features/account/account_security/ui/account_security_screen.dart';
@@ -604,8 +606,8 @@ class AppRouter extends _$AppRouter {
       page: SellConfirmationRoute.page,
     ),
     AutoRoute(
-      path: '/convetr_confirmation',
-      page: ConvetrConfirmationRoute.page,
+      path: '/convert_confirmation',
+      page: ConvertConfirmationRoute.page,
     ),
     AutoRoute(
       path: '/face_check',
