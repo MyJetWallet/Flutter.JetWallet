@@ -34,75 +34,72 @@ class GetPersonalIbanBody extends StatelessObserverWidget {
           context.maybePop();
         },
       ),
-      child: SafeArea(
-        top: false,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 160.0,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16.0),
+                gradient: const LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Color(0xFFE0EBFA),
+                    Color(0xFFECE7FB),
+                  ],
+                ),
+              ),
+              child: Assets.images.bank.simpleImg(
                 height: 160.0,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16.0),
-                  gradient: const LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Color(0xFFE0EBFA),
-                      Color(0xFFECE7FB),
-                    ],
-                  ),
-                ),
-                child: Assets.images.bank.simpleImg(
-                  height: 160.0,
-                ),
               ),
-              const SizedBox(
-                height: 32.0,
+            ),
+            const SizedBox(
+              height: 32.0,
+            ),
+            Text(
+              intl.get_personal_iban_title,
+              softWrap: true,
+              style: STStyles.header4.copyWith(
+                overflow: TextOverflow.visible,
               ),
-              Text(
-                intl.get_personal_iban_title,
-                softWrap: true,
-                style: STStyles.header4.copyWith(
-                  overflow: TextOverflow.visible,
-                ),
+            ),
+            const SizedBox(
+              height: 24.0,
+            ),
+            _buildHintWidget(
+              title: intl.get_personal_iban_hint1_title,
+              body: intl.get_personal_iban_hint1_body,
+              icon: Assets.svg.medium.userSend.simpleSvg(
+                height: 20.0,
+                width: 20.0,
               ),
-              const SizedBox(
-                height: 24.0,
+            ),
+            const SizedBox(
+              height: 24.0,
+            ),
+            _buildHintWidget(
+              title: intl.get_personal_iban_hint2_title,
+              body: intl.get_personal_iban_hint2_body,
+              icon: Assets.svg.medium.cash.simpleSvg(
+                height: 20.0,
+                width: 20.0,
               ),
-              _buildHintWidget(
-                title: intl.get_personal_iban_hint1_title,
-                body: intl.get_personal_iban_hint1_body,
-                icon: Assets.svg.medium.userSend.simpleSvg(
-                  height: 20.0,
-                  width: 20.0,
-                ),
-              ),
-              const SizedBox(
-                height: 24.0,
-              ),
-              _buildHintWidget(
-                title: intl.get_personal_iban_hint2_title,
-                body: intl.get_personal_iban_hint2_body,
-                icon: Assets.svg.medium.cash.simpleSvg(
-                  height: 20.0,
-                  width: 20.0,
-                ),
-              ),
-              const Spacer(),
-              SButton.black(
-                text: intl.get_personal_iban_button,
-                callback: () {
-                  GetPersonalIbanStore.of(context).openAnAccount(context);
-                },
-              ),
-              SizedBox(
-                height: 16.0 + MediaQuery.of(context).padding.bottom < 24.0 ? 8.0 : 0.0,
-              ),
-            ],
-          ),
+            ),
+            const Spacer(),
+            SButton.black(
+              text: intl.get_personal_iban_button,
+              callback: () {
+                GetPersonalIbanStore.of(context).openAnAccount(context);
+              },
+            ),
+            SizedBox(
+              height: 16.0 + MediaQuery.of(context).padding.bottom,
+            ),
+          ],
         ),
       ),
     );

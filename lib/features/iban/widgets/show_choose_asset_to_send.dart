@@ -17,24 +17,34 @@ import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
 
-void showChooseAssetToSend(BuildContext context, {
+void showChooseAssetToSend(
+  BuildContext context, {
   required AddressBookContactModel contact,
   required bool isCJ,
 }) {
   final bankAccounts = sSignalRModules.bankingProfileData?.banking?.accounts ?? <SimpleBankingAccount>[];
   getIt.get<ActionSearchStore>().bankAccountsInit(bankAccounts);
 
+  var currencyFiltered = List<CurrencyModel>.from(getIt.get<ActionSearchStore>().fCurrencies);
+  currencyFiltered = currencyFiltered
+      .where(
+        (element) => element.isAssetBalanceNotEmpty && element.supportsCryptoWithdrawal,
+      )
+      .toList();
+
   showBasicBottomSheet(
     context: context,
     basicBottomSheetHeader: BasicBottomSheetHeaderWidget(
       title: intl.actionSend_bottomSheetHeaderName,
-      searchOptions: SearchOptions(
-        hint: intl.actionBottomSheetHeader_search,
-        onChange: (String value) {
-          getIt.get<ActionSearchStore>().search(value);
-          getIt.get<ActionSearchStore>().bankAccountsSearch(value);
-        },
-      ),
+      searchOptions: (currencyFiltered.length + (isCJ ? 0 : bankAccounts.length)) >= 7
+          ? SearchOptions(
+              hint: intl.actionBottomSheetHeader_search,
+              onChange: (String value) {
+                getIt.get<ActionSearchStore>().search(value);
+                getIt.get<ActionSearchStore>().bankAccountsSearch(value);
+              },
+            )
+          : null,
     ),
     children: [
       _ChooseAssetToSend(contact, isCJ),
@@ -43,7 +53,10 @@ void showChooseAssetToSend(BuildContext context, {
 }
 
 class _ChooseAssetToSend extends StatelessObserverWidget {
-  const _ChooseAssetToSend(this.contact, this.isCJ,);
+  const _ChooseAssetToSend(
+    this.contact,
+    this.isCJ,
+  );
 
   final AddressBookContactModel contact;
   final bool isCJ;
@@ -57,7 +70,7 @@ class _ChooseAssetToSend extends StatelessObserverWidget {
     currencyFiltered = currencyFiltered
         .where(
           (element) => element.isAssetBalanceNotEmpty && element.supportsCryptoWithdrawal,
-    )
+        )
         .toList();
 
     currencyFiltered.sort((a, b) {
@@ -69,9 +82,9 @@ class _ChooseAssetToSend extends StatelessObserverWidget {
     final simpleAccount = sSignalRModules.bankingProfileData?.simple?.account;
 
     final eurCurrency = getIt.get<FormatService>().findCurrency(
-      assetSymbol: 'EUR',
-      findInHideTerminalList: true,
-    );
+          assetSymbol: 'EUR',
+          findInHideTerminalList: true,
+        );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,9 +111,9 @@ class _ChooseAssetToSend extends StatelessObserverWidget {
             rightValue: getIt<AppStore>().isBalanceHide
                 ? '**** ${eurCurrency.symbol}'
                 : (simpleAccount.balance ?? Decimal.zero).toFormatSum(
-              accuracy: eurCurrency.accuracy,
-              symbol: eurCurrency.symbol,
-            ),
+                    accuracy: eurCurrency.accuracy,
+                    symbol: eurCurrency.symbol,
+                  ),
             supplement: simpleAccount.status == AccountStatus.active
                 ? intl.eur_wallet_simple_account
                 : intl.create_simple_creating,
@@ -108,8 +121,7 @@ class _ChooseAssetToSend extends StatelessObserverWidget {
             onTableAssetTap: () {
               Navigator.pop(context);
 
-              getIt<AppRouter>()
-                  .push(
+              getIt<AppRouter>().push(
                 IbanSendAmountRouter(
                   contact: contact,
                   bankingAccount: simpleAccount,
@@ -129,8 +141,7 @@ class _ChooseAssetToSend extends StatelessObserverWidget {
                 onTableAssetTap: () {
                   Navigator.pop(context);
 
-                  getIt<AppRouter>()
-                      .push(
+                  getIt<AppRouter>().push(
                     IbanSendAmountRouter(
                       contact: contact,
                       bankingAccount: searchedBankAccounts[index],
@@ -149,9 +160,9 @@ class _ChooseAssetToSend extends StatelessObserverWidget {
                 rightValue: getIt<AppStore>().isBalanceHide
                     ? '**** ${eurCurrency.symbol}'
                     : (searchedBankAccounts[index].balance ?? Decimal.zero).toFormatSum(
-                  accuracy: eurCurrency.accuracy,
-                  symbol: eurCurrency.symbol,
-                ),
+                        accuracy: eurCurrency.accuracy,
+                        symbol: eurCurrency.symbol,
+                      ),
               );
             },
           ),
@@ -181,12 +192,11 @@ class _ChooseAssetToSend extends StatelessObserverWidget {
                     ? '**** ${baseCurrency.symbol}'
                     : currency.volumeBaseBalance(baseCurrency),
                 supplement:
-                getIt<AppStore>().isBalanceHide ? '******* ${currency.symbol}' : currency.volumeAssetBalance,
+                    getIt<AppStore>().isBalanceHide ? '******* ${currency.symbol}' : currency.volumeAssetBalance,
                 onTableAssetTap: () {
                   Navigator.pop(context);
 
-                  getIt<AppRouter>()
-                      .push(
+                  getIt<AppRouter>().push(
                     IbanSendAmountRouter(
                       isCJ: isCJ,
                       contact: contact,

@@ -161,12 +161,6 @@ class IbanSendAmountBody extends StatelessObserverWidget {
               value: store.primaryAmount,
             ),
             primarySymbol: store.primarySymbol,
-            secondaryAmount: store.mainCurrency.symbol != 'EUR'
-                ? '${intl.earn_est} ${Decimal.parse(store.secondaryAmount).toFormatSum(
-                    accuracy: store.secondaryAccuracy,
-                  )}'
-                : '',
-            secondarySymbol: store.mainCurrency.symbol != 'EUR' ? store.secondarySymbol : '',
             errorText: store.withAmmountInputError.isActive ? error : null,
             showMaxButton: true,
             onMaxTap: store.onSendAll,

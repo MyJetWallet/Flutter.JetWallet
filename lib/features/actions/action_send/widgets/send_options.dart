@@ -13,6 +13,7 @@ import 'package:jetwallet/features/send_gift/model/send_gift_info_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
 CurrencyModel currentAsset = CurrencyModel.empty();
@@ -31,6 +32,7 @@ void showSendOptions(
   final isToCryptoWalletAvaible = _checkToCryptoWalletAvaible();
   final isGlobalAvaible = _checkGlobalAvaible();
   final isGiftAvaible = _checkGiftAvaible();
+  final isAllowBankTransfer = isGlobalAvaible && _checkBankTransferAvailable();
 
   if (currentAsset.networksForBlockchainSend.isEmpty) {
     showAssetOnlyTradableWithinSimpleAppDialog();
@@ -119,7 +121,7 @@ void showSendOptions(
               amount: '',
               description: '',
             ),
-          if (isGlobalAvaible)
+          if (isAllowBankTransfer)
             SCardRow(
               icon: Assets.svg.medium.bank.simpleSvg(color: SColorsLight().blue),
               onTap: () {
@@ -198,6 +200,18 @@ bool _checkGlobalAvaible() {
   final isNoClientBlocker = _checkIsBlockerNotContains(BlockingType.withdrawal);
 
   return isAnySuportedByCurrencies && isNoKycBlocker && isNoClientBlocker;
+}
+
+bool _checkBankTransferAvailable() {
+  final allowSimpleBanking = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
+    (element) => element.id == AssetPaymentProductsEnum.simpleIbanAccount,
+  );
+
+  final allowBanking = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
+    (element) => element.id == AssetPaymentProductsEnum.bankingIbanAccount,
+  );
+
+  return allowSimpleBanking || allowBanking;
 }
 
 bool _checkGiftAvaible() {
