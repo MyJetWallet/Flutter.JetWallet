@@ -1854,6 +1854,5 @@
                 "example": "$50"
             }
         }
-    },
-    "prepaid_card_security_code": "Security code"
+    }
 }
