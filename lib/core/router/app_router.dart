@@ -31,9 +31,6 @@ import 'package:jetwallet/features/change_email/screen/change_email_screen.dart'
 import 'package:jetwallet/features/change_email/screen/change_email_verification_screen.dart';
 import 'package:jetwallet/features/cj_banking_accounts/screens/cj_account_label_screen.dart';
 import 'package:jetwallet/features/cj_banking_accounts/screens/cj_account_screen.dart';
-import 'package:jetwallet/features/convert/model/preview_convert_input.dart';
-import 'package:jetwallet/features/convert/ui/convert.dart';
-import 'package:jetwallet/features/convert/ui/preview_convert.dart';
 import 'package:jetwallet/features/convert_flow/screens/convetr_confrimation_screen.dart';
 import 'package:jetwallet/features/crypto_deposit/crypto_deposit_screen.dart';
 import 'package:jetwallet/features/crypto_jar/ui/all_jars_screen.dart';
@@ -372,14 +369,6 @@ class AppRouter extends _$AppRouter {
       path: '/iban_edit_account',
       page: IbanEditBankAccountRouter.page,
       transitionsBuilder: TransitionsBuilders.slideBottom,
-    ),
-    AutoRoute(
-      path: '/preview_convert',
-      page: PreviewConvertRouter.page,
-    ),
-    AutoRoute(
-      path: '/convert',
-      page: ConvertRouter.page,
     ),
     AutoRoute(
       path: '/success_screen',
