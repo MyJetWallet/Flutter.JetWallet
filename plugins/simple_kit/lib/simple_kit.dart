@@ -288,7 +288,6 @@ export 'modules/icons/24x24/public/history_declined/simple_history_declined_icon
 
 /// Keyboards
 export 'modules/keyboards/constants.dart';
-export 'modules/keyboards/simple_numeric_keyboard_amount.dart';
 export 'modules/keyboards/simple_numeric_keyboard_pin.dart';
 export 'modules/kyc/simple_documents_recommendations.dart';
 

@@ -10,7 +10,6 @@ import 'package:jetwallet/features/convert_flow/store/convert_amount_store.dart'
 import 'package:jetwallet/features/convert_flow/widgets/convert_from_choose_asset_bottom_sheet.dart';
 import 'package:jetwallet/features/convert_flow/widgets/convert_to_choose_asset_bottom_sheet.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
-import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:provider/provider.dart';
@@ -250,31 +249,32 @@ class ConvertAmountScreenBodyState extends State<ConvertAmountTabBody> with Auto
                       ],
                     ),
                   ),
-                  SNumericKeyboardAmount(
-                    widgetSize: widgetSizeFrom(deviceSize),
+                  SNumericKeyboard(
                     onKeyPressed: (value) {
                       store.updateInputValue(value);
                     },
-                    buttonType: SButtonType.primary2,
-                    submitButtonActive: store.isContinueAvaible,
-                    submitButtonName: intl.addCircleCard_continue,
-                    onSubmitPressed: () {
-                      sAnalytics.tapOnTContinueWithConvertAmountCutton(
-                        enteredAmount: store.primaryAmount,
-                        convertFromAsset: store.fromAsset?.symbol ?? '',
-                        convertToAsset: store.toAsset?.symbol ?? '',
-                        nowInput: store.isFromEntering ? 'ConvertFrom' : 'ConvertTo',
-                      );
-                      sRouter.push(
-                        ConvetrConfirmationRoute(
-                          fromAsset: store.fromAsset!,
-                          toAsset: store.toAsset!,
-                          fromAmount: Decimal.parse(store.fromInputValue),
-                          toAmount: Decimal.parse(store.toInputValue),
-                          isFromFixed: store.isFromEntering,
-                        ),
-                      );
-                    },
+                    button: SButton.black(
+                      text: intl.addCircleCard_continue,
+                      callback: store.isContinueAvaible
+                          ? () {
+                              sAnalytics.tapOnTContinueWithConvertAmountCutton(
+                                enteredAmount: store.primaryAmount,
+                                convertFromAsset: store.fromAsset?.symbol ?? '',
+                                convertToAsset: store.toAsset?.symbol ?? '',
+                                nowInput: store.isFromEntering ? 'ConvertFrom' : 'ConvertTo',
+                              );
+                              sRouter.push(
+                                ConvetrConfirmationRoute(
+                                  fromAsset: store.fromAsset!,
+                                  toAsset: store.toAsset!,
+                                  fromAmount: Decimal.parse(store.fromInputValue),
+                                  toAmount: Decimal.parse(store.toInputValue),
+                                  isFromFixed: store.isFromEntering,
+                                ),
+                              );
+                            }
+                          : null,
+                    ),
                   ),
                 ],
               );

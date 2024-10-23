@@ -81,3 +81,5 @@ export 'widgets/input/simple_numeric_large_input.dart';
 
 // Bottom Sheet bar
 export 'widgets/bottom_sheet/basic_bottom_sheet.dart';
+
+export 'widgets/keyboard/simple_numeric_keyboard.dart';
