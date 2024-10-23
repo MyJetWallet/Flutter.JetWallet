@@ -196,20 +196,25 @@ class StartupService {
             orderIndex: orderIndex,
             amp: amp,
           );
-          DC<ServerRejectException, AnalyticRecordResponseModel> result;
-          if (authStatus) {
-            result = await getIt.get<SNetwork>().simpleNetworking.getAnalyticApiModule().postAddAnalyticRecord([model]);
-          } else {
-            result = await getIt
-                .get<SNetwork>()
-                .simpleNetworkingUnathorized
-                .getAnalyticApiModule()
-                .postAddAnalyticRecord([model]);
-          }
-          if (result.data == null) {
+          try {
+            DC<ServerRejectException, AnalyticRecordResponseModel> result;
+            if (authStatus) {
+              result =
+                  await getIt.get<SNetwork>().simpleNetworking.getAnalyticApiModule().postAddAnalyticRecord([model]);
+            } else {
+              result = await getIt
+                  .get<SNetwork>()
+                  .simpleNetworkingUnathorized
+                  .getAnalyticApiModule()
+                  .postAddAnalyticRecord([model]);
+            }
+            if (result.data == null) {
+              return true;
+            } else {
+              return result.data!.limitExceeded;
+            }
+          } catch (e) {
             return true;
-          } else {
-            return result.data!.limitExceeded;
           }
         },
         userEmail: parsedEmail,

@@ -32,9 +32,11 @@ class AnalycticsRecordsApiDataSources {
       try {
         final responseData = response.data as Map<String, dynamic>;
 
-        handleResultResponse(responseData);
+        final data = handleFullResponse<Map>(
+          responseData,
+        );
 
-        return DC.data(null);
+        return DC.data(AnalyticRecordResponseModel.fromJson(data));
       } catch (e) {
         rethrow;
       }
