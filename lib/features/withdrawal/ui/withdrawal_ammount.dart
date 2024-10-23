@@ -109,122 +109,136 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
               ),
             ],
           ),
-          deviceSize.when(
-            small: () => const SizedBox(),
-            medium: () => const Spacer(),
-          ),
-          SNumericLargeInput(
-            primaryAmount: formatCurrencyStringAmount(
-              value: store.primaryAmount,
-            ),
-            primarySymbol: store.primarySymbol,
-            showSwopButton: false,
-            onSwap: store.onSwap,
-            errorText: store.withAmmountInputError.isActive ? error : null,
-            showMaxButton: true,
-            onMaxTap: store.onSendAll,
-            pasteLabel: intl.paste,
-            onPaste: () async {
-              final data = await Clipboard.getData('text/plain');
-              if (data?.text != null) {
-                final n = double.tryParse(data!.text!);
-                if (n != null) {
-                  store.pasteAmount(n.toString().trim());
-                }
-              }
-            },
-          ),
-          const Spacer(),
-          SuggestionButtonWidget(
-            subTitle: intl.withdrawOptions_sendTo,
-            trailing: shortAddressFormThree(store.address),
-            title: '${store.currency.symbol} ${intl.withdrawal_wallet}',
-            icon: Assets.svg.other.medium.bankAccount.simpleSvg(),
-            onTap: () {},
-            showArrow: false,
-          ),
-          const SpaceH12(),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 36),
-            child: Row(
-              children: [
-                Container(
-                  width: 20,
-                  height: 20,
-                  padding: const EdgeInsets.all(4),
-                  decoration: ShapeDecoration(
-                    color: colors.gray2,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  child: store.inputMode == WithdrawalInputMode.youSend
-                      ? Assets.svg.medium.remove.simpleSvg()
-                      : Assets.svg.medium.add.simpleSvg(),
-                ),
-                const SpaceW12(),
-                Text.rich(
-                  TextSpan(
+          Expanded(
+            child: CustomScrollView(
+              physics: const ClampingScrollPhysics(),
+              slivers: [
+                SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: Column(
                     children: [
-                      TextSpan(
-                        text: store.feeAmount.toFormatCount(
-                          symbol: store.currency.symbol,
-                          accuracy: store.currency.accuracy,
-                        ),
-                        style: STStyles.body2Semibold,
+                      deviceSize.when(
+                        small: () => const SizedBox(),
+                        medium: () => const Spacer(),
                       ),
-                      TextSpan(
-                        text: ' ${intl.buy_confirmation_processing_fee}',
-                        style: STStyles.body2Semibold.copyWith(
-                          color: colors.gray10,
+                      SNumericLargeInput(
+                        primaryAmount: formatCurrencyStringAmount(
+                          value: store.primaryAmount,
                         ),
+                        primarySymbol: store.primarySymbol,
+                        showSwopButton: false,
+                        onSwap: store.onSwap,
+                        errorText: store.withAmmountInputError.isActive ? error : null,
+                        showMaxButton: true,
+                        onMaxTap: store.onSendAll,
+                        pasteLabel: intl.paste,
+                        onPaste: () async {
+                          final data = await Clipboard.getData('text/plain');
+                          if (data?.text != null) {
+                            final n = double.tryParse(data!.text!);
+                            if (n != null) {
+                              store.pasteAmount(n.toString().trim());
+                            }
+                          }
+                        },
                       ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SpaceH8(),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 36),
-            child: Row(
-              children: [
-                NetworkIconWidget(
-                  width: 20,
-                  height: 20,
-                  store.currency.iconUrl,
-                ),
-                const SpaceW12(),
-                Text.rich(
-                  TextSpan(
-                    children: [
-                      TextSpan(
-                        text: store.inputMode == WithdrawalInputMode.youSend
-                            ? store.recepientGetsAmount.toFormatCount(
-                                symbol: store.currency.symbol,
-                                accuracy: store.currency.accuracy,
-                              )
-                            : store.youSendAmount.toFormatCount(
-                                symbol: store.currency.symbol,
-                                accuracy: store.currency.accuracy,
+                      const Spacer(),
+                      SuggestionButtonWidget(
+                        subTitle: intl.withdrawOptions_sendTo,
+                        trailing: shortAddressFormThree(store.address),
+                        title: '${store.currency.symbol} ${intl.withdrawal_wallet}',
+                        icon: Assets.svg.other.medium.bankAccount.simpleSvg(),
+                        onTap: () {},
+                        showArrow: false,
+                      ),
+                      const SpaceH12(),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 36),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 20,
+                              height: 20,
+                              padding: const EdgeInsets.all(4),
+                              decoration: ShapeDecoration(
+                                color: colors.gray2,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
                               ),
-                        style: STStyles.body2Semibold,
-                      ),
-                      TextSpan(
-                        text:
-                            ' ${store.inputMode == WithdrawalInputMode.youSend ? intl.withdrawal_recipient_gets : intl.withdrawal_you_send}',
-                        style: STStyles.body2Semibold.copyWith(
-                          color: colors.gray10,
+                              child: store.inputMode == WithdrawalInputMode.youSend
+                                  ? Assets.svg.medium.remove.simpleSvg()
+                                  : Assets.svg.medium.add.simpleSvg(),
+                            ),
+                            const SpaceW12(),
+                            Text.rich(
+                              TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: store.feeAmount.toFormatCount(
+                                      symbol: store.currency.symbol,
+                                      accuracy: store.currency.accuracy,
+                                    ),
+                                    style: STStyles.body2Semibold,
+                                  ),
+                                  TextSpan(
+                                    text: ' ${intl.buy_confirmation_processing_fee}',
+                                    style: STStyles.body2Semibold.copyWith(
+                                      color: colors.gray10,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
                       ),
+                      const SpaceH8(),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 36),
+                        child: Row(
+                          children: [
+                            NetworkIconWidget(
+                              width: 20,
+                              height: 20,
+                              store.currency.iconUrl,
+                            ),
+                            const SpaceW12(),
+                            Text.rich(
+                              TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: store.inputMode == WithdrawalInputMode.youSend
+                                        ? store.recepientGetsAmount.toFormatCount(
+                                            symbol: store.currency.symbol,
+                                            accuracy: store.currency.accuracy,
+                                          )
+                                        : store.youSendAmount.toFormatCount(
+                                            symbol: store.currency.symbol,
+                                            accuracy: store.currency.accuracy,
+                                          ),
+                                    style: STStyles.body2Semibold,
+                                  ),
+                                  TextSpan(
+                                    text:
+                                        ' ${store.inputMode == WithdrawalInputMode.youSend ? intl.withdrawal_recipient_gets : intl.withdrawal_you_send}',
+                                    style: STStyles.body2Semibold.copyWith(
+                                      color: colors.gray10,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SpaceH8(),
                     ],
                   ),
                 ),
               ],
             ),
           ),
-          const SpaceH8(),
           SNumericKeyboardAmount(
             widgetSize: widgetSizeFrom(deviceSize),
             onKeyPressed: (value) {
