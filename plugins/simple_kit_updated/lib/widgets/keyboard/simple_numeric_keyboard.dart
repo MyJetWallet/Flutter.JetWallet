@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
-import 'package:simple_kit_updated/widgets/keyboard/constants.dart';
 
 import 'components/numeric_keyboard_frame.dart';
 import 'components/numeric_keyboard_row.dart';
+
+enum NumericKeyboardType { touchId, fasceId, point, none }
 
 class SNumericKeyboard extends StatelessWidget {
   const SNumericKeyboard({
     super.key,
     required this.onKeyPressed,
     this.button,
+    this.type = NumericKeyboardType.point,
   });
 
   final void Function(String) onKeyPressed;
   final SButton? button;
+  final NumericKeyboardType type;
 
   @override
   Widget build(BuildContext context) {
@@ -25,22 +28,28 @@ class SNumericKeyboard extends StatelessWidget {
           children: [
             NumericKeyboardFrame(
               lastRow: NumericKeyboardRow(
-                frontKey1: period,
-                realValue1: period,
+                frontKey1: type == NumericKeyboardType.point ? period : null,
+                realValue1: type == NumericKeyboardType.point
+                    ? period
+                    : type == NumericKeyboardType.fasceId
+                        ? face
+                        : type == NumericKeyboardType.touchId
+                            ? fingerprint
+                            : '',
+                icon1: type == NumericKeyboardType.fasceId
+                    ? Assets.svg.medium.faceId.simpleSvg()
+                    : type == NumericKeyboardType.touchId
+                        ? Assets.svg.medium.touchId.simpleSvg()
+                        : const SizedBox(),
+                iconPressed1: type == NumericKeyboardType.fasceId
+                    ? Assets.svg.medium.faceId.simpleSvg()
+                    : type == NumericKeyboardType.touchId
+                        ? Assets.svg.medium.touchId.simpleSvg()
+                        : const SizedBox(),
                 frontKey2: zero,
                 realValue2: zero,
-                icon3: Center(
-                  child: Assets.svg.medium.arrowLeft.simpleSvg(
-                    width: 24,
-                    height: 24,
-                  ),
-                ),
-                iconPressed3: Center(
-                  child: Assets.svg.medium.arrowLeft.simpleSvg(
-                    width: 24,
-                    height: 24,
-                  ),
-                ),
+                icon3: Assets.svg.medium.arrowLeft.simpleSvg(),
+                iconPressed3: Assets.svg.medium.arrowLeft.simpleSvg(),
                 realValue3: backspace,
                 onKeyPressed: onKeyPressed,
               ),

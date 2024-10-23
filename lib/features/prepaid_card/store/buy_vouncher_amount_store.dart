@@ -13,7 +13,7 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/account/phone_number/simple_number.dart';
-import 'package:simple_kit/modules/keyboards/constants.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/prepaid_card/purchase_card_brand_list_response_model.dart';
 
 part 'buy_vouncher_amount_store.g.dart';
