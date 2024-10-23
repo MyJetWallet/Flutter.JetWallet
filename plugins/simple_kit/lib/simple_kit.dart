@@ -42,9 +42,6 @@ export 'modules/banners/market_banner/simple_market_banner.dart';
 export 'modules/banners/rewards_banner/simple_rewards_banner.dart';
 export 'modules/banners/rewards_banner/simple_three_steps_reward_banner.dart';
 
-/// Bottom Navigation Bar
-export 'modules/bottom_navigation_bar/simple_bottom_navigation_bar.dart';
-
 /// Bottom sheets
 export 'modules/bottom_sheets/components/basic_bottom_sheet/show_basic_bottom_sheet.dart';
 export 'modules/bottom_sheets/components/basic_bottom_sheet/show_basic_modal_bottom_sheet.dart';
