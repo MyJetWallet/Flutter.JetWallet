@@ -100,10 +100,15 @@ class _EnterJarDescriptionScreenState extends State<EnterJarDescriptionScreen> {
                 const SizedBox(
                   height: 12.0,
                 ),
-                Text(
-                  intl.jar_description_title,
-                  style: STStyles.header6.copyWith(
-                    color: SColorsLight().black,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Text(
+                    intl.jar_description_title,
+                    style: STStyles.header6.copyWith(
+                      color: SColorsLight().black,
+                    ),
+                    maxLines: 5,
+                    textAlign: TextAlign.center,
                   ),
                 ),
                 const Spacer(),
