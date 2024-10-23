@@ -302,11 +302,11 @@ bool checkGlobalAvaible() {
 
 bool checkBankTransferAvailable() {
   final allowSimpleBanking = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
-        (element) => element.id == AssetPaymentProductsEnum.simpleIbanAccount,
+    (element) => element.id == AssetPaymentProductsEnum.simpleIbanAccount,
   );
 
   final allowBanking = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
-        (element) => element.id == AssetPaymentProductsEnum.bankingIbanAccount,
+    (element) => element.id == AssetPaymentProductsEnum.bankingIbanAccount,
   );
 
   return allowSimpleBanking || allowBanking;
@@ -438,6 +438,9 @@ void showBankTransferTo(BuildContext context, [CurrencyModel? currency]) {
     (element) => element.id == AssetPaymentProductsEnum.bankingIbanAccount,
   );
 
+  print('#@#@#@ 1 $bankingShowState $accounts');
+  print('#@#@#@ 2 $simpleBankingShowState $simpleAccounts');
+
   sShowBasicModalBottomSheet(
     context: context,
     pinned: ActionBottomSheetHeader(
@@ -446,73 +449,87 @@ void showBankTransferTo(BuildContext context, [CurrencyModel? currency]) {
     horizontalPinnedPadding: 0.0,
     removePinnedPadding: true,
     children: [
-      if (allowSimpleBanking)
-        SCardRow(
-          icon: Assets.svg.medium.userAlt.simpleSvg(color: SColorsLight().blue),
-          onTap: () {
-            if (simpleBankingShowState == SimpleAccountStatus.allowed) {
+      SCardRow(
+        icon: Assets.svg.medium.userAlt.simpleSvg(color: SColorsLight().blue),
+        onTap: () {
+          if (!allowSimpleBanking) {
+            return;
+          }
+          if (simpleBankingShowState == SimpleAccountStatus.allowed) {
+            if (simpleAccounts == null || simpleAccounts.status != AccountStatus.active) {
+              return;
+            } else {
               Navigator.pop(context);
 
-              if (simpleAccounts == null || simpleAccounts.status != AccountStatus.active) {
-                return;
-              } else {
+              showBankTransforSelect(
+                context,
+                simpleAccounts,
+                true,
+                true,
+                currency,
+              );
+            }
+          }
+        },
+        amount: '',
+        description: '',
+        name: intl.bank_transfer_to_myself,
+        helper: allowSimpleBanking
+            ? simpleBankingShowState != SimpleAccountStatus.allowed
+                ? intl.bank_transfer_coming_soon
+                : simpleAccounts == null
+                    ? intl.bank_transfer_coming_soon
+                    : simpleAccounts.status == AccountStatus.active
+                        ? ''
+                        : intl.bank_transfer_coming_soon
+            : intl.bank_transfer_coming_soon,
+      ),
+      SCardRow(
+        icon: Assets.svg.medium.userSend.simpleSvg(color: SColorsLight().blue),
+        onTap: () {
+          if (!allowBanking) {
+            return;
+          }
+          if (bankingShowState == BankingClientStatus.allowed) {
+            if (accounts.isEmpty) {
+              if (simpleAccounts?.status == AccountStatus.active) {
+                Navigator.pop(context);
+                context.pushRoute(const GetPersonalIbanRouter());
+              }
+              return;
+            } else {
+              if (activeAccounts.isNotEmpty) {
+                Navigator.pop(context);
                 showBankTransforSelect(
                   context,
-                  simpleAccounts,
-                  true,
+                  activeAccounts.first,
+                  false,
                   true,
                   currency,
                 );
+              } else {
+                return;
               }
             }
-          },
-          amount: '',
-          description: '',
-          name: intl.bank_transfer_to_myself,
-          helper: simpleBankingShowState != SimpleAccountStatus.allowed
-              ? intl.bank_transfer_coming_soon
-              : simpleAccounts == null
-                  ? intl.bank_transfer_coming_soon
-                  : simpleAccounts.status == AccountStatus.active
-                      ? ''
-                      : intl.bank_transfer_coming_soon,
-        ),
-      if (allowBanking)
-        SCardRow(
-          icon: Assets.svg.medium.userSend.simpleSvg(color: SColorsLight().blue),
-          onTap: () {
-            if (bankingShowState == BankingClientStatus.allowed) {
+          } else if (bankingShowState == BankingClientStatus.bankingKycRequired) {
+            if (simpleAccounts?.status == AccountStatus.inCreation) {
+              return;
+            } else {
               Navigator.pop(context);
-
-              if (accounts.isEmpty) {
-                context.pushRoute(const GetPersonalIbanRouter());
-                return;
-              } else {
-                if (activeAccounts.isNotEmpty) {
-                  showBankTransforSelect(
-                    context,
-                    activeAccounts.first,
-                    false,
-                    true,
-                    currency,
-                  );
-                } else {
-                  return;
-                }
-              }
-            } else if (bankingShowState == BankingClientStatus.bankingKycRequired) {
               context.pushRoute(const GetPersonalIbanRouter());
             }
-          },
-          amount: '',
-          description: '',
-          name: intl.bank_transfer_to_another_person,
-          helper: bankingShowState != BankingClientStatus.allowed
-              ? intl.bank_transfer_coming_soon
-              : activeAccounts.isEmpty
-                  ? intl.bank_transfer_coming_soon
-                  : '',
-        ),
+          }
+        },
+        amount: '',
+        description: '',
+        name: intl.bank_transfer_to_another_person,
+        helper: allowBanking
+            ? (bankingShowState != BankingClientStatus.allowed &&
+                    bankingShowState != BankingClientStatus.bankingKycRequired)
+                ? intl.bank_transfer_coming_soon
+                : ''
+            : intl.bank_transfer_coming_soon,
+      ),
       const SpaceH42(),
     ],
   );

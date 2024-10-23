@@ -260,7 +260,7 @@
         "description": "Верификация адреса",
         "type": "text"
     },
-    "kycAlertHandler_proofSourceOfFunds": "Підтвердження джерела фінансування",
+    "kycAlertHandler_proofSourceOfFunds": "Надайте джерело коштів",
     "@kycAlertHandler_proofSourceOfFunds": {
         "description": "Подтверждение источника финансирования",
         "type": "text"
@@ -405,7 +405,7 @@
         "description": "Не получилось",
         "type": "text"
     },
-    "mailingCheckbox_wantSubscibe": "Я хочу підписатися на розсилку маркетингових повідомлень про нові продукти, послуги та можливості компанії Simple",
+    "mailingCheckbox_wantSubscibe": "Я хочу отримувати маркетингові оновлення про нові продукти, послуги та функції Simple",
     "@mailingCheckbox_wantSubscibe": {
         "description": "Я хочу подписаться на рассылку маркетинговых сообщений о новых продуктах, услугах и возможностях компании Simple",
         "type": "text"
@@ -455,7 +455,7 @@
         "description": "Предоставить доверенность",
         "type": "text"
     },
-    "apiSelector_justSkip": "Просто пропустіть поле вище, якщо воно вам не потрібне",
+    "apiSelector_justSkip": "Пропустіть це поле, якщо воно непотрібне",
     "@apiSelector_justSkip": {
         "description": "Просто пропустите поле выше, если оно вам не нужно",
         "type": "text"
@@ -560,7 +560,7 @@
         "description": "Вы можете отправить повторно через",
         "type": "text"
     },
-    "withdrawalConfirm_text": "запит, перейшовши за посиланням в електронному листі, який ми надіслали на адресу",
+    "withdrawalConfirm_text": "Щоб завершити запит, відкрийте посилання в електронному листі, який ми надіслали на",
     "@withdrawalConfirm_text": {
         "description": "запрос, перейдя по ссылке в электронном письме, которое мы прислали на адрес",
         "type": "text"
@@ -851,7 +851,7 @@
         "description": "Начать зарабатывать",
         "type": "text"
     },
-    "showStartEarnOptions_buyAnyCryptoAvailableOnThePlatform": "Купуйте будь-яку криптовалюту, доступну на платформі",
+    "showStartEarnOptions_buyAnyCryptoAvailableOnThePlatform": "Купуйте будь-яку криптовалюту, запропоновану на платформі",
     "@showStartEarnOptions_buyAnyCryptoAvailableOnThePlatform": {
         "description": "Покупайте любую криптовалюту, доступную на платформе",
         "type": "text"
@@ -1323,7 +1323,7 @@
         "description": "Загрузить фотографию",
         "type": "text"
     },
-    "cardVerification_verifyingNow": "Зараз ми перевіряємо",
+    "cardVerification_verifyingNow": "Процес верифікації",
     "@cardVerification_verifyingNow": {
         "description": "Сейчас мы проверяем",
         "type": "text"
@@ -1333,7 +1333,7 @@
         "description": "Отзыв не прошел проверку",
         "type": "text"
     },
-    "cardVerification_reviewFailedDescription": "Завантажене вами фото не відповідає критеріям. Будь ласка, спробуйте підтвердити картку ще раз",
+    "cardVerification_reviewFailedDescription": "Завантажене вами фото не відповідає зазначеним критеріям. Спробуйте ще раз верифікувати вашу карту",
     "@cardVerification_reviewFailedDescription": {
         "description": "Загруженное вами фото не соответствует критериям. Попробуйте подтвердить карту еще раз",
         "type": "text"
@@ -1373,12 +1373,12 @@
         "description": "Процесс верификации обычно занимает не более 15 минут",
         "type": "text"
     },
-    "showNoResponseScreen_text": "Немає відповіді від сервера",
+    "showNoResponseScreen_text": "Сервер не відповідає",
     "@showNoResponseScreen_text": {
         "description": "Нет ответа от сервера",
         "type": "text"
     },
-    "showNoResponseScreen_text2": "Не вдалося розмістити замовлення",
+    "showNoResponseScreen_text2": "Сервер не відповідає",
     "@showNoResponseScreen_text2": {
         "description": "Не удалось разместить заказ",
         "type": "text"
@@ -1474,12 +1474,12 @@
         "description": "Подтвердить",
         "type": "text"
     },
-    "expansionPanelWithoutIcon_text1": "Усі значення радіоідентифікаторів панелей розширення мають бути унікальними.",
+    "expansionPanelWithoutIcon_text1": "Значення ідентифікатора радіо панелі розширення повинні бути унікальними.",
     "@expansionPanelWithoutIcon_text1": {
         "description": "Все значения радиоидентификаторов панелей расширения должны быть уникальными.",
         "type": "text"
     },
-    "expansionPanelWithoutIcon_text2": "Невірне значення для параметра висоти. Можливі значення параметра kElevationToShadow дивіться у константі kElevationToShadow.",
+    "expansionPanelWithoutIcon_text2": "Недійсне значення для висоти. Дивіться константу kElevationToShadow для допустимих значень.",
     "@expansionPanelWithoutIcon_text2": {
         "description": "Неверное значение для параметра высоты. Возможные значения параметра kElevationToShadow смотрите в константе kElevationToShadow.",
         "type": "text"
@@ -1519,7 +1519,7 @@
         "description": "Убедитесь, что сеть, которую вы выбрали для пополнения счета, совпадает с сетью для вывода средств",
         "type": "text"
     },
-    "showDepositDisclaimer_primatyText": "на цю депозитну адресу. Отримання будь-якої іншої монети або токена на цю адресу може призвести до втрати суми переказу.",
+    "showDepositDisclaimer_primatyText": "на цю адресу депозиту. Надсилання будь-якої іншої монети або токена може призвести до втрати ваших коштів",
     "@showDepositDisclaimer_primatyText": {
         "description": "на этот депозитный адрес. Получение любой другой монеты или токена на этот адрес может привести к потере суммы перевода.",
         "type": "text"
@@ -1685,7 +1685,7 @@
         "description": "Пожалуйста, проверьте правильность адреса. Обратите внимание, что мы не несем ответственности за активы, ошибочно отправленные на неправильный адрес",
         "type": "text"
     },
-    "withdrawHint_text2": "Замість того, щоб вводити адресу та тег, ми рекомендуємо вставити адресу або відсканувати QR-код",
+    "withdrawHint_text2": "Ми рекомендуємо вставити адресу або відсканувати QR-код, а не вводити адресу та тег вручну.",
     "@withdrawHint_text2": {
         "description": "Вместо того, чтобы вводить адрес и тег, мы рекомендуем вставить адрес или отсканировать QR-код",
         "type": "text"
@@ -1740,7 +1740,7 @@
         "description": "Верификация адреса",
         "type": "text"
     },
-    "kycOperationStatus_proofSourceOfFunds": "Підтвердження джерела фінансування",
+    "kycOperationStatus_proofSourceOfFunds": "Підтвердження походження коштів",
     "@kycOperationStatus_proofSourceOfFunds": {
         "description": "Подтверждение источника финансирования",
         "type": "text"
@@ -1781,7 +1781,7 @@
         "description": "Финансовый документ",
         "type": "text"
     },
-    "uploadKycDocuments_frontSide": "Передня сторона",
+    "uploadKycDocuments_frontSide": "Лицьова сторона",
     "@uploadKycDocuments_frontSide": {
         "description": "Передняя сторона",
         "type": "text"
@@ -1806,7 +1806,7 @@
         "description": "Когда появится соответствующий запрос, включите доступ к камере, чтобы продолжить",
         "type": "text"
     },
-    "allowCamera_headerTitle1": "Дайте дозвіл на використання камери",
+    "allowCamera_headerTitle1": "Будь ласка, надайте дозвіл на використання камери",
     "@allowCamera_headerTitle1": {
         "description": "Дайте разрешение на использование камеры",
         "type": "text"
@@ -1816,7 +1816,7 @@
         "description": "Разрешить доступ к камере",
         "type": "text"
     },
-    "allowBiometric_headerTitle1": "Дайте дозвіл на використання біометрії",
+    "allowBiometric_headerTitle1": "Будь ласка, найте дозвіл на використання біометрії",
     "@allowBiometric_headerTitle1": {
         "description": "Дайте разрешение на использование биометрии",
         "type": "text"
@@ -2036,7 +2036,7 @@
         "description": "Покупайте криптовалюту за наличные",
         "type": "text"
     },
-    "smsAuth_headerTitle": "SMS-автентифікатор",
+    "smsAuth_headerTitle": "Аутентифікація SMS",
     "@smsAuth_headerTitle": {
         "description": "SMS-аутентификатор",
         "type": "text"
@@ -2401,7 +2401,7 @@
         "description": "Подтвердить",
         "type": "text"
     },
-    "preview_return_to_wallet_error": "Виникла якась помилка.",
+    "preview_return_to_wallet_error": "Вибачте, щось пішло не так",
     "@preview_return_to_wallet_error": {
         "description": "Возникла какая-то ошибка.",
         "type": "text"
@@ -2451,7 +2451,7 @@
         "description": "Обязательно:",
         "type": "text"
     },
-    "deleteProfileConditions_conditions": "Я підтверджую, що виконав усі кроки і хочу видалити свій профіль.",
+    "deleteProfileConditions_conditions": "Я підтверджую, що виконав усі кроки й хочу видалити свій профіль.",
     "@deleteProfileConditions_conditions": {
         "description": "Я подтверждаю, что выполнил все шаги и хочу удалить свой профиль.",
         "type": "text"
@@ -2461,7 +2461,7 @@
         "description": "Удалить профиль и выйти из системы",
         "type": "text"
     },
-    "deleteProfileConditions_menuOneTitle": "Виведіть або надішліть усі свої кошти",
+    "deleteProfileConditions_menuOneTitle": "Виведіть або перекажіть усі свої кошти",
     "@deleteProfileConditions_menuOneTitle": {
         "description": "Выведите или отправьте все свои средства",
         "type": "text"
@@ -2481,12 +2481,12 @@
         "description": "Я подтверждаю, что выполнил все шаги и хочу удалить свой профиль.",
         "type": "text"
     },
-    "deleteProfileReasons_header": "Чому ви\nвидалили свій профіль?",
+    "deleteProfileReasons_header": "Чому ви видалили свій профіль?",
     "@deleteProfileReasons_header": {
         "description": "Почему вы\nудалили свой профиль?",
         "type": "text"
     },
-    "deleteProfileReasons_subText": "Повідомте нам, що змусило вас видалити свій профіль. Виберіть все, що стосується:",
+    "deleteProfileReasons_subText": "Будь ласка, повідомте нам, що змусило вас видалити свій профіль. Виберіть усе, що стосується:",
     "@deleteProfileReasons_subText": {
         "description": "Сообщите нам, что заставило вас удалить свой профиль. Выберите все, что касается:",
         "type": "text"
@@ -2556,7 +2556,7 @@
         "description": "Карта не сработала",
         "type": "text"
     },
-    "previewBuyWithCircle_failureDescription": "Ми не змогли обробити платіж з цієї картки. Будь ласка, повторіть спробу з іншою карткою або зверніться до свого банку, щоб вирішити цю проблему.",
+    "previewBuyWithCircle_failureDescription": "Ми не змогли обробити платіж з цієї картки. Будь ласка, повторіть спробу з іншою карткою або зверніться до свого банку.",
     "@previewBuyWithCircle_failureDescription": {
         "description": "Мы не смогли обработать платеж с этой карты. Пожалуйста, повторите попытку с другой картой или обратитесь в свой банк, чтобы решить эту проблему.",
         "type": "text"
@@ -2571,7 +2571,7 @@
         "description": "Пожалуйста, подождите",
         "type": "text"
     },
-    "paymentMethod_CardIsProcessing": "Картка обробляється...",
+    "paymentMethod_CardIsProcessing": "Обробка картки…",
     "@paymentMethod_CardIsProcessing": {
         "description": "Карточка обрабатывается...",
         "type": "text"
@@ -2729,7 +2729,7 @@
         "description": "Страна",
         "type": "text"
     },
-    "user_data_bottom_sheet_country": "Ця країна недоступна",
+    "user_data_bottom_sheet_country": "Ця функція недоступна в цій країні",
     "@user_data_bottom_sheet_country": {
         "description": "Эта страна недоступна",
         "type": "text"
@@ -2814,22 +2814,22 @@
         "description": "Ценность для инвесторов",
         "type": "text"
     },
-    "cpower_market_value_text_1": "Однією з головних переваг токена CPower є те, що його ціна базується на зростаючому бізнесі, а не на чистій спекуляції, як у більшості інших токенів. Це дає серйозні переваги для інвесторів:",
+    "cpower_market_value_text_1": "Ключова перевага токена CPower полягає в тому, що його вартість пов’язана з процвітаючим бізнесом, а не виключно зі спекуляціями, як у більшості токенів. Це надає значні переваги для інвесторів.",
     "@cpower_market_value_text_1": {
         "description": "Одним из главных преимуществ токена CPower является то, что его цена базируется на растущем бизнесе, а не на чистой спекуляции, как у большинства других токенов. Это дает серьезные преимущества для инвесторов:",
         "type": "text"
     },
-    "cpower_market_value_text_2": "Існує справедлива ціна, яка визначається реальними бізнес-показниками.",
+    "cpower_market_value_text_2": "Справедлива ціна визначається за допомогою реальних бізнес-метрик.",
     "@cpower_market_value_text_2": {
         "description": "Существует справедливая цена, которая определяется реальными бизнес-показателями.",
         "type": "text"
     },
-    "cpower_market_value_text_3": "Ціна захищена торговою системою (неможливий \"ціновий демпінг\").",
+    "cpower_market_value_text_3": "Ціна захищена торговою системою (неможливі “зниження ціни”).",
     "@cpower_market_value_text_3": {
         "description": "Цена защищена торговой системой (невозможен \"ценовой демпинг\").",
         "type": "text"
     },
-    "cpower_market_value_text_4": "Ціна прив'язана до обсягу торгів NFT (постійне зростання).",
+    "cpower_market_value_text_4": "Ціна прив’язана до обсягу торгів NFT (постійне зростання).",
     "@cpower_market_value_text_4": {
         "description": "Цена привязана к объему торгов NFT (постоянный рост).",
         "type": "text"
@@ -2959,7 +2959,7 @@
         "description": "Отправить",
         "type": "text"
     },
-    "sPaymentSelectEmpty_somethingWentWrong": "Щось пішло не так",
+    "sPaymentSelectEmpty_somethingWentWrong": "Ой, щось пішло не так",
     "@sPaymentSelectEmpty_somethingWentWrong": {
         "description": "Что-то пошло не так",
         "type": "text"
@@ -2974,7 +2974,7 @@
         "description": "Активы",
         "type": "text"
     },
-    "actionBuy_alertPopupSecond": "Ви можете здійснити лише одну транзакцію на суму до $700 (або еквівалент цієї суми в іншій фіатній валюті). Щоб зняти або додати більше коштів, потрібно пройти процедуру KYC.",
+    "actionBuy_alertPopupSecond": "Ви можете здійснити лише одну транзакцію на суму до $700 (або еквівалент цієї суми в іншій фіатній валюті). Подальші зняття коштів або депозити вимагатимуть проходження KYC.",
     "@actionBuy_alertPopupSecond": {
         "description": "Вы можете осуществить только одну транзакцию на сумму до $700 (или эквивалент этой суммы в другой фиатной валюте). Чтобы снять или добавить больше средств, нужно пройти процедуру KYC.",
         "type": "text"
@@ -3019,7 +3019,7 @@
         "description": "Итог заказа",
         "type": "text"
     },
-    "previewBuyWithUnlimint_feeNewDescription": "Ця комісія стягується компанією Simple для покриття послуг наших партнерів по обробці даних",
+    "previewBuyWithUnlimint_feeNewDescription": "Simple стягує цю комісію для покриття витрат, пов’язаних з послугами наших партнерів з обробки платежів",
     "@previewBuyWithUnlimint_feeNewDescription": {
         "description": "Эта комиссия взимается компанией Simple для покрытия услуг наших партнеров по обработке данных",
         "type": "text"
@@ -3049,7 +3049,7 @@
         "description": "Пожалуйста, попробуйте еще раз.",
         "type": "text"
     },
-    "open_in_explorer": "Відкрийте в браузері",
+    "open_in_explorer": "Відкрити в браузері",
     "@open_in_explorer": {
         "description": "Откройте в браузере",
         "type": "text"
@@ -3070,7 +3070,7 @@
         "description": "на этот депозитный адрес.",
         "type": "text"
     },
-    "showDepositDisclaimer_primatyTextSecond": "Отримання будь-якої іншої монети або токена на цю адресу може призвести до втрати суми переказу.",
+    "showDepositDisclaimer_primatyTextSecond": "Надсилання будь-якої іншої монети або токена на цю адресу може призвести до втрати надісланих коштів",
     "@showDepositDisclaimer_primatyTextSecond": {
         "description": "Получение любой другой монеты или токена на этот адрес может привести к потере суммы перевода.",
         "type": "text"
@@ -3146,7 +3146,7 @@
         "description": "Скопировано в буфер обмена",
         "type": "text"
     },
-    "depositInfoTag_text": "Для отримання ",
+    "depositInfoTag_text": "Щоб отримати XRP на свій гаманець Simple, необхідно вказати і Тег, і Адресу",
     "@depositInfoTag_text": {
         "description": "Для получения␣",
         "type": "text"
@@ -3156,12 +3156,12 @@
         "description": "Новый",
         "type": "text"
     },
-    "depositInfoTag_text1": "Для отримання",
+    "depositInfoTag_text1": "Щоб отримати XRP на свій гаманець Simple",
     "@depositInfoTag_text1": {
         "description": "Для получения",
         "type": "text"
     },
-    "depositInfoTag_text2": "на ваш гаманець Simple необхідні адреса і тег",
+    "depositInfoTag_text2": "вам необхідно вказати і тег й адресу",
     "@depositInfoTag_text2": {
         "description": "на ваш кошелек Simple необходимые адрес и тег",
         "type": "text"
@@ -3233,7 +3233,7 @@
         "description": "Адрес",
         "type": "text"
     },
-    "iban_address_description": "Щоб отримати обліковий запис, будь ласка, вкажіть свою адресу",
+    "iban_address_description": "Щоб створити ваш акаунт, будь ласка, надайте свою адресу",
     "@iban_address_description": {
         "description": "Чтобы получить учетную запись, пожалуйста, укажите свой адрес",
         "type": "text"
@@ -3283,7 +3283,7 @@
         "description": "Подтвердить выход",
         "type": "text"
     },
-    "forgot_pass_confirm_logout_desc": "Для того, щоб продовжити скидання PIN-коду, вам необхідно вийти з додатку Simple",
+    "forgot_pass_confirm_logout_desc": "Щоб скинути PIN, будь ласка, вийдіть з програми Simple",
     "@forgot_pass_confirm_logout_desc": {
         "description": "Для того, чтобы продолжить сброс PIN-кода, вам необходимо выйти из приложения Simple",
         "type": "text"
@@ -3353,12 +3353,12 @@
         "description": "Пожалуйста, продолжайте проверку с любым из приведенных ниже документов.",
         "type": "text"
     },
-    "kycChooseDocuments_willBeNotified": "Ви отримаєте повідомлення після того, як ми завершимо процес. Зазвичай протягом декількох хвилин.",
+    "kycChooseDocuments_willBeNotified": "Ви отримаєте повідомлення після завершення процесу, зазвичай протягом кількох хвилин.",
     "@kycChooseDocuments_willBeNotified": {
         "description": "Вы получите уведомление после того, как мы завершим процесс. Обычно в течение нескольких минут.",
         "type": "text"
     },
-    "kycChooseDocuments_verifyingNow": "Зараз ми перевіряємо",
+    "kycChooseDocuments_verifyingNow": "Процес верифікації",
     "@kycChooseDocuments_verifyingNow": {
         "description": "Сейчас мы проверяем",
         "type": "text"
@@ -3373,7 +3373,7 @@
         "description": "Ваше полное имя, фотографию, дату рождения, срок действия и номер документа.",
         "type": "text"
     },
-    "favorites": "Вибране",
+    "favorites": "Обране",
     "@favorites": {
         "description": "Избранное",
         "type": "text"
@@ -3463,7 +3463,7 @@
         "description": "Сохранить изменения",
         "type": "text"
     },
-    "iban_edit_save_noty": "Оновлено реквізити рахунку",
+    "iban_edit_save_noty": "Дані акаунта були оновлені",
     "@iban_edit_save_noty": {
         "description": "Обновлены реквизиты счета",
         "type": "text"
@@ -3483,7 +3483,7 @@
         "description": "Удалить",
         "type": "text"
     },
-    "iban_edit_delete_noty": "Реквізити рахунку було видалено",
+    "iban_edit_delete_noty": "Дані акаунта були видалені",
     "@iban_edit_delete_noty": {
         "description": "Реквизиты счета были удалены",
         "type": "text"
@@ -3525,7 +3525,7 @@
         "description": "На банковскую карту или телефон",
         "type": "text"
     },
-    "send_globally_cond_text_1": "1. Я підтверджую, що наведена вище інформація є точною та повною.",
+    "send_globally_cond_text_1": "1. Я підтверджую, що наведена вище інформація є точною та повною\\n",
     "@send_globally_cond_text_1": {
         "description": "1. Я подтверждаю, что приведенная выше информация является точной и полной.",
         "type": "text"
@@ -3535,7 +3535,7 @@
         "description": "Лимит превышен, пожалуйста, попробуйте позже",
         "type": "text"
     },
-    "global_send_title": "Реквізити отримувача",
+    "global_send_title": "Дані одержувача",
     "@global_send_title": {
         "description": "Реквизиты получателя",
         "type": "text"
@@ -3560,7 +3560,7 @@
         "description": "Страна назначения",
         "type": "text"
     },
-    "input_error_insufficient_balance": "Недостатній доступний баланс",
+    "input_error_insufficient_balance": "Недостатньо коштів",
     "@input_error_insufficient_balance": {
         "description": "Недостаточный доступный баланс",
         "type": "text"
@@ -3706,7 +3706,7 @@
         "description": "Лимиты на отправку",
         "type": "text"
     },
-    "iban_terms_3": "Кошти повинні надходити з рахунку на ваше ім'я. Гроші, надіслані з інших рахунків, будуть повернуті, але може стягуватися додаткова комісія.",
+    "iban_terms_3": "Будь ласка, переказуйте кошти лише з рахунку, зареєстрованого на ваше ім’я. Гроші з інших рахунків будуть повернуті, і можуть стягуватися додаткові збори.",
     "@iban_terms_3": {
         "description": "Средства должны поступать со счета на ваше имя. Деньги, отправленные с других счетов, будут возвращены, но может взиматься дополнительная комиссия.",
         "type": "text"
@@ -3873,7 +3873,7 @@
     },
     "buy_confirmation_privacy_checkbox_2": "Положення та Умови",
     "buy_confirmation_privacy_checkbox_3": "Політика конфіденційності",
-    "buy_confirmation_local_p2p_processing_text": "Зараз ми обробляємо вашу покупку. Після успішного завершення придбана криптовалюта буде зарахована на рахунок вашого додатку Simple.",
+    "buy_confirmation_local_p2p_processing_text": "Ваша покупка зараз у процесі. Після завершення криптовалюта буде зарахована на ваш додаток Simple.",
     "@buy_confirmation_local_p2p_processing_text": {
         "description": "Сейчас мы обрабатываем вашу покупку. После успешного завершения приобретенная криптовалюта будет зачислена на счет вашего приложения Simple.",
         "type": "text"
@@ -3893,7 +3893,7 @@
         "description": "Купить криптовалюту",
         "type": "text"
     },
-    "join_the_waitlist": "Стати в чергу",
+    "join_the_waitlist": "Приєднатись до списку очікування",
     "@join_the_waitlist": {
         "description": "Встать в очередь",
         "type": "text"
@@ -3944,7 +3944,7 @@
         "description": "Адрес электронной почты",
         "type": "text"
     },
-    "send_gift_policy": "1. Я усвідомлюю, що цей подарунок буде надіслано в додаток Simple одержувача. \n\n2. Я усвідомлюю, що після того, як одержувач отримає подарунок, Simple може бути не в змозі допомогти мені отримати мій подарунок назад.",
+    "send_gift_policy": "1. Я усвідомлюю, що цей подарунок буде надіслано до додатка Simple одержувача.\\n\\n 2. Я усвідомлюю, що після того, як одержувач отримає подарунок, Simple не зможе допомогти повернути його.",
     "@send_gift_policy": {
         "description": "1. Я осознаю, что этот подарок будет отправлен в приложение Simple получателя. \n\n2. Я осознаю, что после того, как получатель получит подарок, Simple может быть не в состоянии помочь мне получить мой подарок обратно.",
         "type": "text"
@@ -3969,7 +3969,7 @@
         "description": "Вы отправили",
         "type": "text"
     },
-    "send_gift_success_message_2": "Ви можете скасувати відправку подарунка в історії транзакції\nдо того, як одержувач підтвердить його отримання.",
+    "send_gift_success_message_2": "Ви можете скасувати транзакцію в деталях, поки одержувач не отримає подарунок.",
     "@send_gift_success_message_2": {
         "description": "Вы можете отменить отправку подарка в истории транзакции\nдо того, как получатель подтвердит его получение.",
         "type": "text"
@@ -4010,12 +4010,12 @@
         "description": "и получи свой подарок!",
         "type": "text"
     },
-    "send_gift_share_text_email_part": "пройди реєстрацію за допомогою електронної пошти",
+    "send_gift_share_text_email_part": "зареєструватися за допомогою електронної пошти",
     "@send_gift_share_text_email_part": {
         "description": "пройди регистрацию с помощью электронной почты",
         "type": "text"
     },
-    "send_gift_share_text_phone_part": "пройди реєстрацію за номером телефону",
+    "send_gift_share_text_phone_part": "зареєструватися за допомогою мобільного номера",
     "@send_gift_share_text_phone_part": {
         "description": "пройди регистрацию по номеру телефона",
         "type": "text"
@@ -4225,7 +4225,7 @@
         "description": "Вы приглашены!",
         "type": "text"
     },
-    "reward_share_main_text": "Отримайте до 100 EUR у крипті:\n1. Зареєструйтесь у Simple App за моїм запрошенням\n2. Купіть крипту карткою на €350+\n3. Отримайте винагороду!\nДіють умови та положення",
+    "reward_share_main_text": "Отримайте до 100 євро у криптовалюті:\\n1. Зареєструйтесь у Simple за моїм запрошенням\\n2. Купіть криптовалюту на суму €350+ за допомогою картки\\n3. Отримайте свою винагороду!\\nЗастосовуються умови",
     "@reward_share_main_text": {
         "description": "Получите до EUR 100 в криптовалюте:\n1. Зарегистрируйтесь в приложении Simple по моей ссылке-приглашению.\n2. Приобретите криптовалюту на сумму от EUR 350 и более.\n3. Получите вознаграждение!\nДействуют условия и положения",
         "type": "text"
@@ -4430,7 +4430,7 @@
         "description": "Кошелек",
         "type": "text"
     },
-    "create_personal_account": "Будь ласка, пройдіть верифікацію на стороні нашого партнера",
+    "create_personal_account": "Будь ласка, завершіть верифікацію на стороні нашого партнера",
     "@create_personal_account": {
         "description": "Пожалуйста, пройдите верификацию на стороне нашего партнера",
         "type": "text"
@@ -4450,12 +4450,12 @@
         "description": "Комиссия за обработку",
         "type": "text"
     },
-    "buy_confirmation_processing_fee_description": "Цей вид комісії стягується компанією Simple за проведення поточної транзакції",
+    "buy_confirmation_processing_fee_description": "Simple стягує цю комісію за обробку цієї транзакції",
     "@buy_confirmation_processing_fee_description": {
         "description": "Этот вид комиссии взимается компанией Simple за проведение текущей транзакции",
         "type": "text"
     },
-    "buy_confirmation_payment_fee_description": "Цей вид комісії стягується компанією Simple щоб покрити послуги платіжних партнерів",
+    "buy_confirmation_payment_fee_description": "Simple стягує цю комісію для покриття витрат, пов’язаних з нашими платіжними партнерами",
     "@buy_confirmation_payment_fee_description": {
         "description": "Этот вид комиссии взимается компанией Simple чтобы покрыть услуги платежных партнеров",
         "type": "text"
@@ -4510,12 +4510,12 @@
         "description": "Создается Simple аккаунт...",
         "type": "text"
     },
-    "binding_phone_dialog_first_part": "Для продовження покупки підтвердіть відправку коштів на суму",
+    "binding_phone_dialog_first_part": "Щоб продовжити покупку, підтвердіть відправку коштів на суму",
     "@binding_phone_dialog_first_part": {
         "description": "Для продолжения покупки подтвердите отправку средств на сумму",
         "type": "text"
     },
-    "binding_phone_dialog_second_part": "з вашого банківського рахунку в Unlimit на банківський рахунок на ім'я",
+    "binding_phone_dialog_second_part": "з вашого банківського рахунку в Unlimit на банківський рахунок на ім’я",
     "@binding_phone_dialog_second_part": {
         "description": "с вашего банковского счета в Unlimit на банковский счет на имя",
         "type": "text"
@@ -4540,7 +4540,7 @@
         "description": "Купить",
         "type": "text"
     },
-    "cvv_description": "Зазвичай CVV знаходиться на звороті картки",
+    "cvv_description": "CVV зазвичай знаходиться на зворотному боці вашої картки",
     "@cvv_description": {
         "description": "Обычно CVV находится на обратной стороне карты",
         "type": "text"
@@ -4565,7 +4565,7 @@
         "description": "Выведено",
         "type": "text"
     },
-    "iban_terms_5": "Ви можете отримувати кошти від будь-кого",
+    "iban_terms_5": "Кошти можуть бути отримані від будь-кого",
     "@iban_terms_5": {
         "description": "Вы можете получать средства от кого угодно",
         "type": "text"
@@ -4580,7 +4580,7 @@
         "description": "Чтобы завершить снятие",
         "type": "text"
     },
-    "binding_phone_dialog_second_part_2": "підтвердіть операцію SMS кодом",
+    "binding_phone_dialog_second_part_2": "підтвердіть за допомогою коду, надісланого на ваш телефон",
     "@binding_phone_dialog_second_part_2": {
         "description": "подтвердите операцию SMS кодом",
         "type": "text"
@@ -4620,7 +4620,7 @@
         "description": "Конвертировать",
         "type": "text"
     },
-    "bankAccountsSelectPopup": "Будь ласка, зверніть увагу, що ви можете відправляти тільки на свої особисті банківські рахунки",
+    "bankAccountsSelectPopup": "Пам’ятайте, що ви можете надсилати кошти лише на ваші особисті банківські рахунки",
     "@bankAccountsSelectPopup": {
         "description": "Пожалуйста, обратите внимание, что вы можете отправлять только на свои личные банковские счета",
         "type": "text"
@@ -4716,7 +4716,7 @@
         "description": "Полное имя",
         "type": "text"
     },
-    "address_book_country_of_recepients_bank": "Країна банку отримувача",
+    "address_book_country_of_recepients_bank": "Країна банку одержувача",
     "@address_book_country_of_recepients_bank": {
         "description": "Страна банка получателя",
         "type": "text"
@@ -4731,7 +4731,7 @@
         "description": "Сделать быстрое селфи",
         "type": "text"
     },
-    "face_check_subtitle": "Ми будемо використовувати його для безпечної автентифікації для входу в ваш Simple App. Будь ласка, знайдіть хороше освітлення і переконайтеся, що ніщо не закриває ваше обличчя",
+    "face_check_subtitle": "Ми використовуємо це для безпечної перевірки вашого входу до додатка Simple. Переконайтеся, що освітлення хороше і ваше обличчя повністю видно.",
     "@face_check_subtitle": {
         "description": "Мы будем использовать его для безопасной аутентификации для входа в ваш Simple App. Пожалуйста, найдите хорошее освещение и убедитесь, что ничто не закрывает ваше лицо",
         "type": "text"
@@ -4776,7 +4776,7 @@
         "description": "Скоро",
         "type": "text"
     },
-    "simple_card_password_description": "Будь ласка, встановіть статичний пароль для покупок в інтернеті. Пізніше ви зможете змінити його в налаштуваннях картки.",
+    "simple_card_password_description": "Будь ласка, встановіть статичний пароль для онлайн-покупок. Ви завжди можете змінити його в налаштуваннях картки.",
     "@simple_card_password_description": {
         "description": "Пожалуйста, установите статический пароль для покупок в интернете. Позже вы сможете изменить его в настройках карты.",
         "type": "text"
@@ -4907,7 +4907,7 @@
         "description": "Заморозить эту карту?",
         "type": "text"
     },
-    "simple_card_froze_description": "Після того, як картку буде заблоковано, всі зняття коштів з неї будуть відхилені. Ви завжди можете розморозити картку пізніше.",
+    "simple_card_froze_description": "Після того, як картку буде заблоковано, всі зняття коштів з неї будуть відхилені. Ви можете розблокувати картку в будь-який час.",
     "@simple_card_froze_description": {
         "description": "После того, как карта будет заблокирована, все снятия средств с нее будут отклонены. Вы всегда можете разморозить карту позже.",
         "type": "text"
@@ -4922,7 +4922,7 @@
         "description": "Отменить",
         "type": "text"
     },
-    "simple_card_froze_alert": "Усі транзакції за карткою будуть відхилені, доки картку не буде розморожено",
+    "simple_card_froze_alert": "Усі транзакції за карткою будуть відхилені, доки картку не буде розблоковано",
     "@simple_card_froze_alert": {
         "description": "Все транзакции по карте будут отклонены, пока карта не будет разморожена",
         "type": "text"
@@ -4952,12 +4952,12 @@
         "description": "Минимум 8 символов",
         "type": "text"
     },
-    "simple_card_pin_was_send": "PIN-код було надіслано в SMS",
+    "simple_card_pin_was_send": "PIN-код надіслано на ваш телефон",
     "@simple_card_pin_was_send": {
         "description": "PIN-код был отправлен в SMS",
         "type": "text"
     },
-    "simple_card_account_verification": "Будь ласка, пройдіть верифікацію рахунку у нашого партнера-емітента картки",
+    "simple_card_account_verification": "Будь ласка, завершіть процес верифікації акаунта з нашим емітентом карток",
     "@simple_card_account_verification": {
         "description": "Пожалуйста, пройдите верификацию счета у нашего партнера-эмитента карты",
         "type": "text"
@@ -5002,7 +5002,7 @@
         "description": "С карты",
         "type": "text"
     },
-    "card_history_purchase_progress": "Буде автоматично повернуто через 30 днів після покупки, якщо не буде затребувано продавцем",
+    "card_history_purchase_progress": "Буде автоматично скасовано через 30 днів, якщо продавець не підтвердить транзакцію",
     "@card_history_purchase_progress": {
         "description": "Будет автоматически возвращено через 30 дней после покупки, если не будет востребовано продавцом",
         "type": "text"
@@ -5032,18 +5032,18 @@
         "description": "Сумма",
         "type": "text"
     },
-    "tost_convert_message_1": "Ваш криптовалютний баланс нульовий. Будь ласка, спочатку отримайте криптовалюту",
+    "tost_convert_message_1": "Ваш баланс криптовалюти порожній. Будь ласка, купіть криптовалюту, щоб почати.",
     "@tost_convert_message_1": {
         "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/hEGTlDfYQRxlBf8u4Dp2He90.png",
         "type": "text"
     },
-    "tost_sell_message_1": "Спочатку потрібно створити обліковий запис в EUR та отримати криптовалюту",
+    "tost_sell_message_1": "Вам потрібно відкрити рахунок в EUR і купити криптовалюту, перш ніж продовжити",
     "@tost_sell_message_1": {
         "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/7AEgpkEaez8zbAkLCNwZB4Ba.png",
         "type": "text"
     },
-    "tost_sell_message_2": "Ваш криптовалютний баланс нульовий",
-    "tost_sell_message_3": "Спочатку вам потрібно створити рахунок в євро",
+    "tost_sell_message_2": "Ваш баланс криптовалюти порожній",
+    "tost_sell_message_3": "Спочатку потрібно створити рахунок в EUR",
     "history_for": "Для",
     "@history_for": {
         "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/IT74UwSR6UxkoVHJyiuBaOyr.png",
@@ -5055,18 +5055,18 @@
     "history_sent_gift": "Відправлено подарунок",
     "history_received_gift": "Отримано подарунок",
     "history_sent_globally": "Відправлено глобально",
-    "operation_bloked_text": "Операція не доступна.",
+    "operation_bloked_text": "Сервіс тимчасово недоступний",
     "gift_kyc_alert_description": "Будь ласка, верифікуйте акаунт \n щоб прийняти подарунок",
     "gift_kyc_verify": "Верифікувати",
     "@gift_kyc_verify": {
         "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/xrJDHjAnsCOKazdZd9k6SmO8.jpg",
         "type": "text"
     },
-    "phone_cahange_warning": "Перш ніж продовжити, будь ласка, зверніть увагу, що в цілях безпеки всі операції надсилання та зняття коштів будуть заблоковані на 48 годин після успішного оновлення номера телефону",
+    "phone_cahange_warning": "Перед продовженням, будь ласка, зауважте, що з міркувань безпеки всі операції з відправки та зняття коштів будуть заблоковані на 48 годин після успішного оновлення вашого номера телефону.",
     "reference_character_minimum": "5 символів або більше",
     "gift_receive_history_from": "Від",
     "confirm_with_sms": "Підтвердити через SMS",
-    "buy_confirm_with_unlimit_1_part": "Продовжуючи, ви підтверджуєте відправку коштів у розмірі",
+    "buy_confirm_with_unlimit_1_part": "Продовжуючи, ви погоджуєтеся на відправку зазначеної суми коштів",
     "buy_confirm_with_unlimit_2_part": "з вашого банківського рахунку в Unlimit на банківський рахунок",
     "buy_confirm_with_unlimit_3_part": "на ім'я",
     "iban_deposit_text": "Поповнення через EUR",
@@ -5085,11 +5085,11 @@
     "onboarding_descriction_2": "Спростіть свої криптовалютні транзакції для зручної купівлі та обміну",
     "onboarding_descriction_3": "Швидко та безпечно переказуйте кошти по всьому світу без зайвих зусиль",
     "simple_card_terminate_card": "Закрити картку",
-    "simple_card_terminate_only_available_alert": "Доступно, якщо карта має нульовий баланс",
+    "simple_card_terminate_only_available_alert": "Ця функція доступна тільки за умови, що баланс картки дорівнює нулю",
     "simple_card_terminate_got_it": "Зрозуміло",
     "simple_card_terminate_terminate_card_question": "Закрити картку?",
-    "simple_card_terminate_terminate_warning_1": "Ми закриємо картку",
-    "simple_card_terminate_terminate_warning_2": "негайно. Після закриття всі подальші транзакції будуть відхилені. Скасування закриття картки неможливо.",
+    "simple_card_terminate_terminate_warning_1": "Ми зараз завершимо роботу вашої картки",
+    "simple_card_terminate_terminate_warning_2": "негайно. Після закриття всі майбутні транзакції будуть відхилені. Закриття картки є незворотним.",
     "simple_card_terminate_confirm": "Підтвердити",
     "simple_card_terminate_cancel": "Скасувати",
     "simple_card_terminate_success_1": "Карта",
@@ -5212,7 +5212,7 @@
         "type": "text"
     },
     "transfer_confirmation_time_to_transaction": "SEPA Instant - до 2 год.\nЗвичайний SEPA-переказ - до 3 днів.\nМоже бути стягнена комісія банку-одержувача",
-    "device_binding_required_text": "Щоб підтвердити переказ коштів, будь ласка, верифікуйте платіж через SMS",
+    "device_binding_required_text": "Щоб завершити переказ, підтвердіть оплату через смс-верифікацію",
     "@device_binding_required_text": {
         "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/KAIanxEpZvGFLFhEEYSbYPmm.png",
         "type": "text"
@@ -5247,12 +5247,12 @@
         "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/bjzUPLi4pFW92enMMXK6dJnJ.png",
         "type": "text"
     },
-    "lang_change_alert": "Мова зміниться при наступному запуску!",
+    "lang_change_alert": "Нова мова буде застосована при наступному відкритті додатка",
     "@lang_change_alert": {
         "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/EaVUjqRxOm8B0ox0N9WO0EPe.png",
         "type": "text"
     },
-    "rate_title": "Вам подобається додаток?",
+    "rate_title": "Вам подобається користуватися нашим додатком?",
     "rate_subtitle": "Оцініть наш додаток, будь ласка. Ваш відгук надзвичайно важливий!",
     "rate_submit_button": "Залишити відгук",
     "rate_cancel_button": "Скасувати",
@@ -5361,7 +5361,7 @@
     "invest_report_rollover": "Ролловер",
     "invest_report_journal": "Журнал",
     "invest_report_rollover_rate": "Ставка ролловера",
-    "invest_active_empty_deposit": "Ви ще не маєте інвестицій. Щоб створити інвестицію, поповніть депозит.",
+    "invest_active_empty_deposit": "На даний момент у вас немає активних інвестицій.",
     "invest_deposit": "Депозит",
     "invest_active_empty": "У вас немає активних інвестицій.",
     "invest_new_invest": "Нова інвестиція",
@@ -5370,13 +5370,13 @@
     "invest_closing": "Закриття",
     "invest_delete": "Видалити",
     "invest_period": "Період",
-    "invest_period_description": "Перегляд історії транзакцій доступний тільки за останні 90 днів",
+    "invest_period_description": "Ви можете переглядати історію транзакцій лише за останні 90 днів",
     "invest_period_days": "дні",
     "invest_confirm": "Підтвердити",
     "invest_history_pending": "Історія відкладених позицій",
     "simple_card_is_ready": "Карта Simple готова",
-    "simple_card_password_repeatable_characters": "Не має містити більше 3 повторюваних символів підряд",
-    "simple_card_password_whitespace": "Пробіл не дозволений",
+    "simple_card_password_repeatable_characters": "Не можна використовувати більше 3 однакових символів поспіль",
+    "simple_card_password_whitespace": "Пробіли не дозволений",
     "simple_card_password_repeatable_allowed_symbols": "Дозволені наступні спеціальні символи:",
     "earn_earn": "Дохід",
     "@earn_earn": {
@@ -5455,7 +5455,7 @@
     "earn_withdraw": "Вивести",
     "earn_all_offers": "Усі пропозиції",
     "earn_earns_archive": "Архів вкладень",
-    "earn_you_can_withdraw_deposit_funds_instantly": "Ви можете миттєво вивести депозитні кошти",
+    "earn_you_can_withdraw_deposit_funds_instantly": "Депозитні кошти можна зняти миттєво",
     "earn_deposit": "Депозит",
     "earn_continue": "Продовжити",
     "earn_choose_a_deposit_plan": "Оберіть план депозиту та заробляйте",
@@ -5473,19 +5473,19 @@
     "earn_continue_earning": "Продовжити заробляти",
     "earn_yes_withdraw": "Так, вивести",
     "earn_partial_withdrawal": "Часткове виведення",
-    "earn_the_minimum_amount_of_earn": "Мінімальна сума балансу рахунку Earn не може бути менше ніж",
+    "earn_the_minimum_amount_of_earn": "Баланс рахунку Earn не повинен бути нижче мінімальної суми",
     "earn_full_withdrawal": "Повне виведення",
-    "earn_closing_an_earn_account": "Закриття рахунку Earn з виведенням основної суми та доходу",
+    "earn_closing_an_earn_account": "Закриття рахунку Earn і отримання основної суми разом із заробітком",
     "earn_confirm": "Підтвердити",
     "earn_est": "Прибл.",
     "earn_max": "Макс.",
     "earn_from_earn": "З заробітку",
     "earn_crypto_wallet": "Криптогаманець",
     "earn_order_summary": "Підсумок замовлення",
-    "earn_order_summary_partial_withdrawal_means": "Часткове виведення означає виведення коштів з розрахункової бази. Дохід виплачується при повному закритті рахунку.",
+    "earn_order_summary_partial_withdrawal_means": "Часткове зняття означає зняття коштів з основної суми. Заробіток виплачується лише після повного закриття рахунку.",
     "earn_send": "Відправити",
     "earn_withdraw_successfully": "Запит на повернення коштів прийнято",
-    "earn_full_withdraw": "Ваші кошти та нараховані доходи виплачуються при закритті вашого рахунку Earn.",
+    "earn_full_withdraw": "Ваші кошти та накопичений заробіток будуть виплачені після закриття вашого рахунку Earn",
     "earn_basis_amount": "Основна сума",
     "earn_withdrawal_period": "Період виведення",
     "earn_the_funds_will_be_disbursed": "Кошти будуть перераховані на ваш гаманець {date}. Ви також заробите дохід наступні {days} дн.",
@@ -5501,7 +5501,7 @@
             }
         }
     },
-    "earn_withdrawal_period_explanation_1": "Виведення коштів з вашого плану призведе до закриття відповідного рахунку Earn. Зверніть увагу, що повне переведення коштів разом з заробленим доходом відбудеться через {days} дн. після створення запиту.",
+    "earn_withdrawal_period_explanation_1": "Виведення коштів з вашого плану призведе до закриття рахунку Earn. Загальний переказ коштів і заробітку відбудеться через {days} днів після подання запиту.",
     "@earn_withdrawal_period_explanation_1": {
         "placeholders": {
             "days": {
@@ -5510,7 +5510,7 @@
             }
         }
     },
-    "earn_withdrawal_period_explanation_2": "Важливо зазначити, що до остаточного закриття рахунку дохід продовжуватиме нараховуватися на ваш рахунок Earn.",
+    "earn_withdrawal_period_explanation_2": "До моменту остаточного закриття рахунку Earn, дохід продовжить накопичуватися.",
     "earn_from_crypto_wallet": "З криптогаманця",
     "earn_to_crypto_wallet": "На криптогаманець",
     "earn_to_earn": "Для заробітку",
@@ -5573,7 +5573,7 @@
             }
         }
     },
-    "about_us_earn": "Положення та Умови програми Earn",
+    "about_us_earn": "Умови програми Earn",
     "about_transfer": "Переказ",
     "earn_freeze_days": "Заморозити на {days} дн.",
     "@earn_freeze_days": {
@@ -5592,7 +5592,7 @@
     },
     "earn_history": "Історія",
     "earn_to": "До",
-    "about_us_earn_program": "Умови та Положення програми Earn",
+    "about_us_earn_program": "Умови програми Earn",
     "about_us_smpl_global": "Політика конфіденційності Smpl Global",
     "earn_finished": "Завершено",
     "transfer_confirm_via_sms": "Підтвердити через SMS",
@@ -5619,7 +5619,7 @@
     "wallet_external_bank_transfer": "Зовнішній банківський переказ",
     "wallet_internal_transfer": "Внутрішній переказ",
     "wallet_choose_asset_from_convert": "Оберіть актив для конвертації",
-    "error_message_insufficient_funds": "Недостатньо коштів для транзакції",
+    "error_message_insufficient_funds": "Недостатньо коштів для завершення транзакції",
     "convert_choose_account": "Оберіть рахунок",
     "earn_earns_details": "Деталі Earn",
     "earn_base_amount": "Основна сума",
@@ -5665,10 +5665,10 @@
     "prepaid_card_prepaid_card": "Передплачена картка",
     "prepaid_card_buy_for_cryptocurrency": "Купити за криптовалюту",
     "prepaid_card_prepaid_card_service": "Сервіс передплаченої картки",
-    "prepaid_card_explanation": "Ви можете придбати передплачені банківські картки для використання в системах Apple Pay та Google Pay, а також для оплати онлайн покупок. Випуск передплаченої картки здійснюється партнерами Simple.",
+    "prepaid_card_explanation": "Ви можете придбати передплачені банківські картки для використання з Apple Pay та Google Pay, а також для онлайн-покупок. Передплачені картки видаються партнерами Simple.",
     "prepaid_card_card_management": "Управління карткою",
     "prepaid_card_redirecting": "Перенаправлення",
-    "prepaid_card_popup_description": "Сервіс передплаченої картки надається партнером.\n\nУправління картками, інформація про баланси карток та історія транзакцій доступні в особистому кабінеті партнера.\n\nДля входу в особистий кабінет використовуйте номер картки та код CVV.",
+    "prepaid_card_popup_description": "Сервіс передплачених карток надається партнером.\n\nВи можете керувати картками, переглядати баланс та отримувати доступ до історії транзакцій через особистий кабінет партнера.\n\nУвійдіть, використовуючи номер картки та CVV-код.",
     "prepaid_card_continue": "Продовжити",
     "prepaid_card_cancel": "Скасувати",
     "prepaid_card_my_vouchers": "Мої ваучери",
@@ -5679,21 +5679,21 @@
     "prepaid_card_you_purchase": "Ви купуєте ваучер, щоб отримати Visa або Mastercard з попередньо встановленим балансом.\n\nПісля придбання ваучера, використання ваучера та активація картки відбувається на сайті емітента картки.\n\nЦю картку можна використовувати для онлайн-платежів.",
     "prepaid_card_the_purchased": "Баланс придбаної картки не може бути поповнений",
     "prepaid_card_ApplePay_and_GooglePay": "ApplePay та GooglePay",
-    "prepaid_card_cards_marked": "Картки з позначкою \"Мобільний гаманець\" підтримують додавання до ApplePay та GooglePay. Картки без цієї позначки не підтримують зв'язок з мобільними гаманцями.",
+    "prepaid_card_cards_marked": "Картки з позначкою «Mobile Wallet» можна додати до Apple Pay та Google Pay. Картки без цієї позначки не можуть бути прив’язані до мобільних гаманців.",
     "prepaid_card_please_note": "Будь ласка, зауважте",
-    "prepaid_card_that_cards": "Що картки з позначкою 'Мобільний гаманець' можуть бути недоступні в деяких країнах.",
+    "prepaid_card_that_cards": "Картки «Mobile Wallet» можуть бути недоступні у деяких країнах.",
     "prepaid_card_privacy": "Приватність",
-    "prepaid_card_simple_does_not": "Simple не передає особисту інформацію емітенту картки. Зазвичай, під час реєстрації, вам потрібно надати:",
-    "prepaid_card_the_full_name": "  • Повне ім'я, як на картці\n• Країну проживання та адресу\n• Контактний телефонний номер\n• Адресу електронної пошти",
-    "prepaid_card_it_is_necessary": "Необхідно підтвердити адресу електронної пошти, оскільки вона буде використовуватися для отримання кодів верифікації для транзакцій з карткою.",
-    "prepaid_card_in_some_instances": "У деяких випадках емітент картки може вимагати більш ретельної верифікації особи клієнта та запропонувати завершення процедури KYC (Знай свого клієнта). У таких випадках радимо слідувати інструкціям випускника картки, щоб уникнути потенційних ускладнень та затримок у отриманні картки.",
-    "prepaid_card_only_the_individual": "Тільки особа, яка отримує картку, повинна пройти процес KYC. Верифікація на підставі документів юридичної особи не допускається.",
+    "prepaid_card_simple_does_not": "Simple не надає особисту інформацію емітенту картки. Зазвичай під час реєстрації від вас можуть вимагати надати:",
+    "prepaid_card_the_full_name": "  • Повне ім'я, як на картці\n• Країну проживання та адресу\n• Контактний номер телефону\n• Адресу електронної пошти",
+    "prepaid_card_it_is_necessary": "Необхідно підтвердити свою адресу електронної пошти, оскільки вона буде використовуватися для отримання кодів підтвердження під час операцій по картці.",
+    "prepaid_card_in_some_instances": "Іноді емітент картки може вимагати детальнішої перевірки особи, запрошуючи пройти процедуру KYC (Знай свого клієнта). Щоб уникнути можливих затримок або проблем із отриманням картки, краще дотримуватися інструкцій емітента.",
+    "prepaid_card_only_the_individual": "KYC потрібен лише для особи, яка отримує картку, і документи юридичної особи не приймаються для перевірки.",
     "prepaid_card_voucher_activation": "Активація ваучера",
-    "prepaid_card_to_activate": "Для активації ваучера потрібно відвідати веб-сайт емітента картки. Переконайтеся, що країна, яку ви вказуєте під час активації картки, відповідає країні, обраній під час покупки ваучера.",
-    "prepaid_card_a_mismatch_between": "Невідповідність між країною, вказаною на момент покупки ваучера, та країною, вказаною під час випуску картки, може призвести до труднощів у активації ваучера та отриманні картки.",
-    "prepaid_card_the_issuer_may": "Емітент картки може вимагати додаткової верифікації вашої особи та завершення процедури KYC для активації картки. Важливо мати документи, які підтверджують ваше проживання у зазначеній країні.",
+    "prepaid_card_to_activate": "Щоб активувати ваш ваучер, відвідайте вебсайт емітента картки. Переконайтеся, що обрана країна під час активації відповідає тій, що була вибрана при покупці ваучера.",
+    "prepaid_card_a_mismatch_between": "Якщо країна, вибрана під час покупки ваучера, відрізняється від зазначеної під час видачі картки, це може призвести до труднощів з активацією ваучера і отриманням картки.",
+    "prepaid_card_the_issuer_may": "Емітент може запросити додаткову перевірку особи та вимагати проходження процесу KYC для активації картки. Важливо мати документи, що підтверджують ваше проживання в зазначеній країні.",
     "prepaid_card_choose_prepaid_card": "Оберіть ваучер",
-    "prepaid_card_choose_residential_country": "Оберіть країну проживання",
+    "prepaid_card_choose_residential_country": "Виберіть вашу країну проживання",
     "prepaid_card_in_progress": "В процесі...",
     "prepaid_card_buy_voucher": "Купити ваучер",
     "prepaid_card_prepaid_card_activation": "Активація передплаченої картки",
@@ -5706,7 +5706,7 @@
     "prepaid_card_commission": "Комісія",
     "prepaid_card_free": "Безкоштовно",
     "prepaid_card_choose_country": "Обрати країну",
-    "prepaid_card_no_available_tariffs": "Немає доступних тарифів для обраної країни",
+    "prepaid_card_no_available_tariffs": "Для вибраної країни наразі немає доступних тарифів",
     "prepaid_card_pay_with": "Оплата за допомогою",
     "prepaid_card_crypto_wallet": "Криптогаманець",
     "prepaid_card_prepaid_card_voucher": "Ваучер передплаченої картки",
@@ -5731,10 +5731,10 @@
     "prepaid_card_issue_card": "Випустити картку",
     "prepaid_card_activation_1": "Скопіюйте код і перейдіть на веб-сайт емітента картки.",
     "prepaid_card_activation_2": "Введіть код верифікації, щоб підтвердити покупку.",
-    "prepaid_card_activation_3": "Дотримуйтесь інструкцій для завершення налаштування картки.",
+    "prepaid_card_activation_3": "Дотримуйтесь інструкцій, щоб завершити налаштування картки",
     "prepaid_card_voucher_code": "Код ваучера",
     "prepaid_card_order_id": "ID замовлення",
-    "prepaid_card_the_issuance": "Випуск ваучера зазвичай займає близько 1 години.",
+    "prepaid_card_the_issuance": "Зазвичай отримання ваучера займає близько 1 години",
     "prepaid_card_country_explanation": "Країна випуску ваучера повинна відповідати країні випуску картки",
     "prepaid_cardcomission_explanation": "Комісія за випуск картки сплачується з вашого гаманця",
     "invest_history_tab_positions": "Позиції",
@@ -5754,15 +5754,15 @@
     },
     "prepaid_card_more": "більше",
     "prepaid_card_less": "менше",
-    "prepaid_card_funds_for_purchased": "Кошти за передплачений ваучер не повертаються",
-    "prepaid_card_error": "Ваучер на передплачену картку не виданий. Будь ласка, зверніться до служби підтримки, ми постараємось вирішити проблему якнайшвидше.",
+    "prepaid_card_funds_for_purchased": "Кошти ваучера не підлягають поверненню після покупки",
+    "prepaid_card_error": "Ваучер на передплачену картку не було видано. Будь ласка, зверніться до служби підтримки, і ми зробимо все можливе, щоб вирішити проблему якнайшвидше.",
     "invest_error_sl_zero": "Рівень StopLoss не може бути ",
     "invest_error_tp_zero": "Рівень TakeProfit не можу бути ",
     "buy_external_cards": "Сторонні картки",
     "history_payment_amount": "Сума платежу",
     "simplecoin_simplecoin": "Simplecoin",
     "simplecoin_roadmap": "План",
-    "simplecoin_description": "Ми раді представити наш новий міні-додаток для Telegram! Починайте заробляти та зберігати наші віртуальні монети вже зараз, і незабаром ви дізнаєтеся про всі чудові речі, які можна за них отримати.",
+    "simplecoin_description": "Ми раді оголосити про наш новий міні-додаток у Telegram! Почніть заробляти та накопичувати віртуальні монети вже сьогодні, і незабаром ви дізнаєтесь про всі чудові нагороди, які можна отримати.",
     "simplecoin_join_simple_tap": "Запусти Simple Coin!",
     "simplecoin_my_simplecoin": "Мої Simplecoin",
     "simplecoin_launch_game": "Simple Coin випущено!",
@@ -5805,9 +5805,9 @@
     "get_simple_card_provide_documents": "Щоб випустити Simple Card і відкрити рахунок, потрібно надати документи, які підтверджують ваше проживання в одній з країн ЄС.",
     "get_simple_card_eu_citizen_passport": "Паспорт громадянина ЄС",
     "get_simple_card_residence_permit": "Дозвіл на проживання",
-    "get_simple_card_need_confirm_residential_address": "Вам також потрібно підтвердити вашу домашню адресу:",
+    "get_simple_card_need_confirm_residential_address": "Вам також потрібно буде вибрати країну проживання",
     "get_simple_card_bank_statement": "Виписка з банку з вашим ім'ям та адресою",
-    "get_simple_card_provide_tin": "Під час процесу верифікації вам також потрібно буде надати ваш TIN (податковий ідентифікаційний номер).",
+    "get_simple_card_provide_tin": "Під час процесу верифікації вам потрібно буде надати ваш ІПН (Ідентифікаційний Податковий Номер).",
     "get_simple_card_utility_bill": "Комунальні платежі",
     "next": "далі",
     "cancel": "скасувати",
@@ -5815,7 +5815,7 @@
     "buy_p2p_service": "P2P сервіс",
     "buy_transfer": "Переказ",
     "buy_wallets_accounts": "Гаманці та рахунки",
-    "buy_normally_transfer": "Зазвичай переказ обробляється протягом 30 хв, іноді до 24 годин",
+    "buy_normally_transfer": "Перекази зазвичай обробляються протягом 30 хвилин, але іноді можуть зайняти до 24 годин.",
     "p2p_buy_unfinished_operation": "Незавершена операція",
     "p2p_buy_you_have_unfinished": "У вас є незавершені транзакції через P2P сервіс.\n\nЩоб перевірити статус транзакції або скасувати її, натисніть Продовжити.",
     "p2p_buy_conversion_rate": "Курс конверсії",
@@ -5879,7 +5879,7 @@
     "jar_transactions": "Транзакції",
     "jar_active": "Активні",
     "jar_all": "Всі",
-    "jar_description_title": "Розкажіть нам мету цієї банки",
+    "jar_description_title": "Будь ласка, додайте детальний опис вашої мети. Розкажіть нам, яка її мета",
     "jar_description": "Опис",
     "jar_cancel": "Скасувати",
     "jar_confirm": "Підтвердити",
@@ -5957,7 +5957,7 @@
     "change_email_email_verification_hint": "Введіть код, який ми надіслали на вашу нову електронну адресу ",
     "change_email_success_hint": "Вашу електронну адресу успішно оновлено на {email}",
     "withrawal_amount_error_entered_amount": "Введена сума має покривати комісію за обробку.",
-    "card_preorder_joibed_description": "Дякуємо за вашу цікавість! Ми повідомимо вас, як тільки Simple Card стане доступною.",
+    "card_preorder_joibed_description": "Дякуємо за вашу зацікавленість! Ми повідомимо вас, як тільки картка Simple буде доступна.",
     "card_preorder_join_description": "Запишіться в лист очікування, і ми повідомимо вас, як тільки розпочнеться прийом заявок.",
     "card_preorder_highlights": "Основне:",
     "card_preorder_highlight_1": "Використовуйте свою картку без додаткових KYC перевірок",
@@ -5965,7 +5965,7 @@
     "card_preorder_highlight_3": "Легко підключайте будь-який актив до своєї картки",
     "card_preorder_highlight_4": "Підключайтесь до Apple/Google Wallet і робіть покупки де завгодно",
     "bank_transfer": "Банківський переказ",
-    "bank_transfer_to_yourself": "собі або іншій особі",
+    "bank_transfer_to_yourself": "Собі або іншій особі",
     "bank_transfer_to": "Банківський переказ",
     "bank_transfer_to_myself": "Собі",
     "bank_transfer_to_business": "Бізнес/Організації",
@@ -5976,5 +5976,24 @@
     "get_personal_iban_hint1_body": "Надсилайте гроші кому завгодно прямісінько з вашого криптобалансу.",
     "get_personal_iban_hint2_title": "Сплачуйте рахунки без зусиль",
     "get_personal_iban_hint2_body": "Використовуйте свій особистий рахунок IBAN для миттєвої оплати рахунків, не виходячи з додатка",
-    "get_personal_iban_button": "Відкрити рахунок"
+    "get_personal_iban_button": "Відкрити рахунок",
+    "deposit_kyc_alert_title": "До {amounty} депозитів для легкого старту",
+    "@deposit_kyc_alert_title": {
+        "placeholders": {
+            "amounty": {
+                "type": "String",
+                "example": "$50"
+            }
+        }
+    },
+    "deposit_kyc_alert_description": "Спробуйте додаток та всі його функції з депозитами до {amounty}. Продовжуйте користуватися додатком, щоб збільшити ліміти та отримати ще кращий досвід.",
+    "@deposit_kyc_alert_description": {
+        "placeholders": {
+            "amounty": {
+                "type": "String",
+                "example": "$50"
+            }
+        }
+    },
+    "prepaid_card_security_code": "Код безпеки"
 }
