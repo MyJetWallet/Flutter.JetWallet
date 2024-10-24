@@ -292,7 +292,7 @@ bool checkGlobalAvaible() {
   final kycState = getIt.get<KycService>();
 
   final isAnySuportedByCurrencies = sSignalRModules.currenciesList.any(
-        (element) => element.supportsGlobalSend,
+    (element) => element.supportsGlobalSend,
   );
   final isNoKycBlocker = kycState.withdrawalStatus == kycOperationStatus(KycStatus.allowed);
   final isNoClientBlocker = checkIsBlockerNotContains(BlockingType.withdrawal);
@@ -512,7 +512,9 @@ void showBankTransferTo(BuildContext context, [CurrencyModel? currency]) {
             ? (bankingShowState != BankingClientStatus.allowed &&
                     bankingShowState != BankingClientStatus.bankingKycRequired)
                 ? intl.bank_transfer_coming_soon
-                : ''
+                : activeAccounts.isNotEmpty
+                    ? ''
+                    : intl.bank_transfer_coming_soon
             : intl.bank_transfer_coming_soon,
       ),
       const SpaceH42(),
