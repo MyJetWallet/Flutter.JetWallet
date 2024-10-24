@@ -18,6 +18,8 @@ import 'package:jetwallet/features/app/timer_service.dart';
 import 'package:jetwallet/features/cj_banking_accounts/screens/show_account_details_screen.dart';
 import 'package:jetwallet/features/home/store/bottom_bar_store.dart';
 import 'package:jetwallet/features/wallet/helper/market_item_from.dart';
+import 'package:jetwallet/features/withdrawal_banking/helpers/show_bank_transfer_select.dart';
+import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/analytic_records/models/anchor_record.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
@@ -37,7 +39,6 @@ class AnchorsService {
       return;
     }
 
-    print('$_tag handle: $type, $metadata');
     switch (type) {
       case AnchorsHelper.anchorTypeCryptoDeposit:
         {
@@ -62,6 +63,10 @@ class AnchorsService {
       case AnchorsHelper.anchorTypeForgotSectors:
         {
           pushMarketSectorScreen(metadata);
+        }
+      case AnchorsHelper.anchorTypeAddExternalIban:
+        {
+          pushAddExternalIbanScreen(metadata);
         }
     }
   }
@@ -303,8 +308,8 @@ class AnchorsService {
   }
 
   Future<void> pushMarketSectorScreen(
-      Map<String, String> metadata,
-      ) async {
+    Map<String, String> metadata,
+  ) async {
     final sectorId = metadata[AnchorsHelper.anchorMetadataSectorId];
 
     if (sectorId == null) {
@@ -337,6 +342,71 @@ class AnchorsService {
         RouteQueryModel(
           func: () async {
             await func();
+          },
+        ),
+      );
+    }
+  }
+
+  Future<void> pushAddExternalIbanScreen(
+    Map<String, String> metadata,
+  ) async {
+    final accountId = metadata[AnchorsHelper.anchorMetadataAccountId];
+
+    if (accountId == null) {
+      return;
+    }
+
+    void func() {
+      SimpleBankingAccount? bankingAccount;
+      if (accountId == 'clearjuction_account') {
+        bankingAccount = sSignalRModules.bankingProfileData?.simple?.account;
+      } else {
+        bankingAccount = sSignalRModules.bankingProfileData?.banking?.accounts
+            ?.where((account) => account.accountId == accountId)
+            .firstOrNull;
+      }
+
+      if (bankingAccount == null) {
+        return;
+      }
+
+      final eurCurrency = currencyFrom(
+        sSignalRModules.currenciesList,
+        'EUR',
+      );
+
+      sRouter.push(
+        CJAccountRouter(
+          bankingAccount: bankingAccount,
+          isCJAccount: bankingAccount.isClearjuctionAccount,
+          eurCurrency: eurCurrency,
+        ),
+      );
+
+      Future.delayed(const Duration(milliseconds: 250)).then((_) {
+        showBankTransforSelect(
+          sRouter.navigatorKey.currentContext!,
+          bankingAccount!,
+          bankingAccount.isClearjuctionAccount,
+        );
+      });
+    }
+
+    if (getIt.isRegistered<AppStore>() &&
+        getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home &&
+        getIt<TimerService>().isPinScreenOpen == false) {
+      await Future.delayed(const Duration(milliseconds: 650));
+
+      func();
+    } else {
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          func: () async {
+            await Future.delayed(const Duration(milliseconds: 650));
+
+            func();
           },
         ),
       );

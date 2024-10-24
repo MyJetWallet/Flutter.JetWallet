@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/anchors/anchors_helper.dart';
 import 'package:jetwallet/features/auth/user_data/ui/widgets/country/country_item/country_profile_item.dart';
 import 'package:jetwallet/features/auth/user_data/ui/widgets/country/show_user_data_country_picker.dart';
 import 'package:jetwallet/features/iban/widgets/iban_item.dart';
@@ -343,6 +344,12 @@ class _BodyAdressBookUnlimitState extends State<_BodyAdressBookUnlimit> {
                               final result = await IbanAddressBookStore.of(context).addAccount();
 
                               if (result) {
+                                if (!store.isEditMode) {
+                                  await AnchorsHelper().addAddExternalIbanAnchor(
+                                    widget.bankingAccount?.accountId ?? 'clearjuction_account',
+                                  );
+                                }
+
                                 Navigator.pop(context, true);
                               }
                             },

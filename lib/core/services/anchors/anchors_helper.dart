@@ -13,6 +13,7 @@ class AnchorsHelper {
     anchorTypeBankingAccountDetails,
     anchorTypeForgotEarnDeposit,
     anchorTypeForgotSectors,
+    anchorTypeAddExternalIban,
   ];
 
   ///
@@ -164,6 +165,25 @@ class AnchorsHelper {
 
   Future<void> addForgotSectorsAnchor(String sectorId) async {
     await getIt.get<AnchorsService>().setAnchor(_forgotSectors(sectorId));
+
+    return;
+  }
+
+  ///
+  /// Name: AddExternalIban
+  /// Add External Iban (screen [MarketSectorDetailsScreen]
+  ///
+  static const anchorTypeAddExternalIban = 'AddExternalIban';
+
+  AnchorRecordModel _addExternalIban(String accountId) => AnchorRecordModel(
+    anchorType: anchorTypeAddExternalIban,
+    metadata: {
+      anchorMetadataAccountId: accountId,
+    },
+  );
+
+  Future<void> addAddExternalIbanAnchor(String accountId) async {
+    await getIt.get<AnchorsService>().setAnchor(_addExternalIban(accountId));
 
     return;
   }
