@@ -7,6 +7,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/anchors/anchors_helper.dart';
 import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/invest/stores/chart/invest_chart_store.dart';
@@ -57,6 +58,8 @@ class _MarketSectorDetailsBody extends StatefulWidget {
 }
 
 class _MarketSectorDetailsBodyState extends State<_MarketSectorDetailsBody> with TickerProviderStateMixin {
+  List<String> openedAssets = [];
+
   @override
   Widget build(BuildContext context) {
     final colors = SColorsLight();
@@ -244,6 +247,15 @@ class _MarketSectorDetailsBodyState extends State<_MarketSectorDetailsBody> with
                         rightMarketValue: formatedPercentPriceCahange(snapshot.data ?? []),
                         rightValueMarketPositive: percentPriceCahange(snapshot.data ?? []) >= 0,
                         onTableAssetTap: () {
+                          if (!openedAssets.contains(store.filtredMarketItems[index].symbol)) {
+                            setState(() {
+                              openedAssets.add(store.filtredMarketItems[index].symbol);
+                            });
+                            if (openedAssets.length == 2) {
+                              AnchorsHelper().addForgotSectorsAnchor(store.sector.id);
+                            }
+                          }
+
                           sRouter.push(
                             MarketDetailsRouter(
                               marketItem: store.filtredMarketItems[index],

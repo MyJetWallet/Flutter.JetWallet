@@ -11,7 +11,8 @@ class AnchorsHelper {
     anchorTypeConvertConfirmation,
     anchorTypeMarketDetails,
     anchorTypeBankingAccountDetails,
-    anchorTypeForgotEarnDeposit
+    anchorTypeForgotEarnDeposit,
+    anchorTypeForgotSectors,
   ];
 
   ///
@@ -28,6 +29,8 @@ class AnchorsHelper {
   static const anchorMetadataAccountId = 'accountId';
 
   static const anchorMetadataOfferId = 'offerId';
+
+  static const anchorMetadataSectorId = 'sector_id';
 
   ///
   /// Name: Forgot to receive
@@ -110,7 +113,7 @@ class AnchorsHelper {
 
   ///
   /// Name: Forgot receive from IBAN
-  /// Banking Account Details (screen [showAccountDetails], model [CryptoDepositModel])
+  /// Banking Account Details (screen [showAccountDetails]
   ///
   static const anchorTypeBankingAccountDetails = 'BankingAccountDetails';
 
@@ -129,7 +132,7 @@ class AnchorsHelper {
 
   ///
   /// Name: Forgot EARN
-  /// Earn deposit (screen [EarnDeposit], model [CryptoDepositModel])
+  /// Earn deposit (screen [EarnDeposit]
   ///
   static const anchorTypeForgotEarnDeposit = 'ForgotEarnDeposit';
 
@@ -142,6 +145,25 @@ class AnchorsHelper {
 
   Future<void> addForgotEarnDepositAnchor(String offerId) async {
     await getIt.get<AnchorsService>().setAnchor(_forgotEarnDepositDetails(offerId));
+
+    return;
+  }
+
+  ///
+  /// Name: Forgot Sectors
+  /// Forgot sector (screen [MarketSectorDetailsScreen]
+  ///
+  static const anchorTypeForgotSectors = 'ForgotSectors';
+
+  AnchorRecordModel _forgotSectors(String sectorId) => AnchorRecordModel(
+    anchorType: anchorTypeForgotSectors,
+    metadata: {
+      anchorMetadataSectorId: sectorId,
+    },
+  );
+
+  Future<void> addForgotSectorsAnchor(String sectorId) async {
+    await getIt.get<AnchorsService>().setAnchor(_forgotSectors(sectorId));
 
     return;
   }
