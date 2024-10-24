@@ -44,7 +44,7 @@ Future<void> showSendAction(bool isEmptyBalance, BuildContext context) async {
   final isToCryptoWalletAvaible = checkToCryptoWalletAvaible();
   final isGlobalAvaible = checkGlobalAvaible();
   final isGiftAvaible = checkGiftAvaible();
-  final isAllowBankTransfer = isGlobalAvaible && checkBankTransferAvailable();
+  final isAllowBankTransfer = isGlobalAvaible;
 
   if (isEmptyBalance) {
     showPleaseAddFundsToYourBalanceDialog(() {
@@ -292,24 +292,12 @@ bool checkGlobalAvaible() {
   final kycState = getIt.get<KycService>();
 
   final isAnySuportedByCurrencies = sSignalRModules.currenciesList.any(
-    (element) => element.supportsGlobalSend,
+        (element) => element.supportsGlobalSend,
   );
   final isNoKycBlocker = kycState.withdrawalStatus == kycOperationStatus(KycStatus.allowed);
   final isNoClientBlocker = checkIsBlockerNotContains(BlockingType.withdrawal);
 
   return isAnySuportedByCurrencies && isNoKycBlocker && isNoClientBlocker;
-}
-
-bool checkBankTransferAvailable() {
-  final allowSimpleBanking = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
-    (element) => element.id == AssetPaymentProductsEnum.simpleIbanAccount,
-  );
-
-  final allowBanking = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
-    (element) => element.id == AssetPaymentProductsEnum.bankingIbanAccount,
-  );
-
-  return allowSimpleBanking || allowBanking;
 }
 
 bool checkGiftAvaible() {
@@ -437,9 +425,6 @@ void showBankTransferTo(BuildContext context, [CurrencyModel? currency]) {
   final allowBanking = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
     (element) => element.id == AssetPaymentProductsEnum.bankingIbanAccount,
   );
-
-  print('#@#@#@ 1 $bankingShowState $accounts');
-  print('#@#@#@ 2 $simpleBankingShowState $simpleAccounts');
 
   sShowBasicModalBottomSheet(
     context: context,
