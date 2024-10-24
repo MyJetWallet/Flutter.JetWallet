@@ -10,6 +10,7 @@ class AnchorsHelper {
     anchorTypeCryptoDeposit,
     anchorTypeConvertConfirmation,
     anchorTypeMarketDetails,
+    anchorTypeBankingAccountDetails,
   ];
 
   ///
@@ -22,6 +23,8 @@ class AnchorsHelper {
   static const anchorMetadataFromAmount = 'fromAmount';
   static const anchorMetadataToAmount = 'toAmount';
   static const anchorMetadataIsFromFixed = 'isFromFixed';
+
+  static const anchorMetadataAccountId = 'accountId';
 
   ///
   /// Name: Forgot to receive
@@ -48,7 +51,7 @@ class AnchorsHelper {
 
   ///
   /// Name: Forgot to exchange
-  /// Crypto Deposit (screen [ConvertConfirmationScreen], model [ConvertConfirmationModel])
+  /// Convert Confirmation (screen [ConvertConfirmationScreen], model [ConvertConfirmationModel])
   ///
   static const anchorTypeConvertConfirmation = 'ConvertConfirmation';
 
@@ -81,23 +84,42 @@ class AnchorsHelper {
 
   ///
   /// Name: Interesting to buy
-  /// Crypto Deposit (screen [MarketDetails], model [CryptoDepositModel])
+  /// Market Details (screen [MarketDetails], model [CryptoDepositModel])
   ///
   static const anchorTypeMarketDetails = 'MarketDetails';
 
   AnchorRecordModel _marketDetails(CryptoDepositModel model) => AnchorRecordModel(
-    anchorType: anchorTypeMarketDetails,
-    metadata: model.toJson(),
-  );
+        anchorType: anchorTypeMarketDetails,
+        metadata: model.toJson(),
+      );
 
   Future<void> addMarketDetailsAnchor(String assetSymbol) async {
     await getIt.get<AnchorsService>().setAnchor(
-      _marketDetails(
-        CryptoDepositModel(
-          assetSymbol: assetSymbol,
-        ),
-      ),
-    );
+          _marketDetails(
+            CryptoDepositModel(
+              assetSymbol: assetSymbol,
+            ),
+          ),
+        );
+
+    return;
+  }
+
+  ///
+  /// Name: Forgot receive from IBAN
+  /// Banking Account Details (screen [showAccountDetails], model [CryptoDepositModel])
+  ///
+  static const anchorTypeBankingAccountDetails = 'BankingAccountDetails';
+
+  AnchorRecordModel _bankingAccountDetails(String accountId) => AnchorRecordModel(
+        anchorType: anchorTypeBankingAccountDetails,
+        metadata: {
+          anchorMetadataAccountId: accountId,
+        },
+      );
+
+  Future<void> addBankingAccountDetailsAnchor(String accountId) async {
+    await getIt.get<AnchorsService>().setAnchor(_bankingAccountDetails(accountId));
 
     return;
   }
