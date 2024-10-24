@@ -107,10 +107,15 @@ class _EnterJarGoalScreenState extends State<EnterJarGoalScreen> {
                 const SizedBox(
                   height: 12,
                 ),
-                Text(
-                  intl.jar_input_jar_goal,
-                  style: STStyles.header6.copyWith(
-                    color: SColorsLight().black,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Text(
+                    intl.jar_input_jar_goal,
+                    style: STStyles.header6.copyWith(
+                      color: SColorsLight().black,
+                    ),
+                    maxLines: 5,
+                    textAlign: TextAlign.center,
                   ),
                 ),
                 const Spacer(),

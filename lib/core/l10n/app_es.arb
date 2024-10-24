@@ -1813,7 +1813,7 @@
     "card_preorder_highlight_3": "Conecta fácilmente cualquier activo a tu tarjeta",
     "card_preorder_highlight_4": "Conéctate a Apple/Google Wallet y compra en cualquier lugar",
     "bank_transfer": "Transferencia bancaria",
-    "bank_transfer_to_yourself": "a ti mismo o a otra persona",
+    "bank_transfer_to_yourself": "A ti mismo o a otra persona",
     "bank_transfer_to": "Transferencia a",
     "bank_transfer_to_myself": "A mí mismo",
     "bank_transfer_to_business": "Empresas/Organizaciones",
@@ -1824,5 +1824,24 @@
     "get_personal_iban_hint1_body": "Envía dinero a cualquiera directamente desde tu saldo cripto",
     "get_personal_iban_hint2_title": "Paga facturas sin esfuerzo",
     "get_personal_iban_hint2_body": "Usa tu cuenta IBAN personal para pagar facturas instantáneamente, sin salir de la app",
-    "get_personal_iban_button": "Abrir una cuenta"
+    "get_personal_iban_button": "Abrir una cuenta",
+    "deposit_kyc_alert_title": "Hasta {amounty} en depósitos para un inicio fácil",
+    "@deposit_kyc_alert_title": {
+        "placeholders": {
+            "amounty": {
+                "type": "String",
+                "example": "$50"
+            }
+        }
+    },
+    "deposit_kyc_alert_description": "Prueba la app y todas sus características con depósitos totales hasta {amounty}. Sigue usando la app para desbloquear límites más altos y disfrutar de una experiencia aún mejor.",
+    "@deposit_kyc_alert_description": {
+        "placeholders": {
+            "amounty": {
+                "type": "String",
+                "example": "$50"
+            }
+        }
+    },
+    "prepaid_card_security_code": "Código de seguridad"
 }

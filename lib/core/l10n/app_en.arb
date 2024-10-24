@@ -1825,7 +1825,7 @@
     "card_preorder_highlight_3": "Easily connect any asset to your card",
     "card_preorder_highlight_4": "Connect to Apple/Google Wallet and shop anywhere",
     "bank_transfer": "Bank transfer",
-    "bank_transfer_to_yourself": "to yourself or another person",
+    "bank_transfer_to_yourself": "To yourself or another person",
     "bank_transfer_to": "Bank transfer to",
     "bank_transfer_to_myself": "Myself",
     "bank_transfer_to_business": "Business/Organizations",
@@ -1854,5 +1854,6 @@
                 "example": "$50"
             }
         }
-    }
+    },
+    "prepaid_card_security_code": "Security code"
 }
