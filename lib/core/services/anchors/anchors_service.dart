@@ -52,6 +52,10 @@ class AnchorsService {
         {
           pushBankingAccountDetailsScreen(metadata);
         }
+      case AnchorsHelper.anchorTypeForgotEarnDeposit:
+        {
+          pushForgotEarnDepositScreen(metadata);
+        }
     }
   }
 
@@ -223,6 +227,54 @@ class AnchorsService {
           onClose: () {},
         );
       }
+    }
+
+    if (getIt.isRegistered<AppStore>() &&
+        getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home &&
+        getIt<TimerService>().isPinScreenOpen == false) {
+      sRouter.popUntilRoot();
+
+      await func();
+    } else {
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          func: () async {
+            await func();
+          },
+        ),
+      );
+    }
+  }
+
+  Future<void> pushForgotEarnDepositScreen(
+    Map<String, String> metadata,
+  ) async {
+    final offerId = metadata[AnchorsHelper.anchorMetadataOfferId];
+
+    if (offerId == null) {
+      return;
+    }
+
+    Future<void> func() async {
+      await Future.delayed(const Duration(milliseconds: 650));
+
+      final offers = sSignalRModules.activeEarnOffersMessage?.offers ?? [];
+
+      if (offers.isEmpty) {
+        return;
+      }
+
+      final offer = offers.where((element) => element.id == offerId).firstOrNull;
+      if (offer == null) {
+        return;
+      }
+
+      await sRouter.push(
+        EarnDepositScreenRouter(
+          offer: offer,
+        ),
+      );
     }
 
     if (getIt.isRegistered<AppStore>() &&

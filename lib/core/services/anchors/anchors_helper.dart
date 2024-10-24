@@ -11,6 +11,7 @@ class AnchorsHelper {
     anchorTypeConvertConfirmation,
     anchorTypeMarketDetails,
     anchorTypeBankingAccountDetails,
+    anchorTypeForgotEarnDeposit
   ];
 
   ///
@@ -25,6 +26,8 @@ class AnchorsHelper {
   static const anchorMetadataIsFromFixed = 'isFromFixed';
 
   static const anchorMetadataAccountId = 'accountId';
+
+  static const anchorMetadataOfferId = 'offerId';
 
   ///
   /// Name: Forgot to receive
@@ -120,6 +123,25 @@ class AnchorsHelper {
 
   Future<void> addBankingAccountDetailsAnchor(String accountId) async {
     await getIt.get<AnchorsService>().setAnchor(_bankingAccountDetails(accountId));
+
+    return;
+  }
+
+  ///
+  /// Name: Forgot EARN
+  /// Earn deposit (screen [EarnDeposit], model [CryptoDepositModel])
+  ///
+  static const anchorTypeForgotEarnDeposit = 'ForgotEarnDeposit';
+
+  AnchorRecordModel _forgotEarnDepositDetails(String offerId) => AnchorRecordModel(
+    anchorType: anchorTypeForgotEarnDeposit,
+    metadata: {
+      anchorMetadataOfferId: offerId,
+    },
+  );
+
+  Future<void> addForgotEarnDepositAnchor(String offerId) async {
+    await getIt.get<AnchorsService>().setAnchor(_forgotEarnDepositDetails(offerId));
 
     return;
   }
