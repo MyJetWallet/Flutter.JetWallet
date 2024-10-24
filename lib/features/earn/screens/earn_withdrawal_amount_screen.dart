@@ -12,7 +12,6 @@ import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/sugges
 import 'package:jetwallet/features/earn/store/earn_withdrawal_amount_store.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
-import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -133,29 +132,30 @@ class _EarnWithdrawalAmountBody extends StatelessWidget {
                 ],
               ),
             ),
-            SNumericKeyboardAmount(
-              widgetSize: widgetSizeFrom(deviceSize),
+            SNumericKeyboard(
               onKeyPressed: (value) {
                 store.updateInputValue(value);
               },
-              buttonType: SButtonType.primary2,
-              submitButtonActive: store.isContinueAvaible,
-              submitButtonName: intl.addCircleCard_continue,
-              onSubmitPressed: () {
-                sAnalytics.tapOnTheContinueWithEarnWithdrawAmountButton(
-                  assetName: store.earnPosition.assetId,
-                  earnOfferId: store.earnPosition.offerId,
-                  earnPlanName: store.earnPosition.offers.first.name ?? '',
-                  earnWithdrawalType: store.earnPosition.withdrawType.name,
-                  withdrawAmount: store.cryptoInputValue,
-                );
-                sRouter.push(
-                  EarnWithdrawOrderSummaryRouter(
-                    amount: Decimal.parse(store.cryptoInputValue),
-                    earnPosition: store.earnPosition,
-                  ),
-                );
-              },
+              button: SButton.black(
+                text: intl.addCircleCard_continue,
+                callback: store.isContinueAvaible
+                    ? () {
+                        sAnalytics.tapOnTheContinueWithEarnWithdrawAmountButton(
+                          assetName: store.earnPosition.assetId,
+                          earnOfferId: store.earnPosition.offerId,
+                          earnPlanName: store.earnPosition.offers.first.name ?? '',
+                          earnWithdrawalType: store.earnPosition.withdrawType.name,
+                          withdrawAmount: store.cryptoInputValue,
+                        );
+                        sRouter.push(
+                          EarnWithdrawOrderSummaryRouter(
+                            amount: Decimal.parse(store.cryptoInputValue),
+                            earnPosition: store.earnPosition,
+                          ),
+                        );
+                      }
+                    : null,
+              ),
             ),
           ],
         );

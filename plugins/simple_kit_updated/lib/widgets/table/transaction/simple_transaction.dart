@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit/modules/icons/24x24/public/chevron_down_double/simple_chevron_down_double_icon.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'package:simple_kit_updated/widgets/shared/simple_skeleton_loader.dart';
 
-class WhatToWhatConvertWidget extends StatelessWidget {
-  const WhatToWhatConvertWidget({
+class STransaction extends StatelessWidget {
+  const STransaction({
     super.key,
     required this.isLoading,
     required this.fromAssetIconUrl,
@@ -41,14 +41,14 @@ class WhatToWhatConvertWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return Container(
       padding: removeDefaultPaddings ? EdgeInsets.zero : const EdgeInsets.symmetric(vertical: 24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AssetRowWidget(
+          _AssetRowWidget(
             isLoading: isLoading,
             assetIconUrl: fromAssetIconUrl,
             assetDescription: fromAssetDescription,
@@ -64,14 +64,18 @@ class WhatToWhatConvertWidget extends StatelessWidget {
               width: 16,
               height: 16,
               child: isError
-                  ? SCloseIcon(
-                      color: colors.grey2,
+                  ? Assets.svg.medium.close.simpleSvg(
+                      width: 16,
+                      height: 16,
+                      color: colors.gray8,
                     )
-                  : SChevronDownDoubleIcon(
-                      color: colors.grey2,
+                  : Assets.svg.medium.chevronDownDouble.simpleSvg(
+                      width: 16,
+                      height: 16,
+                      color: colors.gray8,
                     ),
             ),
-            AssetRowWidget(
+            _AssetRowWidget(
               isLoading: isLoading,
               assetIconUrl: toAssetIconUrl ?? '',
               assetDescription: toAssetDescription ?? '',
@@ -89,9 +93,8 @@ class WhatToWhatConvertWidget extends StatelessWidget {
   }
 }
 
-class AssetRowWidget extends StatelessWidget {
-  const AssetRowWidget({
-    super.key,
+class _AssetRowWidget extends StatelessWidget {
+  const _AssetRowWidget({
     required this.isLoading,
     required this.assetIconUrl,
     required this.assetDescription,
@@ -115,7 +118,7 @@ class AssetRowWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return Row(
       children: [
@@ -128,7 +131,7 @@ class AssetRowWidget extends StatelessWidget {
             height: isSmallerVersion ? 32 : 40,
           ),
         ],
-        const SpaceW12(),
+        const SizedBox(width: 12),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -136,14 +139,13 @@ class AssetRowWidget extends StatelessWidget {
               Text(
                 maxLines: 2,
                 assetDescription,
-                style: sBodyText2Style.copyWith(
-                  color: colors.grey1,
-                  fontWeight: FontWeight.w600,
+                style: STStyles.header5.copyWith(
+                  color: colors.gray10,
                   fontSize: isSmallerVersion ? 12 : 14,
                 ),
               ),
               if (isLoading)
-                SSkeletonTextLoader(
+                SSkeletonLoader(
                   width: 120,
                   height: 32,
                   borderRadius: BorderRadius.circular(4),
@@ -151,11 +153,11 @@ class AssetRowWidget extends StatelessWidget {
               else
                 Text(
                   assetValue,
-                  style: sTextH4Style.copyWith(
+                  style: STStyles.header5.copyWith(
                     color: isError
-                        ? colors.grey1
+                        ? colors.gray10
                         : isSecandary && !isSmallerVersion
-                            ? colors.purple
+                            ? colors.blue
                             : null,
                     decoration: isError ? TextDecoration.lineThrough : null,
                     fontSize: isSmallerVersion ? 20 : 24,
@@ -163,8 +165,8 @@ class AssetRowWidget extends StatelessWidget {
                 ),
               if (assetBaseAmount != null)
                 if (isLoading) ...[
-                  const SpaceH4(),
-                  SSkeletonTextLoader(
+                  const SizedBox(height: 4),
+                  SSkeletonLoader(
                     width: 80,
                     height: 16,
                     borderRadius: BorderRadius.circular(4),
@@ -172,9 +174,8 @@ class AssetRowWidget extends StatelessWidget {
                 ] else
                   Text(
                     assetBaseAmount!,
-                    style: sBodyText2Style.copyWith(
-                      color: colors.grey1,
-                      height: 1.4,
+                    style: STStyles.body2Semibold.copyWith(
+                      color: colors.gray10,
                     ),
                   ),
             ],

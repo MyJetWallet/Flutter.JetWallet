@@ -14,7 +14,6 @@ import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
@@ -91,7 +90,7 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                     small: () => const SpaceH8(),
                     medium: () => const SpaceH3(),
                   ),
-                  WhatToWhatConvertWidget(
+                  STransaction(
                     isLoading: false,
                     fromAssetIconUrl: state.sendCurrency!.iconUrl,
                     fromAssetDescription: state.sendCurrency!.symbol,

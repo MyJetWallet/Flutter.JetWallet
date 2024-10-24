@@ -11,7 +11,6 @@ import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/sugges
 import 'package:jetwallet/features/p2p_buy/store/buy_p2p_amount_store.dart';
 import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
-import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:provider/provider.dart';
@@ -149,34 +148,35 @@ class P2PBuyAmountScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    SNumericKeyboardAmount(
-                      widgetSize: widgetSizeFrom(deviceSize),
+                    SNumericKeyboard(
                       onKeyPressed: (value) {
                         store.updateInputValue(value);
                       },
-                      buttonType: SButtonType.primary2,
-                      submitButtonActive: store.isContinueAvaible,
-                      submitButtonName: intl.addCircleCard_continue,
-                      onSubmitPressed: () {
-                        sAnalytics.tapOnTheContinueWithBuyAmountButton(
-                          pmType: PaymenthMethodType.ptp,
-                          buyPM: 'PTP',
-                          sourceCurrency: store.paymentAsset?.asset ?? '',
-                          destinationWallet: store.asset?.symbol ?? '',
-                          sourceBuyAmount: store.fiatInputValue,
-                          destinationBuyAmount: store.cryptoInputValue,
-                        );
-                        sRouter.push(
-                          BuyP2PConfirmationRoute(
-                            asset: store.asset!,
-                            paymentAsset: store.paymentAsset!,
-                            p2pMethod: store.p2pMethod!,
-                            isFromFixed: store.isFiatEntering,
-                            fromAmount: store.fiatInputValue,
-                            toAmount: store.cryptoInputValue,
-                          ),
-                        );
-                      },
+                      button: SButton.black(
+                        text: intl.addCircleCard_continue,
+                        callback: store.isContinueAvaible
+                            ? () {
+                                sAnalytics.tapOnTheContinueWithBuyAmountButton(
+                                  pmType: PaymenthMethodType.ptp,
+                                  buyPM: 'PTP',
+                                  sourceCurrency: store.paymentAsset?.asset ?? '',
+                                  destinationWallet: store.asset?.symbol ?? '',
+                                  sourceBuyAmount: store.fiatInputValue,
+                                  destinationBuyAmount: store.cryptoInputValue,
+                                );
+                                sRouter.push(
+                                  BuyP2PConfirmationRoute(
+                                    asset: store.asset!,
+                                    paymentAsset: store.paymentAsset!,
+                                    p2pMethod: store.p2pMethod!,
+                                    isFromFixed: store.isFiatEntering,
+                                    fromAmount: store.fiatInputValue,
+                                    toAmount: store.cryptoInputValue,
+                                  ),
+                                );
+                              }
+                            : null,
+                      ),
                     ),
                   ],
                 );

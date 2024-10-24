@@ -3,14 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/suggestion_button_widget.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/store/send_globally_amount_store.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
-import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -84,8 +82,6 @@ class _SendGloballyAmountScreenBodyState extends State<SendGloballyAmountScreenB
   Widget build(BuildContext context) {
     final store = SendGloballyAmountStore.of(context);
 
-    final deviceSize = sDeviceSize;
-
     return SPageFrame(
       loading: store.loader,
       loaderText: intl.register_pleaseWait,
@@ -139,26 +135,27 @@ class _SendGloballyAmountScreenBodyState extends State<SendGloballyAmountScreenB
             showArrow: false,
             onTap: () {},
           ),
-          SNumericKeyboardAmount(
-            widgetSize: widgetSizeFrom(deviceSize),
+          SNumericKeyboard(
             onKeyPressed: (value) {
               store.updateAmount(value);
             },
-            buttonType: SButtonType.primary2,
-            submitButtonActive: store.withValid && store.withAmmountInputError == InputError.none,
-            submitButtonName: intl.addCircleCard_continue,
-            onSubmitPressed: () {
-              sAnalytics.globalSendContinueAmountSc(
-                asset: widget.data.asset ?? '',
-                sendMethodType: '1',
-                destCountry: widget.data.countryCode ?? '',
-                paymentMethod: store.method?.name ?? '',
-                globalSendType: widget.method.methodId ?? '',
-                totalSendAmount: store.withAmount,
-              );
+            button: SButton.black(
+              text: intl.addCircleCard_continue,
+              callback: (store.withValid && store.withAmmountInputError == InputError.none)
+                  ? () {
+                      sAnalytics.globalSendContinueAmountSc(
+                        asset: widget.data.asset ?? '',
+                        sendMethodType: '1',
+                        destCountry: widget.data.countryCode ?? '',
+                        paymentMethod: store.method?.name ?? '',
+                        globalSendType: widget.method.methodId ?? '',
+                        totalSendAmount: store.withAmount,
+                      );
 
-              store.loadPreview();
-            },
+                      store.loadPreview();
+                    }
+                  : null,
+            ),
           ),
         ],
       ),

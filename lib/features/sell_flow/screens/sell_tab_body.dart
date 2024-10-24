@@ -12,7 +12,6 @@ import 'package:jetwallet/features/sell_flow/widgets/sell_choose_asset_bottom_sh
 import 'package:jetwallet/features/sell_flow/widgets/sell_with_bottom_sheet.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
-import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:provider/provider.dart';
@@ -299,36 +298,37 @@ class _SellAmountScreenBodyState extends State<SellAmountTabBody> with Automatic
                       ],
                     ),
                   ),
-                  SNumericKeyboardAmount(
-                    widgetSize: widgetSizeFrom(deviceSize),
+                  SNumericKeyboard(
                     onKeyPressed: (value) {
                       store.updateInputValue(value);
                     },
-                    buttonType: SButtonType.primary2,
-                    submitButtonActive: store.isContinueAvaible,
-                    submitButtonName: intl.addCircleCard_continue,
-                    onSubmitPressed: () {
-                      sAnalytics.tapOnTheContinueWithSellAmountButton(
-                        destinationWallet: 'EUR',
-                        nowInput: store.isFiatEntering ? 'Fiat' : 'Crypro',
-                        sellFromWallet: store.cryptoSymbol,
-                        enteredAmount: store.primaryAmount,
-                        sellToPMType: store.account?.isClearjuctionAccount ?? false
-                            ? PaymenthMethodType.cjAccount
-                            : PaymenthMethodType.unlimitAccount,
-                      );
-                      sRouter.push(
-                        SellConfirmationRoute(
-                          asset: store.asset!,
-                          isFromFixed: !store.isFiatEntering,
-                          paymentCurrency: store.buyCurrency,
-                          account: store.account,
-                          simpleCard: store.card,
-                          fromAmount: Decimal.parse(store.cryptoInputValue),
-                          toAmount: Decimal.parse(store.fiatInputValue),
-                        ),
-                      );
-                    },
+                    button: SButton.black(
+                      text: intl.addCircleCard_continue,
+                      callback: store.isContinueAvaible
+                          ? () {
+                              sAnalytics.tapOnTheContinueWithSellAmountButton(
+                                destinationWallet: 'EUR',
+                                nowInput: store.isFiatEntering ? 'Fiat' : 'Crypro',
+                                sellFromWallet: store.cryptoSymbol,
+                                enteredAmount: store.primaryAmount,
+                                sellToPMType: store.account?.isClearjuctionAccount ?? false
+                                    ? PaymenthMethodType.cjAccount
+                                    : PaymenthMethodType.unlimitAccount,
+                              );
+                              sRouter.push(
+                                SellConfirmationRoute(
+                                  asset: store.asset!,
+                                  isFromFixed: !store.isFiatEntering,
+                                  paymentCurrency: store.buyCurrency,
+                                  account: store.account,
+                                  simpleCard: store.card,
+                                  fromAmount: Decimal.parse(store.cryptoInputValue),
+                                  toAmount: Decimal.parse(store.fiatInputValue),
+                                ),
+                              );
+                            }
+                          : null,
+                    ),
                   ),
                 ],
               );

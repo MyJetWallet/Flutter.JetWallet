@@ -13,8 +13,8 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'ConvetrConfirmationRoute')
 class ConvetrConfirmationScreen extends StatelessWidget {
@@ -90,7 +90,7 @@ class _ConvertConfirmationScreenBody extends StatelessObserverWidget {
             hasScrollBody: false,
             child: Column(
               children: [
-                WhatToWhatConvertWidget(
+                STransaction(
                   isLoading: !store.isDataLoaded,
                   fromAssetIconUrl: store.payCurrency.iconUrl,
                   fromAssetDescription: store.payCurrency.symbol,

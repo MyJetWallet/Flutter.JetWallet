@@ -31,9 +31,6 @@ import 'package:jetwallet/features/change_email/screen/change_email_screen.dart'
 import 'package:jetwallet/features/change_email/screen/change_email_verification_screen.dart';
 import 'package:jetwallet/features/cj_banking_accounts/screens/cj_account_label_screen.dart';
 import 'package:jetwallet/features/cj_banking_accounts/screens/cj_account_screen.dart';
-import 'package:jetwallet/features/convert/model/preview_convert_input.dart';
-import 'package:jetwallet/features/convert/ui/convert.dart';
-import 'package:jetwallet/features/convert/ui/preview_convert.dart';
 import 'package:jetwallet/features/convert_flow/screens/convetr_confrimation_screen.dart';
 import 'package:jetwallet/features/crypto_deposit/crypto_deposit_screen.dart';
 import 'package:jetwallet/features/crypto_jar/ui/all_jars_screen.dart';
@@ -171,7 +168,6 @@ import '../../features/auth/splash/splash_screen.dart';
 import '../../features/currency_buy/ui/screens/choose_asset_screen.dart';
 import '../../features/debug_info/install_conversion_data_screen.dart';
 import '../../features/debug_info/logs_screen.dart';
-import '../../features/iban/iban_screen.dart';
 import '../../features/iban/widgets/iban_billing_address.dart';
 import '../../features/invest/invest_screen.dart';
 import '../../features/invest/ui/active_invest_manage_screen.dart';
@@ -247,10 +243,6 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
           path: 'my_wallets',
           page: MyWalletsRouter.page,
-        ),
-        AutoRoute(
-          path: 'iban',
-          page: IBanRouter.page,
         ),
         AutoRoute(
           path: 'card',
@@ -372,14 +364,6 @@ class AppRouter extends _$AppRouter {
       path: '/iban_edit_account',
       page: IbanEditBankAccountRouter.page,
       transitionsBuilder: TransitionsBuilders.slideBottom,
-    ),
-    AutoRoute(
-      path: '/preview_convert',
-      page: PreviewConvertRouter.page,
-    ),
-    AutoRoute(
-      path: '/convert',
-      page: ConvertRouter.page,
     ),
     AutoRoute(
       path: '/success_screen',

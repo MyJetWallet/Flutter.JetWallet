@@ -14,7 +14,6 @@ import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/jar/jar_response_model.dart';
@@ -102,29 +101,27 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
           SliverToBoxAdapter(
             child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 24),
-                  child: AssetRowWidget(
-                    isLoading: false,
-                    assetIconUrl: store.withdrawalInputModel!.currency!.iconUrl,
-                    assetDescription: store.withdrawalInputModel!.currency!.description,
-                    assetValue: store.youSendAmount.toFormatCount(
-                      accuracy: store.withdrawalInputModel!.currency!.accuracy,
-                      symbol: store.withdrawalInputModel!.currency!.symbol,
-                    ),
-                    assetBaseAmount: formatService
-                        .convertOneCurrencyToAnotherOne(
-                          fromCurrency: store.withdrawalInputModel!.currency!.symbol,
-                          fromCurrencyAmmount: store.youSendAmount,
-                          toCurrency: sSignalRModules.baseCurrency.symbol,
-                          baseCurrency: sSignalRModules.baseCurrency.symbol,
-                          isMin: false,
-                        )
-                        .toFormatSum(
-                          accuracy: sSignalRModules.baseCurrency.accuracy,
-                          symbol: sSignalRModules.baseCurrency.symbol,
-                        ),
+                STransaction(
+                  isLoading: false,
+                  hasSecondAsset: false,
+                  fromAssetIconUrl: store.withdrawalInputModel!.currency!.iconUrl,
+                  fromAssetDescription: store.withdrawalInputModel!.currency!.description,
+                  fromAssetValue: store.youSendAmount.toFormatCount(
+                    accuracy: store.withdrawalInputModel!.currency!.accuracy,
+                    symbol: store.withdrawalInputModel!.currency!.symbol,
                   ),
+                  fromAssetBaseAmount: formatService
+                      .convertOneCurrencyToAnotherOne(
+                        fromCurrency: store.withdrawalInputModel!.currency!.symbol,
+                        fromCurrencyAmmount: store.youSendAmount,
+                        toCurrency: sSignalRModules.baseCurrency.symbol,
+                        baseCurrency: sSignalRModules.baseCurrency.symbol,
+                        isMin: false,
+                      )
+                      .toFormatSum(
+                        accuracy: sSignalRModules.baseCurrency.accuracy,
+                        symbol: sSignalRModules.baseCurrency.symbol,
+                      ),
                 ),
                 const SDivider(),
                 const SpaceH16(),

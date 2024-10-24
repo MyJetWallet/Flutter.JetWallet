@@ -13,6 +13,7 @@ import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
 
@@ -165,54 +166,55 @@ class IbanSendAmountBody extends StatelessObserverWidget {
             small: () => const Spacer(),
             medium: () => const SpaceH20(),
           ),
-          SNumericKeyboardAmount(
-            widgetSize: widgetSizeFrom(deviceSize),
+          SNumericKeyboard(
             onKeyPressed: (value) {
               store.updateAmount(value);
             },
-            buttonType: SButtonType.primary2,
-            submitButtonActive: store.withValid,
-            submitButtonName: intl.addCircleCard_continue,
-            onSubmitPressed: () {
-              sAnalytics.eurWithdrawContinueFromAmoountB(
-                isCJ: isCJ,
-                accountIban: bankingAccount.iban ?? '',
-                accountLabel: bankingAccount.label ?? '',
-                eurAccType: contact.iban ?? '',
-                eurAccLabel: contact.name ?? '',
-                enteredAmount: store.withAmount,
-              );
+            button: SButton.black(
+              text: intl.addCircleCard_continue,
+              callback: store.withValid
+                  ? () {
+                      sAnalytics.eurWithdrawContinueFromAmoountB(
+                        isCJ: isCJ,
+                        accountIban: bankingAccount.iban ?? '',
+                        accountLabel: bankingAccount.label ?? '',
+                        eurAccType: contact.iban ?? '',
+                        eurAccLabel: contact.name ?? '',
+                        enteredAmount: store.withAmount,
+                      );
 
-              if (isCJ) {
-                store.loadPreview(null, isCJ);
-              } else {
-                sAnalytics.eurWithdrawReferenceSV(
-                  isCJ: isCJ,
-                  accountIban: bankingAccount.iban ?? '',
-                  accountLabel: bankingAccount.label ?? '',
-                  eurAccType: contact.iban ?? '',
-                  eurAccLabel: contact.name ?? '',
-                  enteredAmount: store.withAmount,
-                );
+                      if (isCJ) {
+                        store.loadPreview(null, isCJ);
+                      } else {
+                        sAnalytics.eurWithdrawReferenceSV(
+                          isCJ: isCJ,
+                          accountIban: bankingAccount.iban ?? '',
+                          accountLabel: bankingAccount.label ?? '',
+                          eurAccType: contact.iban ?? '',
+                          eurAccLabel: contact.name ?? '',
+                          enteredAmount: store.withAmount,
+                        );
 
-                showReferenceSheet(
-                  context,
-                  (description) {
-                    sAnalytics.eurWithdrawContinueReferecenceButton(
-                      isCJ: isCJ,
-                      accountIban: bankingAccount.iban ?? '',
-                      accountLabel: bankingAccount.label ?? '',
-                      eurAccType: contact.iban ?? '',
-                      eurAccLabel: contact.name ?? '',
-                      enteredAmount: store.withAmount,
-                      referenceText: description,
-                    );
+                        showReferenceSheet(
+                          context,
+                          (description) {
+                            sAnalytics.eurWithdrawContinueReferecenceButton(
+                              isCJ: isCJ,
+                              accountIban: bankingAccount.iban ?? '',
+                              accountLabel: bankingAccount.label ?? '',
+                              eurAccType: contact.iban ?? '',
+                              eurAccLabel: contact.name ?? '',
+                              enteredAmount: store.withAmount,
+                              referenceText: description,
+                            );
 
-                    store.loadPreview(description, isCJ);
-                  },
-                );
-              }
-            },
+                            store.loadPreview(description, isCJ);
+                          },
+                        );
+                      }
+                    }
+                  : null,
+            ),
           ),
         ],
       ),

@@ -197,17 +197,14 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                           : intl.invest_new_invest,
                       onButtonTap: () {
                         if (sSignalRModules.investWalletData?.balance == Decimal.zero) {
-                          final actualAsset = currency;
                           final kycState = getIt.get<KycService>();
                           final kycAlertHandler = getIt.get<KycAlertHandler>();
                           if (kycState.tradeStatus == kycOperationStatus(KycStatus.allowed)) {
                             showSendTimerAlertOr(
                               context: context,
-                              or: () => sRouter.push(
-                                ConvertRouter(
-                                  fromCurrency: actualAsset,
-                                ),
-                              ),
+                              or: () {
+                                // There used to be a push on ConvertRouter here, it shouldn't be like that, that's why I deleted it ¯\_(ツ)_/¯ (Yaroslav)
+                              },
                               from: [BlockingType.trade],
                             );
                           } else {
@@ -216,11 +213,9 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                               isProgress: kycState.verificationInProgress,
                               currentNavigate: () => showSendTimerAlertOr(
                                 context: context,
-                                or: () => sRouter.push(
-                                  ConvertRouter(
-                                    fromCurrency: actualAsset,
-                                  ),
-                                ),
+                                or: () {
+                                  // There used to be a push on ConvertRouter here, it shouldn't be like that, that's why I deleted it ¯\_(ツ)_/¯ (Yaroslav)
+                                },
                                 from: [BlockingType.trade],
                               ),
                               requiredDocuments: kycState.requiredDocuments,

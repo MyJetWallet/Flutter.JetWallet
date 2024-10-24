@@ -12,8 +12,10 @@ class KeyboardKeySize extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: SizedBox(
-        height: 56.0,
-        child: child,
+        height: 59.0,
+        child: Center(
+          child: child,
+        ),
       ),
     );
   }
