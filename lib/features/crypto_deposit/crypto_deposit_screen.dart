@@ -16,7 +16,6 @@ import 'package:jetwallet/features/crypto_deposit/widgets/deposit_info_tag.dart'
 import 'package:jetwallet/features/crypto_deposit/widgets/show_deposit_disclaimer.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
-import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
@@ -79,7 +78,7 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
     controller = ScrollController();
     pageController = PageController(viewportFraction: 0.9);
 
-    showAlert = kycState.withdrawalStatus != kycOperationStatus(KycStatus.allowed);
+    showAlert = kycState.isSimpleKyc;
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
