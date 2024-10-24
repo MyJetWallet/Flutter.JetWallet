@@ -50,7 +50,6 @@ export 'widgets/button/tag/simple_tag_button.dart';
 export 'widgets/button/chips/simple_command_bar.dart';
 
 export 'widgets/shared/icons/blue_bank_icon.dart';
-export 'widgets/shared/icons/user_noty_icon.dart';
 export 'widgets/shared/safe_gesture.dart';
 
 export 'widgets/button/context/simple_button_context.dart';

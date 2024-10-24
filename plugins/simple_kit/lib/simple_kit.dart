@@ -58,10 +58,6 @@ export 'modules/buttons/basic_buttons/secondary_button/public/simple_secondary_b
 export 'modules/buttons/basic_buttons/text_button/public/simple_text_button_1.dart';
 export 'modules/buttons/basic_buttons/text_button/public/simple_text_button_2.dart';
 export 'modules/buttons/kyc_button/simple_choose_document_button.dart';
-export 'modules/buttons/link_button/public/simple_link_button_1.dart';
-export 'modules/buttons/link_button/public/simple_link_button_2.dart';
-export 'modules/buttons/link_button/public/simple_link_button_text.dart';
-export 'modules/buttons/link_button/base/simple_base_link_text.dart';
 export 'modules/buttons/resend_button/simple_resend_button.dart';
 export 'modules/buttons/simple_floating_button_frame.dart';
 export 'modules/buttons/simple_floating_button_frame2.dart';
