@@ -11,7 +11,7 @@ class AccountBannerList extends StatefulObserverWidget {
     this.onTwoFaBannerTap,
     this.onChatBannerTap,
     this.onKycBannerTap,
-    required this.kycPassed,
+    required this.kycRequired,
     required this.kycBlocked,
     required this.twoFaEnabled,
     required this.phoneVerified,
@@ -21,7 +21,7 @@ class AccountBannerList extends StatefulObserverWidget {
   final Function()? onTwoFaBannerTap;
   final Function()? onChatBannerTap;
   final Function()? onKycBannerTap;
-  final bool kycPassed;
+  final bool kycRequired;
   final bool kycBlocked;
   final bool twoFaEnabled;
   final bool phoneVerified;
@@ -102,7 +102,7 @@ class _AccountBannerListState extends State<AccountBannerList> {
 
     final showChatChecker = await storage.getValue(closedSupportBannerKey);
     final banners = createBannersList(
-      kycPassed: widget.kycPassed,
+      kycRequired: widget.kycRequired,
       kycBlocked: widget.kycBlocked,
       verificationInProgress: widget.verificationInProgress,
       twoFaEnabled: true,
