@@ -26,12 +26,14 @@ Future<void> showAddAssetsBottomSheet(BuildContext context) async {
 
   showBasicBottomSheet(
     context: context,
-    title: intl.market_add_assets,
-    searchOptions: SearchOptions(
-      hint: intl.actionBottomSheetHeader_search,
-      onChange: (String value) {
-        searchStore.search(value);
-      },
+    basicBottomSheetHeader: BasicBottomSheetHeaderWidget(
+      title: intl.market_add_assets,
+      searchOptions: SearchOptions(
+        hint: intl.actionBottomSheetHeader_search,
+        onChange: (String value) {
+          searchStore.search(value);
+        },
+      ),
     ),
     basicBottomSheetButton: BasicBottomSheetButton(
       title: intl.market_done,
