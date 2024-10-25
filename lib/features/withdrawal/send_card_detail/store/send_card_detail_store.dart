@@ -211,6 +211,7 @@ abstract class _SendCardDetailStoreBase with Store {
     String? ifscCode;
     String? bankAccount;
     String? wise;
+    String? tin;
 
     for (var i = 0; i < methodList.length; i++) {
       switch (methodList[i].info.fieldId) {
@@ -238,6 +239,8 @@ abstract class _SendCardDetailStoreBase with Store {
           ifscCode = methodList[i].value;
         case FieldInfoId.wise:
           wise = methodList[i].value;
+        case FieldInfoId.tin:
+          tin = methodList[i].value;
         default:
           break;
       }
@@ -258,6 +261,7 @@ abstract class _SendCardDetailStoreBase with Store {
       ifscCode: ifscCode,
       bankAccount: bankAccount,
       wise: wise,
+      tin: tin,
       pin: '',
     );
 

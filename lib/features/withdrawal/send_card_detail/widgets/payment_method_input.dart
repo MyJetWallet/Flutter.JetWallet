@@ -19,6 +19,7 @@ class PaymentMethodInput {
   static Widget ifscCode(GlobalSendMethod method) => PaymentMethodRecipientName(method: method);
   static Widget bankAccount(GlobalSendMethod method) => PaymentMethodRecipientName(method: method);
   static Widget wise(GlobalSendMethod method) => PaymentMethodRecipientName(method: method);
+  static Widget tin(GlobalSendMethod method) => PaymentMethodRecipientName(method: method);
 
   static Widget getInput(GlobalSendMethod method) {
     switch (method.info.fieldId) {
@@ -46,6 +47,8 @@ class PaymentMethodInput {
         return ifscCode(method);
       case FieldInfoId.wise:
         return wise(method);
+      case FieldInfoId.tin:
+        return tin(method);
       default:
         return const SizedBox.shrink();
     }
