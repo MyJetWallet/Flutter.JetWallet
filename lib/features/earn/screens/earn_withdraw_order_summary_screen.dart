@@ -184,10 +184,9 @@ class _EarnWithdrawOrderSummaruBody extends StatelessWidget {
               const Spacer(),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 24),
-                child: SPrimaryButton2(
-                  active: true,
-                  name: intl.previewBuyWithAsset_confirm,
-                  onTap: () {
+                child: SButton.blue(
+                  text: intl.previewBuyWithAsset_confirm,
+                  callback: () {
                     sAnalytics.tapOnTheConfirmWithdrawOrderSummaryButton(
                       assetName: store.earnPosition.assetId,
                       earnOfferId: store.earnPosition.offerId,

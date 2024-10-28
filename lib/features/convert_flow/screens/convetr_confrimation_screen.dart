@@ -133,18 +133,19 @@ class _ConvertConfirmationScreenBody extends StatelessObserverWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 32),
-                  child: SPrimaryButton2(
-                    active: !store.loader.loading,
-                    name: intl.previewBuyWithAsset_confirm,
-                    onTap: () {
-                      sAnalytics.tapOnTheButtonConfirmOnConvertOrderSummary(
-                        enteredAmount: (store.isFromFixed ? store.paymentAmount : store.buyAmount).toString(),
-                        convertFromAsset: store.paymentAsset ?? '',
-                        convertToAsset: store.buyAsset ?? '',
-                        nowInput: store.isFromFixed ? 'ConvertFrom' : 'ConvertTo',
-                      );
-                      store.createPayment();
-                    },
+                  child: SButton.blue(
+                    text: intl.previewBuyWithAsset_confirm,
+                    callback: !store.loader.loading
+                        ? () {
+                            sAnalytics.tapOnTheButtonConfirmOnConvertOrderSummary(
+                              enteredAmount: (store.isFromFixed ? store.paymentAmount : store.buyAmount).toString(),
+                              convertFromAsset: store.paymentAsset ?? '',
+                              convertToAsset: store.buyAsset ?? '',
+                              nowInput: store.isFromFixed ? 'ConvertFrom' : 'ConvertTo',
+                            );
+                            store.createPayment();
+                          }
+                        : null,
                   ),
                 ),
               ],

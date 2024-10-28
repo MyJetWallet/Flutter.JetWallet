@@ -7,6 +7,7 @@ import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/features/account/profile_details/store/change_password_store.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'ChangePasswordRouter')
 class ChangePassword extends StatelessObserverWidget {
@@ -60,14 +61,15 @@ class ChangePassword extends StatelessObserverWidget {
           ),
           const Spacer(),
           SPaddingH24(
-            child: SPrimaryButton2(
-              name: intl.changePassword_continue,
-              onTap: () {
-                sRouter.push(
-                  const SetNewPasswordRouter(),
-                );
-              },
-              active: isPasswordValid(changePassword.oldPassword),
+            child: SButton.blue(
+              text: intl.changePassword_continue,
+              callback: isPasswordValid(changePassword.oldPassword)
+                  ? () {
+                      sRouter.push(
+                        const SetNewPasswordRouter(),
+                      );
+                    }
+                  : null,
             ),
           ),
           const SpaceH24(),

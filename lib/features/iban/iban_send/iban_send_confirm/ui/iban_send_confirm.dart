@@ -230,10 +230,9 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
             button: Column(
               children: [
                 const SpaceH24(),
-                SPrimaryButton2(
-                  active: true,
-                  name: intl.previewBuyWithAsset_confirm,
-                  onTap: () {
+                SButton.blue(
+                  text: intl.previewBuyWithAsset_confirm,
+                  callback: () {
                     sAnalytics.eurWithdrawTapConfirmOrderSummary(
                       isCJ: isCJ,
                       accountIban: account.iban ?? '',

@@ -169,19 +169,20 @@ class _OfferOrderSummaruBody extends StatelessWidget {
                   const Spacer(),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 24),
-                    child: SPrimaryButton2(
-                      active: store.isTermsAndConditionsChecked,
-                      name: intl.previewBuyWithAsset_confirm,
-                      onTap: () {
-                        sAnalytics.tapOnTheConfirmEarnDepositOrderSummaryButton(
-                          assetName: store.offer.assetId,
-                          earnAPYrate: store.offer.apyRate?.toString() ?? Decimal.zero.toString(),
-                          earnDepositAmount: store.selectedAmount.toString(),
-                          earnPlanName: store.offer.description ?? '',
-                          earnWithdrawalType: store.offer.withdrawType.name,
-                        );
-                        store.confirm();
-                      },
+                    child: SButton.blue(
+                      text: intl.previewBuyWithAsset_confirm,
+                      callback: store.isTermsAndConditionsChecked
+                          ? () {
+                              sAnalytics.tapOnTheConfirmEarnDepositOrderSummaryButton(
+                                assetName: store.offer.assetId,
+                                earnAPYrate: store.offer.apyRate?.toString() ?? Decimal.zero.toString(),
+                                earnDepositAmount: store.selectedAmount.toString(),
+                                earnPlanName: store.offer.description ?? '',
+                                earnWithdrawalType: store.offer.withdrawType.name,
+                              );
+                              store.confirm();
+                            }
+                          : null,
                     ),
                   ),
                   const SizedBox(height: 8),

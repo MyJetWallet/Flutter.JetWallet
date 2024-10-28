@@ -175,12 +175,13 @@ class _SellConfirmationScreenBody extends StatelessObserverWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 24),
-                  child: SPrimaryButton2(
-                    active: !store.loader.loading && store.getCheckbox,
-                    name: intl.previewBuyWithAsset_confirm,
-                    onTap: () {
-                      store.createPayment();
-                    },
+                  child: SButton.blue(
+                    text: intl.previewBuyWithAsset_confirm,
+                    callback: !store.loader.loading && store.getCheckbox
+                        ? () {
+                            store.createPayment();
+                          }
+                        : null,
                   ),
                 ),
                 Text(

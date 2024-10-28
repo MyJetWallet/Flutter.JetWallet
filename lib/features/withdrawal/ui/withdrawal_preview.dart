@@ -156,55 +156,56 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
                 const SpaceH16(),
                 const SDivider(),
                 const SpaceH32(),
-                SPrimaryButton2(
-                  active: !store.previewLoading && isUserEnoughMaticForWithdraw && !store.previewError,
-                  name: intl.withdrawalPreview_confirm,
-                  onTap: () {
-                    if (store.withdrawalType == WithdrawalType.jar) {
-                      sAnalytics.jarTapOnButtonConfirmJarWithdrawOnOrderSummary(
-                        asset: store.withdrawalInputModel!.jar!.assetSymbol,
-                        network: 'TRC20',
-                        target: store.withdrawalInputModel!.jar!.target.toInt(),
-                        balance: store.withdrawalInputModel!.jar!.balanceInJarAsset,
-                        isOpen: store.withdrawalInputModel!.jar!.status == JarStatus.active,
-                      );
-                    } else {
-                      sAnalytics.cryptoSendTapConfirmOrder(
-                        asset: store.withdrawalInputModel!.currency!.symbol,
-                        network: store.network.description,
-                        sendMethodType: '0',
-                        totalSendAmount: store.withAmount,
-                        paymentFee: feeSize == Decimal.zero ? intl.noFee : feeSizeWithSymbol,
-                      );
-                    }
-
-                    sRouter.push(
-                      PinScreenRoute(
-                        union: const Change(),
-                        isChangePhone: true,
-                        onChangePhone: (String newPin) {
+                SButton.blue(
+                  text: intl.withdrawalPreview_confirm,
+                  callback: !store.previewLoading && isUserEnoughMaticForWithdraw && !store.previewError
+                      ? () {
                           if (store.withdrawalType == WithdrawalType.jar) {
-                            sRouter.maybePop();
-
-                            store.withdrawJar(newPin: newPin);
+                            sAnalytics.jarTapOnButtonConfirmJarWithdrawOnOrderSummary(
+                              asset: store.withdrawalInputModel!.jar!.assetSymbol,
+                              network: 'TRC20',
+                              target: store.withdrawalInputModel!.jar!.target.toInt(),
+                              balance: store.withdrawalInputModel!.jar!.balanceInJarAsset,
+                              isOpen: store.withdrawalInputModel!.jar!.status == JarStatus.active,
+                            );
                           } else {
-                            sAnalytics.cryptoSendBioApprove(
+                            sAnalytics.cryptoSendTapConfirmOrder(
                               asset: store.withdrawalInputModel!.currency!.symbol,
                               network: store.network.description,
                               sendMethodType: '0',
                               totalSendAmount: store.withAmount,
                               paymentFee: feeSize == Decimal.zero ? intl.noFee : feeSizeWithSymbol,
                             );
-
-                            sRouter.maybePop();
-
-                            store.withdraw(newPin: newPin);
                           }
-                        },
-                        onWrongPin: (String error) {},
-                      ),
-                    );
-                  },
+
+                          sRouter.push(
+                            PinScreenRoute(
+                              union: const Change(),
+                              isChangePhone: true,
+                              onChangePhone: (String newPin) {
+                                if (store.withdrawalType == WithdrawalType.jar) {
+                                  sRouter.maybePop();
+
+                                  store.withdrawJar(newPin: newPin);
+                                } else {
+                                  sAnalytics.cryptoSendBioApprove(
+                                    asset: store.withdrawalInputModel!.currency!.symbol,
+                                    network: store.network.description,
+                                    sendMethodType: '0',
+                                    totalSendAmount: store.withAmount,
+                                    paymentFee: feeSize == Decimal.zero ? intl.noFee : feeSizeWithSymbol,
+                                  );
+
+                                  sRouter.maybePop();
+
+                                  store.withdraw(newPin: newPin);
+                                }
+                              },
+                              onWrongPin: (String error) {},
+                            ),
+                          );
+                        }
+                      : null,
                 ),
               ],
             ),

@@ -154,20 +154,21 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 64),
-                  child: SPrimaryButton2(
-                    active: !store.loader.loading && store.getCheckbox,
-                    name: intl.previewBuyWithAsset_confirm,
-                    onTap: () {
-                      sAnalytics.tapOnTheButtonConfirmOnBuyOrderSummary(
-                        pmType: PaymenthMethodType.ptp,
-                        buyPM: 'PTP',
-                        sourceCurrency: store.paymentAsset?.asset ?? '',
-                        destinationWallet: store.buyAsset ?? '',
-                        sourceBuyAmount: store.paymentAmount.toString(),
-                        destinationBuyAmount: store.buyAmount.toString(),
-                      );
-                      store.createPayment();
-                    },
+                  child: SButton.blue(
+                    text: intl.previewBuyWithAsset_confirm,
+                    callback: !store.loader.loading && store.getCheckbox
+                        ? () {
+                            sAnalytics.tapOnTheButtonConfirmOnBuyOrderSummary(
+                              pmType: PaymenthMethodType.ptp,
+                              buyPM: 'PTP',
+                              sourceCurrency: store.paymentAsset?.asset ?? '',
+                              destinationWallet: store.buyAsset ?? '',
+                              sourceBuyAmount: store.paymentAmount.toString(),
+                              destinationBuyAmount: store.buyAmount.toString(),
+                            );
+                            store.createPayment();
+                          }
+                        : null,
                   ),
                 ),
                 const SpaceH40(),

@@ -217,10 +217,9 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                 ),
                 const SpaceH20(),
                 const SpaceH24(),
-                SPrimaryButton2(
-                  active: true,
-                  name: intl.previewBuyWithAsset_confirm,
-                  onTap: () {
+                SButton.blue(
+                  text: intl.previewBuyWithAsset_confirm,
+                  callback: () {
                     sAnalytics.globalSendConfirmOrderSummary(
                       asset: data.asset ?? '',
                       sendMethodType: '1',

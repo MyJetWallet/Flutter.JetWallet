@@ -121,12 +121,13 @@ class _TransferConfirmationScreenBody extends StatelessObserverWidget {
                 const Spacer(),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 24),
-                  child: SPrimaryButton2(
-                    active: !store.loader.loading,
-                    name: intl.previewBuyWithAsset_confirm,
-                    onTap: () {
-                      store.confirmTransfer();
-                    },
+                  child: SButton.blue(
+                    text: intl.previewBuyWithAsset_confirm,
+                    callback: !store.loader.loading
+                        ? () {
+                            store.confirmTransfer();
+                          }
+                        : null,
                   ),
                 ),
                 const SizedBox(height: 8),

@@ -166,19 +166,21 @@ class _OfferOrderSummaruBody extends StatelessWidget {
                   const Spacer(),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 24),
-                    child: SPrimaryButton2(
-                      active: store.isTermsAndConditionsChecked,
-                      name: intl.previewBuyWithAsset_confirm,
-                      onTap: () {
-                        sAnalytics.tapOnTheConfirmEarnDepositOrderSummaryButton(
-                          assetName: store.earnPosition.offers.first.assetId,
-                          earnAPYrate: store.earnPosition.offers.first.apyRate?.toString() ?? Decimal.zero.toString(),
-                          earnDepositAmount: store.amount.toString(),
-                          earnPlanName: store.earnPosition.offers.first.description ?? '',
-                          earnWithdrawalType: store.earnPosition.offers.first.withdrawType.name,
-                        );
-                        store.confirm();
-                      },
+                    child: SButton.blue(
+                      text: intl.previewBuyWithAsset_confirm,
+                      callback: store.isTermsAndConditionsChecked
+                          ? () {
+                              sAnalytics.tapOnTheConfirmEarnDepositOrderSummaryButton(
+                                assetName: store.earnPosition.offers.first.assetId,
+                                earnAPYrate:
+                                    store.earnPosition.offers.first.apyRate?.toString() ?? Decimal.zero.toString(),
+                                earnDepositAmount: store.amount.toString(),
+                                earnPlanName: store.earnPosition.offers.first.description ?? '',
+                                earnWithdrawalType: store.earnPosition.offers.first.withdrawType.name,
+                              );
+                              store.confirm();
+                            }
+                          : null,
                     ),
                   ),
                   const SizedBox(height: 8),

@@ -113,10 +113,9 @@ class _GiftOrderSummuryState extends State<GiftOrderSummury> {
                     const SpaceH16(),
                     const SDivider(),
                     const SpaceH32(),
-                    SPrimaryButton2(
-                      active: true,
-                      name: intl.previewBuyWithAsset_confirm,
-                      onTap: () {
+                    SButton.blue(
+                      text: intl.previewBuyWithAsset_confirm,
+                      callback: () {
                         sRouter.push(
                           PinScreenRoute(
                             union: const Change(),

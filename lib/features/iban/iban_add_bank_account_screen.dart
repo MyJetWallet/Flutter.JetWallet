@@ -11,6 +11,7 @@ import 'package:logger/logger.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
 
 @RoutePage(name: 'IbanAddBankAccountRouter')
@@ -205,12 +206,13 @@ class IbanAddBankAccountScreenBody extends StatelessObserverWidget {
                       SPaddingH24(
                         child: Material(
                           color: colors.grey5,
-                          child: SPrimaryButton2(
-                            active: IbanAddBankAccountStore.of(context).isButtonActive,
-                            name: intl.iban_add_account,
-                            onTap: () {
-                              IbanAddBankAccountStore.of(context).addAccount();
-                            },
+                          child: SButton.blue(
+                            text: intl.iban_add_account,
+                            callback: IbanAddBankAccountStore.of(context).isButtonActive
+                                ? () {
+                                    IbanAddBankAccountStore.of(context).addAccount();
+                                  }
+                                : null,
                           ),
                         ),
                       ),
