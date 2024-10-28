@@ -68,8 +68,9 @@ class _BasicBottomSheetHeaderWidgetState extends State<BasicBottomSheetHeaderWid
               alignment: Alignment.centerLeft,
               child: Text(
                 widget.title!,
-                style: STStyles.header6.copyWith(
+                style: STStyles.header5.copyWith(
                   color: SColorsLight().black,
+                  overflow: TextOverflow.visible,
                 ),
               ),
             ),

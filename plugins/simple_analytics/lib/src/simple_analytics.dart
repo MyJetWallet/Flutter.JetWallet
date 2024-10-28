@@ -38,11 +38,13 @@ class SimpleAnalytics {
     required LogEventFunc logEventFunc,
     String? userEmail,
     bool useAmplitude = true,
+    bool allowedSendEventsToAmplitude = true,
   }) async {
     await _analytics.init(
       environmentKey,
       logEventFunc: logEventFunc,
       useAmplitude: useAmplitude,
+      allowedSendEventsToAmplitude: allowedSendEventsToAmplitude,
     );
 
     if (userEmail != null) {

@@ -14,7 +14,6 @@ class BasicBottomSheet extends StatefulWidget {
     this.onWillPop,
     required this.color,
     this.title,
-    this.searchOptions,
     required this.topPadding,
     required this.bottomPadding,
     super.key,
@@ -27,7 +26,6 @@ class BasicBottomSheet extends StatefulWidget {
   final Future Function(bool)? onWillPop;
   final Color color;
   final String? title;
-  final SearchOptions? searchOptions;
   final double topPadding;
   final double bottomPadding;
 
@@ -95,8 +93,8 @@ class _BasicBottomSheetState extends State<BasicBottomSheet> {
               child: Column(
                 children: [
                   BasicBottomSheetHeaderWidget(
-                    title: widget.title,
-                    searchOptions: widget.searchOptions,
+                    title: widget.title ?? widget.header.title,
+                    searchOptions: widget.header.searchOptions,
                   ),
                   if (contentTooBig)
                     SizedBox(
@@ -175,8 +173,12 @@ class _BasicBottomSheetState extends State<BasicBottomSheet> {
   }
 
   double _getHeaderHeight() {
-    final double titleHeight = (widget.title != null ? (26 + 24) : 0);
-    final double searchHeight = (widget.searchOptions != null ? (60) : 0);
+    final double titleHeight = (widget.title != null
+        ? (31 + 24)
+        : widget.header.title != null
+            ? (31 + 24)
+            : 0);
+    final double searchHeight = (widget.header.searchOptions != null ? (60) : 0);
 
     return 8 + 6 + 24 + titleHeight + searchHeight;
   }

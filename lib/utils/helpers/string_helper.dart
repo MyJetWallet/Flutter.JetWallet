@@ -131,6 +131,17 @@ String shortAddressFormTwo(String address) {
   return '$part1...$part2';
 }
 
+String shortIbanFormTwo(String iban) {
+  final length = iban.length;
+
+  if (length <= 16) return iban;
+
+  final part1 = iban.substring(0, 4);
+  final part2 = iban.substring(length - 4, length);
+
+  return '$part1...$part2';
+}
+
 String shortAddressFormThree(String address) {
   final length = address.length;
 

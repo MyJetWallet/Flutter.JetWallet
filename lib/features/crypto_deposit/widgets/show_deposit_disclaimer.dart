@@ -43,22 +43,10 @@ void showDepositDisclaimer({
           curve: Curves.linear,
         );
       },
-      primaryText1: '${intl.showDepositDisclaimer_primatyTextOnly} \$700',
-      secondaryText1: intl.actionBuy_alertPopupSecond,
-      primaryButtonName1: intl.actionBuy_goToKYC,
+      primaryText1: intl.deposit_kyc_alert_title('\$50'),
+      secondaryText1: intl.deposit_kyc_alert_description('\$50'),
+      primaryButtonName1: intl.actionBuy_gotIt,
       onPrimaryButtonTap1: () {
-        kycAlertHandler.handle(
-          status: withdrawalStatus,
-          isProgress: verificationInProgress,
-          currentNavigate: () {},
-          size: size,
-          kycFlowOnly: true,
-          requiredDocuments: requiredDocuments,
-          requiredVerifications: requiredVerifications,
-        );
-      },
-      secondaryButtonName1: intl.actionBuy_gotIt,
-      onSecondaryButtonTap1: () {
         Navigator.pop(context);
 
         final storage = sLocalStorageService;

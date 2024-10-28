@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
+import 'package:data_channel/data_channel.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -18,6 +19,7 @@ import 'package:jetwallet/core/services/package_info_service.dart';
 import 'package:jetwallet/core/services/push_notification.dart';
 import 'package:jetwallet/core/services/refresh_token_service.dart';
 import 'package:jetwallet/core/services/remote_config/models/remote_config_union.dart' as rcu;
+import 'package:jetwallet/core/services/remote_config/remote_config.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/sentry_service.dart';
 import 'package:jetwallet/core/services/session_check_service.dart';
@@ -38,7 +40,9 @@ import 'package:jetwallet/utils/helpers/firebase_analytics.dart';
 import 'package:logger/logger.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/helpers/models/refresh_token_status.dart';
+import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/analytic_records/models/analytic_record.dart';
+import 'package:simple_networking/modules/analytic_records/models/analytic_record_response.dart';
 import 'package:simple_networking/modules/auth_api/models/install_model.dart';
 import 'package:simple_networking/modules/auth_api/models/session_chek/session_check_response_model.dart';
 import 'package:simple_networking/modules/logs_api/models/add_log_model.dart';
@@ -170,6 +174,11 @@ class StartupService {
       final useAmplitude =
           amplitudeAllowCountryList.contains(getIt.get<ProfileGetUserCountry>().profileUserCountry.countryCode);
 
+      var allowedSendEventsToAmplitude = false;
+      if (useAmplitude) {
+        allowedSendEventsToAmplitude = await RemoteConfig().getRemoteConfigAnalyticFromServer();
+      }
+
       await sAnalytics.init(
         environmentKey: analyticsApiKey,
         techAcc: userInfo.isTechClient,
@@ -179,24 +188,38 @@ class StartupService {
           required String name,
           required Map<String, dynamic> body,
           required int orderIndex,
+          required bool amp,
         }) async {
           final model = AnalyticRecordModel(
             eventName: name,
             eventBody: body,
             orderIndex: orderIndex,
+            amp: amp,
           );
-          if (authStatus) {
-            await getIt.get<SNetwork>().simpleNetworking.getAnalyticApiModule().postAddAnalyticRecord([model]);
-          } else {
-            await getIt
-                .get<SNetwork>()
-                .simpleNetworkingUnathorized
-                .getAnalyticApiModule()
-                .postAddAnalyticRecord([model]);
+          try {
+            DC<ServerRejectException, AnalyticRecordResponseModel> result;
+            if (authStatus) {
+              result =
+                  await getIt.get<SNetwork>().simpleNetworking.getAnalyticApiModule().postAddAnalyticRecord([model]);
+            } else {
+              result = await getIt
+                  .get<SNetwork>()
+                  .simpleNetworkingUnathorized
+                  .getAnalyticApiModule()
+                  .postAddAnalyticRecord([model]);
+            }
+            if (result.data == null) {
+              return true;
+            } else {
+              return result.data!.limitExceeded;
+            }
+          } catch (e) {
+            return true;
           }
         },
         userEmail: parsedEmail,
         useAmplitude: useAmplitude,
+        allowedSendEventsToAmplitude: allowedSendEventsToAmplitude,
       );
     } catch (e, stackTrace) {
       getIt.get<SentryService>().captureException(e, stackTrace);

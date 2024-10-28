@@ -10,7 +10,7 @@ List<Widget> createBannersList({
   Function()? onTwoFaBannerTap,
   Function()? onKycBannerTap,
   String? showChatChecker,
-  required bool kycPassed,
+  required bool kycRequired,
   required bool kycBlocked,
   required bool twoFaEnabled,
   required bool phoneVerified,
@@ -19,7 +19,7 @@ List<Widget> createBannersList({
 }) {
   final bannersList = <Widget>[];
 
-  if (!verificationInProgress && !kycPassed && !kycBlocked) {
+  if (!verificationInProgress && kycRequired && !kycBlocked) {
     bannersList.add(
       AccountStatusBanner(
         icon: const SAccountVerifyIcon(),

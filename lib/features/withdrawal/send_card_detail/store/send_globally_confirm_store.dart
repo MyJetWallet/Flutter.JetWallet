@@ -112,6 +112,8 @@ abstract class _SendGloballyConfirmStoreBase with Store {
         return val.ifscCode ?? '';
       case FieldInfoId.wise:
         return val.wise ?? '';
+      case FieldInfoId.tin:
+        return val.tin ?? '';
       default:
         return '';
     }
@@ -153,6 +155,7 @@ abstract class _SendGloballyConfirmStoreBase with Store {
       ifscCode: data?.ifscCode,
       bankAccount: data?.bankAccount,
       wise: data?.wise,
+      tin: data?.tin,
       pin: newPin,
     );
 

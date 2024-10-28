@@ -4,10 +4,11 @@ import 'dart:async';
 
 import 'package:amplitude_flutter/amplitude.dart';
 
-typedef LogEventFunc = Future<void> Function({
+typedef LogEventFunc = Future<bool> Function({
   required String name,
   required Map<String, dynamic> body,
   required int orderIndex,
+  required bool amp,
 });
 
 class SendEventsService {
@@ -19,12 +20,17 @@ class SendEventsService {
 
   bool _useAmplitude = true;
 
+  bool _allowedSendEventsToAmplitude = true;
+
   Future<void> init(
     String apiKey, {
     String? userId,
     required LogEventFunc logEventFunc,
     bool useAmplitude = true,
+    bool allowedSendEventsToAmplitude = true,
   }) async {
+    _allowedSendEventsToAmplitude = allowedSendEventsToAmplitude;
+
     _logEventFunc = logEventFunc;
     _useAmplitude = useAmplitude;
 
@@ -53,17 +59,20 @@ class SendEventsService {
       orderIndex++;
       final localOrderIndex = orderIndex;
       if (_useAmplitude) {
-        await _amplitude.logEvent(
-          eventType,
-          eventProperties: eventProperties,
-        );
+        if (_allowedSendEventsToAmplitude) {
+          await _amplitude.logEvent(
+            eventType,
+            eventProperties: eventProperties,
+          );
+        }
       }
 
-      await _logEventFunc(
+      _allowedSendEventsToAmplitude = !(await _logEventFunc(
         name: eventType,
         body: eventProperties,
         orderIndex: localOrderIndex,
-      );
+        amp: _allowedSendEventsToAmplitude,
+      ));
     } catch (e) {
       return;
     }

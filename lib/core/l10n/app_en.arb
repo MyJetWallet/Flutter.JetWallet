@@ -919,7 +919,7 @@
     "create_personal_creating": "Creating personal account...",
     "buy_confirmation_processing_fee": "Processing fee",
     "buy_confirmation_processing_fee_description": "Simple charges this fee for handling the transaction",
-    "buy_confirmation_payment_fee_description": "imple takes this fee to cover the costs associated with our payment partners",
+    "buy_confirmation_payment_fee_description": "Simple takes this fee to cover the costs associated with our payment partners",
     "buy_confirmation_paid_with": "Paid with",
     "buy_confirmation_price": "Price",
     "bank_card_leable_headet": "Add a custom name",
@@ -1825,7 +1825,7 @@
     "card_preorder_highlight_3": "Easily connect any asset to your card",
     "card_preorder_highlight_4": "Connect to Apple/Google Wallet and shop anywhere",
     "bank_transfer": "Bank transfer",
-    "bank_transfer_to_yourself": "to yourself or another person",
+    "bank_transfer_to_yourself": "To yourself or another person",
     "bank_transfer_to": "Bank transfer to",
     "bank_transfer_to_myself": "Myself",
     "bank_transfer_to_business": "Business/Organizations",
@@ -1854,5 +1854,8 @@
                 "example": "$50"
             }
         }
-    }
+    },
+    "prepaid_card_security_code": "Security code",
+    "bank_transfer_uah_bank_account": "UAH bank account",
+    "bank_transfer_ua_iban": "Ukrainian IBAN"
 }
