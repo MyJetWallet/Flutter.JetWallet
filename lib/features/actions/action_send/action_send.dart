@@ -14,6 +14,7 @@ import 'package:jetwallet/features/actions/action_send/widgets/send_options.dart
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/actions/store/action_search_store.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
+import 'package:jetwallet/features/iban/widgets/show_choose_asset_to_send.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_country_model.dart';
@@ -426,6 +427,11 @@ void showBankTransferTo(BuildContext context, [CurrencyModel? currency]) {
     (element) => element.id == AssetPaymentProductsEnum.bankingIbanAccount,
   );
 
+  final methods = sSignalRModules.globalSendMethods?.methods
+          ?.where((method) => method.receiveAsset == 'UAH')
+          .toList() ??
+      [];
+
   sShowBasicModalBottomSheet(
     context: context,
     pinned: ActionBottomSheetHeader(
@@ -516,6 +522,43 @@ void showBankTransferTo(BuildContext context, [CurrencyModel? currency]) {
                     ? ''
                     : intl.bank_transfer_coming_soon
             : intl.bank_transfer_coming_soon,
+      ),
+      if (methods.isNotEmpty)
+        SCardRow(
+        icon: Assets.svg.medium.business.simpleSvg(color: SColorsLight().blue),
+        onTap: () {
+          final methods = sSignalRModules.globalSendMethods?.methods
+              ?.where((method) => method.type == 10 && (method.receiveAsset == 'UAH'))
+              .toList() ??
+              [];
+
+          if (methods.isEmpty) {
+            sNotification.showError(
+              intl.operation_bloked_text,
+              id: 1,
+            );
+            return;
+          }
+
+          if (currency != null) {
+            sRouter.push(
+              SendCardDetailRouter(
+                method: methods.first,
+                countryCode: 'UA',
+                currency: currency,
+              ),
+            );
+          } else {
+            showChooseAssetToSend(
+              sRouter.navigatorKey.currentContext!,
+              isUahBankTransfer: true,
+            );
+          }
+        },
+        amount: '',
+        description: '',
+        name: intl.bank_transfer_uah_bank_account,
+        helper: intl.bank_transfer_ua_iban,
       ),
       const SpaceH42(),
     ],

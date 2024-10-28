@@ -5,11 +5,11 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 
-import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/store/action_search_store.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
+import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
@@ -19,9 +19,13 @@ import 'package:simple_networking/modules/wallet_api/models/address_book/address
 
 void showChooseAssetToSend(
   BuildContext context, {
-  required AddressBookContactModel contact,
-  required bool isCJ,
+  bool isUahBankTransfer = false,
+  AddressBookContactModel? contact,
+  bool? isCJ,
 }) {
+  getIt.get<ActionSearchStore>().init();
+  getIt.get<ActionSearchStore>().clearSearchValue();
+
   final bankAccounts = sSignalRModules.bankingProfileData?.banking?.accounts ?? <SimpleBankingAccount>[];
   getIt.get<ActionSearchStore>().bankAccountsInit(bankAccounts);
 
@@ -32,11 +36,19 @@ void showChooseAssetToSend(
       )
       .toList();
 
+  print('#@#@#@ ${currencyFiltered.length}');
+
   showBasicBottomSheet(
     context: context,
     basicBottomSheetHeader: BasicBottomSheetHeaderWidget(
       title: intl.actionSend_bottomSheetHeaderName,
-      searchOptions: (currencyFiltered.length + (isCJ ? 0 : bankAccounts.length)) >= 7
+      searchOptions: (currencyFiltered.length +
+                  (isUahBankTransfer
+                      ? bankAccounts.length
+                      : isCJ!
+                          ? 0
+                          : bankAccounts.length)) >=
+              7
           ? SearchOptions(
               hint: intl.actionBottomSheetHeader_search,
               onChange: (String value) {
@@ -47,19 +59,21 @@ void showChooseAssetToSend(
           : null,
     ),
     children: [
-      _ChooseAssetToSend(contact, isCJ),
+      _ChooseAssetToSend(isUahBankTransfer, contact, isCJ),
     ],
   );
 }
 
 class _ChooseAssetToSend extends StatelessObserverWidget {
   const _ChooseAssetToSend(
+    this.isUahBankTransfer,
     this.contact,
     this.isCJ,
   );
 
-  final AddressBookContactModel contact;
-  final bool isCJ;
+  final bool isUahBankTransfer;
+  final AddressBookContactModel? contact;
+  final bool? isCJ;
 
   @override
   Widget build(BuildContext context) {
@@ -81,10 +95,10 @@ class _ChooseAssetToSend extends StatelessObserverWidget {
 
     final simpleAccount = sSignalRModules.bankingProfileData?.simple?.account;
 
-    final eurCurrency = getIt.get<FormatService>().findCurrency(
-          assetSymbol: 'EUR',
-          findInHideTerminalList: true,
-        );
+    final eurCurrency = currencyFrom(
+      sSignalRModules.currenciesList,
+      'EUR',
+    );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -102,70 +116,27 @@ class _ChooseAssetToSend extends StatelessObserverWidget {
             ),
           ),
         ),
-        if (isCJ && simpleAccount != null)
-          SimpleTableAccount(
-            assetIcon: const BlueBankIcon(
-              size: 24.0,
+        if (isUahBankTransfer) ...[
+          if (simpleAccount != null)
+            _buildEurCurrency(
+              context,
+              eurCurrency,
+              simpleAccount,
             ),
-            label: simpleAccount.label ?? 'Account 1',
-            rightValue: getIt<AppStore>().isBalanceHide
-                ? '**** ${eurCurrency.symbol}'
-                : (simpleAccount.balance ?? Decimal.zero).toFormatSum(
-                    accuracy: eurCurrency.accuracy,
-                    symbol: eurCurrency.symbol,
-                  ),
-            supplement: simpleAccount.status == AccountStatus.active
-                ? intl.eur_wallet_simple_account
-                : intl.create_simple_creating,
-            hasRightValue: simpleAccount.status == AccountStatus.active,
-            onTableAssetTap: () {
-              Navigator.pop(context);
-
-              getIt<AppRouter>().push(
-                IbanSendAmountRouter(
-                  contact: contact,
-                  bankingAccount: simpleAccount,
-                  isCJ: isCJ,
-                ),
-              );
-            },
-          )
-        else
-          ListView.builder(
-            shrinkWrap: true,
-            itemCount: searchedBankAccounts.length,
-            padding: EdgeInsets.zero,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              return SimpleTableAsset(
-                onTableAssetTap: () {
-                  Navigator.pop(context);
-
-                  getIt<AppRouter>().push(
-                    IbanSendAmountRouter(
-                      contact: contact,
-                      bankingAccount: searchedBankAccounts[index],
-                      isCJ: isCJ,
-                    ),
-                  );
-                },
-                assetIcon: const BlueBankIcon(
-                  size: 24.0,
-                ),
-                label: searchedBankAccounts[index].label ?? 'Account',
-                supplement: searchedBankAccounts[index].status == AccountStatus.active
-                    ? intl.eur_wallet_personal_account
-                    : intl.create_personal_creating,
-                hasRightValue: searchedBankAccounts[index].status == AccountStatus.active,
-                rightValue: getIt<AppStore>().isBalanceHide
-                    ? '**** ${eurCurrency.symbol}'
-                    : (searchedBankAccounts[index].balance ?? Decimal.zero).toFormatSum(
-                        accuracy: eurCurrency.accuracy,
-                        symbol: eurCurrency.symbol,
-                      ),
-              );
-            },
-          ),
+        ] else ...[
+          if (isCJ! && simpleAccount != null)
+            _buildSimpleBank(
+              context,
+              eurCurrency,
+              simpleAccount,
+            )
+          else
+            _buildBankAccounts(
+              context,
+              eurCurrency,
+              searchedBankAccounts,
+            ),
+        ],
         if (currencyFiltered.isNotEmpty)
           Padding(
             padding: const EdgeInsets.only(
@@ -196,16 +167,175 @@ class _ChooseAssetToSend extends StatelessObserverWidget {
                 onTableAssetTap: () {
                   Navigator.pop(context);
 
-                  getIt<AppRouter>().push(
-                    IbanSendAmountRouter(
-                      isCJ: isCJ,
-                      contact: contact,
-                      currency: currency,
-                    ),
-                  );
+                  if (isUahBankTransfer) {
+                    final methods = sSignalRModules.globalSendMethods?.methods
+                            ?.where((method) => method.type == 10 && (method.countryCodes?.contains('UA') ?? true))
+                            .toList() ??
+                        [];
+
+                    if (methods.isNotEmpty) {
+                      sRouter.push(
+                        SendCardDetailRouter(
+                          method: methods.first,
+                          countryCode: 'UA',
+                          currency: currency,
+                        ),
+                      );
+                    }
+                  } else {
+                    getIt<AppRouter>().push(
+                      IbanSendAmountRouter(
+                        isCJ: isCJ!,
+                        contact: contact!,
+                        currency: currency,
+                      ),
+                    );
+                  }
                 },
               ),
       ],
     );
   }
+
+  Widget _buildEurCurrency(
+    BuildContext context,
+    CurrencyModel eurCurrency,
+    SimpleBankingAccount simpleAccount,
+  ) =>
+      SimpleTableAccount(
+        assetIcon: NetworkIconWidget(
+          eurCurrency.iconUrl,
+        ),
+        label: eurCurrency.description,
+        rightValue: getIt<AppStore>().isBalanceHide
+            ? '**** ${eurCurrency.symbol}'
+            : simpleAccount.balance!.toFormatSum(
+                accuracy: eurCurrency.accuracy,
+                symbol: eurCurrency.symbol,
+              ),
+        supplement: eurCurrency.symbol,
+        onTableAssetTap: () {
+          Navigator.pop(context);
+
+          if (isUahBankTransfer) {
+            final methods = sSignalRModules.globalSendMethods?.methods
+                    ?.where((method) => method.type == 10 && (method.countryCodes?.contains('UA') ?? true))
+                    .toList() ??
+                [];
+
+            if (methods.isNotEmpty) {
+              sRouter.push(
+                SendCardDetailRouter(
+                  method: methods.first,
+                  countryCode: 'UA',
+                  currency: eurCurrency,
+                ),
+              );
+            }
+          }
+        },
+      );
+
+  Widget _buildSimpleBank(BuildContext context, CurrencyModel eurCurrency, SimpleBankingAccount simpleAccount) =>
+      SimpleTableAccount(
+        assetIcon: const BlueBankIcon(
+          size: 24.0,
+        ),
+        label: simpleAccount.label ?? 'Account 1',
+        rightValue: getIt<AppStore>().isBalanceHide
+            ? '**** ${eurCurrency.symbol}'
+            : (simpleAccount.balance ?? Decimal.zero).toFormatSum(
+                accuracy: eurCurrency.accuracy,
+                symbol: eurCurrency.symbol,
+              ),
+        supplement:
+            simpleAccount.status == AccountStatus.active ? intl.eur_wallet_simple_account : intl.create_simple_creating,
+        hasRightValue: simpleAccount.status == AccountStatus.active,
+        onTableAssetTap: () {
+          Navigator.pop(context);
+
+          if (isUahBankTransfer) {
+            final methods = sSignalRModules.globalSendMethods?.methods
+                    ?.where((method) => method.type == 10 && (method.countryCodes?.contains('UA') ?? true))
+                    .toList() ??
+                [];
+
+            if (methods.isNotEmpty) {
+              sRouter.push(
+                SendCardDetailRouter(
+                  method: methods.first,
+                  countryCode: 'UA',
+                  currency: eurCurrency,
+                ),
+              );
+            }
+          } else {
+            getIt<AppRouter>().push(
+              IbanSendAmountRouter(
+                contact: contact!,
+                bankingAccount: simpleAccount,
+                isCJ: isCJ!,
+              ),
+            );
+          }
+        },
+      );
+
+  Widget _buildBankAccounts(
+    BuildContext context,
+    CurrencyModel eurCurrency,
+    List<SimpleBankingAccount> searchedBankAccounts,
+  ) =>
+      ListView.builder(
+        shrinkWrap: true,
+        itemCount: searchedBankAccounts.length,
+        padding: EdgeInsets.zero,
+        physics: const NeverScrollableScrollPhysics(),
+        itemBuilder: (context, index) {
+          return SimpleTableAsset(
+            onTableAssetTap: () {
+              Navigator.pop(context);
+
+              if (isUahBankTransfer) {
+                final methods = sSignalRModules.globalSendMethods?.methods
+                        ?.where((method) => method.type == 10 && (method.countryCodes?.contains('UA') ?? true))
+                        .toList() ??
+                    [];
+
+                if (methods.isNotEmpty) {
+                  sRouter.push(
+                    SendCardDetailRouter(
+                      method: methods.first,
+                      countryCode: 'UA',
+                      currency: eurCurrency,
+                    ),
+                  );
+                }
+              } else {
+                getIt<AppRouter>().push(
+                  IbanSendAmountRouter(
+                    contact: contact!,
+                    bankingAccount: searchedBankAccounts[index],
+                    isCJ: isCJ!,
+                  ),
+                );
+              }
+            },
+            assetIcon: const BlueBankIcon(
+              size: 24.0,
+            ),
+            label: searchedBankAccounts[index].label ?? 'Account',
+            supplement: searchedBankAccounts[index].status == AccountStatus.active
+                ? intl.eur_wallet_personal_account
+                : intl.create_personal_creating,
+            hasRightValue: searchedBankAccounts[index].status == AccountStatus.active,
+            rightValue: getIt<AppStore>().isBalanceHide
+                ? '**** ${eurCurrency.symbol}'
+                : (searchedBankAccounts[index].balance ?? Decimal.zero).toFormatSum(
+                    accuracy: eurCurrency.accuracy,
+                    symbol: eurCurrency.symbol,
+                  ),
+          );
+        },
+      );
 }
