@@ -166,12 +166,13 @@ class IbanAddBankAccountScreenBody extends StatelessObserverWidget {
                       SPaddingH24(
                         child: Material(
                           color: colors.grey5,
-                          child: SPrimaryButton1(
-                            active: IbanAddBankAccountStore.of(context).isButtonActive,
-                            name: intl.iban_edit_save_changes,
-                            onTap: () {
-                              IbanAddBankAccountStore.of(context).editAccount();
-                            },
+                          child: SButton.black(
+                            text: intl.iban_edit_save_changes,
+                            callback: IbanAddBankAccountStore.of(context).isButtonActive
+                                ? () {
+                                    IbanAddBankAccountStore.of(context).editAccount();
+                                  }
+                                : null,
                           ),
                         ),
                       ),

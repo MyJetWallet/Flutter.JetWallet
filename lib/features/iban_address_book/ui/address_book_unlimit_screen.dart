@@ -269,22 +269,23 @@ class _BodyAdressBookUnlimitState extends State<_BodyAdressBookUnlimit> {
                       SPaddingH24(
                         child: Material(
                           color: colors.grey5,
-                          child: SPrimaryButton1(
-                            active: IbanAddressBookStore.of(context).isButtonActive,
-                            name: intl.iban_edit_save_changes,
-                            onTap: () async {
-                              sAnalytics.eurWithdrawTapSaveChangesEdit(
-                                isCJ: false,
-                                accountIban: widget.bankingAccount?.iban ?? '',
-                                accountLabel: widget.bankingAccount?.label ?? '',
-                              );
+                          child: SButton.black(
+                            text: intl.iban_edit_save_changes,
+                            callback: IbanAddressBookStore.of(context).isButtonActive
+                                ? () async {
+                                    sAnalytics.eurWithdrawTapSaveChangesEdit(
+                                      isCJ: false,
+                                      accountIban: widget.bankingAccount?.iban ?? '',
+                                      accountLabel: widget.bankingAccount?.label ?? '',
+                                    );
 
-                              final result = await IbanAddressBookStore.of(context).editAccount();
+                                    final result = await IbanAddressBookStore.of(context).editAccount();
 
-                              if (result) {
-                                Navigator.pop(context, true);
-                              }
-                            },
+                                    if (result) {
+                                      Navigator.pop(context, true);
+                                    }
+                                  }
+                                : null,
                           ),
                         ),
                       ),

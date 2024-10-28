@@ -102,10 +102,9 @@ class GiftSendDetails extends StatelessObserverWidget {
             ),
             if (transactionListItem.status == Status.inProgress) ...[
               const SpaceH40(),
-              SPrimaryButton1(
-                active: true,
-                name: intl.gift_history_remind,
-                onTap: () {
+              SButton.black(
+                text: intl.gift_history_remind,
+                callback: () {
                   shareGiftResultBottomSheet(
                     context: context,
                     amount: Decimal.parse(
