@@ -81,20 +81,9 @@ class BankTransferDetails extends StatelessObserverWidget {
                       ),
                       child: TransactionDetailsValueText(
                         textAlign: TextAlign.end,
-                        // TODO:
-                        text: (transactionListItem.ibanWithdrawalInfo?.contactName ?? '').trim(),
-                      ),
-                    ),
-                    ConstrainedBox(
-                      constraints: BoxConstraints(
-                        maxWidth: MediaQuery.of(context).size.width * 0.46,
-                      ),
-                      child: TransactionDetailsValueText(
-                        textAlign: TextAlign.end,
                         text: splitIban(
                           (transactionListItem.sellWithdrawalInfo?.toIban ?? '').trim(),
                         ),
-                        color: sKit.colors.grey1,
                       ),
                     ),
                   ],
@@ -150,13 +139,19 @@ class BankTransferDetails extends StatelessObserverWidget {
                     '',
               );
 
+              final processingFeeAmount = transactionListItem.sellCryptoInfo?.feeAssetId ==
+                      transactionListItem.sellWithdrawalInfo?.withdrawalFeeAssetId
+                  ? (transactionListItem.sellCryptoInfo?.feeAmount ?? Decimal.zero) +
+                      (transactionListItem.sellWithdrawalInfo?.withdrawalFeeAmount ?? Decimal.zero)
+                  : (transactionListItem.sellCryptoInfo?.feeAmount ?? Decimal.zero);
+
               return ProcessingFeeRowWidget(
                 fee: currency.type == AssetType.crypto
-                    ? (transactionListItem.sellCryptoInfo?.feeAmount ?? Decimal.zero).toFormatCount(
+                    ? processingFeeAmount.toFormatCount(
                         accuracy: currency.accuracy,
                         symbol: currency.symbol,
                       )
-                    : (transactionListItem.sellCryptoInfo?.feeAmount ?? Decimal.zero).toFormatSum(
+                    : processingFeeAmount.toFormatSum(
                         accuracy: currency.accuracy,
                         symbol: currency.symbol,
                       ),

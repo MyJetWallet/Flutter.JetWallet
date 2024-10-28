@@ -820,6 +820,8 @@ class SellWithdrawalInfo with _$SellWithdrawalInfo {
     String? intermediaryBankAccount,
     @DecimalNullSerialiser() Decimal? withdrawalAmount,
     String? withdrawalAssetId,
+    @DecimalNullSerialiser() Decimal? withdrawalFeeAmount,
+    String? withdrawalFeeAssetId,
   }) = _SellWithdrawalInfo;
 
   factory SellWithdrawalInfo.fromJson(Map<String, dynamic> json) => _$SellWithdrawalInfoFromJson(json);

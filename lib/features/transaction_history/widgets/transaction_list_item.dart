@@ -500,7 +500,7 @@ class TransactionBaseItem extends StatelessWidget {
                             text: rightSupplement!,
                             color: colors.grey1,
                           ),
-                        const SpaceW5(),
+                        const SpaceW8(),
                         if (status == Status.inProgress)
                           const SimpleLoader()
                         else if (status == Status.completed)
