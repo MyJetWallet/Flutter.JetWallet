@@ -88,26 +88,32 @@ class AnchorsService {
 
       await Future.delayed(const Duration(milliseconds: 650));
 
-      await sRouter.push(
-        CryptoDepositRouter(
-          cryptoDepositModel: CryptoDepositModel(
-            assetSymbol: symbol,
+      final isPageRouterNow = sRouter.stack.any((rout) => rout.name == CryptoDepositRouter.name);
+      if (!isPageRouterNow) {
+        await sRouter.push(
+          CryptoDepositRouter(
+            cryptoDepositModel: CryptoDepositModel(
+              assetSymbol: symbol,
+            ),
           ),
-        ),
-      );
+        );
+      }
     } else {
       getIt<RouteQueryService>().addToQuery(
         RouteQueryModel(
           func: () async {
             sRouter.popUntilRoot();
 
-            await sRouter.push(
-              CryptoDepositRouter(
-                cryptoDepositModel: CryptoDepositModel(
-                  assetSymbol: symbol,
+            final isPageRouterNow = sRouter.stack.any((rout) => rout.name == CryptoDepositRouter.name);
+            if (!isPageRouterNow) {
+              await sRouter.push(
+                CryptoDepositRouter(
+                  cryptoDepositModel: CryptoDepositModel(
+                    assetSymbol: symbol,
+                  ),
                 ),
-              ),
-            );
+              );
+            }
           },
         ),
       );
@@ -135,34 +141,40 @@ class AnchorsService {
 
       await Future.delayed(const Duration(milliseconds: 650));
 
-      await sRouter.push(
-        ConvertConfirmationRoute(
-          convertConfirmationModel: ConvertConfirmationModel(
-            fromAsset: fromAsset,
-            toAsset: toAsset,
-            fromAmount: Decimal.parse(fromAmount),
-            toAmount: Decimal.parse(toAmount),
-            isFromFixed: bool.parse(isFromFixed),
+      final isPageRouterNow = sRouter.stack.any((rout) => rout.name == ConvertConfirmationRoute.name);
+      if (!isPageRouterNow) {
+        await sRouter.push(
+          ConvertConfirmationRoute(
+            convertConfirmationModel: ConvertConfirmationModel(
+              fromAsset: fromAsset,
+              toAsset: toAsset,
+              fromAmount: Decimal.parse(fromAmount),
+              toAmount: Decimal.parse(toAmount),
+              isFromFixed: bool.parse(isFromFixed),
+            ),
           ),
-        ),
-      );
+        );
+      }
     } else {
       getIt<RouteQueryService>().addToQuery(
         RouteQueryModel(
           func: () async {
             sRouter.popUntilRoot();
 
-            await sRouter.push(
-              ConvertConfirmationRoute(
-                convertConfirmationModel: ConvertConfirmationModel(
-                  fromAsset: fromAsset,
-                  toAsset: toAsset,
-                  fromAmount: Decimal.parse(fromAmount),
-                  toAmount: Decimal.parse(toAmount),
-                  isFromFixed: bool.parse(isFromFixed),
+            final isPageRouterNow = sRouter.stack.any((rout) => rout.name == ConvertConfirmationRoute.name);
+            if (!isPageRouterNow) {
+              await sRouter.push(
+                ConvertConfirmationRoute(
+                  convertConfirmationModel: ConvertConfirmationModel(
+                    fromAsset: fromAsset,
+                    toAsset: toAsset,
+                    fromAmount: Decimal.parse(fromAmount),
+                    toAmount: Decimal.parse(toAmount),
+                    isFromFixed: bool.parse(isFromFixed),
+                  ),
                 ),
-              ),
-            );
+              );
+            }
           },
         ),
       );
@@ -187,11 +199,14 @@ class AnchorsService {
         symbol,
       );
 
-      await sRouter.push(
-        MarketDetailsRouter(
-          marketItem: market,
-        ),
-      );
+      final isPageRouterNow = sRouter.stack.any((rout) => rout.name == MarketDetailsRouter.name);
+      if (!isPageRouterNow) {
+        await sRouter.push(
+          MarketDetailsRouter(
+            marketItem: market,
+          ),
+        );
+      }
     }
 
     if (getIt.isRegistered<AppStore>() &&
@@ -285,11 +300,14 @@ class AnchorsService {
         return;
       }
 
-      await sRouter.push(
-        EarnDepositScreenRouter(
-          offer: offer,
-        ),
-      );
+      final isPageRouterNow = sRouter.stack.any((rout) => rout.name == EarnDepositScreenRouter.name);
+      if (!isPageRouterNow) {
+        await sRouter.push(
+          EarnDepositScreenRouter(
+            offer: offer,
+          ),
+        );
+      }
     }
 
     if (getIt.isRegistered<AppStore>() &&
@@ -323,11 +341,14 @@ class AnchorsService {
 
       final sector = sSignalRModules.marketSectors.firstWhereOrNull((sector) => sector.id == sectorId);
       if (sector != null) {
-        await sRouter.push(
-          MarketSectorDetailsRouter(
-            sector: sector,
-          ),
-        );
+        final isPageRouterNow = sRouter.stack.any((rout) => rout.name == MarketSectorDetailsRouter.name);
+        if (!isPageRouterNow) {
+          await sRouter.push(
+            MarketSectorDetailsRouter(
+              sector: sector,
+            ),
+          );
+        }
       }
     }
 
@@ -379,13 +400,16 @@ class AnchorsService {
         'EUR',
       );
 
-      sRouter.push(
-        CJAccountRouter(
-          bankingAccount: bankingAccount,
-          isCJAccount: bankingAccount.isClearjuctionAccount,
-          eurCurrency: eurCurrency,
-        ),
-      );
+      final isPageRouterNow = sRouter.stack.any((rout) => rout.name == CJAccountRouter.name);
+      if (!isPageRouterNow) {
+        sRouter.push(
+          CJAccountRouter(
+            bankingAccount: bankingAccount,
+            isCJAccount: bankingAccount.isClearjuctionAccount,
+            eurCurrency: eurCurrency,
+          ),
+        );
+      }
 
       Future.delayed(const Duration(milliseconds: 250)).then((_) {
         showBankTransforSelect(

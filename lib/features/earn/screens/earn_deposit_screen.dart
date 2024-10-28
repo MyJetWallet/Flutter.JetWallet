@@ -100,6 +100,8 @@ class _EarnDepositScreenState extends State<EarnDepositScreen> {
               earnPlanName: widget.offer.description ?? '',
               earnWithdrawalType: widget.offer.withdrawType.name,
             );
+
+            await sRouter.maybePop();
             await sRouter.maybePop();
           },
         );
