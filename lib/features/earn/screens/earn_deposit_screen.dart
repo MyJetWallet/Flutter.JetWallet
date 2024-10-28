@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
@@ -90,7 +92,7 @@ class _EarnDepositScreenState extends State<EarnDepositScreen> {
             navigateToWallet(context, store.currency);
           },
           onSecondaryButtonTap: () async {
-            await AnchorsHelper().addForgotEarnDepositAnchor(widget.offer.id);
+            unawaited(AnchorsHelper().addForgotEarnDepositAnchor(widget.offer.id));
 
             sAnalytics.tapOnTheCancelTopUpEarnWalletButton(
               assetName: widget.offer.assetId,

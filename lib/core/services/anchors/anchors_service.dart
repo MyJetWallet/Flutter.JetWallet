@@ -99,6 +99,8 @@ class AnchorsService {
       getIt<RouteQueryService>().addToQuery(
         RouteQueryModel(
           func: () async {
+            sRouter.popUntilRoot();
+
             await sRouter.push(
               CryptoDepositRouter(
                 cryptoDepositModel: CryptoDepositModel(
@@ -148,6 +150,8 @@ class AnchorsService {
       getIt<RouteQueryService>().addToQuery(
         RouteQueryModel(
           func: () async {
+            sRouter.popUntilRoot();
+
             await sRouter.push(
               ConvertConfirmationRoute(
                 convertConfirmationModel: ConvertConfirmationModel(
@@ -176,6 +180,7 @@ class AnchorsService {
 
     Future<void> func() async {
       await Future.delayed(const Duration(milliseconds: 650));
+      sRouter.popUntilRoot();
 
       final market = marketItemFrom(
         sSignalRModules.marketItems,
@@ -193,8 +198,6 @@ class AnchorsService {
         getIt.get<AppStore>().remoteConfigStatus is Success &&
         getIt.get<AppStore>().authorizedStatus is Home &&
         getIt<TimerService>().isPinScreenOpen == false) {
-      sRouter.popUntilRoot();
-
       await func();
     } else {
       getIt<RouteQueryService>().addToQuery(
@@ -218,6 +221,7 @@ class AnchorsService {
 
     Future<void> func() async {
       await Future.delayed(const Duration(milliseconds: 650));
+      sRouter.popUntilRoot();
 
       SimpleBankingAccount? bankingAccount;
       if (accountId == 'clearjuction_account') {
@@ -245,8 +249,6 @@ class AnchorsService {
         getIt.get<AppStore>().remoteConfigStatus is Success &&
         getIt.get<AppStore>().authorizedStatus is Home &&
         getIt<TimerService>().isPinScreenOpen == false) {
-      sRouter.popUntilRoot();
-
       await func();
     } else {
       getIt<RouteQueryService>().addToQuery(
@@ -270,6 +272,7 @@ class AnchorsService {
 
     Future<void> func() async {
       await Future.delayed(const Duration(milliseconds: 650));
+      sRouter.popUntilRoot();
 
       final offers = sSignalRModules.activeEarnOffersMessage?.offers ?? [];
 
@@ -293,8 +296,6 @@ class AnchorsService {
         getIt.get<AppStore>().remoteConfigStatus is Success &&
         getIt.get<AppStore>().authorizedStatus is Home &&
         getIt<TimerService>().isPinScreenOpen == false) {
-      sRouter.popUntilRoot();
-
       await func();
     } else {
       getIt<RouteQueryService>().addToQuery(
@@ -358,6 +359,8 @@ class AnchorsService {
     }
 
     void func() {
+      sRouter.popUntilRoot();
+
       SimpleBankingAccount? bankingAccount;
       if (accountId == 'clearjuction_account') {
         bankingAccount = sSignalRModules.bankingProfileData?.simple?.account;
