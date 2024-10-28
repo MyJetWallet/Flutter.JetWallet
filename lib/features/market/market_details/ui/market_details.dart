@@ -257,4 +257,22 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
       AnchorsHelper().addMarketDetailsAnchor(widget.marketItem.symbol);
     }
   }
+
+  @override
+  void deactivate() {
+    _timer?.cancel();
+    super.deactivate();
+  }
+
+  @override
+  void activate() {
+    super.activate();
+    if (_timer != null) {
+      if (!_timer!.isActive) {
+        _startTimer();
+      }
+    } else {
+      _startTimer();
+    }
+  }
 }
