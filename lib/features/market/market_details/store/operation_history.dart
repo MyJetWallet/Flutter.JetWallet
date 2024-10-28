@@ -313,6 +313,7 @@ Set<oh_resp.OperationType> avaibleOperationTypes = {
   oh_resp.OperationType.bankingTransfer,
   oh_resp.OperationType.bankingBuy,
   oh_resp.OperationType.bankingSell,
+  oh_resp.OperationType.bankingSellWithWithdrawal,
   oh_resp.OperationType.cardPurchase,
   oh_resp.OperationType.cardRefund,
   oh_resp.OperationType.cardWithdrawal,
