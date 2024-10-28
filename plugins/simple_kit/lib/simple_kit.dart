@@ -291,9 +291,6 @@ export 'modules/notifications/simple_notification_service.dart';
 export 'modules/notifications/show_notification.dart';
 export 'modules/notifications/simple_notification_box.dart';
 
-/// Referral Stats
-export 'modules/referral_stats/simple_referral_stats.dart';
-
 /// Page Frames
 export 'modules/shared/page_frames/simple_page_frame.dart';
 export 'modules/shared/page_frames/simple_page_frame_with_padding.dart';

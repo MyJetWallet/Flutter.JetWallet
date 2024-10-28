@@ -104,7 +104,6 @@ import 'package:jetwallet/features/prepaid_card/screens/pre_buy_tabs_screen.dart
 import 'package:jetwallet/features/prepaid_card/screens/prepaid_card_details_screen.dart';
 import 'package:jetwallet/features/prepaid_card/screens/prepaid_card_service_screen.dart';
 import 'package:jetwallet/features/receive_gift/progres_screen.dart';
-import 'package:jetwallet/features/rewards/ui/rewards.dart';
 import 'package:jetwallet/features/rewards_flow/store/rewards_flow_store.dart';
 import 'package:jetwallet/features/rewards_flow/ui/reward_open_screen.dart';
 import 'package:jetwallet/features/rewards_flow/ui/rewards_flow_screen.dart';
@@ -396,10 +395,6 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/set_new_password',
       page: SetNewPasswordRouter.page,
-    ),
-    AutoRoute(
-      path: '/rewards',
-      page: RewardsRouter.page,
     ),
     AutoRoute(
       path: '/phone_verification',
