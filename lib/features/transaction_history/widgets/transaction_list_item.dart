@@ -260,6 +260,10 @@ class TransactionListItem extends StatelessWidget {
           width: 24,
           color: isFailed ? failedColor : colors.red,
         );
+      case OperationType.bankingSellWithWithdrawal:
+        return SWithdrawalIcon(
+          color: isFailed ? failedColor : colors.red,
+        );
       default:
         return SPlusIcon(color: isFailed ? failedColor : null);
     }
@@ -496,7 +500,7 @@ class TransactionBaseItem extends StatelessWidget {
                             text: rightSupplement!,
                             color: colors.grey1,
                           ),
-                        const SpaceW5(),
+                        const SpaceW8(),
                         if (status == Status.inProgress)
                           const SimpleLoader()
                         else if (status == Status.completed)

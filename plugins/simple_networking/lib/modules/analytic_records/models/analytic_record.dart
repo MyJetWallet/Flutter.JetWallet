@@ -9,6 +9,7 @@ class AnalyticRecordModel with _$AnalyticRecordModel {
     required String eventName,
     required Map<String, dynamic> eventBody,
     required int orderIndex,
+    required bool amp,
   }) = _AnalyticRecordModel;
 
   factory AnalyticRecordModel.fromJson(Map<String, dynamic> json) => _$AnalyticRecordModelFromJson(json);

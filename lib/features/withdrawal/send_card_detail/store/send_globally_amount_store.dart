@@ -179,8 +179,14 @@ abstract class _SendGloballyAmountStoreBase with Store {
 
   @computed
   Decimal get sendAllValue {
-    final balnce = sendCurrency?.assetBalance ?? Decimal.zero;
-    return maxLimitAmount < balnce ? maxLimitAmount : balnce;
+    Decimal balance;
+    if (sendCurrency?.symbol == 'EUR') {
+      balance = sendCurrency?.assetBalance ?? Decimal.zero;
+    } else {
+      balance = sSignalRModules.bankingProfileData?.simple?.account?.balance ?? Decimal.zero;
+    }
+
+    return maxLimitAmount < balance ? maxLimitAmount : balance;
   }
 
   @action

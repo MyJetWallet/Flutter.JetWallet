@@ -2,8 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/crypto_deposit/model/crypto_deposit_union.dart';
+import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:logging/logging.dart';
@@ -19,7 +21,13 @@ part 'crypto_deposit_store.g.dart';
 const _retryTime = 5; // in seconds
 
 class CryptoDepositStore extends _CryptoDepositStoreBase with _$CryptoDepositStore {
-  CryptoDepositStore(super.currency);
+  CryptoDepositStore({required String assetSymbol})
+      : super(
+          currencyFrom(
+            sSignalRModules.currenciesList,
+            assetSymbol,
+          ),
+        );
 
   static _CryptoDepositStoreBase of(BuildContext context) => Provider.of<CryptoDepositStore>(context, listen: false);
 }

@@ -17,6 +17,8 @@ class ClientDetailModel with _$ClientDetailModel {
     required DateTime recivedAt,
     required String walletCreationDate,
     @Default(false) bool isCountryDiff,
+    @Default(false) bool earlyKycFlowAllowed,
+    @Default(false) bool simpleKycActive,
   }) = _ClientDetailModel;
   factory ClientDetailModel.fromJson(Map<String, dynamic> json) => _$ClientDetailModelFromJson(json);
 }

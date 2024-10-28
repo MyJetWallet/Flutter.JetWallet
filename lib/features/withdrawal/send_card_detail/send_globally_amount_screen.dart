@@ -1,8 +1,10 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/suggestion_button_widget.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/store/send_globally_amount_store.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
@@ -82,13 +84,17 @@ class _SendGloballyAmountScreenBodyState extends State<SendGloballyAmountScreenB
   Widget build(BuildContext context) {
     final store = SendGloballyAmountStore.of(context);
 
+    final balance = store.sendCurrency!.symbol == 'EUR'
+        ? (sSignalRModules.bankingProfileData?.simple?.account?.balance ?? Decimal.zero)
+        : store.availableBalabce;
+
     return SPageFrame(
       loading: store.loader,
       loaderText: intl.register_pleaseWait,
       header: GlobalBasicAppBar(
         title: intl.send_globally,
         subtitle: '${intl.withdrawalAmount_available}: '
-            '${getIt<AppStore>().isBalanceHide ? '**** ${store.sendCurrency!.symbol}' : store.availableBalabce.toFormatCount(
+            '${getIt<AppStore>().isBalanceHide ? '**** ${store.sendCurrency!.symbol}' : balance.toFormatCount(
                 accuracy: store.sendCurrency!.accuracy,
                 symbol: store.sendCurrency!.symbol,
               )}',

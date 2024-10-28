@@ -123,6 +123,18 @@ class RemoteConfig {
     return this;
   }
 
+  Future<bool> getRemoteConfigAnalyticFromServer() async {
+    final flavor = flavorService();
+
+    final remoteConfigURL = flavor == Flavor.prod
+        ? 'https://wallet-api.simple.app/api/v1/remote-config/analytics'
+        : 'https://wallet-api-uat.simple-spot.biz/api/v1/remote-config/analytics';
+
+    final response = await Dio().get(remoteConfigURL);
+
+    return (response.data as Map<String, dynamic>)['allowed']! as bool;
+  }
+
   Future<void> pingRemoutConfig() async {
     try {
       getIt.get<SimpleLoggerService>().log(

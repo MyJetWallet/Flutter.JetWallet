@@ -25,7 +25,10 @@ import 'package:simple_networking/modules/wallet_api/models/address_book/address
 import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_preview_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_preview_response.dart';
 import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_request.dart';
+import 'package:simple_networking/modules/wallet_api/models/sell/execute_crypto_sell_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/sell/get_crypto_sell_response_model.dart';
 import 'package:uuid/uuid.dart';
+
 part 'iban_send_confirm_store.g.dart';
 
 class IbanSendConfirmStore extends _IbanSendConfirmStoreBase with _$IbanSendConfirmStore {
@@ -48,9 +51,12 @@ abstract class _IbanSendConfirmStoreBase with Store {
   );
 
   void init(
-    BankingWithdrawalPreviewResponse data,
+    BankingWithdrawalPreviewResponse? data,
+    GetCryptoSellResponseModel? cryptoSell,
   ) {
-    deviceBindingRequired = data.deviceBindingRequired ?? false;
+    if (data != null) {
+      deviceBindingRequired = data.deviceBindingRequired ?? false;
+    } else {}
 
     requestId = const Uuid().v1();
   }
@@ -159,7 +165,10 @@ abstract class _IbanSendConfirmStoreBase with Store {
           enteredAmount: data.amount.toString(),
         );
 
-        await showSuccessScreen(data.sendAmount);
+        await showSuccessScreen(
+          (data.sendAmount ?? Decimal.zero) + (data.feeAmount ?? Decimal.zero) + (data.simpleFeeAmount ?? Decimal.zero),
+          eurCurrency,
+        );
       }
     } on ServerRejectException catch (error) {
       sAnalytics.eurWithdrawFailed(
@@ -185,6 +194,45 @@ abstract class _IbanSendConfirmStoreBase with Store {
   }
 
   @action
+  Future<void> confirmCryptoIbanOut(
+    BankingWithdrawalPreviewModel previewRequest,
+    GetCryptoSellResponseModel data,
+    AddressBookContactModel contact,
+    String pin,
+    SimpleBankingAccount account,
+    bool isCJ,
+  ) async {
+    try {
+      loader.startLoadingImmediately();
+
+      final model = ExecuteCryptoSellRequestModel(
+        paymentId: data.id,
+      );
+
+      final response = await sNetwork.getWalletModule().postSellExecute(
+            model,
+          );
+
+      loader.finishLoadingImmediately();
+
+      if (response.hasError) {
+        await showFailureScreen(response.error?.cause ?? '');
+      } else {
+        final currency = currencyFrom(
+          sSignalRModules.currenciesList,
+          response.data!.paymentAssetSymbol,
+        );
+
+        await showSuccessScreen(response.data!.paymentAmount, currency);
+      }
+    } on ServerRejectException catch (error) {
+      unawaited(showFailureScreen(error.cause));
+    } catch (error) {
+      unawaited(showFailureScreen(intl.something_went_wrong));
+    }
+  }
+
+  @action
   Future<void> showFailureScreen(String error) {
     return sRouter.push(
       FailureScreenRouter(
@@ -195,14 +243,14 @@ abstract class _IbanSendConfirmStoreBase with Store {
   }
 
   @action
-  Future<void> showSuccessScreen(Decimal? sendAmount) {
+  Future<void> showSuccessScreen(Decimal? sendAmount, CurrencyModel currency) {
     return sRouter
         .push(
       SuccessScreenRouter(
         primaryText: intl.send_globally_success,
         secondaryText: '${intl.send_globally_success_secondary} ${(sendAmount ?? Decimal.zero).toFormatCount(
-          accuracy: eurCurrency.accuracy,
-          symbol: eurCurrency.symbol,
+          accuracy: currency.accuracy,
+          symbol: currency.symbol,
         )}'
             '\n${intl.send_globally_success_secondary_2}',
       ),

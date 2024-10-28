@@ -1,6 +1,4 @@
-import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/core/services/startup_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
 import 'package:mobx/mobx.dart';
@@ -24,14 +22,12 @@ abstract class _KycServiceBase with Store {
 
   @computed
   bool get isSimpleKyc {
-    final sessionInfo = getIt.get<StartupService>().sessionInfo;
-    final toCheckSimpleKyc = sessionInfo?.toCheckSimpleKyc ?? false;
+    return sSignalRModules.clientDetail.simpleKycActive;
+  }
 
-    final kucStatysesCombination = depositStatus == kycOperationStatus(KycStatus.allowed) &&
-        tradeStatus == kycOperationStatus(KycStatus.allowed) &&
-        withdrawalStatus == kycOperationStatus(KycStatus.kycRequired);
-
-    return kucStatysesCombination && !toCheckSimpleKyc;
+  @computed
+  bool get earlyKycFlowAllowed {
+    return sSignalRModules.clientDetail.earlyKycFlowAllowed;
   }
 
   @computed

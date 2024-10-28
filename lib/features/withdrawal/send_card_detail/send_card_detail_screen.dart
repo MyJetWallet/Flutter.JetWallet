@@ -81,16 +81,30 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
       ),
       child: CustomScrollView(
         slivers: [
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) {
-                return PaymentMethodInput.getInput(
-                  store.methodList[index],
-                );
-              },
-              childCount: store.methodList.length,
+          if (store.update)
+            SliverList(
+              key: ValueKey(store.update),
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  return PaymentMethodInput.getInput(
+                    store.methodList[index],
+                  );
+                },
+                childCount: store.methodList.length,
+              ),
+            )
+          else
+            SliverList(
+              key: ValueKey(store.update),
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  return PaymentMethodInput.getInput(
+                    store.methodList[index],
+                  );
+                },
+                childCount: store.methodList.length,
+              ),
             ),
-          ),
 
           //1. I confirm that information above is accurate and complete.
           //2. I agree with T&C Send Globally program.

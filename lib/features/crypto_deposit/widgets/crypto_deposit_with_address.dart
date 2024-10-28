@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/anchors/anchors_helper.dart';
 import 'package:jetwallet/features/crypto_deposit/model/crypto_deposit_union.dart';
 import 'package:jetwallet/features/crypto_deposit/store/crypto_deposit_store.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
@@ -62,6 +63,8 @@ class CryptoDepositWithAddress extends StatelessObserverWidget {
                 asset: deposit.currency.symbol,
                 network: deposit.network.description,
               );
+
+              AnchorsHelper().addCryptoDepositAnchor(deposit.currency.symbol);
 
               sNotification.showError(intl.copy_message, id: 1, isError: false);
             },

@@ -19,7 +19,7 @@ class UserAvatarWidget extends StatelessWidget {
       builder: (context) {
         final kycState = getIt.get<KycService>();
 
-        final notificationsCount = _profileNotificationLength(
+        final showBlueDot = _showProfileNotificationDot(
           KycModel(
             depositStatus: kycState.depositStatus,
             sellStatus: kycState.tradeStatus,
@@ -27,11 +27,11 @@ class UserAvatarWidget extends StatelessWidget {
             requiredDocuments: kycState.requiredDocuments,
             requiredVerifications: kycState.requiredVerifications,
             verificationInProgress: kycState.verificationInProgress,
+            isSimpleKyc: kycState.isSimpleKyc,
+            earlyKycFlowAllowed: kycState.earlyKycFlowAllowed,
           ),
           true,
         );
-
-        final showBlueDot = notificationsCount > 0;
 
         final authInfo = getIt.get<AppStore>().authState;
         final userInfo = sUserInfo;
@@ -72,23 +72,21 @@ class UserAvatarWidget extends StatelessWidget {
     );
   }
 
-  int _profileNotificationLength(KycModel kycState, bool twoFaEnable) {
-    var notificationLength = 0;
-
-    final passed = checkKycPassed(
+  bool _showProfileNotificationDot(KycModel kycState, bool twoFaEnable) {
+    final required = checkKycRequired(
       kycState.depositStatus,
       kycState.sellStatus,
       kycState.withdrawalStatus,
     );
 
-    if (!passed) {
-      notificationLength += 1;
+    if (required || (kycState.isSimpleKyc && kycState.earlyKycFlowAllowed)) {
+      return true;
     }
 
     if (!twoFaEnable) {
-      notificationLength += 1;
+      return true;
     }
 
-    return notificationLength;
+    return false;
   }
 }

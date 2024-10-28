@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:charts/simple_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/anchors/anchors_helper.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/chart/model/chart_input.dart';
@@ -103,9 +106,13 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
 
   final _controller = ScrollController();
 
+  late Timer? _timer;
+
   @override
   void initState() {
     super.initState();
+
+    _startTimer();
 
     marketInfo = getMarketInfo(widget.marketItem.associateAsset);
 
@@ -154,6 +161,7 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
           }
         },
         onLeftIconTap: () {
+          _timer?.cancel();
           sAnalytics.tapOnTheBackButtonFromMarketAssetScreen(
             asset: widget.marketItem.symbol,
           );
@@ -232,5 +240,39 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  void _startTimer() {
+    _timer = Timer(const Duration(seconds: 30), _onTimerComplete);
+  }
+
+  void _onTimerComplete() {
+    if (mounted) {
+      AnchorsHelper().addMarketDetailsAnchor(widget.marketItem.symbol);
+    }
+  }
+
+  @override
+  void deactivate() {
+    _timer?.cancel();
+    super.deactivate();
+  }
+
+  @override
+  void activate() {
+    super.activate();
+    if (_timer != null) {
+      if (!_timer!.isActive) {
+        _startTimer();
+      }
+    } else {
+      _startTimer();
+    }
   }
 }

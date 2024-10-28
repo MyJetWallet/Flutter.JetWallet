@@ -919,7 +919,7 @@
     "create_personal_creating": "Creating personal account...",
     "buy_confirmation_processing_fee": "Processing fee",
     "buy_confirmation_processing_fee_description": "Simple charges this fee for handling the transaction",
-    "buy_confirmation_payment_fee_description": "imple takes this fee to cover the costs associated with our payment partners",
+    "buy_confirmation_payment_fee_description": "Simple takes this fee to cover the costs associated with our payment partners",
     "buy_confirmation_paid_with": "Paid with",
     "buy_confirmation_price": "Price",
     "bank_card_leable_headet": "Add a custom name",
@@ -1855,5 +1855,7 @@
             }
         }
     },
-    "prepaid_card_security_code": "Security code"
+    "prepaid_card_security_code": "Security code",
+    "bank_transfer_uah_bank_account": "UAH bank account",
+    "bank_transfer_ua_iban": "Ukrainian IBAN"
 }

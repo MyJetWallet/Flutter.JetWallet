@@ -70,6 +70,7 @@ enum FieldInfoId {
   ifscCode,
   bankAccount,
   wise,
+  tin,
   unknown
 }
 
@@ -100,6 +101,8 @@ extension _DepositMethodsExtension on FieldInfoId {
         return 'BankAccount';
       case FieldInfoId.wise:
         return 'WiseCredentials';
+      case FieldInfoId.tin:
+        return 'Tin';
       case FieldInfoId.unknown:
         return 'Unknown';
     }
@@ -138,6 +141,8 @@ class FieldInfoIdSerialiser implements JsonConverter<FieldInfoId, dynamic> {
         return FieldInfoId.bankName;
       case 'WiseCredentials':
         return FieldInfoId.wise;
+      case 'Tin':
+        return FieldInfoId.tin;
       default:
         return FieldInfoId.unknown;
     }

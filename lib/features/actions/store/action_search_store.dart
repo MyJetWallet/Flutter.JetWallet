@@ -9,6 +9,7 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
+import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
 part 'action_search_store.g.dart';
 
@@ -77,7 +78,14 @@ abstract class _ActionSearchStoreBase with Store {
   ObservableList<PaymentAsset> filtredNewBuyPaymentCurrency = ObservableList.of([]);
 
   @observable
+  ObservableList<SimpleBankingAccount> bankAccounts = ObservableList.of([]);
+
+  @observable
+  ObservableList<SimpleBankingAccount> searchBankAccounts = ObservableList.of([]);
+
+  @observable
   String searchValue = '';
+
   @action
   void clearSearchValue() => searchValue = '';
 
@@ -121,8 +129,30 @@ abstract class _ActionSearchStoreBase with Store {
     buyFromCardCurrencies = ObservableList.of(tempBuyFromCardCurrencies);
     receiveCurrencies = ObservableList.of(tempReceiveCurrencies);
     sendCurrencies = ObservableList.of(tempSendCurrencies);
-
     search(searchValue);
+  }
+
+  @action
+  void bankAccountsInit(List<SimpleBankingAccount> accounts) {
+    bankAccounts = ObservableList.of(accounts.toList());
+    searchBankAccounts = ObservableList.of(accounts.toList());
+  }
+
+  @action
+  void bankAccountsSearch(String value) {
+    final search = value.toLowerCase();
+
+    if (search.isEmpty) {
+      searchBankAccounts = ObservableList.of(bankAccounts.toList());
+    } else {
+      searchBankAccounts = ObservableList.of(
+        bankAccounts
+            .where(
+              (element) => (element.label ?? 'Account 1').toLowerCase().contains(searchValue),
+            )
+            .toList(),
+      );
+    }
   }
 
   @action
