@@ -30,6 +30,7 @@ import '../../../core/services/device_size/device_size.dart';
 import '../../../core/services/notification_service.dart';
 import '../../../utils/helpers/widget_size_from.dart';
 import '../../wallet/helper/is_operation_support_copy.dart';
+import 'transaction_details/bank_transfer_details.dart';
 import 'transaction_details/iban_send_details.dart';
 import 'transaction_details/send_globally_details.dart';
 
@@ -136,7 +137,8 @@ class _TransactionItemState extends State<TransactionItem> with SingleTickerProv
                     widget.transactionListItem.operationType == OperationType.buyPrepaidCard ||
                     widget.transactionListItem.operationType == OperationType.p2pBuy ||
                     widget.transactionListItem.operationType == OperationType.jarDeposit ||
-                    widget.transactionListItem.operationType == OperationType.jarWithdrawal) ...[
+                    widget.transactionListItem.operationType == OperationType.jarWithdrawal ||
+                    widget.transactionListItem.operationType == OperationType.bankingSellWithWithdrawal) ...[
                   const SizedBox.shrink(),
                 ] else if (widget.transactionListItem.operationType != OperationType.sendGlobally) ...[
                   if (isOperationSupportCopy(widget.transactionListItem))
@@ -455,6 +457,21 @@ class _TransactionItemState extends State<TransactionItem> with SingleTickerProv
                   Material(
                     color: colors.white,
                     child: BuyVouncherDetails(
+                      transactionListItem: widget.transactionListItem,
+                      onCopyAction: (String text) {
+                        setState(() {
+                          copiedText = text;
+                        });
+
+                        onCopyAction();
+                      },
+                    ),
+                  ),
+                ],
+                if (widget.transactionListItem.operationType == OperationType.bankingSellWithWithdrawal) ...[
+                  Material(
+                    color: colors.white,
+                    child: BankTransferDetails(
                       transactionListItem: widget.transactionListItem,
                       onCopyAction: (String text) {
                         setState(() {

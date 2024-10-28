@@ -45,6 +45,7 @@ class OperationHistoryItem with _$OperationHistoryItem {
     IbanDepositInfo? ibanDepositInfo,
     IbanTransferInfo? ibanTransferInfo,
     SellCryptoInfo? sellCryptoInfo,
+    SellWithdrawalInfo? sellWithdrawalInfo,
     CardWithdrawalInfo? cardWithdrawalInfo,
     CardRefundInfo? cardRefundInfo,
     CardPurchaseInfo? cardPurchaseInfo,
@@ -101,6 +102,7 @@ enum OperationType {
   bankingTransfer,
   bankingBuy,
   bankingSell,
+  bankingSellWithWithdrawal,
   cardPurchase,
   cardRefund,
   cardWithdrawal,
@@ -108,6 +110,7 @@ enum OperationType {
   cardBankingBuy,
   cardDeposit,
   cardTransfer,
+  cardBankingSellWithWithdrawal,
   earnSend,
   earnReserve,
   earnDeposit,
@@ -207,6 +210,8 @@ extension _OperationTypeExtension on OperationType {
         return 47;
       case OperationType.bankingSell:
         return 48;
+      case OperationType.bankingSellWithWithdrawal:
+        return 49;
       case OperationType.cardPurchase:
         return 100;
       case OperationType.cardRefund:
@@ -221,6 +226,8 @@ extension _OperationTypeExtension on OperationType {
         return 105;
       case OperationType.cardTransfer:
         return 106;
+      case OperationType.cardBankingSellWithWithdrawal:
+        return 107;
       case OperationType.earnSend:
         return 130;
       case OperationType.earnReserve:
@@ -338,6 +345,8 @@ class OperationTypeSerialiser implements JsonConverter<OperationType, dynamic> {
       return OperationType.bankingBuy;
     } else if (value == '48') {
       return OperationType.bankingSell;
+    } else if (value == '49') {
+      return OperationType.bankingSellWithWithdrawal;
     } else if (value == '100') {
       return OperationType.cardPurchase;
     } else if (value == '101') {
@@ -352,6 +361,8 @@ class OperationTypeSerialiser implements JsonConverter<OperationType, dynamic> {
       return OperationType.cardDeposit;
     } else if (value == '106') {
       return OperationType.cardTransfer;
+    } else if (value == '107') {
+      return OperationType.cardBankingSellWithWithdrawal;
     } else if (value == '130') {
       return OperationType.earnSend;
     } else if (value == '131') {
@@ -611,7 +622,7 @@ class PaymeInfo with _$PaymeInfo {
     final String? bankName,
     final String? ifscCode,
     final String? bankAccount,
-    @Default(MethodType.unknown) MethodType methodType,
+    @Default(MethodType.unknown) @JsonKey(unknownEnumValue: MethodType.unknown) MethodType methodType,
     final String? methodName,
   }) = _PaymeInfo;
 
@@ -798,6 +809,23 @@ enum IbanAccountType {
 }
 
 @freezed
+class SellWithdrawalInfo with _$SellWithdrawalInfo {
+  const factory SellWithdrawalInfo({
+    String? toIban,
+    String? beneficiaryName,
+    String? beneficiaryAddress,
+    String? beneficiaryCountry,
+    String? beneficiaryBankCode,
+    String? intermediaryBankCode,
+    String? intermediaryBankAccount,
+    @DecimalNullSerialiser() Decimal? withdrawalAmount,
+    String? withdrawalAssetId,
+  }) = _SellWithdrawalInfo;
+
+  factory SellWithdrawalInfo.fromJson(Map<String, dynamic> json) => _$SellWithdrawalInfoFromJson(json);
+}
+
+@freezed
 class CardPurchaseInfo with _$CardPurchaseInfo {
   const factory CardPurchaseInfo({
     String? paymentAssetId,
@@ -893,6 +921,5 @@ class JarOperationInfo with _$JarOperationInfo {
     String? jarTitle,
   }) = _JarOperationInfo;
 
-  factory JarOperationInfo.fromJson(Map<String, dynamic> json) =>
-      _$JarOperationInfoFromJson(json);
+  factory JarOperationInfo.fromJson(Map<String, dynamic> json) => _$JarOperationInfoFromJson(json);
 }

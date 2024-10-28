@@ -9,8 +9,8 @@ class SimpleLoader extends StatelessWidget {
     final colors = sKit.colors;
 
     return SizedBox(
-      width: 18,
-      height: 18,
+      width: 16,
+      height: 16,
       child: CircularProgressIndicator(
         strokeWidth: 2,
         color: colors.grey1,
