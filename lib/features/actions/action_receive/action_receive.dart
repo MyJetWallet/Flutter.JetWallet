@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/anchors/models/crypto_deposit/crypto_deposit_model.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/actions/helpers/show_currency_search.dart';
@@ -168,8 +169,9 @@ class _ActionReceive extends StatelessObserverWidget {
                 onTableAssetTap: () {
                   getIt.get<AppRouter>().push(
                         CryptoDepositRouter(
-                          header: intl.actionReceive_receive,
-                          currency: currency,
+                          cryptoDepositModel: CryptoDepositModel(
+                            assetSymbol: currency.symbol,
+                          ),
                         ),
                       );
                 },

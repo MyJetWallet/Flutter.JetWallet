@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +8,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/anchors/anchors_helper.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/suggestion_button_widget.dart';
@@ -72,6 +75,8 @@ class _EarnDepositScreenState extends State<EarnDepositScreen> {
             package: 'simple_kit',
           ),
           onWillPop: () async {
+            await AnchorsHelper().addForgotEarnDepositAnchor(widget.offer.id);
+
             WidgetsBinding.instance.addPostFrameCallback((_) {
               closeScreen();
             });
@@ -87,12 +92,16 @@ class _EarnDepositScreenState extends State<EarnDepositScreen> {
             navigateToWallet(context, store.currency);
           },
           onSecondaryButtonTap: () async {
+            unawaited(AnchorsHelper().addForgotEarnDepositAnchor(widget.offer.id));
+
             sAnalytics.tapOnTheCancelTopUpEarnWalletButton(
               assetName: widget.offer.assetId,
               earnAPYrate: widget.offer.apyRate?.toStringAsFixed(2) ?? Decimal.zero.toString(),
               earnPlanName: widget.offer.description ?? '',
               earnWithdrawalType: widget.offer.withdrawType.name,
             );
+
+            await sRouter.maybePop();
             await sRouter.maybePop();
           },
         );

@@ -232,7 +232,7 @@ abstract class _ConvertConfirmationStoreBase with Store {
       errorText: error,
     );
 
-    if (sRouter.currentPath != '/convetr_confirmation') {
+    if (sRouter.currentPath != '/convert_confirmation') {
       return;
     }
 
@@ -347,7 +347,7 @@ abstract class _ConvertConfirmationStoreBase with Store {
         return;
       }
 
-      if (sRouter.currentPath != '/convetr_confirmation') {
+      if (sRouter.currentPath != '/convert_confirmation') {
         return;
       }
 

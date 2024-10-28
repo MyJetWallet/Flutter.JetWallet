@@ -10,6 +10,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/anchors/anchors_helper.dart';
+import 'package:jetwallet/core/services/anchors/anchors_service.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
 import 'package:jetwallet/core/services/intercom/intercom_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
@@ -175,7 +177,12 @@ class DeepLinkService {
           message: '$command $parameters. $path',
         );
 
-    if (command == _confirmEmail) {
+    if (AnchorsHelper.allAnchorTypes.contains(command)) {
+      getIt.get<AnchorsService>().handleDeeplink(
+            type: command!,
+            metadata: parameters,
+          );
+    } else if (command == _confirmEmail) {
       _confirmEmailCommand(parameters);
     } else if (command == _confirmWithdraw) {
       _confirmWithdrawCommand(parameters);

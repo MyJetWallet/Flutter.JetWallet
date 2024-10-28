@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/anchors/models/convert_confirmation_model/convert_confirmation_model.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/suggestion_button_widget.dart';
 import 'package:jetwallet/features/convert_flow/store/convert_amount_store.dart';
@@ -266,12 +267,14 @@ class ConvertAmountScreenBodyState extends State<ConvertAmountTabBody> with Auto
                         nowInput: store.isFromEntering ? 'ConvertFrom' : 'ConvertTo',
                       );
                       sRouter.push(
-                        ConvetrConfirmationRoute(
-                          fromAsset: store.fromAsset!,
-                          toAsset: store.toAsset!,
-                          fromAmount: Decimal.parse(store.fromInputValue),
-                          toAmount: Decimal.parse(store.toInputValue),
-                          isFromFixed: store.isFromEntering,
+                        ConvertConfirmationRoute(
+                          convertConfirmationModel: ConvertConfirmationModel(
+                            fromAsset: store.fromAsset!.symbol,
+                            toAsset: store.toAsset!.symbol,
+                            fromAmount: Decimal.parse(store.fromInputValue),
+                            toAmount: Decimal.parse(store.toInputValue),
+                            isFromFixed: store.isFromEntering,
+                          ),
                         ),
                       );
                     },

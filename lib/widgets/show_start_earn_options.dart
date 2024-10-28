@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/anchors/models/crypto_deposit/crypto_deposit_model.dart';
 import 'package:jetwallet/features/actions/action_buy/widgets/buy_payment_currency.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
@@ -54,8 +55,9 @@ void showStartEarnOptions({
             Navigator.pop(context);
             sRouter.push(
               CryptoDepositRouter(
-                header: intl.showStartEarnOptions_receive,
-                currency: currency,
+                cryptoDepositModel: CryptoDepositModel(
+                  assetSymbol: currency.symbol,
+                ),
               ),
             );
           } else {
@@ -67,8 +69,9 @@ void showStartEarnOptions({
                 Navigator.pop(context);
                 sRouter.push(
                   CryptoDepositRouter(
-                    header: intl.showStartEarnOptions_receive,
-                    currency: currency,
+                    cryptoDepositModel: CryptoDepositModel(
+                      assetSymbol: currency.symbol,
+                    ),
                   ),
                 );
               },
