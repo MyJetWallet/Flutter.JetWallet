@@ -639,6 +639,8 @@ enum MethodType {
   bankAccountWithBankName,
   @JsonValue(9)
   wise,
+  @JsonValue(10)
+  tin,
   @JsonValue(-1)
   unknown,
 }

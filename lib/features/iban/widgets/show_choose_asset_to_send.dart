@@ -23,8 +23,8 @@ void showChooseAssetToSend(
   AddressBookContactModel? contact,
   bool? isCJ,
 }) {
-  getIt.get<ActionSearchStore>().search('');
-  getIt.get<ActionSearchStore>().bankAccountsSearch('');
+  getIt.get<ActionSearchStore>().init();
+  getIt.get<ActionSearchStore>().clearSearchValue();
 
   final bankAccounts = sSignalRModules.bankingProfileData?.banking?.accounts ?? <SimpleBankingAccount>[];
   getIt.get<ActionSearchStore>().bankAccountsInit(bankAccounts);
@@ -35,6 +35,8 @@ void showChooseAssetToSend(
         (element) => element.isAssetBalanceNotEmpty && element.supportsCryptoWithdrawal,
       )
       .toList();
+
+  print('#@#@#@ ${currencyFiltered.length}');
 
   showBasicBottomSheet(
     context: context,
