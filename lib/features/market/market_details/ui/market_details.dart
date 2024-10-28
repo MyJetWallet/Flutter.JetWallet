@@ -161,6 +161,7 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
           }
         },
         onLeftIconTap: () {
+          _timer?.cancel();
           sAnalytics.tapOnTheBackButtonFromMarketAssetScreen(
             asset: widget.marketItem.symbol,
           );

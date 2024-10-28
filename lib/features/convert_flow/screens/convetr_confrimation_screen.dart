@@ -58,10 +58,15 @@ class _ConvertConfirmationScreenBody extends StatelessObserverWidget {
 
     final baseCurrency = sSignalRModules.baseCurrency;
 
+    var isAnchorSet = false;
+
     return PopScope(
       onPopInvoked: (value) {
         sRouter.maybePop();
-        setAnchor();
+        if (!isAnchorSet) {
+          setAnchor();
+          isAnchorSet = true;
+        }
       },
       child: SPageFrameWithPadding(
         loading: store.loader,
@@ -81,7 +86,6 @@ class _ConvertConfirmationScreenBody extends StatelessObserverWidget {
           ),
           onBackButtonTap: () {
             sRouter.maybePop();
-            setAnchor();
           },
         ),
         child: CustomScrollView(
