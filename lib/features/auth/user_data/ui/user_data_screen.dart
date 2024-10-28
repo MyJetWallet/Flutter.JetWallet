@@ -12,9 +12,9 @@ import 'package:jetwallet/features/auth/user_data/ui/widgets/country/country_fie
 import 'package:jetwallet/widgets/show_verification_modal.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/modules/buttons/basic_buttons/primary_button/public/simple_primary_button_4.dart';
 import 'package:simple_kit/modules/headers/simple_auth_header.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../../core/di/di.dart';
 import '../../../../core/services/user_info/user_info_service.dart';
@@ -172,18 +172,19 @@ class _UserDataScreenBody extends StatelessObserverWidget {
                   const Spacer(),
                   const SpaceH8(),
                   SPaddingH24(
-                    child: SPrimaryButton4(
-                      name: intl.register_continue,
-                      onTap: () {
-                        sAnalytics.signInFlowPersonalContinue();
-                        getIt.get<UserInfoService>().updateIsJustRegistered(value: true);
+                    child: SButton.blue(
+                      text: intl.register_continue,
+                      callback: UserDataStore.of(context).activeButton
+                          ? () {
+                              sAnalytics.signInFlowPersonalContinue();
+                              getIt.get<UserInfoService>().updateIsJustRegistered(value: true);
 
-                        UserDataStore.of(context).saveUserData(
-                          birthDateInfo.loader,
-                          birthDateInfo,
-                        );
-                      },
-                      active: UserDataStore.of(context).activeButton,
+                              UserDataStore.of(context).saveUserData(
+                                birthDateInfo.loader,
+                                birthDateInfo,
+                              );
+                            }
+                          : null,
                     ),
                   ),
                   const SpaceH42(),

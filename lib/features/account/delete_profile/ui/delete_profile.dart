@@ -12,6 +12,7 @@ import 'package:jetwallet/features/account/delete_profile/ui/widgets/dp_conditio
 import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
 import 'package:jetwallet/utils/helpers/currencies_with_balance_from.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/widgets/button/main/simple_button.dart';
 
 @RoutePage(name: 'DeleteProfileRouter')
 class DeleteProfile extends StatelessObserverWidget {
@@ -101,14 +102,15 @@ class DeleteProfile extends StatelessObserverWidget {
           ),
           Padding(
             padding: const EdgeInsets.only(left: 24, right: 24, bottom: 42),
-            child: SPrimaryButton3(
-              active: store.confitionCheckbox,
-              name: intl.deleteProfileConditions_buttonText,
-              onTap: () async {
-                await sRouter.push(
-                  const EmailConfirmationRouter(),
-                );
-              },
+            child: SButton.red(
+              text: intl.deleteProfileConditions_buttonText,
+              callback: store.confitionCheckbox
+                  ? () async {
+                      await sRouter.push(
+                        const EmailConfirmationRouter(),
+                      );
+                    }
+                  : null,
             ),
           ),
         ],
