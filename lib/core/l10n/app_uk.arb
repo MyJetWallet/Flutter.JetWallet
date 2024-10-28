@@ -5995,5 +5995,7 @@
             }
         }
     },
-    "prepaid_card_security_code": "Код безпеки"
+    "prepaid_card_security_code": "Код безпеки",
+    "bank_transfer_uah_bank_account": "Банківський рахунок UAH",
+    "bank_transfer_ua_iban": "Український IBAN"
 }
