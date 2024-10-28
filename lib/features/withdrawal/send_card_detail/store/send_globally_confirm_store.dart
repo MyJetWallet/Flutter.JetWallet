@@ -155,6 +155,7 @@ abstract class _SendGloballyConfirmStoreBase with Store {
       ifscCode: data?.ifscCode,
       bankAccount: data?.bankAccount,
       wise: data?.wise,
+      tin: data?.tin,
       pin: newPin,
     );
 

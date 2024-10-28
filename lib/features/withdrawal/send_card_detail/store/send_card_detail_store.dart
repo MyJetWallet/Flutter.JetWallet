@@ -44,6 +44,9 @@ abstract class _SendCardDetailStoreBase with Store {
   GlobalSendMethodsModelDescription? methods;
 
   @observable
+  bool update = false;
+
+  @observable
   bool isContinueAvailable = false;
   @action
   void checkContinueButton() {
@@ -165,6 +168,8 @@ abstract class _SendCardDetailStoreBase with Store {
       } catch (e) {
         return;
       }
+
+      update = !update;
 
       _moveCursorAtTheEnd(methodList[ind].controller);
     }

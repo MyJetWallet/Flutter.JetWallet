@@ -23,6 +23,9 @@ void showChooseAssetToSend(
   AddressBookContactModel? contact,
   bool? isCJ,
 }) {
+  getIt.get<ActionSearchStore>().search('');
+  getIt.get<ActionSearchStore>().bankAccountsSearch('');
+
   final bankAccounts = sSignalRModules.bankingProfileData?.banking?.accounts ?? <SimpleBankingAccount>[];
   getIt.get<ActionSearchStore>().bankAccountsInit(bankAccounts);
 
@@ -116,6 +119,7 @@ class _ChooseAssetToSend extends StatelessObserverWidget {
             _buildEurCurrency(
               context,
               eurCurrency,
+              simpleAccount,
             ),
         ] else ...[
           if (isCJ! && simpleAccount != null)
@@ -191,14 +195,22 @@ class _ChooseAssetToSend extends StatelessObserverWidget {
     );
   }
 
-  Widget _buildEurCurrency(BuildContext context, CurrencyModel eurCurrency) => SimpleTableAccount(
+  Widget _buildEurCurrency(
+    BuildContext context,
+    CurrencyModel eurCurrency,
+    SimpleBankingAccount simpleAccount,
+  ) =>
+      SimpleTableAccount(
         assetIcon: NetworkIconWidget(
           eurCurrency.iconUrl,
         ),
         label: eurCurrency.description,
         rightValue: getIt<AppStore>().isBalanceHide
             ? '**** ${eurCurrency.symbol}'
-            : eurCurrency.volumeBaseBalance(sSignalRModules.baseCurrency),
+            : simpleAccount.balance!.toFormatSum(
+                accuracy: eurCurrency.accuracy,
+                symbol: eurCurrency.symbol,
+              ),
         supplement: eurCurrency.symbol,
         onTableAssetTap: () {
           Navigator.pop(context);

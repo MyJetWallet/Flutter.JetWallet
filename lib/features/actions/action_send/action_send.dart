@@ -428,7 +428,7 @@ void showBankTransferTo(BuildContext context, [CurrencyModel? currency]) {
   );
 
   final methods = sSignalRModules.globalSendMethods?.methods
-          ?.where((method) => method.countryCodes?.contains('UA') ?? true)
+          ?.where((method) => method.receiveAsset == 'UAH')
           .toList() ??
       [];
 
@@ -528,7 +528,7 @@ void showBankTransferTo(BuildContext context, [CurrencyModel? currency]) {
         icon: Assets.svg.medium.business.simpleSvg(color: SColorsLight().blue),
         onTap: () {
           final methods = sSignalRModules.globalSendMethods?.methods
-              ?.where((method) => method.type == 10 && (method.countryCodes?.contains('UA') ?? true))
+              ?.where((method) => method.type == 10 && (method.receiveAsset == 'UAH'))
               .toList() ??
               [];
 
@@ -537,6 +537,7 @@ void showBankTransferTo(BuildContext context, [CurrencyModel? currency]) {
               intl.operation_bloked_text,
               id: 1,
             );
+            return;
           }
 
           if (currency != null) {
