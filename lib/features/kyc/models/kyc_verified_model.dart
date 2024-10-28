@@ -12,6 +12,8 @@ class KycModel with _$KycModel {
     @Default([]) List<KycDocumentType> requiredDocuments,
     @Default([]) List<RequiredVerified> requiredVerifications,
     @Default(false) bool verificationInProgress,
+    @Default(false) bool isSimpleKyc,
+    @Default(false) bool earlyKycFlowAllowed,
   }) = _KycModel;
 
   const KycModel._();

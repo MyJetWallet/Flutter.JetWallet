@@ -1,4 +1,6 @@
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
@@ -14,9 +16,10 @@ ObservableList<CurrencyModel> currenciesForMyWallet({
       )
       .toList();
 
-  final isShowEUR =
-      // ignore: avoid_bool_literals_in_conditional_expressions
-      fromWalletsScreen ? state == BankingShowState.accountList : true;
+  final kycState = getIt.get<KycService>();
+
+  final isShowEUR = (!fromWalletsScreen || state == BankingShowState.accountList) &&
+      (!kycState.isSimpleKyc || kycState.earlyKycFlowAllowed);
 
   activeCurrencies.sort((a, b) => (a.walletOrder ?? 1).compareTo(b.walletOrder ?? 1));
 
