@@ -36,8 +36,6 @@ void showChooseAssetToSend(
       )
       .toList();
 
-  print('#@#@#@ ${currencyFiltered.length}');
-
   showBasicBottomSheet(
     context: context,
     basicBottomSheetHeader: BasicBottomSheetHeaderWidget(
