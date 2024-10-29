@@ -391,10 +391,10 @@ abstract class _SimpleCardStoreBase with Store {
 
         Navigator.pop(context!);
 
-        loader.finishLoading();
+        loader.finishLoadingImmediately();
       } else {
         if (response.data!.simpleKycRequired != null && response.data!.simpleKycRequired!) {
-          loader.finishLoading();
+          loader.finishLoadingImmediately();
           Navigator.pop(context!);
           showWalletVerifyAccount(
             context,
@@ -403,7 +403,7 @@ abstract class _SimpleCardStoreBase with Store {
           );
         } else if (response.data!.bankingKycRequired != null && response.data!.bankingKycRequired!) {
           sAnalytics.viewCompleteKYCForCard();
-          loader.finishLoading();
+          loader.finishLoadingImmediately();
           Navigator.pop(context!);
           showCompleteVerificationAccount(
             context,
@@ -411,7 +411,7 @@ abstract class _SimpleCardStoreBase with Store {
             loader,
           );
         } else {
-          loader.finishLoading();
+          loader.finishLoadingImmediately();
           Navigator.pop(context!);
           sNotification.showError(
             intl.simple_card_password_working,
@@ -426,7 +426,7 @@ abstract class _SimpleCardStoreBase with Store {
         needFeedback: true,
       );
 
-      loader.finishLoading();
+      loader.finishLoadingImmediately();
     } catch (error) {
       sNotification.showError(
         intl.something_went_wrong_try_again2,
@@ -434,10 +434,10 @@ abstract class _SimpleCardStoreBase with Store {
         needFeedback: true,
       );
 
-      loader.finishLoading();
+      loader.finishLoadingImmediately();
     } finally {
       getIt.get<GlobalLoader>().setLoading(false);
-      loader.finishLoading();
+      loader.finishLoadingImmediately();
     }
   }
 
