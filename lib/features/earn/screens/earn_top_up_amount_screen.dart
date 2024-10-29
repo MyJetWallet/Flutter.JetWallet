@@ -65,7 +65,6 @@ class _EarnTopUpAmountScreenState extends State<EarnTopUpAmountScreen> {
             package: 'simple_kit',
           ),
           barrierDismissible: false,
-          willPopScope: false,
           onPrimaryButtonTap: () {
             sAnalytics.tapOnTheTopUpEarnWalletButton(
               assetName: widget.earnPosition.offers.first.assetId,
