@@ -15,7 +15,6 @@ import 'package:jetwallet/utils/helpers/split_iban.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
-import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
@@ -138,7 +137,6 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
     return SPageFrameWithPadding(
       loaderText: intl.loader_please_wait,
       loading: state.loader,
-      customLoader: const WaitingScreen(),
       header: SSmallHeader(
         title: intl.buy_confirmation_title,
         subTitle: intl.withdraw,

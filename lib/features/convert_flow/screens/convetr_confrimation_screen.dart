@@ -59,11 +59,12 @@ class _ConvertConfirmationScreenBody extends StatelessObserverWidget {
     final baseCurrency = sSignalRModules.baseCurrency;
 
     var isAnchorSet = false;
+    var isConverted = false;
 
     return PopScope(
       onPopInvoked: (value) {
         sRouter.maybePop();
-        if (!isAnchorSet) {
+        if (!isAnchorSet && !isConverted) {
           setAnchor();
           isAnchorSet = true;
         }
@@ -141,6 +142,8 @@ class _ConvertConfirmationScreenBody extends StatelessObserverWidget {
                       active: !store.loader.loading,
                       name: intl.previewBuyWithAsset_confirm,
                       onTap: () {
+                        isConverted = true;
+
                         sAnalytics.tapOnTheButtonConfirmOnConvertOrderSummary(
                           enteredAmount: (store.isFromFixed ? store.paymentAmount : store.buyAmount).toString(),
                           convertFromAsset: store.paymentAsset ?? '',
