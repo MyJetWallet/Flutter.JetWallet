@@ -112,8 +112,6 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
   void initState() {
     super.initState();
 
-    _startTimer();
-
     marketInfo = getMarketInfo(widget.marketItem.associateAsset);
 
     _controller.addListener(() {
@@ -135,108 +133,118 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
 
     var isInWatchlist = watchlistIdsN.state.contains(widget.marketItem.associateAsset);
 
-    return SPageFrame(
-      loaderText: intl.loader_please_wait,
-      header: GlobalBasicAppBar(
-        title: widget.marketItem.name,
-        subtitle: widget.marketItem.symbol,
-        rightIcon: isInWatchlist
-            ? Assets.svg.medium.favourite2.simpleSvg(
-                width: 24,
-              )
-            : Assets.svg.medium.favourite.simpleSvg(
-                width: 24,
-              ),
-        onRightIconTap: () {
-          if (isInWatchlist) {
-            watchlistIdsN.removeFromWatchlist(widget.marketItem.associateAsset);
-            isInWatchlist = false;
-          } else {
-            watchlistIdsN.addToWatchlist(widget.marketItem.associateAsset);
-            isInWatchlist = true;
-            sNotification.showError(
-              intl.market_added_to_favorites,
-              isError: false,
-            );
-          }
-        },
-        onLeftIconTap: () {
+    return VisibilityDetector(
+      key: const Key('market-details-screen-key'),
+      onVisibilityChanged: (info) {
+        if (info.visibleFraction == 1) {
+          _startTimer();
+        } else if (info.visibleFraction == 0) {
           _timer?.cancel();
-          sAnalytics.tapOnTheBackButtonFromMarketAssetScreen(
-            asset: widget.marketItem.symbol,
-          );
-          sRouter.maybePop();
-        },
-      ),
-      child: SingleChildScrollView(
-        controller: _controller,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            PriceSectionWidget(
-              marketItem: widget.marketItem,
-            ),
-            AssetChart(
-              marketItem: widget.marketItem,
-              onCandleSelected: (ChartInfoModel? chartInfo) {
-                chart.updateSelectedCandle(chartInfo?.right);
-              },
-            ),
-            BalanceBlock(
-              marketItem: widget.marketItem,
-            ),
-            MyBalanceWidget(marketItem: widget.marketItem),
-            WalletEarnSection(currency: currency),
-            DeversifyPortfolioWidget(marketItem: widget.marketItem),
-            ReturnRatesBlock(
-              assetSymbol: widget.marketItem.associateAsset,
-            ),
-            const SpaceH20(),
-            if (widget.marketItem.type == AssetType.indices) ...[
-              IndexAllocationBlock(
+        }
+      },
+      child: SPageFrame(
+        loaderText: intl.loader_please_wait,
+        header: GlobalBasicAppBar(
+          title: widget.marketItem.name,
+          subtitle: widget.marketItem.symbol,
+          rightIcon: isInWatchlist
+              ? Assets.svg.medium.favourite2.simpleSvg(
+                  width: 24,
+                )
+              : Assets.svg.medium.favourite.simpleSvg(
+                  width: 24,
+                ),
+          onRightIconTap: () {
+            if (isInWatchlist) {
+              watchlistIdsN.removeFromWatchlist(widget.marketItem.associateAsset);
+              isInWatchlist = false;
+            } else {
+              watchlistIdsN.addToWatchlist(widget.marketItem.associateAsset);
+              isInWatchlist = true;
+              sNotification.showError(
+                intl.market_added_to_favorites,
+                isError: false,
+              );
+            }
+          },
+          onLeftIconTap: () {
+            _timer?.cancel();
+            sAnalytics.tapOnTheBackButtonFromMarketAssetScreen(
+              asset: widget.marketItem.symbol,
+            );
+            sRouter.maybePop();
+          },
+        ),
+        child: SingleChildScrollView(
+          controller: _controller,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              PriceSectionWidget(
                 marketItem: widget.marketItem,
               ),
-            ],
-            FutureBuilder<MarketInfoResponseModel?>(
-              future: marketInfo,
-              builder: (context, marketInfo) {
-                if (marketInfo.hasData) {
-                  return SPaddingH24(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        if (marketInfo.data != null) ...[
-                          if (widget.marketItem.type != AssetType.indices) ...[
-                            const SpaceH20(),
-                            MarketStatsBlock(
+              AssetChart(
+                marketItem: widget.marketItem,
+                onCandleSelected: (ChartInfoModel? chartInfo) {
+                  chart.updateSelectedCandle(chartInfo?.right);
+                },
+              ),
+              BalanceBlock(
+                marketItem: widget.marketItem,
+              ),
+              MyBalanceWidget(marketItem: widget.marketItem),
+              WalletEarnSection(currency: currency),
+              DeversifyPortfolioWidget(marketItem: widget.marketItem),
+              ReturnRatesBlock(
+                assetSymbol: widget.marketItem.associateAsset,
+              ),
+              const SpaceH20(),
+              if (widget.marketItem.type == AssetType.indices) ...[
+                IndexAllocationBlock(
+                  marketItem: widget.marketItem,
+                ),
+              ],
+              FutureBuilder<MarketInfoResponseModel?>(
+                future: marketInfo,
+                builder: (context, marketInfo) {
+                  if (marketInfo.hasData) {
+                    return SPaddingH24(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (marketInfo.data != null) ...[
+                            if (widget.marketItem.type != AssetType.indices) ...[
+                              const SpaceH20(),
+                              MarketStatsBlock(
+                                marketInfo: marketInfo.data!,
+                                isCPower: widget.marketItem.symbol == 'CPWR',
+                              ),
+                            ],
+                            AboutBlock(
                               marketInfo: marketInfo.data!,
-                              isCPower: widget.marketItem.symbol == 'CPWR',
+                              isCpower: widget.marketItem.symbol == 'CPWR',
                             ),
                           ],
-                          AboutBlock(
-                            marketInfo: marketInfo.data!,
-                            isCpower: widget.marketItem.symbol == 'CPWR',
-                          ),
+                          const SpaceH8(),
                         ],
-                        const SpaceH8(),
-                      ],
-                    ),
-                  );
-                } else if (!marketInfo.hasData) {
-                  return const SizedBox();
-                } else {
-                  return const MarketInfoLoaderBlock();
-                }
-              },
-            ),
-            if (widget.marketItem.symbol == 'CPWR') ...[
-              const SPaddingH24(
-                child: CpowerBlock(),
+                      ),
+                    );
+                  } else if (!marketInfo.hasData) {
+                    return const SizedBox();
+                  } else {
+                    return const MarketInfoLoaderBlock();
+                  }
+                },
               ),
+              if (widget.marketItem.symbol == 'CPWR') ...[
+                const SPaddingH24(
+                  child: CpowerBlock(),
+                ),
+              ],
+              const NewsDashboardSection(),
+              const SpaceH120(),
             ],
-            const NewsDashboardSection(),
-            const SpaceH120(),
-          ],
+          ),
         ),
       ),
     );
