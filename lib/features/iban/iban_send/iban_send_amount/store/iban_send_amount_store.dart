@@ -491,7 +491,7 @@ abstract class _IbanSendAmountStoreBase with Store {
   void onSendAll() {
     withAmount = '0';
     var sendAllValue = '';
-    if (availableAmount > (_maxLimit ?? Decimal.zero)) {
+    if (availableAmount < (_maxLimit ?? Decimal.zero)) {
       sendAllValue = responseOnInputAction(
         oldInput: withAmount,
         newInput: inputMode == WithdrawalInputMode.youSend
