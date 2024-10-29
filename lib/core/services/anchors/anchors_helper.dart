@@ -12,6 +12,7 @@ class AnchorsHelper {
     anchorTypeMarketDetails,
     anchorTypeBankingAccountDetails,
     anchorTypeForgotEarnDeposit,
+    anchorTypeForgotTopUpEarnDeposit,
     anchorTypeForgotSectors,
     anchorTypeAddExternalIban,
   ];
@@ -30,6 +31,7 @@ class AnchorsHelper {
   static const anchorMetadataAccountId = 'accountId';
 
   static const anchorMetadataOfferId = 'offerId';
+  static const anchorMetadataPositionId = 'positionId';
 
   static const anchorMetadataSectorId = 'sector_id';
 
@@ -138,14 +140,40 @@ class AnchorsHelper {
   static const anchorTypeForgotEarnDeposit = 'ForgotEarnDeposit';
 
   AnchorRecordModel _forgotEarnDepositDetails(String offerId) => AnchorRecordModel(
-    anchorType: anchorTypeForgotEarnDeposit,
-    metadata: {
-      anchorMetadataOfferId: offerId,
-    },
-  );
+        anchorType: anchorTypeForgotEarnDeposit,
+        metadata: {
+          anchorMetadataOfferId: offerId,
+        },
+      );
 
   Future<void> addForgotEarnDepositAnchor(String offerId) async {
     await getIt.get<AnchorsService>().setAnchor(_forgotEarnDepositDetails(offerId));
+
+    return;
+  }
+
+  ///
+  /// Name: Forgot top up EARN
+  /// Earn deposit (screen [EarnDeposit]
+  ///
+  static const anchorTypeForgotTopUpEarnDeposit = 'TopUpEarnDeposit';
+
+  AnchorRecordModel _topUpEarnDepositDetails({required String offerId, required String positionId}) =>
+      AnchorRecordModel(
+        anchorType: anchorTypeForgotTopUpEarnDeposit,
+        metadata: {
+          anchorMetadataOfferId: offerId,
+          anchorMetadataPositionId: positionId,
+        },
+      );
+
+  Future<void> addTopUpEarnDepositAnchor({required String offerId, required String positionId}) async {
+    await getIt.get<AnchorsService>().setAnchor(
+          _topUpEarnDepositDetails(
+            offerId: offerId,
+            positionId: positionId,
+          ),
+        );
 
     return;
   }
@@ -157,11 +185,11 @@ class AnchorsHelper {
   static const anchorTypeForgotSectors = 'ForgotSectors';
 
   AnchorRecordModel _forgotSectors(String sectorId) => AnchorRecordModel(
-    anchorType: anchorTypeForgotSectors,
-    metadata: {
-      anchorMetadataSectorId: sectorId,
-    },
-  );
+        anchorType: anchorTypeForgotSectors,
+        metadata: {
+          anchorMetadataSectorId: sectorId,
+        },
+      );
 
   Future<void> addForgotSectorsAnchor(String sectorId) async {
     await getIt.get<AnchorsService>().setAnchor(_forgotSectors(sectorId));
@@ -176,11 +204,11 @@ class AnchorsHelper {
   static const anchorTypeAddExternalIban = 'AddExternalIban';
 
   AnchorRecordModel _addExternalIban(String accountId) => AnchorRecordModel(
-    anchorType: anchorTypeAddExternalIban,
-    metadata: {
-      anchorMetadataAccountId: accountId,
-    },
-  );
+        anchorType: anchorTypeAddExternalIban,
+        metadata: {
+          anchorMetadataAccountId: accountId,
+        },
+      );
 
   Future<void> addAddExternalIbanAnchor(String accountId) async {
     await getIt.get<AnchorsService>().setAnchor(_addExternalIban(accountId));

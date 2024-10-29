@@ -76,8 +76,6 @@ class _EarnDepositScreenState extends State<EarnDepositScreen> {
           ),
           barrierDismissible: false,
           onWillPop: () async {
-            unawaited(AnchorsHelper().addForgotEarnDepositAnchor(widget.offer.id));
-
             WidgetsBinding.instance.addPostFrameCallback((_) {
               sRouter.maybePop();
               sRouter.maybePop();

@@ -22,6 +22,7 @@ import 'package:jetwallet/features/withdrawal_banking/helpers/show_bank_transfer
 import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/analytic_records/models/anchor_record.dart';
+import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
 class AnchorsService {
@@ -59,6 +60,10 @@ class AnchorsService {
       case AnchorsHelper.anchorTypeForgotEarnDeposit:
         {
           pushForgotEarnDepositScreen(metadata);
+        }
+      case AnchorsHelper.anchorTypeForgotTopUpEarnDeposit:
+        {
+          pushTopUpEarnDepositScreen(metadata);
         }
       case AnchorsHelper.anchorTypeForgotSectors:
         {
@@ -305,6 +310,78 @@ class AnchorsService {
         await sRouter.push(
           EarnDepositScreenRouter(
             offer: offer,
+          ),
+        );
+      }
+    }
+
+    if (getIt.isRegistered<AppStore>() &&
+        getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home &&
+        getIt<TimerService>().isPinScreenOpen == false) {
+      await func();
+    } else {
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          func: () async {
+            await func();
+          },
+        ),
+      );
+    }
+  }
+
+  Future<void> pushTopUpEarnDepositScreen(
+    Map<String, String> metadata,
+  ) async {
+    final offerId = metadata[AnchorsHelper.anchorMetadataOfferId];
+    final positionId = metadata[AnchorsHelper.anchorMetadataPositionId];
+
+    if (offerId == null || positionId == null) {
+      return;
+    }
+
+    Future<void> func() async {
+      await Future.delayed(const Duration(milliseconds: 650));
+      sRouter.popUntilRoot();
+
+      final offers = sSignalRModules.activeEarnOffersMessage?.offers ?? [];
+
+      if (offers.isEmpty) {
+        return;
+      }
+
+      final offer = offers.where((element) => element.id == offerId).firstOrNull;
+      if (offer == null) {
+        return;
+      }
+
+      final positions = sSignalRModules.activeEarnPositionsMessage?.positions ?? [];
+      final position = positions.where((element) => element.id == positionId).firstOrNull;
+      if (position == null) {
+        return;
+      }
+
+      final positionWithOffers = position.copyWith(
+        offers: offers,
+      );
+
+      final isPageRouterNow = sRouter.stack.any((rout) => rout.name == EarnPositionActiveRouter.name);
+      if (!isPageRouterNow) {
+        unawaited(
+          sRouter.push(
+            EarnPositionActiveRouter(
+              earnPosition: positionWithOffers,
+              offers: offers,
+            ),
+          ),
+        );
+        await Future.delayed(const Duration(milliseconds: 350));
+        unawaited(
+          sRouter.push(
+            EarnTopUpAmountRouter(
+              earnPosition: positionWithOffers,
+            ),
           ),
         );
       }
