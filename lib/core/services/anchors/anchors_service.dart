@@ -22,7 +22,6 @@ import 'package:jetwallet/features/withdrawal_banking/helpers/show_bank_transfer
 import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/analytic_records/models/anchor_record.dart';
-import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
 class AnchorsService {
