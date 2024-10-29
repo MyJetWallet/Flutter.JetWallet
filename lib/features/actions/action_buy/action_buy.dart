@@ -60,8 +60,6 @@ void showBuyAction({
       context: context,
       blockingTypeCheck: BlockingType.deposit,
     );
-  } else if (isBuyAvaible) {
-    _showAction(context: context);
   } else {
     handler.handle(
       status: kyc.tradeStatus,
