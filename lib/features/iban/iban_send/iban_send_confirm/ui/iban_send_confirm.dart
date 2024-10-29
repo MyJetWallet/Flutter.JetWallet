@@ -206,7 +206,10 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                   ],
                   const SpaceH18(),
                   PaymentFeeRowWidget(
-                    fee: (cryptoSell != null ? cryptoSell!.paymentFeeInPaymentAsset : data!.feeAmount ?? Decimal.zero)
+                    fee: (cryptoSell != null
+                            ? (cryptoSell!.paymentFeeInPaymentAsset / cryptoSell!.rate)
+                                .toDecimal(scaleOnInfinitePrecision: 8)
+                            : data!.feeAmount ?? Decimal.zero)
                         .toFormatCount(
                       accuracy: state.eurCurrency.accuracy,
                       symbol: state.eurCurrency.symbol,
