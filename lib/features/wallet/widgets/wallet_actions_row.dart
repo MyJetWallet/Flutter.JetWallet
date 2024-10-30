@@ -173,22 +173,22 @@ class WalletActionsRow extends StatelessWidget {
     final actualAsset = currency;
 
     final isCardsAvailable = actualAsset.buyMethods.any(
-          (element) => element.id == PaymentMethodType.bankCard,
+      (element) => element.id == PaymentMethodType.bankCard,
     );
 
     final isSimpleAccountAvaible = sSignalRModules.paymentProducts?.any(
           (element) => element.id == AssetPaymentProductsEnum.simpleIbanAccount,
-    ) ??
+        ) ??
         false;
 
     final isBankingAccountsAvaible = actualAsset.buyMethods.any(
-          (element) => element.id == PaymentMethodType.ibanTransferUnlimint,
+      (element) => element.id == PaymentMethodType.ibanTransferUnlimint,
     );
 
     final isBuyAvaible = isCardsAvailable || isSimpleAccountAvaible || isBankingAccountsAvaible;
 
     final isDepositBlocker = sSignalRModules.clientDetail.clientBlockers.any(
-          (element) => element.blockingType == BlockingType.deposit,
+      (element) => element.blockingType == BlockingType.deposit,
     );
 
     if (kycState.tradeStatus == kycOperationStatus(KycStatus.blocked) || !isBuyAvaible) {
@@ -212,15 +212,6 @@ class WalletActionsRow extends StatelessWidget {
           currency: actualAsset,
         ),
         from: [BlockingType.deposit],
-      );
-    } else if (isBuyAvaible) {
-      showSendTimerAlertOr(
-        context: context,
-        or: () => showPayWithBottomSheet(
-          context: context,
-          currency: actualAsset,
-        ),
-        from: [BlockingType.trade],
       );
     } else {
       handler.handle(
