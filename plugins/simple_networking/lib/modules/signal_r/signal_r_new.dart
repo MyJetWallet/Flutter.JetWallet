@@ -269,11 +269,6 @@ class SignalRModuleNew {
   }
 
   void pongMessageHandler(List<Object?>? data) {
-    log(
-      level: lg.Level.info,
-      place: _loggerValue,
-      message: 'Pong Message Handler',
-    );
     transport.addToPong(DateTime.now());
 
     _pongTimer?.cancel();
