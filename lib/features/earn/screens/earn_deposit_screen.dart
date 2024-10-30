@@ -92,7 +92,7 @@ class _EarnDepositScreenState extends State<EarnDepositScreen> {
 
             navigateToWallet(context, store.currency);
           },
-          onSecondaryButtonTap: () async {
+          onSecondaryButtonTap: () {
             unawaited(AnchorsHelper().addForgotEarnDepositAnchor(widget.offer.id));
 
             sAnalytics.tapOnTheCancelTopUpEarnWalletButton(
@@ -102,8 +102,7 @@ class _EarnDepositScreenState extends State<EarnDepositScreen> {
               earnWithdrawalType: widget.offer.withdrawType.name,
             );
 
-            await sRouter.maybePop();
-            await sRouter.maybePop();
+            sRouter.popUntilRoot();
           },
         );
       });
