@@ -167,14 +167,13 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                       accuracy: currency.accuracy,
                     ),
                     fromAssetCustomIcon: cryptoSell != null ? null : const BlueBankIconDeprecated(),
-                    toAssetIconUrl: currency.iconUrl,
-                    toAssetDescription: cryptoSell != null ? contact.name ?? '' : currency.description,
+                    toAssetIconUrl: cryptoSell != null ? eurCurrency.iconUrl : currency.iconUrl,
+                    toAssetDescription: cryptoSell != null ? eurCurrency.description : currency.description,
                     toAssetValue:
                         (cryptoSell != null ? cryptoSell!.buyAmount : data!.sendAmount ?? Decimal.zero).toFormatCount(
                       accuracy: cryptoSell != null ? buyCurrency.accuracy : currency.accuracy,
                       symbol: cryptoSell != null ? buyCurrency.symbol : currency.symbol,
                     ),
-                    toAssetCustomIcon: cryptoSell != null ? const BlueBankIconDeprecated() : null,
                   ),
                   const SDivider(),
                   SActionConfirmText(
