@@ -116,14 +116,15 @@ class BankTransferDetails extends StatelessObserverWidget {
             builder: (context) {
               final currency = currencyFrom(
                 sSignalRModules.currenciesWithHiddenList,
-                transactionListItem.sellCryptoInfo?.paymentFeeAssetId ??
+                transactionListItem.sellWithdrawalInfo?.withdrawalAssetId ??
                     transactionListItem.sellCryptoInfo?.feeAssetId ??
                     '',
               );
 
-              final providerFee = (transactionListItem.sellCryptoInfo?.paymentFeeAmount ?? Decimal.zero) +
-                  ((transactionListItem.sellWithdrawalInfo?.withdrawalFeeAmount ?? Decimal.zero) *
-                      (transactionListItem.sellCryptoInfo?.quoteRate ?? Decimal.zero));
+              final providerFee = ((transactionListItem.sellCryptoInfo?.paymentFeeAmount ?? Decimal.ten) /
+                          (transactionListItem.sellCryptoInfo?.quoteRate ?? Decimal.zero))
+                      .toDecimal(scaleOnInfinitePrecision: currency.accuracy) +
+                  (transactionListItem.sellWithdrawalInfo?.withdrawalFeeAmount ?? Decimal.zero);
 
               return PaymentFeeRowWidget(
                 fee: providerFee.toFormatCount(
