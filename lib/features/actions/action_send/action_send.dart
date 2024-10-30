@@ -501,7 +501,7 @@ void showBankTransferTo(BuildContext context, [CurrencyModel? currency]) {
           }
           if (bankingShowState == BankingClientStatus.allowed) {
             if (accounts.isEmpty) {
-              if (simpleAccounts?.status == AccountStatus.active) {
+              if (simpleAccounts != null && simpleAccounts.status == AccountStatus.active) {
                 Navigator.pop(context);
                 context.pushRoute(const GetPersonalIbanRouter());
               }
@@ -521,7 +521,7 @@ void showBankTransferTo(BuildContext context, [CurrencyModel? currency]) {
               }
             }
           } else if (bankingShowState == BankingClientStatus.bankingKycRequired) {
-            if (simpleAccounts?.status == AccountStatus.inCreation) {
+            if (simpleAccounts != null && simpleAccounts.status == AccountStatus.inCreation) {
               return;
             } else {
               Navigator.pop(context);
