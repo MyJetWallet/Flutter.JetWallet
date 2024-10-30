@@ -29,7 +29,9 @@ void showChooseAssetToSend(
   final bankAccounts = sSignalRModules.bankingProfileData?.banking?.accounts ?? <SimpleBankingAccount>[];
   getIt.get<ActionSearchStore>().bankAccountsInit(bankAccounts);
 
-  var currencyFiltered = List<CurrencyModel>.from(getIt.get<ActionSearchStore>().fCurrencies);
+  var currencyFiltered = List<CurrencyModel>.from(
+    getIt.get<ActionSearchStore>().fCurrencies,
+  );
   currencyFiltered = currencyFiltered
       .where(
         (element) => element.isAssetBalanceNotEmpty && element.supportsCryptoWithdrawal,
@@ -101,19 +103,14 @@ class _ChooseAssetToSend extends StatelessObserverWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(
-            left: 24.0,
-            right: 24.0,
-            top: 8.0,
-          ),
-          child: Text(
-            intl.iban_euro,
-            style: STStyles.body2Semibold.copyWith(
-              color: SColorsLight().gray8,
-            ),
-          ),
-        ),
+        if (isUahBankTransfer) ...[
+          if (simpleAccount != null) _buildEuroText(),
+        ] else ...[
+          if (isCJ! && simpleAccount != null)
+            _buildEuroText()
+          else if (searchedBankAccounts.isNotEmpty)
+            _buildEuroText(),
+        ],
         if (isUahBankTransfer) ...[
           if (simpleAccount != null)
             _buildEurCurrency(
@@ -194,6 +191,20 @@ class _ChooseAssetToSend extends StatelessObserverWidget {
       ],
     );
   }
+
+  Widget _buildEuroText() => Padding(
+        padding: const EdgeInsets.only(
+          left: 24.0,
+          right: 24.0,
+          top: 8.0,
+        ),
+        child: Text(
+          intl.iban_euro,
+          style: STStyles.body2Semibold.copyWith(
+            color: SColorsLight().gray8,
+          ),
+        ),
+      );
 
   Widget _buildEurCurrency(
     BuildContext context,

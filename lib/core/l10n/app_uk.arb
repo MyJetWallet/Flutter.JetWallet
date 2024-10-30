@@ -480,7 +480,7 @@
         "description": "Обновить Simple",
         "type": "text"
     },
-    "update_weRecommendUpdateLatestVersion": "Рекомендуємо оновити до останньої версії",
+    "update_weRecommendUpdateLatestVersion": "Дбайте про стабільну роботу застосунку — встановіть найновішу версію.",
     "@update_weRecommendUpdateLatestVersion": {
         "description": "Рекомендуем обновить до последней версии",
         "type": "text"
@@ -645,7 +645,7 @@
         "description": "Документы проверяются",
         "type": "text"
     },
-    "createBanners_enable2Factor": "Увімкнути 2-факторну",
+    "createBanners_enable2Factor": "Увімкнути 2х-факторну аутентифікацію",
     "@createBanners_enable2Factor": {
         "description": "Включить 2-факторную",
         "type": "text"
@@ -1951,7 +1951,7 @@
         "description": "Ежеквартальная перебалансировка до равновзвешенного",
         "type": "text"
     },
-    "marketNewsBlock_readLess": "Детальніше",
+    "marketNewsBlock_readLess": "Згорнути",
     "@marketNewsBlock_readLess": {
         "description": "Подробнее",
         "type": "text"
@@ -3716,7 +3716,7 @@
         "description": "Вы должны быть бенефициаром банковского счета",
         "type": "text"
     },
-    "historyRecurringBuy_text1": "Ваші транзакції будуть відображатися тут",
+    "historyRecurringBuy_text1": "Ваші транзакції будуть відображені тут",
     "@historyRecurringBuy_text1": {
         "description": "Ваши транзакции будут отображаться здесь",
         "type": "text"
@@ -3893,7 +3893,7 @@
         "description": "Купить криптовалюту",
         "type": "text"
     },
-    "join_the_waitlist": "Приєднатись до списку очікування",
+    "join_the_waitlist": "Приєднатись до черги",
     "@join_the_waitlist": {
         "description": "Встать в очередь",
         "type": "text"
@@ -3944,7 +3944,7 @@
         "description": "Адрес электронной почты",
         "type": "text"
     },
-    "send_gift_policy": "1. Я усвідомлюю, що цей подарунок буде надіслано до додатка Simple одержувача.\\n\\n 2. Я усвідомлюю, що після того, як одержувач отримає подарунок, Simple не зможе допомогти повернути його.",
+    "send_gift_policy": "1. Я усвідомлюю, що цей подарунок буде надіслано до додатка Simple одержувача.\n\n2. Я усвідомлюю, що після того, як одержувач отримає подарунок, Simple не зможе допомогти повернути його.",
     "@send_gift_policy": {
         "description": "1. Я осознаю, что этот подарок будет отправлен в приложение Simple получателя. \n\n2. Я осознаю, что после того, как получатель получит подарок, Simple может быть не в состоянии помочь мне получить мой подарок обратно.",
         "type": "text"
@@ -4330,7 +4330,7 @@
         "description": "Вывести",
         "type": "text"
     },
-    "wallet_simple_account_empty": "Ваші транзакції відобразяться тут",
+    "wallet_simple_account_empty": "Ваші транзакції будуть відображені тут",
     "@wallet_simple_account_empty": {
         "description": "Ваши транзакции отобразятся здесь",
         "type": "text"
@@ -5376,7 +5376,7 @@
     "invest_history_pending": "Історія відкладених позицій",
     "simple_card_is_ready": "Карта Simple готова",
     "simple_card_password_repeatable_characters": "Не можна використовувати більше 3 однакових символів поспіль",
-    "simple_card_password_whitespace": "Пробіли не дозволений",
+    "simple_card_password_whitespace": "Пробіли не дозволені",
     "simple_card_password_repeatable_allowed_symbols": "Дозволені наступні спеціальні символи:",
     "earn_earn": "Дохід",
     "@earn_earn": {
@@ -5675,10 +5675,10 @@
     "prepaid_card_my_vouchers_placeholder": "Тут будуть відображені ваші передплачені ваучери",
     "prepaid_card_buy_card": "Купити картку",
     "prepaid_card_next": "Далі",
-    "prepaid_card_guide_to_using": "Гайд з використання",
+    "prepaid_card_guide_to_using": "Інструкція з використання",
     "prepaid_card_you_purchase": "Ви купуєте ваучер, щоб отримати Visa або Mastercard з попередньо встановленим балансом.\n\nПісля придбання ваучера, використання ваучера та активація картки відбувається на сайті емітента картки.\n\nЦю картку можна використовувати для онлайн-платежів.",
-    "prepaid_card_the_purchased": "Баланс придбаної картки не може бути поповнений",
-    "prepaid_card_ApplePay_and_GooglePay": "ApplePay та GooglePay",
+    "prepaid_card_the_purchased": "Поповнити баланс придбаної картки неможливо.",
+    "prepaid_card_ApplePay_and_GooglePay": "Apple Pay та Google Pay",
     "prepaid_card_cards_marked": "Картки з позначкою «Mobile Wallet» можна додати до Apple Pay та Google Pay. Картки без цієї позначки не можуть бути прив’язані до мобільних гаманців.",
     "prepaid_card_please_note": "Будь ласка, зауважте",
     "prepaid_card_that_cards": "Картки «Mobile Wallet» можуть бути недоступні у деяких країнах.",
@@ -5863,7 +5863,7 @@
     "jar_input_jar_name": "На що ви накопичуєте?",
     "jar_jar_name": "Назва банки",
     "jar_next": "Далі",
-    "jar_input_jar_goal": "Яка мета банки?",
+    "jar_input_jar_goal": "Яку суму плануєте отримати ?",
     "jar_input_jar_goal_error": "Введіть суму від 1 до {limit}",
     "jar_purpose": "Сума накопичення",
     "jar_creating_jar_title": "Ви створюєте банку {name}",
@@ -5879,7 +5879,7 @@
     "jar_transactions": "Транзакції",
     "jar_active": "Активні",
     "jar_all": "Всі",
-    "jar_description_title": "Будь ласка, додайте детальний опис вашої мети. Розкажіть нам, яка її мета",
+    "jar_description_title": "Будь ласка, додайте детальний опис вашої мети.",
     "jar_description": "Опис",
     "jar_cancel": "Скасувати",
     "jar_confirm": "Підтвердити",

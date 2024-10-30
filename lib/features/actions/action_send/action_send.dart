@@ -427,10 +427,28 @@ void showBankTransferTo(BuildContext context, [CurrencyModel? currency]) {
     (element) => element.id == AssetPaymentProductsEnum.bankingIbanAccount,
   );
 
-  final methods = sSignalRModules.globalSendMethods?.methods
-          ?.where((method) => method.receiveAsset == 'UAH')
-          .toList() ??
-      [];
+  final methods =
+      sSignalRModules.globalSendMethods?.methods?.where((method) => method.receiveAsset == 'UAH').toList() ?? [];
+
+  String getHelperTextToSendAnyone() {
+    if (allowBanking) {
+      if (simpleAccounts == null || simpleAccounts.status != AccountStatus.active) {
+        return intl.bank_transfer_coming_soon;
+      } else {
+        if (activeAccounts.isNotEmpty) {
+          return '';
+        } else {
+          if (accounts.isEmpty) {
+            return '';
+          } else {
+            return intl.bank_transfer_coming_soon;
+          }
+        }
+      }
+    } else {
+      return intl.bank_transfer_coming_soon;
+    }
+  }
 
   sShowBasicModalBottomSheet(
     context: context,
@@ -483,7 +501,7 @@ void showBankTransferTo(BuildContext context, [CurrencyModel? currency]) {
           }
           if (bankingShowState == BankingClientStatus.allowed) {
             if (accounts.isEmpty) {
-              if (simpleAccounts?.status == AccountStatus.active) {
+              if (simpleAccounts != null && simpleAccounts.status == AccountStatus.active) {
                 Navigator.pop(context);
                 context.pushRoute(const GetPersonalIbanRouter());
               }
@@ -503,63 +521,67 @@ void showBankTransferTo(BuildContext context, [CurrencyModel? currency]) {
               }
             }
           } else if (bankingShowState == BankingClientStatus.bankingKycRequired) {
-            if (simpleAccounts?.status == AccountStatus.inCreation) {
+            if (simpleAccounts != null && simpleAccounts.status == AccountStatus.inCreation) {
               return;
             } else {
               Navigator.pop(context);
               context.pushRoute(const GetPersonalIbanRouter());
+            }
+          } else if (bankingShowState == BankingClientStatus.kycInProgress) {
+            if (activeAccounts.isNotEmpty) {
+              Navigator.pop(context);
+              showBankTransforSelect(
+                context,
+                activeAccounts.first,
+                false,
+                true,
+                currency,
+              );
             }
           }
         },
         amount: '',
         description: '',
         name: intl.bank_transfer_to_another_person,
-        helper: allowBanking
-            ? (bankingShowState != BankingClientStatus.allowed &&
-                    bankingShowState != BankingClientStatus.bankingKycRequired)
-                ? intl.bank_transfer_coming_soon
-                : activeAccounts.isNotEmpty
-                    ? ''
-                    : intl.bank_transfer_coming_soon
-            : intl.bank_transfer_coming_soon,
+        helper: getHelperTextToSendAnyone(),
       ),
       if (methods.isNotEmpty)
         SCardRow(
-        icon: Assets.svg.medium.business.simpleSvg(color: SColorsLight().blue),
-        onTap: () {
-          final methods = sSignalRModules.globalSendMethods?.methods
-              ?.where((method) => method.type == 10 && (method.receiveAsset == 'UAH'))
-              .toList() ??
-              [];
+          icon: Assets.svg.medium.business.simpleSvg(color: SColorsLight().blue),
+          onTap: () {
+            final methods = sSignalRModules.globalSendMethods?.methods
+                    ?.where((method) => method.type == 10 && (method.receiveAsset == 'UAH'))
+                    .toList() ??
+                [];
 
-          if (methods.isEmpty) {
-            sNotification.showError(
-              intl.operation_bloked_text,
-              id: 1,
-            );
-            return;
-          }
+            if (methods.isEmpty) {
+              sNotification.showError(
+                intl.operation_bloked_text,
+                id: 1,
+              );
+              return;
+            }
 
-          if (currency != null) {
-            sRouter.push(
-              SendCardDetailRouter(
-                method: methods.first,
-                countryCode: 'UA',
-                currency: currency,
-              ),
-            );
-          } else {
-            showChooseAssetToSend(
-              sRouter.navigatorKey.currentContext!,
-              isUahBankTransfer: true,
-            );
-          }
-        },
-        amount: '',
-        description: '',
-        name: intl.bank_transfer_uah_bank_account,
-        helper: intl.bank_transfer_ua_iban,
-      ),
+            if (currency != null) {
+              sRouter.push(
+                SendCardDetailRouter(
+                  method: methods.first,
+                  countryCode: 'UA',
+                  currency: currency,
+                ),
+              );
+            } else {
+              showChooseAssetToSend(
+                sRouter.navigatorKey.currentContext!,
+                isUahBankTransfer: true,
+              );
+            }
+          },
+          amount: '',
+          description: '',
+          name: intl.bank_transfer_uah_bank_account,
+          helper: intl.bank_transfer_ua_iban,
+        ),
       const SpaceH42(),
     ],
   );

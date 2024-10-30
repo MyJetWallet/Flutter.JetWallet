@@ -116,13 +116,18 @@ class BankTransferDetails extends StatelessObserverWidget {
             builder: (context) {
               final currency = currencyFrom(
                 sSignalRModules.currenciesWithHiddenList,
-                transactionListItem.sellCryptoInfo?.paymentFeeAssetId ??
+                transactionListItem.sellWithdrawalInfo?.withdrawalAssetId ??
                     transactionListItem.sellCryptoInfo?.feeAssetId ??
                     '',
               );
 
+              final providerFee = ((transactionListItem.sellCryptoInfo?.paymentFeeAmount ?? Decimal.ten) /
+                          (transactionListItem.sellCryptoInfo?.quoteRate ?? Decimal.zero))
+                      .toDecimal(scaleOnInfinitePrecision: currency.accuracy) +
+                  (transactionListItem.sellWithdrawalInfo?.withdrawalFeeAmount ?? Decimal.zero);
+
               return PaymentFeeRowWidget(
-                fee: (transactionListItem.sellCryptoInfo?.paymentFeeAmount ?? Decimal.zero).toFormatCount(
+                fee: providerFee.toFormatCount(
                   accuracy: currency.accuracy,
                   symbol: currency.symbol,
                 ),
@@ -139,11 +144,7 @@ class BankTransferDetails extends StatelessObserverWidget {
                     '',
               );
 
-              final processingFeeAmount = transactionListItem.sellCryptoInfo?.feeAssetId ==
-                      transactionListItem.sellWithdrawalInfo?.withdrawalFeeAssetId
-                  ? (transactionListItem.sellCryptoInfo?.feeAmount ?? Decimal.zero) +
-                      (transactionListItem.sellWithdrawalInfo?.withdrawalFeeAmount ?? Decimal.zero)
-                  : (transactionListItem.sellCryptoInfo?.feeAmount ?? Decimal.zero);
+              final processingFeeAmount = transactionListItem.sellCryptoInfo?.feeAmount ?? Decimal.zero;
 
               return ProcessingFeeRowWidget(
                 fee: currency.type == AssetType.crypto

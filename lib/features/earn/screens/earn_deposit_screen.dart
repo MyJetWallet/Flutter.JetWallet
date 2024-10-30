@@ -73,11 +73,12 @@ class _EarnDepositScreenState extends State<EarnDepositScreen> {
             height: 80,
             package: 'simple_kit',
           ),
+          barrierDismissible: false,
+          willPopScope: false,
           onWillPop: () async {
-            await AnchorsHelper().addForgotEarnDepositAnchor(widget.offer.id);
-
             WidgetsBinding.instance.addPostFrameCallback((_) {
-              closeScreen();
+              sRouter.maybePop();
+              sRouter.maybePop();
             });
           },
           onPrimaryButtonTap: () {
@@ -90,7 +91,7 @@ class _EarnDepositScreenState extends State<EarnDepositScreen> {
 
             navigateToWallet(context, store.currency);
           },
-          onSecondaryButtonTap: () async {
+          onSecondaryButtonTap: () {
             unawaited(AnchorsHelper().addForgotEarnDepositAnchor(widget.offer.id));
 
             sAnalytics.tapOnTheCancelTopUpEarnWalletButton(
@@ -100,8 +101,7 @@ class _EarnDepositScreenState extends State<EarnDepositScreen> {
               earnWithdrawalType: widget.offer.withdrawType.name,
             );
 
-            await sRouter.maybePop();
-            await sRouter.maybePop();
+            sRouter.popUntilRoot();
           },
         );
       });
@@ -144,6 +144,7 @@ class _EarnDepositScreenState extends State<EarnDepositScreen> {
 
 class _EarnWithdrawalAmountBody extends StatelessWidget {
   const _EarnWithdrawalAmountBody();
+
   @override
   Widget build(BuildContext context) {
     final store = EarnDepositStore.of(context);

@@ -15,7 +15,6 @@ import 'package:jetwallet/utils/helpers/split_iban.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
-import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -138,7 +137,6 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
     return SPageFrameWithPadding(
       loaderText: intl.loader_please_wait,
       loading: state.loader,
-      customLoader: const WaitingScreen(),
       header: SSmallHeader(
         title: intl.buy_confirmation_title,
         subTitle: intl.withdraw,
@@ -169,14 +167,13 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                       accuracy: currency.accuracy,
                     ),
                     fromAssetCustomIcon: cryptoSell != null ? null : const BlueBankIconDeprecated(),
-                    toAssetIconUrl: currency.iconUrl,
-                    toAssetDescription: cryptoSell != null ? contact.name ?? '' : currency.description,
+                    toAssetIconUrl: cryptoSell != null ? eurCurrency.iconUrl : currency.iconUrl,
+                    toAssetDescription: cryptoSell != null ? eurCurrency.description : currency.description,
                     toAssetValue:
                         (cryptoSell != null ? cryptoSell!.buyAmount : data!.sendAmount ?? Decimal.zero).toFormatCount(
                       accuracy: cryptoSell != null ? buyCurrency.accuracy : currency.accuracy,
                       symbol: cryptoSell != null ? buyCurrency.symbol : currency.symbol,
                     ),
-                    toAssetCustomIcon: cryptoSell != null ? const BlueBankIconDeprecated() : null,
                   ),
                   const SDivider(),
                   SActionConfirmText(
@@ -197,7 +194,7 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                     value: isCJ
                         ? '${sUserInfo.firstName} ${sUserInfo.lastName}'
                         : cryptoSell != null
-                            ? contact.name ?? ''
+                            ? contact.fullName ?? ''
                             : data!.fullName ?? '',
                   ),
                   if (!isCJ) ...[
@@ -208,7 +205,10 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                   ],
                   const SpaceH18(),
                   PaymentFeeRowWidget(
-                    fee: (cryptoSell != null ? cryptoSell!.paymentFeeInPaymentAsset : data!.feeAmount ?? Decimal.zero)
+                    fee: (cryptoSell != null
+                            ? (cryptoSell!.paymentFeeInPaymentAsset / cryptoSell!.rate)
+                                .toDecimal(scaleOnInfinitePrecision: 8)
+                            : data!.feeAmount ?? Decimal.zero)
                         .toFormatCount(
                       accuracy: state.eurCurrency.accuracy,
                       symbol: state.eurCurrency.symbol,

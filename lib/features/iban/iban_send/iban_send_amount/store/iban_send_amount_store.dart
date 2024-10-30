@@ -102,16 +102,11 @@ abstract class _IbanSendAmountStoreBase with Store {
     }
   }
 
-  final CurrencyModel _baseCurrency = currencyFrom(
-    sSignalRModules.currenciesList,
-    sSignalRModules.baseCurrency.symbol,
-  );
-
   @computed
   CurrencyModel get mainCurrency => currency != null ? currency! : eurCurrency;
 
   @computed
-  CurrencyModel get secondaryCurrency => currency != null ? _baseCurrency : eurCurrency;
+  CurrencyModel get secondaryCurrency => currency != null ? eurCurrency : eurCurrency;
 
   @observable
   bool isCryptoEntering = true;
@@ -130,10 +125,16 @@ abstract class _IbanSendAmountStoreBase with Store {
   Decimal simpleFeeAmount = Decimal.zero;
 
   @observable
-  Decimal? minAmount;
+  Decimal? minSellAmount;
 
   @observable
-  Decimal? maxAmount;
+  Decimal? maxSellAmount;
+
+  @observable
+  Decimal? minBuyAmount;
+
+  @observable
+  Decimal? maxBuyAmount;
 
   @computed
   String get primaryAmount {
@@ -202,24 +203,24 @@ abstract class _IbanSendAmountStoreBase with Store {
       );
 
   @computed
-  Decimal? get _minLimit =>
-      minAmount ??
-      _sendIbanMethod.symbolNetworkDetails?.firstWhere(
-        (element) => element.symbol == eurCurrency.symbol,
-        orElse: () {
-          return const SymbolNetworkDetails();
-        },
-      ).minAmount;
+  Decimal? get _minLimit => currency != null
+      ? (inputMode == WithdrawalInputMode.youSend ? minSellAmount ?? Decimal.zero : minBuyAmount ?? Decimal.zero)
+      : _sendIbanMethod.symbolNetworkDetails?.firstWhere(
+          (element) => element.symbol == eurCurrency.symbol,
+          orElse: () {
+            return const SymbolNetworkDetails();
+          },
+        ).minAmount;
 
   @computed
-  Decimal? get _maxLimit =>
-      maxAmount ??
-      _sendIbanMethod.symbolNetworkDetails?.firstWhere(
-        (element) => element.symbol == eurCurrency.symbol,
-        orElse: () {
-          return const SymbolNetworkDetails();
-        },
-      ).maxAmount;
+  Decimal? get _maxLimit => currency != null
+      ? (inputMode == WithdrawalInputMode.youSend ? maxSellAmount : maxBuyAmount)
+      : _sendIbanMethod.symbolNetworkDetails?.firstWhere(
+          (element) => element.symbol == eurCurrency.symbol,
+          orElse: () {
+            return const SymbolNetworkDetails();
+          },
+        ).maxAmount;
 
   @action
   void init({
@@ -283,8 +284,11 @@ abstract class _IbanSendAmountStoreBase with Store {
       final response = await sNetwork.getWalletModule().postSellLimits(model);
 
       if (response.hasData) {
-        minAmount = response.data!.minSellAmount;
-        maxAmount = response.data!.maxSellAmount;
+        minSellAmount = response.data!.minSellAmount;
+        maxSellAmount = response.data!.maxSellAmount;
+
+        minBuyAmount = response.data!.minBuyAmount;
+        maxBuyAmount = response.data!.maxBuyAmount;
       }
     }
   }
@@ -310,6 +314,7 @@ abstract class _IbanSendAmountStoreBase with Store {
         personWithdrawalData: isCJ
             ? null
             : PersonWithdrawalDataModel(
+                contactId: contact?.id ?? '',
                 toIban: contact?.iban ?? '',
                 beneficiaryName: contact?.name ?? '',
                 beneficiaryAddress: '',
@@ -350,43 +355,76 @@ abstract class _IbanSendAmountStoreBase with Store {
 
   @action
   Future<void> loadPreview(String? description, bool isCJ) async {
-    loader.startLoadingImmediately();
+    try {
+      loader.startLoadingImmediately();
 
-    if (currency != null) {
-      final accounts = sSignalRModules.bankingProfileData?.banking?.accounts ?? [];
+      if (currency != null) {
+        final accounts = sSignalRModules.bankingProfileData?.banking?.accounts ?? [];
 
-      final model = GetCryptoSellRequestModel(
-        buyFixed: inputMode != WithdrawalInputMode.youSend,
-        paymentAsset: currency?.symbol ?? '',
-        buyAsset: eurCurrency.symbol,
-        buyAmount: Decimal.parse(baseConversionValue),
-        paymentAmount: Decimal.parse(withAmount),
-        destinationAccountId: isCJ ? 'clearjuction_account' : accounts.first.accountId ?? '',
-        selfWithdrawalData: isCJ
-            ? SelfWithdrawalDataModel(
-                toIban: contact?.iban ?? '',
-                bankCode: contact?.bic ?? '',
-              )
-            : null,
-        personWithdrawalData: isCJ
-            ? null
-            : PersonWithdrawalDataModel(
-                toIban: contact?.iban ?? '',
-                beneficiaryName: contact?.name ?? '',
-                beneficiaryAddress: '',
-                beneficiaryCountry: contact?.bankCountry ?? '',
-                bankCode: contact?.bic ?? '',
-                intermediaryBankCode: '',
-                intermediaryBankAccount: '',
-              ),
-      );
+        final model = GetCryptoSellRequestModel(
+          buyFixed: inputMode != WithdrawalInputMode.youSend,
+          paymentAsset: currency?.symbol ?? '',
+          buyAsset: eurCurrency.symbol,
+          buyAmount: Decimal.parse(baseConversionValue),
+          paymentAmount: Decimal.parse(withAmount),
+          destinationAccountId: isCJ ? 'clearjuction_account' : accounts.first.accountId ?? '',
+          selfWithdrawalData: isCJ
+              ? SelfWithdrawalDataModel(
+                  toIban: contact?.iban ?? '',
+                  bankCode: contact?.bic ?? '',
+                )
+              : null,
+          personWithdrawalData: isCJ
+              ? null
+              : PersonWithdrawalDataModel(
+                  contactId: contact?.id ?? '',
+                  toIban: contact?.iban ?? '',
+                  beneficiaryName: contact?.name ?? '',
+                  beneficiaryAddress: '',
+                  beneficiaryCountry: contact?.bankCountry ?? '',
+                  bankCode: contact?.bic ?? '',
+                  intermediaryBankCode: '',
+                  intermediaryBankAccount: '',
+                ),
+        );
 
-      final response = await sNetwork.getWalletModule().postSellCreate(model);
+        final response = await sNetwork.getWalletModule().postSellCreate(model);
 
-      if (response.hasData) {
+        if (response.hasData) {
+          final previewModel = BankingWithdrawalPreviewModel(
+            accountId: account?.accountId ?? '',
+            requestId: const Uuid().v1(),
+            toIbanAddress: contact?.iban ?? '',
+            assetSymbol: eurCurrency.symbol,
+            amount: Decimal.parse(withAmount),
+            contactId: contact?.id ?? '',
+            beneficiaryBankCode: contact?.bic ?? '',
+            description: description,
+            expressPayment: false,
+          );
+
+          await sRouter.push(
+            IbanSendConfirmRouter(
+              data: null,
+              previewRequest: previewModel,
+              contact: contact!,
+              account: accounts.first,
+              isCJ: isCJ,
+              cryptoSell: response.data,
+            ),
+          );
+        } else {
+          sNotification.showError(
+            response.error?.cause ?? intl.something_went_wrong,
+            id: 1,
+            needFeedback: true,
+          );
+        }
+        loader.finishLoadingImmediately();
+      } else {
         final previewModel = BankingWithdrawalPreviewModel(
           accountId: account?.accountId ?? '',
-          requestId: const Uuid().v1(),
+          requestId: requestId,
           toIbanAddress: contact?.iban ?? '',
           assetSymbol: eurCurrency.symbol,
           amount: Decimal.parse(withAmount),
@@ -396,71 +434,50 @@ abstract class _IbanSendAmountStoreBase with Store {
           expressPayment: false,
         );
 
-        await sRouter.push(
-          IbanSendConfirmRouter(
-            data: null,
-            previewRequest: previewModel,
-            contact: contact!,
-            account: accounts.first,
-            isCJ: isCJ,
-            cryptoSell: response.data,
-          ),
-        );
-      } else {
-        sNotification.showError(
-          response.error?.cause ?? intl.something_went_wrong,
-          id: 1,
-          needFeedback: true,
-        );
-      }
-    } else {
-      final previewModel = BankingWithdrawalPreviewModel(
-        accountId: account?.accountId ?? '',
-        requestId: requestId,
-        toIbanAddress: contact?.iban ?? '',
-        assetSymbol: eurCurrency.symbol,
-        amount: Decimal.parse(withAmount),
-        contactId: contact?.id ?? '',
-        beneficiaryBankCode: contact?.bic ?? '',
-        description: description,
-        expressPayment: false,
-      );
+        final response =
+            await getIt.get<SNetwork>().simpleNetworking.getWalletModule().postBankingWithdrawalPreview(previewModel);
 
-      final response =
-          await getIt.get<SNetwork>().simpleNetworking.getWalletModule().postBankingWithdrawalPreview(previewModel);
-
-      if (!response.hasError) {
-        await sRouter
-            .push(
-          IbanSendConfirmRouter(
-            data: response.data,
-            contact: contact!,
-            account: account!,
-            previewRequest: previewModel,
-            isCJ: isCJ,
-            cryptoSell: null,
-          ),
-        )
-            .then((value) {
-          sAnalytics.eurWithdrawTapBackOrderSummary(
-            isCJ: isCJAcc!,
-            accountIban: account?.iban ?? '',
-            accountLabel: account?.label ?? '',
-            eurAccType: contact?.iban ?? '',
-            eurAccLabel: contact?.name ?? '',
-            enteredAmount: withAmount,
+        if (!response.hasError) {
+          await sRouter
+              .push(
+            IbanSendConfirmRouter(
+              data: response.data,
+              contact: contact!,
+              account: account!,
+              previewRequest: previewModel,
+              isCJ: isCJ,
+              cryptoSell: null,
+            ),
+          )
+              .then((value) {
+            sAnalytics.eurWithdrawTapBackOrderSummary(
+              isCJ: isCJAcc!,
+              accountIban: account?.iban ?? '',
+              accountLabel: account?.label ?? '',
+              eurAccType: contact?.iban ?? '',
+              eurAccLabel: contact?.name ?? '',
+              enteredAmount: withAmount,
+            );
+          });
+        } else {
+          sNotification.showError(
+            response.error?.cause ?? intl.something_went_wrong,
+            id: 1,
+            needFeedback: true,
           );
-        });
-      } else {
-        sNotification.showError(
-          response.error?.cause ?? intl.something_went_wrong,
-          id: 1,
-          needFeedback: true,
-        );
+        }
       }
-    }
 
-    loader.finishLoadingImmediately();
+      loader.finishLoadingImmediately();
+    } catch (e) {
+      sNotification.showError(
+        intl.something_went_wrong_try_again2,
+        id: 1,
+        needFeedback: true,
+      );
+    } finally {
+      loader.finishLoadingImmediately();
+    }
   }
 
   @action
@@ -491,21 +508,23 @@ abstract class _IbanSendAmountStoreBase with Store {
   void onSendAll() {
     withAmount = '0';
     var sendAllValue = '';
-    if (availableAmount > (_maxLimit ?? Decimal.zero)) {
+    if (availableAmount < (_maxLimit ?? Decimal.zero)) {
       sendAllValue = responseOnInputAction(
         oldInput: withAmount,
         newInput: inputMode == WithdrawalInputMode.youSend
             ? availableAmount.toString()
             : (availableAmount - feeAmount).toString(),
-        accuracy: mainCurrency.accuracy,
+        accuracy: inputMode == WithdrawalInputMode.youSend ? mainCurrency.accuracy : secondaryCurrency.accuracy,
       );
     } else {
+      final max = currency != null ? maxSellAmount : _maxLimit;
+
       sendAllValue = responseOnInputAction(
         oldInput: withAmount,
         newInput: inputMode == WithdrawalInputMode.youSend
-            ? _maxLimit.toString()
-            : ((_maxLimit ?? availableAmount) - feeAmount).toString(),
-        accuracy: mainCurrency.accuracy,
+            ? max.toString()
+            : ((max ?? availableAmount) - feeAmount).toString(),
+        accuracy: inputMode == WithdrawalInputMode.youSend ? mainCurrency.accuracy : secondaryCurrency.accuracy,
       );
     }
 
@@ -516,6 +535,7 @@ abstract class _IbanSendAmountStoreBase with Store {
     }
 
     isCryptoEntering = true;
+    inputMode = WithdrawalInputMode.youSend;
 
     _calculateBaseConversion();
 
@@ -583,14 +603,18 @@ abstract class _IbanSendAmountStoreBase with Store {
         )}';
       } else {
         limitError = '${intl.currencyBuy_paymentInputErrorText1} ${_minLimit?.toFormatCount(
-          accuracy: currency != null ? currency!.accuracy : eurCurrency.accuracy,
-          symbol: currency != null ? currency!.symbol : eurCurrency.symbol,
+          accuracy: (currency != null && inputMode == WithdrawalInputMode.youSend)
+              ? currency!.accuracy
+              : eurCurrency.accuracy,
+          symbol:
+              (currency != null && inputMode == WithdrawalInputMode.youSend) ? currency!.symbol : eurCurrency.symbol,
         )}';
       }
     } else if (_maxLimit != null && _maxLimit! < value) {
       limitError = '${intl.currencyBuy_paymentInputErrorText2} ${_maxLimit?.toFormatCount(
-        accuracy: currency != null ? currency!.accuracy : eurCurrency.accuracy,
-        symbol: currency != null ? currency!.symbol : eurCurrency.symbol,
+        accuracy:
+            (currency != null && inputMode == WithdrawalInputMode.youSend) ? currency!.accuracy : eurCurrency.accuracy,
+        symbol: (currency != null && inputMode == WithdrawalInputMode.youSend) ? currency!.symbol : eurCurrency.symbol,
       )}';
     } else {
       limitError = '';

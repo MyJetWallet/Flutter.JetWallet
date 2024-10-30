@@ -180,8 +180,8 @@ abstract class _SendGloballyAmountStoreBase with Store {
   @computed
   Decimal get sendAllValue {
     Decimal balance;
-    if (sendCurrency?.symbol == 'EUR') {
-      balance = sendCurrency?.assetBalance ?? Decimal.zero;
+    if (sendCurrency?.symbol != 'EUR') {
+      balance = availableBalabce;
     } else {
       balance = sSignalRModules.bankingProfileData?.simple?.account?.balance ?? Decimal.zero;
     }
