@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:charts/simple_chart.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -112,6 +113,8 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
   void initState() {
     super.initState();
 
+    _startTimer();
+
     marketInfo = getMarketInfo(widget.marketItem.associateAsset);
 
     _controller.addListener(() {
@@ -145,7 +148,13 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
             _startTimer();
           }
         } else if (info.visibleFraction == 0) {
-          _timer?.cancel();
+          try {
+            _timer?.cancel();
+          } catch (e) {
+            if (kDebugMode) {
+              print(e);
+            }
+          }
         }
       },
       child: SPageFrame(
@@ -174,7 +183,14 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
             }
           },
           onLeftIconTap: () {
-            _timer?.cancel();
+            try {
+              _timer?.cancel();
+            } catch (e) {
+              if (kDebugMode) {
+                print(e);
+              }
+            }
+
             sAnalytics.tapOnTheBackButtonFromMarketAssetScreen(
               asset: widget.marketItem.symbol,
             );
