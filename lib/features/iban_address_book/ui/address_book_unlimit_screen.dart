@@ -350,7 +350,9 @@ class _BodyAdressBookUnlimitState extends State<_BodyAdressBookUnlimit> {
                                   );
                                 }
 
-                                Navigator.pop(context, true);
+                                if (Navigator.canPop(context)) {
+                                  Navigator.pop(context, true);
+                                }
                               }
                             },
                           ),
