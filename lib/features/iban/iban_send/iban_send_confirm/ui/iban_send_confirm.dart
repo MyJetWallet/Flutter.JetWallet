@@ -13,8 +13,8 @@ import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/split_iban.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
+import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
-import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
@@ -23,6 +23,7 @@ import 'package:simple_networking/modules/signal_r/models/banking_profile_model.
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_preview_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_preview_response.dart';
+import 'package:simple_networking/modules/wallet_api/models/sell/get_crypto_sell_response_model.dart';
 
 @RoutePage(name: 'IbanSendConfirmRouter')
 class IbanSendConfirm extends StatefulWidget {
@@ -33,12 +34,14 @@ class IbanSendConfirm extends StatefulWidget {
     required this.previewRequest,
     required this.account,
     required this.isCJ,
+    required this.cryptoSell,
   });
 
   final AddressBookContactModel contact;
-  final BankingWithdrawalPreviewResponse data;
-  final BankingWithdrawalPreviewModel previewRequest;
+  final BankingWithdrawalPreviewResponse? data;
+  final BankingWithdrawalPreviewModel? previewRequest;
   final SimpleBankingAccount account;
+  final GetCryptoSellResponseModel? cryptoSell;
 
   final bool isCJ;
 
@@ -55,7 +58,8 @@ class _IbanSendConfirmState extends State<IbanSendConfirm> {
       accountLabel: widget.account.label ?? '',
       eurAccType: widget.contact.iban ?? '',
       eurAccLabel: widget.contact.name ?? '',
-      enteredAmount: widget.data.amount.toString(),
+      enteredAmount:
+          widget.cryptoSell != null ? widget.cryptoSell!.paymentAmount.toString() : widget.data!.amount.toString(),
     );
 
     super.initState();
@@ -64,13 +68,14 @@ class _IbanSendConfirmState extends State<IbanSendConfirm> {
   @override
   Widget build(BuildContext context) {
     return Provider<IbanSendConfirmStore>(
-      create: (context) => IbanSendConfirmStore()..init(widget.data),
+      create: (context) => IbanSendConfirmStore()..init(widget.data, widget.cryptoSell),
       builder: (context, child) => IbanSendConfirmBody(
         contact: widget.contact,
         data: widget.data,
         previewRequest: widget.previewRequest,
         account: widget.account,
         isCJ: widget.isCJ,
+        cryptoSell: widget.cryptoSell,
       ),
     );
   }
@@ -84,12 +89,14 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
     required this.previewRequest,
     required this.account,
     required this.isCJ,
+    required this.cryptoSell,
   });
 
   final AddressBookContactModel contact;
-  final BankingWithdrawalPreviewResponse data;
-  final BankingWithdrawalPreviewModel previewRequest;
+  final BankingWithdrawalPreviewResponse? data;
+  final BankingWithdrawalPreviewModel? previewRequest;
   final SimpleBankingAccount account;
+  final GetCryptoSellResponseModel? cryptoSell;
 
   final bool isCJ;
 
@@ -104,14 +111,32 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
       sSignalRModules.currenciesList,
     ).where((element) => element.symbol == 'EUR').first;
 
-    final simpleFeeCurrency = nonIndicesWithBalanceFrom(
-      sSignalRModules.currenciesList,
-    ).where((element) => element.symbol == (data.simpleFeeAsset ?? 'EUR')).first;
+    final currency = data != null
+        ? eurCurrency
+        : nonIndicesWithBalanceFrom(
+            sSignalRModules.currenciesList,
+          ).where((element) => element.symbol == cryptoSell!.paymentAssetSymbol).first;
+
+    CurrencyModel simpleFeeCurrency;
+    if (data != null) {
+      simpleFeeCurrency = nonIndicesWithBalanceFrom(
+        sSignalRModules.currenciesList,
+      ).where((element) => element.symbol == (data!.simpleFeeAsset ?? 'EUR')).first;
+    } else {
+      simpleFeeCurrency = nonIndicesWithBalanceFrom(
+        sSignalRModules.currenciesList,
+      ).where((element) => element.symbol == (cryptoSell!.tradeFeeAsset)).first;
+    }
+
+    final buyCurrency = data != null
+        ? eurCurrency
+        : nonIndicesWithBalanceFrom(
+            sSignalRModules.currenciesList,
+          ).where((element) => element.symbol == (cryptoSell!.buyAssetSymbol)).first;
 
     return SPageFrameWithPadding(
       loaderText: intl.loader_please_wait,
       loading: state.loader,
-      customLoader: const WaitingScreen(),
       header: SSmallHeader(
         title: intl.buy_confirmation_title,
         subTitle: intl.withdraw,
@@ -134,18 +159,20 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                   ),
                   WhatToWhatConvertWidget(
                     isLoading: false,
-                    fromAssetIconUrl: eurCurrency.iconUrl,
-                    fromAssetDescription: account.label ?? '',
-                    fromAssetValue: (data.amount ?? Decimal.zero).toFormatCount(
-                      symbol: eurCurrency.symbol,
-                      accuracy: eurCurrency.accuracy,
+                    fromAssetIconUrl: cryptoSell != null ? currency.iconUrl : currency.iconUrl,
+                    fromAssetDescription: cryptoSell != null ? currency.description : account.label ?? '',
+                    fromAssetValue:
+                        (cryptoSell != null ? cryptoSell!.paymentAmount : data!.amount ?? Decimal.zero).toFormatCount(
+                      symbol: currency.symbol,
+                      accuracy: currency.accuracy,
                     ),
-                    fromAssetCustomIcon: const BlueBankIconDeprecated(),
-                    toAssetIconUrl: eurCurrency.iconUrl,
-                    toAssetDescription: eurCurrency.description,
-                    toAssetValue: (data.sendAmount ?? Decimal.zero).toFormatCount(
-                      accuracy: eurCurrency.accuracy,
-                      symbol: eurCurrency.symbol,
+                    fromAssetCustomIcon: cryptoSell != null ? null : const BlueBankIconDeprecated(),
+                    toAssetIconUrl: cryptoSell != null ? eurCurrency.iconUrl : currency.iconUrl,
+                    toAssetDescription: cryptoSell != null ? eurCurrency.description : currency.description,
+                    toAssetValue:
+                        (cryptoSell != null ? cryptoSell!.buyAmount : data!.sendAmount ?? Decimal.zero).toFormatCount(
+                      accuracy: cryptoSell != null ? buyCurrency.accuracy : currency.accuracy,
+                      symbol: cryptoSell != null ? buyCurrency.symbol : currency.symbol,
                     ),
                   ),
                   const SDivider(),
@@ -156,32 +183,41 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                   ),
                   SActionConfirmText(
                     name: intl.iban_out_iban,
-                    value: splitIban(data.iban ?? ''),
+                    value: splitIban(cryptoSell != null ? contact.iban ?? '' : data!.iban ?? ''),
                   ),
                   SActionConfirmText(
                     name: intl.iban_out_bic,
-                    value: previewRequest.beneficiaryBankCode ?? '',
+                    value: cryptoSell != null ? contact.bic ?? '' : previewRequest!.beneficiaryBankCode ?? '',
                   ),
                   SActionConfirmText(
                     name: intl.iban_out_benificiary,
-                    value: isCJ ? '${sUserInfo.firstName} ${sUserInfo.lastName}' : data.fullName ?? '',
+                    value: isCJ
+                        ? '${sUserInfo.firstName} ${sUserInfo.lastName}'
+                        : cryptoSell != null
+                            ? contact.fullName ?? ''
+                            : data!.fullName ?? '',
                   ),
                   if (!isCJ) ...[
                     SActionConfirmText(
                       name: intl.iban_reference,
-                      value: previewRequest.description ?? '',
+                      value: previewRequest!.description ?? '',
                     ),
                   ],
                   const SpaceH18(),
                   PaymentFeeRowWidget(
-                    fee: (data.feeAmount ?? Decimal.zero).toFormatCount(
+                    fee: (cryptoSell != null
+                            ? (cryptoSell!.paymentFeeInPaymentAsset / cryptoSell!.rate)
+                                .toDecimal(scaleOnInfinitePrecision: 8)
+                            : data!.feeAmount ?? Decimal.zero)
+                        .toFormatCount(
                       accuracy: state.eurCurrency.accuracy,
                       symbol: state.eurCurrency.symbol,
                     ),
                   ),
                   const SpaceH18(),
                   ProcessingFeeRowWidget(
-                    fee: (data.simpleFeeAmount ?? Decimal.zero).toFormatCount(
+                    fee: (cryptoSell != null ? cryptoSell!.tradeFeeAmount : data!.simpleFeeAmount ?? Decimal.zero)
+                        .toFormatCount(
                       accuracy: simpleFeeCurrency.accuracy,
                       symbol: simpleFeeCurrency.symbol,
                     ),
@@ -240,7 +276,7 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                       accountLabel: account.label ?? '',
                       eurAccType: contact.iban ?? '',
                       eurAccLabel: contact.name ?? '',
-                      enteredAmount: data.amount.toString(),
+                      enteredAmount: cryptoSell != null ? cryptoSell!.buyAmount.toString() : data!.amount.toString(),
                     );
 
                     sRouter.push(
@@ -251,14 +287,25 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                         onChangePhone: (String newPin) {
                           sRouter.maybePop();
 
-                          state.confirmIbanOut(
-                            previewRequest,
-                            data,
-                            contact,
-                            newPin,
-                            account,
-                            isCJ,
-                          );
+                          if (cryptoSell == null) {
+                            state.confirmIbanOut(
+                              previewRequest!,
+                              data!,
+                              contact,
+                              newPin,
+                              account,
+                              isCJ,
+                            );
+                          } else {
+                            state.confirmCryptoIbanOut(
+                              previewRequest!,
+                              cryptoSell!,
+                              contact,
+                              newPin,
+                              account,
+                              isCJ,
+                            );
+                          }
                         },
                       ),
                     );

@@ -84,6 +84,8 @@ String operationName(
       return intl.operationName_received;
     case OperationType.jarWithdrawal:
       return intl.operationName_sent;
+    case OperationType.bankingSellWithWithdrawal:
+      return intl.history_withdrawn;
     default:
       return 'Unknown';
   }

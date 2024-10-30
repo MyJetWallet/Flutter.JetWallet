@@ -31,6 +31,7 @@ void showSendOptions(
   final isToCryptoWalletAvaible = _checkToCryptoWalletAvaible();
   final isGlobalAvaible = _checkGlobalAvaible();
   final isGiftAvaible = _checkGiftAvaible();
+  final isAllowBankTransfer = isGlobalAvaible;
 
   if (currentAsset.networksForBlockchainSend.isEmpty) {
     showAssetOnlyTradableWithinSimpleAppDialog();
@@ -71,10 +72,10 @@ void showSendOptions(
       Column(
         children: [
           if (isToCryptoWalletAvaible)
-            SActionItem(
+            SCardRow(
               icon: const SWallet2Icon(),
               name: intl.sendOptions_to_crypto_wallet,
-              description: intl.sendOptions_actionItemDescription2,
+              helper: intl.sendOptions_actionItemDescription2,
               onTap: () {
                 Navigator.pop(context);
                 sRouter.push(
@@ -85,12 +86,14 @@ void showSendOptions(
                   ),
                 );
               },
+              amount: '',
+              description: '',
             ),
           if (isGlobalAvaible)
-            SActionItem(
+            SCardRow(
               icon: const SNetworkIcon(),
               name: intl.global_send_name,
-              description: intl.global_send_helper,
+              helper: intl.global_send_helper,
               onTap: () {
                 Navigator.pop(context);
                 showSendGlobally(
@@ -98,12 +101,14 @@ void showSendOptions(
                   currency,
                 );
               },
+              amount: '',
+              description: '',
             ),
           if (isGiftAvaible)
-            SActionItem(
+            SCardRow(
               icon: const SGiftSendIcon(),
               name: intl.send_gift,
-              description: intl.send_gift_to_simple_wallet,
+              helper: intl.send_gift_to_simple_wallet,
               onTap: () async {
                 Navigator.pop(context);
                 await sRouter.push(
@@ -112,6 +117,20 @@ void showSendOptions(
                   ),
                 );
               },
+              amount: '',
+              description: '',
+            ),
+          if (isAllowBankTransfer)
+            SCardRow(
+              icon: Assets.svg.medium.bank.simpleSvg(color: SColorsLight().blue),
+              onTap: () {
+                Navigator.pop(context);
+                showBankTransferTo(context, currency);
+              },
+              amount: '',
+              description: '',
+              name: intl.bank_transfer,
+              helper: intl.bank_transfer_to_yourself,
             ),
           const SpaceH40(),
         ],

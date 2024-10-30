@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +8,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/anchors/anchors_helper.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/suggestion_button_widget.dart';
@@ -76,6 +79,13 @@ class _EarnTopUpAmountScreenState extends State<EarnTopUpAmountScreen> {
             navigateToWallet(context, store.currency);
           },
           onSecondaryButtonTap: () {
+            unawaited(
+              AnchorsHelper().addTopUpEarnDepositAnchor(
+                offerId: widget.earnPosition.offerId,
+                positionId: widget.earnPosition.id,
+              ),
+            );
+
             sAnalytics.tapOnTheCancelTopUpEarnWalletButton(
               assetName: widget.earnPosition.offers.first.assetId,
               earnAPYrate: widget.earnPosition.offers.first.apyRate?.toStringAsFixed(2) ?? Decimal.zero.toString(),
@@ -136,9 +146,6 @@ class _EarnWithdrawalAmountBody extends StatelessWidget {
                             value: store.cryptoInputValue,
                           ),
                           primarySymbol: store.cryptoSymbol,
-                          secondaryAmount:
-                              '${intl.earn_est} ${Decimal.parse(store.fiatInputValue).toFormatSum(symbol: '', accuracy: store.baseCurrency.accuracy)}',
-                          secondarySymbol: store.fiatSymbol,
                           onSwap: null,
                           showSwopButton: false,
                           errorText: store.errorText,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/anchors/models/crypto_deposit/crypto_deposit_model.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/send_options.dart';
@@ -82,7 +83,6 @@ class WalletActionsRow extends StatelessWidget {
           sAnalytics.tapOnTheReceiveButton(
             source: 'My Assets - Receive',
           );
-          final actualAsset = currency;
           if (currency.networksForBlockchainSend.isEmpty) {
             showAssetOnlyTradableWithinSimpleAppDialog();
             return;
@@ -92,8 +92,9 @@ class WalletActionsRow extends StatelessWidget {
               context: context,
               or: () => sRouter.navigate(
                 CryptoDepositRouter(
-                  header: intl.balanceActionButtons_receive,
-                  currency: actualAsset,
+                  cryptoDepositModel: CryptoDepositModel(
+                    assetSymbol: currency.symbol,
+                  ),
                 ),
               ),
               from: [BlockingType.deposit],
@@ -113,8 +114,9 @@ class WalletActionsRow extends StatelessWidget {
               isProgress: kycState.verificationInProgress,
               currentNavigate: () => sRouter.navigate(
                 CryptoDepositRouter(
-                  header: intl.balanceActionButtons_receive,
-                  currency: actualAsset,
+                  cryptoDepositModel: CryptoDepositModel(
+                    assetSymbol: currency.symbol,
+                  ),
                 ),
               ),
               requiredDocuments: kycState.requiredDocuments,
@@ -171,22 +173,22 @@ class WalletActionsRow extends StatelessWidget {
     final actualAsset = currency;
 
     final isCardsAvailable = actualAsset.buyMethods.any(
-          (element) => element.id == PaymentMethodType.bankCard,
+      (element) => element.id == PaymentMethodType.bankCard,
     );
 
     final isSimpleAccountAvaible = sSignalRModules.paymentProducts?.any(
           (element) => element.id == AssetPaymentProductsEnum.simpleIbanAccount,
-    ) ??
+        ) ??
         false;
 
     final isBankingAccountsAvaible = actualAsset.buyMethods.any(
-          (element) => element.id == PaymentMethodType.ibanTransferUnlimint,
+      (element) => element.id == PaymentMethodType.ibanTransferUnlimint,
     );
 
     final isBuyAvaible = isCardsAvailable || isSimpleAccountAvaible || isBankingAccountsAvaible;
 
     final isDepositBlocker = sSignalRModules.clientDetail.clientBlockers.any(
-          (element) => element.blockingType == BlockingType.deposit,
+      (element) => element.blockingType == BlockingType.deposit,
     );
 
     if (kycState.tradeStatus == kycOperationStatus(KycStatus.blocked) || !isBuyAvaible) {
@@ -210,15 +212,6 @@ class WalletActionsRow extends StatelessWidget {
           currency: actualAsset,
         ),
         from: [BlockingType.deposit],
-      );
-    } else if (isBuyAvaible) {
-      showSendTimerAlertOr(
-        context: context,
-        or: () => showPayWithBottomSheet(
-          context: context,
-          currency: actualAsset,
-        ),
-        from: [BlockingType.trade],
       );
     } else {
       handler.handle(

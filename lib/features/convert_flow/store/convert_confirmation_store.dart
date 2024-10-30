@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/anchors/anchors_helper.dart';
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_input.dart';
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
@@ -144,6 +145,8 @@ abstract class _ConvertConfirmationStoreBase with Store {
     required Decimal toAmount,
     required bool newIsFromFixed,
   }) async {
+    getIt.get<AnchorsHelper>().isConvertConfirmed = false;
+
     isDataLoaded = false;
 
     loader.startLoadingImmediately();
@@ -232,7 +235,7 @@ abstract class _ConvertConfirmationStoreBase with Store {
       errorText: error,
     );
 
-    if (sRouter.currentPath != '/convetr_confirmation') {
+    if (sRouter.currentPath != '/convert_confirmation') {
       return;
     }
 
@@ -347,7 +350,7 @@ abstract class _ConvertConfirmationStoreBase with Store {
         return;
       }
 
-      if (sRouter.currentPath != '/convetr_confirmation') {
+      if (sRouter.currentPath != '/convert_confirmation') {
         return;
       }
 

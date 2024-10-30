@@ -30,6 +30,11 @@ class KycAlertHandler {
     required List<KycDocumentType> requiredDocuments,
     String? customBlockerText,
   }) {
+    KycService? kycState;
+    if (getIt.isRegistered<KycService>()) {
+      kycState = getIt.get<KycService>();
+    }
+
     late int? kycStatus;
     if (status == null && multiStatus.isEmpty) {
       kycStatus = getIt.get<KycService>().withdrawalStatus;
@@ -55,13 +60,15 @@ class KycAlertHandler {
     }
 
     if ((kycStatus == kycOperationStatus(KycStatus.kycRequired) ||
-            multiStatus.contains(kycOperationStatus(KycStatus.kycRequired))) &&
+            multiStatus.contains(kycOperationStatus(KycStatus.kycRequired)) ||
+            (kycState != null && kycState.isSimpleKyc && kycState.earlyKycFlowAllowed)) &&
         needGifteExplanationPopup) {
       _showGiftExplanationAlert(
         requiredVerifications,
       );
     } else if (kycStatus == kycOperationStatus(KycStatus.kycRequired) ||
-        multiStatus.contains(kycOperationStatus(KycStatus.kycRequired))) {
+        multiStatus.contains(kycOperationStatus(KycStatus.kycRequired)) ||
+        (kycState != null && kycState.isSimpleKyc && kycState.earlyKycFlowAllowed)) {
       _showKycRequiredAlert(
         requiredVerifications,
       );

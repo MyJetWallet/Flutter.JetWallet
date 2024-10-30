@@ -1,9 +1,12 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/iban/store/iban_store.dart';
+import 'package:jetwallet/features/iban/widgets/show_choose_asset_to_send.dart';
+import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
@@ -11,8 +14,10 @@ import 'package:simple_networking/modules/signal_r/models/banking_profile_model.
 void showBankTransforSelect(
   BuildContext context,
   SimpleBankingAccount bankingAccount,
-  bool isCJ,
-) {
+  bool isCJ, [
+  bool isSendFlow = false,
+  CurrencyModel? currency,
+]) {
   if (isCJ ? getIt.get<IbanStore>().simpleContacts.isEmpty : getIt.get<IbanStore>().allContacts.isEmpty) {
     if (isCJ) {
       sRouter.push(IbanAdressBookSimpleRoute()).then((value) async {
@@ -26,17 +31,37 @@ void showBankTransforSelect(
           return;
         }
 
-        await getIt<AppRouter>()
-            .push(
+        if (isSendFlow) {
+          await context.router.maybePop();
+
+          if (currency != null) {
+            await getIt<AppRouter>().push(
               IbanSendAmountRouter(
-                contact: (isCJ ? getIt.get<IbanStore>().simpleContacts : getIt.get<IbanStore>().allContacts)[0],
-                bankingAccount: bankingAccount,
                 isCJ: isCJ,
+                contact: (isCJ ? getIt.get<IbanStore>().simpleContacts : getIt.get<IbanStore>().allContacts)[0],
+                currency: currency,
               ),
-            )
-            .then(
-              (value) => getIt.get<IbanStore>().getAddressBook(),
             );
+          } else {
+            showChooseAssetToSend(
+              sRouter.navigatorKey.currentContext!,
+              contact: (isCJ ? getIt.get<IbanStore>().simpleContacts : getIt.get<IbanStore>().allContacts)[0],
+              isCJ: isCJ,
+            );
+          }
+        } else {
+          await getIt<AppRouter>()
+              .push(
+                IbanSendAmountRouter(
+                  contact: (isCJ ? getIt.get<IbanStore>().simpleContacts : getIt.get<IbanStore>().allContacts)[0],
+                  bankingAccount: bankingAccount,
+                  isCJ: isCJ,
+                ),
+              )
+              .then(
+                (value) => getIt.get<IbanStore>().getAddressBook(),
+              );
+        }
       });
     } else {
       sRouter.push(IbanAdressBookUnlimitRoute()).then((value) async {
@@ -49,17 +74,37 @@ void showBankTransforSelect(
           return;
         }
 
-        await getIt<AppRouter>()
-            .push(
+        if (isSendFlow) {
+          await context.router.maybePop();
+
+          if (currency != null) {
+            await getIt<AppRouter>().push(
               IbanSendAmountRouter(
-                contact: (isCJ ? getIt.get<IbanStore>().simpleContacts : getIt.get<IbanStore>().allContacts)[0],
-                bankingAccount: bankingAccount,
                 isCJ: isCJ,
+                contact: (isCJ ? getIt.get<IbanStore>().simpleContacts : getIt.get<IbanStore>().allContacts)[0],
+                currency: currency,
               ),
-            )
-            .then(
-              (value) => getIt.get<IbanStore>().getAddressBook(),
             );
+          } else {
+            showChooseAssetToSend(
+              sRouter.navigatorKey.currentContext!,
+              contact: (isCJ ? getIt.get<IbanStore>().simpleContacts : getIt.get<IbanStore>().allContacts)[0],
+              isCJ: isCJ,
+            );
+          }
+        } else {
+          await getIt<AppRouter>()
+              .push(
+                IbanSendAmountRouter(
+                  contact: (isCJ ? getIt.get<IbanStore>().simpleContacts : getIt.get<IbanStore>().allContacts)[0],
+                  bankingAccount: bankingAccount,
+                  isCJ: isCJ,
+                ),
+              )
+              .then(
+                (value) => getIt.get<IbanStore>().getAddressBook(),
+              );
+        }
       });
     }
 
@@ -77,6 +122,8 @@ void showBankTransforSelect(
       ShowBankTransferSelect(
         bankingAccount: bankingAccount,
         isCJ: isCJ,
+        isSendFlow: isSendFlow,
+        currency: currency,
       ),
       const SpaceH42(),
     ],
@@ -88,10 +135,14 @@ class ShowBankTransferSelect extends StatelessObserverWidget {
     super.key,
     required this.bankingAccount,
     required this.isCJ,
+    required this.isSendFlow,
+    required this.currency,
   });
 
   final SimpleBankingAccount bankingAccount;
   final bool isCJ;
+  final bool isSendFlow;
+  final CurrencyModel? currency;
 
   @override
   Widget build(BuildContext context) {
@@ -233,18 +284,41 @@ class ShowBankTransferSelect extends StatelessObserverWidget {
                   accountLabel: bankingAccount.label ?? '',
                 );
 
-                getIt<AppRouter>()
-                    .push(
+                if (isSendFlow) {
+                  Navigator.of(context).pop();
+
+                  if (currency != null) {
+                    getIt<AppRouter>().push(
                       IbanSendAmountRouter(
+                        isCJ: isCJ,
                         contact:
                             (isCJ ? getIt.get<IbanStore>().simpleContacts : getIt.get<IbanStore>().allContacts)[index],
-                        bankingAccount: bankingAccount,
-                        isCJ: isCJ,
+                        currency: currency,
                       ),
-                    )
-                    .then(
-                      (value) => store.getAddressBook(),
                     );
+                  } else {
+                    showChooseAssetToSend(
+                      sRouter.navigatorKey.currentContext!,
+                      contact:
+                          (isCJ ? getIt.get<IbanStore>().simpleContacts : getIt.get<IbanStore>().allContacts)[index],
+                      isCJ: isCJ,
+                    );
+                  }
+                } else {
+                  getIt<AppRouter>()
+                      .push(
+                        IbanSendAmountRouter(
+                          contact: (isCJ
+                              ? getIt.get<IbanStore>().simpleContacts
+                              : getIt.get<IbanStore>().allContacts)[index],
+                          bankingAccount: bankingAccount,
+                          isCJ: isCJ,
+                        ),
+                      )
+                      .then(
+                        (value) => store.getAddressBook(),
+                      );
+                }
               },
             );
           },
@@ -298,23 +372,48 @@ class ShowBankTransferSelect extends StatelessObserverWidget {
 
                   await getIt.get<IbanStore>().getAddressBook();
 
-                  await getIt<AppRouter>()
-                      .push(
-                    IbanSendAmountRouter(
-                      contact: (isCJ ? getIt.get<IbanStore>().simpleContacts : getIt.get<IbanStore>().allContacts)[0],
-                      bankingAccount: bankingAccount,
-                      isCJ: isCJ,
-                    ),
-                  )
-                      .then((value) {
-                    getIt.get<IbanStore>().getAddressBook();
+                  if (isSendFlow) {
+                    Navigator.of(context).pop();
 
-                    sAnalytics.eurWithdrawTapBackReceiving(
-                      isCJ: isCJ,
-                      accountIban: bankingAccount.iban ?? '',
-                      accountLabel: bankingAccount.label ?? '',
-                    );
-                  });
+                    if (currency != null) {
+                      await getIt<AppRouter>().push(
+                        IbanSendAmountRouter(
+                          isCJ: isCJ,
+                          contact:
+                              (isCJ ? getIt.get<IbanStore>().simpleContacts : getIt.get<IbanStore>().allContacts)[0],
+                          currency: currency,
+                        ),
+                      );
+                    } else {
+                      showChooseAssetToSend(
+                        sRouter.navigatorKey.currentContext!,
+                        contact: (isCJ ? getIt.get<IbanStore>().simpleContacts : getIt.get<IbanStore>().allContacts)[0],
+                        isCJ: isCJ,
+                      );
+                    }
+                  } else {
+                    await getIt<AppRouter>()
+                        .push(
+                          IbanSendAmountRouter(
+                            contact:
+                                (isCJ ? getIt.get<IbanStore>().simpleContacts : getIt.get<IbanStore>().allContacts)[0],
+                            bankingAccount: bankingAccount,
+                            isCJ: isCJ,
+                          ),
+                        )
+                        .then(
+                          (value) => getIt.get<IbanStore>().getAddressBook(),
+                        )
+                        .then((value) {
+                      getIt.get<IbanStore>().getAddressBook();
+
+                      sAnalytics.eurWithdrawTapBackReceiving(
+                        isCJ: isCJ,
+                        accountIban: bankingAccount.iban ?? '',
+                        accountLabel: bankingAccount.label ?? '',
+                      );
+                    });
+                  }
                 },
               );
             } else {
@@ -341,23 +440,44 @@ class ShowBankTransferSelect extends StatelessObserverWidget {
 
                   await getIt.get<IbanStore>().getAddressBook();
 
-                  await getIt<AppRouter>()
-                      .push(
-                    IbanSendAmountRouter(
-                      contact: (isCJ ? getIt.get<IbanStore>().simpleContacts : getIt.get<IbanStore>().allContacts)[0],
-                      bankingAccount: bankingAccount,
-                      isCJ: isCJ,
-                    ),
-                  )
-                      .then((value) {
-                    getIt.get<IbanStore>().getAddressBook();
+                  if (isSendFlow) {
+                    Navigator.of(context).pop();
 
-                    sAnalytics.eurWithdrawTapBackReceiving(
-                      isCJ: isCJ,
-                      accountIban: bankingAccount.iban ?? '',
-                      accountLabel: bankingAccount.label ?? '',
-                    );
-                  });
+                    if (currency != null) {
+                      await getIt<AppRouter>().push(
+                        IbanSendAmountRouter(
+                          isCJ: isCJ,
+                          contact:
+                              (isCJ ? getIt.get<IbanStore>().simpleContacts : getIt.get<IbanStore>().allContacts)[0],
+                          currency: currency,
+                        ),
+                      );
+                    } else {
+                      showChooseAssetToSend(
+                        sRouter.navigatorKey.currentContext!,
+                        contact: (isCJ ? getIt.get<IbanStore>().simpleContacts : getIt.get<IbanStore>().allContacts)[0],
+                        isCJ: isCJ,
+                      );
+                    }
+                  } else {
+                    await getIt<AppRouter>()
+                        .push(
+                      IbanSendAmountRouter(
+                        contact: (isCJ ? getIt.get<IbanStore>().simpleContacts : getIt.get<IbanStore>().allContacts)[0],
+                        bankingAccount: bankingAccount,
+                        isCJ: isCJ,
+                      ),
+                    )
+                        .then((value) {
+                      getIt.get<IbanStore>().getAddressBook();
+
+                      sAnalytics.eurWithdrawTapBackReceiving(
+                        isCJ: isCJ,
+                        accountIban: bankingAccount.iban ?? '',
+                        accountLabel: bankingAccount.label ?? '',
+                      );
+                    });
+                  }
                 },
               );
             }

@@ -12,7 +12,6 @@ void showBasicBottomSheet({
   Future Function(bool)? onWillPop,
   Color? color,
   String? title,
-  SearchOptions? searchOptions,
 }) {
   showModalBottomSheet(
     context: context,
@@ -29,7 +28,6 @@ void showBasicBottomSheet({
         onWillPop: onWillPop,
         color: color ?? SColorsLight().white,
         title: title,
-        searchOptions: searchOptions,
         topPadding: MediaQuery.of(context).padding.top,
         bottomPadding: MediaQuery.of(sRouter.navigatorKey.currentContext!).padding.bottom,
         children: children,

@@ -38,14 +38,17 @@ class SBadge extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           isLoading
-              ? SizedBox(
-                  height: 20,
-                  width: 20,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    color: getMainColor,
+              ? Padding(
+                padding: const EdgeInsets.only(left: 2),
+                child: SizedBox(
+                    height: 16,
+                    width: 16,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 3,
+                      color: getMainColor,
+                    ),
                   ),
-                )
+              )
               : status == SBadgeStatus.error
                   ? SEraseMarketIcon(
                       color: getMainColor,

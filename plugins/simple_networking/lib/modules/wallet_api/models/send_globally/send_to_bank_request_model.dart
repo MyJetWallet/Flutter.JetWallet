@@ -24,6 +24,7 @@ class SendToBankRequestModel with _$SendToBankRequestModel {
     final String? ifscCode,
     final String? bankAccount,
     final String? wise,
+    final String? tin,
     required String pin,
   }) = _SendToBankRequestModel;
 

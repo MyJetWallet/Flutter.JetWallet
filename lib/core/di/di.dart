@@ -2,6 +2,8 @@ import 'package:event_bus/event_bus.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/anchors/anchors_helper.dart';
+import 'package:jetwallet/core/services/anchors/anchors_service.dart';
 import 'package:jetwallet/core/services/deep_link_service.dart';
 import 'package:jetwallet/core/services/force_update_service.dart';
 import 'package:jetwallet/core/services/intercom/intercom_service.dart';
@@ -123,6 +125,10 @@ Future<GetIt> getItInit({
     dependsOn: [LocalStorageService],
   );
 
+  getIt.registerSingleton<AnchorsService>(
+    AnchorsService(),
+  );
+
   getIt.registerSingleton<DeepLinkService>(
     DeepLinkService(),
   );
@@ -157,6 +163,10 @@ Future<GetIt> getItInit({
 
   getIt.registerSingleton<SentryService>(
     SentryService(environment: env ?? 'stage'),
+  );
+
+  getIt.registerSingleton<AnchorsHelper>(
+    AnchorsHelper(),
   );
 
   return getIt.init(

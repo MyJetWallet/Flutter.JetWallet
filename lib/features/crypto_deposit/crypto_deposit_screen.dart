@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/anchors/anchors_helper.dart';
+import 'package:jetwallet/core/services/anchors/models/crypto_deposit/crypto_deposit_model.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/features/crypto_deposit/store/crypto_deposit_disclaimer_store.dart';
 import 'package:jetwallet/features/crypto_deposit/store/crypto_deposit_store.dart';
@@ -16,9 +18,7 @@ import 'package:jetwallet/features/crypto_deposit/widgets/deposit_info_tag.dart'
 import 'package:jetwallet/features/crypto_deposit/widgets/show_deposit_disclaimer.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
-import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
-import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -28,35 +28,26 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 @RoutePage(name: 'CryptoDepositRouter')
 class CryptoDeposit extends StatelessWidget {
   const CryptoDeposit({
+    required this.cryptoDepositModel,
     super.key,
-    required this.header,
-    required this.currency,
   });
 
-  final String header;
-  final CurrencyModel currency;
+  final CryptoDepositModel cryptoDepositModel;
 
   @override
   Widget build(BuildContext context) {
     return Provider<CryptoDepositStore>(
-      create: (context) => CryptoDepositStore(currency),
-      builder: (context, child) => _CryptoDepositBody(
-        header: header,
-        currency: currency,
+      create: (context) => CryptoDepositStore(
+        assetSymbol: cryptoDepositModel.assetSymbol,
       ),
+      builder: (context, child) => const _CryptoDepositBody(),
       dispose: (context, state) => state.dispose(),
     );
   }
 }
 
 class _CryptoDepositBody extends StatefulObserverWidget {
-  const _CryptoDepositBody({
-    required this.header,
-    required this.currency,
-  });
-
-  final String header;
-  final CurrencyModel currency;
+  const _CryptoDepositBody();
 
   @override
   State<_CryptoDepositBody> createState() => __CryptoDepositBodyState();
@@ -79,7 +70,7 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
     controller = ScrollController();
     pageController = PageController(viewportFraction: 0.9);
 
-    showAlert = kycState.withdrawalStatus != kycOperationStatus(KycStatus.allowed);
+    showAlert = kycState.isSimpleKyc;
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -165,7 +156,7 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
 
   Future<void> getDisclaimerData() async {
     final deposit = CryptoDepositStore.of(context);
-    final value = await getcryptoDepositDisclaimer(widget.currency.symbol);
+    final value = await getcryptoDepositDisclaimer(deposit.currency.symbol);
 
     if (!mounted) return;
 
@@ -174,18 +165,18 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
         slidesControllers: slidesControllers(),
         context: context,
         controller: pageController,
-        assetSymbol: widget.currency.symbol,
-        screenTitle: widget.header,
+        assetSymbol: deposit.currency.symbol,
+        screenTitle: intl.balanceActionButtons_receive,
         kycAlertHandler: kycAlertHandler,
         showAllAlerts: showAlert,
-        onDismiss: widget.currency.isSingleNetwork
+        onDismiss: deposit.currency.isSingleNetwork
             ? null
             : () => showDepositeNetworkBottomSheet(
                   context,
                   deposit.network,
-                  widget.currency.depositBlockchains,
-                  widget.currency.iconUrl,
-                  widget.currency.symbol,
+                  deposit.currency.depositBlockchains,
+                  deposit.currency.iconUrl,
+                  deposit.currency.symbol,
                   deposit.setNetwork,
                   isReceive: true,
                 ),
@@ -196,13 +187,13 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
         withdrawalStatus: kycState.withdrawalStatus,
       );
     } else {
-      if (!widget.currency.isSingleNetwork) {
+      if (!deposit.currency.isSingleNetwork) {
         showDepositeNetworkBottomSheet(
           context,
           deposit.network,
-          widget.currency.depositBlockchains,
-          widget.currency.iconUrl,
-          widget.currency.symbol,
+          deposit.currency.depositBlockchains,
+          deposit.currency.iconUrl,
+          deposit.currency.symbol,
           deposit.setNetwork,
           isReceive: true,
         );
@@ -218,7 +209,7 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
       loaderText: intl.register_pleaseWait,
       header: SPaddingH24(
         child: SSmallHeader(
-          title: '${widget.header} ${widget.currency.description}',
+          title: '${intl.balanceActionButtons_receive} ${deposit.currency.description}',
         ),
       ),
       bottomNavigationBar: SizedBox(
@@ -236,7 +227,7 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
                 name: intl.cryptoDeposit_share,
                 onTap: () {
                   sAnalytics.tapOnTheButtonShareOnReceiveAssetScreen(
-                    asset: widget.currency.symbol,
+                    asset: deposit.currency.symbol,
                     network: deposit.network.description,
                   );
 
@@ -254,11 +245,13 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
                     );
 
                     try {
+                      AnchorsHelper().addCryptoDepositAnchor(deposit.currency.symbol);
+
                       Share.share(
-                        '${intl.cryptoDeposit_my} ${widget.currency.symbol}'
+                        '${intl.cryptoDeposit_my} ${deposit.currency.symbol}'
                         ' ${intl.cryptoDeposit_address}: '
                         '${deposit.address} '
-                        '${deposit.tag != null ? ', ${widget.currency.symbol == 'XRP' ? intl.tagOrMemo : intl.tag}: '
+                        '${deposit.tag != null ? ', ${deposit.currency.symbol == 'XRP' ? intl.tagOrMemo : intl.tag}: '
                             '${deposit.tag}' : ''} \n'
                         '${intl.cryptoDeposit_network}: '
                         '${deposit.network.description}',
@@ -280,7 +273,7 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
         children: [
           if (deposit.tag != null)
             DepositInfoTag(
-              text: '${intl.depositInfoTag_text1} ${widget.currency.symbol}'
+              text: '${intl.depositInfoTag_text1} ${deposit.currency.symbol}'
                   ' ${intl.depositInfoTag_text2}',
             )
           else
@@ -295,23 +288,23 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
             child: InkWell(
               highlightColor: colors.grey5,
               splashColor: Colors.transparent,
-              onTap: widget.currency.isSingleNetwork
+              onTap: deposit.currency.isSingleNetwork
                   ? null
                   : () {
                       sAnalytics.tapOnTheButtonNetworkOnReceiveAssetScreen(
-                        asset: widget.currency.symbol,
+                        asset: deposit.currency.symbol,
                       );
 
                       sAnalytics.chooseNetworkPopupViewShowedOnReceiveAssetScreen(
-                        asset: widget.currency.symbol,
+                        asset: deposit.currency.symbol,
                       );
 
                       showDepositeNetworkBottomSheet(
                         context,
                         deposit.network,
-                        widget.currency.depositBlockchains,
-                        widget.currency.iconUrl,
-                        widget.currency.symbol,
+                        deposit.currency.depositBlockchains,
+                        deposit.currency.iconUrl,
+                        deposit.currency.symbol,
                         deposit.setNetwork,
                         backOnClose: false,
                         isReceive: true,
@@ -361,7 +354,7 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
                           style: sSubtitle2Style,
                         ),
                       ),
-                    if (!widget.currency.isSingleNetwork)
+                    if (!deposit.currency.isSingleNetwork)
                       const Positioned(
                         right: 0,
                         top: 0,
@@ -376,12 +369,12 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
           const SDivider(),
           if (deposit.tag != null)
             CryptoDepositWithAddressAndTag(
-              currency: widget.currency,
+              currency: deposit.currency,
               scrollController: controller,
             )
           else
             CryptoDepositWithAddress(
-              currency: widget.currency,
+              currency: deposit.currency,
             ),
         ],
       ),

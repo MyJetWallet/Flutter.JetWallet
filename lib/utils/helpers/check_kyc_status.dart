@@ -41,3 +41,17 @@ bool checkKycBlocked(
 
   return false;
 }
+
+bool checkKycRequired(
+  int depositStatus,
+  int sellStatus,
+  int withdrawalStatus,
+) {
+  if (depositStatus == kycOperationStatus(KycStatus.kycRequired) ||
+      sellStatus == kycOperationStatus(KycStatus.kycRequired) ||
+      withdrawalStatus == kycOperationStatus(KycStatus.kycRequired)) {
+    return true;
+  }
+
+  return false;
+}

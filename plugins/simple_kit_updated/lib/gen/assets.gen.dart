@@ -18,11 +18,14 @@ class $AssetsImagesGen {
   /// File path: assets/images/appbar_bg.png
   AssetGenImage get appbarBg => const AssetGenImage('assets/images/appbar_bg.png');
 
+  /// File path: assets/images/bank.png
+  AssetGenImage get bank => const AssetGenImage('assets/images/bank.png');
+
   /// Directory path: assets/images/jar
   $AssetsImagesJarGen get jar => const $AssetsImagesJarGen();
 
   /// List of all assets
-  List<AssetGenImage> get values => [appbarBg];
+  List<AssetGenImage> get values => [appbarBg, bank];
 }
 
 class $AssetsSvgGen {
@@ -253,6 +256,9 @@ class $AssetsSvgMediumGen {
   /// File path: assets/svg/medium/bank.svg
   SvgGenImage get bank => const SvgGenImage('assets/svg/medium/bank.svg');
 
+  /// File path: assets/svg/medium/business.svg
+  SvgGenImage get business => const SvgGenImage('assets/svg/medium/business.svg');
+
   /// File path: assets/svg/medium/card.svg
   SvgGenImage get card => const SvgGenImage('assets/svg/medium/card.svg');
 
@@ -442,6 +448,9 @@ class $AssetsSvgMediumGen {
   /// File path: assets/svg/medium/user_alt.svg
   SvgGenImage get userAlt => const SvgGenImage('assets/svg/medium/user_alt.svg');
 
+  /// File path: assets/svg/medium/user_send.svg
+  SvgGenImage get userSend => const SvgGenImage('assets/svg/medium/user_send.svg');
+
   /// File path: assets/svg/medium/verify.svg
   SvgGenImage get verify => const SvgGenImage('assets/svg/medium/verify.svg');
 
@@ -467,6 +476,7 @@ class $AssetsSvgMediumGen {
         arrowRight,
         arrowUp,
         bank,
+        business,
         card,
         cash,
         change,
@@ -530,6 +540,7 @@ class $AssetsSvgMediumGen {
         twitter,
         user,
         userAlt,
+        userSend,
         verify,
         wallet,
         wallets,

@@ -919,7 +919,7 @@
     "create_personal_creating": "Creating personal account...",
     "buy_confirmation_processing_fee": "Processing fee",
     "buy_confirmation_processing_fee_description": "Simple charges this fee for handling the transaction",
-    "buy_confirmation_payment_fee_description": "imple takes this fee to cover the costs associated with our payment partners",
+    "buy_confirmation_payment_fee_description": "Simple takes this fee to cover the costs associated with our payment partners",
     "buy_confirmation_paid_with": "Paid with",
     "buy_confirmation_price": "Price",
     "bank_card_leable_headet": "Add a custom name",
@@ -1723,7 +1723,7 @@
     "jar_input_jar_name": "What are you saving for?",
     "jar_jar_name": "Jar name",
     "jar_next": "Next",
-    "jar_input_jar_goal": "Please add a detailed description of your goal.",
+    "jar_input_jar_goal": "How much are you looking to raise ?",
     "jar_input_jar_goal_error": "Enter an amount from 1 to {limit}",
     "jar_purpose": "Amount",
     "jar_creating_jar_title": "You are creating jar {name}",
@@ -1739,7 +1739,7 @@
     "jar_transactions": "Transactions",
     "jar_active": "Active",
     "jar_all": "All",
-    "jar_description_title": "Please add a detailed description of your goal.Tell us the goal of this jar",
+    "jar_description_title": "Please add a detailed description of your goal.",
     "jar_description": "Description",
     "jar_cancel": "Cancel",
     "jar_confirm": "Confirm",
@@ -1823,5 +1823,39 @@
     "card_preorder_highlight_1": "Use your card with no extra KYC checks",
     "card_preorder_highlight_2": "Swiftly convert assets without delay",
     "card_preorder_highlight_3": "Easily connect any asset to your card",
-    "card_preorder_highlight_4": "Connect to Apple/Google Wallet and shop anywhere"
+    "card_preorder_highlight_4": "Connect to Apple/Google Wallet and shop anywhere",
+    "bank_transfer": "Bank transfer",
+    "bank_transfer_to_yourself": "To yourself or another person",
+    "bank_transfer_to": "Bank transfer to",
+    "bank_transfer_to_myself": "Myself",
+    "bank_transfer_to_business": "Business/Organizations",
+    "bank_transfer_to_another_person": "Another person",
+    "bank_transfer_coming_soon": "Coming Soon",
+    "get_personal_iban_title": "Get your personal IBAN",
+    "get_personal_iban_hint1_title": "Easy fund transfers",
+    "get_personal_iban_hint1_body": "Send money to anyone directly from your crypto balance.",
+    "get_personal_iban_hint2_title": "Pay bills effortlessly",
+    "get_personal_iban_hint2_body": "Use your personal IBAN account to pay bills instantly, without leaving the app.",
+    "get_personal_iban_button": "Open an account",
+    "deposit_kyc_alert_title": "Up to {amounty} deposits for an easy start",
+    "@deposit_kyc_alert_title": {
+        "placeholders": {
+            "amounty": {
+                "type": "String",
+                "example": "$50"
+            }
+        }
+    },
+    "deposit_kyc_alert_description": "Try the app and all its features with total deposits up to {amounty}. Keep using the app to unlock higher limits and enjoy an even better experience.",
+    "@deposit_kyc_alert_description": {
+        "placeholders": {
+            "amounty": {
+                "type": "String",
+                "example": "$50"
+            }
+        }
+    },
+    "prepaid_card_security_code": "Security code",
+    "bank_transfer_uah_bank_account": "UAH bank account",
+    "bank_transfer_ua_iban": "Ukrainian IBAN"
 }
