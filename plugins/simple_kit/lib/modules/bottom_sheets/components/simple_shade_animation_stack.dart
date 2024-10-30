@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 /// Used to animate background of BottomSheet,
 /// can be triggered by [showBasicBottomSheet()]
+@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
 class SShadeAnimationStack extends StatelessWidget {
   const SShadeAnimationStack({
     super.key,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 
+@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
 class SDivider extends StatelessWidget {
   const SDivider({
     super.key,

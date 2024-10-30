@@ -8,6 +8,7 @@ import 'package:simple_kit/modules/texts/simple_text_styles.dart';
 
 import '../../icons/24x24/public/erase/simple_erase_market_icon.dart';
 
+@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
 class SimpleAccountBanner extends StatelessWidget {
   const SimpleAccountBanner({
     super.key,
