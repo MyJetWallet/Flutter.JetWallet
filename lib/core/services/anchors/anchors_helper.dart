@@ -69,6 +69,8 @@ class AnchorsHelper {
         metadata: model.toJson(),
       );
 
+  bool isConvertConfirmed = false;
+
   Future<void> addConvertConfirmAnchor({
     required String fromAsset,
     required String toAsset,
