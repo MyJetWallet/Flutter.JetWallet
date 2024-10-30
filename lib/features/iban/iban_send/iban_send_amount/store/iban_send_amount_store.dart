@@ -350,43 +350,74 @@ abstract class _IbanSendAmountStoreBase with Store {
 
   @action
   Future<void> loadPreview(String? description, bool isCJ) async {
-    loader.startLoadingImmediately();
+    try {
+      loader.startLoadingImmediately();
 
-    if (currency != null) {
-      final accounts = sSignalRModules.bankingProfileData?.banking?.accounts ?? [];
+      if (currency != null) {
+        final accounts = sSignalRModules.bankingProfileData?.banking?.accounts ?? [];
 
-      final model = GetCryptoSellRequestModel(
-        buyFixed: inputMode != WithdrawalInputMode.youSend,
-        paymentAsset: currency?.symbol ?? '',
-        buyAsset: eurCurrency.symbol,
-        buyAmount: Decimal.parse(baseConversionValue),
-        paymentAmount: Decimal.parse(withAmount),
-        destinationAccountId: isCJ ? 'clearjuction_account' : accounts.first.accountId ?? '',
-        selfWithdrawalData: isCJ
-            ? SelfWithdrawalDataModel(
-                toIban: contact?.iban ?? '',
-                bankCode: contact?.bic ?? '',
-              )
-            : null,
-        personWithdrawalData: isCJ
-            ? null
-            : PersonWithdrawalDataModel(
-                toIban: contact?.iban ?? '',
-                beneficiaryName: contact?.name ?? '',
-                beneficiaryAddress: '',
-                beneficiaryCountry: contact?.bankCountry ?? '',
-                bankCode: contact?.bic ?? '',
-                intermediaryBankCode: '',
-                intermediaryBankAccount: '',
-              ),
-      );
+        final model = GetCryptoSellRequestModel(
+          buyFixed: inputMode != WithdrawalInputMode.youSend,
+          paymentAsset: currency?.symbol ?? '',
+          buyAsset: eurCurrency.symbol,
+          buyAmount: Decimal.parse(baseConversionValue),
+          paymentAmount: Decimal.parse(withAmount),
+          destinationAccountId: isCJ ? 'clearjuction_account' : accounts.first.accountId ?? '',
+          selfWithdrawalData: isCJ
+              ? SelfWithdrawalDataModel(
+                  toIban: contact?.iban ?? '',
+                  bankCode: contact?.bic ?? '',
+                )
+              : null,
+          personWithdrawalData: isCJ
+              ? null
+              : PersonWithdrawalDataModel(
+                  toIban: contact?.iban ?? '',
+                  beneficiaryName: contact?.name ?? '',
+                  beneficiaryAddress: '',
+                  beneficiaryCountry: contact?.bankCountry ?? '',
+                  bankCode: contact?.bic ?? '',
+                  intermediaryBankCode: '',
+                  intermediaryBankAccount: '',
+                ),
+        );
 
-      final response = await sNetwork.getWalletModule().postSellCreate(model);
+        final response = await sNetwork.getWalletModule().postSellCreate(model);
 
-      if (response.hasData) {
+        if (response.hasData) {
+          final previewModel = BankingWithdrawalPreviewModel(
+            accountId: account?.accountId ?? '',
+            requestId: const Uuid().v1(),
+            toIbanAddress: contact?.iban ?? '',
+            assetSymbol: eurCurrency.symbol,
+            amount: Decimal.parse(withAmount),
+            contactId: contact?.id ?? '',
+            beneficiaryBankCode: contact?.bic ?? '',
+            description: description,
+            expressPayment: false,
+          );
+
+          await sRouter.push(
+            IbanSendConfirmRouter(
+              data: null,
+              previewRequest: previewModel,
+              contact: contact!,
+              account: accounts.first,
+              isCJ: isCJ,
+              cryptoSell: response.data,
+            ),
+          );
+        } else {
+          sNotification.showError(
+            response.error?.cause ?? intl.something_went_wrong,
+            id: 1,
+            needFeedback: true,
+          );
+        }
+      } else {
         final previewModel = BankingWithdrawalPreviewModel(
           accountId: account?.accountId ?? '',
-          requestId: const Uuid().v1(),
+          requestId: requestId,
           toIbanAddress: contact?.iban ?? '',
           assetSymbol: eurCurrency.symbol,
           amount: Decimal.parse(withAmount),
@@ -396,71 +427,50 @@ abstract class _IbanSendAmountStoreBase with Store {
           expressPayment: false,
         );
 
-        await sRouter.push(
-          IbanSendConfirmRouter(
-            data: null,
-            previewRequest: previewModel,
-            contact: contact!,
-            account: accounts.first,
-            isCJ: isCJ,
-            cryptoSell: response.data,
-          ),
-        );
-      } else {
-        sNotification.showError(
-          response.error?.cause ?? intl.something_went_wrong,
-          id: 1,
-          needFeedback: true,
-        );
-      }
-    } else {
-      final previewModel = BankingWithdrawalPreviewModel(
-        accountId: account?.accountId ?? '',
-        requestId: requestId,
-        toIbanAddress: contact?.iban ?? '',
-        assetSymbol: eurCurrency.symbol,
-        amount: Decimal.parse(withAmount),
-        contactId: contact?.id ?? '',
-        beneficiaryBankCode: contact?.bic ?? '',
-        description: description,
-        expressPayment: false,
-      );
+        final response =
+            await getIt.get<SNetwork>().simpleNetworking.getWalletModule().postBankingWithdrawalPreview(previewModel);
 
-      final response =
-          await getIt.get<SNetwork>().simpleNetworking.getWalletModule().postBankingWithdrawalPreview(previewModel);
-
-      if (!response.hasError) {
-        await sRouter
-            .push(
-          IbanSendConfirmRouter(
-            data: response.data,
-            contact: contact!,
-            account: account!,
-            previewRequest: previewModel,
-            isCJ: isCJ,
-            cryptoSell: null,
-          ),
-        )
-            .then((value) {
-          sAnalytics.eurWithdrawTapBackOrderSummary(
-            isCJ: isCJAcc!,
-            accountIban: account?.iban ?? '',
-            accountLabel: account?.label ?? '',
-            eurAccType: contact?.iban ?? '',
-            eurAccLabel: contact?.name ?? '',
-            enteredAmount: withAmount,
+        if (!response.hasError) {
+          await sRouter
+              .push(
+            IbanSendConfirmRouter(
+              data: response.data,
+              contact: contact!,
+              account: account!,
+              previewRequest: previewModel,
+              isCJ: isCJ,
+              cryptoSell: null,
+            ),
+          )
+              .then((value) {
+            sAnalytics.eurWithdrawTapBackOrderSummary(
+              isCJ: isCJAcc!,
+              accountIban: account?.iban ?? '',
+              accountLabel: account?.label ?? '',
+              eurAccType: contact?.iban ?? '',
+              eurAccLabel: contact?.name ?? '',
+              enteredAmount: withAmount,
+            );
+          });
+        } else {
+          sNotification.showError(
+            response.error?.cause ?? intl.something_went_wrong,
+            id: 1,
+            needFeedback: true,
           );
-        });
-      } else {
-        sNotification.showError(
-          response.error?.cause ?? intl.something_went_wrong,
-          id: 1,
-          needFeedback: true,
-        );
+        }
       }
-    }
 
-    loader.finishLoadingImmediately();
+      loader.finishLoadingImmediately();
+    } catch (e) {
+      sNotification.showError(
+        intl.something_went_wrong_try_again2,
+        id: 1,
+        needFeedback: true,
+      );
+    } finally {
+      loader.finishLoadingImmediately();
+    }
   }
 
   @action
