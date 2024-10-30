@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/anchors/anchors_helper.dart';
@@ -61,9 +62,8 @@ class _ConvertConfirmationScreenBody extends StatelessObserverWidget {
     var isAnchorSet = false;
 
     return PopScope(
-      onPopInvoked: (value) {
-        sRouter.maybePop();
-        if (!isAnchorSet) {
+      onPopInvoked: (_) {
+        if (!isAnchorSet && !getIt.get<AnchorsHelper>().isConvertConfirmed) {
           setAnchor();
           isAnchorSet = true;
         }
@@ -73,10 +73,10 @@ class _ConvertConfirmationScreenBody extends StatelessObserverWidget {
         loaderText: intl.register_pleaseWait,
         customLoader: store.showProcessing
             ? WaitingScreen(
-                onSkip: () {
-                  store.skipProcessing();
-                },
-              )
+          onSkip: () {
+            store.skipProcessing();
+          },
+        )
             : null,
         header: SSmallHeader(
           title: intl.buy_confirmation_title,
@@ -86,6 +86,10 @@ class _ConvertConfirmationScreenBody extends StatelessObserverWidget {
           ),
           onBackButtonTap: () {
             sRouter.maybePop();
+            if (!isAnchorSet && !getIt.get<AnchorsHelper>().isConvertConfirmed) {
+              setAnchor();
+              isAnchorSet = true;
+            }
           },
         ),
         child: CustomScrollView(
@@ -141,6 +145,8 @@ class _ConvertConfirmationScreenBody extends StatelessObserverWidget {
                       active: !store.loader.loading,
                       name: intl.previewBuyWithAsset_confirm,
                       onTap: () {
+                        getIt.get<AnchorsHelper>().isConvertConfirmed = true;
+
                         sAnalytics.tapOnTheButtonConfirmOnConvertOrderSummary(
                           enteredAmount: (store.isFromFixed ? store.paymentAmount : store.buyAmount).toString(),
                           convertFromAsset: store.paymentAsset ?? '',

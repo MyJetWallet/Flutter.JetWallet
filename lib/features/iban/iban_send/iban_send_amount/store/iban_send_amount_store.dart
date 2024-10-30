@@ -130,10 +130,16 @@ abstract class _IbanSendAmountStoreBase with Store {
   Decimal simpleFeeAmount = Decimal.zero;
 
   @observable
-  Decimal? minAmount;
+  Decimal? minSellAmount;
 
   @observable
-  Decimal? maxAmount;
+  Decimal? maxSellAmount;
+
+  @observable
+  Decimal? minBuyAmount;
+
+  @observable
+  Decimal? maxBuyAmount;
 
   @computed
   String get primaryAmount {
@@ -202,24 +208,24 @@ abstract class _IbanSendAmountStoreBase with Store {
       );
 
   @computed
-  Decimal? get _minLimit =>
-      minAmount ??
-      _sendIbanMethod.symbolNetworkDetails?.firstWhere(
-        (element) => element.symbol == eurCurrency.symbol,
-        orElse: () {
-          return const SymbolNetworkDetails();
-        },
-      ).minAmount;
+  Decimal? get _minLimit => currency != null
+      ? (inputMode == WithdrawalInputMode.youSend ? minSellAmount ?? Decimal.zero : minBuyAmount ?? Decimal.zero)
+      : _sendIbanMethod.symbolNetworkDetails?.firstWhere(
+          (element) => element.symbol == eurCurrency.symbol,
+          orElse: () {
+            return const SymbolNetworkDetails();
+          },
+        ).minAmount;
 
   @computed
-  Decimal? get _maxLimit =>
-      maxAmount ??
-      _sendIbanMethod.symbolNetworkDetails?.firstWhere(
-        (element) => element.symbol == eurCurrency.symbol,
-        orElse: () {
-          return const SymbolNetworkDetails();
-        },
-      ).maxAmount;
+  Decimal? get _maxLimit => currency != null
+      ? (inputMode == WithdrawalInputMode.youSend ? maxSellAmount ?? Decimal.zero : maxBuyAmount ?? Decimal.zero)
+      : _sendIbanMethod.symbolNetworkDetails?.firstWhere(
+          (element) => element.symbol == eurCurrency.symbol,
+          orElse: () {
+            return const SymbolNetworkDetails();
+          },
+        ).maxAmount;
 
   @action
   void init({
@@ -283,8 +289,11 @@ abstract class _IbanSendAmountStoreBase with Store {
       final response = await sNetwork.getWalletModule().postSellLimits(model);
 
       if (response.hasData) {
-        minAmount = response.data!.minSellAmount;
-        maxAmount = response.data!.maxSellAmount;
+        minSellAmount = response.data!.minSellAmount;
+        maxSellAmount = response.data!.maxSellAmount;
+
+        minBuyAmount = response.data!.minBuyAmount;
+        maxBuyAmount = response.data!.maxBuyAmount;
       }
     }
   }
@@ -495,17 +504,17 @@ abstract class _IbanSendAmountStoreBase with Store {
       sendAllValue = responseOnInputAction(
         oldInput: withAmount,
         newInput: inputMode == WithdrawalInputMode.youSend
-            ? availableAmount.toString()
-            : (availableAmount - feeAmount).toString(),
-        accuracy: mainCurrency.accuracy,
+            ? _maxLimit.toString()
+            : ((_maxLimit ?? availableAmount) - feeAmount).toString(),
+        accuracy: inputMode ==WithdrawalInputMode.youSend ? mainCurrency.accuracy : secondaryCurrency.accuracy,
       );
     } else {
       sendAllValue = responseOnInputAction(
         oldInput: withAmount,
         newInput: inputMode == WithdrawalInputMode.youSend
-            ? _maxLimit.toString()
-            : ((_maxLimit ?? availableAmount) - feeAmount).toString(),
-        accuracy: mainCurrency.accuracy,
+            ? availableAmount.toString()
+            : (availableAmount - feeAmount).toString(),
+        accuracy: inputMode ==WithdrawalInputMode.youSend ? mainCurrency.accuracy : secondaryCurrency.accuracy,
       );
     }
 
@@ -516,6 +525,7 @@ abstract class _IbanSendAmountStoreBase with Store {
     }
 
     isCryptoEntering = true;
+    inputMode = WithdrawalInputMode.youSend;
 
     _calculateBaseConversion();
 
@@ -583,14 +593,14 @@ abstract class _IbanSendAmountStoreBase with Store {
         )}';
       } else {
         limitError = '${intl.currencyBuy_paymentInputErrorText1} ${_minLimit?.toFormatCount(
-          accuracy: currency != null ? currency!.accuracy : eurCurrency.accuracy,
-          symbol: currency != null ? currency!.symbol : eurCurrency.symbol,
+          accuracy: (currency != null && inputMode == WithdrawalInputMode.youSend) ?  currency!.accuracy : eurCurrency.accuracy,
+          symbol: (currency != null && inputMode == WithdrawalInputMode.youSend) ? currency!.symbol : eurCurrency.symbol,
         )}';
       }
     } else if (_maxLimit != null && _maxLimit! < value) {
       limitError = '${intl.currencyBuy_paymentInputErrorText2} ${_maxLimit?.toFormatCount(
-        accuracy: currency != null ? currency!.accuracy : eurCurrency.accuracy,
-        symbol: currency != null ? currency!.symbol : eurCurrency.symbol,
+        accuracy: (currency != null && inputMode == WithdrawalInputMode.youSend) ? currency!.accuracy : eurCurrency.accuracy,
+        symbol: (currency != null && inputMode == WithdrawalInputMode.youSend) ? currency!.symbol : eurCurrency.symbol,
       )}';
     } else {
       limitError = '';
