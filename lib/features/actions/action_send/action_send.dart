@@ -430,6 +430,27 @@ void showBankTransferTo(BuildContext context, [CurrencyModel? currency]) {
   final methods =
       sSignalRModules.globalSendMethods?.methods?.where((method) => method.receiveAsset == 'UAH').toList() ?? [];
 
+  String getHelperTextToSendAnyone() {
+    if (allowBanking) {
+      if (simpleAccounts == null || simpleAccounts.status != AccountStatus.active) {
+        return intl.bank_transfer_coming_soon;
+      } else {
+        if (activeAccounts.isNotEmpty) {
+          return '';
+        } else {
+          if (accounts.isEmpty) {
+            return '';
+          } else {
+            return intl.bank_transfer_coming_soon;
+          }
+        }
+      }
+    } else {
+      return intl.bank_transfer_coming_soon;
+    }
+    return '';
+  }
+
   sShowBasicModalBottomSheet(
     context: context,
     pinned: ActionBottomSheetHeader(
@@ -523,15 +544,7 @@ void showBankTransferTo(BuildContext context, [CurrencyModel? currency]) {
         amount: '',
         description: '',
         name: intl.bank_transfer_to_another_person,
-        helper: allowBanking
-            ? (bankingShowState != BankingClientStatus.allowed &&
-                    bankingShowState != BankingClientStatus.bankingKycRequired &&
-                    bankingShowState != BankingClientStatus.kycInProgress)
-                ? intl.bank_transfer_coming_soon
-                : activeAccounts.isNotEmpty
-                    ? ''
-                    : intl.bank_transfer_coming_soon
-            : intl.bank_transfer_coming_soon,
+        helper: getHelperTextToSendAnyone(),
       ),
       if (methods.isNotEmpty)
         SCardRow(
