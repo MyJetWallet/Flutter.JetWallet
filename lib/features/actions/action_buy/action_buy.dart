@@ -60,6 +60,8 @@ void showBuyAction({
       context: context,
       blockingTypeCheck: BlockingType.deposit,
     );
+  } else if (isBuyAvaible) {
+    _showAction(context: context);
   } else {
     handler.handle(
       status: kyc.tradeStatus,
@@ -84,9 +86,19 @@ void _showAction({
             sAnalytics.tapOnTheAnyWalletForBuyButton(
               destinationWallet: currency.symbol,
             );
-            showPayWithBottomSheet(
-              context: context,
-              currency: currency,
+            final kyc = getIt.get<KycService>();
+            final handler = getIt.get<KycAlertHandler>();
+            handler.handle(
+              status: kyc.tradeStatus,
+              isProgress: kyc.verificationInProgress,
+              currentNavigate: () {
+                showPayWithBottomSheet(
+                  context: context,
+                  currency: currency,
+                );
+              },
+              requiredDocuments: kyc.requiredDocuments,
+              requiredVerifications: kyc.requiredVerifications,
             );
           },
         ),
