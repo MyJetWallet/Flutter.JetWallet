@@ -219,7 +219,7 @@ abstract class _IbanSendAmountStoreBase with Store {
 
   @computed
   Decimal? get _maxLimit => currency != null
-      ? (inputMode == WithdrawalInputMode.youSend ? maxSellAmount ?? Decimal.zero : maxBuyAmount ?? Decimal.zero)
+      ? (inputMode == WithdrawalInputMode.youSend ? maxSellAmount : maxBuyAmount)
       : _sendIbanMethod.symbolNetworkDetails?.firstWhere(
           (element) => element.symbol == eurCurrency.symbol,
           orElse: () {
@@ -319,6 +319,7 @@ abstract class _IbanSendAmountStoreBase with Store {
         personWithdrawalData: isCJ
             ? null
             : PersonWithdrawalDataModel(
+                contactId: contact?.id ?? '',
                 toIban: contact?.iban ?? '',
                 beneficiaryName: contact?.name ?? '',
                 beneficiaryAddress: '',
@@ -516,7 +517,7 @@ abstract class _IbanSendAmountStoreBase with Store {
         newInput: inputMode == WithdrawalInputMode.youSend
             ? _maxLimit.toString()
             : ((_maxLimit ?? availableAmount) - feeAmount).toString(),
-        accuracy: inputMode ==WithdrawalInputMode.youSend ? mainCurrency.accuracy : secondaryCurrency.accuracy,
+        accuracy: inputMode == WithdrawalInputMode.youSend ? mainCurrency.accuracy : secondaryCurrency.accuracy,
       );
     } else {
       sendAllValue = responseOnInputAction(
@@ -524,7 +525,7 @@ abstract class _IbanSendAmountStoreBase with Store {
         newInput: inputMode == WithdrawalInputMode.youSend
             ? availableAmount.toString()
             : (availableAmount - feeAmount).toString(),
-        accuracy: inputMode ==WithdrawalInputMode.youSend ? mainCurrency.accuracy : secondaryCurrency.accuracy,
+        accuracy: inputMode == WithdrawalInputMode.youSend ? mainCurrency.accuracy : secondaryCurrency.accuracy,
       );
     }
 
@@ -603,13 +604,17 @@ abstract class _IbanSendAmountStoreBase with Store {
         )}';
       } else {
         limitError = '${intl.currencyBuy_paymentInputErrorText1} ${_minLimit?.toFormatCount(
-          accuracy: (currency != null && inputMode == WithdrawalInputMode.youSend) ?  currency!.accuracy : eurCurrency.accuracy,
-          symbol: (currency != null && inputMode == WithdrawalInputMode.youSend) ? currency!.symbol : eurCurrency.symbol,
+          accuracy: (currency != null && inputMode == WithdrawalInputMode.youSend)
+              ? currency!.accuracy
+              : eurCurrency.accuracy,
+          symbol:
+              (currency != null && inputMode == WithdrawalInputMode.youSend) ? currency!.symbol : eurCurrency.symbol,
         )}';
       }
     } else if (_maxLimit != null && _maxLimit! < value) {
       limitError = '${intl.currencyBuy_paymentInputErrorText2} ${_maxLimit?.toFormatCount(
-        accuracy: (currency != null && inputMode == WithdrawalInputMode.youSend) ? currency!.accuracy : eurCurrency.accuracy,
+        accuracy:
+            (currency != null && inputMode == WithdrawalInputMode.youSend) ? currency!.accuracy : eurCurrency.accuracy,
         symbol: (currency != null && inputMode == WithdrawalInputMode.youSend) ? currency!.symbol : eurCurrency.symbol,
       )}';
     } else {

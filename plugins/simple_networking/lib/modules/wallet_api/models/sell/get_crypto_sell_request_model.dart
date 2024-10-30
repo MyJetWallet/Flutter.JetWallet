@@ -37,6 +37,7 @@ abstract class SelfWithdrawalDataModel with _$SelfWithdrawalDataModel {
 @freezed
 abstract class PersonWithdrawalDataModel with _$PersonWithdrawalDataModel {
   const factory PersonWithdrawalDataModel({
+    required String contactId,
     required String toIban,
     required String beneficiaryName,
     required String beneficiaryAddress,
