@@ -75,6 +75,7 @@ class _EarnDepositScreenState extends State<EarnDepositScreen> {
             package: 'simple_kit',
           ),
           barrierDismissible: false,
+          willPopScope: false,
           onWillPop: () async {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               sRouter.maybePop();

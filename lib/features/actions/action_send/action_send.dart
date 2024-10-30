@@ -448,7 +448,6 @@ void showBankTransferTo(BuildContext context, [CurrencyModel? currency]) {
     } else {
       return intl.bank_transfer_coming_soon;
     }
-    return '';
   }
 
   sShowBasicModalBottomSheet(

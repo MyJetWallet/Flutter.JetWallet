@@ -1,9 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/format_service.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/earn/store/earn_store.dart';
 import 'package:jetwallet/features/earn/widgets/basic_header.dart';
 import 'package:jetwallet/features/earn/widgets/deposit_card.dart';
@@ -57,15 +56,10 @@ class EarnPositionsListWidget extends StatelessWidget {
                   revenue: e.incomeAmount.toString(),
                 );
 
-                final currency = getIt.get<FormatService>().findCurrency(
-                      findInHideTerminalList: true,
-                      assetSymbol: e.assetId,
-                    );
-
                 context.router.push(
                   EarnPositionActiveRouter(
                     earnPosition: e,
-                    offers: store.filteredOffersGroupedByCurrency[currency.description] ?? [],
+                    offers: sSignalRModules.activeEarnOffersMessage?.offers.toList() ?? [],
                   ),
                 );
               },
