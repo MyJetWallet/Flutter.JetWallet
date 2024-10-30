@@ -195,7 +195,7 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                     value: isCJ
                         ? '${sUserInfo.firstName} ${sUserInfo.lastName}'
                         : cryptoSell != null
-                            ? contact.name ?? ''
+                            ? contact.fullName ?? ''
                             : data!.fullName ?? '',
                   ),
                   if (!isCJ) ...[

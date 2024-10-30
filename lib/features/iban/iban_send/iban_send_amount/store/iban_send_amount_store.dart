@@ -102,16 +102,11 @@ abstract class _IbanSendAmountStoreBase with Store {
     }
   }
 
-  final CurrencyModel _baseCurrency = currencyFrom(
-    sSignalRModules.currenciesList,
-    sSignalRModules.baseCurrency.symbol,
-  );
-
   @computed
   CurrencyModel get mainCurrency => currency != null ? currency! : eurCurrency;
 
   @computed
-  CurrencyModel get secondaryCurrency => currency != null ? _baseCurrency : eurCurrency;
+  CurrencyModel get secondaryCurrency => currency != null ? eurCurrency : eurCurrency;
 
   @observable
   bool isCryptoEntering = true;
@@ -425,6 +420,7 @@ abstract class _IbanSendAmountStoreBase with Store {
             needFeedback: true,
           );
         }
+        loader.finishLoadingImmediately();
       } else {
         final previewModel = BankingWithdrawalPreviewModel(
           accountId: account?.accountId ?? '',
@@ -516,16 +512,18 @@ abstract class _IbanSendAmountStoreBase with Store {
       sendAllValue = responseOnInputAction(
         oldInput: withAmount,
         newInput: inputMode == WithdrawalInputMode.youSend
-            ? _maxLimit.toString()
-            : ((_maxLimit ?? availableAmount) - feeAmount).toString(),
+            ? availableAmount.toString()
+            : (availableAmount - feeAmount).toString(),
         accuracy: inputMode == WithdrawalInputMode.youSend ? mainCurrency.accuracy : secondaryCurrency.accuracy,
       );
     } else {
+      final max = currency != null ? maxSellAmount : _maxLimit;
+
       sendAllValue = responseOnInputAction(
         oldInput: withAmount,
         newInput: inputMode == WithdrawalInputMode.youSend
-            ? availableAmount.toString()
-            : (availableAmount - feeAmount).toString(),
+            ? max.toString()
+            : ((max ?? availableAmount) - feeAmount).toString(),
         accuracy: inputMode == WithdrawalInputMode.youSend ? mainCurrency.accuracy : secondaryCurrency.accuracy,
       );
     }

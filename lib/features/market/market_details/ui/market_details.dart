@@ -137,7 +137,13 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
       key: const Key('market-details-screen-key'),
       onVisibilityChanged: (info) {
         if (info.visibleFraction == 1) {
-          _startTimer();
+          if (_timer != null) {
+            if (!_timer!.isActive) {
+              _startTimer();
+            }
+          } else {
+            _startTimer();
+          }
         } else if (info.visibleFraction == 0) {
           _timer?.cancel();
         }
@@ -250,12 +256,6 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
     );
   }
 
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
-  }
-
   void _startTimer() {
     _timer = Timer(const Duration(seconds: 30), _onTimerComplete);
   }
@@ -263,24 +263,6 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
   void _onTimerComplete() {
     if (mounted) {
       AnchorsHelper().addMarketDetailsAnchor(widget.marketItem.symbol);
-    }
-  }
-
-  @override
-  void deactivate() {
-    _timer?.cancel();
-    super.deactivate();
-  }
-
-  @override
-  void activate() {
-    super.activate();
-    if (_timer != null) {
-      if (!_timer!.isActive) {
-        _startTimer();
-      }
-    } else {
-      _startTimer();
     }
   }
 }

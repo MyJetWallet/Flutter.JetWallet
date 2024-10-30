@@ -75,7 +75,7 @@ void showBankTransforSelect(
         }
 
         if (isSendFlow) {
-          Navigator.of(context).pop();
+          await context.router.maybePop();
 
           if (currency != null) {
             await getIt<AppRouter>().push(
