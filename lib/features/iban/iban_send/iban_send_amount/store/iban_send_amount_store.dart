@@ -382,6 +382,7 @@ abstract class _IbanSendAmountStoreBase with Store {
           personWithdrawalData: isCJ
               ? null
               : PersonWithdrawalDataModel(
+                  contactId: contact?.id ?? '',
                   toIban: contact?.iban ?? '',
                   beneficiaryName: contact?.name ?? '',
                   beneficiaryAddress: '',
