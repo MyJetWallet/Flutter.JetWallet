@@ -321,8 +321,10 @@ class _TVChartState extends State<TVChart> with WidgetsBindingObserver {
             Expanded(
               child: InAppWebView(
                 initialUrlRequest: URLRequest(
-                  url: localhostManager.getUriWith(
-                    path: assetsPath,
+                  url: WebUri.uri(
+                    localhostManager.getUriWith(
+                      path: assetsPath,
+                    ),
                   ),
                 ),
                 initialOptions: InAppWebViewGroupOptions(
@@ -417,6 +419,7 @@ class _OnTickInfo {
     required this.symbolInfo,
     required this.resolution,
   });
+
   final LibrarySymbolInfo symbolInfo;
   final String resolution;
 }

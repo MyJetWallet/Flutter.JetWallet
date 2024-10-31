@@ -26,7 +26,7 @@ class SharePlusLinuxPlugin extends SharePlatform {
     Rect? sharePositionOrigin,
   }) async {
     throw UnimplementedError(
-        'shareUri() has not been implemented on Linux. Use share().');
+        'shareUri() has not been implemented on Linux. Use share().',);
   }
 
   /// Share text.
@@ -46,7 +46,7 @@ class SharePlusLinuxPlugin extends SharePlatform {
       scheme: 'mailto',
       query: queryParameters.entries
           .map((e) =>
-              '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+              '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}',)
           .join('&'),
     );
 
