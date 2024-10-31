@@ -95,6 +95,9 @@ class _ChooseAssetToSend extends StatelessObserverWidget {
 
     final simpleAccount = sSignalRModules.bankingProfileData?.simple?.account;
 
+    final activeAccounts =
+        sSignalRModules.bankingProfileData?.banking?.accounts?.where((acc) => acc.status == AccountStatus.active) ?? [];
+
     final eurCurrency = currencyFrom(
       sSignalRModules.currenciesList,
       'EUR',
@@ -183,7 +186,7 @@ class _ChooseAssetToSend extends StatelessObserverWidget {
                         isCJ: isCJ!,
                         contact: contact!,
                         currency: currency,
-                        bankingAccount: isCJ! ? simpleAccount : searchedBankAccounts.first,
+                        bankingAccount: isCJ! ? simpleAccount : activeAccounts.first,
                       ),
                     );
                   }

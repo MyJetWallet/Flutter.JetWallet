@@ -465,9 +465,7 @@ abstract class _IbanSendAmountStoreBase with Store {
       }
 
       loader.finishLoadingImmediately();
-    } catch (e, stackTrace) {
-      print('#@#@#@ $stackTrace');
-
+    } catch (e) {
       sNotification.showError(
         intl.something_went_wrong_try_again2,
         id: 1,
