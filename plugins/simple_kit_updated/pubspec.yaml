@@ -12,12 +12,12 @@ dependencies:
     sdk: flutter
 
   flutter_svg: ^2.0.10+1
-  hooks_riverpod: ^2.5.1
+  hooks_riverpod: ^2.6.1
   flutter_hooks: ^0.20.5
   decimal: ^3.0.2
   gap: ^3.0.1
-  widgetbook_annotation: ^3.1.0
-  widgetbook: ^3.8.1
+  widgetbook_annotation: ^3.2.0
+  widgetbook: ^3.10.0
   auto_size_text: ^3.0.0
   collection: ^1.18.0
   dropdown_button2: ^2.3.9
@@ -25,13 +25,13 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^4.0.0
-  build_runner: ^2.4.11
+  flutter_lints: ^5.0.0
+  build_runner: ^2.4.13
 
-  flutter_gen_runner: ^5.6.0
+  flutter_gen_runner: ^5.8.0
 
   import_sorter: ^4.6.0
-  widgetbook_generator: ^3.8.0
+  widgetbook_generator: ^3.9.0
 
 flutter_gen:
   output: lib/gen/

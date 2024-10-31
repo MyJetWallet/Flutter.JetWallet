@@ -26,11 +26,11 @@ void main() {
     expect(mock.url, 'mailto:?subject=bar%20foo&body=foo%20bar');
   });
 
-  test('throws when url_launcher can\'t launch uri', () async {
+  test("throws when url_launcher can't launch uri", () async {
     final mock = MockUrlLauncherPlatform();
     mock.canLaunchMockValue = false;
 
     expect(() async => await SharePlusLinuxPlugin(mock).share('foo bar'),
-        throwsException);
+        throwsException,);
   });
 }

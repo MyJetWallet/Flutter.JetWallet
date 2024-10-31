@@ -12,7 +12,7 @@ part 'kyc_profile_countries_store.g.dart';
 class KycProfileCountriesStore extends _KycProfileCountriesStoreBase with _$KycProfileCountriesStore {
   KycProfileCountriesStore() : super();
 
-  static _KycProfileCountriesStoreBase of(BuildContext context) =>
+  _KycProfileCountriesStoreBase of(BuildContext context) =>
       Provider.of<KycProfileCountriesStore>(context, listen: false);
 }
 
