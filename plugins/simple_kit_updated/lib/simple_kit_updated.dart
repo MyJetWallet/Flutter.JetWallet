@@ -1,4 +1,4 @@
-library simple_kit_updated;
+library;
 
 // Typography
 export 'widgets/typography/simple_typography.dart';

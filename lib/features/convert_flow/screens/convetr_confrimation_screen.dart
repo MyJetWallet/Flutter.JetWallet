@@ -62,7 +62,7 @@ class _ConvertConfirmationScreenBody extends StatelessObserverWidget {
     var isAnchorSet = false;
 
     return PopScope(
-      onPopInvoked: (_) {
+      onPopInvokedWithResult: (_, __) {
         if (!isAnchorSet && !getIt.get<AnchorsHelper>().isConvertConfirmed) {
           setAnchor();
           isAnchorSet = true;
