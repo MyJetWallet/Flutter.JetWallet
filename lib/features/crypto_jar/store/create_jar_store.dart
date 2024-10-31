@@ -17,7 +17,7 @@ part 'create_jar_store.g.dart';
 class CreateJarStore extends _CreateJarStoreBase with _$CreateJarStore {
   CreateJarStore() : super();
 
-  static _CreateJarStoreBase of(BuildContext context) => Provider.of<CreateJarStore>(context);
+  _CreateJarStoreBase of(BuildContext context) => Provider.of<CreateJarStore>(context);
 }
 
 abstract class _CreateJarStoreBase with Store {

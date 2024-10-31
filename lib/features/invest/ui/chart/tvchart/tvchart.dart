@@ -327,11 +327,9 @@ class _TVChartState extends State<TVChart> with WidgetsBindingObserver {
                     ),
                   ),
                 ),
-                initialOptions: InAppWebViewGroupOptions(
-                  crossPlatform: InAppWebViewOptions(
-                    clearCache: true,
-                    supportZoom: false,
-                  ),
+                initialSettings: InAppWebViewSettings(
+                  clearCache: true,
+                  supportZoom: false,
                 ),
                 // Pass all gesture to Webview
                 gestureRecognizers: {
@@ -357,20 +355,20 @@ class _TVChartState extends State<TVChart> with WidgetsBindingObserver {
                     _showBack = url != null && url.host != localhostManager.uri.host;
                   });
                 },
-                onLoadError: (controller, url, code, message) {
+                onReceivedError: (controller, request, error) {
                   setState(() {
                     _isLoading = false;
                     _isError = false;
-                    _isErrorMessage = '$code - $message';
-                    _showBack = url != null && url.host != localhostManager.uri.host;
+                    _isErrorMessage = '${error.type} - ${error.description}';
+                    _showBack = request.url.host != localhostManager.uri.host;
                   });
                 },
-                onLoadHttpError: (controller, url, statusCode, description) {
+                onReceivedHttpError:  (controller, request, response) {
                   setState(() {
                     _isLoading = false;
                     _isError = false;
-                    _isErrorMessage = 'HTTP $statusCode - $description';
-                    _showBack = url != null && url.host != localhostManager.uri.host;
+                    _isErrorMessage = 'HTTP ${response.statusCode} - ${response.reasonPhrase}';
+                    _showBack = request.url.host != localhostManager.uri.host;
                   });
                 },
                 onConsoleMessage: (controller, consoleMessage) {

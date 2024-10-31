@@ -34,7 +34,7 @@ Future<void> sShowAlertPopup(
     builder: (context) {
       return PopScope(
         canPop: willPopScope,
-        onPopInvoked: (_) {
+        onPopInvokedWithResult: (_, __) {
           onWillPop?.call();
         },
         child: Column(
