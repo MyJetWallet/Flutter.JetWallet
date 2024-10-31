@@ -183,6 +183,7 @@ class _ChooseAssetToSend extends StatelessObserverWidget {
                         isCJ: isCJ!,
                         contact: contact!,
                         currency: currency,
+                        bankingAccount: isCJ! ? simpleAccount : searchedBankAccounts.first,
                       ),
                     );
                   }
