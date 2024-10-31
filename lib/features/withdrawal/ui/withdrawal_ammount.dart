@@ -13,7 +13,6 @@ import 'package:jetwallet/features/withdrawal/store/withdrawal_store.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
-import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -239,35 +238,36 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
               ],
             ),
           ),
-          SNumericKeyboardAmount(
-            widgetSize: widgetSizeFrom(deviceSize),
+          SNumericKeyboard(
             onKeyPressed: (value) {
               store.updateAmount(value);
             },
-            buttonType: SButtonType.primary2,
-            submitButtonActive: store.withValid,
-            submitButtonName: intl.withdraw_continue,
-            isLoading: isLoading,
-            onSubmitPressed: () async {
-              setState(() {
-                isLoading = true;
-              });
-              if (store.withdrawalType != WithdrawalType.jar) {
-                sAnalytics.cryptoSendTapContinueAmountScreen(
-                  asset: store.withdrawalInputModel!.currency!.symbol,
-                  network: store.network.description,
-                  sendMethodType: '0',
-                  totalSendAmount: store.withAmount,
-                );
-              }
+            button: SButton.black(
+              text: intl.withdraw_continue,
+              isLoading: isLoading,
+              callback: store.withValid
+                  ? () async {
+                      setState(() {
+                        isLoading = true;
+                      });
+                      if (store.withdrawalType != WithdrawalType.jar) {
+                        sAnalytics.cryptoSendTapContinueAmountScreen(
+                          asset: store.withdrawalInputModel!.currency!.symbol,
+                          network: store.network.description,
+                          sendMethodType: '0',
+                          totalSendAmount: store.withAmount,
+                        );
+                      }
 
-              await store.getWithdrawalFeeByPreview();
+                      await store.getWithdrawalFeeByPreview();
 
-              store.withdrawalPush(WithdrawStep.preview);
-              setState(() {
-                isLoading = false;
-              });
-            },
+                      store.withdrawalPush(WithdrawStep.preview);
+                      setState(() {
+                        isLoading = false;
+                      });
+                    }
+                  : null,
+            ),
           ),
         ],
       ),

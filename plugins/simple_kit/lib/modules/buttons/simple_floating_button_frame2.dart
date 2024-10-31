@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/modules/shared/simple_spacers.dart';
 
+@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
 class SFloatingButtonFrame2 extends StatelessWidget {
   const SFloatingButtonFrame2({
     super.key,

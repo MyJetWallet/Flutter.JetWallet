@@ -3,6 +3,7 @@ import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
 class BlueBankIconDeprecated extends StatelessWidget {
   const BlueBankIconDeprecated({
     super.key,
@@ -33,6 +34,7 @@ class BlueBankIconDeprecated extends StatelessWidget {
   }
 }
 
+@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
 class BlueBankUnlimitIcon extends StatelessWidget {
   const BlueBankUnlimitIcon({
     super.key,

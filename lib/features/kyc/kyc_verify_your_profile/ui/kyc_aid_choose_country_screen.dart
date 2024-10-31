@@ -12,7 +12,6 @@ import 'package:jetwallet/features/kyc/kyc_verify_your_profile/store/kyc_aid_cou
 import 'package:jetwallet/widgets/empty_search_result.dart';
 import 'package:jetwallet/widgets/flag_item.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit/modules/buttons/basic_buttons/primary_button/public/simple_primary_button_4.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
@@ -75,12 +74,13 @@ class __ChooseCountryState extends State<KycAidChooseCountryScreen> {
                           ),
                         const Spacer(),
                         SPaddingH24(
-                          child: SPrimaryButton4(
-                            name: intl.kyc_proceed,
-                            onTap: () {
-                              store.applyCountry();
-                            },
-                            active: store.activeCountry != null && !store.activeCountry!.isBlocked,
+                          child: SButton.blue(
+                            text: intl.kyc_proceed,
+                            callback: store.activeCountry != null && !store.activeCountry!.isBlocked
+                                ? () {
+                                    store.applyCountry();
+                                  }
+                                : null,
                           ),
                         ),
                         const SpaceH42(),

@@ -13,8 +13,8 @@ import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:simple_kit/modules/shared/stack_loader/stack_loader.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
-import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 import '../../../../core/services/signal_r/signal_r_service_new.dart';
 import '../../../../utils/helpers/currency_from.dart';
@@ -102,10 +102,9 @@ class GiftSendDetails extends StatelessObserverWidget {
             ),
             if (transactionListItem.status == Status.inProgress) ...[
               const SpaceH40(),
-              SPrimaryButton1(
-                active: true,
-                name: intl.gift_history_remind,
-                onTap: () {
+              SButton.black(
+                text: intl.gift_history_remind,
+                callback: () {
                   shareGiftResultBottomSheet(
                     context: context,
                     amount: Decimal.parse(
@@ -181,7 +180,7 @@ class _GiftSendDetailsHeader extends StatelessWidget {
 
     return Column(
       children: [
-        WhatToWhatConvertWidget(
+        STransaction(
           removeDefaultPaddings: true,
           isLoading: false,
           isSmallerVersion: true,

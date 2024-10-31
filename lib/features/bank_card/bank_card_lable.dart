@@ -8,6 +8,7 @@ import 'package:jetwallet/features/add_circle_card/ui/widgets/continue_button_fr
 import 'package:jetwallet/features/bank_card/store/bank_card_store.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 
 class BankCardLabel extends StatelessObserverWidget {
@@ -61,31 +62,32 @@ class BankCardLabel extends StatelessObserverWidget {
           ),
           const Spacer(),
           ContinueButtonFrame(
-            child: SPrimaryButton2(
-              active: store.isLabelValid,
-              name: intl.addCircleCard_continue,
-              onTap: () async {
-                if (store.canClick) {
-                  store.setCanClick(false);
-                  Timer(
-                    const Duration(
-                      seconds: 2,
-                    ),
-                    () => store.setCanClick(true),
-                  );
-                } else {
-                  return;
-                }
+            child: SButton.blue(
+              text: intl.addCircleCard_continue,
+              callback: store.isLabelValid
+                  ? () async {
+                      if (store.canClick) {
+                        store.setCanClick(false);
+                        Timer(
+                          const Duration(
+                            seconds: 2,
+                          ),
+                          () => store.setCanClick(true),
+                        );
+                      } else {
+                        return;
+                      }
 
-                await store.addCard(
-                  onSuccess: onCardAdded,
-                  onError: () {},
-                  isPreview: isPreview,
-                  amount: amount,
-                  currency: currency,
-                  asset: asset!,
-                );
-              },
+                      await store.addCard(
+                        onSuccess: onCardAdded,
+                        onError: () {},
+                        isPreview: isPreview,
+                        amount: amount,
+                        currency: currency,
+                        asset: asset!,
+                      );
+                    }
+                  : null,
             ),
           ),
         ],

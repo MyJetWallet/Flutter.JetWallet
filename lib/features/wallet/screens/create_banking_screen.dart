@@ -15,6 +15,7 @@ import 'package:simple_kit/modules/icons/20x20/public/tick/simple_tick_icon.dart
 import 'package:simple_kit/modules/icons/40x40/public/user/simple_user_icon.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:uuid/uuid.dart';
 
 @RoutePage(name: 'CreateBankingRoute')
@@ -124,10 +125,9 @@ class _CreateBankingScreenState extends State<CreateBankingScreen> {
             ],
           ),
           const Spacer(flex: 5),
-          SPrimaryButton2(
-            active: true,
-            name: intl.create_continue,
-            onTap: () async {
+          SButton.blue(
+            text: intl.create_continue,
+            callback: () async {
               if (!isClicked) {
                 _startTimer();
                 isClicked = true;
