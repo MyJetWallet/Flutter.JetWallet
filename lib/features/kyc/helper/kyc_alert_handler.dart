@@ -68,7 +68,7 @@ class KycAlertHandler {
       );
     } else if (kycStatus == kycOperationStatus(KycStatus.kycRequired) ||
         multiStatus.contains(kycOperationStatus(KycStatus.kycRequired)) ||
-        (kycState != null && kycState.isSimpleKyc && kycState.earlyKycFlowAllowed)) {
+        (kycState != null && kycState.isSimpleKyc && !kycState.earlyKycFlowAllowed)) {
       _showKycRequiredAlert(
         requiredVerifications,
       );
