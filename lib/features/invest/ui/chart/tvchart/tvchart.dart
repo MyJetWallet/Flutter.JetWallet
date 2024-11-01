@@ -321,15 +321,15 @@ class _TVChartState extends State<TVChart> with WidgetsBindingObserver {
             Expanded(
               child: InAppWebView(
                 initialUrlRequest: URLRequest(
-                  url: WebUri.uri(
-                    localhostManager.getUriWith(
-                      path: assetsPath,
-                    ),
+                  url: localhostManager.getUriWith(
+                    path: assetsPath,
                   ),
                 ),
-                initialSettings: InAppWebViewSettings(
-                  clearCache: true,
-                  supportZoom: false,
+                initialOptions: InAppWebViewGroupOptions(
+                  crossPlatform: InAppWebViewOptions(
+                    clearCache: true,
+                    supportZoom: false,
+                  ),
                 ),
                 // Pass all gesture to Webview
                 gestureRecognizers: {
@@ -355,20 +355,20 @@ class _TVChartState extends State<TVChart> with WidgetsBindingObserver {
                     _showBack = url != null && url.host != localhostManager.uri.host;
                   });
                 },
-                onReceivedError: (controller, request, error) {
+                onLoadError: (controller, url, code, message) {
                   setState(() {
                     _isLoading = false;
                     _isError = false;
-                    _isErrorMessage = '${error.type} - ${error.description}';
-                    _showBack = request.url.host != localhostManager.uri.host;
+                    _isErrorMessage = '$code - $message';
+                    _showBack = url != null && url.host != localhostManager.uri.host;
                   });
                 },
-                onReceivedHttpError:  (controller, request, response) {
+                onLoadHttpError: (controller, url, statusCode, description) {
                   setState(() {
                     _isLoading = false;
                     _isError = false;
-                    _isErrorMessage = 'HTTP ${response.statusCode} - ${response.reasonPhrase}';
-                    _showBack = request.url.host != localhostManager.uri.host;
+                    _isErrorMessage = 'HTTP $statusCode - $description';
+                    _showBack = url != null && url.host != localhostManager.uri.host;
                   });
                 },
                 onConsoleMessage: (controller, consoleMessage) {
@@ -417,7 +417,6 @@ class _OnTickInfo {
     required this.symbolInfo,
     required this.resolution,
   });
-
   final LibrarySymbolInfo symbolInfo;
   final String resolution;
 }

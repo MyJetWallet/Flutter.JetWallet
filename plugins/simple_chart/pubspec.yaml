@@ -24,7 +24,7 @@ dev_dependencies:
   lint: ^2.3.0
 
   # AUTOGEN:
-  build_runner: ^2.4.13 # generating files using Dart code
+  build_runner: ^2.4.11 # generating files using Dart code
   json_serializable: ^6.8.0 # dart build system builders for handling JSON
 
 flutter:

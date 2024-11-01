@@ -191,7 +191,7 @@ part 'app_router.gr.dart';
 final sRouter = getIt.get<AppRouter>();
 
 @AutoRouterConfig()
-class AppRouter extends RootStackRouter {
+class AppRouter extends _$AppRouter {
   /*
   @override
   RouteType get defaultRouteType => const RouteType.custom(
