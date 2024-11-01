@@ -14,8 +14,10 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 
@@ -236,7 +238,7 @@ class _BuyDetailsHeader extends StatelessWidget {
 
     return Column(
       children: [
-        STransaction(
+        WhatToWhatConvertWidget(
           removeDefaultPaddings: true,
           isLoading: false,
           fromAssetIconUrl: paymentAsset.iconUrl,

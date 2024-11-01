@@ -17,6 +17,7 @@ import '../../../core/l10n/i10n.dart';
 import '../../../core/router/app_router.dart';
 import '../../../core/services/device_size/device_size.dart';
 import '../../../utils/helpers/input_helpers.dart';
+import '../../../utils/helpers/widget_size_from.dart';
 import '../../app/store/app_store.dart';
 import '../store/gift_send_amount_store.dart';
 
@@ -107,27 +108,26 @@ class _GiftAmountState extends State<GiftAmount> {
           ),
           Observer(
             builder: (context) {
-              return SNumericKeyboard(
+              return SNumericKeyboardAmount(
+                widgetSize: widgetSizeFrom(deviceSize),
                 onKeyPressed: (value) {
                   geftSendAmountStore.updateAmount(value);
                 },
-                button: SButton.black(
-                  text: intl.addCircleCard_continue,
-                  callback:
-                      (geftSendAmountStore.withAmmountInputError == InputError.none && geftSendAmountStore.withValid)
-                          ? () {
-                              final tempSendGiftInfo = widget.sendGiftInfo.copyWith(
-                                amount: Decimal.tryParse(geftSendAmountStore.withAmount),
-                              );
+                buttonType: SButtonType.primary2,
+                submitButtonActive:
+                    geftSendAmountStore.withAmmountInputError == InputError.none && geftSendAmountStore.withValid,
+                submitButtonName: intl.addCircleCard_continue,
+                onSubmitPressed: () {
+                  final tempSendGiftInfo = widget.sendGiftInfo.copyWith(
+                    amount: Decimal.tryParse(geftSendAmountStore.withAmount),
+                  );
 
-                              sRouter.push(
-                                GiftOrderSummuryRouter(
-                                  sendGiftInfo: tempSendGiftInfo,
-                                ),
-                              );
-                            }
-                          : null,
-                ),
+                  sRouter.push(
+                    GiftOrderSummuryRouter(
+                      sendGiftInfo: tempSendGiftInfo,
+                    ),
+                  );
+                },
               );
             },
           ),

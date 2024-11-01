@@ -4,7 +4,6 @@ import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import '../../../simple_kit.dart';
 
 // ignore: long-method
-@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
 Future<void> sShowAlertPopup(
   BuildContext context, {
   Function()? onWillPop,

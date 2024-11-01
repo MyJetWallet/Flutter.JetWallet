@@ -14,6 +14,7 @@ import 'package:jetwallet/features/withdrawal/store/withdrawal_store.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
+import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -186,58 +187,186 @@ class IbanSendAmountBody extends StatelessObserverWidget {
             showArrow: false,
           ),
           const SpaceH8(),
-          SNumericKeyboard(
+          SNumericKeyboardAmount(
+            widgetSize: widgetSizeFrom(deviceSize),
             onKeyPressed: (value) {
               store.updateAmount(value);
             },
-            button: SButton.black(
-              text: intl.withdraw_continue,
-              callback: store.withValid
-                  ? () async {
-                      sAnalytics.eurWithdrawContinueFromAmoountB(
-                        isCJ: isCJ,
-                        accountIban: bankingAccount?.iban ?? '',
-                        accountLabel: bankingAccount?.label ?? '',
-                        eurAccType: contact.iban ?? '',
-                        eurAccLabel: contact.name ?? '',
-                        enteredAmount: store.withAmount,
-                      );
+            buttonType: SButtonType.primary2,
+            submitButtonActive: store.withValid,
+            submitButtonName: intl.withdraw_continue,
+            onSubmitPressed: () async {
+              sAnalytics.eurWithdrawContinueFromAmoountB(
+                isCJ: isCJ,
+                accountIban: bankingAccount?.iban ?? '',
+                accountLabel: bankingAccount?.label ?? '',
+                eurAccType: contact.iban ?? '',
+                eurAccLabel: contact.name ?? '',
+                enteredAmount: store.withAmount,
+              );
 
-                      if (isCJ) {
-                        await store.loadPreview(null, isCJ);
-                      } else {
-                        sAnalytics.eurWithdrawReferenceSV(
-                          isCJ: isCJ,
-                          accountIban: bankingAccount?.iban ?? '',
-                          accountLabel: bankingAccount?.label ?? '',
-                          eurAccType: contact.iban ?? '',
-                          eurAccLabel: contact.name ?? '',
-                          enteredAmount: store.withAmount,
-                        );
+              if (isCJ) {
+                await store.loadPreview(null, isCJ);
+              } else {
+                sAnalytics.eurWithdrawReferenceSV(
+                  isCJ: isCJ,
+                  accountIban: bankingAccount?.iban ?? '',
+                  accountLabel: bankingAccount?.label ?? '',
+                  eurAccType: contact.iban ?? '',
+                  eurAccLabel: contact.name ?? '',
+                  enteredAmount: store.withAmount,
+                );
 
-                        showReferenceSheet(
-                          context,
-                          (description) {
-                            sAnalytics.eurWithdrawContinueReferecenceButton(
-                              isCJ: isCJ,
-                              accountIban: bankingAccount?.iban ?? '',
-                              accountLabel: bankingAccount?.label ?? '',
-                              eurAccType: contact.iban ?? '',
-                              eurAccLabel: contact.name ?? '',
-                              enteredAmount: store.withAmount,
-                              referenceText: description,
-                            );
+                showReferenceSheet(
+                  context,
+                  (description) {
+                    sAnalytics.eurWithdrawContinueReferecenceButton(
+                      isCJ: isCJ,
+                      accountIban: bankingAccount?.iban ?? '',
+                      accountLabel: bankingAccount?.label ?? '',
+                      eurAccType: contact.iban ?? '',
+                      eurAccLabel: contact.name ?? '',
+                      enteredAmount: store.withAmount,
+                      referenceText: description,
+                    );
 
-                            store.loadPreview(description, isCJ);
-                          },
-                        );
-                      }
-                    }
-                  : null,
-            ),
+                    store.loadPreview(description, isCJ);
+                  },
+                );
+              }
+            },
           ),
         ],
       ),
+      // child: Column(
+      //   children: [
+      //     deviceSize.when(
+      //       small: () => const SizedBox(),
+      //       medium: () => const Spacer(),
+      //     ),
+      //     Column(
+      //       children: [
+      //         Baseline(
+      //           baseline: 45,
+      //           baselineType: TextBaseline.alphabetic,
+      //           child: SActionPriceField(
+      //             widgetSize: widgetSizeFrom(deviceSize),
+      //             price: formatCurrencyStringAmount(
+      //               value: store.withAmount,
+      //               symbol: store.eurCurrency.symbol,
+      //             ),
+      //             helper: '',
+      //             error: store.withAmmountInputError == InputError.limitError
+      //                 ? store.limitError
+      //                 : store.withAmmountInputError.value(),
+      //             //isErrorActive: store.withAmmountInputError.isActive,
+      //             isErrorActive: false,
+      //             pasteLabel: intl.paste,
+      //             onPaste: () async {
+      //               final data = await Clipboard.getData('text/plain');
+      //               if (data?.text != null) {
+      //                 final n = double.tryParse(data!.text!);
+      //                 if (n != null) {
+      //                   store.pasteAmount(n.toString().trim());
+      //                 }
+      //               }
+      //             },
+      //           ),
+      //         ),
+      //       ],
+      //     ),
+      //     const Spacer(),
+      //     if (!store.withAmmountInputError.isActive) ...[
+      //       if (store.showAllWithdraw)
+      //         STransparentInkWell(
+      //           onTap: () {
+      //             store.updateAmount(store.availableCurrency.toString());
+      //           },
+      //           child: Text(
+      //             '${intl.withdrawAll} ${store.availableCurrency.toFormatCount(
+      //               accuracy: store.eurCurrency.accuracy,
+      //               symbol: store.eurCurrency.symbol,
+      //             )}',
+      //             style: sBodyText1Style.copyWith(
+      //               fontWeight: FontWeight.bold,
+      //               color: colors.blue,
+      //             ),
+      //           ),
+      //         ),
+      //     ] else ...[
+      //       Text(
+      //         store.withAmmountInputError == InputError.limitError
+      //             ? store.limitError
+      //             : store.withAmmountInputError.value(),
+      //         style: sBodyText2Style.copyWith(
+      //           color: colors.red,
+      //         ),
+      //       ),
+      //     ],
+      //     const SpaceH20(),
+      //     SPaymentSelectAsset(
+      //       widgetSize: widgetSizeFrom(deviceSize),
+      //       icon: SAccountIcon(
+      //         color: colors.black,
+      //       ),
+      //       name: store.contact?.name ?? '',
+      //       description: store.contact?.iban ?? '',
+      //     ),
+      //     deviceSize.when(
+      //       small: () => const Spacer(),
+      //       medium: () => const SpaceH20(),
+      //     ),
+      //     SNumericKeyboardAmount(
+      //       widgetSize: widgetSizeFrom(deviceSize),
+      //       onKeyPressed: (value) {
+      //         store.updateAmount(value);
+      //       },
+      //       buttonType: SButtonType.primary2,
+      //       submitButtonActive: store.withValid,
+      //       submitButtonName: intl.addCircleCard_continue,
+      //       onSubmitPressed: () {
+      //         sAnalytics.eurWithdrawContinueFromAmoountB(
+      //           isCJ: isCJ,
+      //           accountIban: bankingAccount?.iban ?? '',
+      //           accountLabel: bankingAccount?.label ?? '',
+      //           eurAccType: contact.iban ?? '',
+      //           eurAccLabel: contact.name ?? '',
+      //           enteredAmount: store.withAmount,
+      //         );
+      //
+      //         if (isCJ) {
+      //           store.loadPreview(null, isCJ);
+      //         } else {
+      //           sAnalytics.eurWithdrawReferenceSV(
+      //             isCJ: isCJ,
+      //             accountIban: bankingAccount?.iban ?? '',
+      //             accountLabel: bankingAccount?.label ?? '',
+      //             eurAccType: contact.iban ?? '',
+      //             eurAccLabel: contact.name ?? '',
+      //             enteredAmount: store.withAmount,
+      //           );
+      //
+      //           showReferenceSheet(
+      //             context,
+      //             (description) {
+      //               sAnalytics.eurWithdrawContinueReferecenceButton(
+      //                 isCJ: isCJ,
+      //                 accountIban: bankingAccount?.iban ?? '',
+      //                 accountLabel: bankingAccount?.label ?? '',
+      //                 eurAccType: contact.iban ?? '',
+      //                 eurAccLabel: contact.name ?? '',
+      //                 enteredAmount: store.withAmount,
+      //                 referenceText: description,
+      //               );
+      //
+      //               store.loadPreview(description, isCJ);
+      //             },
+      //           );
+      //         }
+      //       },
+      //     ),
+      //   ],
+      // ),
     );
   }
 }

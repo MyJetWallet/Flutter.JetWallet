@@ -6,7 +6,6 @@ import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'CJAccountLabelRouter')
 class CJAccountLabelScreen extends StatefulObserverWidget {
@@ -85,39 +84,38 @@ class _CJAccountLabelScreenState extends State<CJAccountLabelScreen> {
                     SPaddingH24(
                       child: Material(
                         color: sKit.colors.grey5,
-                        child: SButton.blue(
-                          text: intl.iban_edit_save_changes,
-                          callback: isButtonActive
-                              ? () async {
-                                  loader.startLoadingImmediately();
+                        child: SPrimaryButton2(
+                          active: isButtonActive,
+                          name: intl.iban_edit_save_changes,
+                          onTap: () async {
+                            loader.startLoadingImmediately();
 
-                                  try {
-                                    final resp = await sNetwork.getWalletModule().postAccountChangeLabel(
-                                          accountId: widget.accountId,
-                                          label: labelController.text.trim(),
-                                        );
+                            try {
+                              final resp = await sNetwork.getWalletModule().postAccountChangeLabel(
+                                    accountId: widget.accountId,
+                                    label: labelController.text.trim(),
+                                  );
 
-                                    if (resp.hasError) {
-                                      sNotification.showError(
-                                        resp.error?.cause ?? intl.something_went_wrong,
-                                        id: 1,
-                                        needFeedback: true,
-                                      );
-                                      loader.finishLoadingImmediately();
-                                    } else {
-                                      Navigator.pop(
-                                        context,
-                                        labelController.text.trim(),
-                                      );
-                                    }
-                                  } catch (e) {
-                                    sNotification.showError(
-                                      intl.something_went_wrong_try_again,
-                                    );
-                                    loader.finishLoadingImmediately();
-                                  }
-                                }
-                              : null,
+                              if (resp.hasError) {
+                                sNotification.showError(
+                                  resp.error?.cause ?? intl.something_went_wrong,
+                                  id: 1,
+                                  needFeedback: true,
+                                );
+                                loader.finishLoadingImmediately();
+                              } else {
+                                Navigator.pop(
+                                  context,
+                                  labelController.text.trim(),
+                                );
+                              }
+                            } catch (e) {
+                              sNotification.showError(
+                                intl.something_went_wrong_try_again,
+                              );
+                              loader.finishLoadingImmediately();
+                            }
+                          },
                         ),
                       ),
                     ),

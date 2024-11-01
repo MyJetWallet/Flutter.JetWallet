@@ -5,7 +5,6 @@ import 'package:simple_kit/core/simple_kit.dart';
 import 'package:simple_kit/modules/shared/simple_spacers.dart';
 import 'package:simple_kit/modules/texts/simple_text_styles.dart';
 
-@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
 class SIconTextButton extends StatefulWidget {
   const SIconTextButton({
     super.key,

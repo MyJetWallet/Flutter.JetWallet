@@ -12,7 +12,6 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 
 @RoutePage(name: 'SendCardDetailRouter')
@@ -201,21 +200,20 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
                 SPaddingH24(
                   child: Material(
                     color: colors.grey5,
-                    child: SButton.blue(
-                      text: intl.addCircleCard_continue,
-                      callback: store.isContinueAvailable && getIt<AppStore>().isAcceptedGlobalSendTC
-                          ? () {
-                              sAnalytics.globalSendContinueReceiveDetail(
-                                asset: store.currency,
-                                sendMethodType: '1',
-                                destCountry: store.countryCode,
-                                paymentMethod: store.method?.name ?? '',
-                                globalSendType: store.method?.methodId ?? '',
-                              );
+                    child: SPrimaryButton2(
+                      active: store.isContinueAvailable && getIt<AppStore>().isAcceptedGlobalSendTC,
+                      name: intl.addCircleCard_continue,
+                      onTap: () {
+                        sAnalytics.globalSendContinueReceiveDetail(
+                          asset: store.currency,
+                          sendMethodType: '1',
+                          destCountry: store.countryCode,
+                          paymentMethod: store.method?.name ?? '',
+                          globalSendType: store.method?.methodId ?? '',
+                        );
 
-                              store.submit();
-                            }
-                          : null,
+                        store.submit();
+                      },
                     ),
                   ),
                 ),

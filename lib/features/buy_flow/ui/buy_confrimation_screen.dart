@@ -16,6 +16,7 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
@@ -104,7 +105,7 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
             child: Column(
               children: [
                 if (currency.networksForBlockchainSend.isEmpty) _buildInfoWidget(),
-                STransaction(
+                WhatToWhatConvertWidget(
                   isLoading: !store.isDataLoaded,
                   fromAssetIconUrl: store.payCurrency.iconUrl,
                   fromAssetDescription: store.payCurrency.symbol,
@@ -192,21 +193,20 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                 ],
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 24),
-                  child: SButton.blue(
-                    text: intl.previewBuyWithAsset_confirm,
-                    callback: !store.loader.loading && store.getCheckbox
-                        ? () {
-                            sAnalytics.tapOnTheButtonConfirmOnBuyOrderSummary(
-                              pmType: store.pmType,
-                              buyPM: store.buyPM,
-                              sourceCurrency: 'EUR',
-                              destinationWallet: store.buyAsset ?? '',
-                              sourceBuyAmount: store.paymentAmount.toString(),
-                              destinationBuyAmount: store.buyAmount.toString(),
-                            );
-                            store.createPayment();
-                          }
-                        : null,
+                  child: SPrimaryButton2(
+                    active: !store.loader.loading && store.getCheckbox,
+                    name: intl.previewBuyWithAsset_confirm,
+                    onTap: () {
+                      sAnalytics.tapOnTheButtonConfirmOnBuyOrderSummary(
+                        pmType: store.pmType,
+                        buyPM: store.buyPM,
+                        sourceCurrency: 'EUR',
+                        destinationWallet: store.buyAsset ?? '',
+                        sourceBuyAmount: store.paymentAmount.toString(),
+                        destinationBuyAmount: store.buyAmount.toString(),
+                      );
+                      store.createPayment();
+                    },
                   ),
                 ),
                 Text(

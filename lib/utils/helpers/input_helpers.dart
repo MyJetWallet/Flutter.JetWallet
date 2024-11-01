@@ -1,7 +1,7 @@
 import 'package:decimal/decimal.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
 
 import '../models/currency_model.dart';

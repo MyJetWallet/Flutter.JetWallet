@@ -7,7 +7,6 @@ import 'package:jetwallet/features/simple_card/ui/widgets/password_requirement.d
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../core/di/di.dart';
 import '../../../core/services/local_storage_service.dart';
@@ -143,82 +142,81 @@ class _SetUpPasswordScreenBody extends StatelessObserverWidget {
                   children: [
                     Material(
                       color: Colors.transparent,
-                      child: SButton.black(
-                        text: intl.simple_card_password_continue,
-                        callback: store.isButtonSaveActive
-                            ? () async {
-                                sAnalytics.tapContinueSetupPassword(
-                                  cardID: simpleCardStore.cardFull?.cardId ?? '',
-                                );
-                                if (store.canClick) {
-                                  store.setCanClick(false);
-                                  Timer(
-                                    const Duration(
-                                      seconds: 2,
-                                    ),
-                                    () => store.setCanClick(true),
+                      child: SPrimaryButton1(
+                        active: store.isButtonSaveActive,
+                        name: intl.simple_card_password_continue,
+                        onTap: () async {
+                          sAnalytics.tapContinueSetupPassword(
+                            cardID: simpleCardStore.cardFull?.cardId ?? '',
+                          );
+                          if (store.canClick) {
+                            store.setCanClick(false);
+                            Timer(
+                              const Duration(
+                                seconds: 2,
+                              ),
+                              () => store.setCanClick(true),
+                            );
+                          } else {
+                            return;
+                          }
+
+                          if (!store.preContinueCheck()) return;
+
+                          if (isCreatePassword) {
+                            final storageService = getIt.get<LocalStorageService>();
+
+                            final pin = await storageService.getValue(pinStatusKey);
+                            await simpleCardStore.createCard(
+                              pin ?? '',
+                              store.password,
+                            );
+                          } else {
+                            sAnalytics.viewConfirmWithPin(
+                              cardID: simpleCardStore.cardFull?.cardId ?? '',
+                            );
+                            await Navigator.push(
+                              context,
+                              PageRouteBuilder(
+                                opaque: false,
+                                barrierColor: Colors.white,
+                                pageBuilder: (BuildContext context, _, __) {
+                                  return PinScreen(
+                                    union: const Change(),
+                                    isConfirmCard: true,
+                                    isChangePhone: true,
+                                    onChangePhone: (String newPin) {
+                                      store.setCardPassword(
+                                        simpleCardStore.cardFull?.cardId ?? '',
+                                      );
+                                    },
+                                    onBackPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    onWrongPin: (String error) {},
                                   );
-                                } else {
-                                  return;
-                                }
+                                },
+                                transitionsBuilder: (
+                                  context,
+                                  animation,
+                                  secondaryAnimation,
+                                  child,
+                                ) {
+                                  const begin = Offset(0.0, 1.0);
+                                  const end = Offset.zero;
+                                  const curve = Curves.ease;
 
-                                if (!store.preContinueCheck()) return;
+                                  final tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
-                                if (isCreatePassword) {
-                                  final storageService = getIt.get<LocalStorageService>();
-
-                                  final pin = await storageService.getValue(pinStatusKey);
-                                  await simpleCardStore.createCard(
-                                    pin ?? '',
-                                    store.password,
+                                  return SlideTransition(
+                                    position: animation.drive(tween),
+                                    child: child,
                                   );
-                                } else {
-                                  sAnalytics.viewConfirmWithPin(
-                                    cardID: simpleCardStore.cardFull?.cardId ?? '',
-                                  );
-                                  await Navigator.push(
-                                    context,
-                                    PageRouteBuilder(
-                                      opaque: false,
-                                      barrierColor: Colors.white,
-                                      pageBuilder: (BuildContext context, _, __) {
-                                        return PinScreen(
-                                          union: const Change(),
-                                          isConfirmCard: true,
-                                          isChangePhone: true,
-                                          onChangePhone: (String newPin) {
-                                            store.setCardPassword(
-                                              simpleCardStore.cardFull?.cardId ?? '',
-                                            );
-                                          },
-                                          onBackPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          onWrongPin: (String error) {},
-                                        );
-                                      },
-                                      transitionsBuilder: (
-                                        context,
-                                        animation,
-                                        secondaryAnimation,
-                                        child,
-                                      ) {
-                                        const begin = Offset(0.0, 1.0);
-                                        const end = Offset.zero;
-                                        const curve = Curves.ease;
-
-                                        final tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-                                        return SlideTransition(
-                                          position: animation.drive(tween),
-                                          child: child,
-                                        );
-                                      },
-                                    ),
-                                  );
-                                }
-                              }
-                            : null,
+                                },
+                              ),
+                            );
+                          }
+                        },
                       ),
                     ),
                     const SpaceH42(),

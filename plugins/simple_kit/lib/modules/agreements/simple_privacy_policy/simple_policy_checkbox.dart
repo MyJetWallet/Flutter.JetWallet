@@ -3,7 +3,6 @@ import 'package:simple_kit/modules/agreements/simple_privacy_policy/simple_polic
 
 import '../../../simple_kit.dart';
 
-@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
 class SPolicyCheckbox extends StatelessWidget {
   const SPolicyCheckbox({
     super.key,

@@ -9,8 +9,11 @@ import 'package:jetwallet/features/transfer_flow/widgets/transfer_confirmation_i
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/helpers/icons_extension.dart';
+import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/transfer/account_transfer_preview_request_model.dart';
 
@@ -78,7 +81,7 @@ class _TransferConfirmationScreenBody extends StatelessObserverWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                STransaction(
+                WhatToWhatConvertWidget(
                   isLoading: !store.isDataLoaded,
                   fromAssetIconUrl: store.eurCurrency.iconUrl,
                   fromAssetDescription: store.fromLable,
@@ -121,13 +124,12 @@ class _TransferConfirmationScreenBody extends StatelessObserverWidget {
                 const Spacer(),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 24),
-                  child: SButton.blue(
-                    text: intl.previewBuyWithAsset_confirm,
-                    callback: !store.loader.loading
-                        ? () {
-                            store.confirmTransfer();
-                          }
-                        : null,
+                  child: SPrimaryButton2(
+                    active: !store.loader.loading,
+                    name: intl.previewBuyWithAsset_confirm,
+                    onTap: () {
+                      store.confirmTransfer();
+                    },
                   ),
                 ),
                 const SizedBox(height: 8),

@@ -245,9 +245,7 @@ class DeepLinkService {
     final appStore = getIt.get<AppStore>();
 
     if (source == SourceScreen.bannerOnMarket) {
-      await Future.delayed(const Duration(milliseconds: 100));
-      sRouter.popUntilRoot();
-      getIt<BottomBarStore>().setHomeTab(BottomItemType.rewards);
+      await sRouter.push(RewardsRouter(actualRewards: const []));
     } else if (source == SourceScreen.bannerOnRewards) {
       appStore.setOpenBottomMenu(true);
 

@@ -6,8 +6,8 @@ import 'package:jetwallet/features/auth/user_data/store/user_data_store.dart';
 import 'package:jetwallet/features/auth/user_data/ui/widgets/birth_date/store/selected_date_store.dart';
 import 'package:jetwallet/utils/helpers/date_helper.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
+import 'package:simple_kit/modules/buttons/basic_buttons/primary_button/public/simple_primary_button_4.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 void showBirthDatePicker(
   BuildContext context,
@@ -102,12 +102,13 @@ class _SDatePicker extends StatelessObserverWidget {
           ],
         ),
         SPaddingH24(
-          child: SButton.blue(
-            text: intl.user_data_bottom_sheet_confirm,
-            callback: () {
+          child: SPrimaryButton4(
+            name: intl.user_data_bottom_sheet_confirm,
+            onTap: () {
               store.updateDate(date, userDateStore);
               Navigator.of(context).pop();
             },
+            active: true,
           ),
         ),
       ],

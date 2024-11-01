@@ -15,6 +15,7 @@ import 'package:simple_networking/modules/signal_r/models/invest_positions_model
 import 'package:simple_networking/modules/wallet_api/models/invest/new_invest_request_model.dart';
 
 import '../../../../core/di/di.dart';
+import '../../../../core/router/app_router.dart';
 import '../../../../core/services/signal_r/signal_r_service_new.dart';
 import '../../../../utils/helpers/currency_from.dart';
 import '../../../actions/action_send/widgets/show_send_timer_alert_or.dart';
@@ -89,7 +90,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
 
     final listToShow = InvestHistory.of(context).investPendingItems;
     final currencies = sSignalRModules.currenciesList;
-
+    final currency = currencyFrom(currencies, 'USDT');
     final investStore = getIt.get<InvestDashboardStore>();
     final investPositionsStore = getIt.get<InvestPositionsStore>();
 
@@ -134,14 +135,17 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                               : intl.invest_new_invest,
                           onButtonTap: () {
                             if (sSignalRModules.investWalletData?.balance == Decimal.zero) {
+                              final actualAsset = currency;
                               final kycState = getIt.get<KycService>();
                               final kycAlertHandler = getIt.get<KycAlertHandler>();
                               if (kycState.tradeStatus == kycOperationStatus(KycStatus.allowed)) {
                                 showSendTimerAlertOr(
                                   context: context,
-                                  or: () {
-                                    // There used to be a push on ConvertRouter here, it shouldn't be like that, that's why I deleted it ¯\_(ツ)_/¯ (Yaroslav)
-                                  },
+                                  or: () => sRouter.push(
+                                    ConvertRouter(
+                                      fromCurrency: actualAsset,
+                                    ),
+                                  ),
                                   from: [BlockingType.trade],
                                 );
                               } else {
@@ -150,9 +154,11 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                                   isProgress: kycState.verificationInProgress,
                                   currentNavigate: () => showSendTimerAlertOr(
                                     context: context,
-                                    or: () {
-                                      // There used to be a push on ConvertRouter here, it shouldn't be like that, that's why I deleted it ¯\_(ツ)_/¯ (Yaroslav)
-                                    },
+                                    or: () => sRouter.push(
+                                      ConvertRouter(
+                                        fromCurrency: actualAsset,
+                                      ),
+                                    ),
                                     from: [BlockingType.trade],
                                   ),
                                   requiredDocuments: kycState.requiredDocuments,
