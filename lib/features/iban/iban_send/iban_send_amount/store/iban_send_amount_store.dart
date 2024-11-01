@@ -296,15 +296,13 @@ abstract class _IbanSendAmountStoreBase with Store {
   @action
   Future<void> loadFee(String? description, bool isCJ) async {
     if (currency != null) {
-      final accounts = sSignalRModules.bankingProfileData?.banking?.accounts ?? [];
-
       final model = GetCryptoSellRequestModel(
         buyFixed: true,
         paymentAsset: currency?.symbol ?? '',
         buyAsset: eurCurrency.symbol,
         buyAmount: Decimal.parse('10'),
         paymentAmount: Decimal.parse('10'),
-        destinationAccountId: isCJ ? 'clearjuction_account' : accounts.first.accountId ?? '',
+        destinationAccountId: isCJ ? 'clearjuction_account' : account?.accountId ?? '',
         selfWithdrawalData: isCJ
             ? SelfWithdrawalDataModel(
                 toIban: contact?.iban ?? '',
@@ -359,15 +357,13 @@ abstract class _IbanSendAmountStoreBase with Store {
       loader.startLoadingImmediately();
 
       if (currency != null) {
-        final accounts = sSignalRModules.bankingProfileData?.banking?.accounts ?? [];
-
         final model = GetCryptoSellRequestModel(
           buyFixed: inputMode != WithdrawalInputMode.youSend,
           paymentAsset: currency?.symbol ?? '',
           buyAsset: eurCurrency.symbol,
           buyAmount: Decimal.parse(baseConversionValue),
           paymentAmount: Decimal.parse(withAmount),
-          destinationAccountId: isCJ ? 'clearjuction_account' : accounts.first.accountId ?? '',
+          destinationAccountId: isCJ ? 'clearjuction_account' : account?.accountId ?? '',
           selfWithdrawalData: isCJ
               ? SelfWithdrawalDataModel(
                   toIban: contact?.iban ?? '',
@@ -408,7 +404,7 @@ abstract class _IbanSendAmountStoreBase with Store {
               data: null,
               previewRequest: previewModel,
               contact: contact!,
-              account: accounts.first,
+              account: account!,
               isCJ: isCJ,
               cryptoSell: response.data,
             ),
