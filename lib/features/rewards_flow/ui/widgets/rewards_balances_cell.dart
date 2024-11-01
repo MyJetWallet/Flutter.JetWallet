@@ -12,6 +12,7 @@ import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/rewards_profile_model.dart';
 
 import '../../../app/store/app_store.dart';
@@ -237,46 +238,47 @@ class _RewardTransferPopupState extends State<RewardTransferPopup> {
                 ),
                 const SpaceH36(),
                 //if (isClaimButtonActive) ...[
-                SPrimaryButton1(
-                  name: isClaimButtonActive ? intl.reward_transfer : '',
+                SButton.black(
+                  text: isClaimButtonActive ? intl.reward_transfer : '',
                   icon: isClaimButtonActive ? null : const LoaderSpinner(),
-                  active: isClaimButtonActive,
-                  onTap: () async {
-                    setState(() {
-                      isClaimButtonActive = false;
-                    });
-                    try {
-                      final response = await sNetwork.getWalletModule().postRewardClaim(
-                            data: widget.data,
-                          );
-                      setState(() {
-                        isClaimButtonActive = true;
-                      });
+                  callback: isClaimButtonActive
+                      ? () async {
+                          setState(() {
+                            isClaimButtonActive = false;
+                          });
+                          try {
+                            final response = await sNetwork.getWalletModule().postRewardClaim(
+                                  data: widget.data,
+                                );
+                            setState(() {
+                              isClaimButtonActive = true;
+                            });
 
-                      Navigator.pop(sRouter.navigatorKey.currentContext!);
+                            Navigator.pop(sRouter.navigatorKey.currentContext!);
 
-                      if (!response.hasError) {
-                        showSuccessRewardSheet(
-                          widget.data.assetSymbol ?? '',
-                          '${widget.data.amount}',
-                          widget.fAmount,
-                        );
-                      } else {
-                        sNotification.showError(
-                          response.error?.cause ?? intl.something_went_wrong,
-                          id: 1,
-                        );
-                      }
-                    } catch (e) {
-                      Navigator.pop(sRouter.navigatorKey.currentContext!);
-                      sNotification.showError(
-                        intl.something_went_wrong_try_again,
-                        id: 1,
-                      );
+                            if (!response.hasError) {
+                              showSuccessRewardSheet(
+                                widget.data.assetSymbol ?? '',
+                                '${widget.data.amount}',
+                                widget.fAmount,
+                              );
+                            } else {
+                              sNotification.showError(
+                                response.error?.cause ?? intl.something_went_wrong,
+                                id: 1,
+                              );
+                            }
+                          } catch (e) {
+                            Navigator.pop(sRouter.navigatorKey.currentContext!);
+                            sNotification.showError(
+                              intl.something_went_wrong_try_again,
+                              id: 1,
+                            );
 
-                      return;
-                    }
-                  },
+                            return;
+                          }
+                        }
+                      : null,
                 ),
                 //] else ...[
                 //  const LoaderSpinner(),

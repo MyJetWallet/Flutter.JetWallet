@@ -11,6 +11,7 @@ import 'package:jetwallet/features/iban_address_book/store/iban_address_book_sto
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
 
@@ -269,22 +270,23 @@ class _BodyAdressBookUnlimitState extends State<_BodyAdressBookUnlimit> {
                       SPaddingH24(
                         child: Material(
                           color: colors.grey5,
-                          child: SPrimaryButton1(
-                            active: IbanAddressBookStore.of(context).isButtonActive,
-                            name: intl.iban_edit_save_changes,
-                            onTap: () async {
-                              sAnalytics.eurWithdrawTapSaveChangesEdit(
-                                isCJ: false,
-                                accountIban: widget.bankingAccount?.iban ?? '',
-                                accountLabel: widget.bankingAccount?.label ?? '',
-                              );
+                          child: SButton.black(
+                            text: intl.iban_edit_save_changes,
+                            callback: IbanAddressBookStore.of(context).isButtonActive
+                                ? () async {
+                                    sAnalytics.eurWithdrawTapSaveChangesEdit(
+                                      isCJ: false,
+                                      accountIban: widget.bankingAccount?.iban ?? '',
+                                      accountLabel: widget.bankingAccount?.label ?? '',
+                                    );
 
-                              final result = await IbanAddressBookStore.of(context).editAccount();
+                                    final result = await IbanAddressBookStore.of(context).editAccount();
 
-                              if (result) {
-                                Navigator.pop(context, true);
-                              }
-                            },
+                                    if (result) {
+                                      Navigator.pop(context, true);
+                                    }
+                                  }
+                                : null,
                           ),
                         ),
                       ),
@@ -331,30 +333,31 @@ class _BodyAdressBookUnlimitState extends State<_BodyAdressBookUnlimit> {
                       SPaddingH24(
                         child: Material(
                           color: colors.grey5,
-                          child: SPrimaryButton2(
-                            active: IbanAddressBookStore.of(context).isButtonActive,
-                            name: intl.create_continue,
-                            onTap: () async {
-                              sAnalytics.eurWithdrawTapContinueAddReceiving(
-                                isCJ: false,
-                                accountIban: widget.bankingAccount?.iban ?? '',
-                                accountLabel: widget.bankingAccount?.label ?? '',
-                              );
+                          child: SButton.blue(
+                            text: intl.create_continue,
+                            callback: IbanAddressBookStore.of(context).isButtonActive
+                                ? () async {
+                                    sAnalytics.eurWithdrawTapContinueAddReceiving(
+                                      isCJ: false,
+                                      accountIban: widget.bankingAccount?.iban ?? '',
+                                      accountLabel: widget.bankingAccount?.label ?? '',
+                                    );
 
-                              final result = await IbanAddressBookStore.of(context).addAccount();
+                                    final result = await IbanAddressBookStore.of(context).addAccount();
 
-                              if (result) {
-                                if (!store.isEditMode) {
-                                  await AnchorsHelper().addAddExternalIbanAnchor(
-                                    widget.bankingAccount?.accountId ?? 'clearjuction_account',
-                                  );
-                                }
+                                    if (result) {
+                                      if (!store.isEditMode) {
+                                        await AnchorsHelper().addAddExternalIbanAnchor(
+                                          widget.bankingAccount?.accountId ?? 'clearjuction_account',
+                                        );
+                                      }
 
-                                if (Navigator.canPop(context)) {
-                                  Navigator.pop(context, true);
-                                }
-                              }
-                            },
+                                      if (Navigator.canPop(context)) {
+                                        Navigator.pop(context, true);
+                                      }
+                                    }
+                                  }
+                                : null,
                           ),
                         ),
                       ),

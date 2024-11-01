@@ -10,6 +10,7 @@ import 'package:jetwallet/features/kyc/allow_camera/store/allow_camera_store.dar
 import 'package:jetwallet/utils/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'AllowBiometricRoute')
 class AllowBiometric extends StatelessWidget {
@@ -109,12 +110,11 @@ class _AllowCameraScreenBodyState extends State<_AllowBiometricScreenBody> with 
           left: 24,
           right: 24,
         ),
-        child: SPrimaryButton2(
-          active: true,
-          onTap: () async {
+        child: SButton.blue(
+          callback: () async {
             await notifier.handleBiometricPermission();
           },
-          name: intl.allowCamera_goToSettings,
+          text: intl.allowCamera_goToSettings,
         ),
       ),
       child: CustomScrollView(

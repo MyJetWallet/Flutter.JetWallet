@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
+@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
 class SConfirmActionTimerPainter extends CustomPainter {
   SConfirmActionTimerPainter({
     required this.animation,

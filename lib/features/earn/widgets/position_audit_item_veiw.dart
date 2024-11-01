@@ -14,8 +14,8 @@ import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
-import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_audit_history_model.dart';
 
 import '../../../../../../../../../core/di/di.dart';
@@ -174,7 +174,7 @@ class _SellDetailsHeader extends StatelessWidget {
 
     return Column(
       children: [
-        WhatToWhatConvertWidget(
+        STransaction(
           removeDefaultPaddings: true,
           isLoading: false,
           fromAssetIconUrl: asset.iconUrl,

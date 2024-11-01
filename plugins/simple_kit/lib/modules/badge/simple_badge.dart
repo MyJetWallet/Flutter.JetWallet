@@ -12,6 +12,7 @@ enum SBadgeStatus {
   pending,
 }
 
+@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
 class SBadge extends StatelessWidget {
   const SBadge({
     super.key,

@@ -17,7 +17,6 @@ import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/modules/buttons/basic_buttons/primary_button/public/simple_primary_button_4.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
@@ -196,50 +195,51 @@ class _SingInBody extends StatelessObserverWidget {
                     ),
                     const SpaceH20(),
                     SPaddingH24(
-                      child: SPrimaryButton4(
-                        active: credentials.emailIsNotEmptyAndPolicyChecked,
-                        name: intl.register_continue,
-                        onTap: () {
-                          final logger = getIt.get<SimpleLoggerService>();
-                          logger.log(
-                            level: Level.info,
-                            place: 'Sign in',
-                            message: 'Press button',
-                          );
-                          logger.log(
-                            level: Level.info,
-                            place: 'Sign in',
-                            message: 'credentials.emailValid = ${credentials.emailValid}',
-                          );
-                          if (credentials.emailValid) {
-                            SingleSingInStore.of(context).setIsEmailError(false);
+                      child: SButton.blue(
+                        text: intl.register_continue,
+                        callback: credentials.emailIsNotEmptyAndPolicyChecked
+                            ? () {
+                                final logger = getIt.get<SimpleLoggerService>();
+                                logger.log(
+                                  level: Level.info,
+                                  place: 'Sign in',
+                                  message: 'Press button',
+                                );
+                                logger.log(
+                                  level: Level.info,
+                                  place: 'Sign in',
+                                  message: 'credentials.emailValid = ${credentials.emailValid}',
+                                );
+                                if (credentials.emailValid) {
+                                  SingleSingInStore.of(context).setIsEmailError(false);
 
-                            sAnalytics.signInFlowEmailContinue();
+                                  sAnalytics.signInFlowEmailContinue();
 
-                            logger.log(
-                              level: Level.info,
-                              place: 'Sign in',
-                              message: 'befor signInStore.singleSingIn',
-                            );
+                                  logger.log(
+                                    level: Level.info,
+                                    place: 'Sign in',
+                                    message: 'befor signInStore.singleSingIn',
+                                  );
 
-                            signInStore.singleSingIn();
-                          } else {
-                            logger.log(
-                              level: Level.info,
-                              place: 'Sign in',
-                              message: 'befor setIsEmailError(true)',
-                            );
-                            SingleSingInStore.of(context).setIsEmailError(true);
+                                  signInStore.singleSingIn();
+                                } else {
+                                  logger.log(
+                                    level: Level.info,
+                                    place: 'Sign in',
+                                    message: 'befor setIsEmailError(true)',
+                                  );
+                                  SingleSingInStore.of(context).setIsEmailError(true);
 
-                            logger.log(
-                              level: Level.info,
-                              place: 'Sign in',
-                              message: 'befor showError',
-                            );
+                                  logger.log(
+                                    level: Level.info,
+                                    place: 'Sign in',
+                                    message: 'befor showError',
+                                  );
 
-                            sNotification.showError(intl.register_invalidEmail);
-                          }
-                        },
+                                  sNotification.showError(intl.register_invalidEmail);
+                                }
+                              }
+                            : null,
                       ),
                     ),
                     const SpaceH42(),
