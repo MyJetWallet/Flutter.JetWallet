@@ -184,7 +184,7 @@ abstract class _DisclaimerStoreBase with Store {
       context: context,
       child: PopScope(
         canPop: false,
-        onPopInvokedWithResult: (_, __) {
+        onPopInvoked: (_) {
           Future.value(false);
         },
         child: Column(

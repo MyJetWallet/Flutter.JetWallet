@@ -9,7 +9,7 @@ part 'earn_details_store.g.dart';
 class EarnsDetailsStore extends _EarnsDetailsStoreBase with _$EarnsDetailsStore {
   EarnsDetailsStore() : super();
 
-  _EarnsDetailsStoreBase of(BuildContext context) => Provider.of<EarnsDetailsStore>(context, listen: false);
+  static _EarnsDetailsStoreBase of(BuildContext context) => Provider.of<EarnsDetailsStore>(context, listen: false);
 }
 
 abstract class _EarnsDetailsStoreBase with Store {

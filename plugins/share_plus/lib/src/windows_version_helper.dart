@@ -1,6 +1,5 @@
-import 'dart:ffi';
 import 'dart:io';
-
+import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:win32/win32.dart';
 
@@ -22,7 +21,7 @@ class VersionHelper {
         ..wReserved = 0;
       final rtlGetVersion = DynamicLibrary.open('ntdll.dll')
           .lookupFunction<Void Function(Pointer<OSVERSIONINFOEX>), void Function(Pointer<OSVERSIONINFOEX>)>(
-              'RtlGetVersion',);
+              'RtlGetVersion');
       rtlGetVersion(pointer);
       isWindows10RS5OrGreater = pointer.ref.dwBuildNumber >= kWindows10RS5BuildNumber;
       calloc.free(pointer);

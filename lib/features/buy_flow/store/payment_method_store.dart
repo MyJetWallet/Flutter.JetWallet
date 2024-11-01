@@ -19,7 +19,7 @@ part 'payment_method_store.g.dart';
 class PaymentMethodStore extends _PaymentMethodStoreBase with _$PaymentMethodStore {
   PaymentMethodStore() : super();
 
-  PaymentMethodStore of(BuildContext context) => Provider.of<PaymentMethodStore>(context, listen: false);
+  static PaymentMethodStore of(BuildContext context) => Provider.of<PaymentMethodStore>(context, listen: false);
 }
 
 abstract class _PaymentMethodStoreBase with Store {
