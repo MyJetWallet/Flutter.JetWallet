@@ -9,7 +9,6 @@ import 'package:jetwallet/widgets/result_screens/widgets/progress_bar.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../utils/constants.dart';
 
@@ -117,9 +116,10 @@ class _SuccessScreenBodyState extends State<_SuccessScreenBody> {
                             ),
                           ),
                           const SpaceH24(),
-                          SButton.blue(
-                            text: intl.kycAlertHandler_continue,
-                            callback: () {
+                          SPrimaryButton2(
+                            active: true,
+                            name: intl.kycAlertHandler_continue,
+                            onTap: () {
                               setState(() {
                                 shouldPop = false;
                               });

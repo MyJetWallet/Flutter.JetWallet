@@ -6,7 +6,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../simple_kit.dart';
 
-@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
 class SNetworkSvg24 extends StatelessWidget {
   const SNetworkSvg24({
     super.key,

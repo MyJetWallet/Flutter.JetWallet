@@ -10,6 +10,7 @@ import 'package:jetwallet/features/transfer_flow/store/transfer_amount_store.dar
 import 'package:jetwallet/features/transfer_flow/widgets/show_transfer_from_to_bottom_sheet.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
+import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
@@ -175,31 +176,30 @@ class _TrancferBody extends StatelessWidget {
                 ],
               ),
             ),
-            SNumericKeyboard(
+            SNumericKeyboardAmount(
+              widgetSize: widgetSizeFrom(deviceSize),
               onKeyPressed: (value) {
                 store.updateInputValue(value);
               },
-              button: SButton.black(
-                text: intl.addCircleCard_continue,
-                callback: store.isContinueAvaible
-                    ? () {
-                        sAnalytics.tapOnTheContinueWithTransferAmountButton(
-                          transferFrom: store.fromType?.analyticsValue ?? 'none',
-                          transferTo: store.toType?.analyticsValue ?? 'none',
-                          enteredAmount: store.inputValue,
-                        );
-                        sRouter.push(
-                          TransferConfirmationRoute(
-                            fromCard: store.fromCard,
-                            toCard: store.toCard,
-                            fromAccount: store.fromAccount,
-                            toAccount: store.toAccount,
-                            amount: Decimal.parse(store.inputValue),
-                          ),
-                        );
-                      }
-                    : null,
-              ),
+              buttonType: SButtonType.primary2,
+              submitButtonActive: store.isContinueAvaible,
+              submitButtonName: intl.addCircleCard_continue,
+              onSubmitPressed: () {
+                sAnalytics.tapOnTheContinueWithTransferAmountButton(
+                  transferFrom: store.fromType?.analyticsValue ?? 'none',
+                  transferTo: store.toType?.analyticsValue ?? 'none',
+                  enteredAmount: store.inputValue,
+                );
+                sRouter.push(
+                  TransferConfirmationRoute(
+                    fromCard: store.fromCard,
+                    toCard: store.toCard,
+                    fromAccount: store.fromAccount,
+                    toAccount: store.toAccount,
+                    amount: Decimal.parse(store.inputValue),
+                  ),
+                );
+              },
             ),
           ],
         );

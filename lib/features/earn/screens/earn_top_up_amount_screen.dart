@@ -17,6 +17,7 @@ import 'package:jetwallet/features/wallet/helper/navigate_to_wallet.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
+import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -198,31 +199,29 @@ class _EarnWithdrawalAmountBody extends StatelessWidget {
                 ],
               ),
             ),
-            SNumericKeyboard(
+            SNumericKeyboardAmount(
+              widgetSize: widgetSizeFrom(deviceSize),
               onKeyPressed: (value) {
                 store.updateInputValue(value);
               },
-              button: SButton.black(
-                text: intl.addCircleCard_continue,
-                callback: store.isContinueAvaible
-                    ? () {
-                        sAnalytics.tapOnTheContinueEarnAmountDepositButton(
-                          assetName: store.earnPosition.offers.first.assetId,
-                          earnAPYrate:
-                              store.earnPosition.offers.first.apyRate?.toStringAsFixed(2) ?? Decimal.zero.toString(),
-                          earnPlanName: store.earnPosition.offers.first.description ?? '',
-                          earnWithdrawalType: store.earnPosition.offers.first.withdrawType.name,
-                          earnDepositAmount: store.cryptoInputValue,
-                        );
-                        sRouter.push(
-                          EarnTopUpOrderSummaryRouter(
-                            earnPosition: store.earnPosition,
-                            amount: Decimal.parse(store.cryptoInputValue),
-                          ),
-                        );
-                      }
-                    : null,
-              ),
+              buttonType: SButtonType.primary2,
+              submitButtonActive: store.isContinueAvaible,
+              submitButtonName: intl.addCircleCard_continue,
+              onSubmitPressed: () {
+                sAnalytics.tapOnTheContinueEarnAmountDepositButton(
+                  assetName: store.earnPosition.offers.first.assetId,
+                  earnAPYrate: store.earnPosition.offers.first.apyRate?.toStringAsFixed(2) ?? Decimal.zero.toString(),
+                  earnPlanName: store.earnPosition.offers.first.description ?? '',
+                  earnWithdrawalType: store.earnPosition.offers.first.withdrawType.name,
+                  earnDepositAmount: store.cryptoInputValue,
+                );
+                sRouter.push(
+                  EarnTopUpOrderSummaryRouter(
+                    earnPosition: store.earnPosition,
+                    amount: Decimal.parse(store.cryptoInputValue),
+                  ),
+                );
+              },
             ),
           ],
         );

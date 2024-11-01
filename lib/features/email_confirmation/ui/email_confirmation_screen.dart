@@ -13,7 +13,6 @@ import 'package:jetwallet/widgets/pin_code_field.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../models/email_confirmation_union.dart';
 
@@ -128,15 +127,10 @@ class __EmailConfirmationScreenBodyState extends State<_EmailConfirmationScreenB
                     style: sBodyText1Style,
                   ),
                   const SpaceH17(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SButtonContext(
-                        type: SButtonContextType.basicInverted,
-                        text: intl.emailVerification_openEmail,
-                        onTap: () => openEmailApp(context),
-                      ),
-                    ],
+                  SLinkButtonText(
+                    active: true,
+                    name: intl.emailVerification_openEmail,
+                    onTap: () => openEmailApp(context),
                   ),
                   const SpaceH40(),
                   GestureDetector(

@@ -6,7 +6,6 @@ import 'package:simple_kit/helpers/validators/validator.dart';
 import 'package:simple_kit/utils/enum.dart';
 import '../light/simple_light_standard_field_obscure.dart';
 
-@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
 class SStandardFieldObscure extends StatelessObserverWidget {
   const SStandardFieldObscure({
     super.key,

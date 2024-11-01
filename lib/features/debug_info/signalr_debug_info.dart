@@ -6,7 +6,6 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/wallet/helper/format_date_to_hm.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/signalr_log.dart';
 
 @RoutePage(name: 'SignalrDebugInfoRouter')
@@ -26,11 +25,22 @@ class SignalrDebugInfo extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              /*Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: Text(
+                  'SignalR Status: ${getIt.get<SignalRModuleNew>().hubStatus}',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),*/
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: SButton.black(
-                  text: 'Restart Connection',
-                  callback: () {
+                child: SPrimaryButton1(
+                  active: true,
+                  name: 'Restart Connection',
+                  onTap: () {
                     getIt.get<SignalRService>().forceReconnectSignalR();
                   },
                 ),

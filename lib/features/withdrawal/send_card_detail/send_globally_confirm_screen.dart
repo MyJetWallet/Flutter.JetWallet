@@ -14,6 +14,7 @@ import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
@@ -90,7 +91,7 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                     small: () => const SpaceH8(),
                     medium: () => const SpaceH3(),
                   ),
-                  STransaction(
+                  WhatToWhatConvertWidget(
                     isLoading: false,
                     fromAssetIconUrl: state.sendCurrency!.iconUrl,
                     fromAssetDescription: state.sendCurrency!.symbol,
@@ -217,9 +218,10 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                 ),
                 const SpaceH20(),
                 const SpaceH24(),
-                SButton.blue(
-                  text: intl.previewBuyWithAsset_confirm,
-                  callback: () {
+                SPrimaryButton2(
+                  active: true,
+                  name: intl.previewBuyWithAsset_confirm,
+                  onTap: () {
                     sAnalytics.globalSendConfirmOrderSummary(
                       asset: data.asset ?? '',
                       sendMethodType: '1',

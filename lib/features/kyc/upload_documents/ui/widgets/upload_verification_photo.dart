@@ -16,7 +16,6 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/headers/simple_auth_header.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'UploadVerificationPhotoRouter')
 class UploadVerificationPhoto extends StatelessWidget {
@@ -242,8 +241,8 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
               ],
             ),
             SFloatingButtonFrame(
-              button: SButton.blue(
-                callback: () async {
+              button: SPrimaryButton2(
+                onTap: () async {
                   final status = await Permission.camera.request();
 
                   if (status == PermissionStatus.granted) {
@@ -269,7 +268,8 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
                     );
                   }
                 },
-                text: store.buttonName(isSelfie: isSelfie, isCard: !isSelfie),
+                name: store.buttonName(isSelfie: isSelfie, isCard: !isSelfie),
+                active: true,
                 icon: store.buttonIcon ? const SArrowUpIcon() : const SWhitePhotoIcon(),
               ),
             ),

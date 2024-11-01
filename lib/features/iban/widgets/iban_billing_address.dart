@@ -4,8 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/add_circle_card/ui/widgets/continue_button_frame.dart';
+import 'package:simple_kit/modules/buttons/basic_buttons/primary_button/public/simple_primary_button_4.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../core/di/di.dart';
 import '../../auth/user_data/ui/widgets/country/model/kyc_profile_country_model.dart';
@@ -142,18 +142,17 @@ class IbanBillingAddress extends StatelessObserverWidget {
                     ),
                     const Spacer(),
                     ContinueButtonFrame(
-                      child: SButton.blue(
-                        text: intl.circleBillingAddress_continue,
-                        callback: navigationAllowed &&
-                                store.isBillingAddressValid &&
-                                !store.streetAddress1Error &&
-                                !store.streetAddress1Error &&
-                                !store.cityError
-                            ? () async {
-                                store.billingAddressEnableButton = false;
-                                await store.saveAddress(onError: () {});
-                              }
-                            : null,
+                      child: SPrimaryButton4(
+                        active: navigationAllowed &&
+                            store.isBillingAddressValid &&
+                            !store.streetAddress1Error &&
+                            !store.streetAddress1Error &&
+                            !store.cityError,
+                        name: intl.circleBillingAddress_continue,
+                        onTap: () async {
+                          store.billingAddressEnableButton = false;
+                          await store.saveAddress(onError: () {});
+                        },
                       ),
                     ),
                     const SpaceH42(),
