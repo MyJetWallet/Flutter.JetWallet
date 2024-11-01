@@ -60,15 +60,16 @@ class KycAlertHandler {
     }
 
     if ((kycStatus == kycOperationStatus(KycStatus.kycRequired) ||
-            multiStatus.contains(kycOperationStatus(KycStatus.kycRequired)) ||
-            (kycState != null && !kycState.isSimpleKyc)) &&
+        multiStatus.contains(kycOperationStatus(KycStatus.kycRequired))) &&
+        (kycState != null && !kycState.isSimpleKyc) &&
         needGifteExplanationPopup) {
       _showGiftExplanationAlert(
         requiredVerifications,
       );
-    } else if (kycStatus == kycOperationStatus(KycStatus.kycRequired) ||
-        multiStatus.contains(kycOperationStatus(KycStatus.kycRequired)) ||
+    } else if ((kycStatus == kycOperationStatus(KycStatus.kycRequired) ||
+        multiStatus.contains(kycOperationStatus(KycStatus.kycRequired))) &&
         (kycState != null && !kycState.isSimpleKyc)) {
+      print('#@#@#@ ${kycState!.isSimpleKyc} ${kycStatus}');
       _showKycRequiredAlert(
         requiredVerifications,
       );
