@@ -64,7 +64,7 @@ class _BasicBottomSheetState extends State<BasicBottomSheet> {
 
     return PopScope(
       canPop: true,
-      onPopInvokedWithResult: (didPop, _) {
+      onPopInvoked: (didPop) {
         if (didPop) return;
         widget.onWillPop ?? onDismissAction(context);
       },

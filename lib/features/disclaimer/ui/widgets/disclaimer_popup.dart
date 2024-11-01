@@ -26,7 +26,7 @@ void sShowDisclaimerPopup(
     builder: (context) {
       return PopScope(
         canPop: false,
-        onPopInvokedWithResult: (_, __) {
+        onPopInvoked: (_) {
           Future.value(false);
         },
         child: Column(

@@ -162,7 +162,7 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
         },
         child: PopScope(
           canPop: !widget.cannotLeave,
-          onPopInvokedWithResult: (_, __) => Future.value(!widget.cannotLeave),
+          onPopInvoked: (_) => Future.value(!widget.cannotLeave),
           child: SPageFrame(
             resizeToAvoidBottomInset: false,
             loaderText: intl.register_pleaseWait,
