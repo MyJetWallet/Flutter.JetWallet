@@ -60,6 +60,89 @@ class KycAlertHandler {
     }
 
     if ((kycStatus == kycOperationStatus(KycStatus.kycRequired) ||
+            multiStatus.contains(kycOperationStatus(KycStatus.kycRequired))) &&
+        (kycState != null && !kycState.isSimpleKyc) &&
+        needGifteExplanationPopup) {
+      _showGiftExplanationAlert(
+        requiredVerifications,
+      );
+    } else if ((kycStatus == kycOperationStatus(KycStatus.kycRequired) ||
+            multiStatus.contains(kycOperationStatus(KycStatus.kycRequired))) &&
+        (kycState != null && !kycState.isSimpleKyc)) {
+      _showKycRequiredAlert(
+        requiredVerifications,
+      );
+    } else if (kycStatus == kycOperationStatus(KycStatus.kycInProgress) ||
+        multiStatus.contains(kycOperationStatus(KycStatus.kycInProgress))) {
+      showVerifyingAlert();
+    } else if (kycStatus == kycOperationStatus(KycStatus.allowedWithKycAlert) ||
+        multiStatus.contains(kycOperationStatus(KycStatus.allowedWithKycAlert))) {
+      _showAllowedWithAlert(
+        requiredVerifications,
+        requiredDocuments,
+        currentNavigate,
+        navigatePop,
+      );
+    } else if (kycStatus == kycOperationStatus(KycStatus.blocked) ||
+        multiStatus.contains(kycOperationStatus(KycStatus.blocked))) {
+      showBlockedAlert(customBlockerText: customBlockerText);
+    } else if (kycStatus == kycOperationStatus(KycStatus.allowed) ||
+        multiStatus.contains(kycOperationStatus(KycStatus.allowed))) {
+      currentNavigate.call();
+    }
+  }
+
+  // ignore: long-parameter-list
+  void handleKycBanner({
+    bool navigatePop = false,
+    bool kycFlowOnly = false,
+    bool needGifteExplanationPopup = false,
+    SWidgetSize size = SWidgetSize.medium,
+    required Function() currentNavigate,
+    int? status,
+    List<int> multiStatus = const [],
+    required bool isProgress,
+    required List<RequiredVerified> requiredVerifications,
+    required List<KycDocumentType> requiredDocuments,
+    String? customBlockerText,
+  }) {
+    KycService? kycState;
+    if (getIt.isRegistered<KycService>()) {
+      kycState = getIt.get<KycService>();
+    }
+
+    late int? kycStatus;
+    if (status == null && multiStatus.isEmpty) {
+      kycStatus = getIt.get<KycService>().withdrawalStatus;
+      if (kycStatus == kycOperationStatus(KycStatus.blocked)) {
+        kycStatus = kycOperationStatus(KycStatus.allowed);
+      }
+    } else {
+      kycStatus = status;
+    }
+    if (isProgress) {
+      showVerifyingAlert();
+
+      return;
+    }
+
+    if (kycFlowOnly) {
+      _navigateVerifiedNavigate(
+        requiredVerifications,
+        requiredDocuments,
+      );
+
+      return;
+    }
+
+    if (kycStatus == kycOperationStatus(KycStatus.allowed) &&
+        (kycState != null && kycState.isSimpleKyc && kycState.earlyKycFlowAllowed)) {
+      _showKycRequiredAlert(
+        requiredVerifications,
+      );
+    }
+
+    if ((kycStatus == kycOperationStatus(KycStatus.kycRequired) ||
         multiStatus.contains(kycOperationStatus(KycStatus.kycRequired))) &&
         (kycState != null && !kycState.isSimpleKyc) &&
         needGifteExplanationPopup) {
