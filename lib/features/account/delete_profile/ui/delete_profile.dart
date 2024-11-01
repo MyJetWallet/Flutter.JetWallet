@@ -2,118 +2,114 @@ import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/features/account/delete_profile/store/delete_profile_store.dart';
-import 'package:jetwallet/features/account/delete_profile/ui/widgets/dp_checkbox.dart';
-import 'package:jetwallet/features/account/delete_profile/ui/widgets/dp_condition_menu.dart';
 import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
-import 'package:jetwallet/utils/helpers/currencies_with_balance_from.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/widgets/button/main/simple_button.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'DeleteProfileRouter')
 class DeleteProfile extends StatelessObserverWidget {
-  const DeleteProfile({super.key});
+  const DeleteProfile({
+    required this.totalBalance,
+    required this.simpleCoinBalance,
+    super.key,
+  });
+
+  final Decimal totalBalance;
+  final Decimal simpleCoinBalance;
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
-
-    final currencies = sSignalRModules.currenciesList;
-    final itemsWithBalance = currenciesWithBalanceFrom(currencies);
     final baseCurrency = sSignalRModules.baseCurrency;
-
-    final store = getIt.get<DeleteProfileStore>();
-
-    var totalBalance = Decimal.zero;
-    for (final item in itemsWithBalance) {
-      totalBalance += item.baseBalance;
-    }
     final totalBalanceStr = totalBalance.toFormatSum(
       accuracy: baseCurrency.accuracy,
       symbol: baseCurrency.symbol,
     );
+    final simpleCoinBalanceText = simpleCoinBalance.toFormatCount(symbol: 'SMPL');
 
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
-      header: SPaddingH24(
-        child: SBigHeader(
-          title: intl.deleteProfileConditions_title,
-          onBackButtonTap: () => Navigator.pop(context),
-        ),
+      header: GlobalBasicAppBar(
+        title: '',
+        hasLeftIcon: false,
+        onRightIconTap: () {
+          sRouter.popUntilRouteWithName(ProfileDetailsRouter.name);
+        },
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          SPaddingH24(
-            child: Text(
-              intl.deleteProfileConditions_subTitle,
-              style: sBodyText1Style.copyWith(
-                color: colors.grey1,
+      child: SafeArea(
+        top: false,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 16.0,
               ),
-            ),
-          ),
-          const SizedBox(
-            height: 31,
-          ),
-          DPConditionMenu(
-            title: intl.deleteProfileConditions_menuOneTitle,
-            subTitle: '${intl.deleteProfileConditions_menuOneSubTitle}'
-                '$totalBalanceStr',
-            onTap: () {
-              // Portfolio
-              sRouter.navigate(
-                const HomeRouter(
-                  children: [
-                    MyWalletsRouter(),
-                  ],
+              Center(
+                child: Assets.svg.brand.small.error.simpleSvg(
+                  height: 80.0,
+                  width: 80.0,
                 ),
-              );
-            },
-            isLinkActie: totalBalance > Decimal.ten,
-          ),
-          const SizedBox(
-            height: 23,
-          ),
-          SPaddingH24(
-            child: Text(
-              intl.deleteProfileConditions_warning,
-              textAlign: TextAlign.start,
-              maxLines: 8,
-              style: sBodyText1Style.copyWith(
-                color: colors.grey1,
               ),
-            ),
+              const SizedBox(
+                height: 32.0,
+              ),
+              Text(
+                intl.deleteProfileConditions_funds_remaining,
+                style: STStyles.header4.copyWith(
+                  color: SColorsLight().black,
+                ),
+              ),
+              const SizedBox(
+                height: 8.0,
+              ),
+              if (totalBalance > Decimal.zero)
+                Text(
+                  intl.deleteProfileConditions_total_balance(totalBalanceStr),
+                  style: STStyles.subtitle2.copyWith(
+                    color: SColorsLight().gray10,
+                  ),
+                ),
+              if (simpleCoinBalance > Decimal.zero)
+                Text(
+                  intl.deleteProfileConditions_total_coins(simpleCoinBalanceText),
+                  style: STStyles.subtitle2.copyWith(
+                    color: SColorsLight().gray10,
+                  ),
+                ),
+              const SizedBox(
+                height: 16.0,
+              ),
+              SHyperlink(
+                text: intl.deleteProfileConditions_withdraw_or_transfer_funds,
+                onTap: () {
+                  sRouter.navigate(
+                    const HomeRouter(
+                      children: [
+                        MyWalletsRouter(),
+                      ],
+                    ),
+                  );
+                },
+              ),
+              const Spacer(),
+              SButton.black(
+                text: intl.deleteProfileConditions_delete_anyway,
+                callback: () {
+                  sRouter.push(
+                    const EmailConfirmationRouter(),
+                  );
+                },
+              ),
+              SizedBox(
+                height: 16.0 + MediaQuery.of(context).padding.bottom < 16.0 ? 8.0 : 0.0,
+              ),
+            ],
           ),
-          const Spacer(),
-          SPaddingH24(
-            child: DPCheckbox(
-              text: intl.deleteProfileConditions_conditions,
-              onCheckboxTap: () {
-                store.clickCheckbox();
-              },
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 24, right: 24, bottom: 42),
-            child: SButton.red(
-              text: intl.deleteProfileConditions_buttonText,
-              callback: store.confitionCheckbox
-                  ? () async {
-                      await sRouter.push(
-                        const EmailConfirmationRouter(),
-                      );
-                    }
-                  : null,
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

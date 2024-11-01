@@ -25,9 +25,6 @@ abstract class _DeleteProfileStoreBase with Store {
   ObservableList<ProfileDeleteReasonsModel> selectedDeleteReason = ObservableList.of([]);
 
   @observable
-  bool confitionCheckbox = false;
-
-  @observable
   StackLoaderStore loader = StackLoaderStore()..finishLoadingImmediately();
 
   @action
@@ -77,7 +74,5 @@ abstract class _DeleteProfileStoreBase with Store {
   }
 
   @action
-  void clickCheckbox() {
-    confitionCheckbox = !confitionCheckbox;
-  }
+  void loadDeleteReason() {}
 }

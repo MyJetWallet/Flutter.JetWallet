@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -6,11 +7,15 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
+import 'package:jetwallet/features/account/delete_profile/store/delete_profile_store.dart';
 import 'package:jetwallet/features/account/profile_details/utils/change_languages_popup.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
+import 'package:jetwallet/utils/helpers/currencies_with_balance_from.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
 import '../../../../utils/helpers/country_code_by_user_register.dart';
@@ -135,16 +140,14 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                   context,
                   primaryText: '${intl.profileDetails_deleteProfile}?',
                   secondaryText: intl.profileDetails_deleteProfileDescr,
-                  primaryButtonName: intl.profileDetails_deleteProfile,
+                  primaryButtonName: intl.profileDetails_yes,
                   primaryButtonType: SButtonType.primary3,
-                  onPrimaryButtonTap: () => {
-                    sRouter.push(
-                      const DeleteProfileRouter(),
-                    ),
-                  },
+                  onPrimaryButtonTap: deleteAcc,
                   isNeedCancelButton: true,
-                  cancelText: intl.profileDetails_cancel,
-                  onCancelButtonTap: () => {Navigator.pop(context)},
+                  cancelText: intl.profileDetails_no,
+                  onCancelButtonTap: () {
+                    Navigator.pop(context);
+                  },
                 );
               },
             ),
@@ -152,5 +155,32 @@ class _ProfileDetailsState extends State<ProfileDetails> {
         ],
       ),
     );
+  }
+
+  void deleteAcc() {
+    getIt.get<DeleteProfileStore>().loadDeleteReason();
+
+    final currencies = sSignalRModules.currenciesList;
+    final itemsWithBalance = currenciesWithBalanceFrom(currencies);
+
+    var totalBalance = Decimal.zero;
+    for (final item in itemsWithBalance) {
+      totalBalance += item.baseBalance;
+    }
+
+    final simpleCoinBalance = sSignalRModules.smplWalletModel.profile.balance;
+
+    if (totalBalance > Decimal.zero || simpleCoinBalance > Decimal.zero) {
+      sRouter.push(
+        DeleteProfileRouter(
+          totalBalance: totalBalance,
+          simpleCoinBalance: simpleCoinBalance,
+        ),
+      );
+    } else {
+      sRouter.push(
+        const EmailConfirmationRouter(),
+      );
+    }
   }
 }

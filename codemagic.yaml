@@ -5,7 +5,7 @@ definitions:
 
   versioning: &versioning
     flutter: 3.24.4
-    xcode: 16.1
+    xcode: 16.0
     cocoapods: default
 
   flavor_development_groups: &flavor_development_groups
