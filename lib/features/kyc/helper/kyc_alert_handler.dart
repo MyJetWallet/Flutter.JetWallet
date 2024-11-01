@@ -69,7 +69,6 @@ class KycAlertHandler {
     } else if ((kycStatus == kycOperationStatus(KycStatus.kycRequired) ||
         multiStatus.contains(kycOperationStatus(KycStatus.kycRequired))) &&
         (kycState != null && !kycState.isSimpleKyc)) {
-      print('#@#@#@ ${kycState!.isSimpleKyc} ${kycStatus}');
       _showKycRequiredAlert(
         requiredVerifications,
       );

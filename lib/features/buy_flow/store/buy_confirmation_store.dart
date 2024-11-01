@@ -762,7 +762,7 @@ abstract class _BuyConfirmationStoreBase with Store {
             onAction(
               data.clientAction!.checkoutUrl ?? '',
               (payment, lastAction) {
-                Navigator.pop(sRouter.navigatorKey.currentContext!);
+                sRouter.maybePop();
                 paymentId = payment;
                 showProcessing = true;
                 wasAction = true;
@@ -783,7 +783,7 @@ abstract class _BuyConfirmationStoreBase with Store {
                 );
               },
               (error) {
-                Navigator.pop(sRouter.navigatorKey.currentContext!);
+                sRouter.maybePop();
 
                 _showFailureScreen(error);
               },
