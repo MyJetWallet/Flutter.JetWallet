@@ -1,7 +1,6 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="dev.app.simple.com">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -29,8 +28,8 @@
         android:label="Simple"
         android:usesCleartextTraffic="true"
         android:allowBackup="false"
-        android:fullBackupContent="false"
-        tools:replace="android:fullBackupContent">
+        tools:replace="android:allowBackup, android:fullBackupContent"
+        android:fullBackupContent="@null">
         <activity
             android:name=".MainActivity"
             android:exported="true"
