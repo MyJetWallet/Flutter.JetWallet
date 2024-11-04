@@ -1,2 +1,5 @@
 -keep class go.** { *; }
 -keep class rsa.** { *; }
+-keep class com.sumsub.idensic.mobile.sdk.plugin.** { *; }
+-dontwarn dev.app.simple.com.BuildConfig
+-keep class dev.app.simple.com.BuildConfig { *; }

@@ -5,6 +5,22 @@ allprojects {
     }
 }
 
+subprojects {
+    afterEvaluate { project ->
+        if (project.hasProperty('android')) {
+            project.android {
+                if (namespace == null) {
+                    if (project.name == 'назва_модуля') {
+                        namespace = 'com.example.назва_модуля'
+                    } else {
+                        namespace = project.group
+                    }
+                }
+            }
+        }
+    }
+}
+
 rootProject.buildDir = '../build'
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
