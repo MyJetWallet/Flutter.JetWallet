@@ -1425,7 +1425,7 @@ abstract class _WithdrawalStoreBase with Store {
       final model = WithdrawJarRequestModel(
         requestId: DateTime.now().microsecondsSinceEpoch.toString(),
         assetSymbol: withdrawalInputModel!.jar!.addresses.first.assetSymbol,
-        amount: Decimal.parse(withAmount) + feeSize,
+        amount: youSendAmount,
         toAddress: address,
         toTag: tag,
         blockchain: withdrawalInputModel!.jar!.addresses.first.blockchain,
