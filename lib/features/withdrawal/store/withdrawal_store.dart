@@ -612,23 +612,31 @@ abstract class _WithdrawalStoreBase with Store {
 
   @action
   Future<void> validateOnContinue(BuildContext context) async {
-    try {
-      final responseLimit = await sNetwork.getWalletModule().postWithdrawJarLimitRequest(
-        {
-          'assetSymbol': 'USDT',
-        },
-      );
+    if (withdrawalType == WithdrawalType.jar) {
+      try {
+        final responseLimit = sNetwork.getWalletModule().postWithdrawJarLimitRequest(
+          {
+            'assetSymbol': 'USDT',
+          },
+        );
 
-      responseLimit.pick(
-        onData: (data) {
-          _updateJarWithdrawalLimit(data.limit);
-          _updateJarWithdrawalLeftAmount(data.leftAmount);
-        },
-        onError: (error) {},
-      );
-    } catch (error) {
-      if (kDebugMode) {
-        print('WithdrawalJarLimit error $error');
+        unawaited(
+          responseLimit.then(
+            (response) {
+              response.pick(
+                onData: (data) {
+                  _updateJarWithdrawalLimit(data.limit);
+                  _updateJarWithdrawalLeftAmount(data.leftAmount);
+                },
+                onError: (error) {},
+              );
+            },
+          ),
+        );
+      } catch (error) {
+        if (kDebugMode) {
+          print('WithdrawalJarLimit error $error');
+        }
       }
     }
 
