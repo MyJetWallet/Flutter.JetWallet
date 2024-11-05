@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/services/conversion_price_service/conversion_price_input.dart';
-import 'package:jetwallet/core/services/conversion_price_service/conversion_price_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
@@ -129,7 +127,6 @@ abstract class _ConvertAmountStoreBase with Store {
     }
 
     _checkShowTosts();
-    loadConversionPrice();
     loadLimits();
   }
 
@@ -178,7 +175,6 @@ abstract class _ConvertAmountStoreBase with Store {
       toAsset = temp;
     }
 
-    loadConversionPrice();
     loadLimits();
 
     toInputValue = '0';
@@ -213,7 +209,6 @@ abstract class _ConvertAmountStoreBase with Store {
       fromAsset = temp;
     }
 
-    loadConversionPrice();
     loadLimits();
 
     toInputValue = '0';
@@ -242,22 +237,9 @@ abstract class _ConvertAmountStoreBase with Store {
 
     onMaxPressed = false;
     setLoadingMaxButton(true);
-    await loadConversionPrice();
     await loadLimits();
 
     _checkShowTosts();
-  }
-
-  @action
-  Future<void> loadConversionPrice() async {
-    if (fromAsset != null && toAsset != null) {
-      targetConversionPrice = await getConversionPrice(
-        ConversionPriceInput(
-          baseAssetSymbol: fromAsset?.symbol ?? '',
-          quotedAssetSymbol: toAsset?.symbol ?? '',
-        ),
-      );
-    }
   }
 
   @computed
