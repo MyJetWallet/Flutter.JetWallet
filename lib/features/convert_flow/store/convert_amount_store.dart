@@ -235,6 +235,13 @@ abstract class _ConvertAmountStoreBase with Store {
     errorText = null;
     inputValid = false;
 
+    _minFromAssetVolume = Decimal.zero;
+    _maxFromAssetVolume = Decimal.zero;
+    _minToAssetVolume = Decimal.zero;
+    _maxToAssetVolume = Decimal.zero;
+
+    onMaxPressed = false;
+    setLoadingMaxButton(true);
     await loadConversionPrice();
     await loadLimits();
 
