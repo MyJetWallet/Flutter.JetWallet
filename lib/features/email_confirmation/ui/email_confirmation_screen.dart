@@ -105,6 +105,7 @@ class __EmailConfirmationScreenBodyState extends State<_EmailConfirmationScreenB
       },
       child: SPageFrameWithPadding(
         loaderText: intl.register_pleaseWait,
+        loading: confirmation.loader,
         header: SSmallHeader(
           title: intl.emailConfirmation_title,
           showBackButton: false,

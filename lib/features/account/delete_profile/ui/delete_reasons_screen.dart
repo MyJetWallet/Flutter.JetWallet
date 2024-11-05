@@ -17,7 +17,9 @@ class DeleteReasonsScreen extends StatelessObserverWidget {
 
     final store = getIt.get<DeleteProfileStore>();
 
-    return SPageFrame(
+    return PopScope(
+      canPop: !store.loader.loading,
+      child: SPageFrame(
       loaderText: intl.register_pleaseWait,
       loading: store.loader,
       header: SPaddingH24(
@@ -35,8 +37,8 @@ class DeleteReasonsScreen extends StatelessObserverWidget {
         child: SButton.blue(
           callback: store.selectedDeleteReason.isNotEmpty
               ? () async {
-                  await store.deleteProfile();
-                }
+            await store.deleteProfile();
+          }
               : null,
           text: intl.deleteProfileReasons_continue,
         ),
@@ -95,6 +97,6 @@ class DeleteReasonsScreen extends StatelessObserverWidget {
           ],
         ),
       ),
-    );
+    ),);
   }
 }

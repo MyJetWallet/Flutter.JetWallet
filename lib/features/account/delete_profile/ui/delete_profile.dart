@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
@@ -59,7 +61,7 @@ class DeleteProfile extends StatelessObserverWidget {
               ),
               Text(
                 intl.deleteProfileConditions_funds_remaining,
-                style: STStyles.header4.copyWith(
+                style: STStyles.header5.copyWith(
                   color: SColorsLight().black,
                 ),
               ),
@@ -104,6 +106,10 @@ class DeleteProfile extends StatelessObserverWidget {
                   );
                 },
               ),
+              if (Platform.isAndroid)
+                const SizedBox(
+                  height: 24.0,
+                ),
               SizedBox(
                 height: 16.0 + MediaQuery.of(context).padding.bottom < 16.0 ? 8.0 : 0.0,
               ),
