@@ -8,7 +8,6 @@ definitions:
     xcode: 16.0
     cocoapods: default
     java: 21
-    ndk: r26 lts
 
   flavor_development_groups: &flavor_development_groups
     groups:
