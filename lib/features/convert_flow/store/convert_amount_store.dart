@@ -219,6 +219,11 @@ abstract class _ConvertAmountStoreBase with Store {
 
   @action
   Future<void> onSwapAssets() async {
+    errorText = null;
+    inputValid = false;
+    inputError = InputError.none;
+    _updatePaymentMethodInputError(null);
+
     final temp = toAsset;
     toAsset = fromAsset;
     fromAsset = temp;
@@ -227,8 +232,6 @@ abstract class _ConvertAmountStoreBase with Store {
 
     toInputValue = '0';
     fromInputValue = '0';
-    errorText = null;
-    inputValid = false;
 
     _minFromAssetVolume = Decimal.zero;
     _maxFromAssetVolume = Decimal.zero;
