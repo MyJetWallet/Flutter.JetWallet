@@ -119,6 +119,7 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
                                 },
                                 showMaxButton: true,
                                 onMaxTap: store.onBuyAll,
+                                loadingMaxButton: store.loadingMaxButton && store.onMaxPressed,
                                 errorText: store.paymentMethodInputError,
                                 pasteLabel: intl.paste,
                                 onPaste: () async {

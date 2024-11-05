@@ -99,6 +99,7 @@ class _SellAmountScreenBodyState extends State<SellAmountTabBody> with Automatic
                                 },
                                 errorText: store.paymentMethodInputError,
                                 showMaxButton: true,
+                                loadingMaxButton: store.onMaxPressed && store.loadingMaxButton,
                                 onMaxTap: () {
                                   sAnalytics.tapOnTheSellAll();
                                   store.onSellAll();

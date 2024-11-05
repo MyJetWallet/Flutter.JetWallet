@@ -3,22 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/features/withdrawal/store/withdrawal_store.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
-import 'package:jetwallet/utils/helpers/calculate_base_balance.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
-import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
@@ -41,9 +37,36 @@ abstract class _IbanSendAmountStoreBase with Store {
   @observable
   WithdrawalInputMode inputMode = WithdrawalInputMode.youSend;
 
+  @observable
+  bool loadingMaxButton = true;
+
+  @action
+  void setLoadingMaxButton(bool value) {
+    loadingMaxButton = value;
+  }
+
+  @observable
+  bool onMaxPressed = false;
+
   @action
   void setInputMode(WithdrawalInputMode value) {
     inputMode = value;
+    if (inputMode == WithdrawalInputMode.youSend) {
+      isCryptoEntering = true;
+    } else {
+      isCryptoEntering = false;
+    }
+
+    if (isMaxActive) {
+      onSendAll();
+    } else {
+      if (inputMode == WithdrawalInputMode.youSend) {
+        baseConversionValue = '0';
+      } else {
+        withAmount = '0';
+      }
+    }
+
     _validateAmount();
   }
 
@@ -80,6 +103,9 @@ abstract class _IbanSendAmountStoreBase with Store {
 
   StackLoaderStore loader = StackLoaderStore();
 
+  @observable
+  bool isMaxActive = false;
+
   @computed
   ObservableList<CurrencyModel> get _allAssets {
     return sSignalRModules.currenciesList;
@@ -114,6 +140,10 @@ abstract class _IbanSendAmountStoreBase with Store {
   @action
   void onSwap() {
     isCryptoEntering = !isCryptoEntering;
+
+    if (isMaxActive) {
+      onSendAll();
+    }
 
     _validateAmount();
   }
@@ -164,37 +194,6 @@ abstract class _IbanSendAmountStoreBase with Store {
   @computed
   int get secondaryAccuracy {
     return isCryptoEntering ? secondaryCurrency.accuracy : mainCurrency.accuracy;
-  }
-
-  @action
-  void _calculateBaseConversion() {
-    if (withAmount.isNotEmpty) {
-      final baseValue = calculateBaseBalanceWithReader(
-        assetSymbol: mainCurrency.symbol,
-        assetBalance: Decimal.parse(withAmount),
-      );
-
-      baseConversionValue = truncateZerosFrom(
-        baseValue.toStringAsFixed(secondaryAccuracy),
-      );
-    } else {
-      baseConversionValue = zero;
-    }
-  }
-
-  @action
-  void _calculateCryptoConversion() {
-    final amount = getIt.get<FormatService>().convertOneCurrencyToAnotherOne(
-          fromCurrency: sSignalRModules.baseCurrency.symbol,
-          fromCurrencyAmmount: Decimal.parse(baseConversionValue),
-          toCurrency: mainCurrency.symbol,
-          baseCurrency: sSignalRModules.baseCurrency.symbol,
-          isMin: false,
-        );
-
-    withAmount = truncateZerosFrom(
-      amount.toStringAsFixed(primaryAccuracy),
-    );
   }
 
   @computed
@@ -274,6 +273,7 @@ abstract class _IbanSendAmountStoreBase with Store {
 
   @action
   Future<void> loadLimits() async {
+    setLoadingMaxButton(true);
     if (currency != null) {
       final model = SellLimitsRequestModel(
         paymentAsset: currency!.symbol,
@@ -290,6 +290,10 @@ abstract class _IbanSendAmountStoreBase with Store {
         minBuyAmount = response.data!.minBuyAmount;
         maxBuyAmount = response.data!.maxBuyAmount;
       }
+    }
+    setLoadingMaxButton(false);
+    if (onMaxPressed) {
+      onSendAll();
     }
   }
 
@@ -478,6 +482,7 @@ abstract class _IbanSendAmountStoreBase with Store {
 
   @action
   void updateAmount(String value) {
+    isMaxActive = false;
     if (isCryptoEntering) {
       withAmount = responseOnInputAction(
         oldInput: withAmount,
@@ -492,20 +497,17 @@ abstract class _IbanSendAmountStoreBase with Store {
       );
     }
 
-    if (isCryptoEntering) {
-      _calculateBaseConversion();
-    } else {
-      _calculateCryptoConversion();
-    }
     _validateAmount();
   }
 
   @action
   void onSendAll() {
     withAmount = '0';
-    var sendAllValue = '';
-    if (availableAmount < (_maxLimit ?? Decimal.zero)) {
-      sendAllValue = responseOnInputAction(
+    isMaxActive = true;
+    onMaxPressed = true;
+
+    if (availableAmount < (maxSellAmount ?? _maxLimit ?? Decimal.zero)) {
+      withAmount = responseOnInputAction(
         oldInput: withAmount,
         newInput: inputMode == WithdrawalInputMode.youSend
             ? availableAmount.toString()
@@ -513,27 +515,20 @@ abstract class _IbanSendAmountStoreBase with Store {
         accuracy: inputMode == WithdrawalInputMode.youSend ? mainCurrency.accuracy : secondaryCurrency.accuracy,
       );
     } else {
-      final max = currency != null ? maxSellAmount : _maxLimit;
-
-      sendAllValue = responseOnInputAction(
-        oldInput: withAmount,
-        newInput: inputMode == WithdrawalInputMode.youSend
-            ? max.toString()
-            : ((max ?? availableAmount) - feeAmount).toString(),
-        accuracy: inputMode == WithdrawalInputMode.youSend ? mainCurrency.accuracy : secondaryCurrency.accuracy,
-      );
+      if (isCryptoEntering) {
+        withAmount = responseOnInputAction(
+          oldInput: withAmount,
+          newInput: (maxSellAmount ?? _maxLimit ?? Decimal.zero).toString(),
+          accuracy: mainCurrency.accuracy,
+        );
+      } else {
+        baseConversionValue = responseOnInputAction(
+          oldInput: baseConversionValue,
+          newInput: (maxBuyAmount ?? _maxLimit ?? Decimal.zero).toString(),
+          accuracy: secondaryCurrency.accuracy,
+        );
+      }
     }
-
-    if (Decimal.parse(sendAllValue) < Decimal.zero) {
-      withAmount = '0';
-    } else {
-      withAmount = sendAllValue;
-    }
-
-    isCryptoEntering = true;
-    inputMode = WithdrawalInputMode.youSend;
-
-    _calculateBaseConversion();
 
     _validateAmount();
   }
@@ -568,12 +563,6 @@ abstract class _IbanSendAmountStoreBase with Store {
       withAmount = value;
     } else {
       baseConversionValue = value;
-    }
-
-    if (isCryptoEntering) {
-      _calculateBaseConversion();
-    } else {
-      _calculateCryptoConversion();
     }
 
     _validateAmount();

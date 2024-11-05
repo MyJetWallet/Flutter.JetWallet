@@ -106,6 +106,7 @@ class ConvertAmountScreenBodyState extends State<ConvertAmountTabBody> with Auto
                                 },
                                 errorText: store.paymentMethodInputError,
                                 showMaxButton: true,
+                                loadingMaxButton: store.loadingMaxButton && store.onMaxPressed,
                                 onMaxTap: () {
                                   sAnalytics.tapOnTheConvertAll();
                                   store.onConvetrAll();

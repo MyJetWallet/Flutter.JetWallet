@@ -17,6 +17,7 @@ class SNumericLargeInput extends StatelessWidget {
     required this.onPaste,
     this.showSwopButton = true,
     this.showMaxButton = false,
+    this.loadingMaxButton = false,
     this.onMaxTap,
   });
 
@@ -32,6 +33,7 @@ class SNumericLargeInput extends StatelessWidget {
   final VoidCallback onPaste;
   final bool showSwopButton;
   final bool showMaxButton;
+  final bool loadingMaxButton;
   final void Function()? onMaxTap;
 
   @override
@@ -174,10 +176,18 @@ class SNumericLargeInput extends StatelessWidget {
                           shape: const OvalBorder(),
                         ),
                         alignment: Alignment.center,
-                        child: Text(
-                          'Max',
-                          style: STStyles.body2Bold,
-                        ),
+                        child: loadingMaxButton
+                            ? Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: CircularProgressIndicator(
+                                  color: colors.black,
+                                  strokeWidth: 3.5,
+                                ),
+                              )
+                            : Text(
+                                'Max',
+                                style: STStyles.body2Bold,
+                              ),
                       ),
                     ),
                     const SizedBox(height: 4),
