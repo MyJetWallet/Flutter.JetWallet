@@ -137,6 +137,9 @@ enum SourceScreen {
 class DeepLinkService {
   DeepLinkService();
 
+  String? lastDeepLink;
+  DateTime? lastDeepLinkTime;
+
   void handle(
     Uri link, {
     SourceScreen? source,
@@ -412,6 +415,13 @@ class DeepLinkService {
     // data: {actionUrl: http://simple.app/action/jw_swap/jw_operation_id/a93fa24f9f544774863e4e7b4c07f3c0},
 
     if (message.data['actionUrl'] != null) {
+      if (lastDeepLink == message.data['actionUrl'] as String) {
+        if (lastDeepLinkTime != null && DateTime.now().difference(lastDeepLinkTime!) < const Duration(seconds: 1)) {
+          return;
+        }
+      }
+      lastDeepLink = message.data['actionUrl'] as String;
+      lastDeepLinkTime = DateTime.now();
       handle(Uri.parse(message.data['actionUrl'] as String));
     }
   }
