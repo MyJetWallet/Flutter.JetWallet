@@ -18,7 +18,7 @@ class DeleteReasonsScreen extends StatelessObserverWidget {
     final store = getIt.get<DeleteProfileStore>();
 
     return PopScope(
-      canPop: !store.loader.loading,
+      canPop: false,
       child: SPageFrame(
       loaderText: intl.register_pleaseWait,
       loading: store.loader,

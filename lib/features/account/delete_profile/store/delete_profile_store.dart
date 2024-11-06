@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -59,17 +60,24 @@ abstract class _DeleteProfileStoreBase with Store {
   @action
   Future<void> deleteProfile() async {
     loader.startLoadingImmediately();
-    final walletApi = sNetwork.getWalletModule();
 
-    await walletApi.postProfileDelete(
-      getIt.get<AppStore>().authState.deleteToken,
-      selectedDeleteReason.map((e) => e.reasonId!).toList(),
-    );
+    try {
+      final walletApi = sNetwork.getWalletModule();
 
-    await getIt.get<LogoutService>().logout(
-          'delete profile',
-          callbackAfterSend: () {},
-        );
+      await walletApi.postProfileDelete(
+        getIt.get<AppStore>().authState.deleteToken,
+        selectedDeleteReason.map((e) => e.reasonId!).toList(),
+      );
+
+      await getIt.get<LogoutService>().logout(
+            'delete profile',
+            callbackAfterSend: () {},
+          );
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
     loader.finishLoading();
   }
 
