@@ -483,7 +483,7 @@ abstract class _IbanSendAmountStoreBase with Store {
   @action
   void updateAmount(String value) {
     isMaxActive = false;
-    if (isCryptoEntering) {
+    if (inputMode == WithdrawalInputMode.youSend) {
       withAmount = responseOnInputAction(
         oldInput: withAmount,
         newInput: value,
@@ -503,6 +503,7 @@ abstract class _IbanSendAmountStoreBase with Store {
   @action
   void onSendAll() {
     withAmount = '0';
+    baseConversionValue = '0';
     isMaxActive = true;
     onMaxPressed = true;
 
@@ -561,8 +562,10 @@ abstract class _IbanSendAmountStoreBase with Store {
   void pasteAmount(String value) {
     if (isCryptoEntering) {
       withAmount = value;
+      baseConversionValue = '0';
     } else {
       baseConversionValue = value;
+      withAmount = '0';
     }
 
     _validateAmount();
@@ -578,13 +581,14 @@ abstract class _IbanSendAmountStoreBase with Store {
       limits,
     );
 
-    final value = Decimal.parse(withAmount);
+    final value =
+        inputMode == WithdrawalInputMode.youSend ? Decimal.parse(withAmount) : Decimal.parse(baseConversionValue);
 
     if (_minLimit != null && _minLimit! > value) {
       if (inputMode == WithdrawalInputMode.recepientGets) {
         limitError = '${intl.currencyBuy_paymentInputErrorText1} ${((_minLimit ?? Decimal.zero) - fee).toFormatCount(
-          accuracy: currency != null ? currency!.accuracy : eurCurrency.accuracy,
-          symbol: currency != null ? currency!.symbol : eurCurrency.symbol,
+          accuracy: eurCurrency.accuracy,
+          symbol: eurCurrency.symbol,
         )}';
       } else {
         limitError = '${intl.currencyBuy_paymentInputErrorText1} ${_minLimit?.toFormatCount(
@@ -605,7 +609,7 @@ abstract class _IbanSendAmountStoreBase with Store {
       limitError = '';
     }
 
-    withAmmountInputError = double.parse(withAmount) != 0
+    withAmmountInputError = value != Decimal.zero
         ? error == InputError.none
             ? limitError.isEmpty
                 ? InputError.none
@@ -625,6 +629,6 @@ abstract class _IbanSendAmountStoreBase with Store {
       );
     }
 
-    withValid = withAmmountInputError == InputError.none && isInputValid(withAmount);
+    withValid = withAmmountInputError == InputError.none && isInputValid(value.toString());
   }
 }
