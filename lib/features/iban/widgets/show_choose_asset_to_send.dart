@@ -95,7 +95,11 @@ class _ChooseAssetToSend extends StatelessObserverWidget {
     var currencyFiltered = List<CurrencyModel>.from(state.fCurrencies);
     currencyFiltered = currencyFiltered
         .where(
-          (element) => element.isAssetBalanceNotEmpty && element.supportsCryptoWithdrawal,
+          (element) =>
+              element.isAssetBalanceNotEmpty &&
+              ((isUahBankTransfer || isGlobalSend)
+                  ? element.supporGlobalSendWithdrawal
+                  : element.supportsCryptoWithdrawal),
         )
         .toList();
 
@@ -126,13 +130,12 @@ class _ChooseAssetToSend extends StatelessObserverWidget {
           else if (searchedBankAccounts.isNotEmpty)
             _buildEuroText(),
         ],
-        if (isUahBankTransfer || isGlobalSend) ...[
-          if (simpleAccount != null)
-            _buildEurCurrency(
-              context,
-              eurCurrency,
-              simpleAccount,
-            ),
+        if ((isGlobalSend || isUahBankTransfer) && simpleAccount != null) ...[
+          _buildSimpleBank(
+            context,
+            eurCurrency,
+            simpleAccount,
+          ),
         ] else ...[
           if (isCJ! && simpleAccount != null)
             _buildSimpleBank(
@@ -206,6 +209,9 @@ class _ChooseAssetToSend extends StatelessObserverWidget {
                   }
                 },
               ),
+        const SizedBox(
+          height: 12.0,
+        ),
       ],
     );
   }
