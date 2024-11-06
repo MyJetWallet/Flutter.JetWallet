@@ -127,8 +127,13 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                             ? getCardTypeMask(
                                 state.receiverDetails[index].value,
                               )
-                            : state.receiverDetails[index].value,
+                            : state.receiverDetails[index].info.fieldId == FieldInfoId.iban
+                                ? getIBANTypeMask(
+                                    state.receiverDetails[index].value,
+                                  )
+                                : state.receiverDetails[index].value,
                         needHorizontalPadding: false,
+                        valueMaxLines: 2,
                       );
                     },
                   ),

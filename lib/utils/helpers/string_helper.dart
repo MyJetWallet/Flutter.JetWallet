@@ -8,6 +8,7 @@ import 'package:jetwallet/core/services/remote_config/remote_config_values.dart'
 import 'package:jetwallet/features/market/market_details/helper/currency_from_all.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 String localizedMonth(
   String month,
@@ -309,6 +310,18 @@ String getCardTypeMask(String cardNumber) {
   }
 
   return maskCard.join();
+}
+
+String getIBANTypeMask(String iban) {
+  final ibanMask = MaskTextInputFormatter(
+    mask: '#### #### #### #### #### #### ####',
+    initialText: '',
+    filter: {
+      '#': RegExp('[a-zA-Z0-9]'),
+    },
+    type: MaskAutoCompletionType.eager,
+  );
+  return ibanMask.maskText(iban);
 }
 
 bool validLabel(String txt) {
