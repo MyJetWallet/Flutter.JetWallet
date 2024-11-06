@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'package:simple_kit_updated/widgets/other/fast_circular_progress_indicator.dart';
 
 class SNumericLargeInput extends StatelessWidget {
   const SNumericLargeInput({
@@ -176,18 +177,22 @@ class SNumericLargeInput extends StatelessWidget {
                           shape: const OvalBorder(),
                         ),
                         alignment: Alignment.center,
-                        child: loadingMaxButton
-                            ? Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: CircularProgressIndicator(
-                                  color: colors.black,
-                                  strokeWidth: 3.5,
+                        child: AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 200),
+                          child: loadingMaxButton
+                              ? Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: FastCircularProgressIndicator(
+                                    speed: 0.8,
+                                    color: colors.black,
+                                    strokeWidth: 3,
+                                  ),
+                                )
+                              : Text(
+                                  'Max',
+                                  style: STStyles.body2Bold,
                                 ),
-                              )
-                            : Text(
-                                'Max',
-                                style: STStyles.body2Bold,
-                              ),
+                        ),
                       ),
                     ),
                     const SizedBox(height: 4),
