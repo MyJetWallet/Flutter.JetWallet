@@ -32,11 +32,13 @@ class _UserDataScreenState extends State<UserDataScreen> {
   @override
   void initState() {
     super.initState();
-    sNetwork.getWalletModule().getSessionInfo().then((value) {
-      final techAcc = value.data?.isTechClient ?? false;
-      sAnalytics.updateisTechAcc(techAcc: techAcc);
-      sAnalytics.signInFlowPersonalDetailsView();
-    });
+    if (getIt.isRegistered<SNetwork>()) {
+      sNetwork.getWalletModule().getSessionInfo().then((value) {
+        final techAcc = value.data?.isTechClient ?? false;
+        sAnalytics.updateisTechAcc(techAcc: techAcc);
+        sAnalytics.signInFlowPersonalDetailsView();
+      });
+    }
   }
 
   @override

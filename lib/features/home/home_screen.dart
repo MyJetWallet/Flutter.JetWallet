@@ -8,6 +8,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/home/store/bottom_bar_store.dart';
+import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/bottom_sheets/components/simple_shade_animation_stack.dart';
@@ -23,6 +24,15 @@ class HomeScreen extends StatefulObserverWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final bool earnEnabled = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (!getIt.isRegistered<KycService>()) {
+      getIt.registerSingleton(KycService());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
