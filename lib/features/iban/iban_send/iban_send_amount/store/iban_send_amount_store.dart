@@ -575,16 +575,21 @@ abstract class _IbanSendAmountStoreBase with Store {
   void _validateAmount() {
     final fee = feeAmount + simpleFeeAmount;
 
-    final error = onEurWithdrawInputErrorHandler(
-      isCryptoEntering ? withAmount : baseConversionValue,
-      currency != null ? currency!.assetBalance : account!.balance!,
-      limits,
-    );
+    var error = InputError.none;
+    if (inputMode == WithdrawalInputMode.youSend) {
+      error = onEurWithdrawInputErrorHandler(
+        inputMode == WithdrawalInputMode.youSend ? withAmount : baseConversionValue,
+        currency != null ? currency!.assetBalance : account!.balance!,
+        limits,
+      );
+    }
 
     final value =
         inputMode == WithdrawalInputMode.youSend ? Decimal.parse(withAmount) : Decimal.parse(baseConversionValue);
 
+    print('#@#@#@ 0');
     if (_minLimit != null && _minLimit! > value) {
+      print('#@#@#@ 1');
       if (inputMode == WithdrawalInputMode.recepientGets) {
         limitError = '${intl.currencyBuy_paymentInputErrorText1} ${((_minLimit ?? Decimal.zero) - fee).toFormatCount(
           accuracy: eurCurrency.accuracy,
@@ -600,6 +605,7 @@ abstract class _IbanSendAmountStoreBase with Store {
         )}';
       }
     } else if (_maxLimit != null && _maxLimit! < value) {
+      print('#@#@#@ $_maxLimit $value');
       limitError = '${intl.currencyBuy_paymentInputErrorText2} ${_maxLimit?.toFormatCount(
         accuracy:
             (currency != null && inputMode == WithdrawalInputMode.youSend) ? currency!.accuracy : eurCurrency.accuracy,
@@ -629,6 +635,7 @@ abstract class _IbanSendAmountStoreBase with Store {
       );
     }
 
+    print('#@#@#@ $withAmmountInputError');
     withValid = withAmmountInputError == InputError.none && isInputValid(value.toString());
   }
 }
