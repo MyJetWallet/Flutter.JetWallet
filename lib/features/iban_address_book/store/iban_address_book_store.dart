@@ -102,7 +102,7 @@ abstract class _IbanAddressBookStoreBase with Store {
       fullnameController.text = predContactData?.fullName ?? '';
 
       ibanMask = MaskTextInputFormatter(
-        mask: '#### #### #### #### #### #### ####',
+        mask: '#### #### #### #### #### #### #### #### ##',
         initialText: ibanController.text,
         filter: {
           '#': RegExp('[a-zA-Z0-9]'),
@@ -122,7 +122,7 @@ abstract class _IbanAddressBookStoreBase with Store {
       checkButton();
     } else {
       ibanMask = MaskTextInputFormatter(
-        mask: '#### #### #### #### #### #### ####',
+        mask: '#### #### #### #### #### #### #### #### ##',
         initialText: ibanController.text,
         filter: {
           '#': RegExp('[a-zA-Z0-9]'),
@@ -138,7 +138,7 @@ abstract class _IbanAddressBookStoreBase with Store {
     ibanController.text = copiedText.replaceAll(' ', '');
 
     ibanMask = MaskTextInputFormatter(
-      mask: '#### #### #### #### #### #### ####',
+      mask: '#### #### #### #### #### #### #### #### ##',
       initialText: ibanController.text,
       filter: {
         '#': RegExp('[a-zA-Z0-9]'),
