@@ -91,7 +91,7 @@ class PaymentMethodIban extends StatelessWidget {
         method.controller.text = copiedText;
 
         final ibanMask = MaskTextInputFormatter(
-          mask: '#### #### #### #### #### #### ####',
+          mask: '#### #### #### #### #### #### #### #### ##',
           initialText: method.controller.text,
           filter: {
             '#': RegExp('[a-zA-Z0-9]'),
@@ -110,7 +110,7 @@ class PaymentMethodIban extends StatelessWidget {
       inputType: TextInputType.name,
       inputFormatters: [
         MaskTextInputFormatter(
-          mask: '#### #### #### #### #### #### ####',
+          mask: '#### #### #### #### #### #### #### #### ##',
           initialText: method.controller.text,
           filter: {
             '#': RegExp('[a-zA-Z0-9]'),
