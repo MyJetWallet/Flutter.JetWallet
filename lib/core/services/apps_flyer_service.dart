@@ -67,6 +67,7 @@ class AppsFlyerService {
               final deepLinkValue = data['deep_link_value'] as String?;
 
               if (deepLinkValue != null) {
+                await Future.delayed(const Duration(seconds: 3));
                 await getIt.get<DeepLinkService>().handleOneLinkAction(deepLinkValue);
               }
             }
