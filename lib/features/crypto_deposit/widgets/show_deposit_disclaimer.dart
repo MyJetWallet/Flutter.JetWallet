@@ -43,8 +43,8 @@ void showDepositDisclaimer({
           curve: Curves.linear,
         );
       },
-      primaryText1: intl.deposit_kyc_alert_title('\$50'),
-      secondaryText1: intl.deposit_kyc_alert_description('\$50'),
+      primaryText1: intl.deposit_kyc_alert_title('€50'),
+      secondaryText1: intl.deposit_kyc_alert_description('€50'),
       primaryButtonName1: intl.actionBuy_gotIt,
       onPrimaryButtonTap1: () {
         Navigator.pop(context);

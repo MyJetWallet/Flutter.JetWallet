@@ -6,7 +6,6 @@ import 'package:simple_kit/modules/shared/simple_spacers.dart';
 import 'package:simple_kit/modules/texts/simple_text_styles.dart';
 
 class SChooseDocument extends StatelessWidget {
-  @Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
   const SChooseDocument({
     super.key,
     this.active = false,

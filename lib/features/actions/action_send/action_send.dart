@@ -545,43 +545,43 @@ void showBankTransferTo(BuildContext context, [CurrencyModel? currency]) {
         name: intl.bank_transfer_to_another_person,
         helper: getHelperTextToSendAnyone(),
       ),
-      if (methods.isNotEmpty)
-        SCardRow(
-          icon: Assets.svg.medium.business.simpleSvg(color: SColorsLight().blue),
-          onTap: () {
-            final methods = sSignalRModules.globalSendMethods?.methods
-                    ?.where((method) => method.type == 10 && (method.receiveAsset == 'UAH'))
-                    .toList() ??
-                [];
-
-            if (methods.isEmpty) {
-              sNotification.showError(
-                intl.operation_bloked_text,
-                id: 1,
-              );
-              return;
-            }
-
-            if (currency != null) {
-              sRouter.push(
-                SendCardDetailRouter(
-                  method: methods.first,
-                  countryCode: 'UA',
-                  currency: currency,
-                ),
-              );
-            } else {
-              showChooseAssetToSend(
-                sRouter.navigatorKey.currentContext!,
-                isUahBankTransfer: true,
-              );
-            }
-          },
-          amount: '',
-          description: '',
-          name: intl.bank_transfer_uah_bank_account,
-          helper: intl.bank_transfer_ua_iban,
-        ),
+      // if (methods.isNotEmpty)
+      //   SCardRow(
+      //     icon: Assets.svg.medium.business.simpleSvg(color: SColorsLight().blue),
+      //     onTap: () {
+      //       final methods = sSignalRModules.globalSendMethods?.methods
+      //               ?.where((method) => method.type == 10 && (method.receiveAsset == 'UAH'))
+      //               .toList() ??
+      //           [];
+      //
+      //       if (methods.isEmpty) {
+      //         sNotification.showError(
+      //           intl.operation_bloked_text,
+      //           id: 1,
+      //         );
+      //         return;
+      //       }
+      //
+      //       if (currency != null) {
+      //         sRouter.push(
+      //           SendCardDetailRouter(
+      //             method: methods.first,
+      //             countryCode: 'UA',
+      //             currency: currency,
+      //           ),
+      //         );
+      //       } else {
+      //         showChooseAssetToSend(
+      //           sRouter.navigatorKey.currentContext!,
+      //           isUahBankTransfer: true,
+      //         );
+      //       }
+      //     },
+      //     amount: '',
+      //     description: '',
+      //     name: intl.bank_transfer_uah_bank_account,
+      //     helper: intl.bank_transfer_ua_iban,
+      //   ),
       const SpaceH42(),
     ],
   );

@@ -11,7 +11,6 @@ import 'di.dart';
 
 part 'simple_kit.g.dart';
 
-@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
 final sKit = sGetIt.get<SimpleKit>();
 
 // ignore: library_private_types_in_public_api

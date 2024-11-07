@@ -9,8 +9,8 @@ import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
+import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 import '../../../../core/di/di.dart';
 import '../../../app/store/app_store.dart';
@@ -69,8 +69,16 @@ class SendGloballyDetails extends StatelessObserverWidget {
               text: intl.global_send_history_beneficiary_name,
               value: Row(
                 children: [
-                  TransactionDetailsValueText(
-                    text: transactionListItem.paymeInfo?.recipientName ?? '',
+                  ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width * 0.5,
+                    ),
+                    child: TransactionDetailsValueText(
+                      text: transactionListItem.paymeInfo?.recipientName ?? '',
+                      textAlign: TextAlign.end,
+                      softWrap: true,
+                      maxLines: 2,
+                    ),
                   ),
                   const SpaceW10(),
                   HistoryCopyIcon(
@@ -143,7 +151,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
               value: Row(
                 children: [
                   TransactionDetailsValueText(
-                    text: transactionListItem.paymeInfo?.iban ?? '',
+                    text: getIBANTypeMask(transactionListItem.paymeInfo?.iban ?? ''),
                   ),
                   const SpaceW10(),
                   HistoryCopyIcon(transactionListItem.paymeInfo?.iban ?? ''),
@@ -350,7 +358,7 @@ class _BuyDetailsHeader extends StatelessWidget {
 
     return Column(
       children: [
-        STransaction(
+        WhatToWhatConvertWidget(
           removeDefaultPaddings: true,
           isLoading: false,
           fromAssetIconUrl: paymentAsset.iconUrl,

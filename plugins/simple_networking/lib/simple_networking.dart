@@ -1,4 +1,4 @@
-library;
+library simple_networking;
 
 export 'core/simple_networking.dart';
 export 'config/options.dart';

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit/modules/agreements/simple_privacy_policy/simple_policy_rich_text.dart';
 
-@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
 class SPolicyText extends StatelessWidget {
   const SPolicyText({
     super.key,

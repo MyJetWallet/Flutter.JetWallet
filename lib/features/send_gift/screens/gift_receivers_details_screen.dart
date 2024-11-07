@@ -2,8 +2,8 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/features/send_gift/model/send_gift_info_model.dart';
+import 'package:simple_kit/modules/buttons/basic_buttons/primary_button/public/simple_primary_button_4.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../core/l10n/i10n.dart';
 import '../../../core/router/app_router.dart';
@@ -152,22 +152,21 @@ class _GiftReceiversDetailsScreenState extends State<GiftReceiversDetailsScreen>
                         store.onButtonTaped();
                       },
                       child: SPaddingH24(
-                        child: SButton.blue(
-                          text: intl.setPhoneNumber_continue,
-                          callback: store.isformValid
-                              ? () {
-                                  sRouter.push(
-                                    GiftAmountRouter(
-                                      sendGiftInfo: widget.sendGiftInfo.copyWith(
-                                        email: store.email,
-                                        phoneBody: store.phoneBody,
-                                        phoneCountryCode: store.phoneCountryCode,
-                                        selectedContactType: store.selectedContactType,
-                                      ),
-                                    ),
-                                  );
-                                }
-                              : null,
+                        child: SPrimaryButton4(
+                          active: store.isformValid,
+                          name: intl.setPhoneNumber_continue,
+                          onTap: () {
+                            sRouter.push(
+                              GiftAmountRouter(
+                                sendGiftInfo: widget.sendGiftInfo.copyWith(
+                                  email: store.email,
+                                  phoneBody: store.phoneBody,
+                                  phoneCountryCode: store.phoneCountryCode,
+                                  selectedContactType: store.selectedContactType,
+                                ),
+                              ),
+                            );
+                          },
                         ),
                       ),
                     );

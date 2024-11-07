@@ -11,6 +11,7 @@ import 'package:jetwallet/features/send_gift/model/send_gift_info_model.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
+import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
@@ -59,27 +60,29 @@ class _GiftOrderSummuryState extends State<GiftOrderSummury> {
               SliverToBoxAdapter(
                 child: Column(
                   children: [
-                    STransaction(
-                      isLoading: false,
-                      hasSecondAsset: false,
-                      fromAssetIconUrl: sendGiftStore.currency.iconUrl,
-                      fromAssetDescription: sendGiftStore.currency.description,
-                      fromAssetValue: sendGiftStore.amount.toFormatCount(
-                        accuracy: sendGiftStore.currency.accuracy,
-                        symbol: sendGiftStore.currency.symbol,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 24),
+                      child: AssetRowWidget(
+                        isLoading: false,
+                        assetIconUrl: sendGiftStore.currency.iconUrl,
+                        assetDescription: sendGiftStore.currency.description,
+                        assetValue: sendGiftStore.amount.toFormatCount(
+                          accuracy: sendGiftStore.currency.accuracy,
+                          symbol: sendGiftStore.currency.symbol,
+                        ),
+                        assetBaseAmount: formatService
+                            .convertOneCurrencyToAnotherOne(
+                              fromCurrency: sendGiftStore.currency.symbol,
+                              fromCurrencyAmmount: sendGiftStore.amount,
+                              toCurrency: sSignalRModules.baseCurrency.symbol,
+                              baseCurrency: sSignalRModules.baseCurrency.symbol,
+                              isMin: false,
+                            )
+                            .toFormatSum(
+                              accuracy: sSignalRModules.baseCurrency.accuracy,
+                              symbol: sSignalRModules.baseCurrency.symbol,
+                            ),
                       ),
-                      fromAssetBaseAmount: formatService
-                          .convertOneCurrencyToAnotherOne(
-                            fromCurrency: sendGiftStore.currency.symbol,
-                            fromCurrencyAmmount: sendGiftStore.amount,
-                            toCurrency: sSignalRModules.baseCurrency.symbol,
-                            baseCurrency: sSignalRModules.baseCurrency.symbol,
-                            isMin: false,
-                          )
-                          .toFormatSum(
-                            accuracy: sSignalRModules.baseCurrency.accuracy,
-                            symbol: sSignalRModules.baseCurrency.symbol,
-                          ),
                     ),
                     const SDivider(),
                     const SpaceH16(),
@@ -113,9 +116,10 @@ class _GiftOrderSummuryState extends State<GiftOrderSummury> {
                     const SpaceH16(),
                     const SDivider(),
                     const SpaceH32(),
-                    SButton.blue(
-                      text: intl.previewBuyWithAsset_confirm,
-                      callback: () {
+                    SPrimaryButton2(
+                      active: true,
+                      name: intl.previewBuyWithAsset_confirm,
+                      onTap: () {
                         sRouter.push(
                           PinScreenRoute(
                             union: const Change(),

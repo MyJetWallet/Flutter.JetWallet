@@ -18,6 +18,7 @@ import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/prepaid_card/purchase_card_brand_list_response_model.dart';
@@ -91,7 +92,7 @@ class _BuyVouncherConfirmationBody extends StatelessObserverWidget {
             child: SPaddingH24(
               child: Column(
                 children: [
-                  STransaction(
+                  WhatToWhatConvertWidget(
                     isLoading: !store.isDataLoaded,
                     fromAssetIconUrl: store.payCurrency.iconUrl,
                     fromAssetDescription: intl.prepaid_card_crypto_wallet,
@@ -201,13 +202,12 @@ class _BuyVouncherConfirmationBody extends StatelessObserverWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 24),
-                    child: SButton.blue(
-                      text: intl.previewBuyWithAsset_confirm,
-                      callback: !store.loader.loading && store.getCheckbox
-                          ? () {
-                              store.createPayment();
-                            }
-                          : null,
+                    child: SPrimaryButton2(
+                      active: !store.loader.loading && store.getCheckbox,
+                      name: intl.previewBuyWithAsset_confirm,
+                      onTap: () {
+                        store.createPayment();
+                      },
                     ),
                   ),
                 ],

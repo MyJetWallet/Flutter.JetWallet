@@ -14,6 +14,7 @@ import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/jar/jar_response_model.dart';
@@ -101,27 +102,29 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
           SliverToBoxAdapter(
             child: Column(
               children: [
-                STransaction(
-                  isLoading: false,
-                  hasSecondAsset: false,
-                  fromAssetIconUrl: store.withdrawalInputModel!.currency!.iconUrl,
-                  fromAssetDescription: store.withdrawalInputModel!.currency!.description,
-                  fromAssetValue: store.youSendAmount.toFormatCount(
-                    accuracy: store.withdrawalInputModel!.currency!.accuracy,
-                    symbol: store.withdrawalInputModel!.currency!.symbol,
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 24),
+                  child: AssetRowWidget(
+                    isLoading: false,
+                    assetIconUrl: store.withdrawalInputModel!.currency!.iconUrl,
+                    assetDescription: store.withdrawalInputModel!.currency!.description,
+                    assetValue: store.youSendAmount.toFormatCount(
+                      accuracy: store.withdrawalInputModel!.currency!.accuracy,
+                      symbol: store.withdrawalInputModel!.currency!.symbol,
+                    ),
+                    assetBaseAmount: formatService
+                        .convertOneCurrencyToAnotherOne(
+                          fromCurrency: store.withdrawalInputModel!.currency!.symbol,
+                          fromCurrencyAmmount: store.youSendAmount,
+                          toCurrency: sSignalRModules.baseCurrency.symbol,
+                          baseCurrency: sSignalRModules.baseCurrency.symbol,
+                          isMin: false,
+                        )
+                        .toFormatSum(
+                          accuracy: sSignalRModules.baseCurrency.accuracy,
+                          symbol: sSignalRModules.baseCurrency.symbol,
+                        ),
                   ),
-                  fromAssetBaseAmount: formatService
-                      .convertOneCurrencyToAnotherOne(
-                        fromCurrency: store.withdrawalInputModel!.currency!.symbol,
-                        fromCurrencyAmmount: store.youSendAmount,
-                        toCurrency: sSignalRModules.baseCurrency.symbol,
-                        baseCurrency: sSignalRModules.baseCurrency.symbol,
-                        isMin: false,
-                      )
-                      .toFormatSum(
-                        accuracy: sSignalRModules.baseCurrency.accuracy,
-                        symbol: sSignalRModules.baseCurrency.symbol,
-                      ),
                 ),
                 const SDivider(),
                 const SpaceH16(),
@@ -156,56 +159,55 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
                 const SpaceH16(),
                 const SDivider(),
                 const SpaceH32(),
-                SButton.blue(
-                  text: intl.withdrawalPreview_confirm,
-                  callback: !store.previewLoading && isUserEnoughMaticForWithdraw && !store.previewError
-                      ? () {
+                SPrimaryButton2(
+                  active: !store.previewLoading && isUserEnoughMaticForWithdraw && !store.previewError,
+                  name: intl.withdrawalPreview_confirm,
+                  onTap: () {
+                    if (store.withdrawalType == WithdrawalType.jar) {
+                      sAnalytics.jarTapOnButtonConfirmJarWithdrawOnOrderSummary(
+                        asset: store.withdrawalInputModel!.jar!.assetSymbol,
+                        network: 'TRC20',
+                        target: store.withdrawalInputModel!.jar!.target.toInt(),
+                        balance: store.withdrawalInputModel!.jar!.balanceInJarAsset,
+                        isOpen: store.withdrawalInputModel!.jar!.status == JarStatus.active,
+                      );
+                    } else {
+                      sAnalytics.cryptoSendTapConfirmOrder(
+                        asset: store.withdrawalInputModel!.currency!.symbol,
+                        network: store.network.description,
+                        sendMethodType: '0',
+                        totalSendAmount: store.withAmount,
+                        paymentFee: feeSize == Decimal.zero ? intl.noFee : feeSizeWithSymbol,
+                      );
+                    }
+
+                    sRouter.push(
+                      PinScreenRoute(
+                        union: const Change(),
+                        isChangePhone: true,
+                        onChangePhone: (String newPin) {
                           if (store.withdrawalType == WithdrawalType.jar) {
-                            sAnalytics.jarTapOnButtonConfirmJarWithdrawOnOrderSummary(
-                              asset: store.withdrawalInputModel!.jar!.assetSymbol,
-                              network: 'TRC20',
-                              target: store.withdrawalInputModel!.jar!.target.toInt(),
-                              balance: store.withdrawalInputModel!.jar!.balanceInJarAsset,
-                              isOpen: store.withdrawalInputModel!.jar!.status == JarStatus.active,
-                            );
+                            sRouter.maybePop();
+
+                            store.withdrawJar(newPin: newPin);
                           } else {
-                            sAnalytics.cryptoSendTapConfirmOrder(
+                            sAnalytics.cryptoSendBioApprove(
                               asset: store.withdrawalInputModel!.currency!.symbol,
                               network: store.network.description,
                               sendMethodType: '0',
                               totalSendAmount: store.withAmount,
                               paymentFee: feeSize == Decimal.zero ? intl.noFee : feeSizeWithSymbol,
                             );
+
+                            sRouter.maybePop();
+
+                            store.withdraw(newPin: newPin);
                           }
-
-                          sRouter.push(
-                            PinScreenRoute(
-                              union: const Change(),
-                              isChangePhone: true,
-                              onChangePhone: (String newPin) {
-                                if (store.withdrawalType == WithdrawalType.jar) {
-                                  sRouter.maybePop();
-
-                                  store.withdrawJar(newPin: newPin);
-                                } else {
-                                  sAnalytics.cryptoSendBioApprove(
-                                    asset: store.withdrawalInputModel!.currency!.symbol,
-                                    network: store.network.description,
-                                    sendMethodType: '0',
-                                    totalSendAmount: store.withAmount,
-                                    paymentFee: feeSize == Decimal.zero ? intl.noFee : feeSizeWithSymbol,
-                                  );
-
-                                  sRouter.maybePop();
-
-                                  store.withdraw(newPin: newPin);
-                                }
-                              },
-                              onWrongPin: (String error) {},
-                            ),
-                          );
-                        }
-                      : null,
+                        },
+                        onWrongPin: (String error) {},
+                      ),
+                    );
+                  },
                 ),
               ],
             ),

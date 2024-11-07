@@ -29,7 +29,7 @@ class DefaultAssetChange extends StatelessObserverWidget {
 
     return PopScope(
       canPop: !baseAsset.loader!.loading,
-      onPopInvokedWithResult: (_, __) async {
+      onPopInvoked: (_) async {
         await Future.value(!baseAsset.loader!.loading);
       },
       child: SPageFrame(

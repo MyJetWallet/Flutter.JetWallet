@@ -5,7 +5,6 @@ import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 final _loaderRadius = BorderRadius.circular(20.0);
 
 class SSkeletonTextLoader extends StatefulWidget {
-  @Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
   const SSkeletonTextLoader({
     super.key,
     this.borderRadius,

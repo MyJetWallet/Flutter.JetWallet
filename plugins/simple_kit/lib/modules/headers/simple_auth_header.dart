@@ -4,7 +4,6 @@ import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 
 import '../../simple_kit.dart';
 
-@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
 class SLargeHeader extends StatelessWidget {
   const SLargeHeader({
     super.key,

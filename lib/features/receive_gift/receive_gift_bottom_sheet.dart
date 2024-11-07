@@ -14,7 +14,6 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/incoming_gift_model.dart';
 
@@ -185,9 +184,10 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
             ),
           ),
           const SpaceH49(),
-          SButton.blue(
-            text: intl.reseive_gift_claim,
-            callback: () async {
+          SPrimaryButton2(
+            active: true,
+            name: intl.reseive_gift_claim,
+            onTap: () async {
               if (kyc.depositStatus == kycOperationStatus(KycStatus.allowed)) {
                 await claim(currency, context);
               } else {

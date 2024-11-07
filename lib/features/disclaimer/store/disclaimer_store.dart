@@ -17,7 +17,6 @@ import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/disclaimer/disclaimers_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/disclaimer/disclaimers_response_model.dart';
 
@@ -185,7 +184,7 @@ abstract class _DisclaimerStoreBase with Store {
       context: context,
       child: PopScope(
         canPop: false,
-        onPopInvokedWithResult: (_, __) {
+        onPopInvoked: (_) {
           Future.value(false);
         },
         child: Column(
@@ -279,17 +278,16 @@ abstract class _DisclaimerStoreBase with Store {
                             ),
                           ),
                           SFloatingButtonFrame2(
-                            button: SButton.black(
-                              text: intl.disclaimer_continue,
-                              callback: activeButton
-                                  ? () async {
-                                      await _sendAnswers(
-                                        context,
-                                        disclaimerIndex,
-                                        onAgree,
-                                      );
-                                    }
-                                  : null,
+                            button: SPrimaryButton1(
+                              name: intl.disclaimer_continue,
+                              active: activeButton,
+                              onTap: () async {
+                                await _sendAnswers(
+                                  context,
+                                  disclaimerIndex,
+                                  onAgree,
+                                );
+                              },
                             ),
                           ),
                         ],

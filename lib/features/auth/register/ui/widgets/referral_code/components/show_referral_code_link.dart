@@ -3,8 +3,10 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/auth/register/store/referral_code_store.dart';
+import 'package:simple_kit/modules/buttons/basic_buttons/primary_button/public/simple_primary_button_4.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/helpers/icons_extension.dart';
 
 import '../../../../../../../widgets/action_bottom_sheet_header.dart';
 import 'invalid_referral_code.dart';
@@ -157,13 +159,12 @@ class _ReferralCodeBottom extends StatelessObserverWidget {
     return Column(
       children: [
         SPaddingH24(
-          child: SButton.blue(
-            text: intl.showBasicModalBottomSheet_continue,
-            callback: getIt.get<ReferallCodeStore>().enableContinueButton
-                ? () {
-                    Navigator.pop(context);
-                  }
-                : null,
+          child: SPrimaryButton4(
+            active: getIt.get<ReferallCodeStore>().enableContinueButton,
+            name: intl.showBasicModalBottomSheet_continue,
+            onTap: () {
+              Navigator.pop(context);
+            },
           ),
         ),
         const SpaceH24(),

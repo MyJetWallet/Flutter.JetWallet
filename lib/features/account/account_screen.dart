@@ -143,7 +143,7 @@ class _AccountScreenState extends State<AccountScreen> with SingleTickerProvider
                     final isDepositAllow = kycState.depositStatus != kycOperationStatus(KycStatus.allowed);
                     final isWithdrawalAllow = kycState.withdrawalStatus != kycOperationStatus(KycStatus.allowed);
 
-                    kycAlertHandler.handle(
+                    kycAlertHandler.handleKycBanner(
                       status: isDepositAllow
                           ? kycState.depositStatus
                           : isWithdrawalAllow
