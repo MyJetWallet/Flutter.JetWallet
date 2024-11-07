@@ -1,9 +1,7 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:simple_kit/modules/shared/simple_show_alert_popup.dart';
 
 class InternetCheckerService {
@@ -40,13 +38,6 @@ class InternetCheckerService {
         isAlertOpen = false;
       }
     } else if (result.contains(ConnectivityResult.wifi)) {
-      internetAvailable = true;
-
-      if (isAlertOpen) {
-        Navigator.pop(sRouter.navigatorKey.currentContext!);
-        isAlertOpen = false;
-      }
-    } else if (result.contains(ConnectivityResult.ethernet) && getIt<AppStore>().env == 'stage') {
       internetAvailable = true;
 
       if (isAlertOpen) {

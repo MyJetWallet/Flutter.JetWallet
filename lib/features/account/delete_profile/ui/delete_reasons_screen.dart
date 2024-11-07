@@ -5,7 +5,6 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/account/delete_profile/store/delete_profile_store.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'DeleteReasonsScreenRouter')
 class DeleteReasonsScreen extends StatelessObserverWidget {
@@ -17,7 +16,9 @@ class DeleteReasonsScreen extends StatelessObserverWidget {
 
     final store = getIt.get<DeleteProfileStore>();
 
-    return SPageFrame(
+    return PopScope(
+      canPop: false,
+      child: SPageFrame(
       loaderText: intl.register_pleaseWait,
       loading: store.loader,
       header: SPaddingH24(
@@ -35,8 +36,8 @@ class DeleteReasonsScreen extends StatelessObserverWidget {
         child: SButton.blue(
           callback: store.selectedDeleteReason.isNotEmpty
               ? () async {
-                  await store.deleteProfile();
-                }
+            await store.deleteProfile();
+          }
               : null,
           text: intl.deleteProfileReasons_continue,
         ),
@@ -95,6 +96,6 @@ class DeleteReasonsScreen extends StatelessObserverWidget {
           ],
         ),
       ),
-    );
+    ),);
   }
 }

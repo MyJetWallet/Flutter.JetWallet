@@ -11,7 +11,6 @@ const _delay = Duration(milliseconds: 500);
 /// If snackbar with id "x" is in the queue and you are trying
 /// to show a second snackbar with the same id "x", it won't be
 /// added to the queue until the first snackbar will finish displaying.
-@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
 class SNotificationNotifier extends StateNotifier<Queue<NotificationModel>> {
   SNotificationNotifier(this.context) : super(Queue());
 

@@ -14,7 +14,6 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class AddBankCardScreen extends StatefulWidget {
   const AddBankCardScreen({
@@ -145,70 +144,69 @@ class _AddBankCardScreenBody extends StatelessObserverWidget {
                     ),
                   ],
                   ContinueButtonFrame(
-                    child: SButton.blue(
-                      text: intl.addCircleCard_continue,
-                      callback: store.isCardDetailsValid
-                          ? () async {
-                              sAnalytics.tapOnContinueCrNewCardButton(
-                                destinationWallet: asset?.symbol ?? '',
-                              );
-                              if (store.saveCard) {
-                                await Navigator.push(
-                                  context,
-                                  PageRouteBuilder(
-                                    opaque: false,
-                                    barrierColor: Colors.white,
-                                    pageBuilder: (BuildContext _, __, ___) {
-                                      return BankCardLabel(
-                                        contextWithBankCardStore: context,
-                                        amount: amount,
-                                        onCardAdded: onCardAdded,
-                                        asset: asset,
-                                        isPreview: isPreview,
-                                      );
-                                    },
-                                    transitionsBuilder: (
-                                      context,
-                                      animation,
-                                      secondaryAnimation,
-                                      child,
-                                    ) {
-                                      const begin = Offset(0.0, 1.0);
-                                      const end = Offset.zero;
-                                      const curve = Curves.ease;
-
-                                      final tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-                                      return SlideTransition(
-                                        position: animation.drive(tween),
-                                        child: child,
-                                      );
-                                    },
-                                  ),
-                                );
-                              } else {
-                                if (store.canClick) {
-                                  store.setCanClick(false);
-                                  Timer(
-                                    const Duration(
-                                      seconds: 2,
-                                    ),
-                                    () => store.setCanClick(true),
-                                  );
-                                } else {
-                                  return;
-                                }
-
-                                await store.addCard(
-                                  onSuccess: onCardAdded,
-                                  onError: () {},
-                                  isPreview: isPreview,
+                    child: SPrimaryButton2(
+                      active: store.isCardDetailsValid,
+                      name: intl.addCircleCard_continue,
+                      onTap: () async {
+                        sAnalytics.tapOnContinueCrNewCardButton(
+                          destinationWallet: asset?.symbol ?? '',
+                        );
+                        if (store.saveCard) {
+                          await Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                              opaque: false,
+                              barrierColor: Colors.white,
+                              pageBuilder: (BuildContext _, __, ___) {
+                                return BankCardLabel(
+                                  contextWithBankCardStore: context,
                                   amount: amount,
-                                  asset: asset!,
+                                  onCardAdded: onCardAdded,
+                                  asset: asset,
+                                  isPreview: isPreview,
                                 );
-                              }
-                            }
-                          : null,
+                              },
+                              transitionsBuilder: (
+                                context,
+                                animation,
+                                secondaryAnimation,
+                                child,
+                              ) {
+                                const begin = Offset(0.0, 1.0);
+                                const end = Offset.zero;
+                                const curve = Curves.ease;
+
+                                final tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+                                return SlideTransition(
+                                  position: animation.drive(tween),
+                                  child: child,
+                                );
+                              },
+                            ),
+                          );
+                        } else {
+                          if (store.canClick) {
+                            store.setCanClick(false);
+                            Timer(
+                              const Duration(
+                                seconds: 2,
+                              ),
+                              () => store.setCanClick(true),
+                            );
+                          } else {
+                            return;
+                          }
+
+                          await store.addCard(
+                            onSuccess: onCardAdded,
+                            onError: () {},
+                            isPreview: isPreview,
+                            amount: amount,
+                            asset: asset!,
+                          );
+                        }
+                      },
                     ),
                   ),
                 ],

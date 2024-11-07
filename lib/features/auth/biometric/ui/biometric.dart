@@ -14,9 +14,9 @@ import 'package:jetwallet/features/auth/biometric/store/biometric_store.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_kit/modules/buttons/basic_buttons/primary_button/public/simple_primary_button_4.dart';
 import 'package:simple_kit/modules/headers/simple_auth_header.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../../core/services/apps_flyer_service.dart';
 
@@ -109,9 +109,10 @@ class _BiometricBody extends StatelessObserverWidget {
                     ),
                   ),
                   const SpaceH40(),
-                  SButton.blue(
-                    text: buttonText,
-                    callback: () async {
+                  SPrimaryButton4(
+                    active: true,
+                    name: buttonText,
+                    onTap: () async {
                       final bioStatus = await biometricStatus();
                       final storageService = sLocalStorageService;
                       await storageService.setString(useBioKey, 'true');

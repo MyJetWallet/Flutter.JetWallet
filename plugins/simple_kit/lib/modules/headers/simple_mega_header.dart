@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
 class SMegaHeader extends StatelessWidget {
   const SMegaHeader({
     super.key,

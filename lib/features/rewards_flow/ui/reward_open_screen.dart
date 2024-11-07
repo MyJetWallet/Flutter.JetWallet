@@ -20,7 +20,6 @@ import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/rewards/reward_spin_response.dart';
 
 part 'reward_open_screen.g.dart';
@@ -404,11 +403,12 @@ class _RewardOpenScreenBodyState extends State<_RewardOpenScreenBody> with Ticke
                 ),
                 if (store.showBottomButton) ...[
                   if (widget.rewardStore.availableSpins != 0) ...[
-                    SButton.black(
-                      callback: () async {
+                    SPrimaryButton1(
+                      active: true,
+                      onTap: () async {
                         store.nextReward();
                       },
-                      text: intl.reward_open_next_reward,
+                      name: intl.reward_open_next_reward,
                     ),
                     const SpaceH24(),
                     Text(
@@ -419,11 +419,12 @@ class _RewardOpenScreenBodyState extends State<_RewardOpenScreenBody> with Ticke
                       ),
                     ),
                   ] else ...[
-                    SButton.black(
-                      callback: () async {
+                    SPrimaryButton1(
+                      active: true,
+                      onTap: () async {
                         await sRouter.maybePop();
                       },
-                      text: intl.reward_close,
+                      name: intl.reward_close,
                     ),
                   ],
                 ],

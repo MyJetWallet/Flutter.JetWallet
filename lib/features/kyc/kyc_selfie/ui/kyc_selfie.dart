@@ -13,7 +13,6 @@ import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'KycSelfieRouter')
 class KycSelfie extends StatelessWidget {
@@ -176,8 +175,8 @@ class _KycSelfieBody extends StatelessObserverWidget {
               ],
             ),
             SFloatingButtonFrame(
-              button: SButton.blue(
-                callback: () async {
+              button: SPrimaryButton2(
+                onTap: () async {
                   if (state.isSelfieNotEmpty) {
                     state.loader.startLoading();
 
@@ -188,7 +187,8 @@ class _KycSelfieBody extends StatelessObserverWidget {
                     await state.pickedImage();
                   }
                 },
-                text: (state.isSelfieNotEmpty) ? intl.kycDocumentType_uploadPhoto : intl.kycDocumentType_selfieImage,
+                name: (state.isSelfieNotEmpty) ? intl.kycDocumentType_uploadPhoto : intl.kycDocumentType_selfieImage,
+                active: true,
                 icon: (state.isSelfieNotEmpty) ? const SArrowUpIcon() : const SSelfieIcon(),
               ),
             ),

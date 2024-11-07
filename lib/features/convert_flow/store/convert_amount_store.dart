@@ -240,7 +240,7 @@ abstract class _ConvertAmountStoreBase with Store {
 
     onMaxPressed = false;
     setLoadingMaxButton(true);
-    await loadLimits();
+    unawaited(loadLimits());
 
     _checkShowTosts();
   }

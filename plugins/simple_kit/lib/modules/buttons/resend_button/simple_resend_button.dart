@@ -5,7 +5,6 @@ import 'package:simple_kit/modules/shared/simple_spacers.dart';
 import 'package:simple_kit/modules/texts/simple_text_styles.dart';
 
 class SResendButton extends StatefulWidget {
-  @Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
   const SResendButton({
     super.key,
     this.active = true,

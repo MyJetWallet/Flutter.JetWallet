@@ -15,8 +15,8 @@ import 'package:jetwallet/utils/helpers/calculate_base_balance.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'ConvertConfirmationRoute')
 class ConvertConfirmationScreen extends StatelessWidget {
@@ -62,7 +62,7 @@ class _ConvertConfirmationScreenBody extends StatelessObserverWidget {
     var isAnchorSet = false;
 
     return PopScope(
-      onPopInvokedWithResult: (_, __) {
+      onPopInvoked: (_) {
         if (!isAnchorSet && !getIt.get<AnchorsHelper>().isConvertConfirmed) {
           setAnchor();
           isAnchorSet = true;
@@ -98,7 +98,7 @@ class _ConvertConfirmationScreenBody extends StatelessObserverWidget {
               hasScrollBody: false,
               child: Column(
                 children: [
-                  STransaction(
+                  WhatToWhatConvertWidget(
                     isLoading: !store.isDataLoaded,
                     fromAssetIconUrl: store.payCurrency.iconUrl,
                     fromAssetDescription: store.payCurrency.symbol,

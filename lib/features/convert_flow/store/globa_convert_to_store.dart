@@ -11,7 +11,7 @@ part 'globa_convert_to_store.g.dart';
 class GlobaConvertToStore extends _GlobaConvertToStoreBase with _$GlobaConvertToStore {
   GlobaConvertToStore() : super();
 
-  GlobaConvertToStore of(BuildContext context) => Provider.of<GlobaConvertToStore>(context, listen: false);
+  static GlobaConvertToStore of(BuildContext context) => Provider.of<GlobaConvertToStore>(context, listen: false);
 }
 
 abstract class _GlobaConvertToStoreBase with Store {

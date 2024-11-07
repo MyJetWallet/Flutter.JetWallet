@@ -33,7 +33,7 @@ import 'package:simple_networking/modules/wallet_api/models/operation_history/op
     as ohrm;
 
 @RoutePage(name: 'JarRouter')
-class JarScreen extends StatefulWidget {
+class JarScreen extends StatelessWidget {
   const JarScreen({
     required this.hasLeftIcon,
     super.key,
@@ -42,18 +42,7 @@ class JarScreen extends StatefulWidget {
   final bool hasLeftIcon;
 
   @override
-  State<JarScreen> createState() => _JarScreenState();
-}
-
-class _JarScreenState extends State<JarScreen> {
-  bool showViewAllButtonOnHistory = false;
-
-  bool allowCloseByTransactions = true;
-
-  @override
-  void initState() {
-    super.initState();
-
+  Widget build(BuildContext context) {
     final store = getIt.get<JarsStore>();
     final selectedJar = store.selectedJar!;
 
@@ -67,7 +56,29 @@ class _JarScreenState extends State<JarScreen> {
       balance: selectedJar.balanceInJarAsset,
       isOpen: selectedJar.status == JarStatus.active,
     );
+
+    return _JarBody(
+      hasLeftIcon: hasLeftIcon,
+    );
   }
+}
+
+
+class _JarBody extends StatefulWidget {
+  const _JarBody({
+    required this.hasLeftIcon,
+  });
+
+  final bool hasLeftIcon;
+
+  @override
+  State<_JarBody> createState() => __JarBodyState();
+}
+
+class __JarBodyState extends State<_JarBody> {
+  bool showViewAllButtonOnHistory = false;
+
+  bool allowCloseByTransactions = true;
 
   @override
   Widget build(BuildContext context) {

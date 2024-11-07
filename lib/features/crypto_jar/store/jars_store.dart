@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
@@ -72,6 +74,25 @@ abstract class _JarsStoreBase with Store {
   @action
   Future<void> initStore() async {
     try {
+      final responseLimit = sNetwork.getWalletModule().postWithdrawJarLimitRequest(
+        {
+          'assetSymbol': 'USDT',
+        },
+      );
+
+      unawaited(
+        responseLimit.then(
+              (response) {
+            response.pick(
+              onData: (data) {
+                setLimit(data.limit);
+              },
+              onError: (error) {},
+            );
+          },
+        ),
+      );
+
       final responseAll = await sNetwork.getWalletModule().postJarAllList();
 
       final resultAll = responseAll.data;
@@ -87,19 +108,6 @@ abstract class _JarsStoreBase with Store {
           }
         }
       }
-
-      final responseLimit = await sNetwork.getWalletModule().postWithdrawJarLimitRequest(
-        {
-          'assetSymbol': 'USDT',
-        },
-      );
-
-      responseLimit.pick(
-        onData: (data) {
-          setLimit(data.limit);
-        },
-        onError: (error) {},
-      );
     } catch (e) {
       getIt.get<SimpleLoggerService>().log(
             level: Level.error,

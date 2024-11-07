@@ -5,22 +5,31 @@ import 'package:simple_kit_updated/widgets/keyboard/components/numeric_keyboard_
 class NumericKeyboardFrame extends StatelessWidget {
   const NumericKeyboardFrame({
     super.key,
+    this.paddingBottom,
+    required this.heightBetweenRows,
+    required this.paddingTop,
+    required this.height,
     required this.lastRow,
     required this.onKeyPressed,
   });
 
+  final double heightBetweenRows;
+  final double? paddingBottom;
+  final double paddingTop;
+  final double height;
   final NumericKeyboardRow lastRow;
   final void Function(String) onKeyPressed;
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: height,
       color: SColorsLight().white,
-      padding: const EdgeInsets.only(
+      padding: EdgeInsets.only(
         left: 24.0,
         right: 24.0,
-        top: 16,
-        bottom: 20,
+        top: paddingTop,
+        bottom: paddingBottom ?? 0,
       ),
       child: Column(
         children: [
@@ -33,6 +42,9 @@ class NumericKeyboardFrame extends StatelessWidget {
             realValue3: '3',
             onKeyPressed: onKeyPressed,
           ),
+          SizedBox(
+            height: heightBetweenRows,
+          ),
           NumericKeyboardRow(
             frontKey1: '4',
             realValue1: '4',
@@ -42,6 +54,9 @@ class NumericKeyboardFrame extends StatelessWidget {
             realValue3: '6',
             onKeyPressed: onKeyPressed,
           ),
+          SizedBox(
+            height: heightBetweenRows,
+          ),
           NumericKeyboardRow(
             frontKey1: '7',
             realValue1: '7',
@@ -50,6 +65,9 @@ class NumericKeyboardFrame extends StatelessWidget {
             frontKey3: '9',
             realValue3: '9',
             onKeyPressed: onKeyPressed,
+          ),
+          SizedBox(
+            height: heightBetweenRows,
           ),
           lastRow,
         ],

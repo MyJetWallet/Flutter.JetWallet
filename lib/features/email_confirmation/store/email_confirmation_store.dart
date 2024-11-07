@@ -149,9 +149,9 @@ abstract class _EmailConfirmationStoreBase with Store {
 
   @action
   Future<void> verifyCode() async {
-    _logger.log(notifier, 'verifyCode');
+    loader.startLoadingImmediately();
 
-    union = const EmailConfirmationUnion.loading();
+    _logger.log(notifier, 'verifyCode');
 
     try {
       final model = VerifyEmailConfirmationRequest(
@@ -164,8 +164,6 @@ abstract class _EmailConfirmationStoreBase with Store {
 
       responce.pick(
         onData: (data) async {
-          union = const EmailConfirmationUnion.input();
-
           getIt.get<SimpleLoggerService>().log(
                 level: logger.Level.info,
                 place: 'Email Confirmation Store',
@@ -176,38 +174,32 @@ abstract class _EmailConfirmationStoreBase with Store {
                 deleteToken: sendEmailResponse?.tokenId ?? '',
               );
 
-          await sRouter.push(
-            const DeleteReasonsScreenRouter(),
-          );
+          final isAllowNavigation = sRouter.stack.any((rout) => rout.name == EmailConfirmationRouter.name);
+          if (isAllowNavigation) {
+            await sRouter.push(
+              const DeleteReasonsScreenRouter(),
+            );
+          }
         },
         onError: (error) {
           _logger.log(stateFlow, 'verifyCode', error.cause);
-
-          union = error.cause.contains('50') || error.cause.contains('40')
-              ? EmailConfirmationUnion.error(
-                  intl.something_went_wrong_try_again,
-                )
-              : EmailConfirmationUnion.error(error.cause);
           sNotification.showError(
             error.cause,
           );
         },
       );
-
-      loader.finishLoadingImmediately();
     } on ServerRejectException catch (error) {
       _logger.log(stateFlow, 'verifyCode', error.cause);
-
-      union = error.cause.contains('50') || error.cause.contains('40')
-          ? EmailConfirmationUnion.error(intl.something_went_wrong_try_again)
-          : EmailConfirmationUnion.error(error.cause);
+      sNotification.showError(
+        intl.something_went_wrong,
+      );
     } catch (error) {
       _logger.log(stateFlow, 'verifyCode', error);
-
-      union = error.toString().contains('50') || error.toString().contains('40')
-          ? EmailConfirmationUnion.error(intl.something_went_wrong_try_again)
-          : EmailConfirmationUnion.error(error);
+      sNotification.showError(
+        intl.something_went_wrong,
+      );
     }
+    loader.finishLoadingImmediately();
   }
 
   @action

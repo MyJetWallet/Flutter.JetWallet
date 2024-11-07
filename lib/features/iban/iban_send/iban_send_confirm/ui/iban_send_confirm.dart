@@ -17,8 +17,8 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_preview_model.dart';
@@ -157,7 +157,7 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                     small: () => const SpaceH8(),
                     medium: () => const SpaceH3(),
                   ),
-                  STransaction(
+                  WhatToWhatConvertWidget(
                     isLoading: false,
                     fromAssetIconUrl: cryptoSell != null ? currency.iconUrl : currency.iconUrl,
                     fromAssetDescription: cryptoSell != null ? currency.description : account.label ?? '',
@@ -266,9 +266,10 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
             button: Column(
               children: [
                 const SpaceH24(),
-                SButton.blue(
-                  text: intl.previewBuyWithAsset_confirm,
-                  callback: () {
+                SPrimaryButton2(
+                  active: true,
+                  name: intl.previewBuyWithAsset_confirm,
+                  onTap: () {
                     sAnalytics.eurWithdrawTapConfirmOrderSummary(
                       isCJ: isCJ,
                       accountIban: account.iban ?? '',

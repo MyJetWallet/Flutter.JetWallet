@@ -64,7 +64,7 @@ class _BasicBottomSheetState extends State<BasicBottomSheet> {
 
     return PopScope(
       canPop: true,
-      onPopInvokedWithResult: (didPop, _) {
+      onPopInvoked: (didPop) {
         if (didPop) return;
         widget.onWillPop ?? onDismissAction(context);
       },
@@ -103,18 +103,20 @@ class _BasicBottomSheetState extends State<BasicBottomSheet> {
                         children: [
                           DraggableScrollableSheet(
                             initialChildSize: 1,
-                            minChildSize: 0.9,
+                            minChildSize: 0.95,
                             maxChildSize: 1.0,
                             builder: (context, scrollController) {
-                              return SingleChildScrollView(
+                              return ListView(
                                 controller: scrollController,
-                                child: Column(
-                                  key: _contentKey,
-                                  children: [
-                                    ...widget.children,
-                                    buttonPlaceholder,
-                                  ],
-                                ),
+                                children: [
+                                  Column(
+                                    key: _contentKey,
+                                    children: [
+                                      ...widget.children,
+                                      buttonPlaceholder,
+                                    ],
+                                  ),
+                                ],
                               );
                             },
                           ),

@@ -1,4 +1,4 @@
-library;
+library simple_kit_updated;
 
 // Typography
 export 'widgets/typography/simple_typography.dart';
@@ -48,9 +48,9 @@ export 'widgets/button/chips/chips_suggestion_m.dart';
 export 'widgets/button/dropdownmenu_button/simple_dropdownmenu_button.dart';
 export 'widgets/button/tag/simple_tag_button.dart';
 export 'widgets/button/chips/simple_command_bar.dart';
-export 'widgets/button/action_button/action_button.dart';
 
 export 'widgets/shared/icons/blue_bank_icon.dart';
+export 'widgets/shared/icons/user_noty_icon.dart';
 export 'widgets/shared/safe_gesture.dart';
 
 export 'widgets/button/context/simple_button_context.dart';
@@ -81,9 +81,3 @@ export 'widgets/input/simple_numeric_large_input.dart';
 
 // Bottom Sheet bar
 export 'widgets/bottom_sheet/basic_bottom_sheet.dart';
-
-// Keyboard
-export 'widgets/keyboard/simple_numeric_keyboard.dart';
-export 'widgets/keyboard/constants.dart';
-
-export '/widgets/table/transaction/simple_transaction.dart';

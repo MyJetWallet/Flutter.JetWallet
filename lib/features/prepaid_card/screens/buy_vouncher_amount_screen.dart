@@ -11,6 +11,7 @@ import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/suggestion_button_widget.dart';
 import 'package:jetwallet/features/prepaid_card/store/buy_vouncher_amount_store.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
+import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -107,24 +108,23 @@ class _EarnWithdrawalAmountBody extends StatelessWidget {
               onTap: () {},
               showArrow: false,
             ),
-            SNumericKeyboard(
+            SNumericKeyboardAmount(
+              widgetSize: widgetSizeFrom(deviceSize),
               onKeyPressed: (value) {
                 store.updateInputValue(value);
               },
-              button: SButton.black(
-                text: intl.addCircleCard_continue,
-                callback: store.isContinueAvaible
-                    ? () {
-                        sRouter.push(
-                          BuyVouncherConfirmationRoute(
-                            amount: Decimal.parse(store.fiatInputValue),
-                            brand: store.brand,
-                            country: store.country,
-                          ),
-                        );
-                      }
-                    : null,
-              ),
+              buttonType: SButtonType.primary2,
+              submitButtonActive: store.isContinueAvaible,
+              submitButtonName: intl.addCircleCard_continue,
+              onSubmitPressed: () {
+                sRouter.push(
+                  BuyVouncherConfirmationRoute(
+                    amount: Decimal.parse(store.fiatInputValue),
+                    brand: store.brand,
+                    country: store.country,
+                  ),
+                );
+              },
             ),
           ],
         );

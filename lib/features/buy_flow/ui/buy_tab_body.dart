@@ -10,6 +10,7 @@ import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/sugges
 import 'package:jetwallet/features/currency_buy/ui/screens/pay_with_bottom_sheet.dart';
 import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
+import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:provider/provider.dart';
@@ -319,36 +320,35 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
                       ],
                     ),
                   ),
-                  SNumericKeyboard(
+                  SNumericKeyboardAmount(
+                    widgetSize: widgetSizeFrom(deviceSize),
                     onKeyPressed: (value) {
                       store.updateInputValue(value);
                     },
-                    button: SButton.black(
-                      text: intl.addCircleCard_continue,
-                      callback: store.isContinueAvaible
-                          ? () {
-                              sAnalytics.tapOnTheContinueWithBuyAmountButton(
-                                pmType: store.pmType,
-                                buyPM: store.buyPM,
-                                sourceCurrency: 'EUR',
-                                destinationWallet: store.asset?.symbol ?? '',
-                                sourceBuyAmount: store.fiatInputValue,
-                                destinationBuyAmount: store.cryptoInputValue,
-                              );
-                              sRouter.push(
-                                BuyConfirmationRoute(
-                                  asset: store.asset!,
-                                  paymentCurrency: store.buyCurrency,
-                                  isFromFixed: store.isFiatEntering,
-                                  fromAmount: store.fiatInputValue,
-                                  toAmount: store.cryptoInputValue,
-                                  card: store.card,
-                                  account: store.account,
-                                ),
-                              );
-                            }
-                          : null,
-                    ),
+                    buttonType: SButtonType.primary2,
+                    submitButtonActive: store.isContinueAvaible,
+                    submitButtonName: intl.addCircleCard_continue,
+                    onSubmitPressed: () {
+                      sAnalytics.tapOnTheContinueWithBuyAmountButton(
+                        pmType: store.pmType,
+                        buyPM: store.buyPM,
+                        sourceCurrency: 'EUR',
+                        destinationWallet: store.asset?.symbol ?? '',
+                        sourceBuyAmount: store.fiatInputValue,
+                        destinationBuyAmount: store.cryptoInputValue,
+                      );
+                      sRouter.push(
+                        BuyConfirmationRoute(
+                          asset: store.asset!,
+                          paymentCurrency: store.buyCurrency,
+                          isFromFixed: store.isFiatEntering,
+                          fromAmount: store.fiatInputValue,
+                          toAmount: store.cryptoInputValue,
+                          card: store.card,
+                          account: store.account,
+                        ),
+                      );
+                    },
                   ),
                 ],
               );

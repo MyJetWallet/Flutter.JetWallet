@@ -7,7 +7,6 @@ import 'package:simple_kit/utils/enum.dart';
 
 import '../light/simple_light_standard_field.dart';
 
-@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
 class SStandardField extends StatelessObserverWidget {
   const SStandardField({
     super.key,

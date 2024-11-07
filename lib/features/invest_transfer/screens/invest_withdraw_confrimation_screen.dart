@@ -8,8 +8,8 @@ import 'package:jetwallet/features/invest_transfer/store/invest_withdraw_confirm
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'InvestWithdrawConfrimationRoute')
 class InvestWithdrawConfrimationScreen extends StatelessWidget {
@@ -64,7 +64,7 @@ class _TransferConfirmationScreenBody extends StatelessObserverWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                STransaction(
+                WhatToWhatConvertWidget(
                   isLoading: false,
                   fromAssetIconUrl: store.currency.iconUrl,
                   fromAssetDescription: intl.invest_transfer_invest,
@@ -92,13 +92,12 @@ class _TransferConfirmationScreenBody extends StatelessObserverWidget {
                 const Spacer(),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 24),
-                  child: SButton.blue(
-                    text: intl.previewBuyWithAsset_confirm,
-                    callback: store.isTermsAndConditionsChecked
-                        ? () {
-                            store.confirm();
-                          }
-                        : null,
+                  child: SPrimaryButton2(
+                    active: store.isTermsAndConditionsChecked,
+                    name: intl.previewBuyWithAsset_confirm,
+                    onTap: () {
+                      store.confirm();
+                    },
                   ),
                 ),
                 const SizedBox(height: 8),

@@ -10,7 +10,7 @@ class SimpleCoinTransactionHistoryStore extends _SimpleCoinTransactionHistorySto
     with _$SimpleCoinTransactionHistoryStore {
   SimpleCoinTransactionHistoryStore() : super();
 
-  _SimpleCoinTransactionHistoryStoreBase of(BuildContext context) =>
+  static _SimpleCoinTransactionHistoryStoreBase of(BuildContext context) =>
       Provider.of<SimpleCoinTransactionHistoryStore>(context, listen: false);
 }
 

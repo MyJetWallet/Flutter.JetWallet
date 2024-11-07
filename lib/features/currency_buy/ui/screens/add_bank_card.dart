@@ -12,7 +12,6 @@ import 'package:jetwallet/features/currency_buy/store/add_bank_card_store.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../../core/di/di.dart';
 import '../../../../core/router/app_router.dart';
@@ -255,31 +254,30 @@ class AddBankCardBody extends StatelessObserverWidget {
                                     ),
                                   ],
                                   ContinueButtonFrame(
-                                    child: SButton.blue(
-                                      text: intl.addCircleCard_continue,
-                                      callback: store.isCardDetailsValid
-                                          ? () async {
-                                              if (store.canClick) {
-                                                store.toggleClick(false);
-                                                Timer(
-                                                  const Duration(
-                                                    seconds: 2,
-                                                  ),
-                                                  () => store.toggleClick(true),
-                                                );
-                                              } else {
-                                                return;
-                                              }
+                                    child: SPrimaryButton2(
+                                      active: store.isCardDetailsValid,
+                                      name: intl.addCircleCard_continue,
+                                      onTap: () async {
+                                        if (store.canClick) {
+                                          store.toggleClick(false);
+                                          Timer(
+                                            const Duration(
+                                              seconds: 2,
+                                            ),
+                                            () => store.toggleClick(true),
+                                          );
+                                        } else {
+                                          return;
+                                        }
 
-                                              await store.addCard(
-                                                onSuccess: onCardAdded,
-                                                onError: () {},
-                                                isPreview: isPreview,
-                                                amount: amount,
-                                                currency: currency,
-                                              );
-                                            }
-                                          : null,
+                                        await store.addCard(
+                                          onSuccess: onCardAdded,
+                                          onError: () {},
+                                          isPreview: isPreview,
+                                          amount: amount,
+                                          currency: currency,
+                                        );
+                                      },
                                     ),
                                   ),
                                 ],
@@ -438,31 +436,30 @@ class AddBankCardBody extends StatelessObserverWidget {
                       ),
                     ],
                     ContinueButtonFrame(
-                      child: SButton.blue(
-                        text: intl.addCircleCard_continue,
-                        callback: store.isCardDetailsValid
-                            ? () async {
-                                if (store.canClick) {
-                                  store.toggleClick(false);
-                                  Timer(
-                                    const Duration(
-                                      seconds: 2,
-                                    ),
-                                    () => store.toggleClick(true),
-                                  );
-                                } else {
-                                  return;
-                                }
+                      child: SPrimaryButton2(
+                        active: store.isCardDetailsValid,
+                        name: intl.addCircleCard_continue,
+                        onTap: () async {
+                          if (store.canClick) {
+                            store.toggleClick(false);
+                            Timer(
+                              const Duration(
+                                seconds: 2,
+                              ),
+                              () => store.toggleClick(true),
+                            );
+                          } else {
+                            return;
+                          }
 
-                                await store.addCard(
-                                  onSuccess: onCardAdded,
-                                  onError: () {},
-                                  isPreview: isPreview,
-                                  amount: amount,
-                                  currency: currency,
-                                );
-                              }
-                            : null,
+                          await store.addCard(
+                            onSuccess: onCardAdded,
+                            onError: () {},
+                            isPreview: isPreview,
+                            amount: amount,
+                            currency: currency,
+                          );
+                        },
                       ),
                     ),
                   ],
