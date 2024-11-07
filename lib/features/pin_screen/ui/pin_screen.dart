@@ -20,6 +20,7 @@ import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/headers/simple_auth_header.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../model/pin_screen_union.dart';
 
@@ -113,6 +114,43 @@ class _PinScreenBody extends StatefulObserverWidget {
 
 class _PinScreenBodyState extends State<_PinScreenBody> {
   @override
+  void initState() {
+    super.initState();
+    getBiometricStatus();
+  }
+
+  NumericKeyboardType keyboardType = NumericKeyboardType.none;
+
+  Future<void> getBiometricStatus() async {
+    try {
+      final pin = PinScreenStore.of(context);
+      final biometricStatusData = await biometricStatus();
+
+      setState(() {
+        if (pin.hideBiometricButton) {
+          keyboardType = NumericKeyboardType.none;
+        } else {
+          keyboardType = _keyboardTypeBasedOnBiometricStatus(biometricStatusData);
+        }
+      });
+    } catch (e) {
+      setState(() {
+        keyboardType = NumericKeyboardType.none;
+      });
+    }
+  }
+
+  NumericKeyboardType _keyboardTypeBasedOnBiometricStatus(BiometricStatus bioStatus) {
+    if (bioStatus == BiometricStatus.face) {
+      return NumericKeyboardType.fasceId;
+    } else if (bioStatus == BiometricStatus.fingerprint) {
+      return NumericKeyboardType.touchId;
+    } else {
+      return NumericKeyboardType.none;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final pin = PinScreenStore.of(context);
     final logoutN = getIt.get<LogoutService>();
@@ -162,7 +200,7 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
         },
         child: PopScope(
           canPop: !widget.cannotLeave,
-          onPopInvoked: (_) => Future.value(!widget.cannotLeave),
+          onPopInvokedWithResult: (_, __) => Future.value(!widget.cannotLeave),
           child: SPageFrame(
             resizeToAvoidBottomInset: false,
             loaderText: intl.register_pleaseWait,
@@ -285,54 +323,57 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                     !widget.displayHeader ||
                     (!widget.isConfirmCard && pin.screenUnion == const PinScreenUnion.enterPin()) ||
                     (widget.isConfirmCard && pin.screenUnion == const PinScreenUnion.enterPin() && pin.showForgot))
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const SpaceW24(),
-                      Baseline(
-                        baselineType: TextBaseline.alphabetic,
-                        baseline: 16,
-                        child: SClickableLinkText(
-                          actualColor: colors.black,
-                          onTap: () => sShowAlertPopup(
-                            context,
-                            primaryText: intl.forgot_pass_confirm_logout,
-                            secondaryText: intl.forgot_pass_confirm_logout_desc,
-                            primaryButtonName: intl.forgot_pass_logout,
-                            image: Image.asset(
-                              ellipsisAsset,
-                              width: 80,
-                              height: 80,
-                              package: 'simple_kit',
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 32),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const SpaceW24(),
+                        Baseline(
+                          baselineType: TextBaseline.alphabetic,
+                          baseline: 16,
+                          child: SClickableLinkText(
+                            actualColor: colors.black,
+                            onTap: () => sShowAlertPopup(
+                              context,
+                              primaryText: intl.forgot_pass_confirm_logout,
+                              secondaryText: intl.forgot_pass_confirm_logout_desc,
+                              primaryButtonName: intl.forgot_pass_logout,
+                              image: Image.asset(
+                                ellipsisAsset,
+                                width: 80,
+                                height: 80,
+                                package: 'simple_kit',
+                              ),
+                              onPrimaryButtonTap: () {
+                                pin.loader.startLoading();
+                                logoutN.logout(
+                                  'PIN SCREEN',
+                                  resetPin: true,
+                                  callbackAfterSend: () {
+                                    pin.loader.finishLoading();
+                                  },
+                                );
+                                Navigator.pop(context);
+                              },
+                              secondaryButtonName: intl.forgot_pass_dialog_btn_cancel,
+                              onSecondaryButtonTap: () {
+                                Navigator.pop(context);
+                              },
                             ),
-                            onPrimaryButtonTap: () {
-                              pin.loader.startLoading();
-                              logoutN.logout(
-                                'PIN SCREEN',
-                                resetPin: true,
-                                callbackAfterSend: () {
-                                  pin.loader.finishLoading();
-                                },
-                              );
-                              Navigator.pop(context);
-                            },
-                            secondaryButtonName: intl.forgot_pass_dialog_btn_cancel,
-                            onSecondaryButtonTap: () {
-                              Navigator.pop(context);
-                            },
+                            text: '${intl.pinScreen_forgotYourPin}?',
                           ),
-                          text: '${intl.pinScreen_forgotYourPin}?',
                         ),
-                      ),
-                      SBlueRightArrowIcon(
-                        color: colors.grey3,
-                      ),
-                    ],
+                        SBlueRightArrowIcon(
+                          color: colors.grey3,
+                        ),
+                      ],
+                    ),
                   )
                 else
                   const SpaceH24(),
-                SNumericKeyboardPin(
-                  hideBiometricButton: pin.hideBiometricButton,
+                SNumericKeyboard(
+                  type: keyboardType,
                   onKeyPressed: (value) async {
                     await pin.updatePin(value).then(
                           (value) => setState(() {

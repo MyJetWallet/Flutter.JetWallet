@@ -10,6 +10,7 @@ import 'package:jetwallet/features/bank_card/widgets/bank_card_date_label.dart';
 import 'package:jetwallet/features/bank_card/widgets/bank_card_holdername.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 
 class EditBankCardScreen extends StatelessWidget {
@@ -68,24 +69,25 @@ class _EditBankCardScreenBody extends StatelessObserverWidget {
               children: [
                 Material(
                   color: Colors.transparent,
-                  child: SPrimaryButton1(
-                    active: store.isEditButtonSaveActive,
-                    name: intl.addCircleCard_save_changes,
-                    onTap: () async {
-                      if (store.canClick) {
-                        store.setCanClick(false);
-                        Timer(
-                          const Duration(
-                            seconds: 2,
-                          ),
-                          () => store.setCanClick(true),
-                        );
-                      } else {
-                        return;
-                      }
+                  child: SButton.black(
+                    text: intl.addCircleCard_save_changes,
+                    callback: store.isEditButtonSaveActive
+                        ? () async {
+                            if (store.canClick) {
+                              store.setCanClick(false);
+                              Timer(
+                                const Duration(
+                                  seconds: 2,
+                                ),
+                                () => store.setCanClick(true),
+                              );
+                            } else {
+                              return;
+                            }
 
-                      await store.updateCardLabel(card.id);
-                    },
+                            await store.updateCardLabel(card.id);
+                          }
+                        : null,
                   ),
                 ),
                 const SpaceH10(),

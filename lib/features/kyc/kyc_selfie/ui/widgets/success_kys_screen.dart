@@ -9,6 +9,7 @@ import 'package:jetwallet/utils/store/timer_store.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../../../utils/constants.dart';
 
@@ -112,10 +113,9 @@ class _SuccessKycScreenBodyState extends State<_SuccessKycScreenBody> {
               bottom: 24.0,
               top: 40.0,
             ),
-            child: SPrimaryButton2(
-              active: true,
-              name: intl.successKycScreen_done,
-              onTap: () {
+            child: SButton.blue(
+              text: intl.successKycScreen_done,
+              callback: () {
                 navigateToRouter();
               },
             ),

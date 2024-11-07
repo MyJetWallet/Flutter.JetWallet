@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:simple_kit/core/simple_kit.dart';
 import 'package:simple_kit/modules/texts/simple_text_styles.dart';
 
+@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
 class SimpleCircleButton extends StatefulWidget {
   const SimpleCircleButton({
     super.key,

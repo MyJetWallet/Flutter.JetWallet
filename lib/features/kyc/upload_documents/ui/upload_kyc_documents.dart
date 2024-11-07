@@ -17,6 +17,7 @@ import 'package:jetwallet/features/kyc/upload_documents/ui/widgets/page_indicato
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'UploadKycDocumentsRouter')
 class UploadKycDocuments extends StatelessWidget {
@@ -138,16 +139,17 @@ class _UploadKycDocumentsBody extends StatelessObserverWidget {
               ],
             ),
             SFloatingButtonFrame(
-              button: SPrimaryButton2(
-                onTap: () async {
-                  await store.documentPageViewLogic(
-                    activeDocument!.document,
-                    '',
-                    () {},
-                  );
-                },
-                name: store.buttonName(),
-                active: store.activeScanButton(),
+              button: SButton.blue(
+                callback: store.activeScanButton()
+                    ? () async {
+                        await store.documentPageViewLogic(
+                          activeDocument!.document,
+                          '',
+                          () {},
+                        );
+                      }
+                    : null,
+                text: store.buttonName(),
                 icon: store.buttonIcon ? const SArrowUpIcon() : const SWhitePhotoIcon(),
               ),
             ),

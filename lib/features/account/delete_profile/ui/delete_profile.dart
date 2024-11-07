@@ -10,6 +10,7 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'package:simple_kit_updated/widgets/button/main/simple_button.dart';
 
 @RoutePage(name: 'DeleteProfileRouter')
 class DeleteProfile extends StatelessObserverWidget {

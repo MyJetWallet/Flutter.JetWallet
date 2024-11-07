@@ -5,6 +5,7 @@ import 'package:simple_kit/modules/buttons/basic_buttons/text_button/dark/simple
 import 'package:simple_kit/modules/buttons/basic_buttons/text_button/light/simple_light_text_button_1.dart';
 import 'package:simple_kit/utils/enum.dart';
 
+@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
 class STextButton1 extends StatelessObserverWidget {
   const STextButton1({
     super.key,

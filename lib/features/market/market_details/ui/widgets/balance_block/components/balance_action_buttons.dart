@@ -54,9 +54,9 @@ class BalanceActionButtons extends StatelessObserverWidget {
           SPaddingH24(
             child: Column(
               children: [
-                SPrimaryButton1(
-                  name: '${intl.balanceActionButtons_buy} ${marketItem.name}',
-                  onTap: () {
+                SButton.black(
+                  text: '${intl.balanceActionButtons_buy} ${marketItem.name}',
+                  callback: () {
                     if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed)) {
                       showPayWithBottomSheet(
                         context: context,
@@ -69,7 +69,6 @@ class BalanceActionButtons extends StatelessObserverWidget {
                       );
                     }
                   },
-                  active: true,
                 ),
               ],
             ),
@@ -216,17 +215,17 @@ class BalanceActionButtons extends StatelessObserverWidget {
 
     final isSimpleAccountAvaible = sSignalRModules.paymentProducts?.any(
           (element) => element.id == AssetPaymentProductsEnum.simpleIbanAccount,
-    ) ??
+        ) ??
         false;
 
     final isBankingAccountsAvaible = currency.buyMethods.any(
-          (element) => element.id == PaymentMethodType.ibanTransferUnlimint,
+      (element) => element.id == PaymentMethodType.ibanTransferUnlimint,
     );
 
     final isBuyAvaible = isCardsAvailable || isSimpleAccountAvaible || isBankingAccountsAvaible;
 
     final isDepositBlocker = sSignalRModules.clientDetail.clientBlockers.any(
-          (element) => element.blockingType == BlockingType.deposit,
+      (element) => element.blockingType == BlockingType.deposit,
     );
 
     if (kycState.tradeStatus == kycOperationStatus(KycStatus.blocked) || !isBuyAvaible) {

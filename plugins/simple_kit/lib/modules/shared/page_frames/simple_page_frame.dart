@@ -5,6 +5,7 @@ import 'package:simple_kit/modules/shared/stack_loader/stack_loader.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 
 class SPageFrame extends StatelessObserverWidget {
+  @Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
   const SPageFrame({
     super.key,
     this.header,

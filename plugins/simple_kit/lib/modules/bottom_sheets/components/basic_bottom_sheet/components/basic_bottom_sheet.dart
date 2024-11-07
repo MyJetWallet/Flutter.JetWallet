@@ -3,6 +3,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import 'bottom_sheet_bar.dart';
 
+@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
 class BasicBottomSheet extends StatefulWidget {
   const BasicBottomSheet({
     super.key,
@@ -96,7 +97,7 @@ class _BasicBottomSheetState extends State<BasicBottomSheet> {
   Widget build(BuildContext context) {
     return PopScope(
       canPop: true,
-      onPopInvoked: (didPop) {
+      onPopInvokedWithResult: (didPop, _) {
         if (didPop) return;
         widget.onWillPop ?? onDissmisAction(context);
       },

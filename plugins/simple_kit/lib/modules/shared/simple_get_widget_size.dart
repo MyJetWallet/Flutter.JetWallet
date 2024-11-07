@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
+@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
 /// Widget that gets size of the child and returns it on the onChange callback
 class SGetWidgetSize extends StatefulWidget {
   const SGetWidgetSize({

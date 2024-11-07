@@ -11,6 +11,7 @@ import 'package:jetwallet/widgets/splash_screen_gradient.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'OnboardingRoute')
 class OnboardingScreen extends StatelessWidget {
@@ -141,10 +142,9 @@ class _OnboardingScreenBodyState extends State<OnboardingScreenBody> with Ticker
                   .toList(),
             ),
             const SpaceH38(),
-            SPrimaryButton1(
-              active: true,
-              name: intl.onboarding_getStarted,
-              onTap: () {
+            SButton.black(
+              text: intl.onboarding_getStarted,
+              callback: () {
                 sAnalytics.signInFlowEnterEmailView();
                 sRouter.push(
                   SingInRouter(),

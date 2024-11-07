@@ -12,7 +12,6 @@ import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/sugges
 import 'package:jetwallet/features/invest_transfer/store/invest_withdraw_amount_store.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
-import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -124,23 +123,24 @@ class _EarnWithdrawalAmountBody extends StatelessWidget {
                 ],
               ),
             ),
-            SNumericKeyboardAmount(
-              widgetSize: widgetSizeFrom(deviceSize),
+            SNumericKeyboard(
               onKeyPressed: (value) {
                 store.updateInputValue(value);
               },
-              buttonType: SButtonType.primary2,
-              submitButtonActive: store.isContinueAvaible,
-              submitButtonName: intl.addCircleCard_continue,
-              onSubmitPressed: () {
-                final amount = Decimal.tryParse(store.cryptoInputValue) ?? Decimal.zero;
-                sRouter.push(
-                  InvestWithdrawConfrimationRoute(
-                    amount: amount,
-                    assetId: store.cryptoSymbol,
-                  ),
-                );
-              },
+              button: SButton.black(
+                text: intl.addCircleCard_continue,
+                callback: store.isContinueAvaible
+                    ? () {
+                        final amount = Decimal.tryParse(store.cryptoInputValue) ?? Decimal.zero;
+                        sRouter.push(
+                          InvestWithdrawConfrimationRoute(
+                            amount: amount,
+                            assetId: store.cryptoSymbol,
+                          ),
+                        );
+                      }
+                    : null,
+              ),
             ),
           ],
         );
