@@ -53,13 +53,13 @@ void main() {
   );
 
   test(
-    'throws when url_launcher can\'t launch uri',
+    "throws when url_launcher can't launch uri",
     () async {
       final mock = MockUrlLauncherPlatform();
       mock.canLaunchMockValue = false;
 
       expect(() async => await SharePlusWindowsPlugin(mock).share('foo bar'),
-          throwsException);
+          throwsException,);
     },
     skip: VersionHelper.instance.isWindows10RS5OrGreater,
   );
