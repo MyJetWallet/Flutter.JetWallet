@@ -588,31 +588,35 @@ void showBankTransferTo(BuildContext context, [CurrencyModel? currency]) {
 }
 
 void showGlobalSendCurrenctSelect(BuildContext context) {
-  getIt.get<ActionSearchStore>().init();
-  getIt.get<ActionSearchStore>().clearSearchValue();
-  final searchStore = getIt.get<ActionSearchStore>();
-
   sAnalytics.chooseAssetToSendScreenView();
 
-  sShowBasicModalBottomSheet(
-    context: context,
-    scrollable: true,
-    expanded: true,
-    then: (value) {},
-    pinned: ActionBottomSheetHeader(
-      name: intl.action_send_global_send_bottomheet,
-      onChanged: (String value) {
-        getIt.get<ActionSearchStore>().search(value);
-      },
-    ),
-    horizontalPinnedPadding: 0.0,
-    removePinnedPadding: true,
-    children: [
-      _GlobalSendSelectCurrency(
-        searchStore: searchStore,
-      ),
-    ],
+  showChooseAssetToSend(
+    sRouter.navigatorKey.currentContext!,
+    isGlobalSend: true,
   );
+  // getIt.get<ActionSearchStore>().init();
+  // getIt.get<ActionSearchStore>().clearSearchValue();
+  // final searchStore = getIt.get<ActionSearchStore>();
+
+  // sShowBasicModalBottomSheet(
+  //   context: context,
+  //   scrollable: true,
+  //   expanded: true,
+  //   then: (value) {},
+  //   pinned: ActionBottomSheetHeader(
+  //     name: intl.action_send_global_send_bottomheet,
+  //     onChanged: (String value) {
+  //       getIt.get<ActionSearchStore>().search(value);
+  //     },
+  //   ),
+  //   horizontalPinnedPadding: 0.0,
+  //   removePinnedPadding: true,
+  //   children: [
+  //     _GlobalSendSelectCurrency(
+  //       searchStore: searchStore,
+  //     ),
+  //   ],
+  // );
 }
 
 class _GlobalSendSelectCurrency extends StatelessObserverWidget {
