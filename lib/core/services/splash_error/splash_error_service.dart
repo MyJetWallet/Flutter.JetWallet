@@ -61,22 +61,26 @@ class SplashErrorService {
 
       isAlertOpen = true;
 
-      await sShowAlertPopup(
-        sRouter.navigatorKey.currentContext!,
-        willPopScope: false,
-        primaryText: error == 22 ? intl.noInternetConnection_header : '${intl.something_went_wrong} ($error)',
-        secondaryText: error == 22 ? intl.noInternetConnection_descr : null,
-        primaryButtonName: intl.transactionsList_retry,
-        onPrimaryButtonTap: () async {
-          if (error == 21 || error == 22) {
-            await getIt.get<RemoteConfig>().fetchAndActivate();
-          } else {
-            await getIt.get<StartupService>().firstAction();
-          }
+      if (sRouter.navigatorKey.currentContext != null) {
+        await sShowAlertPopup(
+          sRouter.navigatorKey.currentContext!,
+          willPopScope: false,
+          primaryText: error == 22 ? intl.noInternetConnection_header : '${intl.something_went_wrong} ($error)',
+          secondaryText: error == 22 ? intl.noInternetConnection_descr : null,
+          primaryButtonName: intl.transactionsList_retry,
+          onPrimaryButtonTap: () async {
+            if (error == 21 || error == 22) {
+              await getIt.get<RemoteConfig>().fetchAndActivate();
+            } else {
+              await getIt.get<StartupService>().firstAction();
+            }
 
-          closeErrorAlert();
-        },
-      );
+            closeErrorAlert();
+          },
+        );
+      } else {
+        isAlertOpen = false;
+      }
     }
   }
 

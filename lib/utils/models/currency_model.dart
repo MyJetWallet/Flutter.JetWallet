@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
@@ -288,9 +289,12 @@ class CurrencyModel with _$CurrencyModel {
 
   List<BlockchainModel> get networksForBlockchainSend {
     final sendMethods = sSignalRModules.sendMethods;
-    final blockchainSendMethod = sendMethods.firstWhere(
+    final blockchainSendMethod = sendMethods.firstWhereOrNull(
       (element) => element.id == WithdrawalMethods.blockchainSend,
     );
+    if (blockchainSendMethod == null) {
+      return [];
+    }
     final thisSymbolNetworkDetails = blockchainSendMethod.symbolNetworkDetails?.where(
           (element) => element.symbol == symbol,
         ) ??

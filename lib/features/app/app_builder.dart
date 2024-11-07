@@ -103,7 +103,9 @@ class _AppBuilderBodyState extends State<AppBuilderBody> with WidgetsBindingObse
         getIt<InternetCheckerService>().checkFromForeground();
       }
 
-      getIt.get<RemoteConfig>().pingRemoutConfig();
+      if (getIt.isRegistered<RemoteConfig>()) {
+        getIt.get<RemoteConfig>().pingRemoutConfig();
+      }
     }
   }
 
