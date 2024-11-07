@@ -4,9 +4,10 @@ definitions:
     max_build_duration: 60
 
   versioning: &versioning
-    flutter: 3.22.3
-    xcode: 15.4
+    flutter: 3.24.4
+    xcode: 16.0
     cocoapods: default
+    java: 21
 
   flavor_development_groups: &flavor_development_groups
     groups:
@@ -57,7 +58,6 @@ definitions:
   cache: &cache
     cache_paths:
       - $FLUTTER_ROOT/.pub-cache
-      - $HOME/.gradle/caches
       - $HOME/Library/Caches/CocoaPods
 
   scripts: &scripts

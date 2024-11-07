@@ -2436,49 +2436,9 @@
         "description": "Удалить профиль",
         "type": "text"
     },
-    "profileDetails_deleteProfileDescr": "Цей процес незворотній! Ви впевнені, що хочете видалити свій профіль?",
+    "profileDetails_deleteProfileDescr": "Ви впевнені, що хочете видалити цей профіль? Цю дію не можна скасувати. Процес розпочнеться на наступному кроці",
     "@profileDetails_deleteProfileDescr": {
         "description": "Этот процесс необратим! Вы уверены, что хотите удалить свой профиль?",
-        "type": "text"
-    },
-    "deleteProfileConditions_title": "Видалити свій профіль",
-    "@deleteProfileConditions_title": {
-        "description": "Удалить свой профиль",
-        "type": "text"
-    },
-    "deleteProfileConditions_subTitle": "Обов'язково:",
-    "@deleteProfileConditions_subTitle": {
-        "description": "Обязательно:",
-        "type": "text"
-    },
-    "deleteProfileConditions_conditions": "Я підтверджую, що виконав усі кроки й хочу видалити свій профіль.",
-    "@deleteProfileConditions_conditions": {
-        "description": "Я подтверждаю, что выполнил все шаги и хочу удалить свой профиль.",
-        "type": "text"
-    },
-    "deleteProfileConditions_buttonText": "Видалити профіль і вийти з системи",
-    "@deleteProfileConditions_buttonText": {
-        "description": "Удалить профиль и выйти из системы",
-        "type": "text"
-    },
-    "deleteProfileConditions_menuOneTitle": "Виведіть або перекажіть усі свої кошти",
-    "@deleteProfileConditions_menuOneTitle": {
-        "description": "Выведите или отправьте все свои средства",
-        "type": "text"
-    },
-    "deleteProfileConditions_menuOneSubTitle": "Ваш загальний баланс:␣",
-    "@deleteProfileConditions_menuOneSubTitle": {
-        "description": "Ваш общий баланс:␣",
-        "type": "text"
-    },
-    "deleteProfileConditions_warning": "Цей процес незворотній! Всі кошти, що залишилися на вашому балансі, будуть втрачені. \n\nВи будете миттєво видалені з Simple на всіх ваших пристроях.",
-    "@deleteProfileConditions_warning": {
-        "description": "Этот процесс необратим! Все средства, оставшиеся на вашем балансе, будут потеряны. \n\nВы будете мгновенно удалены из Simple на всех ваших устройствах.",
-        "type": "text"
-    },
-    "deleteProfileConditions_checkbox": "Я підтверджую, що виконав усі кроки і хочу видалити свій профіль.",
-    "@deleteProfileConditions_checkbox": {
-        "description": "Я подтверждаю, что выполнил все шаги и хочу удалить свой профиль.",
         "type": "text"
     },
     "deleteProfileReasons_header": "Чому ви видалили свій профіль?",
@@ -5997,5 +5957,12 @@
     },
     "prepaid_card_security_code": "Код безпеки",
     "bank_transfer_uah_bank_account": "Банківський рахунок UAH",
-    "bank_transfer_ua_iban": "Український IBAN"
+    "bank_transfer_ua_iban": "Український IBAN",
+    "profileDetails_yes": "Так, видалити",
+    "profileDetails_no": "Ні, зберегти",
+    "deleteProfileConditions_funds_remaining": "Залишок коштів",
+    "deleteProfileConditions_total_balance": "Загальний баланс складає {balance}.",
+    "deleteProfileConditions_total_coins": "Баланс Simple Coin складає {balance}.",
+    "deleteProfileConditions_withdraw_or_transfer_funds": "Вивести або перевести кошти",
+    "deleteProfileConditions_delete_anyway": "Видалити все одно"
 }
