@@ -69,8 +69,16 @@ class SendGloballyDetails extends StatelessObserverWidget {
               text: intl.global_send_history_beneficiary_name,
               value: Row(
                 children: [
-                  TransactionDetailsValueText(
-                    text: transactionListItem.paymeInfo?.recipientName ?? '',
+                  ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width * 0.5,
+                    ),
+                    child: TransactionDetailsValueText(
+                      text: transactionListItem.paymeInfo?.recipientName ?? '',
+                      textAlign: TextAlign.end,
+                      softWrap: true,
+                      maxLines: 2,
+                    ),
                   ),
                   const SpaceW10(),
                   HistoryCopyIcon(
@@ -143,7 +151,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
               value: Row(
                 children: [
                   TransactionDetailsValueText(
-                    text: transactionListItem.paymeInfo?.iban ?? '',
+                    text: getIBANTypeMask(transactionListItem.paymeInfo?.iban ?? ''),
                   ),
                   const SpaceW10(),
                   HistoryCopyIcon(transactionListItem.paymeInfo?.iban ?? ''),

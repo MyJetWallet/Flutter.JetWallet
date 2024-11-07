@@ -8,12 +8,14 @@ class TransactionDetailsValueText extends StatelessWidget {
     this.textAlign,
     required this.text,
     this.maxLines = 5,
+    this.softWrap,
   });
 
   final String text;
   final Color? color;
   final TextAlign? textAlign;
   final int? maxLines;
+  final bool? softWrap;
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +25,7 @@ class TransactionDetailsValueText extends StatelessWidget {
       style: sSubtitle3Style.copyWith(
         color: color,
       ),
+      softWrap: softWrap,
       overflow: TextOverflow.ellipsis,
       maxLines: maxLines,
     );

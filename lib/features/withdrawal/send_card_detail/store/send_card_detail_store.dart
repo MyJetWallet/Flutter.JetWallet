@@ -48,6 +48,7 @@ abstract class _SendCardDetailStoreBase with Store {
 
   @observable
   bool isContinueAvailable = false;
+
   @action
   void checkContinueButton() {
     final isAnyEmpty = methodList
@@ -112,11 +113,11 @@ abstract class _SendCardDetailStoreBase with Store {
     _moveCursorAtTheEnd(controller);
   }
 
-  Future<String> _copiedText() async {
+  Future<String> _copiedText({bool withReplaceSpaces = true}) async {
     final data = await Clipboard.getData('text/plain');
     final code = data?.text?.trim() ?? '';
 
-    return code.replaceAll(' ', '');
+    return withReplaceSpaces ? code.replaceAll(' ', '') : code;
   }
 
   @action
@@ -141,32 +142,40 @@ abstract class _SendCardDetailStoreBase with Store {
   Future<void> paste(
     String methodId, {
     bool isCard = false,
+    bool isRecipientName = false,
   }) async {
     final ind = methodList.indexWhere((element) => element.id == methodId);
 
     if (ind != -1) {
-      final copiedText = await _copiedText();
+      String copiedText;
+      if (isRecipientName) {
+        copiedText = await _copiedText(withReplaceSpaces: false);
+        methodList[ind].controller.text = copiedText;
+        onChanged(methodId, copiedText, isCard: isCard);
+      } else {
+        copiedText = await _copiedText();
 
-      try {
-        if (copiedText.length == 16) {
-          final buffer = StringBuffer();
+        try {
+          if (copiedText.length == 16) {
+            final buffer = StringBuffer();
 
-          for (var i = 0; i < copiedText.length; i++) {
-            buffer.write(copiedText[i]);
-            final nonZeroIndex = i + 1;
-            if (nonZeroIndex % 4 == 0 && nonZeroIndex != copiedText.length && nonZeroIndex != (copiedText.length - 1)) {
-              buffer.write(' ');
+            for (var i = 0; i < copiedText.length; i++) {
+              buffer.write(copiedText[i]);
+              final nonZeroIndex = i + 1;
+              if (nonZeroIndex % 4 == 0 && nonZeroIndex != copiedText.length && nonZeroIndex != (copiedText.length - 1)) {
+                buffer.write(' ');
+              }
             }
-          }
 
-          methodList[ind].controller.text = buffer.toString();
-          onChanged(methodId, buffer.toString(), isCard: isCard);
-        } else {
-          methodList[ind].controller.text = copiedText;
-          onChanged(methodId, copiedText, isCard: isCard);
+            methodList[ind].controller.text = buffer.toString();
+            onChanged(methodId, buffer.toString(), isCard: isCard);
+          } else {
+            methodList[ind].controller.text = copiedText;
+            onChanged(methodId, copiedText, isCard: isCard);
+          }
+        } catch (e) {
+          return;
         }
-      } catch (e) {
-        return;
       }
 
       update = !update;
@@ -223,7 +232,7 @@ abstract class _SendCardDetailStoreBase with Store {
         case FieldInfoId.cardNumber:
           cardNumber = methodList[i].value.replaceAll(' ', '');
         case FieldInfoId.iban:
-          iban = methodList[i].value;
+          iban = methodList[i].value.replaceAll(' ', '');
         case FieldInfoId.phoneNumber:
           phoneNumber = methodList[i].value;
         case FieldInfoId.recipientName:
