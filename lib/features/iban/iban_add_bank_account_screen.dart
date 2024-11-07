@@ -136,7 +136,7 @@ class IbanAddBankAccountScreenBody extends StatelessObserverWidget {
                         ],
                         inputFormatters: [
                           MaskTextInputFormatter(
-                            mask: '#### #### #### #### #### #### ####',
+                            mask: '#### #### #### #### #### #### #### #### ##',
                             filter: {
                               '#': RegExp('[a-zA-Z0-9]'),
                             },
