@@ -130,7 +130,6 @@ class IbanSendAmountBody extends StatelessObserverWidget {
                       onTap: () {
                         if (store.inputMode == WithdrawalInputMode.recepientGets) {
                           store.setInputMode(WithdrawalInputMode.youSend);
-                          store.onSwap();
                         }
                       },
                     ),
@@ -143,7 +142,6 @@ class IbanSendAmountBody extends StatelessObserverWidget {
                         onTap: () {
                           if (store.inputMode == WithdrawalInputMode.youSend) {
                             store.setInputMode(WithdrawalInputMode.recepientGets);
-                            store.onSwap();
                           }
                         },
                       ),
@@ -164,6 +162,7 @@ class IbanSendAmountBody extends StatelessObserverWidget {
             errorText: store.withAmmountInputError.isActive ? error : null,
             showMaxButton: true,
             onMaxTap: store.onSendAll,
+            loadingMaxButton: store.loadingMaxButton && store.onMaxPressed,
             pasteLabel: intl.paste,
             onPaste: () async {
               final data = await Clipboard.getData('text/plain');

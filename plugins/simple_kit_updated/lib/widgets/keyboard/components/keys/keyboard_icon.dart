@@ -46,7 +46,13 @@ class _KeyboardIconState extends State<KeyboardIcon> {
                     highlighted = value;
                   });
                 },
-                child: highlighted ? widget.pressedIcon : widget.activeIcon,
+                child: SizedBox(
+                  height: 59.0,
+                  width: 59.0,
+                  child: Center(
+                    child: highlighted ? widget.pressedIcon : widget.activeIcon,
+                  ),
+                ),
               ),
             ),
     );

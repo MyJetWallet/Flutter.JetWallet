@@ -4,26 +4,23 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/services/conversion_price_service/conversion_price_input.dart';
-import 'package:jetwallet/core/services/conversion_price_service/conversion_price_service.dart';
 import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
-import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/limits/sell_limits_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/limits/swap_limits_request_model.dart';
+
 part 'sell_amount_store.g.dart';
 
 class SellAmountStore extends _SellAmountStoreBase with _$SellAmountStore {
@@ -50,6 +47,7 @@ abstract class _SellAmountStoreBase with Store {
 
   @observable
   bool disableSubmit = false;
+
   @action
   bool setDisableSubmit(bool value) => disableSubmit = value;
 
@@ -57,7 +55,15 @@ abstract class _SellAmountStoreBase with Store {
   String? paymentMethodInputError;
 
   @observable
-  Decimal? targetConversionPrice;
+  bool loadingMaxButton = true;
+
+  @action
+  void setLoadingMaxButton(bool value) {
+    loadingMaxButton = value;
+  }
+
+  @observable
+  bool onMaxPressed = false;
 
   @computed
   bool get isContinueAvaible {
@@ -202,11 +208,6 @@ abstract class _SellAmountStoreBase with Store {
 
     isFiatEntering = asset == null;
 
-    loadConversionPrice(
-      fiatSymbol,
-      cryptoSymbol,
-    );
-
     loadLimits();
 
     _checkShowTosts();
@@ -216,10 +217,6 @@ abstract class _SellAmountStoreBase with Store {
   void setNewAsset(CurrencyModel newAsset) {
     asset = newAsset;
 
-    loadConversionPrice(
-      fiatSymbol,
-      cryptoSymbol,
-    );
     loadLimits();
 
     _checkShowTosts();
@@ -249,10 +246,6 @@ abstract class _SellAmountStoreBase with Store {
 
     paymentAsset = null;
 
-    loadConversionPrice(
-      fiatSymbol,
-      cryptoSymbol,
-    );
     loadLimits();
 
     fiatInputValue = '0';
@@ -260,21 +253,6 @@ abstract class _SellAmountStoreBase with Store {
     cryptoInputValue = '0';
     errorText = null;
     _validateInput();
-  }
-
-  @action
-  Future<void> loadConversionPrice(
-    String baseS,
-    String targetS,
-  ) async {
-    if (asset != null) {
-      targetConversionPrice = await getConversionPrice(
-        ConversionPriceInput(
-          baseAssetSymbol: baseS,
-          quotedAssetSymbol: targetS,
-        ),
-      );
-    }
   }
 
   @action
@@ -321,24 +299,21 @@ abstract class _SellAmountStoreBase with Store {
   @action
   void onSellAll() {
     isMaxActive = true;
+    onMaxPressed = true;
+    cryptoInputValue = '0';
+    fiatInputValue = '0';
     if (isFiatEntering) {
-      fiatInputValue = '0';
       fiatInputValue = responseOnInputAction(
         oldInput: fiatInputValue,
         newInput: _maxBuyAmount.toString(),
         accuracy: fiatAccuracy,
       );
-
-      _calculateCryptoConversion();
     } else {
-      cryptoInputValue = '0';
       cryptoInputValue = responseOnInputAction(
         oldInput: cryptoInputValue,
         newInput: _maxSellAmount.toString(),
         accuracy: asset?.accuracy ?? 2,
       );
-
-      _calculateFiatConversion();
     }
 
     _validateInput();
@@ -354,7 +329,7 @@ abstract class _SellAmountStoreBase with Store {
         accuracy: fiatAccuracy,
         wholePartLenght: maxWholePrartLenght,
       );
-      _calculateCryptoConversion();
+      cryptoInputValue = '0';
     } else {
       cryptoInputValue = responseOnInputAction(
         oldInput: cryptoInputValue,
@@ -362,7 +337,7 @@ abstract class _SellAmountStoreBase with Store {
         accuracy: asset?.accuracy ?? 2,
         wholePartLenght: maxWholePrartLenght,
       );
-      _calculateFiatConversion();
+      fiatInputValue = '0';
     }
 
     _validateInput();
@@ -372,62 +347,13 @@ abstract class _SellAmountStoreBase with Store {
   void pasteValue(String value) {
     if (isFiatEntering) {
       fiatInputValue = value;
+      cryptoInputValue = '0';
     } else {
       cryptoInputValue = value;
-    }
-    if (isFiatEntering) {
-      _calculateCryptoConversion();
-    } else {
-      _calculateFiatConversion();
+      fiatInputValue = '0';
     }
 
     _validateInput();
-  }
-
-  @action
-  void _calculateCryptoConversion() {
-    if (targetConversionPrice != null && fiatInputValue != '0') {
-      final amount = Decimal.parse(fiatInputValue);
-      final price = targetConversionPrice!;
-      final accuracy = asset!.accuracy;
-
-      var conversion = Decimal.zero;
-
-      if (price != Decimal.zero) {
-        conversion = Decimal.parse(
-          (amount * price).toStringAsFixed(accuracy),
-        );
-      }
-
-      cryptoInputValue = truncateZerosFrom(
-        conversion.toString(),
-      );
-    } else {
-      cryptoInputValue = zero;
-    }
-  }
-
-  void _calculateFiatConversion() {
-    if (targetConversionPrice != null && cryptoInputValue != '0') {
-      final amount = Decimal.parse(cryptoInputValue);
-      final price = targetConversionPrice!;
-      final accuracy = asset!.accuracy;
-
-      var conversion = Decimal.zero;
-
-      if (price != Decimal.zero) {
-        final koef = amount.toDouble() / price.toDouble();
-        conversion = Decimal.parse(
-          koef.toStringAsFixed(accuracy),
-        );
-      }
-
-      fiatInputValue = truncateZerosFrom(
-        conversion.toString(),
-      );
-    } else {
-      fiatInputValue = zero;
-    }
   }
 
   @observable
@@ -464,7 +390,9 @@ abstract class _SellAmountStoreBase with Store {
 
   @action
   Future<void> loadLimits() async {
+    setLoadingMaxButton(true);
     if (category == PaymentMethodCategory.none || asset == null) {
+      setLoadingMaxButton(false);
       return;
     }
 
@@ -531,6 +459,10 @@ abstract class _SellAmountStoreBase with Store {
         id: 1,
         needFeedback: true,
       );
+    }
+    setLoadingMaxButton(false);
+    if (onMaxPressed) {
+      onSellAll();
     }
   }
 

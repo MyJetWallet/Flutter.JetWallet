@@ -5,15 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/conversion_price_service/conversion_price_input.dart';
-import 'package:jetwallet/core/services/conversion_price_service/conversion_price_service.dart';
 import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
-import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
@@ -27,6 +24,7 @@ import 'package:simple_networking/modules/wallet_api/models/card_buy_create/card
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:simple_networking/modules/wallet_api/models/limits/buy_limits_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/limits/swap_limits_request_model.dart';
+
 part 'buy_amount_store.g.dart';
 
 class BuyAmountStore extends _BuyAmountStoreBase with _$BuyAmountStore {
@@ -67,6 +65,17 @@ abstract class _BuyAmountStoreBase with Store {
     }
   }
 
+  @observable
+  bool loadingMaxButton = true;
+
+  @action
+  void setLoadingMaxButton(bool value) {
+    loadingMaxButton = value;
+  }
+
+  @observable
+  bool onMaxPressed = false;
+
   @computed
   CirclePaymentMethod get circlePaymentMethod {
     return card != null ? CirclePaymentMethod.bankCard : CirclePaymentMethod.ibanTransferUnlimint;
@@ -82,9 +91,6 @@ abstract class _BuyAmountStoreBase with Store {
 
   @observable
   String? paymentMethodInputError;
-
-  @observable
-  Decimal? targetConversionPrice;
 
   @observable
   InputError inputError = InputError.none;
@@ -183,11 +189,6 @@ abstract class _BuyAmountStoreBase with Store {
 
     isFiatEntering = asset == null;
 
-    loadConversionPrice(
-      fiatSymbol,
-      cryptoSymbol,
-    );
-
     loadLimits();
 
     _checkShowTosts();
@@ -242,11 +243,6 @@ abstract class _BuyAmountStoreBase with Store {
   void setNewAsset(CurrencyModel newAsset) {
     asset = newAsset;
 
-    loadConversionPrice(
-      fiatSymbol,
-      cryptoSymbol,
-    );
-
     loadLimits();
 
     fiatInputValue = '0';
@@ -278,11 +274,6 @@ abstract class _BuyAmountStoreBase with Store {
       paymentAsset = null;
     }
 
-    loadConversionPrice(
-      fiatSymbol,
-      cryptoSymbol,
-    );
-
     loadLimits();
 
     fiatInputValue = '0';
@@ -293,21 +284,6 @@ abstract class _BuyAmountStoreBase with Store {
     _validateInput();
 
     _checkShowTosts();
-  }
-
-  @action
-  Future<void> loadConversionPrice(
-    String baseS,
-    String targetS,
-  ) async {
-    if (asset != null) {
-      targetConversionPrice = await getConversionPrice(
-        ConversionPriceInput(
-          baseAssetSymbol: baseS,
-          quotedAssetSymbol: targetS,
-        ),
-      );
-    }
   }
 
   @computed
@@ -335,7 +311,7 @@ abstract class _BuyAmountStoreBase with Store {
         accuracy: fiatAccuracy,
         wholePartLenght: maxWholePrartLenght,
       );
-      _calculateCryptoConversion();
+      cryptoInputValue = '0';
     } else {
       cryptoInputValue = responseOnInputAction(
         oldInput: cryptoInputValue,
@@ -343,7 +319,7 @@ abstract class _BuyAmountStoreBase with Store {
         accuracy: asset?.accuracy ?? 2,
         wholePartLenght: maxWholePrartLenght,
       );
-      _calculateFiatConversion();
+      fiatInputValue = '0';
     }
 
     _validateInput();
@@ -353,62 +329,13 @@ abstract class _BuyAmountStoreBase with Store {
   void pasteValue(String value) {
     if (isFiatEntering) {
       fiatInputValue = value;
+      cryptoInputValue = '0';
     } else {
       cryptoInputValue = value;
-    }
-    if (isFiatEntering) {
-      _calculateCryptoConversion();
-    } else {
-      _calculateFiatConversion();
+      fiatInputValue = '0';
     }
 
     _validateInput();
-  }
-
-  @action
-  void _calculateCryptoConversion() {
-    if (targetConversionPrice != null && fiatInputValue != '0') {
-      final amount = Decimal.parse(fiatInputValue);
-      final price = targetConversionPrice!;
-      final accuracy = asset!.accuracy;
-
-      var conversion = Decimal.zero;
-
-      if (price != Decimal.zero) {
-        conversion = Decimal.parse(
-          (amount * price).toStringAsFixed(accuracy),
-        );
-      }
-
-      cryptoInputValue = truncateZerosFrom(
-        conversion.toString(),
-      );
-    } else {
-      cryptoInputValue = zero;
-    }
-  }
-
-  void _calculateFiatConversion() {
-    if (targetConversionPrice != null && cryptoInputValue != '0') {
-      final amount = Decimal.parse(cryptoInputValue);
-      final price = targetConversionPrice!;
-      final accuracy = asset!.accuracy;
-
-      var conversion = Decimal.zero;
-
-      if (price != Decimal.zero) {
-        final koef = amount.toDouble() / price.toDouble();
-        conversion = Decimal.parse(
-          koef.toStringAsFixed(accuracy),
-        );
-      }
-
-      fiatInputValue = truncateZerosFrom(
-        conversion.toString(),
-      );
-    } else {
-      fiatInputValue = zero;
-    }
   }
 
   @action
@@ -429,6 +356,7 @@ abstract class _BuyAmountStoreBase with Store {
   @action
   void onBuyAll() {
     isMaxActive = true;
+    onMaxPressed = true;
     if (isFiatEntering) {
       fiatInputValue = '0';
       fiatInputValue = responseOnInputAction(
@@ -436,8 +364,6 @@ abstract class _BuyAmountStoreBase with Store {
         newInput: _maxSellAmount.toString(),
         accuracy: fiatAccuracy,
       );
-
-      _calculateCryptoConversion();
     } else {
       cryptoInputValue = '0';
       cryptoInputValue = responseOnInputAction(
@@ -445,8 +371,6 @@ abstract class _BuyAmountStoreBase with Store {
         newInput: _maxBuyAmount.toString(),
         accuracy: asset?.accuracy ?? 2,
       );
-
-      _calculateFiatConversion();
     }
 
     _validateInput();
@@ -488,7 +412,9 @@ abstract class _BuyAmountStoreBase with Store {
 
   @action
   Future<void> loadLimits() async {
+    setLoadingMaxButton(true);
     if (asset == null || (account == null && card == null)) {
+      setLoadingMaxButton(false);
       return;
     }
 
@@ -556,6 +482,10 @@ abstract class _BuyAmountStoreBase with Store {
         id: 1,
         needFeedback: true,
       );
+    }
+    setLoadingMaxButton(false);
+    if (onMaxPressed) {
+      onBuyAll();
     }
   }
 
