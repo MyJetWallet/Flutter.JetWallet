@@ -12,7 +12,6 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/wallet_api/models/limits/swap_limits_request_model.dart';
 
