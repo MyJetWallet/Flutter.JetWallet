@@ -1423,13 +1423,6 @@ abstract class _WithdrawalStoreBase with Store {
     previewLoading = true;
 
     try {
-      final feeSize = previewFee != null
-          ? Decimal.parse(previewFee.toString())
-          : withdrawalInputModel!.currency!.withdrawalFeeSize(
-              network: getNetworkForFee(),
-              amount: Decimal.parse(withAmount),
-            );
-
       final model = WithdrawJarRequestModel(
         requestId: DateTime.now().microsecondsSinceEpoch.toString(),
         assetSymbol: withdrawalInputModel!.jar!.addresses.first.assetSymbol,

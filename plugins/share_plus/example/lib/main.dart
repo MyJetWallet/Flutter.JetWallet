@@ -190,7 +190,7 @@ class DemoAppState extends State<DemoApp> {
     });
   }
 
-  void _onShareWithResult(BuildContext context) async {
+  Future<void> _onShareWithResult(BuildContext context) async {
     // A builder is used to retrieve the context immediately
     // surrounding the ElevatedButton.
     //
@@ -228,7 +228,7 @@ class DemoAppState extends State<DemoApp> {
     scaffoldMessenger.showSnackBar(getResultSnackBar(shareResult));
   }
 
-  void _onShareXFileFromAssets(BuildContext context) async {
+  Future<void> _onShareXFileFromAssets(BuildContext context) async {
     final box = context.findRenderObject() as RenderBox?;
     final scaffoldMessenger = ScaffoldMessenger.of(context);
     final data = await rootBundle.load('assets/flutter_logo.png');
@@ -247,7 +247,7 @@ class DemoAppState extends State<DemoApp> {
     scaffoldMessenger.showSnackBar(getResultSnackBar(shareResult));
   }
 
-  void _onShareTextAsXFile(BuildContext context) async {
+  Future<void> _onShareTextAsXFile(BuildContext context) async {
     final box = context.findRenderObject() as RenderBox?;
     final scaffoldMessenger = ScaffoldMessenger.of(context);
     final data = utf8.encode(text);

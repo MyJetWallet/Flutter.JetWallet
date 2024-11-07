@@ -427,8 +427,8 @@ void showBankTransferTo(BuildContext context, [CurrencyModel? currency]) {
     (element) => element.id == AssetPaymentProductsEnum.bankingIbanAccount,
   );
 
-  final methods =
-      sSignalRModules.globalSendMethods?.methods?.where((method) => method.receiveAsset == 'UAH').toList() ?? [];
+  // final methods =
+  //     sSignalRModules.globalSendMethods?.methods?.where((method) => method.receiveAsset == 'UAH').toList() ?? [];
 
   String getHelperTextToSendAnyone() {
     if (allowBanking) {
