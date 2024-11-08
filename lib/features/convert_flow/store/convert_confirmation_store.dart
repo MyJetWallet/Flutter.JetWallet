@@ -254,14 +254,6 @@ abstract class _ConvertConfirmationStoreBase with Store {
     if (terminateUpdates) return;
 
     try {
-      price = await getConversionPrice(
-            ConversionPriceInput(
-              baseAssetSymbol: buyAsset!,
-              quotedAssetSymbol: paymentAsset!,
-            ),
-          ) ??
-          Decimal.zero;
-
       await getActualData();
 
       _refreshTimerAnimation(actualTimeInSecond);

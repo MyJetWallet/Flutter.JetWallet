@@ -34,9 +34,6 @@ abstract class _ConvertAmountStoreBase with Store {
   String? paymentMethodInputError;
 
   @observable
-  Decimal? targetConversionPrice;
-
-  @observable
   InputError inputError = InputError.none;
 
   @observable
@@ -55,11 +52,7 @@ abstract class _ConvertAmountStoreBase with Store {
 
   @computed
   bool get isContinueAvaible {
-    return inputValid &&
-        Decimal.parse(primaryAmount) != Decimal.zero &&
-        fromAsset != null &&
-        targetConversionPrice != null &&
-        !isNoFromAssetBalance;
+    return inputValid && Decimal.parse(primaryAmount) != Decimal.zero && fromAsset != null && !isNoFromAssetBalance;
   }
 
   @observable
@@ -169,6 +162,12 @@ abstract class _ConvertAmountStoreBase with Store {
 
   @action
   void setNewFromAsset(CurrencyModel newAsset) {
+    errorText = null;
+    inputValid = false;
+    inputError = InputError.none;
+    _updatePaymentMethodInputError(null);
+    onMaxPressed = false;
+
     if (newAsset.symbol != toAsset?.symbol) {
       fromAsset = newAsset;
     } else {
@@ -203,6 +202,12 @@ abstract class _ConvertAmountStoreBase with Store {
 
   @action
   void setNewToAsset(CurrencyModel newAsset) {
+    errorText = null;
+    inputValid = false;
+    inputError = InputError.none;
+    _updatePaymentMethodInputError(null);
+    onMaxPressed = false;
+
     if (newAsset.symbol != fromAsset?.symbol) {
       toAsset = newAsset;
     } else {
