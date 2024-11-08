@@ -1,6 +1,5 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
@@ -23,7 +22,7 @@ import '../../../wallet/helper/format_date_to_hm.dart';
 import 'components/transaction_details_item.dart';
 import 'components/transaction_details_value_text.dart';
 
-class GiftSendDetails extends StatelessObserverWidget {
+class GiftSendDetails extends StatelessWidget {
   GiftSendDetails({
     super.key,
     required this.transactionListItem,

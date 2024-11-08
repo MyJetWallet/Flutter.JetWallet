@@ -1,6 +1,5 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
@@ -19,7 +18,7 @@ import 'components/transaction_details_new_item.dart';
 import 'components/transaction_details_new_value_text.dart';
 import 'components/transaction_details_status.dart';
 
-class CardRefundDetails extends StatelessObserverWidget {
+class CardRefundDetails extends StatelessWidget {
   const CardRefundDetails({
     super.key,
     required this.transactionListItem,

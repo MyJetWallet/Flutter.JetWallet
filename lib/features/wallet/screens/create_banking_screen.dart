@@ -35,10 +35,6 @@ class _CreateBankingScreenState extends State<CreateBankingScreen> {
   // ignore: unused_field
   late Timer _timer;
 
-  void _startTimer() {
-    _timer = Timer(const Duration(milliseconds: 999), () => isClicked = false);
-  }
-
   @override
   void initState() {
     requestId = const Uuid().v1();
@@ -129,17 +125,14 @@ class _CreateBankingScreenState extends State<CreateBankingScreen> {
             text: intl.create_continue,
             callback: () async {
               if (!isClicked) {
-                _startTimer();
                 isClicked = true;
-
                 loading.startLoadingImmediately();
+                isClicked = false;
                 try {
                   sAnalytics.eurWalletTapOnContinuePersonalEUR();
 
                   final resp =
                       await getIt.get<SNetwork>().simpleNetworking.getWalletModule().postAccountCreate(requestId);
-
-                  isClicked = true;
 
                   if (resp.hasError) {
                     sNotification.showError(
@@ -173,7 +166,9 @@ class _CreateBankingScreenState extends State<CreateBankingScreen> {
                 } catch (e) {
                   sNotification.showError(intl.something_went_wrong_try_again);
                 } finally {
-                  loading.finishLoadingImmediately();
+                  if (loading.loading) {
+                    loading.finishLoadingImmediately();
+                  }
                 }
               }
             },

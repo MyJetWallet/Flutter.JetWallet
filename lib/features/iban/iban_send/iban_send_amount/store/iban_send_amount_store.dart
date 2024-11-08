@@ -573,38 +573,58 @@ abstract class _IbanSendAmountStoreBase with Store {
 
   @action
   void _validateAmount() {
-    final fee = feeAmount + simpleFeeAmount;
-
-    final error = onEurWithdrawInputErrorHandler(
-      isCryptoEntering ? withAmount : baseConversionValue,
-      currency != null ? currency!.assetBalance : account!.balance!,
-      limits,
-    );
+    var error = InputError.none;
+    if (inputMode == WithdrawalInputMode.youSend) {
+      error = onEurWithdrawInputErrorHandler(
+        inputMode == WithdrawalInputMode.youSend ? withAmount : baseConversionValue,
+        currency != null ? currency!.assetBalance : account!.balance!,
+        limits,
+      );
+    }
 
     final value =
         inputMode == WithdrawalInputMode.youSend ? Decimal.parse(withAmount) : Decimal.parse(baseConversionValue);
 
+    print('#@#@#@ 0');
     if (_minLimit != null && _minLimit! > value) {
+      print('#@#@#@ 1');
       if (inputMode == WithdrawalInputMode.recepientGets) {
-        limitError = '${intl.currencyBuy_paymentInputErrorText1} ${((_minLimit ?? Decimal.zero) - fee).toFormatCount(
+        limitError = '${intl.currencyBuy_paymentInputErrorText1} ${(_minLimit ?? Decimal.zero).toFormatSum(
           accuracy: eurCurrency.accuracy,
           symbol: eurCurrency.symbol,
         )}';
       } else {
-        limitError = '${intl.currencyBuy_paymentInputErrorText1} ${_minLimit?.toFormatCount(
-          accuracy: (currency != null && inputMode == WithdrawalInputMode.youSend)
-              ? currency!.accuracy
-              : eurCurrency.accuracy,
-          symbol:
-              (currency != null && inputMode == WithdrawalInputMode.youSend) ? currency!.symbol : eurCurrency.symbol,
-        )}';
+        if (currency != null) {
+          limitError = '${intl.currencyBuy_paymentInputErrorText1} ${_minLimit?.toFormatCount(
+            accuracy: currency!.accuracy,
+            symbol: currency!.symbol,
+          )}';
+        } else {
+          limitError = '${intl.currencyBuy_paymentInputErrorText1} ${_minLimit?.toFormatSum(
+            accuracy: eurCurrency.accuracy,
+            symbol: eurCurrency.symbol,
+          )}';
+        }
       }
     } else if (_maxLimit != null && _maxLimit! < value) {
-      limitError = '${intl.currencyBuy_paymentInputErrorText2} ${_maxLimit?.toFormatCount(
-        accuracy:
-            (currency != null && inputMode == WithdrawalInputMode.youSend) ? currency!.accuracy : eurCurrency.accuracy,
-        symbol: (currency != null && inputMode == WithdrawalInputMode.youSend) ? currency!.symbol : eurCurrency.symbol,
-      )}';
+      if (inputMode == WithdrawalInputMode.youSend) {
+        if (currency != null) {
+          limitError = '${intl.currencyBuy_paymentInputErrorText2} ${_maxLimit?.toFormatSum(
+            accuracy: currency!.accuracy,
+            symbol: currency!.symbol,
+          )}';
+        } else {
+          limitError = '${intl.currencyBuy_paymentInputErrorText2} ${_maxLimit?.toFormatSum(
+            accuracy: eurCurrency.accuracy,
+            symbol: eurCurrency.symbol,
+          )}';
+        }
+      } else {
+        limitError = '${intl.currencyBuy_paymentInputErrorText2} ${_maxLimit?.toFormatCount(
+          accuracy: eurCurrency.accuracy,
+          symbol: eurCurrency.symbol,
+        )}';
+      }
     } else {
       limitError = '';
     }
@@ -629,6 +649,7 @@ abstract class _IbanSendAmountStoreBase with Store {
       );
     }
 
+    print('#@#@#@ $withAmmountInputError');
     withValid = withAmmountInputError == InputError.none && isInputValid(value.toString());
   }
 }

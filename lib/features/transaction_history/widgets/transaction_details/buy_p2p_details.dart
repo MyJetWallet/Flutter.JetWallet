@@ -1,6 +1,5 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
@@ -26,7 +25,7 @@ import 'components/transaction_details_item.dart';
 import 'components/transaction_details_status.dart';
 import 'components/transaction_details_value_text.dart';
 
-class BuyP2PDetails extends StatelessObserverWidget {
+class BuyP2PDetails extends StatelessWidget {
   const BuyP2PDetails({
     super.key,
     required this.transactionListItem,
