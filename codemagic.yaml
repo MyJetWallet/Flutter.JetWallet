@@ -58,6 +58,7 @@ definitions:
   cache: &cache
     cache_paths:
       - $FLUTTER_ROOT/.pub-cache
+      - $HOME/.gradle/caches
       - $HOME/Library/Caches/CocoaPods
 
   scripts: &scripts
