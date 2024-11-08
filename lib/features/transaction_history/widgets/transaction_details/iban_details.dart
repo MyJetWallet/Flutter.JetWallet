@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/transaction_history/widgets/history_copy_icon.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
@@ -9,7 +8,7 @@ import 'components/transaction_details_item.dart';
 import 'components/transaction_details_status.dart';
 import 'components/transaction_details_value_text.dart';
 
-class IbanDetails extends StatelessObserverWidget {
+class IbanDetails extends StatelessWidget {
   const IbanDetails({
     super.key,
     required this.transactionListItem,

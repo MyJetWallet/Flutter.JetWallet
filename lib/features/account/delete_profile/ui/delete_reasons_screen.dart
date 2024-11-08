@@ -78,13 +78,18 @@ class DeleteReasonsScreen extends StatelessObserverWidget {
                         vertical: 18,
                       ),
                       child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            store.deleteReason[index].reasonText ?? '',
-                            style: sSubtitle2Style,
+                          Expanded(
+                            child: Text(
+                              store.deleteReason[index].reasonText ?? '',
+                              style: sSubtitle2Style,
+                              overflow: TextOverflow.visible,
+                              softWrap: true,
+                            ),
                           ),
-                          const Spacer(),
+                          const SizedBox(
+                            width: 10.0,
+                          ),
                           SCompleteIcon(
                             color: store.isAlreadySelected(index) ? colors.blue : colors.grey1,
                           ),

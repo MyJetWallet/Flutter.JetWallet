@@ -314,7 +314,7 @@ String getCardTypeMask(String cardNumber) {
 
 String getIBANTypeMask(String iban) {
   final ibanMask = MaskTextInputFormatter(
-    mask: '#### #### #### #### #### #### ####',
+    mask: '#### #### #### #### #### #### #### #### ##',
     initialText: '',
     filter: {
       '#': RegExp('[a-zA-Z0-9]'),
