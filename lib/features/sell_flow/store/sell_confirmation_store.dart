@@ -7,8 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/conversion_price_service/conversion_price_input.dart';
-import 'package:jetwallet/core/services/conversion_price_service/conversion_price_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
@@ -312,14 +310,6 @@ abstract class _SellConfirmationStoreBase with Store {
     if (terminateUpdates) return;
 
     try {
-      price = await getConversionPrice(
-            ConversionPriceInput(
-              baseAssetSymbol: buyAsset!,
-              quotedAssetSymbol: paymentAsset!,
-            ),
-          ) ??
-          Decimal.zero;
-
       await getActualData();
 
       _refreshTimerAnimation(actualTimeInSecond);

@@ -241,6 +241,8 @@ abstract class _BuyAmountStoreBase with Store {
 
   @action
   void setNewAsset(CurrencyModel newAsset) {
+    onMaxPressed = false;
+
     asset = newAsset;
 
     loadLimits();
