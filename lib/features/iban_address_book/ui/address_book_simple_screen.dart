@@ -61,14 +61,12 @@ class _BodyAddressBookSimpleState extends State<_BodyAddressBookSimple> {
       loaderText: intl.loader_please_wait,
       loading: IbanAddressBookStore.of(context).loader,
       color: colors.grey5,
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: store.isEditMode ? intl.iban_edit_bank_account : intl.iban_add_bank_account,
-          showCloseButton: store.isEditMode,
-          showBackButton: !store.isEditMode,
-          onBackButtonTap: () => Navigator.pop(context, false),
-          onCLoseButton: () => Navigator.pop(context, false),
-        ),
+      header: GlobalBasicAppBar(
+        title: store.isEditMode ? intl.iban_edit_bank_account : intl.iban_add_bank_account,
+        hasRightIcon: store.isEditMode,
+        hasLeftIcon: !store.isEditMode,
+        onLeftIconTap: () => Navigator.pop(context, false),
+        onRightIconTap: () => Navigator.pop(context, false),
       ),
       child: CustomScrollView(
         slivers: [

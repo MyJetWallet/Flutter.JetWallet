@@ -43,10 +43,9 @@ class _EarnWithdrawnTypeScreenState extends State<EarnWithdrawnTypeScreen> {
 
     return SPageFrame(
       loaderText: '',
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: intl.withdraw,
-        ),
+      header: GlobalBasicAppBar(
+        title: intl.withdraw,
+        hasRightIcon: false,
       ),
       child: Padding(
         padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),

@@ -14,6 +14,7 @@ import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:jetwallet/utils/helpers/currencies_with_balance_from.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
 import '../../../../utils/helpers/country_code_by_user_register.dart';
@@ -53,11 +54,9 @@ class _ProfileDetailsState extends State<ProfileDetails> {
 
     return SPageFrame(
       loaderText: intl.loader_please_wait,
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: intl.profileDetails_profileDetails,
-          onBackButtonTap: () => Navigator.pop(context),
-        ),
+      header: GlobalBasicAppBar(
+        title: intl.profileDetails_profileDetails,
+        hasRightIcon: false,
       ),
       child: Column(
         children: [

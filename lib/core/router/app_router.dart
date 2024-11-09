@@ -12,9 +12,7 @@ import 'package:jetwallet/features/account/crisp/crisp.dart';
 import 'package:jetwallet/features/account/delete_profile/ui/delete_profile.dart';
 import 'package:jetwallet/features/account/delete_profile/ui/delete_reasons_screen.dart';
 import 'package:jetwallet/features/account/profile_details/ui/profile_details.dart';
-import 'package:jetwallet/features/account/profile_details/ui/widgets/change_password.dart';
 import 'package:jetwallet/features/account/profile_details/ui/widgets/default_asset_change.dart';
-import 'package:jetwallet/features/account/profile_details/ui/widgets/set_new_password.dart';
 import 'package:jetwallet/features/auth/biometric/ui/biometric.dart';
 import 'package:jetwallet/features/auth/biometric/ui/components/allow_biometric.dart';
 import 'package:jetwallet/features/auth/email_verification/ui/email_verification_screen.dart';
@@ -42,7 +40,6 @@ import 'package:jetwallet/features/crypto_jar/ui/jar_closed_confirmation_screen.
 import 'package:jetwallet/features/crypto_jar/ui/jar_screen.dart';
 import 'package:jetwallet/features/crypto_jar/ui/jar_share_screen.dart';
 import 'package:jetwallet/features/crypto_jar/ui/jar_transaction_history_screen.dart';
-import 'package:jetwallet/features/currency_buy/ui/screens/add_bank_card.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/pay_with_bottom_sheet.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
 import 'package:jetwallet/features/debug_info/debug_history.dart';
@@ -65,7 +62,6 @@ import 'package:jetwallet/features/email_confirmation/ui/email_confirmation_scre
 import 'package:jetwallet/features/face_check/ui/face_check_screen.dart';
 import 'package:jetwallet/features/home/home_screen.dart';
 import 'package:jetwallet/features/iban/get_personal_iban_screen.dart';
-import 'package:jetwallet/features/iban/iban_add_bank_account_screen.dart';
 import 'package:jetwallet/features/iban/iban_send/iban_send_amount/ui/iban_send_amount.dart';
 import 'package:jetwallet/features/iban/iban_send/iban_send_confirm/ui/iban_send_confirm.dart';
 import 'package:jetwallet/features/iban_address_book/ui/address_book_simple_screen.dart';
@@ -77,14 +73,12 @@ import 'package:jetwallet/features/invest_transfer/screens/invest_deposite_confr
 import 'package:jetwallet/features/invest_transfer/screens/invest_transfer_screen.dart';
 import 'package:jetwallet/features/invest_transfer/screens/invest_withdraw_confrimation_screen.dart';
 import 'package:jetwallet/features/kyc/allow_camera/ui/allow_camera_screen.dart';
-import 'package:jetwallet/features/kyc/choose_documents/ui/choose_documents.dart';
 import 'package:jetwallet/features/kyc/kyc_selfie/ui/kyc_selfie.dart';
 import 'package:jetwallet/features/kyc/kyc_selfie/ui/widgets/success_kys_screen.dart';
 import 'package:jetwallet/features/kyc/kyc_verify_your_profile/ui/kyc_aid_choose_country_screen.dart';
 import 'package:jetwallet/features/kyc/kyc_verify_your_profile/ui/kyc_aid_webview_screen.dart';
 import 'package:jetwallet/features/kyc/kyc_verify_your_profile/ui/kyc_verification.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
-import 'package:jetwallet/features/kyc/upload_documents/ui/upload_kyc_documents.dart';
 import 'package:jetwallet/features/kyc/upload_documents/ui/widgets/upload_verification_photo.dart';
 import 'package:jetwallet/features/market/market_details/ui/market_details.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/about_block/components/pdf_view_screen.dart';
@@ -165,7 +159,6 @@ import '../../features/auth/splash/splash_screen.dart';
 import '../../features/currency_buy/ui/screens/choose_asset_screen.dart';
 import '../../features/debug_info/install_conversion_data_screen.dart';
 import '../../features/debug_info/logs_screen.dart';
-import '../../features/iban/widgets/iban_billing_address.dart';
 import '../../features/invest/invest_screen.dart';
 import '../../features/invest/ui/active_invest_manage_screen.dart';
 import '../../features/invest/ui/invest_history_screen.dart';
@@ -302,14 +295,6 @@ class AppRouter extends RootStackRouter {
       page: CrispRouter.page,
     ),
     AutoRoute(
-      path: '/choose_documents',
-      page: ChooseDocumentsRouter.page,
-    ),
-    AutoRoute(
-      path: '/upload_kyc_documents',
-      page: UploadKycDocumentsRouter.page,
-    ),
-    AutoRoute(
       path: '/upload_verification_photo',
       page: UploadVerificationPhotoRouter.page,
     ),
@@ -330,29 +315,12 @@ class AppRouter extends RootStackRouter {
       page: TransactionHistoryRouter.page,
     ),
     AutoRoute(
-      path: '/add_bank_card',
-      page: AddUnlimintCardRouter.page,
-    ),
-    AutoRoute(
-      path: '/iban_address',
-      page: IbanAddressRouter.page,
-    ),
-    AutoRoute(
-      path: '/iban_add_account',
-      page: IbanAddBankAccountRouter.page,
-    ),
-    AutoRoute(
       path: '/iban_add_account_simpe',
       page: IbanAdressBookSimpleRoute.page,
     ),
     AutoRoute(
       path: '/iban_add_account_unlimit',
       page: IbanAdressBookUnlimitRoute.page,
-    ),
-    CustomRoute(
-      path: '/iban_edit_account',
-      page: IbanEditBankAccountRouter.page,
-      transitionsBuilder: TransitionsBuilders.slideBottom,
     ),
     AutoRoute(
       path: '/success_screen',
@@ -379,10 +347,6 @@ class AppRouter extends RootStackRouter {
       page: SetPhoneNumberRouter.page,
     ),
     AutoRoute(
-      path: '/set_new_password',
-      page: SetNewPasswordRouter.page,
-    ),
-    AutoRoute(
       path: '/phone_verification',
       page: PhoneVerificationRouter.page,
     ),
@@ -401,10 +365,6 @@ class AppRouter extends RootStackRouter {
     AutoRoute(
       path: '/biometric',
       page: BiometricRouter.page,
-    ),
-    AutoRoute(
-      path: '/change_password',
-      page: ChangePasswordRouter.page,
     ),
     AutoRoute(
       path: '/delete_profile',

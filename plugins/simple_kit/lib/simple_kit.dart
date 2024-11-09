@@ -60,9 +60,6 @@ export 'modules/fields/standard_field/base/standard_field_error_notifier.dart';
 export 'modules/fields/standard_field/public/simple_standard_field.dart';
 export 'modules/fields/standard_field/public/simple_standard_field_obscure.dart';
 
-/// Headers
-export 'modules/headers/simple_small_header.dart';
-
 /// Icons
 export 'modules/icons/102x56/public/numeric_keyboard_erase/simple_numeric_keyboard_erase_icon.dart';
 export 'modules/icons/102x56/public/numeric_keyboard_erase/simple_numeric_keyboard_erase_pressed_icon.dart';
@@ -279,7 +276,6 @@ export 'modules/notifications/simple_notification_box.dart';
 
 /// Page Frames
 export 'modules/shared/page_frames/simple_page_frame.dart';
-export 'modules/shared/page_frames/simple_page_frame_with_padding.dart';
 export 'modules/shared/qr_code_fields/simple_address_field_with_copy.dart';
 
 /// QR Code related

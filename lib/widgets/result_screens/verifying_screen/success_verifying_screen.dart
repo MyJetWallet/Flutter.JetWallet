@@ -68,7 +68,7 @@ class _SuccessScreenBodyState extends State<_SuccessScreenBody> {
       },
       child: PopScope(
         canPop: false,
-        child: SPageFrameWithPadding(
+        child: SPageFrame(
           loaderText: intl.register_pleaseWait,
           child: Observer(
             builder: (context) {

@@ -103,10 +103,9 @@ class _EarnTopUpAmountScreenState extends State<EarnTopUpAmountScreen> {
   Widget build(BuildContext context) {
     return SPageFrame(
       loaderText: '',
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: intl.earn_deposit,
-        ),
+      header: GlobalBasicAppBar(
+        title: intl.earn_deposit,
+        hasRightIcon: false,
       ),
       child: Provider<EarnTopUpAmountStore>(
         create: (_) => store,

@@ -72,55 +72,58 @@ class _SuccessKycScreenBodyState extends State<_SuccessKycScreenBody> {
     final deviceSize = sDeviceSize;
     final colors = sKit.colors;
 
-    return SPageFrameWithPadding(
+    return SPageFrame(
       loaderText: intl.register_pleaseWait,
-      child: Column(
-        children: [
-          const Spacer(),
-          SizedBox(
-            width: widgetSizeFrom(deviceSize) == SWidgetSize.small ? 160 : 320,
-            height: widgetSizeFrom(deviceSize) == SWidgetSize.small ? 160 : 320,
-            child: const RiveAnimation.asset(
-              successAnimationAsset,
-            ),
-          ),
-          Baseline(
-            baseline: 136.0,
-            baselineType: TextBaseline.alphabetic,
-            child: Text(
-              widget.primaryText ?? intl.successKycScreen_success,
-              maxLines: 2,
-              textAlign: TextAlign.center,
-              style: sTextH2Style,
-            ),
-          ),
-          if (widget.secondaryText != null)
-            Baseline(
-              baseline: 31.4,
-              baselineType: TextBaseline.alphabetic,
-              child: Text(
-                widget.secondaryText!,
-                maxLines: 10,
-                textAlign: TextAlign.center,
-                style: sBodyText1Style.copyWith(
-                  color: colors.grey1,
-                ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        child: Column(
+          children: [
+            const Spacer(),
+            SizedBox(
+              width: widgetSizeFrom(deviceSize) == SWidgetSize.small ? 160 : 320,
+              height: widgetSizeFrom(deviceSize) == SWidgetSize.small ? 160 : 320,
+              child: const RiveAnimation.asset(
+                successAnimationAsset,
               ),
             ),
-          if (widget.specialTextWidget != null) widget.specialTextWidget!,
-          Padding(
-            padding: const EdgeInsets.only(
-              bottom: 24.0,
-              top: 40.0,
+            Baseline(
+              baseline: 136.0,
+              baselineType: TextBaseline.alphabetic,
+              child: Text(
+                widget.primaryText ?? intl.successKycScreen_success,
+                maxLines: 2,
+                textAlign: TextAlign.center,
+                style: sTextH2Style,
+              ),
             ),
-            child: SButton.blue(
-              text: intl.successKycScreen_done,
-              callback: () {
-                navigateToRouter();
-              },
+            if (widget.secondaryText != null)
+              Baseline(
+                baseline: 31.4,
+                baselineType: TextBaseline.alphabetic,
+                child: Text(
+                  widget.secondaryText!,
+                  maxLines: 10,
+                  textAlign: TextAlign.center,
+                  style: sBodyText1Style.copyWith(
+                    color: colors.grey1,
+                  ),
+                ),
+              ),
+            if (widget.specialTextWidget != null) widget.specialTextWidget!,
+            Padding(
+              padding: const EdgeInsets.only(
+                bottom: 24.0,
+                top: 40.0,
+              ),
+              child: SButton.blue(
+                text: intl.successKycScreen_done,
+                callback: () {
+                  navigateToRouter();
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

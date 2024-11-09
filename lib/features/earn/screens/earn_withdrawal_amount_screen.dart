@@ -32,13 +32,9 @@ class EarnWithdrawalAmountScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SPageFrame(
       loaderText: '',
-      header: SPaddingH24(
-        child: SSmallHeader(
-          onBackButtonTap: () {
-            Navigator.of(context).pop();
-          },
-          title: intl.earn_partial_withdrawal,
-        ),
+      header: GlobalBasicAppBar(
+        title: intl.earn_partial_withdrawal,
+        hasRightIcon: false,
       ),
       child: Provider<EarnWithdrawalAmountStore>(
         create: (context) => EarnWithdrawalAmountStore(

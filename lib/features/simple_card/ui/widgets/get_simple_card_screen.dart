@@ -18,15 +18,12 @@ class GetSimpleCardScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SPageFrame(
       loaderText: '',
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: '',
-          showBackButton: false,
-          showCloseButton: true,
-          onCLoseButton: () {
-            sRouter.maybePop(false);
-          },
-        ),
+      header: GlobalBasicAppBar(
+        title: '',
+        hasLeftIcon: false,
+        onRightIconTap: () {
+          sRouter.maybePop(false);
+        },
       ),
       child: SPaddingH24(
         child: Stack(

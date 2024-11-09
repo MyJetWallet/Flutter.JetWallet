@@ -40,72 +40,72 @@ class _TransferConfirmationScreenBody extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final store = InvestWithdrawConfirmationStore.of(context);
-    final colors = sKit.colors;
 
-    return SPageFrameWithPadding(
+    return SPageFrame(
       loading: store.loader,
       loaderText: intl.register_pleaseWait,
       customLoader: store.showProcessing ? const WaitingScreen() : null,
-      header: SSmallHeader(
+      header: GlobalBasicAppBar(
         title: intl.buy_confirmation_title,
-        subTitle: intl.amount_screen_tab_transfer,
-        subTitleStyle: sBodyText2Style.copyWith(
-          color: colors.grey1,
-        ),
-        onBackButtonTap: () {
+        subtitle: intl.amount_screen_tab_transfer,
+        hasRightIcon: false,
+        onLeftIconTap: () {
           sRouter.maybePop();
         },
       ),
-      child: CustomScrollView(
-        physics: const ClampingScrollPhysics(),
-        slivers: [
-          SliverFillRemaining(
-            hasScrollBody: false,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                STransaction(
-                  isLoading: false,
-                  fromAssetIconUrl: store.currency.iconUrl,
-                  fromAssetDescription: intl.invest_transfer_invest,
-                  fromAssetValue: store.amount.toFormatCount(
-                    symbol: store.currency.symbol,
-                    accuracy: store.currency.accuracy,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        child: CustomScrollView(
+          physics: const ClampingScrollPhysics(),
+          slivers: [
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  STransaction(
+                    isLoading: false,
+                    fromAssetIconUrl: store.currency.iconUrl,
+                    fromAssetDescription: intl.invest_transfer_invest,
+                    fromAssetValue: store.amount.toFormatCount(
+                      symbol: store.currency.symbol,
+                      accuracy: store.currency.accuracy,
+                    ),
+                    fromAssetBaseAmount: '≈${store.baseCryptoAmount.toFormatCount(
+                      symbol: store.eurCurrency.symbol,
+                      accuracy: store.eurCurrency.accuracy,
+                    )}',
+                    toAssetIconUrl: store.currency.iconUrl,
+                    toAssetDescription: intl.invest_transfer_crypto_wallet,
+                    toAssetValue: store.amount.toFormatCount(
+                      symbol: store.currency.symbol,
+                      accuracy: store.currency.accuracy,
+                    ),
+                    toAssetBaseAmount: '≈${store.baseCryptoAmount.toFormatCount(
+                      symbol: store.eurCurrency.symbol,
+                      accuracy: store.eurCurrency.accuracy,
+                    )}',
                   ),
-                  fromAssetBaseAmount: '≈${store.baseCryptoAmount.toFormatCount(
-                    symbol: store.eurCurrency.symbol,
-                    accuracy: store.eurCurrency.accuracy,
-                  )}',
-                  toAssetIconUrl: store.currency.iconUrl,
-                  toAssetDescription: intl.invest_transfer_crypto_wallet,
-                  toAssetValue: store.amount.toFormatCount(
-                    symbol: store.currency.symbol,
-                    accuracy: store.currency.accuracy,
+                  const SizedBox(height: 19),
+                  const SDivider(),
+                  const Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 24),
+                    child: SButton.blue(
+                      text: intl.previewBuyWithAsset_confirm,
+                      callback: store.isTermsAndConditionsChecked
+                          ? () {
+                              store.confirm();
+                            }
+                          : null,
+                    ),
                   ),
-                  toAssetBaseAmount: '≈${store.baseCryptoAmount.toFormatCount(
-                    symbol: store.eurCurrency.symbol,
-                    accuracy: store.eurCurrency.accuracy,
-                  )}',
-                ),
-                const SizedBox(height: 19),
-                const SDivider(),
-                const Spacer(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 24),
-                  child: SButton.blue(
-                    text: intl.previewBuyWithAsset_confirm,
-                    callback: store.isTermsAndConditionsChecked
-                        ? () {
-                            store.confirm();
-                          }
-                        : null,
-                  ),
-                ),
-                const SizedBox(height: 8),
-              ],
+                  const SizedBox(height: 8),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

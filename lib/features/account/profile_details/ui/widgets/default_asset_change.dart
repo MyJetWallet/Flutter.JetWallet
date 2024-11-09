@@ -7,6 +7,7 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../../market/market_details/helper/currency_from_all.dart';
 import '../../store/change_base_asset_store.dart';
@@ -35,11 +36,9 @@ class DefaultAssetChange extends StatelessObserverWidget {
       child: SPageFrame(
         loaderText: intl.register_pleaseWait,
         loading: baseAsset.loader,
-        header: SPaddingH24(
-          child: SSmallHeader(
-            title: intl.profileDetails_baseCurrency,
-            onBackButtonTap: () => Navigator.pop(context),
-          ),
+        header: GlobalBasicAppBar(
+          title: intl.profileDetails_baseCurrency,
+          hasRightIcon: false,
         ),
         child: Column(
           children: [

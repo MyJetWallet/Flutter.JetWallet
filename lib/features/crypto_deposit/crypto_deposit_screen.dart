@@ -23,6 +23,7 @@ import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 @RoutePage(name: 'CryptoDepositRouter')
@@ -207,10 +208,9 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
 
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: '${intl.balanceActionButtons_receive} ${deposit.currency.description}',
-        ),
+      header: GlobalBasicAppBar(
+        title: '${intl.balanceActionButtons_receive} ${deposit.currency.description}',
+        hasRightIcon: false,
       ),
       bottomNavigationBar: SizedBox(
         height: 122,

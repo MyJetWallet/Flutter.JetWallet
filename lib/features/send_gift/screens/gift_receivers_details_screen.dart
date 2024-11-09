@@ -52,10 +52,9 @@ class _GiftReceiversDetailsScreenState extends State<GiftReceiversDetailsScreen>
     return SPageFrame(
       loaderText: intl.loader_please_wait,
       color: colors.grey5,
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: intl.send_gift_Receiver_details,
-        ),
+      header: GlobalBasicAppBar(
+        title: intl.send_gift_Receiver_details,
+        hasRightIcon: false,
       ),
       child: CustomScrollView(
         shrinkWrap: true,

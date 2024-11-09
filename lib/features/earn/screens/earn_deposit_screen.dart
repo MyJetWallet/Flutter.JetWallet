@@ -129,10 +129,9 @@ class _EarnDepositScreenState extends State<EarnDepositScreen> {
   Widget build(BuildContext context) {
     return SPageFrame(
       loaderText: '',
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: intl.earn_deposit,
-        ),
+      header: GlobalBasicAppBar(
+        title: intl.earn_deposit,
+        hasRightIcon: false,
       ),
       child: Provider<EarnDepositStore>(
         create: (_) => store,

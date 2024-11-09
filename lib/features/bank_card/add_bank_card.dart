@@ -84,15 +84,12 @@ class _AddBankCardScreenBody extends StatelessObserverWidget {
       loaderText: intl.loader_please_wait,
       color: sKit.colors.grey5,
       loading: store.loader,
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: intl.addCircleCard_bigHeaderTitle,
-          showBackButton: false,
-          onCLoseButton: () {
-            sRouter.maybePop();
-          },
-          showCloseButton: true,
-        ),
+      header: GlobalBasicAppBar(
+        title: intl.addCircleCard_bigHeaderTitle,
+        hasLeftIcon: false,
+        onRightIconTap: () {
+          sRouter.maybePop();
+        },
       ),
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),

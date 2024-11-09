@@ -99,18 +99,15 @@ class _PrepaidCardPreBuyTabsBodyState extends State<_PrepaidCardPreBuyTabsBody> 
 
     return SPageFrame(
       loaderText: '',
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: '',
-          showCloseButton: true,
-          showBackButton: isShowBackButtton,
-          onBackButtonTap: () {
-            _goToPreviosTab();
-          },
-          onCLoseButton: () {
-            sRouter.popUntilRouteWithName(PrepaidCardServiceRouter.name);
-          },
-        ),
+      header: GlobalBasicAppBar(
+        title: '',
+        hasLeftIcon: isShowBackButtton,
+        onLeftIconTap: () {
+          _goToPreviosTab();
+        },
+        onRightIconTap: () {
+          sRouter.popUntilRouteWithName(PrepaidCardServiceRouter.name);
+        },
       ),
       child: Stack(
         children: [

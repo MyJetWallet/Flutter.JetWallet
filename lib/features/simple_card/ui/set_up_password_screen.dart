@@ -54,22 +54,16 @@ class _SetUpPasswordScreenBody extends StatelessObserverWidget {
       resizeToAvoidBottomInset: false,
       color: colors.grey5,
       loading: isCreatePassword ? simpleCardStore.loader : store.loader,
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: intl.simple_card_password_title,
-          subTitle: intl.simple_card_password_subtitle,
-          subTitleStyle: sBodyText2Style.copyWith(
-            color: colors.grey1,
-          ),
-          showBackButton: false,
-          onCLoseButton: () {
-            sAnalytics.tapCloseSetUpPassword(
-              cardID: simpleCardStore.cardFull?.cardId ?? '',
-            );
-            Navigator.pop(context);
-          },
-          showCloseButton: true,
-        ),
+      header: GlobalBasicAppBar(
+        title: intl.simple_card_password_title,
+        subtitle: intl.simple_card_password_subtitle,
+        hasLeftIcon: false,
+        onRightIconTap: () {
+          sAnalytics.tapCloseSetUpPassword(
+            cardID: simpleCardStore.cardFull?.cardId ?? '',
+          );
+          Navigator.pop(context);
+        },
       ),
       child: Column(
         children: [

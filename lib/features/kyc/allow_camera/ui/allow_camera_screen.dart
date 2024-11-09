@@ -86,11 +86,12 @@ class _AllowCameraScreenBodyState extends State<_AllowCameraScreenBody> with Wid
       loaderText: intl.register_pleaseWait,
       header: deviceSize.when(
         small: () {
-          return SSmallHeader(
+          return GlobalBasicAppBar(
             title: _headerTitle(
               AllowCameraStore.of(context).permissionDenied,
               context,
             ),
+            hasRightIcon: false,
           );
         },
         medium: () {

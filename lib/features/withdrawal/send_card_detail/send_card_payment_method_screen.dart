@@ -9,6 +9,7 @@ import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'SendCardPaymentMethodRouter')
 class SendCardPaymentMethodScreen extends StatelessWidget {
@@ -49,10 +50,9 @@ class SendCardPaymentMethodBody extends StatelessObserverWidget {
 
     return SPageFrame(
       loaderText: intl.loader_please_wait,
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: intl.global_send_payment_method_title,
-        ),
+      header: GlobalBasicAppBar(
+        title: intl.global_send_payment_method_title,
+        hasRightIcon: false,
       ),
       child: SingleChildScrollView(
         child: Column(

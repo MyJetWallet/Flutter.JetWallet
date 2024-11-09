@@ -13,6 +13,7 @@ import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/simple_coin/utils/collect_simplecoin.dart';
 import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 
 import '../../core/di/di.dart';
@@ -51,11 +52,9 @@ class _DebugInfoState extends State<DebugInfo> with SingleTickerProviderStateMix
 
     return SPageFrame(
       loaderText: intl.loader_please_wait,
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: 'Debug mode',
-          onBackButtonTap: () => Navigator.pop(context),
-        ),
+      header: const GlobalBasicAppBar(
+        title: 'Debug mode',
+        hasRightIcon: false,
       ),
       child: Scaffold(
         body: Center(

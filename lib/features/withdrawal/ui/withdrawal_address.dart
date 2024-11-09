@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/currency_withdraw/model/address_validation_union.dart';
 import 'package:jetwallet/features/withdrawal/store/withdrawal_store.dart';
 import 'package:jetwallet/widgets/network_bottom_sheet/show_witrhdrawal_network_bottom_sheet.dart';
@@ -81,13 +80,9 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
       loaderText: intl.register_pleaseWait,
       color: colors.grey5,
       loading: store.loader,
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: store.header,
-          onBackButtonTap: () {
-            sRouter.maybePop();
-          },
-        ),
+      header: GlobalBasicAppBar(
+        title: store.header,
+        hasRightIcon: false,
       ),
       child: CustomScrollView(
         controller: scrollController,

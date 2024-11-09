@@ -45,22 +45,17 @@ class _GiftAmountState extends State<GiftAmount> {
   @override
   Widget build(BuildContext context) {
     final deviceSize = sDeviceSize;
-    final sColors = sKit.colors;
 
     return SPageFrame(
       loaderText: intl.loader_please_wait,
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: intl.send_gift_title,
-          subTitle:
-              '${intl.send_gift_available}: ${getIt<AppStore>().isBalanceHide ? '**** ${widget.sendGiftInfo.currency?.symbol ?? ''}' : geftSendAmountStore.availableCurrency.toFormatCount(
-                  accuracy: widget.sendGiftInfo.currency?.accuracy ?? 0,
-                  symbol: widget.sendGiftInfo.currency?.symbol ?? '',
-                )}',
-          subTitleStyle: sBodyText2Style.copyWith(
-            color: sColors.grey1,
-          ),
-        ),
+      header: GlobalBasicAppBar(
+        title: intl.send_gift_title,
+        subtitle:
+            '${intl.send_gift_available}: ${getIt<AppStore>().isBalanceHide ? '**** ${widget.sendGiftInfo.currency?.symbol ?? ''}' : geftSendAmountStore.availableCurrency.toFormatCount(
+                accuracy: widget.sendGiftInfo.currency?.accuracy ?? 0,
+                symbol: widget.sendGiftInfo.currency?.symbol ?? '',
+              )}',
+        hasRightIcon: false,
       ),
       child: Column(
         children: [

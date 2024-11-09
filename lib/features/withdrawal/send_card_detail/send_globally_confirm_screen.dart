@@ -67,199 +67,200 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
       data.receiveAsset!,
     );
 
-    return SPageFrameWithPadding(
+    return SPageFrame(
       loading: state.loader,
       loaderText: intl.register_pleaseWait,
-      header: SSmallHeader(
+      header: GlobalBasicAppBar(
         title: intl.previewBuy_orderSummary,
-        subTitle: intl.send,
-        subTitleStyle: sSubtitle3Style.copyWith(
-          color: colors.grey2,
-        ),
+        subtitle: intl.send,
+        hasRightIcon: false,
       ),
-      child: Stack(
-        children: [
-          ListView(
-            padding: const EdgeInsets.only(
-              bottom: 160,
-            ),
-            children: [
-              Column(
-                children: [
-                  deviceSize.when(
-                    small: () => const SpaceH8(),
-                    medium: () => const SpaceH3(),
-                  ),
-                  STransaction(
-                    isLoading: false,
-                    fromAssetIconUrl: state.sendCurrency!.iconUrl,
-                    fromAssetDescription: state.sendCurrency!.symbol,
-                    fromAssetValue: (data.amount ?? Decimal.zero).toFormatCount(
-                      symbol: state.sendCurrency!.symbol,
-                      accuracy: state.sendCurrency!.accuracy,
-                    ),
-                    toAssetIconUrl: receiveAsset.iconUrl,
-                    toAssetDescription: receiveAsset.symbol,
-                    toAssetValue: (data.estimatedReceiveAmount ?? Decimal.zero).toFormatSum(
-                      accuracy: receiveAsset.accuracy,
-                      symbol: receiveAsset.symbol,
-                    ),
-                  ),
-                  const SDivider(),
-                  const SpaceH16(),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: STableHeader(
-                      needHorizontalPadding: false,
-                      title: intl.global_send_receiver_details,
-                    ),
-                  ),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    padding: EdgeInsets.zero,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: state.receiverDetails.length,
-                    itemBuilder: (context, index) {
-                      return TwoColumnCell(
-                        label: state.receiverDetails[index].info.fieldName ?? '',
-                        value: state.receiverDetails[index].info.fieldId == FieldInfoId.cardNumber
-                            ? getCardTypeMask(
-                                state.receiverDetails[index].value,
-                              )
-                            : state.receiverDetails[index].info.fieldId == FieldInfoId.iban
-                                ? getIBANTypeMask(
-                                    state.receiverDetails[index].value,
-                                  )
-                                : state.receiverDetails[index].value,
-                        needHorizontalPadding: false,
-                        valueMaxLines: 2,
-                      );
-                    },
-                  ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: STableHeader(
-                      needHorizontalPadding: false,
-                      title: intl.global_send_payment_details,
-                    ),
-                  ),
-                  TwoColumnCell(
-                    label: intl.send_globally_date,
-                    value: DateFormat('dd.MM.y, HH:mm').format(DateTime.now()),
-                    needHorizontalPadding: false,
-                  ),
-                  TwoColumnCell(
-                    label: intl.global_send_payment_method_title,
-                    value: method.name,
-                    needHorizontalPadding: false,
-                  ),
-                  TwoColumnCell(
-                    label: intl.send_globally_con_rate,
-                    value:
-                        '''${state.sendCurrency!.type == AssetType.crypto ? "1 ${state.sendCurrency!.symbol}" : "${state.sendCurrency!.prefixSymbol} 1"} = ${data.estimatedPrice?.toFormatPrice(prefix: receiveAsset.prefixSymbol)}''',
-                    needHorizontalPadding: false,
-                  ),
-                  TwoColumnCell(
-                    label: intl.global_send_history_sent,
-                    value: ((data.amount ?? Decimal.zero) - (data.feeAmount ?? Decimal.zero)).toFormatCount(
-                      accuracy: state.sendCurrency!.accuracy,
-                      symbol: state.sendCurrency!.symbol,
-                    ),
-                    needHorizontalPadding: false,
-                  ),
-                  ProcessingFeeRowWidget(
-                    fee: (data.feeAmount ?? Decimal.zero).toFormatCount(
-                      accuracy: state.sendCurrency!.accuracy,
-                      symbol: state.sendCurrency!.symbol,
-                    ),
-                    onTabListener: () {},
-                    onBotomSheetClose: (_) {},
-                    needPadding: true,
-                  ),
-                  const SpaceH17(),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      intl.send_globally_transfer_info,
-                      maxLines: 3,
-                      textAlign: TextAlign.start,
-                      style: sCaptionTextStyle.copyWith(
-                        color: colors.grey3,
-                      ),
-                    ),
-                  ),
-                  const SpaceH15(),
-                  const SDivider(),
-                  const SpaceH20(),
-                ],
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        child: Stack(
+          children: [
+            ListView(
+              padding: const EdgeInsets.only(
+                bottom: 160,
               ),
-            ],
-          ),
-          SFloatingButtonFrame(
-            hidePadding: true,
-            button: Column(
               children: [
-                deviceSize.when(
-                  small: () {
-                    return Column(
-                      children: [
-                        const SDivider(),
-                        SActionConfirmText(
-                          name: intl.global_send_total_pay,
-                          contentLoading: state.loader.loading,
-                          valueColor: colors.blue,
-                          value: (data.amount ?? Decimal.zero).toFormatCount(
-                            accuracy: state.sendCurrency!.accuracy,
-                            symbol: state.sendCurrency!.symbol,
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                  medium: () {
-                    return const SizedBox();
-                  },
-                ),
-                const SpaceH20(),
-                const SpaceH24(),
-                SButton.blue(
-                  text: intl.previewBuyWithAsset_confirm,
-                  callback: () {
-                    sAnalytics.globalSendConfirmOrderSummary(
-                      asset: data.asset ?? '',
-                      sendMethodType: '1',
-                      destCountry: data.countryCode ?? '',
-                      paymentMethod: method.name ?? '',
-                      globalSendType: method.methodId ?? '',
-                      totalSendAmount: (data.amount ?? Decimal.zero).toString(),
-                    );
-
-                    sRouter.push(
-                      PinScreenRoute(
-                        union: const Change(),
-                        isChangePhone: true,
-                        onChangePhone: (String newPin) {
-                          sAnalytics.globalSenBioApprove(
-                            asset: data.asset ?? '',
-                            sendMethodType: '1',
-                            destCountry: data.countryCode ?? '',
-                            paymentMethod: method.name ?? '',
-                            globalSendType: method.methodId ?? '',
-                            totalSendAmount: (data.amount ?? Decimal.zero).toString(),
-                          );
-
-                          sRouter.maybePop();
-                          state.confirmSendGlobally(newPin: newPin);
-                        },
-                        onWrongPin: (error) {},
+                Column(
+                  children: [
+                    deviceSize.when(
+                      small: () => const SpaceH8(),
+                      medium: () => const SpaceH3(),
+                    ),
+                    STransaction(
+                      isLoading: false,
+                      fromAssetIconUrl: state.sendCurrency!.iconUrl,
+                      fromAssetDescription: state.sendCurrency!.symbol,
+                      fromAssetValue: (data.amount ?? Decimal.zero).toFormatCount(
+                        symbol: state.sendCurrency!.symbol,
+                        accuracy: state.sendCurrency!.accuracy,
                       ),
-                    );
-                  },
+                      toAssetIconUrl: receiveAsset.iconUrl,
+                      toAssetDescription: receiveAsset.symbol,
+                      toAssetValue: (data.estimatedReceiveAmount ?? Decimal.zero).toFormatSum(
+                        accuracy: receiveAsset.accuracy,
+                        symbol: receiveAsset.symbol,
+                      ),
+                    ),
+                    const SDivider(),
+                    const SpaceH16(),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: STableHeader(
+                        needHorizontalPadding: false,
+                        title: intl.global_send_receiver_details,
+                      ),
+                    ),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      padding: EdgeInsets.zero,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: state.receiverDetails.length,
+                      itemBuilder: (context, index) {
+                        return TwoColumnCell(
+                          label: state.receiverDetails[index].info.fieldName ?? '',
+                          value: state.receiverDetails[index].info.fieldId == FieldInfoId.cardNumber
+                              ? getCardTypeMask(
+                                  state.receiverDetails[index].value,
+                                )
+                              : state.receiverDetails[index].info.fieldId == FieldInfoId.iban
+                                  ? getIBANTypeMask(
+                                      state.receiverDetails[index].value,
+                                    )
+                                  : state.receiverDetails[index].value,
+                          needHorizontalPadding: false,
+                          valueMaxLines: 2,
+                        );
+                      },
+                    ),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: STableHeader(
+                        needHorizontalPadding: false,
+                        title: intl.global_send_payment_details,
+                      ),
+                    ),
+                    TwoColumnCell(
+                      label: intl.send_globally_date,
+                      value: DateFormat('dd.MM.y, HH:mm').format(DateTime.now()),
+                      needHorizontalPadding: false,
+                    ),
+                    TwoColumnCell(
+                      label: intl.global_send_payment_method_title,
+                      value: method.name,
+                      needHorizontalPadding: false,
+                    ),
+                    TwoColumnCell(
+                      label: intl.send_globally_con_rate,
+                      value:
+                          '''${state.sendCurrency!.type == AssetType.crypto ? "1 ${state.sendCurrency!.symbol}" : "${state.sendCurrency!.prefixSymbol} 1"} = ${data.estimatedPrice?.toFormatPrice(prefix: receiveAsset.prefixSymbol)}''',
+                      needHorizontalPadding: false,
+                    ),
+                    TwoColumnCell(
+                      label: intl.global_send_history_sent,
+                      value: ((data.amount ?? Decimal.zero) - (data.feeAmount ?? Decimal.zero)).toFormatCount(
+                        accuracy: state.sendCurrency!.accuracy,
+                        symbol: state.sendCurrency!.symbol,
+                      ),
+                      needHorizontalPadding: false,
+                    ),
+                    ProcessingFeeRowWidget(
+                      fee: (data.feeAmount ?? Decimal.zero).toFormatCount(
+                        accuracy: state.sendCurrency!.accuracy,
+                        symbol: state.sendCurrency!.symbol,
+                      ),
+                      onTabListener: () {},
+                      onBotomSheetClose: (_) {},
+                      needPadding: true,
+                    ),
+                    const SpaceH17(),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        intl.send_globally_transfer_info,
+                        maxLines: 3,
+                        textAlign: TextAlign.start,
+                        style: sCaptionTextStyle.copyWith(
+                          color: colors.grey3,
+                        ),
+                      ),
+                    ),
+                    const SpaceH15(),
+                    const SDivider(),
+                    const SpaceH20(),
+                  ],
                 ),
               ],
             ),
-          ),
-        ],
+            SFloatingButtonFrame(
+              hidePadding: true,
+              button: Column(
+                children: [
+                  deviceSize.when(
+                    small: () {
+                      return Column(
+                        children: [
+                          const SDivider(),
+                          SActionConfirmText(
+                            name: intl.global_send_total_pay,
+                            contentLoading: state.loader.loading,
+                            valueColor: colors.blue,
+                            value: (data.amount ?? Decimal.zero).toFormatCount(
+                              accuracy: state.sendCurrency!.accuracy,
+                              symbol: state.sendCurrency!.symbol,
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                    medium: () {
+                      return const SizedBox();
+                    },
+                  ),
+                  const SpaceH20(),
+                  const SpaceH24(),
+                  SButton.blue(
+                    text: intl.previewBuyWithAsset_confirm,
+                    callback: () {
+                      sAnalytics.globalSendConfirmOrderSummary(
+                        asset: data.asset ?? '',
+                        sendMethodType: '1',
+                        destCountry: data.countryCode ?? '',
+                        paymentMethod: method.name ?? '',
+                        globalSendType: method.methodId ?? '',
+                        totalSendAmount: (data.amount ?? Decimal.zero).toString(),
+                      );
+
+                      sRouter.push(
+                        PinScreenRoute(
+                          union: const Change(),
+                          isChangePhone: true,
+                          onChangePhone: (String newPin) {
+                            sAnalytics.globalSenBioApprove(
+                              asset: data.asset ?? '',
+                              sendMethodType: '1',
+                              destCountry: data.countryCode ?? '',
+                              paymentMethod: method.name ?? '',
+                              globalSendType: method.methodId ?? '',
+                              totalSendAmount: (data.amount ?? Decimal.zero).toString(),
+                            );
+
+                            sRouter.maybePop();
+                            state.confirmSendGlobally(newPin: newPin);
+                          },
+                          onWrongPin: (error) {},
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

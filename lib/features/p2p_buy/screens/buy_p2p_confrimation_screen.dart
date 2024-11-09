@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
@@ -74,7 +73,7 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
 
     final currency = getIt.get<FormatService>().findCurrency(assetSymbol: store.buyCurrency.symbol);
 
-    return SPageFrameWithPadding(
+    return SPageFrame(
       loading: store.loader,
       loaderText: intl.register_pleaseWait,
       customLoader: store.showProcessing
@@ -83,99 +82,99 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
               isCanClouse: store.isWebViewAlredyShoved,
             )
           : null,
-      header: SSmallHeader(
+      header: GlobalBasicAppBar(
         title: intl.buy_confirmation_title,
-        subTitle: intl.buy_confirmation_subtitle,
-        subTitleStyle: sBodyText2Style.copyWith(
-          color: colors.gray10,
-        ),
-        onBackButtonTap: () => sRouter.maybePop(),
+        subtitle: intl.buy_confirmation_subtitle,
+        hasRightIcon: false,
       ),
-      child: CustomScrollView(
-        slivers: [
-          SliverFillRemaining(
-            hasScrollBody: false,
-            child: Column(
-              children: [
-                if (currency.networksForBlockchainSend.isEmpty) _buildInfoWidget(),
-                STransaction(
-                  isLoading: !store.isDataLoaded,
-                  fromAssetIconUrl: store.buyCurrency.iconUrl,
-                  fromAssetDescription: store.buyCurrency.description,
-                  fromAssetValue: getIt<AppStore>().isBalanceHide
-                      ? '**** ${store.buyCurrency.symbol}'
-                      : (store.buyAmount ?? Decimal.zero).toFormatCount(
-                          symbol: store.buyCurrency.symbol,
-                          accuracy: store.buyCurrency.accuracy,
-                        ),
-                  hasSecondAsset: false,
-                ),
-                BuyP2PConfirmationInfoGrid(
-                  paymentFee: (store.depositFeeAmount ?? Decimal.zero).toFormatSum(
-                    accuracy: store.depositFeeCurrency.accuracy,
-                    symbol: store.depositFeeCurrency.symbol,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        child: CustomScrollView(
+          slivers: [
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Column(
+                children: [
+                  if (currency.networksForBlockchainSend.isEmpty) _buildInfoWidget(),
+                  STransaction(
+                    isLoading: !store.isDataLoaded,
+                    fromAssetIconUrl: store.buyCurrency.iconUrl,
+                    fromAssetDescription: store.buyCurrency.description,
+                    fromAssetValue: getIt<AppStore>().isBalanceHide
+                        ? '**** ${store.buyCurrency.symbol}'
+                        : (store.buyAmount ?? Decimal.zero).toFormatCount(
+                            symbol: store.buyCurrency.symbol,
+                            accuracy: store.buyCurrency.accuracy,
+                          ),
+                    hasSecondAsset: false,
                   ),
-                  ourFee: (store.tradeFeeAmount ?? Decimal.zero).toFormatSum(
-                    accuracy: store.tradeFeeCurreny.accuracy,
-                    symbol: store.tradeFeeCurreny.symbol,
+                  BuyP2PConfirmationInfoGrid(
+                    paymentFee: (store.depositFeeAmount ?? Decimal.zero).toFormatSum(
+                      accuracy: store.depositFeeCurrency.accuracy,
+                      symbol: store.depositFeeCurrency.symbol,
+                    ),
+                    ourFee: (store.tradeFeeAmount ?? Decimal.zero).toFormatSum(
+                      accuracy: store.tradeFeeCurreny.accuracy,
+                      symbol: store.tradeFeeCurreny.symbol,
+                    ),
+                    asset: store.buyCurrency,
                   ),
-                  asset: store.buyCurrency,
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  intl.buy_normally_transfer,
-                  style: sCaptionTextStyle.copyWith(
-                    color: colors.gray8,
+                  const SizedBox(height: 16),
+                  Text(
+                    intl.buy_normally_transfer,
+                    style: sCaptionTextStyle.copyWith(
+                      color: colors.gray8,
+                    ),
+                    maxLines: 4,
                   ),
-                  maxLines: 4,
-                ),
-                const SizedBox(height: 24),
-                const SDivider(),
-                SPolicyCheckbox(
-                  height: 65,
-                  firstText: intl.buy_confirmation_privacy_checkbox_1,
-                  userAgreementText: intl.p2p_terms_and_conditions,
-                  betweenText: '',
-                  privacyPolicyText: '',
-                  secondText: '',
-                  activeText: '',
-                  thirdText: '',
-                  activeText2: '',
-                  onCheckboxTap: () {
-                    store.setIsBankTermsChecked();
-                  },
-                  onUserAgreementTap: () {
-                    launchURL(context, p2pTerms);
-                  },
-                  onPrivacyPolicyTap: () {},
-                  onActiveTextTap: () {},
-                  onActiveText2Tap: () {},
-                  isChecked: store.isP2PTermsChecked,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 64),
-                  child: SButton.blue(
-                    text: intl.previewBuyWithAsset_confirm,
-                    callback: !store.loader.loading && store.getCheckbox
-                        ? () {
-                            sAnalytics.tapOnTheButtonConfirmOnBuyOrderSummary(
-                              pmType: PaymenthMethodType.ptp,
-                              buyPM: 'PTP',
-                              sourceCurrency: store.paymentAsset?.asset ?? '',
-                              destinationWallet: store.buyAsset ?? '',
-                              sourceBuyAmount: store.paymentAmount.toString(),
-                              destinationBuyAmount: store.buyAmount.toString(),
-                            );
-                            store.createPayment();
-                          }
-                        : null,
+                  const SizedBox(height: 24),
+                  const SDivider(),
+                  SPolicyCheckbox(
+                    height: 65,
+                    firstText: intl.buy_confirmation_privacy_checkbox_1,
+                    userAgreementText: intl.p2p_terms_and_conditions,
+                    betweenText: '',
+                    privacyPolicyText: '',
+                    secondText: '',
+                    activeText: '',
+                    thirdText: '',
+                    activeText2: '',
+                    onCheckboxTap: () {
+                      store.setIsBankTermsChecked();
+                    },
+                    onUserAgreementTap: () {
+                      launchURL(context, p2pTerms);
+                    },
+                    onPrivacyPolicyTap: () {},
+                    onActiveTextTap: () {},
+                    onActiveText2Tap: () {},
+                    isChecked: store.isP2PTermsChecked,
                   ),
-                ),
-                const SpaceH40(),
-              ],
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 64),
+                    child: SButton.blue(
+                      text: intl.previewBuyWithAsset_confirm,
+                      callback: !store.loader.loading && store.getCheckbox
+                          ? () {
+                              sAnalytics.tapOnTheButtonConfirmOnBuyOrderSummary(
+                                pmType: PaymenthMethodType.ptp,
+                                buyPM: 'PTP',
+                                sourceCurrency: store.paymentAsset?.asset ?? '',
+                                destinationWallet: store.buyAsset ?? '',
+                                sourceBuyAmount: store.paymentAmount.toString(),
+                                destinationBuyAmount: store.buyAmount.toString(),
+                              );
+                              store.createPayment();
+                            }
+                          : null,
+                    ),
+                  ),
+                  const SpaceH40(),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

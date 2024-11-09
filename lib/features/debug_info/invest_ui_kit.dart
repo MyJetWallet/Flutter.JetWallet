@@ -14,7 +14,7 @@ import 'package:jetwallet/features/invest/ui/widgets/invest_input.dart';
 import 'package:jetwallet/features/invest/ui/widgets/slider_thumb_shape.dart';
 import 'package:jetwallet/features/wallet/helper/format_date_to_hm.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/signalr_log.dart';
 import 'package:simple_networking/modules/wallet_api/models/invest/new_invest_request_model.dart';
 
@@ -42,10 +42,9 @@ class _InvestUIState extends State<InvestUIKIT> {
 
     return SPageFrame(
       loaderText: intl.loader_please_wait,
-      header: const SPaddingH24(
-        child: SSmallHeader(
-          title: 'Invest UI KIT',
-        ),
+      header: const GlobalBasicAppBar(
+        title: 'Invest UI KIT',
+        hasRightIcon: false,
       ),
       child: SafeArea(
         child: SingleChildScrollView(

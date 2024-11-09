@@ -43,97 +43,98 @@ class _GiftOrderSummuryState extends State<GiftOrderSummury> {
 
     return Observer(
       builder: (context) {
-        return SPageFrameWithPadding(
+        return SPageFrame(
           loaderText: intl.loader_please_wait,
           loading: sendGiftStore.loader,
           customLoader: const WaitingScreen(),
-          header: SSmallHeader(
+          header: GlobalBasicAppBar(
             title: intl.buy_confirmation_title,
-            subTitle: intl.send_gift_small_title,
-            subTitleStyle: sBodyText2Style.copyWith(
-              color: sKit.colors.grey1,
-            ),
+            subtitle: intl.send_gift_small_title,
+            hasRightIcon: false,
           ),
-          child: CustomScrollView(
-            slivers: [
-              SliverToBoxAdapter(
-                child: Column(
-                  children: [
-                    STransaction(
-                      isLoading: false,
-                      hasSecondAsset: false,
-                      fromAssetIconUrl: sendGiftStore.currency.iconUrl,
-                      fromAssetDescription: sendGiftStore.currency.description,
-                      fromAssetValue: sendGiftStore.amount.toFormatCount(
-                        accuracy: sendGiftStore.currency.accuracy,
-                        symbol: sendGiftStore.currency.symbol,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: CustomScrollView(
+              slivers: [
+                SliverToBoxAdapter(
+                  child: Column(
+                    children: [
+                      STransaction(
+                        isLoading: false,
+                        hasSecondAsset: false,
+                        fromAssetIconUrl: sendGiftStore.currency.iconUrl,
+                        fromAssetDescription: sendGiftStore.currency.description,
+                        fromAssetValue: sendGiftStore.amount.toFormatCount(
+                          accuracy: sendGiftStore.currency.accuracy,
+                          symbol: sendGiftStore.currency.symbol,
+                        ),
+                        fromAssetBaseAmount: formatService
+                            .convertOneCurrencyToAnotherOne(
+                              fromCurrency: sendGiftStore.currency.symbol,
+                              fromCurrencyAmmount: sendGiftStore.amount,
+                              toCurrency: sSignalRModules.baseCurrency.symbol,
+                              baseCurrency: sSignalRModules.baseCurrency.symbol,
+                              isMin: false,
+                            )
+                            .toFormatSum(
+                              accuracy: sSignalRModules.baseCurrency.accuracy,
+                              symbol: sSignalRModules.baseCurrency.symbol,
+                            ),
                       ),
-                      fromAssetBaseAmount: formatService
-                          .convertOneCurrencyToAnotherOne(
-                            fromCurrency: sendGiftStore.currency.symbol,
-                            fromCurrencyAmmount: sendGiftStore.amount,
-                            toCurrency: sSignalRModules.baseCurrency.symbol,
-                            baseCurrency: sSignalRModules.baseCurrency.symbol,
-                            isMin: false,
-                          )
-                          .toFormatSum(
-                            accuracy: sSignalRModules.baseCurrency.accuracy,
-                            symbol: sSignalRModules.baseCurrency.symbol,
-                          ),
-                    ),
-                    const SDivider(),
-                    const SpaceH16(),
-                    TwoColumnCell(
-                      label: intl.date,
-                      value: DateFormat('dd.MM.yyyy, hh:mm').format(DateTime.now()),
-                      needHorizontalPadding: false,
-                    ),
-                    TwoColumnCell(
-                      label: intl.to1,
-                      value: sendGiftStore.receiverContact,
-                      needHorizontalPadding: false,
-                    ),
-                    TwoColumnCell(
-                      label: intl.operationName_sent,
-                      value: sendGiftStore.amount.toFormatCount(
-                        accuracy: sendGiftStore.currency.accuracy,
-                        symbol: sendGiftStore.currency.symbol,
+                      const SDivider(),
+                      const SpaceH16(),
+                      TwoColumnCell(
+                        label: intl.date,
+                        value: DateFormat('dd.MM.yyyy, hh:mm').format(DateTime.now()),
+                        needHorizontalPadding: false,
                       ),
-                      needHorizontalPadding: false,
-                    ),
-                    ProcessingFeeRowWidget(
-                      fee: (sendGiftStore.currency.fees.withdrawalFee?.size ?? Decimal.zero).toFormatCount(
-                        accuracy: sendGiftStore.currency.accuracy,
-                        symbol: sendGiftStore.currency.symbol,
+                      TwoColumnCell(
+                        label: intl.to1,
+                        value: sendGiftStore.receiverContact,
+                        needHorizontalPadding: false,
                       ),
-                      onTabListener: () {},
-                      onBotomSheetClose: (_) {},
-                      needPadding: true,
-                    ),
-                    const SpaceH16(),
-                    const SDivider(),
-                    const SpaceH32(),
-                    SButton.blue(
-                      text: intl.previewBuyWithAsset_confirm,
-                      callback: () {
-                        sRouter.push(
-                          PinScreenRoute(
-                            union: const Change(),
-                            isChangePhone: true,
-                            onChangePhone: (String newPin) async {
-                              await sendGiftStore.confirmSendGift(
-                                newPin: newPin,
-                              );
-                            },
-                            onWrongPin: (error) {},
-                          ),
-                        );
-                      },
-                    ),
-                  ],
+                      TwoColumnCell(
+                        label: intl.operationName_sent,
+                        value: sendGiftStore.amount.toFormatCount(
+                          accuracy: sendGiftStore.currency.accuracy,
+                          symbol: sendGiftStore.currency.symbol,
+                        ),
+                        needHorizontalPadding: false,
+                      ),
+                      ProcessingFeeRowWidget(
+                        fee: (sendGiftStore.currency.fees.withdrawalFee?.size ?? Decimal.zero).toFormatCount(
+                          accuracy: sendGiftStore.currency.accuracy,
+                          symbol: sendGiftStore.currency.symbol,
+                        ),
+                        onTabListener: () {},
+                        onBotomSheetClose: (_) {},
+                        needPadding: true,
+                      ),
+                      const SpaceH16(),
+                      const SDivider(),
+                      const SpaceH32(),
+                      SButton.blue(
+                        text: intl.previewBuyWithAsset_confirm,
+                        callback: () {
+                          sRouter.push(
+                            PinScreenRoute(
+                              union: const Change(),
+                              isChangePhone: true,
+                              onChangePhone: (String newPin) async {
+                                await sendGiftStore.confirmSendGift(
+                                  newPin: newPin,
+                                );
+                              },
+                              onWrongPin: (error) {},
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },

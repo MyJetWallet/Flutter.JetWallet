@@ -5,6 +5,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/apps_flyer_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../core/l10n/i10n.dart';
 
@@ -21,10 +22,9 @@ class InstallConversionDataScreen extends StatelessObserverWidget {
 
     return SPageFrame(
       loaderText: intl.loader_please_wait,
-      header: const SPaddingH24(
-        child: SSmallHeader(
-          title: 'Install Conversion Data',
-        ),
+      header: const GlobalBasicAppBar(
+        title: 'Install Conversion Data',
+        hasRightIcon: false,
       ),
       child: SPaddingH24(
         child: Column(

@@ -55,15 +55,10 @@ class _SimpleCoinTransactionHistoryScreenState extends State<SimpleCoinTransacti
           return SPageFrame(
             loaderText: '',
             color: colors.white,
-            header: SPaddingH24(
-              child: SSmallHeader(
-                title: intl.simplecoin_transaction_historyr,
-                subTitle: 'SMPL',
-                subTitleStyle: sBodyText2Style.copyWith(
-                  color: colors.grey1,
-                ),
-                titleMaxLines: 1,
-              ),
+            header: GlobalBasicAppBar(
+              title: intl.simplecoin_transaction_historyr,
+              subtitle: 'SMPL',
+              hasRightIcon: false,
             ),
             child: store.isLoadingInitialData
                 ? const EarnDetailsSkeleton()

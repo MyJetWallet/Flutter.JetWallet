@@ -92,8 +92,9 @@ class _AllowCameraScreenBodyState extends State<_AllowBiometricScreenBody> with 
       loaderText: intl.register_pleaseWait,
       header: deviceSize.when(
         small: () {
-          return SSmallHeader(
+          return GlobalBasicAppBar(
             title: headerText,
+            hasRightIcon: false,
           );
         },
         medium: () {

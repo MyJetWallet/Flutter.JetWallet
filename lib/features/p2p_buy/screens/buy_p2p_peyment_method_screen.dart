@@ -14,6 +14,7 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:logger/logger.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/wallet_api/models/p2p_methods/p2p_methods_responce_model.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -97,13 +98,9 @@ class _BuyP2pPeymentMethodScreenState extends State<BuyP2pPeymentMethodScreen> {
       },
       child: SPageFrame(
         loaderText: '',
-        header: SPaddingH24(
-          child: SSmallHeader(
-            title: intl.buy_flow_payment_method,
-            onBackButtonTap: () {
-              sRouter.maybePop();
-            },
-          ),
+        header: GlobalBasicAppBar(
+          title: intl.buy_flow_payment_method,
+          hasRightIcon: false,
         ),
         child: CustomScrollView(
           slivers: [

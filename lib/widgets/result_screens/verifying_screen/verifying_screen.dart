@@ -53,7 +53,7 @@ class _VerifyingScreenBody extends StatelessObserverWidget {
 
     return PopScope(
       canPop: false,
-      child: SPageFrameWithPadding(
+      child: SPageFrame(
         loaderText: intl.register_pleaseWait,
         child: Column(
           children: [

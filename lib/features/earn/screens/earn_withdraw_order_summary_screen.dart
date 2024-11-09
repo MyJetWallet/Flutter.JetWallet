@@ -32,8 +32,6 @@ class EarnWithdrawOrderSummaryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
-
     return Provider<EarnWithdrawalOrderSummaryStore>(
       create: (context) => EarnWithdrawalOrderSummaryStore(
         earnPosition: earnPosition,
@@ -43,12 +41,12 @@ class EarnWithdrawOrderSummaryScreen extends StatelessWidget {
       builder: (context, child) {
         final store = EarnWithdrawalOrderSummaryStore.of(context);
 
-        return SPageFrameWithPadding(
+        return SPageFrame(
           loading: store.loader,
           loaderText: intl.register_pleaseWait,
           customLoader: store.showProcessing ? const WaitingScreen() : null,
-          header: SSmallHeader(
-            onBackButtonTap: () {
+          header: GlobalBasicAppBar(
+            onLeftIconTap: () {
               sAnalytics.tapOnTheBackFromEarnWithdrawOrderSummaryButton(
                 assetName: earnPosition.assetId,
                 earnOfferId: earnPosition.offerId,
@@ -59,10 +57,8 @@ class EarnWithdrawOrderSummaryScreen extends StatelessWidget {
               Navigator.pop(context);
             },
             title: intl.earn_order_summary,
-            subTitle: intl.earn_send,
-            subTitleStyle: sBodyText2Style.copyWith(
-              color: colors.grey1,
-            ),
+            subtitle: intl.earn_send,
+            hasRightIcon: false,
           ),
           child: const _EarnWithdrawOrderSummaruBody(),
         );
@@ -79,131 +75,134 @@ class _EarnWithdrawOrderSummaruBody extends StatelessWidget {
     final store = EarnWithdrawalOrderSummaryStore.of(context);
     final isBalanceHide = getIt<AppStore>().isBalanceHide;
 
-    return CustomScrollView(
-      shrinkWrap: true,
-      physics: const ClampingScrollPhysics(),
-      slivers: [
-        SliverFillRemaining(
-          hasScrollBody: false,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              STransaction(
-                isLoading: false,
-                fromAssetIconUrl: store.currency.iconUrl,
-                fromAssetDescription: intl.earn_earn,
-                fromAssetValue: isBalanceHide
-                    ? '**** ${store.currency.symbol}'
-                    : store.amount.toFormatCount(symbol: store.currency.symbol),
-                fromAssetBaseAmount: isBalanceHide
-                    ? '**** ${sSignalRModules.baseCurrency.symbol}'
-                    : '≈${store.baseAmount.toFormatSum(symbol: sSignalRModules.baseCurrency.symbol, accuracy: store.baseCurrency.accuracy)}',
-                toAssetIconUrl: store.currency.iconUrl,
-                toAssetDescription: intl.earn_crypto_wallet,
-                toAssetValue: isBalanceHide
-                    ? '**** ${store.currency.symbol}'
-                    : store.amount.toFormatCount(
-                        symbol: store.currency.symbol,
-                      ),
-                toAssetBaseAmount: isBalanceHide
-                    ? '**** ${sSignalRModules.baseCurrency.symbol}'
-                    : '≈${store.baseAmount.toFormatSum(symbol: sSignalRModules.baseCurrency.symbol, accuracy: store.baseCurrency.accuracy)}',
-              ),
-              const SDivider(),
-              const SizedBox(height: 19),
-              TwoColumnCell(
-                label: intl.from,
-                value: store.earnPosition.offers.first.name,
-                needHorizontalPadding: false,
-              ),
-              if (store.isClosing) ...[
-                TwoColumnCell(
-                  label: intl.earn_basis_amount,
-                  value: isBalanceHide
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: CustomScrollView(
+        shrinkWrap: true,
+        physics: const ClampingScrollPhysics(),
+        slivers: [
+          SliverFillRemaining(
+            hasScrollBody: false,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                STransaction(
+                  isLoading: false,
+                  fromAssetIconUrl: store.currency.iconUrl,
+                  fromAssetDescription: intl.earn_earn,
+                  fromAssetValue: isBalanceHide
                       ? '**** ${store.currency.symbol}'
-                      : store.earnPosition.baseAmount.toFormatCount(symbol: store.currency.symbol),
-                  needHorizontalPadding: false,
-                ),
-                TwoColumnCell(
-                  label: intl.earn_revenue,
-                  value: isBalanceHide
+                      : store.amount.toFormatCount(symbol: store.currency.symbol),
+                  fromAssetBaseAmount: isBalanceHide
+                      ? '**** ${sSignalRModules.baseCurrency.symbol}'
+                      : '≈${store.baseAmount.toFormatSum(symbol: sSignalRModules.baseCurrency.symbol, accuracy: store.baseCurrency.accuracy)}',
+                  toAssetIconUrl: store.currency.iconUrl,
+                  toAssetDescription: intl.earn_crypto_wallet,
+                  toAssetValue: isBalanceHide
                       ? '**** ${store.currency.symbol}'
-                      : store.earnPosition.incomeAmount.toFormatCount(symbol: store.currency.symbol),
-                  needHorizontalPadding: false,
+                      : store.amount.toFormatCount(
+                          symbol: store.currency.symbol,
+                        ),
+                  toAssetBaseAmount: isBalanceHide
+                      ? '**** ${sSignalRModules.baseCurrency.symbol}'
+                      : '≈${store.baseAmount.toFormatSum(symbol: sSignalRModules.baseCurrency.symbol, accuracy: store.baseCurrency.accuracy)}',
                 ),
-              ],
-              const SizedBox(height: 7),
-              ProcessingFeeRowWidget(
-                fee: '0 ${store.currency.symbol}',
-              ),
-              const SizedBox(height: 7),
-              if (store.earnPosition.withdrawType == WithdrawType.lock)
+                const SDivider(),
+                const SizedBox(height: 19),
                 TwoColumnCell(
-                  label: intl.earn_withdrawal_period,
-                  value: '${store.earnPosition.offers.first.lockPeriod} ${intl.days}',
+                  label: intl.from,
+                  value: store.earnPosition.offers.first.name,
                   needHorizontalPadding: false,
-                  haveInfoIcon: true,
-                  onTab: () {
-                    _showWithdrawalPeriodExplanation(
-                      context: context,
-                      countOfDays: store.earnPosition.offers.first.lockPeriod ?? 1,
-                    );
-                  },
                 ),
-              const SizedBox(height: 16),
-              if (store.earnPosition.withdrawType == WithdrawType.lock)
-                Builder(
-                  builder: (context) {
-                    final closeDate = DateTime.now().add(
-                      Duration(
-                        days: store.earnPosition.offers.first.lockPeriod ?? 0,
-                      ),
-                    );
-                    final formatedData = formatDateToDMYFromDate(closeDate.toString());
-
-                    final days = store.earnPosition.offers.first.lockPeriod ?? 1;
-                    return Text(
-                      intl.earn_the_funds_will_be_disbursed(formatedData, days),
-                      style: sCaptionTextStyle.copyWith(
-                        color: SColorsLight().gray8,
-                      ),
-                      maxLines: 5,
-                    );
-                  },
-                )
-              else if (!store.isClosing)
-                Text(
-                  intl.earn_order_summary_partial_withdrawal_means,
-                  style: sCaptionTextStyle.copyWith(
-                    color: SColorsLight().gray8,
+                if (store.isClosing) ...[
+                  TwoColumnCell(
+                    label: intl.earn_basis_amount,
+                    value: isBalanceHide
+                        ? '**** ${store.currency.symbol}'
+                        : store.earnPosition.baseAmount.toFormatCount(symbol: store.currency.symbol),
+                    needHorizontalPadding: false,
                   ),
-                  maxLines: 5,
+                  TwoColumnCell(
+                    label: intl.earn_revenue,
+                    value: isBalanceHide
+                        ? '**** ${store.currency.symbol}'
+                        : store.earnPosition.incomeAmount.toFormatCount(symbol: store.currency.symbol),
+                    needHorizontalPadding: false,
+                  ),
+                ],
+                const SizedBox(height: 7),
+                ProcessingFeeRowWidget(
+                  fee: '0 ${store.currency.symbol}',
                 ),
-              const SizedBox(height: 16),
-              const SDivider(),
-              const Spacer(),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 24),
-                child: SButton.blue(
-                  text: intl.previewBuyWithAsset_confirm,
-                  callback: () {
-                    sAnalytics.tapOnTheConfirmWithdrawOrderSummaryButton(
-                      assetName: store.earnPosition.assetId,
-                      earnOfferId: store.earnPosition.offerId,
-                      earnPlanName: store.earnPosition.offers.first.name ?? '',
-                      earnWithdrawalType: store.earnPosition.withdrawType.name,
-                      withdrawAmount: store.amount.toString(),
-                    );
+                const SizedBox(height: 7),
+                if (store.earnPosition.withdrawType == WithdrawType.lock)
+                  TwoColumnCell(
+                    label: intl.earn_withdrawal_period,
+                    value: '${store.earnPosition.offers.first.lockPeriod} ${intl.days}',
+                    needHorizontalPadding: false,
+                    haveInfoIcon: true,
+                    onTab: () {
+                      _showWithdrawalPeriodExplanation(
+                        context: context,
+                        countOfDays: store.earnPosition.offers.first.lockPeriod ?? 1,
+                      );
+                    },
+                  ),
+                const SizedBox(height: 16),
+                if (store.earnPosition.withdrawType == WithdrawType.lock)
+                  Builder(
+                    builder: (context) {
+                      final closeDate = DateTime.now().add(
+                        Duration(
+                          days: store.earnPosition.offers.first.lockPeriod ?? 0,
+                        ),
+                      );
+                      final formatedData = formatDateToDMYFromDate(closeDate.toString());
 
-                    store.confirm();
-                  },
+                      final days = store.earnPosition.offers.first.lockPeriod ?? 1;
+                      return Text(
+                        intl.earn_the_funds_will_be_disbursed(formatedData, days),
+                        style: sCaptionTextStyle.copyWith(
+                          color: SColorsLight().gray8,
+                        ),
+                        maxLines: 5,
+                      );
+                    },
+                  )
+                else if (!store.isClosing)
+                  Text(
+                    intl.earn_order_summary_partial_withdrawal_means,
+                    style: sCaptionTextStyle.copyWith(
+                      color: SColorsLight().gray8,
+                    ),
+                    maxLines: 5,
+                  ),
+                const SizedBox(height: 16),
+                const SDivider(),
+                const Spacer(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 24),
+                  child: SButton.blue(
+                    text: intl.previewBuyWithAsset_confirm,
+                    callback: () {
+                      sAnalytics.tapOnTheConfirmWithdrawOrderSummaryButton(
+                        assetName: store.earnPosition.assetId,
+                        earnOfferId: store.earnPosition.offerId,
+                        earnPlanName: store.earnPosition.offers.first.name ?? '',
+                        earnWithdrawalType: store.earnPosition.withdrawType.name,
+                        withdrawAmount: store.amount.toString(),
+                      );
+
+                      store.confirm();
+                    },
+                  ),
                 ),
-              ),
-              const SizedBox(height: 8),
-            ],
+                const SizedBox(height: 8),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

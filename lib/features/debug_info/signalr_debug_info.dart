@@ -17,10 +17,9 @@ class SignalrDebugInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return SPageFrame(
       loaderText: intl.loader_please_wait,
-      header: const SPaddingH24(
-        child: SSmallHeader(
-          title: 'SignalR Logs',
-        ),
+      header: GlobalBasicAppBar(
+        title: 'SignalR Logs',
+        hasRightIcon: false,
       ),
       child: SafeArea(
         child: SingleChildScrollView(

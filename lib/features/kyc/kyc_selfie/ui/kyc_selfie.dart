@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
+// TODO (Yaroslav): this screen isn't using in the app
 @RoutePage(name: 'KycSelfieRouter')
 class KycSelfie extends StatelessWidget {
   const KycSelfie({super.key});
@@ -67,10 +68,9 @@ class _KycSelfieBody extends StatelessObserverWidget {
         loaderText: (state.loaderSuccess.loading) ? intl.kycSelfie_done : intl.kycSelfie_pleaseWait,
         loading: state.loader,
         loadSuccess: state.loaderSuccess,
-        header: SPaddingH24(
-          child: SSmallHeader(
-            title: intl.kycDocumentType_selfieImage,
-          ),
+        header: GlobalBasicAppBar(
+          title: intl.kycDocumentType_selfieImage,
+          hasRightIcon: false,
         ),
         child: Stack(
           children: [

@@ -56,13 +56,9 @@ class _ChooseAssetScreenState extends State<ChooseAssetScreen> {
 
     return SPageFrame(
       loaderText: intl.loader_please_wait,
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: intl.choose_asser_screan_header,
-          onBackButtonTap: () {
-            Navigator.pop(context);
-          },
-        ),
+      header: GlobalBasicAppBar(
+        title: intl.choose_asser_screan_header,
+        hasRightIcon: false,
       ),
       child: SingleChildScrollView(
         child: Column(

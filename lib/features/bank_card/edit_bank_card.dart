@@ -50,13 +50,10 @@ class _EditBankCardScreenBody extends StatelessObserverWidget {
       resizeToAvoidBottomInset: false,
       color: sKit.colors.grey5,
       loading: store.loader,
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: intl.editCircleCard_bigHeaderTitle,
-          showBackButton: false,
-          onCLoseButton: () => sRouter.maybePop(),
-          showCloseButton: true,
-        ),
+      header: GlobalBasicAppBar(
+        title: intl.editCircleCard_bigHeaderTitle,
+        hasLeftIcon: false,
+        onRightIconTap: () => sRouter.maybePop(),
       ),
       child: Column(
         children: [

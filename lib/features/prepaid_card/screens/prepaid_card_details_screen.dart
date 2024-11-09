@@ -55,15 +55,12 @@ class _PrepaidCardDetailsBody extends StatelessWidget {
     final colors = SColorsLight();
     return SPageFrame(
       loaderText: '',
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: '',
-          showBackButton: false,
-          showCloseButton: true,
-          onCLoseButton: () {
-            sRouter.maybePop();
-          },
-        ),
+      header: GlobalBasicAppBar(
+        title: '',
+        hasLeftIcon: false,
+        onRightIconTap: () {
+          sRouter.maybePop();
+        },
       ),
       child: Stack(
         children: [

@@ -4,6 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_kit_updated/widgets/navigation/segment_control/models/segment_control_data.dart';
 import 'package:simple_kit_updated/widgets/navigation/segment_control/segment_control.dart';
 
@@ -72,17 +73,13 @@ class _TransactionHistoryState extends State<TransactionHistory> with TickerProv
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return SPageFrame(
       loaderText: '',
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: _title(context, TransactionType.none),
-          onBackButtonTap: () {
-            Navigator.pop(context);
-          },
-        ),
+      header: GlobalBasicAppBar(
+        title: _title(context, TransactionType.none),
+        hasRightIcon: false,
       ),
       child: Column(
         children: [

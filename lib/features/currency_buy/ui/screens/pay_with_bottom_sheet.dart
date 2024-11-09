@@ -156,10 +156,9 @@ class PayWithScreen extends StatelessObserverWidget {
   Widget build(BuildContext context) {
     return SPageFrame(
       loaderText: '',
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: intl.amount_screen_pay_with,
-        ),
+      header: GlobalBasicAppBar(
+        title: intl.amount_screen_pay_with,
+        hasRightIcon: false,
       ),
       child: SingleChildScrollView(
         child: Column(

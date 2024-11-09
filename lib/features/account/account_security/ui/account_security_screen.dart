@@ -10,6 +10,7 @@ import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'AccountSecurityRouter')
 class AccountSecurity extends StatefulObserverWidget {
@@ -48,11 +49,9 @@ class _AccountSecurityState extends State<AccountSecurity> {
   Widget build(BuildContext context) {
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: intl.account_security,
-          onBackButtonTap: () => Navigator.pop(context),
-        ),
+      header: GlobalBasicAppBar(
+        title: intl.account_security,
+        hasRightIcon: false,
       ),
       child: Column(
         children: <Widget>[

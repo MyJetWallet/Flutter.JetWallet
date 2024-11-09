@@ -36,13 +36,9 @@ class BuyVouncherAmountScreen extends StatelessWidget {
       onVisibilityChanged: (info) {},
       child: SPageFrame(
         loaderText: '',
-        header: SPaddingH24(
-          child: SSmallHeader(
-            title: intl.prepaid_card_buy_voucher,
-            onBackButtonTap: () {
-              sRouter.maybePop();
-            },
-          ),
+        header: GlobalBasicAppBar(
+          title: intl.prepaid_card_buy_voucher,
+          hasRightIcon: false,
         ),
         child: Provider<BuyVouncherAmountAtore>(
           create: (_) => BuyVouncherAmountAtore(

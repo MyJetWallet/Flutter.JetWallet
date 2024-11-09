@@ -16,6 +16,7 @@ class SPageFrame extends StatelessObserverWidget {
     this.color = Colors.transparent,
     this.resizeToAvoidBottomInset,
     required this.child,
+    this.customLoader,
   });
 
   final Widget? header;
@@ -23,6 +24,7 @@ class SPageFrame extends StatelessObserverWidget {
   final StackLoaderStore? loadSuccess;
   final Widget? bottomNavigationBar;
   final String loaderText;
+  final Widget? customLoader;
   final bool? resizeToAvoidBottomInset;
   final Color color;
   final Widget child;
@@ -33,6 +35,7 @@ class SPageFrame extends StatelessObserverWidget {
       loaderText: loaderText,
       loading: loading,
       loadSuccess: loadSuccess,
+      customLoader: customLoader,
       child: Scaffold(
         backgroundColor: sKit.getTheme().scaffoldBackgroundColor,
         bottomNavigationBar: bottomNavigationBar,

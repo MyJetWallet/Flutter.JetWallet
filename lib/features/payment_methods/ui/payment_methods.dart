@@ -11,6 +11,7 @@ import 'package:jetwallet/utils/helpers/is_card_expired.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'PaymentMethodsRouter')
 class PaymentMethods extends StatelessWidget {
@@ -39,10 +40,9 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
     return SPageFrame(
       loaderText: intl.paymentMethods_pleaseWait,
       loading: loader,
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: intl.paymentMethods_paymentMethods,
-        ),
+      header: GlobalBasicAppBar(
+        title: intl.paymentMethods_paymentMethods,
+        hasRightIcon: false,
       ),
       child: state.union.maybeWhen(
         success: () {

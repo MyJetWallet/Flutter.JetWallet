@@ -33,7 +33,7 @@ class _GiftSelectAssetScreenState extends State<GiftSelectAssetScreen> {
     final storageService = getIt.get<LocalStorageService>();
     textController = TextEditingController();
     storageService.getValue(lastAssetSend).then(
-          (value) {
+      (value) {
         setState(() {
           lastCurrency = value;
         });
@@ -58,7 +58,7 @@ class _GiftSelectAssetScreenState extends State<GiftSelectAssetScreen> {
     final sortedAssets = isGiftSendActive
         .where(
           (element) => element.supportsGiftlSend && element.isAssetBalanceNotEmpty,
-    )
+        )
         .toList();
 
     sortedAssets.sort((a, b) {
@@ -74,17 +74,16 @@ class _GiftSelectAssetScreenState extends State<GiftSelectAssetScreen> {
     });
 
     getIt.get<ActionSearchStore>().initConvert(
-      sortedAssets,
-      sortedAssets,
-    );
+          sortedAssets,
+          sortedAssets,
+        );
     final searchStore = getIt.get<ActionSearchStore>();
 
     return SPageFrame(
       loaderText: intl.loader_please_wait,
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: intl.send_gift_sending_asset,
-        ),
+      header: GlobalBasicAppBar(
+        title: intl.send_gift_sending_asset,
+        hasRightIcon: false,
       ),
       child: CustomScrollView(
         slivers: [

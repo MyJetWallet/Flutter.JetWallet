@@ -69,15 +69,10 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
     return SPageFrame(
       loaderText: intl.loader_please_wait,
       color: colors.grey5,
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: intl.global_send_title,
-          subTitle: widget.method.name,
-          subTitleStyle: sBodyText2Style.copyWith(
-            color: colors.grey1,
-          ),
-          onBackButtonTap: () => Navigator.pop(context),
-        ),
+      header: GlobalBasicAppBar(
+        title: intl.global_send_title,
+        subtitle: widget.method.name,
+        hasRightIcon: false,
       ),
       child: CustomScrollView(
         slivers: [

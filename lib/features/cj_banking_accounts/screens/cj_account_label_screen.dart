@@ -44,11 +44,9 @@ class _CJAccountLabelScreenState extends State<CJAccountLabelScreen> {
       loaderText: intl.loader_please_wait,
       loading: loader,
       color: sKit.colors.grey5,
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: intl.wallet_account_label,
-          onBackButtonTap: () => Navigator.pop(context),
-        ),
+      header: GlobalBasicAppBar(
+        title: intl.wallet_account_label,
+        hasRightIcon: false,
       ),
       child: CustomScrollView(
         slivers: [

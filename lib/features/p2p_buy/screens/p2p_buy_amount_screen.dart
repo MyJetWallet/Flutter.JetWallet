@@ -67,19 +67,18 @@ class P2PBuyAmountScreen extends StatelessWidget {
 
           return SPageFrame(
             loaderText: '',
-            header: SPaddingH24(
-              child: SSmallHeader(
-                title: intl.operationName_buy,
-                onBackButtonTap: () {
-                  sAnalytics.tapOnTheBackFromAmountScreenButton(
-                    destinationWallet: currency.symbol,
-                    pmType: PaymenthMethodType.ptp,
-                    buyPM: 'PTP',
-                    sourceCurrency: paymentCurrecy.asset,
-                  );
-                  sRouter.maybePop();
-                },
-              ),
+            header: GlobalBasicAppBar(
+              title: intl.operationName_buy,
+              onLeftIconTap: () {
+                sAnalytics.tapOnTheBackFromAmountScreenButton(
+                  destinationWallet: currency.symbol,
+                  pmType: PaymenthMethodType.ptp,
+                  buyPM: 'PTP',
+                  sourceCurrency: paymentCurrecy.asset,
+                );
+                sRouter.maybePop();
+              },
+              hasRightIcon: false,
             ),
             child: Observer(
               builder: (context) {

@@ -543,9 +543,6 @@ abstract class _UploadKycDocumentsStoreBase with Store {
         secondaryText: intl.cardVerification_reviewFailedDescription,
         secondaryButtonName: intl.cardVerification_title,
         onSecondaryButtonTap: () {
-          sRouter.removeUntil(
-            (route) => route.name == AddUnlimintCardRouter.name,
-          );
           loader.finishLoadingImmediately();
           loaderSuccess.finishLoadingImmediately();
           if (documentSelfie != null) {

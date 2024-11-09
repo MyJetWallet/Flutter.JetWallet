@@ -61,12 +61,10 @@ class _BodyAdressBookUnlimitState extends State<_BodyAdressBookUnlimit> {
       loaderText: intl.loader_please_wait,
       loading: IbanAddressBookStore.of(context).loader,
       color: colors.grey5,
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: store.isEditMode ? intl.address_book_edit_recipient : intl.address_book_add_recipient,
-          onBackButtonTap: () => Navigator.pop(context, false),
-          onCLoseButton: () => Navigator.pop(context, false),
-        ),
+      header: GlobalBasicAppBar(
+        title: store.isEditMode ? intl.address_book_edit_recipient : intl.address_book_add_recipient,
+        onLeftIconTap: () => Navigator.pop(context, false),
+        onRightIconTap: () => Navigator.pop(context, false),
       ),
       child: CustomScrollView(
         slivers: [

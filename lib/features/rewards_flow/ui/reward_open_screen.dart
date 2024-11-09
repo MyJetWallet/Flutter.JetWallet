@@ -334,102 +334,101 @@ class _RewardOpenScreenBodyState extends State<_RewardOpenScreenBody> with Ticke
   Widget build(BuildContext context) {
     final store = RewardOpenStore.of(context);
 
-    return SPageFrameWithPadding(
-      header: SSmallHeader(
+    return SPageFrame(
+      header: GlobalBasicAppBar(
         title: store.titleText,
-        subTitle: store.subtitleText,
-        subTitleStyle: sBodyText1Style.copyWith(
-          color: sKit.colors.grey1,
-        ),
-        showShareButton: store.showShareButton,
-        showRCloseButton: true,
-        showBackButton: false,
-        onCLoseButton: () {
+        subtitle: store.subtitleText,
+        leftIcon: Assets.svg.medium.close.simpleSvg(),
+        onLeftIconTap: () {
           sRouter.maybePop();
         },
-        onShareButtonTap: () => store.shareCard(widget.source),
+        rightIcon: Assets.svg.medium.share.simpleSvg(),
+        onRightIconTap: () => store.shareCard(widget.source),
       ),
       loaderText: intl.register_pleaseWait,
-      child: AnimatedBackground(
-        behaviour: RandomParticleBehaviour(
-          options: ParticleOptions(
-            particleCount: 35,
-            spawnMinSpeed: 50,
-            spawnMaxSpeed: 125,
-            spawnOpacity: store.showBackgroundStars ? 1 : 0,
-            minOpacity: store.showBackgroundStars ? 1 : 0,
-            maxOpacity: store.showBackgroundStars ? 1 : 0,
-            image: Image.asset(simpleRewardSmallStar),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        child: AnimatedBackground(
+          behaviour: RandomParticleBehaviour(
+            options: ParticleOptions(
+              particleCount: 35,
+              spawnMinSpeed: 50,
+              spawnMaxSpeed: 125,
+              spawnOpacity: store.showBackgroundStars ? 1 : 0,
+              minOpacity: store.showBackgroundStars ? 1 : 0,
+              maxOpacity: store.showBackgroundStars ? 1 : 0,
+              image: Image.asset(simpleRewardSmallStar),
+            ),
           ),
-        ),
-        vsync: this,
-        child: Column(
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SpaceH70(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    if (store.secondCardShow) ...[
-                      RewardAnimatedCard(
-                        cardID: 2,
-                        offsetX: 8.0,
-                        offsetY: 30.0,
-                        source: widget.source,
-                      ),
-                      const SizedBox(width: 17),
+          vsync: this,
+          child: Column(
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SpaceH70(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      if (store.secondCardShow) ...[
+                        RewardAnimatedCard(
+                          cardID: 2,
+                          offsetX: 8.0,
+                          offsetY: 30.0,
+                          source: widget.source,
+                        ),
+                        const SizedBox(width: 17),
+                      ],
+                      if (store.thirdCardShow) ...[
+                        RewardAnimatedCard(
+                          cardID: 3,
+                          offsetX: -8.0,
+                          offsetY: 30.0,
+                          source: widget.source,
+                        ),
+                      ],
                     ],
-                    if (store.thirdCardShow) ...[
-                      RewardAnimatedCard(
-                        cardID: 3,
-                        offsetX: -8.0,
-                        offsetY: 30.0,
-                        source: widget.source,
-                      ),
-                    ],
-                  ],
-                ),
-                const SizedBox(height: 17),
-                if (store.firstCardShow)
-                  RewardAnimatedCard(
-                    cardID: 1,
-                    offsetX: 0.0,
-                    offsetY: -30.0,
-                    source: widget.source,
                   ),
-                const SizedBox(
-                  height: 60,
-                ),
-                if (store.showBottomButton) ...[
-                  if (widget.rewardStore.availableSpins != 0) ...[
-                    SButton.black(
-                      callback: () async {
-                        store.nextReward();
-                      },
-                      text: intl.reward_open_next_reward,
+                  const SizedBox(height: 17),
+                  if (store.firstCardShow)
+                    RewardAnimatedCard(
+                      cardID: 1,
+                      offsetX: 0.0,
+                      offsetY: -30.0,
+                      source: widget.source,
                     ),
-                    const SpaceH24(),
-                    Text(
-                      '${intl.reward_you_have} ${widget.rewardStore.availableSpins} ${intl.reward_more_to_claim}',
-                      textAlign: TextAlign.center,
-                      style: sBodyText1Style.copyWith(
-                        color: sKit.colors.grey1,
+                  const SizedBox(
+                    height: 60,
+                  ),
+                  if (store.showBottomButton) ...[
+                    if (widget.rewardStore.availableSpins != 0) ...[
+                      SButton.black(
+                        callback: () async {
+                          store.nextReward();
+                        },
+                        text: intl.reward_open_next_reward,
                       ),
-                    ),
-                  ] else ...[
-                    SButton.black(
-                      callback: () async {
-                        await sRouter.maybePop();
-                      },
-                      text: intl.reward_close,
-                    ),
+                      const SpaceH24(),
+                      Text(
+                        '${intl.reward_you_have} ${widget.rewardStore.availableSpins} ${intl.reward_more_to_claim}',
+                        textAlign: TextAlign.center,
+                        style: sBodyText1Style.copyWith(
+                          color: sKit.colors.grey1,
+                        ),
+                      ),
+                    ] else ...[
+                      SButton.black(
+                        callback: () async {
+                          await sRouter.maybePop();
+                        },
+                        text: intl.reward_close,
+                      ),
+                    ],
                   ],
                 ],
-              ],
-            ),
-          ],
+              ),
+            ],
+          ),
         ),
       ),
     );
