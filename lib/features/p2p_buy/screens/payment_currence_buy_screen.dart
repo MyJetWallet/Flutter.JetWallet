@@ -95,8 +95,8 @@ class _PaymentCurrenceBuyScreenState extends State<PaymentCurrenceBuyScreen> {
                       assetSymbol: availableCurrency[index].asset,
                     );
 
-                return SCardRow(
-                  icon: SizedBox(
+                return SimpleTableAsset(
+                  assetIcon: SizedBox(
                     height: 24,
                     child: Container(
                       clipBehavior: Clip.antiAlias,
@@ -115,9 +115,14 @@ class _PaymentCurrenceBuyScreenState extends State<PaymentCurrenceBuyScreen> {
                       ),
                     ),
                   ),
-                  spaceBIandText: 10,
-                  height: 69,
-                  onTap: () {
+                  label: curr.description,
+                  customRightWidget: Text(
+                    availableCurrency[index].asset,
+                    style: STStyles.subtitle2.copyWith(
+                      color: SColorsLight().gray10,
+                    ),
+                  ),
+                  onTableAssetTap: () {
                     sAnalytics.tapOnThePTPBuyCurrencyButton(
                       asset: widget.currency.symbol,
                       ptpCurrency: availableCurrency[index].asset,
@@ -137,16 +142,6 @@ class _PaymentCurrenceBuyScreenState extends State<PaymentCurrenceBuyScreen> {
                       ),
                     );
                   },
-                  needSpacer: true,
-                  rightIcon: Text(
-                    availableCurrency[index].asset,
-                    style: sSubtitle3Style.copyWith(
-                      color: sKit.colors.grey2,
-                    ),
-                  ),
-                  amount: '',
-                  description: '',
-                  name: curr.description,
                 );
               },
             ),

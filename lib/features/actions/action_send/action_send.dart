@@ -88,52 +88,44 @@ Future<void> showSendAction(bool isEmptyBalance, BuildContext context) async {
     removePinnedPadding: true,
     children: [
       if (isToCryptoWalletAvaible)
-        SCardRow(
-          icon: const SWallet2Icon(),
-          onTap: () {
+        SimpleTableAsset(
+          assetIcon: const SWallet2Icon(),
+          label: intl.sendOptions_to_crypto_wallet,
+          supplement: intl.withdrawOptions_actionItemNameDescr,
+          onTableAssetTap: () {
             Navigator.pop(context);
             _showSendActionChooseAsset(context);
           },
-          amount: '',
-          description: '',
-          name: intl.sendOptions_to_crypto_wallet,
-          helper: intl.withdrawOptions_actionItemNameDescr,
         ),
       if (isGlobalAvaible)
-        SCardRow(
-          icon: const SNetworkIcon(),
-          onTap: () {
+        SimpleTableAsset(
+          assetIcon: const SNetworkIcon(),
+          label: intl.global_send_name,
+          supplement: intl.global_send_helper,
+          onTableAssetTap: () {
             Navigator.pop(context);
             showGlobalSendCurrenctSelect(context);
           },
-          amount: '',
-          description: '',
-          name: intl.global_send_name,
-          helper: intl.global_send_helper,
         ),
       if (isGiftAvaible)
-        SCardRow(
-          icon: const SGiftSendIcon(),
-          onTap: () {
+        SimpleTableAsset(
+          assetIcon: const SGiftSendIcon(),
+          label: intl.send_gift,
+          supplement: intl.send_gift_to_simple_wallet,
+          onTableAssetTap: () {
             Navigator.pop(context);
             sRouter.push(const GiftSelectAssetRouter());
           },
-          amount: '',
-          description: '',
-          name: intl.send_gift,
-          helper: intl.send_gift_to_simple_wallet,
         ),
       if (isAllowBankTransfer)
-        SCardRow(
-          icon: Assets.svg.medium.bank.simpleSvg(color: SColorsLight().blue),
-          onTap: () {
+        SimpleTableAsset(
+          assetIcon: Assets.svg.medium.bank.simpleSvg(color: SColorsLight().blue),
+          label: intl.bank_transfer,
+          supplement: intl.bank_transfer_to_yourself,
+          onTableAssetTap: () {
             Navigator.pop(context);
             showBankTransferTo(context);
           },
-          amount: '',
-          description: '',
-          name: intl.bank_transfer,
-          helper: intl.bank_transfer_to_yourself,
         ),
       const SpaceH42(),
     ],
@@ -212,8 +204,8 @@ class _GlobalSendCountriesList extends StatelessObserverWidget {
       itemCount: store.filtredGlobalSendCountries.length,
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
-        return SCardRow(
-          icon: SizedBox(
+        return SimpleTableAsset(
+          assetIcon: SizedBox(
             height: 24,
             child: Container(
               clipBehavior: Clip.antiAlias,
@@ -230,9 +222,8 @@ class _GlobalSendCountriesList extends StatelessObserverWidget {
               ),
             ),
           ),
-          spaceBIandText: 10,
-          height: 69,
-          onTap: () {
+          label: store.filtredGlobalSendCountries[index].countryName,
+          onTableAssetTap: () {
             Navigator.pop(context);
 
             final list = getCountryMethodsList(
@@ -256,11 +247,6 @@ class _GlobalSendCountriesList extends StatelessObserverWidget {
               );
             }
           },
-          amount: '',
-          description: '',
-          name: store.filtredGlobalSendCountries[index].countryName,
-          removeDivider: false,
-          divider: index != store.filtredGlobalSendCountries.length - 1,
         );
       },
     );
@@ -458,9 +444,19 @@ void showBankTransferTo(BuildContext context, [CurrencyModel? currency]) {
     horizontalPinnedPadding: 0.0,
     removePinnedPadding: true,
     children: [
-      SCardRow(
-        icon: Assets.svg.medium.userAlt.simpleSvg(color: SColorsLight().blue),
-        onTap: () {
+      SimpleTableAsset(
+        assetIcon: Assets.svg.medium.userAlt.simpleSvg(color: SColorsLight().blue),
+        label: intl.bank_transfer_to_myself,
+        supplement: allowSimpleBanking
+            ? simpleBankingShowState != SimpleAccountStatus.allowed
+                ? intl.bank_transfer_coming_soon
+                : simpleAccounts == null
+                    ? intl.bank_transfer_coming_soon
+                    : simpleAccounts.status == AccountStatus.active
+                        ? ''
+                        : intl.bank_transfer_coming_soon
+            : intl.bank_transfer_coming_soon,
+        onTableAssetTap: () {
           if (!allowSimpleBanking) {
             return;
           }
@@ -480,22 +476,12 @@ void showBankTransferTo(BuildContext context, [CurrencyModel? currency]) {
             }
           }
         },
-        amount: '',
-        description: '',
-        name: intl.bank_transfer_to_myself,
-        helper: allowSimpleBanking
-            ? simpleBankingShowState != SimpleAccountStatus.allowed
-                ? intl.bank_transfer_coming_soon
-                : simpleAccounts == null
-                    ? intl.bank_transfer_coming_soon
-                    : simpleAccounts.status == AccountStatus.active
-                        ? ''
-                        : intl.bank_transfer_coming_soon
-            : intl.bank_transfer_coming_soon,
       ),
-      SCardRow(
-        icon: Assets.svg.medium.userSend.simpleSvg(color: SColorsLight().blue),
-        onTap: () {
+      SimpleTableAsset(
+        assetIcon: Assets.svg.medium.userSend.simpleSvg(color: SColorsLight().blue),
+        label: intl.bank_transfer_to_another_person,
+        supplement: getHelperTextToSendAnyone(),
+        onTableAssetTap: () {
           if (!allowBanking) {
             return;
           }
@@ -540,10 +526,6 @@ void showBankTransferTo(BuildContext context, [CurrencyModel? currency]) {
             }
           }
         },
-        amount: '',
-        description: '',
-        name: intl.bank_transfer_to_another_person,
-        helper: getHelperTextToSendAnyone(),
       ),
       // if (methods.isNotEmpty)
       //   SCardRow(

@@ -64,7 +64,7 @@ class _BodyAdressBookUnlimitState extends State<_BodyAdressBookUnlimit> {
       header: GlobalBasicAppBar(
         title: store.isEditMode ? intl.address_book_edit_recipient : intl.address_book_add_recipient,
         onLeftIconTap: () => Navigator.pop(context, false),
-        onRightIconTap: () => Navigator.pop(context, false),
+        hasRightIcon: false,
       ),
       child: CustomScrollView(
         slivers: [

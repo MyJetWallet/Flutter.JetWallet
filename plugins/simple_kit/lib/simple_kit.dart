@@ -28,10 +28,6 @@ export 'modules/actions/simple_action_confirm_text.dart';
 export 'modules/agreements/simple_privacy_policy/simple_policy_checkbox.dart';
 export 'modules/agreements/simple_privacy_policy/simple_policy_text.dart';
 
-/// Asset Items
-export 'modules/asset_items/simple_action_item.dart';
-export 'modules/asset_items/simple_card_row.dart';
-
 /// Bottom sheets
 export 'modules/bottom_sheets/components/basic_bottom_sheet/show_basic_modal_bottom_sheet.dart';
 export 'modules/bottom_sheets/components/simple_bottom_sheet_header.dart';
@@ -264,9 +260,6 @@ export 'modules/icons/custom/public/cards/simple_frozen_icon.dart';
 export 'modules/icons/24x24/public/gift/simple_gift_send_icon.dart';
 export 'modules/icons/24x24/public/history_completed/simple_history_completed_icon.dart';
 export 'modules/icons/24x24/public/history_declined/simple_history_declined_icon.dart';
-
-/// Keyboards
-export 'modules/kyc/simple_documents_recommendations.dart';
 
 /// Notifications
 export 'modules/notifications/model/notification_model.dart';

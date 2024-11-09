@@ -9,6 +9,7 @@ import 'package:jetwallet/features/iban/widgets/show_choose_asset_to_send.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
 void showBankTransforSelect(
@@ -205,9 +206,8 @@ class ShowBankTransferSelect extends StatelessObserverWidget {
           itemCount: (isCJ ? getIt.get<IbanStore>().simpleContacts : getIt.get<IbanStore>().allContacts).length,
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
-            return SCardRow(
-              maxWidth: MediaQuery.of(context).size.width * .7,
-              icon: const SizedBox(
+            return SEditable(
+              leftIcon: const SizedBox(
                 width: 24,
                 height: 24,
                 child: SAccountIcon(),
@@ -270,14 +270,11 @@ class ShowBankTransferSelect extends StatelessObserverWidget {
                   ),
                 ),
               ),
-              name:
+              lable:
                   (isCJ ? getIt.get<IbanStore>().simpleContacts : getIt.get<IbanStore>().allContacts)[index].name ?? '',
-              amount: '',
-              helper:
+              supplement:
                   (isCJ ? getIt.get<IbanStore>().simpleContacts : getIt.get<IbanStore>().allContacts)[index].iban ?? '',
-              description: '',
-              needSpacer: true,
-              onTap: () {
+              onCardTap: () {
                 sAnalytics.eurWithdrawTapExistingAccount(
                   isCJ: isCJ,
                   accountIban: bankingAccount.iban ?? '',
@@ -323,19 +320,17 @@ class ShowBankTransferSelect extends StatelessObserverWidget {
             );
           },
         ),
-        SCardRow(
-          icon: SizedBox(
+        SEditable(
+          leftIcon: SizedBox(
             width: 24,
             height: 24,
             child: SPlusIcon(
               color: colors.blue,
             ),
           ),
-          name: isCJ ? intl.iban_add_bank_account : intl.address_book_add_recipient,
-          amount: '',
-          helper: intl.iban_local_euro_accounts_only,
-          description: '',
-          onTap: () {
+          lable: isCJ ? intl.iban_add_bank_account : intl.address_book_add_recipient,
+          supplement: intl.iban_local_euro_accounts_only,
+          onCardTap: () {
             sAnalytics.eurWithdrawTapReceive(
               isCJ: isCJ,
               accountIban: bankingAccount.iban ?? '',
