@@ -10,7 +10,7 @@ class SBadgeMedium extends StatelessWidget {
     this.customIcon,
   });
 
-  final BadgeStatus status;
+  final SBadgeType status;
   final String text;
   final Widget? customIcon;
 
@@ -18,26 +18,26 @@ class SBadgeMedium extends StatelessWidget {
   Widget build(BuildContext context) {
     Color getColorByType() {
       switch (status) {
-        case BadgeStatus.neutral:
+        case SBadgeType.neutral:
           return SColorsLight().blueExtralight;
-        case BadgeStatus.positive:
+        case SBadgeType.positive:
           return SColorsLight().greenExtralight;
-        case BadgeStatus.negative:
+        case SBadgeType.negative:
           return SColorsLight().redExtralight;
-        case BadgeStatus.disabled:
+        case SBadgeType.archived:
           return SColorsLight().gray2;
       }
     }
 
     Color getIconColorByType() {
       switch (status) {
-        case BadgeStatus.neutral:
+        case SBadgeType.neutral:
           return SColorsLight().blue;
-        case BadgeStatus.positive:
+        case SBadgeType.positive:
           return SColorsLight().green;
-        case BadgeStatus.negative:
+        case SBadgeType.negative:
           return SColorsLight().red;
-        case BadgeStatus.disabled:
+        case SBadgeType.archived:
           return SColorsLight().black;
       }
     }

@@ -70,7 +70,7 @@ export 'widgets/input/simple_input.dart';
 export 'widgets/banner/simple_promo_banner.dart';
 export 'widgets/banner/simple_banner_basic.dart';
 
-export 'widgets/badge/simple_badge_large.dart';
+export 'widgets/badge/simple_badge.dart';
 export 'widgets/badge/simple_badge_medium.dart';
 
 export 'widgets/control/simple_check_with_table.dart';

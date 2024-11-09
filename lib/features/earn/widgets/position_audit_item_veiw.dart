@@ -207,9 +207,12 @@ class _SellDetailsHeader extends StatelessWidget {
           hasSecondAsset: !isSavingIncome,
         ),
         const SizedBox(height: 24),
-        const SBadge(
-          status: SBadgeStatus.success,
-          text: 'Completed',
+        SBadge(
+          lable: intl.transactionDetailsStatus_completed,
+          icon: Assets.svg.medium.checkmarkAlt.simpleSvg(
+            color: SColorsLight().green,
+            width: 20,
+          ),
         ),
         const SizedBox(height: 24),
       ],

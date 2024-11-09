@@ -7,6 +7,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/prepaid_card/utils/show_commision_explanation_bottom_sheet.dart';
 import 'package:jetwallet/features/transaction_history/widgets/history_copy_icon.dart';
+import 'package:jetwallet/features/transaction_history/widgets/transaction_status_badge.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
@@ -18,7 +19,6 @@ import '../../../../core/di/di.dart';
 import '../../../app/store/app_store.dart';
 import '../../../wallet/helper/format_date_to_hm.dart';
 import 'components/transaction_details_item.dart';
-import 'components/transaction_details_status.dart';
 import 'components/transaction_details_value_text.dart';
 
 class BuyVouncherDetails extends StatelessWidget {
@@ -240,15 +240,7 @@ class _SellDetailsHeader extends StatelessWidget {
           isSmallerVersion: true,
         ),
         const SizedBox(height: 24),
-        SBadge(
-          status: transactionListItem.status == Status.inProgress
-              ? SBadgeStatus.primary
-              : transactionListItem.status == Status.completed
-                  ? SBadgeStatus.success
-                  : SBadgeStatus.error,
-          text: transactionDetailsStatusText(transactionListItem.status),
-          isLoading: transactionListItem.status == Status.inProgress,
-        ),
+        TransactionStatusBadge(status: transactionListItem.status),
         const SizedBox(height: 24),
       ],
     );

@@ -5,7 +5,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/send_gift/widgets/share_gift_result_bottom_sheet.dart';
 import 'package:jetwallet/features/transaction_history/widgets/history_copy_icon.dart';
-import 'package:jetwallet/features/transaction_history/widgets/transaction_details/components/transaction_details_status.dart';
+import 'package:jetwallet/features/transaction_history/widgets/transaction_status_badge.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
@@ -202,15 +202,7 @@ class _GiftSendDetailsHeader extends StatelessWidget {
           isError: transactionListItem.status == Status.declined,
         ),
         const SizedBox(height: 24),
-        SBadge(
-          status: transactionListItem.status == Status.inProgress
-              ? SBadgeStatus.primary
-              : transactionListItem.status == Status.completed
-                  ? SBadgeStatus.success
-                  : SBadgeStatus.error,
-          text: transactionDetailsStatusText(transactionListItem.status),
-          isLoading: transactionListItem.status == Status.inProgress,
-        ),
+        TransactionStatusBadge(status: transactionListItem.status),
         const SizedBox(height: 24),
       ],
     );

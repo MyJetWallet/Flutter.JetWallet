@@ -1,27 +1,27 @@
 import 'package:flutter/cupertino.dart';
-import 'package:simple_kit_updated/widgets/badge/simple_badge_large.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
 
 @widgetbook.UseCase(
   name: 'Neutral badge',
-  type: SBadgeLarge,
+  type: SBadgeType,
 )
-SBadgeLarge neutralBadge(BuildContext context) {
-  return const SBadgeLarge(status: BadgeStatus.neutral, text: 'Example text');
+SBadge neutralBadge(BuildContext context) {
+  return const SBadge(type: SBadgeType.neutral, lable: 'Example text');
 }
 
 @widgetbook.UseCase(
   name: 'Positive badge',
-  type: SBadgeLarge,
+  type: SBadgeType,
 )
-SBadgeLarge positiveBadge(BuildContext context) {
-  return const SBadgeLarge(status: BadgeStatus.positive, text: 'Example text');
+SBadge positiveBadge(BuildContext context) {
+  return const SBadge(type: SBadgeType.positive, lable: 'Example text');
 }
 
 @widgetbook.UseCase(
   name: 'Negative badge',
-  type: SBadgeLarge,
+  type: SBadgeType,
 )
-SBadgeLarge negativeBadge(BuildContext context) {
-  return const SBadgeLarge(status: BadgeStatus.negative, text: 'Example text');
+SBadge negativeBadge(BuildContext context) {
+  return const SBadge(type: SBadgeType.negative, lable: 'Example text');
 }

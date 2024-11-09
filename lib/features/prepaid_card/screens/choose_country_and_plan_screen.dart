@@ -190,7 +190,7 @@ class _BranItem extends StatelessWidget {
         onRadioTap.call();
       },
       badge: SBadgeMedium(
-        status: brand.isMobile ? BadgeStatus.disabled : BadgeStatus.negative,
+        status: brand.isMobile ? SBadgeType.archived : SBadgeType.negative,
         text: getBadgeText(),
         customIcon: brand.isMobile
             ? Assets.svg.medium.mobile.simpleSvg(

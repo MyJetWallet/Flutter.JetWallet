@@ -71,7 +71,7 @@ class _PrepaidCardDetailsBody extends StatelessWidget {
                   const SliverToBoxAdapter(
                     child: _TopPartWidget(),
                   ),
-                  if (store.voucher?.status == BuyPrepaidCardIntentionStatus.purchasing)
+                  if (store.voucher?.status != BuyPrepaidCardIntentionStatus.purchasing)
                     SliverToBoxAdapter(
                       child: Padding(
                         padding: const EdgeInsets.only(
@@ -80,9 +80,19 @@ class _PrepaidCardDetailsBody extends StatelessWidget {
                           bottom: 24,
                         ),
                         child: SBadge(
-                          status: SBadgeStatus.primary,
-                          text: intl.transactionDetailsStatus_balanceInProcess,
-                          isLoading: true,
+                          type: SBadgeType.neutral,
+                          lable: intl.transactionDetailsStatus_balanceInProcess,
+                          icon: Padding(
+                            padding: const EdgeInsets.only(left: 2),
+                            child: SizedBox(
+                              height: 16,
+                              width: 16,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 3,
+                                color: colors.blue,
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     )
