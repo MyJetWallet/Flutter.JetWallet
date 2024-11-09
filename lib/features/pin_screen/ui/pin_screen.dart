@@ -18,7 +18,6 @@ import 'package:jetwallet/widgets/show_verification_modal.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/modules/headers/simple_auth_header.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
@@ -154,7 +153,7 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
   Widget build(BuildContext context) {
     final pin = PinScreenStore.of(context);
     final logoutN = getIt.get<LogoutService>();
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     Function()? onbackButton;
 
@@ -210,37 +209,35 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                 pin.screenUnion.when(
                   enterPin: () {
                     if (widget.isChangePhone && !widget.isConfirmCard) {
-                      return SLargeHeader(
+                      return SimpleLargeAppbar(
                         title: intl.pin_screen_confirm_withPin,
-                        onBackButtonTap: () {
+                        onLeftIconTap: () {
                           widget.onBackPressed != null ? widget.onBackPressed?.call() : sRouter.maybePop();
                         },
-                        titleStyle: sTextH3Style,
                       );
                     }
                     if (widget.isConfirmCard) {
-                      return SLargeHeader(
+                      return SimpleLargeAppbar(
                         title: intl.pin_screen_confirm_withPin,
-                        onBackButtonTap: () {
+                        onRightIconTap: () {
                           widget.onBackPressed != null ? widget.onBackPressed?.call() : sRouter.maybePop();
                         },
-                        titleStyle: sTextH4Style,
-                        hideBackButton: true,
-                        showCloseButton: true,
+                        hasLeftIcon: false,
+                        hasRightIcon: true,
                       );
                     }
 
                     return widget.displayHeader
-                        ? SLargeHeader(
+                        ? SimpleLargeAppbar(
                             title: pin.screenDescription(),
-                            hideBackButton: widget.isForgotPassword,
+                            hasLeftIcon: !widget.isForgotPassword,
                           )
                         : const SizedBox();
                   },
                   confirmPin: () {
-                    return SLargeHeader(
+                    return SimpleLargeAppbar(
                       title: pin.screenDescription(),
-                      onBackButtonTap: () {
+                      onLeftIconTap: () {
                         pin.backToNewFlow();
 
                         onbackButton!();
@@ -248,12 +245,9 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                     );
                   },
                   newPin: () {
-                    return SLargeHeader(
+                    return SimpleLargeAppbar(
                       title: pin.screenDescription(),
-                      onBackButtonTap: () {
-                        onbackButton!();
-                      },
-                      customIconButton: SIconButton(
+                      leftIcon: SafeGesture(
                         onTap: () {
                           if (widget.isForgotPassword) {
                             getIt<LogoutService>().logout(
@@ -269,8 +263,7 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                             showModalVerification(context);
                           }
                         },
-                        defaultIcon: const SCloseIcon(),
-                        pressedIcon: const SClosePressedIcon(),
+                        child: const SCloseIcon(),
                       ),
                     );
                   },
@@ -286,7 +279,7 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                     ),
                     child: Text(
                       intl.pinScreen_enterYourPIN,
-                      style: sTextH5Style.copyWith(
+                      style: STStyles.header6.copyWith(
                         color: colors.black,
                       ),
                     ),
@@ -297,7 +290,7 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                     (pin.screenUnion == const ConfirmPin() || pin.screenUnion == const NewPin())
                         ? intl.pinScreen_pinDontMatch
                         : intl.pinScreen_incorrectPIN,
-                    style: sSubtitle3Style.copyWith(color: colors.red),
+                    style: STStyles.subtitle2.copyWith(color: colors.red),
                   ),
                   const SpaceH53(),
                 ],
@@ -328,44 +321,35 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const SpaceW24(),
-                        Baseline(
-                          baselineType: TextBaseline.alphabetic,
-                          baseline: 16,
-                          child: SClickableLinkText(
-                            actualColor: colors.black,
-                            onTap: () => sShowAlertPopup(
-                              context,
-                              primaryText: intl.forgot_pass_confirm_logout,
-                              secondaryText: intl.forgot_pass_confirm_logout_desc,
-                              primaryButtonName: intl.forgot_pass_logout,
-                              image: Image.asset(
-                                ellipsisAsset,
-                                width: 80,
-                                height: 80,
-                                package: 'simple_kit',
-                              ),
-                              onPrimaryButtonTap: () {
-                                pin.loader.startLoading();
-                                logoutN.logout(
-                                  'PIN SCREEN',
-                                  resetPin: true,
-                                  callbackAfterSend: () {
-                                    pin.loader.finishLoading();
-                                  },
-                                );
-                                Navigator.pop(context);
-                              },
-                              secondaryButtonName: intl.forgot_pass_dialog_btn_cancel,
-                              onSecondaryButtonTap: () {
-                                Navigator.pop(context);
-                              },
+                        SHyperlink(
+                          text: '${intl.pinScreen_forgotYourPin}?',
+                          onTap: () => sShowAlertPopup(
+                            context,
+                            primaryText: intl.forgot_pass_confirm_logout,
+                            secondaryText: intl.forgot_pass_confirm_logout_desc,
+                            primaryButtonName: intl.forgot_pass_logout,
+                            image: Image.asset(
+                              ellipsisAsset,
+                              width: 80,
+                              height: 80,
+                              package: 'simple_kit',
                             ),
-                            text: '${intl.pinScreen_forgotYourPin}?',
+                            onPrimaryButtonTap: () {
+                              pin.loader.startLoading();
+                              logoutN.logout(
+                                'PIN SCREEN',
+                                resetPin: true,
+                                callbackAfterSend: () {
+                                  pin.loader.finishLoading();
+                                },
+                              );
+                              Navigator.pop(context);
+                            },
+                            secondaryButtonName: intl.forgot_pass_dialog_btn_cancel,
+                            onSecondaryButtonTap: () {
+                              Navigator.pop(context);
+                            },
                           ),
-                        ),
-                        SBlueRightArrowIcon(
-                          color: colors.grey3,
                         ),
                       ],
                     ),

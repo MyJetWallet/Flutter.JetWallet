@@ -14,10 +14,10 @@ import 'package:jetwallet/features/kyc/upload_documents/ui/widgets/document_page
 import 'package:mobx/mobx.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit/modules/headers/simple_auth_header.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
+// TODO (Yaroslav): this screen isn't using in the app
 @RoutePage(name: 'UploadVerificationPhotoRouter')
 class UploadVerificationPhoto extends StatelessWidget {
   const UploadVerificationPhoto({
@@ -97,8 +97,7 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
         loaderText: (store.loaderSuccess.loading) ? intl.uploadKycDocuments_done : intl.uploadKycDocuments_pleaseWait,
         loading: store.loader,
         loadSuccess: store.loaderSuccess,
-        header: SLargeHeader(
-          progressValue: isSelfie ? 50 : 100,
+        header: SimpleLargeAppbar(
           title: intl.cardVerification_title,
         ),
         child: Stack(

@@ -14,7 +14,6 @@ import 'package:jetwallet/features/auth/biometric/store/biometric_store.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/modules/headers/simple_auth_header.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
@@ -86,11 +85,10 @@ class _BiometricBody extends StatelessObserverWidget {
 
           return SPageFrame(
             loaderText: intl.register_pleaseWait,
-            header: SLargeHeader(
-              customIconButton: const SpaceH10(),
+            header: SimpleLargeAppbar(
+              hasLeftIcon: false,
               title: headerText,
-              isAutoSize: true,
-              maxLines: 2,
+              titleMaxLines: 2,
             ),
             child: SPaddingH24(
               child: Column(

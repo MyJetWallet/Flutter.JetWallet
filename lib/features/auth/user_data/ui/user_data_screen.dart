@@ -12,7 +12,6 @@ import 'package:jetwallet/features/auth/user_data/ui/widgets/country/country_fie
 import 'package:jetwallet/widgets/show_verification_modal.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/modules/headers/simple_auth_header.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
@@ -74,16 +73,13 @@ class _UserDataScreenBody extends StatelessObserverWidget {
       loaderText: intl.register_pleaseWait,
       loading: birthDateInfo.loader,
       color: colors.grey5,
-      header: SLargeHeader(
-        //customIconButton: const SpaceH24(),
-        progressValue: 60,
+      header: SimpleLargeAppbar(
         title: intl.user_data_whats_your_name,
-        customIconButton: SIconButton(
+        leftIcon: SafeGesture(
           onTap: () {
             showModalVerification(context);
           },
-          defaultIcon: const SCloseIcon(),
-          pressedIcon: const SClosePressedIcon(),
+          child: Assets.svg.medium.close.simpleSvg(),
         ),
       ),
       child: CustomScrollView(
