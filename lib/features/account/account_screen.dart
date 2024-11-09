@@ -94,10 +94,11 @@ class _AccountScreenState extends State<AccountScreen> with SingleTickerProvider
               userLastName: userInfo.lastName,
               showUserName: userInfo.firstName.isNotEmpty && userInfo.lastName.isNotEmpty,
               isVerified: checkKycPassed(
-                kycState.depositStatus,
-                kycState.tradeStatus,
-                kycState.withdrawalStatus,
-              ) && !kycState.isSimpleKyc,
+                    kycState.depositStatus,
+                    kycState.tradeStatus,
+                    kycState.withdrawalStatus,
+                  ) &&
+                  !kycState.isSimpleKyc,
               icon: Image.asset(
                 verifiedAsset,
                 width: 16,
@@ -113,21 +114,18 @@ class _AccountScreenState extends State<AccountScreen> with SingleTickerProvider
               children: [
                 AccountBannerList(
                   kycRequired: checkKycRequired(
-                    kycState.depositStatus,
-                    kycState.tradeStatus,
-                    kycState.withdrawalStatus,
-                  ) || (kycState.isSimpleKyc && kycState.earlyKycFlowAllowed),
+                        kycState.depositStatus,
+                        kycState.tradeStatus,
+                        kycState.withdrawalStatus,
+                      ) ||
+                      (kycState.isSimpleKyc && kycState.earlyKycFlowAllowed),
                   kycBlocked: checkKycBlocked(
                     kycState.depositStatus,
                     kycState.tradeStatus,
                     kycState.withdrawalStatus,
                   ),
                   verificationInProgress: kycState.inVerificationProgress,
-                  twoFaEnabled: true,
                   phoneVerified: userInfo.phoneVerified,
-                  onTwoFaBannerTap: () {
-                    sRouter.push(const SmsAuthenticatorRouter());
-                  },
                   onChatBannerTap: () async {
                     if (showZendesk) {
                       await getIt.get<IntercomService>().showMessenger();

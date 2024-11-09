@@ -61,7 +61,6 @@ export 'modules/fields/standard_field/public/simple_standard_field.dart';
 export 'modules/fields/standard_field/public/simple_standard_field_obscure.dart';
 
 /// Headers
-export 'modules/headers/simple_big_header.dart';
 export 'modules/headers/simple_mega_header.dart';
 export 'modules/headers/simple_small_header.dart';
 

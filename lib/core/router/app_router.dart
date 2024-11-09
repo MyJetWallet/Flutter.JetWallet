@@ -15,8 +15,6 @@ import 'package:jetwallet/features/account/profile_details/ui/profile_details.da
 import 'package:jetwallet/features/account/profile_details/ui/widgets/change_password.dart';
 import 'package:jetwallet/features/account/profile_details/ui/widgets/default_asset_change.dart';
 import 'package:jetwallet/features/account/profile_details/ui/widgets/set_new_password.dart';
-import 'package:jetwallet/features/add_circle_card/ui/add_circle_card.dart';
-import 'package:jetwallet/features/add_circle_card/ui/circle_billing_address/circle_billing_address.dart';
 import 'package:jetwallet/features/auth/biometric/ui/biometric.dart';
 import 'package:jetwallet/features/auth/biometric/ui/components/allow_biometric.dart';
 import 'package:jetwallet/features/auth/email_verification/ui/email_verification_screen.dart';
@@ -118,11 +116,8 @@ import 'package:jetwallet/features/simple_card/ui/simple_card_limits_screen.dart
 import 'package:jetwallet/features/simple_card/ui/simple_card_screen.dart';
 import 'package:jetwallet/features/simple_coin/screens/my_simple_coins_screen.dart';
 import 'package:jetwallet/features/simple_coin/screens/simple_coin_transaction_history_screen.dart';
-import 'package:jetwallet/features/sms_autheticator/sms_authenticator.dart';
 import 'package:jetwallet/features/transaction_history/screens/transaction_hisotry_screen.dart';
 import 'package:jetwallet/features/transfer_flow/screens/transfer_confrimation_screen.dart';
-import 'package:jetwallet/features/two_fa_phone/model/two_fa_phone_trigger_union.dart';
-import 'package:jetwallet/features/two_fa_phone/ui/two_fa_phone.dart';
 import 'package:jetwallet/features/wallet/screens/asset_transaction_history.dart';
 import 'package:jetwallet/features/wallet/screens/create_banking_screen.dart';
 import 'package:jetwallet/features/wallet/screens/wallet_screen.dart';
@@ -336,16 +331,8 @@ class AppRouter extends RootStackRouter {
       page: TransactionHistoryRouter.page,
     ),
     AutoRoute(
-      path: '/add_circle_card',
-      page: AddCircleCardRouter.page,
-    ),
-    AutoRoute(
       path: '/add_bank_card',
       page: AddUnlimintCardRouter.page,
-    ),
-    AutoRoute(
-      path: '/circle_billing_address',
-      page: CircleBillingAddressRouter.page,
     ),
     AutoRoute(
       path: '/iban_address',
@@ -389,10 +376,6 @@ class AppRouter extends RootStackRouter {
       page: SuccessVerifyingScreenRouter.page,
     ),
     AutoRoute(
-      path: '/sms_authenticator',
-      page: SmsAuthenticatorRouter.page,
-    ),
-    AutoRoute(
       path: '/set_phone_number',
       page: SetPhoneNumberRouter.page,
     ),
@@ -411,10 +394,6 @@ class AppRouter extends RootStackRouter {
     AutoRoute(
       path: '/pin_screen',
       page: PinScreenRoute.page,
-    ),
-    AutoRoute(
-      path: '/two_fa_phone',
-      page: TwoFaPhoneRouter.page,
     ),
     AutoRoute(
       path: '/email_confirmation',

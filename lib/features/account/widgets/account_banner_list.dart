@@ -8,22 +8,18 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 class AccountBannerList extends StatefulObserverWidget {
   const AccountBannerList({
     super.key,
-    this.onTwoFaBannerTap,
     this.onChatBannerTap,
     this.onKycBannerTap,
     required this.kycRequired,
     required this.kycBlocked,
-    required this.twoFaEnabled,
     required this.phoneVerified,
     required this.verificationInProgress,
   });
 
-  final Function()? onTwoFaBannerTap;
   final Function()? onChatBannerTap;
   final Function()? onKycBannerTap;
   final bool kycRequired;
   final bool kycBlocked;
-  final bool twoFaEnabled;
   final bool phoneVerified;
   final bool verificationInProgress;
 
@@ -105,10 +101,8 @@ class _AccountBannerListState extends State<AccountBannerList> {
       kycRequired: widget.kycRequired,
       kycBlocked: widget.kycBlocked,
       verificationInProgress: widget.verificationInProgress,
-      twoFaEnabled: true,
       phoneVerified: widget.phoneVerified,
       onChatBannerTap: widget.onChatBannerTap,
-      onTwoFaBannerTap: widget.onTwoFaBannerTap,
       onKycBannerTap: widget.onKycBannerTap,
       colors: colors,
       showChatChecker: showChatChecker,
