@@ -88,7 +88,7 @@ class _AllowCameraScreenBodyState extends State<_AllowBiometricScreenBody> with 
     final deviceSize = sDeviceSize;
     final size = MediaQuery.of(context).size;
 
-    return SPageFrameWithPadding(
+    return SPageFrame(
       loaderText: intl.register_pleaseWait,
       header: deviceSize.when(
         small: () {
@@ -97,9 +97,9 @@ class _AllowCameraScreenBodyState extends State<_AllowBiometricScreenBody> with 
           );
         },
         medium: () {
-          return SMegaHeader(
-            titleAlign: TextAlign.left,
+          return SimpleLargeAppbar(
             title: headerText,
+            titleMaxLines: 2,
           );
         },
       ),
@@ -117,41 +117,44 @@ class _AllowCameraScreenBodyState extends State<_AllowBiometricScreenBody> with 
           text: intl.allowCamera_goToSettings,
         ),
       ),
-      child: CustomScrollView(
-        slivers: [
-          SliverFillRemaining(
-            hasScrollBody: false,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Spacer(),
-                Image.asset(
-                  image,
-                  height: size.width * 0.6,
-                ),
-                const Spacer(),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Flexible(
-                      child: Baseline(
-                        baseline: 48,
-                        baselineType: TextBaseline.alphabetic,
-                        child: Text(
-                          bottomText,
-                          maxLines: 3,
-                          style: sBodyText1Style.copyWith(
-                            color: colors.grey1,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        child: CustomScrollView(
+          slivers: [
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Spacer(),
+                  Image.asset(
+                    image,
+                    height: size.width * 0.6,
+                  ),
+                  const Spacer(),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Flexible(
+                        child: Baseline(
+                          baseline: 48,
+                          baselineType: TextBaseline.alphabetic,
+                          child: Text(
+                            bottomText,
+                            maxLines: 3,
+                            style: sBodyText1Style.copyWith(
+                              color: colors.grey1,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

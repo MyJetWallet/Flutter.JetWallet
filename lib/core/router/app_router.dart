@@ -128,7 +128,6 @@ import 'package:jetwallet/features/withdrawal/send_card_detail/send_globally_con
 import 'package:jetwallet/features/withdrawal/ui/scanner_screen.dart';
 import 'package:jetwallet/features/withdrawal/ui/withdrawal_address.dart';
 import 'package:jetwallet/features/withdrawal/ui/withdrawal_ammount.dart';
-import 'package:jetwallet/features/withdrawal/ui/withdrawal_confirm.dart';
 import 'package:jetwallet/features/withdrawal/ui/withdrawal_preview.dart';
 import 'package:jetwallet/features/withdrawal/ui/withdrawal_screen.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
@@ -482,10 +481,6 @@ class AppRouter extends RootStackRouter {
         AutoRoute(
           path: 'withdrawal_ammount',
           page: WithdrawalAmmountRouter.page,
-        ),
-        AutoRoute(
-          path: 'withdrawal_confirm',
-          page: WithdrawalConfirmRouter.page,
         ),
         AutoRoute(
           path: 'wiGthdrawal_preview',

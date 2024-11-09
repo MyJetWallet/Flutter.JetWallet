@@ -22,12 +22,10 @@ class DeleteReasonsScreen extends StatelessObserverWidget {
       child: SPageFrame(
         loaderText: intl.register_pleaseWait,
         loading: store.loader,
-        header: SPaddingH24(
-          child: SMegaHeader(
-            titleAlign: TextAlign.start,
-            title: intl.deleteProfileReasons_header,
-            showBackButton: false,
-          ),
+        header: SimpleLargeAppbar(
+          title: intl.deleteProfileReasons_header,
+          titleMaxLines: 3,
+          hasLeftIcon: false,
         ),
         bottomNavigationBar: Padding(
           padding: const EdgeInsets.symmetric(

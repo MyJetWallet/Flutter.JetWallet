@@ -53,7 +53,7 @@ part 'withdrawal_store.g.dart';
 
 enum WithdrawalType { asset, nft, jar }
 
-enum WithdrawStep { address, ammount, preview, confirm }
+enum WithdrawStep { address, ammount, preview}
 
 enum WithdrawalInputMode { youSend, recepientGets }
 
@@ -572,13 +572,6 @@ abstract class _WithdrawalStoreBase with Store {
           sRouter.popUntil((route) => route.settings is WithdrawalPreviewRouter);
         } else {
           sRouter.push(const WithdrawalPreviewRouter());
-        }
-
-      case WithdrawStep.confirm:
-        if (isReplace) {
-          sRouter.popUntil((route) => route.settings is WithdrawalConfirmRouter);
-        } else {
-          sRouter.push(const WithdrawalConfirmRouter());
         }
 
       default:
