@@ -119,12 +119,12 @@ definitions:
 
     - name: Build Android (APK)
       script: |
-        if ["$FLAVOR" = "prod"]; then
+        if [$FLAVOR = "prod"]; then
           cp build/app/outputs/bundle/prodRelease/app-prod-release.aab app-prod-release.aab
           flutter clean
           mkdir -p build/app/outputs/bundle/prodRelease
           cp app-prod-release.aab build/app/outputs/bundle/prodRelease/app-prod-release.aab
-        elif ["$FLAVOR" = "stage"]; then
+        elif [$FLAVOR = "stage"]; then
           cp build/app/outputs/bundle/stageRelease/app-stage-release.aab app-stage-release.aab
           flutter clean
           mkdir -p build/app/outputs/bundle/stageRelease
