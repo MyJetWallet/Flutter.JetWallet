@@ -122,16 +122,23 @@ definitions:
         if [-f build/app/outputs/bundle/stageRelease/app-stage-release.aab]; then
           cp build/app/outputs/bundle/stageRelease/app-stage-release.aab app-stage-release.aab
           flutter clean
-          mkdir -p build/app/outputs/bundle/stageRelease
-          cp app-stage-release.aab build/app/outputs/bundle/stageRelease/app-stage-release.aab
         else 
           cp build/app/outputs/bundle/prodRelease/app-prod-release.aab app-prod-release.aab
           flutter clean
-          mkdir -p build/app/outputs/bundle/prodRelease
-          cp app-prod-release.aab build/app/outputs/bundle/prodRelease/app-prod-release.aab
         fi
         flutter build apk --dart-define=INTERCOM_APP_ID=$INTERCOM_APP_ID --dart-define=INTERCOM_ANDROID_KEY=$INTERCOM_ANDROID_KEY --dart-define=INTERCOM_IOS_KEY=$INTERCOM_IOS_KEY --release --target=$MAIN_TARGET --flavor=$FLAVOR \
         --build-name=$(git ls-remote --tags origin | cut -d'/' -f3 | sort -V | tail -n1) --build-number=$PROJECT_BUILD_NUMBER
+        if [-f app-stage-release.aab]; then
+          cd build/app/outputs
+          mkdir -p bundle/stageRelease
+          cd ../../..
+          cp app-stage-release.aab build/app/outputs/bundle/stageRelease/app-stage-release.aab
+        else 
+          cd build/app/outputs
+          mkdir -p bundle/prodRelease
+          cd ../../..
+          cp app-prod-release.aab build/app/outputs/bundle/prodRelease/app-prod-release.aab
+        fi
 
   publishing: &publishing
     app_store_connect:
