@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:simple_kit/core/simple_kit.dart';
-import 'package:simple_kit/modules/shared/stack_loader/stack_loader.dart';
-import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'package:simple_kit_updated/widgets/shared/page_frame/stack_loader.dart';
 
 class SPageFrame extends StatelessObserverWidget {
-  @Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
   const SPageFrame({
     super.key,
     this.header,
@@ -37,7 +35,7 @@ class SPageFrame extends StatelessObserverWidget {
       loadSuccess: loadSuccess,
       customLoader: customLoader,
       child: Scaffold(
-        backgroundColor: sKit.getTheme().scaffoldBackgroundColor,
+        backgroundColor: SColorsLight().black.withOpacity(0.5),
         bottomNavigationBar: bottomNavigationBar,
         resizeToAvoidBottomInset: resizeToAvoidBottomInset,
         body: Column(

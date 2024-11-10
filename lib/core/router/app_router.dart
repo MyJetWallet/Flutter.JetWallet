@@ -133,7 +133,7 @@ import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.d
 import 'package:jetwallet/widgets/web_view/screens/web_view_screen.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:simple_kit/modules/account/phone_number/simple_number.dart';
-import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';

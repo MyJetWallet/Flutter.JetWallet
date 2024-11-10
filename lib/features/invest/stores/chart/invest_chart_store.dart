@@ -1,7 +1,7 @@
 import 'package:charts/simple_chart.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
-import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/candles_api/models/candles_request_model.dart';
 
 import '../../../../core/di/di.dart';

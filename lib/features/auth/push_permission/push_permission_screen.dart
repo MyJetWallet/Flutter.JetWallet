@@ -6,8 +6,7 @@ import 'package:jetwallet/core/services/push_notification_service.dart';
 import 'package:jetwallet/core/services/startup_service.dart';
 import 'package:lottie/lottie.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart' as sk;
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'PushPermissionRoute')
 class PushPermissionScreen extends StatefulWidget {
@@ -28,7 +27,7 @@ class _PushPermissionScreenState extends State<PushPermissionScreen> {
   Widget build(BuildContext context) {
     return SPageFrame(
       loaderText: '',
-      color: sk.SColorsLight().gray2,
+      color: SColorsLight().gray2,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: Center(
@@ -46,19 +45,19 @@ class _PushPermissionScreenState extends State<PushPermissionScreen> {
                 intl.permission_title,
                 maxLines: 12,
                 textAlign: TextAlign.center,
-                style: sk.STStyles.header3,
+                style: STStyles.header3,
               ),
               const SizedBox(height: 16),
               Text(
                 intl.permission_subtitle,
                 maxLines: 12,
                 textAlign: TextAlign.center,
-                style: sk.STStyles.subtitle1.copyWith(
-                  color: sk.SColorsLight().gray10,
+                style: STStyles.subtitle1.copyWith(
+                  color: SColorsLight().gray10,
                 ),
               ),
               const Spacer(),
-              sk.SButton.black(
+              SButton.black(
                 callback: () async {
                   sAnalytics.pushNotificationButtonTap();
 

@@ -11,11 +11,8 @@ import 'package:jetwallet/features/earn/widgets/earn_archives_skeleton_list.dart
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/core/simple_kit.dart';
-import 'package:simple_kit/modules/shared/page_frames/simple_page_frame.dart';
 import 'package:simple_kit/utils/constants.dart';
-import 'package:simple_kit_updated/widgets/navigation/top_app_bar/global_basic_appbar.dart';
-import 'package:simple_kit_updated/widgets/table/placeholder/simple_placeholder.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'EarnsArchiveRouter')
 class EarnsArchiveScreen extends StatefulWidget {
@@ -45,7 +42,7 @@ class _EarnsArchiveScreenState extends State<EarnsArchiveScreen> {
       child: Observer(
         builder: (context) {
           final store = Provider.of<EarnStore>(context);
-          final colors = sKit.colors;
+          final colors = SColorsLight();
 
           scrollController.addListener(() {
             if (scrollController.position.pixels >= scrollController.position.maxScrollExtent) {
@@ -109,7 +106,7 @@ class _EarnsArchiveScreenState extends State<EarnsArchiveScreen> {
                             width: 24.0,
                             height: 24.0,
                             decoration: BoxDecoration(
-                              color: colors.grey5,
+                              color: colors.gray10,
                               shape: BoxShape.circle,
                             ),
                             child: const RiveAnimation.asset(

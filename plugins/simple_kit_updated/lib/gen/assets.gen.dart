@@ -12,6 +12,16 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart' as _svg;
 import 'package:vector_graphics/vector_graphics.dart' as _vg;
 
+class $AssetsAnimationsGen {
+  const $AssetsAnimationsGen();
+
+  /// File path: assets/animations/loader.riv
+  String get loader => 'assets/animations/loader.riv';
+
+  /// List of all assets
+  List<String> get values => [loader];
+}
+
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
@@ -826,6 +836,7 @@ class $AssetsSvgPaymentMethodsCardsSimpleGen {
 class Assets {
   Assets._();
 
+  static const $AssetsAnimationsGen animations = $AssetsAnimationsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
   static const $AssetsSvgGen svg = $AssetsSvgGen();
 }

@@ -28,8 +28,8 @@ import 'package:mobx/mobx.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/auth_api/models/confirm_email_login/confirm_email_login_request_model.dart';
 import 'package:simple_networking/modules/auth_api/models/start_email_login/start_email_login_request_model.dart';
@@ -245,9 +245,7 @@ abstract class _EmailVerificationStoreBase with Store {
       loader.finishLoading();
 
       sNotification.showError(
-        error.cause.contains('50') || error.cause.contains('40')
-            ? intl.something_went_wrong_try_again
-            : error.cause,
+        error.cause.contains('50') || error.cause.contains('40') ? intl.something_went_wrong_try_again : error.cause,
         id: 1,
       );
     } catch (error) {

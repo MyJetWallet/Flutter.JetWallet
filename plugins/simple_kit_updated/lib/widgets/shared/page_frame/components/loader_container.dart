@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit/modules/colors/simple_colors_light.dart';
-import 'package:simple_kit/modules/icons/24x24/public/complete/simple_complete_icon.dart';
-import 'package:simple_kit/modules/texts/simple_text_styles.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'package:simple_kit_updated/widgets/shared/page_frame/components/loader_spinner.dart';
 
-class SimpleLoaderSuccess extends StatelessWidget {
-  const SimpleLoaderSuccess({
+class LoaderContainer extends StatelessWidget {
+  const LoaderContainer({
     super.key,
-    this.loadingText,
+    required this.loadingText,
   });
 
-  final String? loadingText;
+  final String loadingText;
 
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      left: 97.0,
-      right: 98.0,
-      top: 320.0,
+      width: 180.0,
+      height: 90.0,
       child: Container(
         width: 180.0,
         height: 90.0,
@@ -30,13 +28,13 @@ class SimpleLoaderSuccess extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SCompleteIcon(),
+            const LoaderSpinner(),
             Baseline(
               baseline: 20.6,
               baselineType: TextBaseline.alphabetic,
               child: Text(
-                '${loadingText ?? "Done"}!',
-                style: sBodyText2Style,
+                loadingText,
+                style: STStyles.body2Medium,
               ),
             ),
           ],

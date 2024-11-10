@@ -9,7 +9,7 @@ import 'package:jetwallet/features/chart/store/chart_store.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
 import 'package:jetwallet/utils/helpers/localized_chart_resolution_button.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class AssetChart extends StatefulObserverWidget {
   const AssetChart({

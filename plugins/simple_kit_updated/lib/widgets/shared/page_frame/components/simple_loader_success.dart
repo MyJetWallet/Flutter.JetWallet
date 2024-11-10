@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit/modules/colors/simple_colors_light.dart';
-import 'package:simple_kit/modules/shared/stack_loader/components/loader_spinner.dart';
-import 'package:simple_kit/modules/texts/simple_text_styles.dart';
 
-class LoaderContainer extends StatelessWidget {
-  const LoaderContainer({
+import 'package:simple_kit_updated/simple_kit_updated.dart';
+
+class SimpleLoaderSuccess extends StatelessWidget {
+  const SimpleLoaderSuccess({
     super.key,
-    required this.loadingText,
+    this.loadingText,
   });
 
-  final String loadingText;
+  final String? loadingText;
 
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      width: 180.0,
-      height: 90.0,
+      left: 97.0,
+      right: 98.0,
+      top: 320.0,
       child: Container(
         width: 180.0,
         height: 90.0,
@@ -29,15 +29,16 @@ class LoaderContainer extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const LoaderSpinner(),
+            Assets.svg.small.checkCircle.simpleSvg(
+              width: 24,
+              height: 24,
+            ),
             Baseline(
               baseline: 20.6,
               baselineType: TextBaseline.alphabetic,
               child: Text(
-                loadingText,
-                style: sBodyText2Style.copyWith(
-                  color: Colors.black,
-                ),
+                '${loadingText ?? "Done"}!',
+                style: STStyles.body2Medium,
               ),
             ),
           ],

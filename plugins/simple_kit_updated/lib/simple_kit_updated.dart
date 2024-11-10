@@ -91,3 +91,10 @@ export '/widgets/table/transaction/simple_transaction.dart';
 // Loader
 export '/widgets/loader/fast_circular_progress_indicator.dart';
 export '/widgets/loader/simple_loader.dart';
+
+// SPageFrame
+export '/widgets/shared/page_frame/simple_page_frame.dart';
+export '/widgets/shared/page_frame/store/stack_loader_store.dart';
+export '/widgets/shared/page_frame/components/loader_background.dart';
+export '/widgets/shared/page_frame/components/loader_container.dart';
+export '/widgets/shared/page_frame/components/loader_spinner.dart';

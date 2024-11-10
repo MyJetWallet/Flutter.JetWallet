@@ -13,7 +13,6 @@ import 'package:jetwallet/features/my_wallets/helper/show_wallet_verify_account.
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/icons/20x20/public/tick/simple_tick_icon.dart';
 import 'package:simple_kit/modules/icons/40x40/public/user/simple_user_icon.dart';
-import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:uuid/uuid.dart';

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
-import 'package:simple_kit/modules/colors/simple_colors_light.dart';
-import 'package:simple_kit/utils/constants.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class LoaderSpinner extends StatelessWidget {
   const LoaderSpinner({
@@ -18,11 +17,11 @@ class LoaderSpinner extends StatelessWidget {
       height: size,
       child: Container(
         decoration: BoxDecoration(
-          color: SColorsLight().grey5,
+          color: SColorsLight().gray2,
           shape: BoxShape.circle,
         ),
-        child: const RiveAnimation.asset(
-          loadingAnimationAsset,
+        child: RiveAnimation.asset(
+          Assets.animations.loader,
         ),
       ),
     );

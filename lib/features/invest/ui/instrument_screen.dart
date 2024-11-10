@@ -13,15 +13,9 @@ import 'package:jetwallet/features/invest/ui/widgets/invest_alert_bottom_sheet.d
 import 'package:jetwallet/features/invest/ui/widgets/invest_market_watch_bottom_sheet.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/localized_chart_resolution_button.dart';
-import 'package:simple_kit/core/simple_kit.dart';
-import 'package:simple_kit/modules/shared/page_frames/simple_page_frame.dart';
 import 'package:simple_kit/modules/shared/simple_paddings.dart';
 import 'package:simple_kit/modules/shared/simple_spacers.dart';
-import 'package:simple_kit/modules/shared/stack_loader/components/loader_spinner.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
-import 'package:simple_kit_updated/widgets/button/invest_buttons/invest_button.dart';
-import 'package:simple_kit_updated/widgets/table/placeholder/simple_placeholder.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 
 import '../../../core/di/di.dart';
@@ -88,7 +82,7 @@ class _InstrumentScreenState extends State<InstrumentScreen> {
     final investStore = getIt.get<InvestDashboardStore>();
     final investPositionsStore = getIt.get<InvestPositionsStore>();
 
-    final colors = sKit.colors;
+    final colors = SColorsLight();
     final currency = currencyFrom(currencies, 'USDT');
 
     final activePositionsListToShow =
@@ -128,8 +122,8 @@ class _InstrumentScreenState extends State<InstrumentScreen> {
                                 child: SIButton(
                                   activeColor: colors.black,
                                   activeNameColor: colors.white,
-                                  inactiveColor: colors.grey2,
-                                  inactiveNameColor: colors.grey4,
+                                  inactiveColor: colors.gray10,
+                                  inactiveNameColor: colors.gray2,
                                   active: true,
                                   icon: Assets.svg.invest.investClose.simpleSvg(
                                     width: 20,
@@ -179,8 +173,8 @@ class _InstrumentScreenState extends State<InstrumentScreen> {
                               child: SIButton(
                                 activeColor: colors.blue,
                                 activeNameColor: colors.white,
-                                inactiveColor: colors.grey4,
-                                inactiveNameColor: colors.grey2,
+                                inactiveColor: colors.gray10,
+                                inactiveNameColor: colors.gray2,
                                 active: true,
                                 icon: Assets.svg.invest.investPlus.simpleSvg(
                                   width: 20,
@@ -219,8 +213,8 @@ class _InstrumentScreenState extends State<InstrumentScreen> {
                             child: SIButton(
                               activeColor: colors.black,
                               activeNameColor: colors.white,
-                              inactiveColor: colors.grey2,
-                              inactiveNameColor: colors.grey4,
+                              inactiveColor: colors.gray10,
+                              inactiveNameColor: colors.gray2,
                               active: true,
                               icon: Assets.svg.invest.investClose.simpleSvg(
                                 width: 20,
@@ -261,8 +255,8 @@ class _InstrumentScreenState extends State<InstrumentScreen> {
                           child: SIButton(
                             activeColor: colors.blue,
                             activeNameColor: colors.white,
-                            inactiveColor: colors.grey4,
-                            inactiveNameColor: colors.grey2,
+                            inactiveColor: colors.gray10,
+                            inactiveNameColor: colors.gray2,
                             active: true,
                             icon: Assets.svg.invest.investPlus.simpleSvg(
                               width: 20,

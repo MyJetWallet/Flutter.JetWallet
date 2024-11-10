@@ -9,7 +9,6 @@ import 'package:jetwallet/features/payment_methods/ui/widgets/payment_card_item.
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/helpers/is_card_expired.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
@@ -31,7 +30,7 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     final loader = StackLoaderStore();
 
@@ -61,15 +60,15 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
                     Text(
                       intl.paymentMethods_noSavedCards,
                       textAlign: TextAlign.center,
-                      style: sTextH3Style,
+                      style: STStyles.header4,
                     ),
                     SPaddingH24(
                       child: Text(
                         intl.paymentMethod_text,
                         maxLines: 2,
                         textAlign: TextAlign.center,
-                        style: sBodyText1Style.copyWith(
-                          color: colors.grey1,
+                        style: STStyles.body1Medium.copyWith(
+                          color: colors.gray10,
                         ),
                       ),
                     ),

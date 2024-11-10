@@ -97,7 +97,7 @@ class __JarBodyState extends State<_JarBody> {
 
     return PopScope(
       canPop: widget.hasLeftIcon,
-      child: sk.SPageFrame(
+      child: SPageFrame(
         loaderText: '',
         color: colors.white,
         header: GlobalBasicAppBar(

@@ -13,8 +13,8 @@ import 'package:jetwallet/utils/logging.dart';
 import 'package:logger/logger.dart';
 import 'package:logging/logging.dart' as logging;
 import 'package:mobx/mobx.dart';
-import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/validation_api/models/phone_verification/phone_verification_request_model.dart';
 

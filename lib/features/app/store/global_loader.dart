@@ -3,8 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:mobx/mobx.dart';
-import 'package:simple_kit/modules/shared/stack_loader/components/loader_background.dart';
-import 'package:simple_kit/modules/shared/stack_loader/components/loader_container.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 part 'global_loader.g.dart';
 
 class GlobalLoader = _GlobalLoaderBase with _$GlobalLoader;

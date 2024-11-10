@@ -11,8 +11,6 @@ import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/core/simple_kit.dart';
-import 'package:simple_kit/modules/shared/page_frames/simple_page_frame.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'OffersRouter')
@@ -36,7 +34,7 @@ class _OffersScreenState extends State<OffersScreen> {
       create: (context) => EarnStore(),
       builder: (context, child) {
         final store = EarnStore.of(context);
-        final colors = sKit.colors;
+        final colors = SColorsLight();
         final currencies = sSignalRModules.currenciesList;
 
         return SPageFrame(

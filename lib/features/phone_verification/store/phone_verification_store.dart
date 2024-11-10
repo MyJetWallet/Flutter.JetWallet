@@ -15,7 +15,7 @@ import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/account/phone_number/simple_number.dart';
 import 'package:simple_kit/modules/fields/standard_field/base/standard_field_error_notifier.dart';
-import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/validation_api/models/device_binding/post_device_binding_request_model.dart';
 import 'package:simple_networking/modules/validation_api/models/device_binding/post_device_binding_verify_model.dart';

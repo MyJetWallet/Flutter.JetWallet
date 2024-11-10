@@ -10,7 +10,6 @@ import 'package:jetwallet/features/crypto_jar/ui/widgets/no_active_jars_placehol
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart' as sk;
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 enum _JarFilterButton { active, all }
@@ -48,9 +47,9 @@ class _AllJarsScreenState extends State<AllJarsScreen> {
 
     final isAddButtonDisabled = kycBlocked;
 
-    return sk.SPageFrame(
+    return SPageFrame(
       loaderText: '',
-      color: sk.sKit.colors.white,
+      color: SColorsLight().white,
       header: GlobalBasicAppBar(
         title: intl.jar_jars,
         hasRightIcon: false,

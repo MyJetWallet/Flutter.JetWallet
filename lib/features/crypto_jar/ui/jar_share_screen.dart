@@ -15,7 +15,6 @@ import 'package:jetwallet/widgets/flag_item.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart' as sk;
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
@@ -55,7 +54,7 @@ class _JarShareScreenState extends State<JarShareScreen> {
       remainedAmount = 0;
     }
 
-    final colors = sk.sKit.colors;
+    final colors = SColorsLight();
 
     final networks = getIt
         .get<FormatService>()
@@ -64,7 +63,7 @@ class _JarShareScreenState extends State<JarShareScreen> {
         )
         .networksForBlockchainSend;
 
-    return sk.SPageFrame(
+    return SPageFrame(
       loaderText: '',
       color: colors.white,
       header: GlobalBasicAppBar(
@@ -175,7 +174,7 @@ class _JarShareScreenState extends State<JarShareScreen> {
   }
 
   Widget _buildShareItem(String title, String text, bool isCountry, bool withCopy, [bool isAddress = false]) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return SafeGesture(
       onTap: () {

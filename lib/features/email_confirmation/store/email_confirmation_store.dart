@@ -15,7 +15,7 @@ import 'package:logger/logger.dart' as logger;
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/validation_api/models/send_email/send_email_confirmation_request.dart';
 import 'package:simple_networking/modules/validation_api/models/send_email/send_email_confirmation_response.dart';
