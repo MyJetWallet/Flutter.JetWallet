@@ -4,19 +4,6 @@ const _basicTextStyle = TextStyle(
   overflow: TextOverflow.ellipsis,
   fontFamily: 'Gilroy',
 );
-@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
-final sTextH0Style = _basicTextStyle.copyWith(
-  fontSize: 56.0,
-  fontWeight: FontWeight.w600,
-  height: 1.07,
-);
-
-@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
-final sTextH1Style = _basicTextStyle.copyWith(
-  fontSize: 40.0,
-  fontWeight: FontWeight.w600,
-  height: 1.20,
-);
 
 @Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
 final sTextH2Style = _basicTextStyle.copyWith(
@@ -109,50 +96,8 @@ final sHelperTextStyle = _basicTextStyle.copyWith(
 
 // invest text styles
 @Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
-final sTextH0InvestStyle = _basicTextStyle.copyWith(
-  fontSize: 30.0,
-  fontWeight: FontWeight.w600,
-  height: 1.3,
-);
-@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
-final sTextH1InvestStyle = _basicTextStyle.copyWith(
-  fontSize: 22.0,
-  fontWeight: FontWeight.w600,
-  height: 1.3,
-);
-
-final sTextH2InvestStyle = _basicTextStyle.copyWith(
-  fontSize: 20.0,
-  fontWeight: FontWeight.w600,
-  height: 1.3,
-);
-
-final sTextH3InvestStyle = _basicTextStyle.copyWith(
-  fontSize: 18.0,
-  fontWeight: FontWeight.w600,
-  height: 1.3,
-);
-@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
-final sTextH4SMInvestStyle = _basicTextStyle.copyWith(
-  fontSize: 16.0,
-  fontWeight: FontWeight.w600,
-  height: 1.2,
-);
-@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
-final sTextH4MInvestStyle = _basicTextStyle.copyWith(
-  fontSize: 16.0,
-  fontWeight: FontWeight.w400,
-  height: 1.2,
-);
-@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
 final sButtonTextInvestStyle = _basicTextStyle.copyWith(
   fontSize: 16.0,
-  fontWeight: FontWeight.w700,
-  height: 1.2,
-);
-@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
-final sBody1InvestBStyle = _basicTextStyle.copyWith(
-  fontSize: 14.0,
   fontWeight: FontWeight.w700,
   height: 1.2,
 );
@@ -163,50 +108,8 @@ final sBody1InvestSMStyle = _basicTextStyle.copyWith(
   height: 1.2,
 );
 @Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
-final sBody1InvestMStyle = _basicTextStyle.copyWith(
-  fontSize: 14.0,
-  fontWeight: FontWeight.w500,
-  height: 1.2,
-);
-@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
-final sBody2InvestBStyle = _basicTextStyle.copyWith(
-  fontSize: 12.0,
-  fontWeight: FontWeight.w700,
-  height: 1.2,
-);
-
 final sBody2InvestSMStyle = _basicTextStyle.copyWith(
   fontSize: 12.0,
   fontWeight: FontWeight.w600,
-  height: 1.2,
-);
-
-final sBody2InvestMStyle = _basicTextStyle.copyWith(
-  fontSize: 12.0,
-  fontWeight: FontWeight.w500,
-  height: 1.2,
-);
-@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
-final sBody3InvestSMStyle = _basicTextStyle.copyWith(
-  fontSize: 11.0,
-  fontWeight: FontWeight.w600,
-  height: 1.2,
-);
-@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
-final sBody3InvestMStyle = _basicTextStyle.copyWith(
-  fontSize: 11.0,
-  fontWeight: FontWeight.w500,
-  height: 1.2,
-);
-@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
-final sCaptionInvestSMStyle = _basicTextStyle.copyWith(
-  fontSize: 9.0,
-  fontWeight: FontWeight.w600,
-  height: 1.2,
-);
-@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
-final sCaptionInvestMStyle = _basicTextStyle.copyWith(
-  fontSize: 9.0,
-  fontWeight: FontWeight.w500,
   height: 1.2,
 );

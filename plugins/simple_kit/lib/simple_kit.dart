@@ -293,7 +293,6 @@ export 'modules/shared/simple_transparent_ink_well.dart';
 export 'modules/shared/simple_widget_bottom_size.dart';
 export 'modules/shared/stack_loader/notifier/stack_loader_notifier.dart';
 export 'modules/shared/stack_loader/components/loader_spinner.dart';
-export 'modules/loader/simple_loader.dart';
 export 'modules/shared/blue_bank_icon.dart';
 
 /// Helpers

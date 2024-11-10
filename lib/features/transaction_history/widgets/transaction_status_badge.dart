@@ -20,16 +20,9 @@ class TransactionStatusBadge extends StatelessWidget {
               ? SBadgeType.positive
               : SBadgeType.negative,
       icon: status == Status.inProgress
-          ? Padding(
-              padding: const EdgeInsets.only(left: 2),
-              child: SizedBox(
-                height: 16,
-                width: 16,
-                child: CircularProgressIndicator(
-                  strokeWidth: 3,
-                  color: colors.blue,
-                ),
-              ),
+          ? SimpleLoader(
+              strokeWidth: 3,
+              color: colors.blue,
             )
           : status == Status.completed
               ? Assets.svg.medium.checkmarkAlt.simpleSvg(

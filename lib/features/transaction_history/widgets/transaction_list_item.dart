@@ -16,6 +16,7 @@ import 'package:simple_kit/modules/icons/24x24/public/withdrawal/simple_withdraw
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/helpers/icons_extension.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 import '../../../core/di/di.dart';
 import '../../app/store/app_store.dart';

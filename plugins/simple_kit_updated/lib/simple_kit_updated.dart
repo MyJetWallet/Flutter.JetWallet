@@ -87,3 +87,7 @@ export 'widgets/keyboard/simple_numeric_keyboard.dart';
 export 'widgets/keyboard/constants.dart';
 
 export '/widgets/table/transaction/simple_transaction.dart';
+
+// Loader
+export '/widgets/loader/fast_circular_progress_indicator.dart';
+export '/widgets/loader/simple_loader.dart';
