@@ -119,11 +119,11 @@ definitions:
 
     - name: Build Android (APK)
       script: |
-        cp build/app/outputs/bundle/release/app-release.aab app-release.aab
+        cp build/app/outputs/bundle/stageRelease/app-stage-release.aab app-stage-release.aab
         flutter clean
         flutter build apk --dart-define=INTERCOM_APP_ID=$INTERCOM_APP_ID --dart-define=INTERCOM_ANDROID_KEY=$INTERCOM_ANDROID_KEY --dart-define=INTERCOM_IOS_KEY=$INTERCOM_IOS_KEY --release --target=$MAIN_TARGET --flavor=$FLAVOR \
         --build-name=$(git ls-remote --tags origin | cut -d'/' -f3 | sort -V | tail -n1) --build-number=$PROJECT_BUILD_NUMBER --verbose
-        cp app-release.aab build/app/outputs/bundle/release/app-release.aab
+        cp app-stage-release.aab build/app/outputs/bundle/stageRelease/app-stage-release.aab
 
   publishing: &publishing
     app_store_connect:
