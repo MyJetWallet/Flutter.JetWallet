@@ -35,7 +35,7 @@ class SPageFrame extends StatelessObserverWidget {
       loadSuccess: loadSuccess,
       customLoader: customLoader,
       child: Scaffold(
-        backgroundColor: SColorsLight().black.withOpacity(0.5),
+        backgroundColor: SColorsLight().white,
         bottomNavigationBar: bottomNavigationBar,
         resizeToAvoidBottomInset: resizeToAvoidBottomInset,
         body: Column(

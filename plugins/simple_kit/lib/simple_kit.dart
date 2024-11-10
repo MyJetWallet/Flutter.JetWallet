@@ -4,9 +4,6 @@ library simple_kit;
 
 export 'core/simple_kit.dart' show sKit;
 
-/// Account Banners
-export 'modules/account/banners/simple_account_banner.dart';
-
 /// Account
 export 'modules/account/buttons/account_category_button/simple_account_category_button.dart';
 export 'modules/account/buttons/term/simple_account_term_button.dart';
