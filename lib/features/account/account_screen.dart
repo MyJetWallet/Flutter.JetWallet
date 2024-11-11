@@ -20,6 +20,7 @@ import 'package:jetwallet/features/prepaid_card/widgets/prepaid_card_profile_ban
 import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 
 import '../../core/services/deep_link_service.dart';
@@ -43,7 +44,7 @@ class _AccountScreenState extends State<AccountScreen> with SingleTickerProvider
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
     final flavor = flavorService();
 
     final logout = getIt.get<LogoutService>();

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit/modules/colors/simple_colors_light.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
-import '../../../simple_kit.dart';
-
-@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
 class SimpleAccountCategoryHeader extends StatelessWidget {
   const SimpleAccountCategoryHeader({
     super.key,
@@ -37,15 +34,14 @@ class SimpleAccountCategoryHeader extends StatelessWidget {
       ),
       child: Row(
         children: <Widget>[
-          SIconButton(
+          SafeGesture(
             onTap: () {
               Navigator.pop(context);
             },
-            defaultIcon: const SBackIcon(),
-            pressedIcon: const SBackPressedIcon(),
+            child: Assets.svg.medium.arrowLeft.simpleSvg(),
           ),
-          const SpaceW16(),
-          STransparentInkWell(
+          SizedBox(width: 16),
+          GestureDetector(
             onTap: onIconTap,
             child: Stack(
               children: [
@@ -73,7 +69,7 @@ class SimpleAccountCategoryHeader extends StatelessWidget {
                                   '${userLastName.substring(0, 1).toUpperCase()}'
                               : userEmail.substring(0, 1).toUpperCase()
                           : '',
-                      style: sSubtitle2Style.copyWith(
+                      style: STStyles.header5.copyWith(
                         color: SColorsLight().white,
                       ),
                       textAlign: TextAlign.center,
@@ -83,33 +79,31 @@ class SimpleAccountCategoryHeader extends StatelessWidget {
               ],
             ),
           ),
-          const SpaceW16(),
+          SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                const SpaceH2(),
+                SizedBox(height: 2),
                 if (showUserName)
                   Text(
                     '$userFirstName $userLastName',
-                    style: sTextH5Style.copyWith(
-                      color: SColorsLight().black,
-                    ),
+                    style: STStyles.header6,
                   ),
-                const SpaceH2(),
+                SizedBox(height: 2),
                 if (isVerified)
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       icon,
-                      const SpaceW4(),
+                      SizedBox(width: 4),
                       Column(
                         children: [
-                          const SpaceH2(),
+                          SizedBox(height: 2),
                           Text(
                             iconText,
-                            style: sBodyText2Style.copyWith(
+                            style: STStyles.body2Medium.copyWith(
                               color: SColorsLight().green,
                               height: 1,
                             ),

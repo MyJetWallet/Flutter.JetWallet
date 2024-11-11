@@ -4,9 +4,6 @@ library simple_kit;
 
 export 'core/simple_kit.dart' show sKit;
 
-/// Account
-export 'modules/account/headers/simple_account_category_header.dart';
-
 /// Actions
 export 'modules/actions/confirm_action_timer/simple_confirm_action_timer.dart';
 export 'modules/actions/confirm_action_timer/simple_confirm_action_timer_painter.dart';
