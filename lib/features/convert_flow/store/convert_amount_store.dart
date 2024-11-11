@@ -52,7 +52,11 @@ abstract class _ConvertAmountStoreBase with Store {
 
   @computed
   bool get isContinueAvaible {
-    return inputValid && Decimal.parse(primaryAmount) != Decimal.zero && fromAsset != null && !isNoFromAssetBalance;
+    return inputValid &&
+        Decimal.parse(primaryAmount) != Decimal.zero &&
+        fromAsset != null &&
+        !isNoFromAssetBalance &&
+        !loadingMaxButton;
   }
 
   @observable

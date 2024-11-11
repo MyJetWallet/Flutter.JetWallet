@@ -72,7 +72,8 @@ abstract class _SellAmountStoreBase with Store {
         Decimal.parse(primaryAmount) != Decimal.zero &&
         (account != null || card != null) &&
         asset != null &&
-        isCryptoBalanceNotZero;
+        isCryptoBalanceNotZero &&
+        !loadingMaxButton;
   }
 
   @observable
