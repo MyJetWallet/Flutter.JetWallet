@@ -590,7 +590,7 @@ abstract class _WithdrawalStoreBase with Store {
     if (withdrawalType == WithdrawalType.asset) {
       if (withdrawalInputModel?.currency == null) return;
 
-      final condition1 = addressValidation is Hide || addressValidation is Valid;
+      final condition1 = addressValidation is Valid;
       final condition2 = tagValidation is Hide || tagValidation is Valid;
       final condition3 = addressController.text.isNotEmpty;
       final condition4 = tag.isNotEmpty || networkController.text == earnRipple;
@@ -1001,6 +1001,7 @@ abstract class _WithdrawalStoreBase with Store {
 
   @action
   Future<void> getWithdrawalFeeByPreview() async {
+    loader.startLoadingImmediately();
     void onError(error, [stackTrace]) {
       setPreviewError(true);
 
@@ -1070,6 +1071,7 @@ abstract class _WithdrawalStoreBase with Store {
         onError(e, stackTrace);
       }
     }
+    loader.finishLoadingImmediately();
   }
 
   @action

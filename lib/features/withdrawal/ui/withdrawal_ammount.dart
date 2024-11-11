@@ -27,8 +27,6 @@ class WithdrawalAmmountScreen extends StatefulObserverWidget {
 }
 
 class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
-  bool isLoading = false;
-
   @override
   void initState() {
     final store = WithdrawalStore.of(context);
@@ -65,6 +63,7 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
     }
 
     return SPageFrame(
+      loading: store.loader,
       loaderText: intl.register_pleaseWait,
       header: GlobalBasicAppBar(
         title: '''${intl.withdrawal_send_verb} ${store.withdrawalInputModel!.currency!.description}''',
@@ -244,12 +243,8 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
             },
             button: SButton.black(
               text: intl.withdraw_continue,
-              isLoading: isLoading,
               callback: store.withValid
                   ? () async {
-                      setState(() {
-                        isLoading = true;
-                      });
                       if (store.withdrawalType != WithdrawalType.jar) {
                         sAnalytics.cryptoSendTapContinueAmountScreen(
                           asset: store.withdrawalInputModel!.currency!.symbol,
@@ -262,9 +257,6 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
                       await store.getWithdrawalFeeByPreview();
 
                       store.withdrawalPush(WithdrawStep.preview);
-                      setState(() {
-                        isLoading = false;
-                      });
                     }
                   : null,
             ),
