@@ -71,7 +71,7 @@ class _PrepaidCardDetailsBody extends StatelessWidget {
                   const SliverToBoxAdapter(
                     child: _TopPartWidget(),
                   ),
-                  if (store.voucher?.status != BuyPrepaidCardIntentionStatus.purchasing)
+                  if (store.voucher?.status == BuyPrepaidCardIntentionStatus.purchasing)
                     SliverToBoxAdapter(
                       child: Padding(
                         padding: const EdgeInsets.only(

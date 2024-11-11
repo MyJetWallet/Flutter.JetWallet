@@ -39,11 +39,15 @@ class SEditable extends HookWidget {
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         color: isHighlated.value ? SColorsLight().gray2 : Colors.transparent,
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (leftIcon != null) ...[
-              SafeGesture(
-                onTap: onLeftIconTap,
-                child: leftIcon ?? const SizedBox(),
+              Padding(
+                padding: const EdgeInsets.only(top: 2),
+                child: SafeGesture(
+                  onTap: onLeftIconTap,
+                  child: leftIcon ?? const SizedBox(),
+                ),
               ),
               const SizedBox(width: 12),
             ],
@@ -53,14 +57,14 @@ class SEditable extends HookWidget {
                 children: [
                   Text(
                     lable,
-                    style: STStyles.body2Medium.copyWith(
-                      color: colors.gray10,
-                    ),
+                    style: STStyles.subtitle1,
                   ),
                   if (supplement != null)
                     Text(
                       supplement ?? '',
-                      style: STStyles.subtitle1,
+                      style: STStyles.body2Medium.copyWith(
+                        color: colors.gray10,
+                      ),
                     ),
                 ],
               ),

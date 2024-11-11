@@ -37,6 +37,8 @@ dev_dependencies:
   import_sorter: ^4.6.0
   widgetbook_generator: ^3.9.0
 
+  mobx_codegen: ^2.6.1
+
 flutter_gen:
   output: lib/gen/
   line_length: 120
@@ -45,6 +47,7 @@ flutter_gen:
     flutter_svg: true
 
 flutter:
+  generate: true
   uses-material-design: true
 
   assets:
