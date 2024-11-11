@@ -6,11 +6,15 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/deep_link_service.dart';
+import 'package:jetwallet/core/services/device_info/device_info.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
+import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/startup_service.dart';
 import 'package:logger/logger.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_networking/modules/analytic_records/models/push_notification_open_request.dart';
 
 const String _loggerService = 'PushNotificationService';
 
@@ -108,6 +112,10 @@ class PushNotificationService {
     if (_nullChecked(message)) {
       final notification = message.notification!;
 
+      if (message.data['messageId'] != null) {
+        logPushNotificationToBD(message.data['messageId'] as String, 1);
+      }
+
       _plugin.show(
         notification.hashCode,
         notification.title,
@@ -196,11 +204,27 @@ Future<void> messagingBackgroundHandler(RemoteMessage message) async {
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
 
-  await getIt.get<DeepLinkService>().handlePushNotificationLink(message);
+  await getIt.get<DeepLinkService>().handlePushNotificationLink(message, true);
 
   getIt.get<SimpleLoggerService>().log(
     level: Level.info,
     place: _loggerService,
     message: '''_messagingBackgroundHandler \n\n A background message just showed up: $message''',
+  );
+}
+
+Future<void> logPushNotificationToBD(String messageId, int status) async {
+  final packageInfo = await PackageInfo.fromPlatform();
+  final version = packageInfo.version;
+
+  final device = '${sDeviceInfo.osName} ${sDeviceInfo.model} ${sDeviceInfo.marketingName}';
+
+  await getIt.get<SNetwork>().simpleNetworking.getAnalyticApiModule().postPushNotificationOpen(
+    PushNotificationOpenRequestModel(
+      messageId: messageId,
+      appVersion: version,
+      device: device,
+      status: status,
+    ),
   );
 }

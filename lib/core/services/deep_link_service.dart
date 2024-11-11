@@ -16,6 +16,7 @@ import 'package:jetwallet/core/services/device_info/device_info.dart';
 import 'package:jetwallet/core/services/intercom/intercom_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
+import 'package:jetwallet/core/services/push_notification_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/route_query_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
@@ -405,7 +406,16 @@ class DeepLinkService {
 
   /// Push Notification Links
 
-  Future<void> handlePushNotificationLink(RemoteMessage message) async {
+  Future<void> handlePushNotificationLink(
+    RemoteMessage message, [
+    bool isBackground = false,
+  ]) async {
+    if (isBackground) {
+      if (message.data['messageId'] != null) {
+        unawaited(logPushNotificationToBD(message.data['messageId'] as String, 1));
+      }
+    }
+
     getIt.get<SimpleLoggerService>().log(
           level: Level.error,
           place: _loggerService,
@@ -422,6 +432,10 @@ class DeepLinkService {
       }
       lastDeepLink = message.data['actionUrl'] as String;
       lastDeepLinkTime = DateTime.now();
+      if (message.data['messageId'] != null) {
+        unawaited(logPushNotificationToBD(message.data['messageId'] as String, 2));
+      }
+
       handle(Uri.parse(message.data['actionUrl'] as String));
     }
   }
