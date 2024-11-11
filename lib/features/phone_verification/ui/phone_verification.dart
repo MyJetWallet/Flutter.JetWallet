@@ -7,6 +7,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/intercom/intercom_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/features/phone_verification/store/phone_verification_store.dart';
+import 'package:jetwallet/features/phone_verification/utils/simple_number.dart';
 import 'package:jetwallet/utils/store/timer_store.dart';
 import 'package:jetwallet/widgets/pin_code_field.dart';
 import 'package:jetwallet/widgets/texts/resend_in_text.dart';

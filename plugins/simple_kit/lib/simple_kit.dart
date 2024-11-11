@@ -5,15 +5,8 @@ library simple_kit;
 export 'core/simple_kit.dart' show sKit;
 
 /// Account
-export 'modules/account/buttons/account_category_button/simple_account_category_button.dart';
 export 'modules/account/buttons/term/simple_account_term_button.dart';
 export 'modules/account/headers/simple_account_category_header.dart';
-
-/// Indicator
-export 'modules/account/phone_number/simple_number.dart';
-
-/// Countries
-export 'modules/account/phone_number/simple_phone_numbers.dart';
 
 /// Actions
 export 'modules/actions/confirm_action_timer/simple_confirm_action_timer.dart';

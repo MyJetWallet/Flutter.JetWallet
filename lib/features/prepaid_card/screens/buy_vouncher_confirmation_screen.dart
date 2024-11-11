@@ -10,6 +10,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/features/phone_verification/utils/simple_number.dart';
 import 'package:jetwallet/features/prepaid_card/store/buy_vouncher_confirmation_store.dart';
 import 'package:jetwallet/features/prepaid_card/utils/show_commision_explanation_bottom_sheet.dart';
 import 'package:jetwallet/features/prepaid_card/utils/show_country_explanation_bottom_sheet.dart';

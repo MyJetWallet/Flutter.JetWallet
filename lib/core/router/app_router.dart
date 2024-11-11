@@ -92,6 +92,7 @@ import 'package:jetwallet/features/p2p_buy/screens/p2p_buy_amount_screen.dart';
 import 'package:jetwallet/features/p2p_buy/screens/payment_currence_buy_screen.dart';
 import 'package:jetwallet/features/payment_methods/ui/payment_methods.dart';
 import 'package:jetwallet/features/phone_verification/ui/phone_verification.dart';
+import 'package:jetwallet/features/phone_verification/utils/simple_number.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:jetwallet/features/pin_screen/ui/pin_screen.dart';
 import 'package:jetwallet/features/prepaid_card/screens/buy_vouncher_amount_screen.dart';
@@ -132,7 +133,6 @@ import 'package:jetwallet/widgets/result_screens/verifying_screen/verifying_scre
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:jetwallet/widgets/web_view/screens/web_view_screen.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:simple_kit/modules/account/phone_number/simple_number.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';

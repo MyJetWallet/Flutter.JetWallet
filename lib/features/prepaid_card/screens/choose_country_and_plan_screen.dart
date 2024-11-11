@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/features/phone_verification/utils/simple_number.dart';
 import 'package:jetwallet/features/prepaid_card/store/choose_country_and_plan_store.dart';
 import 'package:jetwallet/features/prepaid_card/utils/show_choose_countre_bottom_shet.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';

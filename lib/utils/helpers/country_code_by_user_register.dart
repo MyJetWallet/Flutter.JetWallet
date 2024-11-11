@@ -1,7 +1,8 @@
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/kyc_profile_countries.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:jetwallet/features/phone_verification/utils/simple_number.dart';
+import 'package:jetwallet/features/phone_verification/utils/simple_phone_numbers.dart';
 
 SPhoneNumber? countryCodeByUserRegister() {
   SPhoneNumber? phoneNumber;
