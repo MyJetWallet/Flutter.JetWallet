@@ -199,27 +199,6 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
               hidePadding: true,
               button: Column(
                 children: [
-                  deviceSize.when(
-                    small: () {
-                      return Column(
-                        children: [
-                          const SDivider(),
-                          SActionConfirmText(
-                            name: intl.global_send_total_pay,
-                            contentLoading: state.loader.loading,
-                            valueColor: colors.blue,
-                            value: (data.amount ?? Decimal.zero).toFormatCount(
-                              accuracy: state.sendCurrency!.accuracy,
-                              symbol: state.sendCurrency!.symbol,
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                    medium: () {
-                      return const SizedBox();
-                    },
-                  ),
                   const SpaceH20(),
                   const SpaceH24(),
                   SButton.blue(

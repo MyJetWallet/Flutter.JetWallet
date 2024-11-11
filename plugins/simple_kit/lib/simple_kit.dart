@@ -8,7 +8,6 @@ export 'core/simple_kit.dart' show sKit;
 export 'modules/actions/confirm_action_timer/simple_confirm_action_timer.dart';
 export 'modules/actions/confirm_action_timer/simple_confirm_action_timer_painter.dart';
 export 'modules/actions/confirm_action_timer/simple_timer_animation_countdown.dart';
-export 'modules/actions/simple_action_confirm_text.dart';
 
 /// Agreements
 export 'modules/agreements/simple_privacy_policy/simple_policy_checkbox.dart';

@@ -166,7 +166,8 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                         symbol: currency.symbol,
                         accuracy: currency.accuracy,
                       ),
-                      fromAssetCustomIcon: cryptoSell != null ? null : const BlueBankIconDeprecated(),
+                      fromAssetCustomIcon:
+                          cryptoSell != null ? null : Assets.svg.other.medium.bankAccount.simpleSvg(width: 40),
                       toAssetIconUrl: cryptoSell != null ? eurCurrency.iconUrl : currency.iconUrl,
                       toAssetDescription: cryptoSell != null ? eurCurrency.description : currency.description,
                       toAssetValue:
@@ -176,34 +177,41 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                       ),
                     ),
                     const SDivider(),
-                    SActionConfirmText(
-                      name: intl.iban_out_sent_to,
-                      icon: isCJ ? const BlueBankIconDeprecated(size: 20) : const BlueBankUnlimitIcon(size: 20),
+                    TwoColumnCell(
+                      label: intl.iban_out_sent_to,
+                      leftValueIcon: isCJ
+                          ? Assets.svg.other.medium.bankAccount.simpleSvg(width: 20)
+                          : Assets.svg.other.medium.iban.simpleSvg(width: 20),
                       value: contact.name ?? '',
+                      needHorizontalPadding: false,
                     ),
-                    SActionConfirmText(
-                      name: intl.iban_out_iban,
+                    TwoColumnCell(
+                      label: intl.iban_out_iban,
                       value: splitIban(cryptoSell != null ? contact.iban ?? '' : data!.iban ?? ''),
+                      needHorizontalPadding: false,
                     ),
-                    SActionConfirmText(
-                      name: intl.iban_out_bic,
+                    TwoColumnCell(
+                      label: intl.iban_out_bic,
                       value: cryptoSell != null ? contact.bic ?? '' : previewRequest!.beneficiaryBankCode ?? '',
+                      needHorizontalPadding: false,
                     ),
-                    SActionConfirmText(
-                      name: intl.iban_out_benificiary,
+                    TwoColumnCell(
+                      label: intl.iban_out_benificiary,
                       value: isCJ
                           ? '${sUserInfo.firstName} ${sUserInfo.lastName}'
                           : cryptoSell != null
                               ? contact.fullName ?? ''
                               : data!.fullName ?? '',
+                      needHorizontalPadding: false,
                     ),
                     if (!isCJ) ...[
-                      SActionConfirmText(
-                        name: intl.iban_reference,
+                      TwoColumnCell(
+                        label: intl.iban_reference,
                         value: previewRequest!.description ?? '',
+                        needHorizontalPadding: false,
                       ),
                     ],
-                    const SpaceH18(),
+                    const SpaceH8(),
                     PaymentFeeRowWidget(
                       fee: (cryptoSell != null
                               ? (cryptoSell!.paymentFeeInPaymentAsset / cryptoSell!.rate)
@@ -214,7 +222,7 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                         symbol: state.eurCurrency.symbol,
                       ),
                     ),
-                    const SpaceH18(),
+                    const SpaceH16(),
                     ProcessingFeeRowWidget(
                       fee: (cryptoSell != null ? cryptoSell!.tradeFeeAmount : data!.simpleFeeAmount ?? Decimal.zero)
                           .toFormatCount(
