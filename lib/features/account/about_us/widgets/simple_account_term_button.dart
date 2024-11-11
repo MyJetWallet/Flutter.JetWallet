@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
-import '../../../../simple_kit.dart';
 
-@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
 class SimpleAccountTermButton extends StatelessWidget {
   const SimpleAccountTermButton({
     super.key,
@@ -18,13 +17,13 @@ class SimpleAccountTermButton extends StatelessWidget {
     return Expanded(
       child: Container(
         padding: const EdgeInsets.only(bottom: 1.0),
-        child: STransparentInkWell(
+        child: SafeGesture(
           onTap: onTap,
           child: Text(
             name,
-            style: sBodyText2Style.copyWith(
+            style: STStyles.body2Medium.copyWith(
               shadows: [
-                const Shadow(color: Colors.black, offset: Offset(0, -5)),
+                const Shadow(offset: Offset(0, -5)),
               ],
               color: Colors.transparent,
               decoration: TextDecoration.underline,

@@ -5,7 +5,6 @@ library simple_kit;
 export 'core/simple_kit.dart' show sKit;
 
 /// Account
-export 'modules/account/buttons/term/simple_account_term_button.dart';
 export 'modules/account/headers/simple_account_category_header.dart';
 
 /// Actions
