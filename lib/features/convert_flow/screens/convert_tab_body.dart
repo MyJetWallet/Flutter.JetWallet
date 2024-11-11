@@ -257,6 +257,7 @@ class ConvertAmountScreenBodyState extends State<ConvertAmountTabBody> with Auto
                     },
                     button: SButton.black(
                       text: intl.addCircleCard_continue,
+                      isLoading: store.loadingMaxButton,
                       callback: store.isContinueAvaible
                           ? () {
                               sAnalytics.tapOnTContinueWithConvertAmountCutton(
