@@ -129,12 +129,13 @@ class _ChooseAssetToSend extends StatelessObserverWidget {
           else if (searchedBankAccounts.isNotEmpty)
             _buildEuroText(),
         ],
-        if ((isGlobalSend || isUahBankTransfer) && simpleAccount != null) ...[
-          _buildSimpleBank(
-            context,
-            eurCurrency,
-            simpleAccount,
-          ),
+        if (isGlobalSend || isUahBankTransfer) ...[
+          if (simpleAccount != null)
+            _buildSimpleBank(
+              context,
+              eurCurrency,
+              simpleAccount,
+            ),
         ] else ...[
           if (isCJ! && simpleAccount != null)
             _buildSimpleBank(
