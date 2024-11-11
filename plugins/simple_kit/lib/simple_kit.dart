@@ -273,7 +273,6 @@ export 'modules/shared/simple_skeleton_text_loader.dart';
 export 'modules/shared/simple_spacers.dart';
 export 'modules/shared/simple_transparent_ink_well.dart';
 export 'modules/shared/simple_widget_bottom_size.dart';
-export 'modules/shared/blue_bank_icon.dart';
 
 /// Helpers
 export 'helpers/biometrics_auth_helpers.dart';

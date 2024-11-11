@@ -57,11 +57,9 @@ class SimpleAccountCategoryHeader extends StatelessWidget {
                     shape: OvalBorder(),
                   ),
                 ),
-                Positioned(
-                  top: 8.5,
-                  child: SizedBox(
-                    width: 48,
-                    height: 48,
+                Positioned.fill(
+                  child: Align(
+                    alignment: Alignment.center,
                     child: Text(
                       userEmail.isNotEmpty
                           ? showUserName
@@ -69,7 +67,7 @@ class SimpleAccountCategoryHeader extends StatelessWidget {
                                   '${userLastName.substring(0, 1).toUpperCase()}'
                               : userEmail.substring(0, 1).toUpperCase()
                           : '',
-                      style: STStyles.header5.copyWith(
+                      style: STStyles.button.copyWith(
                         color: SColorsLight().white,
                       ),
                       textAlign: TextAlign.center,
