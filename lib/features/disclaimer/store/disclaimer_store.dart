@@ -230,7 +230,7 @@ abstract class _DisclaimerStoreBase with Store {
                                       title,
                                       maxLines: (description.isNotEmpty) ? 5 : 12,
                                       textAlign: TextAlign.center,
-                                      style: sTextH5Style.copyWith(
+                                      style: STStyles.header6.copyWith(
                                         overflow: TextOverflow.visible,
                                       ),
                                     ),
@@ -241,7 +241,7 @@ abstract class _DisclaimerStoreBase with Store {
                                       description,
                                       maxLines: 6,
                                       textAlign: TextAlign.center,
-                                      style: sBodyText1Style.copyWith(
+                                      style: STStyles.body1Medium.copyWith(
                                         color: colors.grey1,
                                       ),
                                     ),
@@ -325,7 +325,7 @@ abstract class _DisclaimerStoreBase with Store {
                   key,
                 );
               },
-            style: sCaptionTextStyle.copyWith(
+            style: STStyles.captionMedium.copyWith(
               color: colors.blue,
             ),
           ),
@@ -334,7 +334,7 @@ abstract class _DisclaimerStoreBase with Store {
         widgets.add(
           TextSpan(
             text: key,
-            style: sCaptionTextStyle.copyWith(
+            style: STStyles.captionMedium.copyWith(
               color: Colors.black,
             ),
           ),

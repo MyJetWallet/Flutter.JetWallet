@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class ReturnRateItem extends StatelessWidget {
   const ReturnRateItem({
@@ -23,14 +24,14 @@ class ReturnRateItem extends StatelessWidget {
           baseline: 44,
           child: Text(
             header,
-            style: sBodyText2Style,
+            style: STStyles.body2Medium,
           ),
         ),
         SBaselineChild(
           baseline: 24,
           child: Text(
             value,
-            style: sSubtitle2Style.copyWith(
+            style: STStyles.subtitle1.copyWith(
               color: periodChangeColor,
             ),
           ),

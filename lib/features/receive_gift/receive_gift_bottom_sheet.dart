@@ -66,7 +66,7 @@ Future<void> receiveGiftBottomSheet({
         const SizedBox(width: 24),
         Text(
           intl.reseive_gift_claim,
-          style: sTextH5Style,
+          style: STStyles.header6,
         ),
         SIconButton(
           onTap: () => Navigator.pop(context),
@@ -139,7 +139,7 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
                           const SpaceW4(),
                           Text(
                             giftAmount,
-                            style: sTextH4Style.copyWith(
+                            style: STStyles.header5.copyWith(
                               color: sColors.white,
                             ),
                           ),
@@ -171,15 +171,13 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
           Text(
             '${intl.reseive_gift_gift_from} ${giftModel.fromName}',
             textAlign: TextAlign.center,
-            style: sTextH4Style.copyWith(
-              color: sColors.black,
-            ),
+            style: STStyles.header5,
           ),
           const SpaceH8(),
           Text(
             '''${intl.reseive_gift_a_gift_of} $giftAmount ${intl.reseive_gift_from} ${giftModel.fromName} \n${intl.reseive_gift_is_waiting_for_you}''',
             textAlign: TextAlign.center,
-            style: sBodyText1Style.copyWith(
+            style: STStyles.body1Medium.copyWith(
               color: sColors.grey1,
             ),
           ),

@@ -240,7 +240,7 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                             intl.iban_out_descr_1,
                             maxLines: 3,
                             textAlign: TextAlign.start,
-                            style: sCaptionTextStyle.copyWith(
+                            style: STStyles.captionMedium.copyWith(
                               color: colors.grey3,
                             ),
                           ),
@@ -248,7 +248,7 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                             intl.iban_out_descr_2,
                             maxLines: 3,
                             textAlign: TextAlign.start,
-                            style: sCaptionTextStyle.copyWith(
+                            style: STStyles.captionMedium.copyWith(
                               color: colors.grey3,
                             ),
                           ),
@@ -256,7 +256,7 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                             intl.iban_out_descr_3,
                             maxLines: 3,
                             textAlign: TextAlign.start,
-                            style: sCaptionTextStyle.copyWith(
+                            style: STStyles.captionMedium.copyWith(
                               color: colors.grey3,
                             ),
                           ),

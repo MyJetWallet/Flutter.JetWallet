@@ -246,7 +246,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                   child: Text(
                     store.withdrawHint,
                     maxLines: 3,
-                    style: sCaptionTextStyle.copyWith(
+                    style: STStyles.captionMedium.copyWith(
                       color: colors.grey1,
                     ),
                   ),

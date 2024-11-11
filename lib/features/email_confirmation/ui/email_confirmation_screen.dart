@@ -120,13 +120,13 @@ class __EmailConfirmationScreenBodyState extends State<_EmailConfirmationScreenB
                       Text(
                         intl.emailConfirmation_text,
                         maxLines: 3,
-                        style: sBodyText1Style.copyWith(
+                        style: STStyles.body1Medium.copyWith(
                           color: colors.grey1,
                         ),
                       ),
                       Text(
                         authInfo.email,
-                        style: sBodyText1Style,
+                        style: STStyles.body1Medium,
                       ),
                       const SpaceH17(),
                       Row(

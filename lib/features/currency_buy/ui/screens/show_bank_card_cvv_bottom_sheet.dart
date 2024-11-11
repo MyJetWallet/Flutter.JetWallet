@@ -6,6 +6,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/currency_buy/models/preview_buy_with_bank_card_input.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 void showBankCardCvvBottomSheet({
   required BuildContext context,
@@ -55,7 +56,7 @@ class CvvBottomSheetBody extends StatelessObserverWidget {
       children: [
         Text(
           intl.cvv_description,
-          style: sBodyText1Style.copyWith(
+          style: STStyles.body1Medium.copyWith(
             color: colors.grey1,
           ),
           maxLines: 10,
@@ -88,10 +89,10 @@ class CvvBottomSheetBody extends StatelessObserverWidget {
                   activeColor: colors.white,
                   inactiveColor: colors.white,
                 ),
-                hintStyle: sTextH2Style.copyWith(
+                hintStyle: STStyles.header3.copyWith(
                   color: colors.grey4,
                 ),
-                textStyle: sTextH2Style.copyWith(
+                textStyle: STStyles.header3.copyWith(
                   color: colors.black,
                   fontSize: (Platform.isIOS) ? 24 : 16,
                 ),

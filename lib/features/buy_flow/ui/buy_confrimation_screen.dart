@@ -154,7 +154,7 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
         
                         return Text(
                           text,
-                          style: sCaptionTextStyle.copyWith(
+                          style: STStyles.captionMedium.copyWith(
                             color: SColorsLight().gray8,
                           ),
                           maxLines: 20,
@@ -210,13 +210,13 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                   ),
                   Text(
                     simpleCompanyName,
-                    style: sCaptionTextStyle.copyWith(
+                    style: STStyles.captionMedium.copyWith(
                       color: sKit.colors.grey1,
                     ),
                   ),
                   Text(
                     simpleCompanyAddress,
-                    style: sCaptionTextStyle.copyWith(
+                    style: STStyles.captionMedium.copyWith(
                       color: sKit.colors.grey1,
                     ),
                     maxLines: 2,

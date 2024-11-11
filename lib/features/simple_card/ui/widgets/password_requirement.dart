@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/modules/icons/20x20/public/list_checkmark/simple_check_list_icon.dart';
 import 'package:simple_kit/modules/icons/20x20/public/list_checkmark/simple_minus_list_icon.dart';
 import 'package:simple_kit/modules/shared/simple_paddings.dart';
 import 'package:simple_kit/modules/shared/simple_spacers.dart';
-import 'package:simple_kit/modules/texts/simple_text_styles.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class PasswordRequirement extends StatelessWidget {
   const PasswordRequirement({
@@ -31,7 +30,7 @@ class PasswordRequirement extends StatelessWidget {
               const SpaceW12(),
               Text(
                 name,
-                style: sBodyText2Style.copyWith(
+                style: STStyles.body2Medium.copyWith(
                   color: mainColor,
                 ),
               ),

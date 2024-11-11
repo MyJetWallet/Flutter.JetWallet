@@ -102,7 +102,7 @@ class _BiometricBody extends StatelessObserverWidget {
                   Text(
                     intl.bio_screen_text,
                     maxLines: 2,
-                    style: sBodyText1Style.copyWith(
+                    style: STStyles.body1Medium.copyWith(
                       color: colors.grey1,
                     ),
                   ),

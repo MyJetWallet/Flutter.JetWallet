@@ -81,7 +81,7 @@ class _SetUpPasswordScreenBody extends StatelessObserverWidget {
                 children: [
                   Text(
                     intl.simple_card_password_description,
-                    style: sBodyText1Style.copyWith(
+                    style: STStyles.body1Medium.copyWith(
                       color: colors.grey1,
                     ),
                     maxLines: 10,

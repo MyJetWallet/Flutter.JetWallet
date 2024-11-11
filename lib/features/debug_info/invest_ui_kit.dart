@@ -277,7 +277,7 @@ class _SignalRLogDetailState extends State<SignalRLogDetail> {
             formatDateToDMonthYHmFromDate(
               (widget.log.sessionTime ?? DateTime.now()).toString(),
             ),
-            style: sSubtitle2Style,
+            style: STStyles.subtitle1,
           ),
           const SizedBox(height: 6),
           Wrap(
@@ -291,7 +291,7 @@ class _SignalRLogDetailState extends State<SignalRLogDetail> {
                 },
                 child: Text(
                   'Reset',
-                  style: sBodyText1Style.copyWith(
+                  style: STStyles.body1Medium.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -308,7 +308,7 @@ class _SignalRLogDetailState extends State<SignalRLogDetail> {
                 },
                 child: Text(
                   'Hide Ping/Pong messages',
-                  style: sBodyText1Style.copyWith(
+                  style: STStyles.body1Medium.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -327,7 +327,7 @@ class _SignalRLogDetailState extends State<SignalRLogDetail> {
                 children: [
                   Text(
                     'Action: ${filtredLogs[index].type}',
-                    style: sBodyText1Style.copyWith(
+                    style: STStyles.body1Medium.copyWith(
                       color: filtredLogs[index].type == SLogType.error ? sKit.colors.red : sKit.colors.black,
                     ),
                   ),
@@ -335,14 +335,14 @@ class _SignalRLogDetailState extends State<SignalRLogDetail> {
                     'Time: ${formatDateToHms(
                       (filtredLogs[index].date ?? DateTime.now()).toString(),
                     )}',
-                    style: sBodyText2Style.copyWith(
+                    style: STStyles.body2Medium.copyWith(
                       color: sKit.colors.grey1,
                     ),
                   ),
                   if (filtredLogs[index].type == SLogType.error) ...[
                     Text(
                       filtredLogs[index].error ?? '',
-                      style: sBodyText2Style,
+                      style: STStyles.body2Medium,
                     ),
                   ],
                 ],

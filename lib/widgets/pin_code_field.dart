@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class PinCodeField extends StatelessObserverWidget {
   const PinCodeField({
@@ -54,8 +55,8 @@ class PinCodeField extends StatelessObserverWidget {
         // color of the inactive box (body and border)
         inactiveColor: colors.white,
       ),
-      hintStyle: sTextH2Style.copyWith(color: colors.grey4),
-      textStyle: sTextH2Style.copyWith(
+      hintStyle: STStyles.header3.copyWith(color: colors.grey4),
+      textStyle: STStyles.header3.copyWith(
         color: pinError.value ? colors.red : colors.black,
       ),
       beforeTextPaste: (_) => false,

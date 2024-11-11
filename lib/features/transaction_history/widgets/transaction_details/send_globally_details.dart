@@ -40,7 +40,7 @@ class SendGloballyDetails extends StatelessWidget {
             alignment: Alignment.centerLeft,
             child: Text(
               intl.global_send_receiver_details,
-              style: sTextH5Style,
+              style: STStyles.header6,
             ),
           ),
           const SizedBox(height: 18),
@@ -236,7 +236,7 @@ class SendGloballyDetails extends StatelessWidget {
             alignment: Alignment.centerLeft,
             child: Text(
               intl.global_send_payment_details,
-              style: sTextH5Style,
+              style: STStyles.header6,
             ),
           ),
           const SizedBox(height: 18),

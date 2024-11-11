@@ -11,6 +11,7 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../utils/constants.dart';
 
@@ -35,7 +36,7 @@ void shareGiftResultBottomSheet({
         const SizedBox(width: 24),
         Text(
           intl.send_gift_share,
-          style: sTextH5Style,
+          style: STStyles.header6,
         ),
         SIconButton(
           onTap: () => Navigator.pop(context),
@@ -129,7 +130,7 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
                                 accuracy: currency.accuracy,
                                 symbol: currency.symbol,
                               ),
-                              style: sTextH4Style.copyWith(
+                              style: STStyles.header5.copyWith(
                                 color: sColors.white,
                               ),
                             ),
@@ -190,7 +191,7 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
                                   accuracy: currency.accuracy,
                                   symbol: currency.symbol,
                                 ),
-                                style: sTextH4Style.copyWith(
+                                style: STStyles.header5.copyWith(
                                   color: sColors.white,
                                 ),
                               ),
@@ -216,14 +217,14 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
                                   children: [
                                     Text(
                                       intl.send_gift_hey,
-                                      style: sTextH4Style.copyWith(
+                                      style: STStyles.header5.copyWith(
                                         color: sColors.black,
                                       ),
                                     ),
                                     const SpaceH8(),
                                     Text(
                                       cardMessage,
-                                      style: sBodyText1Style.copyWith(
+                                      style: STStyles.body1Medium.copyWith(
                                         color: sColors.black,
                                       ),
                                       maxLines: 4,
@@ -256,13 +257,11 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
                                               children: [
                                                 Text(
                                                   intl.send_gift_simple,
-                                                  style: sSubtitle3Style.copyWith(
-                                                    color: sColors.black,
-                                                  ),
+                                                  style: STStyles.subtitle2,
                                                 ),
                                                 Text(
                                                   intl.send_gift_get_app,
-                                                  style: sHelperTextStyle.copyWith(
+                                                  style: STStyles.captionSemibold.copyWith(
                                                     color: sColors.grey2,
                                                   ),
                                                   maxLines: 2,

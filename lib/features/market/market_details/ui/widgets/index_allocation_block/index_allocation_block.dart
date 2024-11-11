@@ -4,6 +4,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/indices_model.dart';
 
 import '../index_overview_block/components/index_allocation_item.dart';
@@ -30,7 +31,7 @@ class IndexAllocationBlock extends StatelessObserverWidget {
                   baseline: 56,
                   child: Text(
                     intl.indexAllocationBlock_indexAllocation,
-                    style: sTextH4Style,
+                    style: STStyles.header5,
                   ),
                 ),
                 const SpaceH24(),

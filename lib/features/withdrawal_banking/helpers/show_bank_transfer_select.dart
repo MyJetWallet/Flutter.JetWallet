@@ -181,7 +181,7 @@ class ShowBankTransferSelect extends StatelessObserverWidget {
                       width: MediaQuery.of(context).size.width - 88,
                       child: Text(
                         intl.bankAccountsSelectPopup,
-                        style: sBodyText2Style,
+                        style: STStyles.body2Medium,
                         maxLines: 15,
                       ),
                     ),
@@ -195,7 +195,7 @@ class ShowBankTransferSelect extends StatelessObserverWidget {
         SPaddingH24(
           child: Text(
             isCJ ? intl.bankAccountsSelectPopupMyAccounts : intl.bankAccountsSelectPopupRecipients,
-            style: sBodyText2Style.copyWith(
+            style: STStyles.body2Medium.copyWith(
               color: colors.grey2,
             ),
           ),

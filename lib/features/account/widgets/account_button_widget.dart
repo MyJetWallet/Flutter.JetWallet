@@ -33,7 +33,7 @@ class AccountButtonWidget extends StatelessWidget {
                 baselineType: TextBaseline.alphabetic,
                 child: Text(
                   title,
-                  style: sSubtitle2Style,
+                  style: STStyles.subtitle1,
                 ),
               ),
             ),

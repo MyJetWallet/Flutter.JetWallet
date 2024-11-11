@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import 'components/return_rates.dart';
 
@@ -27,7 +28,7 @@ class ReturnRatesBlock extends StatelessWidget {
               child: Text(
                 intl.returnRatesBlock_returnRates,
                 textAlign: TextAlign.start,
-                style: sTextH4Style,
+                style: STStyles.header5,
               ),
             ),
           ] else ...[

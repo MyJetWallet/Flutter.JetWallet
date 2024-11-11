@@ -117,7 +117,7 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
                               child: Text(
                                 intl.cardVerification_providePhoto,
                                 maxLines: 2,
-                                style: sBodyText1Style.copyWith(
+                                style: STStyles.body1Medium.copyWith(
                                   color: colors.grey1,
                                 ),
                               ),
@@ -143,7 +143,7 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
                               child: Text(
                                 intl.cardVerification_coverSymbols,
                                 maxLines: 5,
-                                style: sBodyText1Style.copyWith(
+                                style: STStyles.body1Medium.copyWith(
                                   color: colors.grey1,
                                 ),
                               ),
@@ -163,7 +163,7 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
                                   child: Text(
                                     intl.cardVerification_photoShow,
                                     textAlign: TextAlign.center,
-                                    style: sBodyText1Style.copyWith(
+                                    style: STStyles.body1Medium.copyWith(
                                       color: colors.black,
                                     ),
                                   ),
@@ -184,7 +184,7 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
                                     child: Text(
                                       intl.cardVerification_face,
                                       textAlign: TextAlign.center,
-                                      style: sBodyText1Style.copyWith(
+                                      style: STStyles.body1Medium.copyWith(
                                         color: colors.grey1,
                                       ),
                                     ),
@@ -204,7 +204,7 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
                                   child: Text(
                                     intl.cardVerification_nameAndDate,
                                     textAlign: TextAlign.center,
-                                    style: sBodyText1Style.copyWith(
+                                    style: STStyles.body1Medium.copyWith(
                                       color: colors.grey1,
                                     ),
                                   ),
@@ -224,7 +224,7 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
                                   child: Text(
                                     intl.cardVerification_digits,
                                     textAlign: TextAlign.center,
-                                    style: sBodyText1Style.copyWith(
+                                    style: STStyles.body1Medium.copyWith(
                                       color: colors.grey1,
                                     ),
                                   ),

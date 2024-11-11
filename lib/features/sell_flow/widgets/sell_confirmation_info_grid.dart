@@ -8,8 +8,7 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
 class SellConfirmationInfoGrid extends StatefulObserverWidget {
@@ -85,7 +84,7 @@ class _ConfirmationInfoGridState extends State<SellConfirmationInfoGrid> with Si
             children: [
               Text(
                 intl.sell_confirmation_sell_to,
-                style: sBodyText2Style.copyWith(color: sKit.colors.grey1),
+                style: STStyles.body2Medium.copyWith(color: sKit.colors.grey1),
               ),
               if (store.isDataLoaded) ...[
                 Flexible(
@@ -106,7 +105,7 @@ class _ConfirmationInfoGridState extends State<SellConfirmationInfoGrid> with Si
                         child: Text(
                           widget.account?.label ?? widget.simpleCard?.label ?? '',
                           overflow: TextOverflow.ellipsis,
-                          style: sSubtitle3Style.copyWith(height: 1.5),
+                          style: STStyles.subtitle2,
                         ),
                       ),
                     ],
@@ -124,7 +123,7 @@ class _ConfirmationInfoGridState extends State<SellConfirmationInfoGrid> with Si
           children: [
             Text(
               intl.buy_confirmation_price,
-              style: sBodyText2Style.copyWith(color: sKit.colors.grey1),
+              style: STStyles.body2Medium.copyWith(color: sKit.colors.grey1),
             ),
             const Spacer(),
             if (store.isDataLoaded) ...[
@@ -147,7 +146,7 @@ class _ConfirmationInfoGridState extends State<SellConfirmationInfoGrid> with Si
                 )} = ${(store.rate ?? Decimal.zero).toFormatCount(
                   symbol: widget.paymentCurrency.symbol,
                 )}',
-                style: sSubtitle3Style,
+                style: STStyles.subtitle2,
               ),
             ] else ...[
               textPreloader(),
@@ -206,7 +205,7 @@ void buyConfirmationFeeExplanation({
             const SpaceH16(),
             Text(
               fee,
-              style: sTextH4Style,
+              style: STStyles.header5,
             ),
             const SpaceH12(),
             const SDivider(),
@@ -214,7 +213,7 @@ void buyConfirmationFeeExplanation({
             Text(
               description,
               maxLines: 3,
-              style: sCaptionTextStyle.copyWith(
+              style: STStyles.captionMedium.copyWith(
                 color: sKit.colors.grey3,
               ),
             ),

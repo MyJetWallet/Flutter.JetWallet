@@ -364,7 +364,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                               baselineType: TextBaseline.alphabetic,
                               child: Text(
                                 intl.newsList_wentWrongText,
-                                style: sBodyText1Style,
+                                style: STStyles.body1Medium,
                                 maxLines: 2,
                               ),
                             ),

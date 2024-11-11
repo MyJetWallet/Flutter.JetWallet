@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:rive/rive.dart' as rive;
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 
 import '../../../utils/constants.dart';
@@ -149,12 +150,12 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                         const SpaceH24(),
                         Text(
                           intl.transactionsList_noTransactionsYet,
-                          style: sTextH5Style,
+                          style: STStyles.header6,
                         ),
                         const SpaceH8(),
                         Text(
                           intl.historyRecurringBuy_text1,
-                          style: sBodyText1Style.copyWith(
+                          style: STStyles.body1Medium.copyWith(
                             color: colors.grey1,
                           ),
                         ),
@@ -336,7 +337,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                           baselineType: TextBaseline.alphabetic,
                           child: Text(
                             intl.newsList_wentWrongText,
-                            style: sBodyText1Style,
+                            style: STStyles.body1Medium,
                             maxLines: 2,
                           ),
                         ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import 'app_version_box.dart';
 
@@ -41,7 +42,7 @@ class LogOutOption extends StatelessObserverWidget {
                   baselineType: TextBaseline.alphabetic,
                   child: Text(
                     name,
-                    style: sSubtitle2Style.copyWith(
+                    style: STStyles.subtitle1.copyWith(
                       color: colors.red,
                     ),
                   ),

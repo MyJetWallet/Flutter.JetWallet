@@ -132,7 +132,7 @@ class _ReferralCodeLinkBody extends StatelessObserverWidget {
                   ),
                   child: Text(
                     intl.showReferralCode_pasteReferralCode,
-                    style: sCaptionTextStyle.copyWith(color: colors.grey2),
+                    style: STStyles.captionMedium.copyWith(color: colors.grey2),
                     maxLines: 3,
                   ),
                 ),

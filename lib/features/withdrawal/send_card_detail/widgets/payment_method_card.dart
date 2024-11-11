@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 
 // ignore: avoid_classes_with_only_static_members
@@ -92,7 +93,7 @@ class PaymentMethodCardWidget extends StatelessWidget {
             const Spacer(),
             Text(
               name,
-              style: sSubtitle3Style.copyWith(
+              style: STStyles.subtitle2.copyWith(
                 color: sKit.colors.black,
               ),
             ),
@@ -129,7 +130,7 @@ class PaymentMethodCardIconWidget extends StatelessWidget {
             const SizedBox(height: 1),
             Text(
               name,
-              style: sSubtitle3Style.copyWith(
+              style: STStyles.subtitle2.copyWith(
                 color: sKit.colors.purple,
               ),
             ),
@@ -182,14 +183,12 @@ class PaymentMethodBankCardWidget extends StatelessWidget {
             const SpaceH12(),
             Text(
               name,
-              style: sSubtitle3Style.copyWith(
-                color: sKit.colors.black,
-              ),
+              style: STStyles.subtitle2,
             ),
             if (subName2 != null)
               Text(
                 subName2 ?? '',
-                style: sCaptionTextStyle.copyWith(
+                style: STStyles.captionMedium.copyWith(
                   color: expire ? sKit.colors.red : sKit.colors.grey2,
                   height: 1.384,
                 ),
@@ -307,7 +306,7 @@ class MethodPlaceholder extends StatelessWidget {
       alignment: Alignment.center,
       child: Text(
         name.isEmpty ? '' : name[0].toUpperCase(),
-        style: sSubtitle1Style.copyWith(
+        style: STStyles.button.copyWith(
           color: Colors.white,
         ),
       ),

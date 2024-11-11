@@ -98,7 +98,7 @@ class _BalanceCellState extends State<_BalanceCell> {
                   padding: const EdgeInsets.only(bottom: 3.5),
                   child: Text(
                     curr.description,
-                    style: sSubtitle2Style,
+                    style: STStyles.subtitle1,
                   ),
                 ),
                 const Spacer(),
@@ -131,7 +131,7 @@ class _BalanceCellState extends State<_BalanceCell> {
                                       symbol: curr.symbol,
                                     ),
                               textAlign: TextAlign.right,
-                              style: sSubtitle2Style.copyWith(
+                              style: STStyles.subtitle1.copyWith(
                                 height: 1,
                               ),
                             );
@@ -231,7 +231,7 @@ class _RewardTransferPopupState extends State<RewardTransferPopup> {
                     '${intl.reward_transfer} ${widget.fAmount} \n${intl.reward_to_my_account}',
                     maxLines: 12,
                     textAlign: TextAlign.center,
-                    style: sTextH5Style.copyWith(
+                    style: STStyles.header6.copyWith(
                       overflow: TextOverflow.visible,
                     ),
                   ),

@@ -113,11 +113,11 @@ class _RewardsFlowScreenBodyState extends State<_RewardsFlowScreenBody> {
                               children: [
                                 Text(
                                   '${store.availableSpins}',
-                                  style: sTextH5Style,
+                                  style: STStyles.header6,
                                 ),
                                 Text(
                                   intl.rewards_to_claim,
-                                  style: sBodyText1Style.copyWith(
+                                  style: STStyles.body1Medium.copyWith(
                                     color: sKit.colors.grey1,
                                   ),
                                 ),
@@ -138,7 +138,7 @@ class _RewardsFlowScreenBodyState extends State<_RewardsFlowScreenBody> {
                         accuracy: getIt.get<FormatService>().baseCurrency.accuracy,
                         symbol: getIt.get<FormatService>().baseCurrency.symbol,
                       )}',
-                    style: sTextH4Style,
+                    style: STStyles.header5,
                     maxLines: 3,
                   ),
                 ),
@@ -146,7 +146,7 @@ class _RewardsFlowScreenBodyState extends State<_RewardsFlowScreenBody> {
                   SPaddingH24(
                     child: Text(
                       intl.reward_your_reward_subtitle_2,
-                      style: sBodyText1Style.copyWith(
+                      style: STStyles.body1Medium.copyWith(
                         color: sKit.colors.grey1,
                       ),
                       maxLines: 8,
@@ -156,7 +156,7 @@ class _RewardsFlowScreenBodyState extends State<_RewardsFlowScreenBody> {
                   SPaddingH24(
                     child: Text(
                       intl.reward_your_reward_subtitle_2,
-                      style: sBodyText1Style.copyWith(
+                      style: STStyles.body1Medium.copyWith(
                         color: sKit.colors.grey1,
                       ),
                       maxLines: 8,

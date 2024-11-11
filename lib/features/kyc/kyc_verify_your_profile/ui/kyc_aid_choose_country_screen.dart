@@ -127,9 +127,7 @@ class CountryProfileField extends StatelessObserverWidget {
                         Expanded(
                           child: Text(
                             countryInfo.activeCountry!.countryName,
-                            style: sSubtitle2Style.copyWith(
-                              color: colors.black,
-                            ),
+                            style: STStyles.subtitle1,
                           ),
                         ),
                       ],
@@ -188,7 +186,7 @@ class _SearchPinned extends StatelessObserverWidget {
         const SpaceH20(),
         Text(
           intl.kycCountry_countryOfIssue,
-          style: sTextH4Style,
+          style: STStyles.header5,
         ),
         SStandardField(
           controller: TextEditingController(),

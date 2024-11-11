@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/payment_methods/store/payment_methods_store.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 
 class PaymentCardItem extends StatelessObserverWidget {
@@ -80,7 +81,7 @@ class PaymentCardItem extends StatelessObserverWidget {
                                   flex: 1000000,
                                   child: Text(
                                     lable,
-                                    style: sSubtitle2Style.copyWith(
+                                    style: STStyles.subtitle1.copyWith(
                                       color: isDisabled ? colors.grey2 : colors.black,
                                       overflow: TextOverflow.ellipsis,
                                     ),
@@ -88,13 +89,13 @@ class PaymentCardItem extends StatelessObserverWidget {
                                 ),
                                 Text(
                                   ' ••••',
-                                  style: sSubtitle2Style.copyWith(
+                                  style: STStyles.subtitle1.copyWith(
                                     color: isDisabled ? colors.grey2 : colors.black,
                                   ),
                                 ),
                                 Text(
                                   last4numbers,
-                                  style: sSubtitle2Style.copyWith(
+                                  style: STStyles.subtitle1.copyWith(
                                     color: isDisabled ? colors.grey2 : colors.black,
                                   ),
                                 ),
@@ -105,7 +106,7 @@ class PaymentCardItem extends StatelessObserverWidget {
                                     baselineType: TextBaseline.alphabetic,
                                     child: Text(
                                       currency ?? '',
-                                      style: sOverlineTextStyle.copyWith(
+                                      style:  STStyles.captionMedium.copyWith(
                                         color: sKit.colors.grey1,
                                         height: 1.38,
                                       ),
@@ -147,7 +148,7 @@ class PaymentCardItem extends StatelessObserverWidget {
                                       : status == CircleCardStatus.failed
                                           ? intl.paymentMethod_Failed
                                           : expirationDate,
-                                  style: sCaptionTextStyle.copyWith(
+                                  style: STStyles.captionSemibold.copyWith(
                                     color: isDisabled ? colors.red : colors.grey3,
                                   ),
                                 ),

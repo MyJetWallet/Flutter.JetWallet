@@ -412,7 +412,7 @@ class _RewardOpenScreenBodyState extends State<_RewardOpenScreenBody> with Ticke
                       Text(
                         '${intl.reward_you_have} ${widget.rewardStore.availableSpins} ${intl.reward_more_to_claim}',
                         textAlign: TextAlign.center,
-                        style: sBodyText1Style.copyWith(
+                        style: STStyles.body1Medium.copyWith(
                           color: sKit.colors.grey1,
                         ),
                       ),

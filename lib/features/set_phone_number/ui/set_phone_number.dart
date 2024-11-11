@@ -186,7 +186,7 @@ class SetPhoneNumberBody extends StatelessObserverWidget {
                       intl.phone_cahange_warning,
                       textAlign: TextAlign.left,
                       maxLines: 10,
-                      style: sBodyText1Style.copyWith(color: colors.grey1),
+                      style: STStyles.body1Medium.copyWith(color: colors.grey1),
                     ),
                   ),
                   const SpaceH20(),

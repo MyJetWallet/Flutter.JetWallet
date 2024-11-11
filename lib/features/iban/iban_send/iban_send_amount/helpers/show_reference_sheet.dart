@@ -84,7 +84,7 @@ class _ReferenceBodyState extends State<_ReferenceBody> {
         SPaddingH24(
           child: Text(
             intl.iban_reference,
-            style: sTextH4Style,
+            style: STStyles.header5,
           ),
         ),
         const SpaceH20(),
@@ -133,7 +133,7 @@ class _ReferenceBodyState extends State<_ReferenceBody> {
                           const SpaceW12(),
                           Text(
                             intl.reference_character_minimum,
-                            style: sBodyText2Style.copyWith(
+                            style: STStyles.body2Medium.copyWith(
                               color: store.isCharactersEnough ? sKit.colors.blue : sKit.colors.black,
                             ),
                           ),

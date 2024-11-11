@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 
 class InvestInput extends StatefulObserverWidget {
@@ -90,10 +89,10 @@ class _InvestInputState extends State<InvestInput> {
           borderSide: BorderSide(color: SColorsLight().grey4),
           borderRadius: BorderRadius.circular(8),
         ),
-        labelStyle: sSubtitle2Style.copyWith(
+        labelStyle: STStyles.subtitle1.copyWith(
           color: SColorsLight().grey2,
         ),
-        floatingLabelStyle: sCaptionTextStyle.copyWith(
+        floatingLabelStyle: STStyles.captionMedium.copyWith(
           fontSize: 16.0,
           color: SColorsLight().grey2,
         ),

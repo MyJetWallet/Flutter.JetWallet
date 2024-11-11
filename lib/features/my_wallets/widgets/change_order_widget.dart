@@ -30,11 +30,11 @@ class ChangeOrderWidget extends StatelessWidget {
                 children: [
                   Text(
                     intl.my_wallets_change_order,
-                    style: sSubtitle3Style,
+                    style: STStyles.subtitle2,
                   ),
                   Text(
                     intl.my_wallets_move_wallets,
-                    style: sBodyText2Style.copyWith(
+                    style: STStyles.body2Medium.copyWith(
                       color: colors.grey2,
                       height: 1.4,
                     ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class ActionBottomSheetHeader extends StatefulWidget {
   const ActionBottomSheetHeader({
@@ -57,7 +58,7 @@ class _ActionBottomSheetHeaderState extends State<ActionBottomSheetHeader> {
                   baselineType: TextBaseline.alphabetic,
                   child: Text(
                     widget.name,
-                    style: sTextH4Style,
+                    style: STStyles.header5,
                     maxLines: 2,
                   ),
                 ),

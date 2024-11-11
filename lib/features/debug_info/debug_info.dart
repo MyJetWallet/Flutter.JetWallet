@@ -64,12 +64,12 @@ class _DebugInfoState extends State<DebugInfo> with SingleTickerProviderStateMix
               children: [
                 Text(
                   getIt<AppStore>().sessionID,
-                  style: sBodyText2Style,
+                  style: STStyles.body2Medium,
                 ),
                 const SpaceH10(),
                 Text(
                   'Device pixel ratio: $devicePixelRatio',
-                  style: sTextH5Style,
+                  style: STStyles.header6,
                 ),
                 const SpaceH20(),
                 SizedBox(

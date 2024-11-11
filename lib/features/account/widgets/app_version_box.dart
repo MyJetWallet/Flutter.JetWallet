@@ -4,6 +4,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/package_info_service.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class AppVersionBox extends StatelessObserverWidget {
   const AppVersionBox({super.key});
@@ -28,7 +29,7 @@ class AppVersionBox extends StatelessObserverWidget {
             child: Text(
               '${intl.appVersionBox_version}: ${packageInfo.version}'
               ' (${packageInfo.buildNumber})',
-              style: sCaptionTextStyle.copyWith(
+              style: STStyles.captionMedium.copyWith(
                 color: colors.grey1,
               ),
             ),

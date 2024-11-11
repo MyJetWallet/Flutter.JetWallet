@@ -143,7 +143,7 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
             const SpaceW10(),
             Text(
               intl.actionBuy_kycRequired,
-              style: sCaptionTextStyle.copyWith(
+              style: STStyles.captionMedium.copyWith(
                 color: colors.grey2,
               ),
             ),
@@ -329,7 +329,7 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
                       ),
                       child: Text(
                         intl.cryptoDeposit_network,
-                        style: sCaptionTextStyle.copyWith(
+                        style: STStyles.captionMedium.copyWith(
                           color: colors.grey2,
                         ),
                       ),
@@ -351,7 +351,7 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
                         ),
                         child: Text(
                           deposit.network.description,
-                          style: sSubtitle2Style,
+                          style: STStyles.subtitle1,
                         ),
                       ),
                     if (!deposit.currency.isSingleNetwork)

@@ -237,7 +237,7 @@ abstract class _SendGloballyConfirmStoreBase with Store {
               padding: const EdgeInsets.only(bottom: 2),
               child: Text(
                 intl.send_globally_success_info,
-                style: sBodyText1Style.copyWith(
+                style: STStyles.body1Medium.copyWith(
                   fontSize: 12,
                   color: sKit.colors.grey2,
                   fontWeight: FontWeight.w600,

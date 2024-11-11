@@ -10,6 +10,7 @@ import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 
 class ConfirmationInfoGrid extends StatefulObserverWidget {
@@ -81,7 +82,7 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid> with Single
             children: [
               Text(
                 intl.buy_confirmation_paid_with,
-                style: sBodyText2Style.copyWith(color: sKit.colors.grey1),
+                style: STStyles.body2Medium.copyWith(color: sKit.colors.grey1),
               ),
               const SpaceW8(),
               if (store.isDataLoaded) ...[
@@ -106,13 +107,13 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid> with Single
                                 child: Text(
                                   store.card?.cardLabel ?? '',
                                   overflow: TextOverflow.ellipsis,
-                                  style: sSubtitle3Style,
+                                  style: STStyles.subtitle2,
                                 ),
                               ),
                               Text(
                                 ' •• ${store.card?.last4 ?? ''}',
                                 overflow: TextOverflow.ellipsis,
-                                style: sSubtitle3Style,
+                                style: STStyles.subtitle2,
                               ),
                             ],
                           ),
@@ -143,7 +144,7 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid> with Single
                           child: Text(
                             store.account?.label ?? '',
                             overflow: TextOverflow.ellipsis,
-                            style: sSubtitle3Style.copyWith(height: 1.5),
+                            style: STStyles.subtitle2,
                           ),
                         ),
                       ],
@@ -162,7 +163,7 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid> with Single
           children: [
             Text(
               intl.buy_confirmation_price,
-              style: sBodyText2Style.copyWith(color: sKit.colors.grey1),
+              style: STStyles.body2Medium.copyWith(color: sKit.colors.grey1),
             ),
             const Spacer(),
             if (store.isDataLoaded) ...[
@@ -186,7 +187,7 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid> with Single
                   accuracy: store.rate?.scale ?? 0,
                   prefix: widget.paymentCurrency.prefixSymbol,
                 )}',
-                style: sSubtitle3Style,
+                style: STStyles.subtitle2,
               ),
             ] else ...[
               textPreloader(),

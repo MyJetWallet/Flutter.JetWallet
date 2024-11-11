@@ -6,6 +6,7 @@ import 'package:jetwallet/features/auth/user_data/ui/widgets/country/store/kyc_p
 import 'package:jetwallet/widgets/flag_item.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import 'show_user_data_country_picker.dart';
 
@@ -41,9 +42,7 @@ class CountryProfileField extends StatelessObserverWidget {
                         Expanded(
                           child: Text(
                             countryInfo.activeCountry!.countryName,
-                            style: sSubtitle2Style.copyWith(
-                              color: colors.black,
-                            ),
+                            style: STStyles.subtitle1,
                           ),
                         ),
                       ],

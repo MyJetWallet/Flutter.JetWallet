@@ -144,7 +144,7 @@ class _AllowCameraScreenBodyState extends State<_AllowCameraScreenBody> with Wid
                       child: Text(
                         '${intl.allowCamera_text1}.',
                         maxLines: 3,
-                        style: sBodyText1Style.copyWith(
+                        style: STStyles.body1Medium.copyWith(
                           color: colors.grey1,
                         ),
                       ),
@@ -159,7 +159,7 @@ class _AllowCameraScreenBodyState extends State<_AllowCameraScreenBody> with Wid
                           child: Text(
                             widget.permissionDescription,
                             maxLines: 3,
-                            style: sBodyText1Style.copyWith(
+                            style: STStyles.body1Medium.copyWith(
                               color: colors.grey1,
                             ),
                           ),

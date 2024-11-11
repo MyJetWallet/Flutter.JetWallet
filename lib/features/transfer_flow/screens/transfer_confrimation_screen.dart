@@ -107,7 +107,7 @@ class _TransferConfirmationScreenBody extends StatelessObserverWidget {
                   const SizedBox(height: 16),
                   Text(
                     intl.transfer_confirmation_time_to_transaction,
-                    style: sCaptionTextStyle.copyWith(
+                    style: STStyles.captionMedium.copyWith(
                       color: SColorsLight().gray8,
                     ),
                   ),

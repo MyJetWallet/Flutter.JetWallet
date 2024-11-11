@@ -8,6 +8,7 @@ import 'package:jetwallet/features/auth/user_data/ui/widgets/country/store/kyc_p
 import 'package:jetwallet/widgets/empty_search_result.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/kyc_profile/country_list_response_model.dart';
 
 import 'country_item/country_profile_item.dart';
@@ -103,7 +104,7 @@ class _SearchPinned extends StatelessObserverWidget {
         const SpaceH20(),
         Text(
           intl.kycCountry_countryOfIssue,
-          style: sTextH4Style,
+          style: STStyles.header5,
         ),
         SStandardField(
           controller: TextEditingController(),
@@ -135,7 +136,7 @@ class _SearchBankPinned extends StatelessObserverWidget {
         const SpaceH20(),
         Text(
           intl.address_book_country_of_recepients_bank,
-          style: sTextH4Style,
+          style: STStyles.header5,
         ),
         const SpaceH25(),
         SStandardField(

@@ -122,7 +122,7 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                   const SizedBox(height: 16),
                   Text(
                     intl.buy_normally_transfer,
-                    style: sCaptionTextStyle.copyWith(
+                    style: STStyles.captionMedium.copyWith(
                       color: colors.gray8,
                     ),
                     maxLines: 4,

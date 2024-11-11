@@ -70,7 +70,7 @@ class DefaultAssetChange extends StatelessObserverWidget {
                           children: [
                             Text(
                               asset.description,
-                              style: sSubtitle2Style.copyWith(
+                              style: STStyles.subtitle1.copyWith(
                                 color: asset.symbol != baseAsset.checkedAsset ? colors.black : colors.blue,
                               ),
                             ),

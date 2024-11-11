@@ -7,7 +7,7 @@ import 'package:simple_kit/modules/icons/24x24/public/copy/simple_copy_icon.dart
 import 'package:simple_kit/modules/icons/24x24/public/copy/simple_copy_pressed_icon.dart';
 import 'package:simple_kit/modules/shared/simple_paddings.dart';
 import 'package:simple_kit/modules/shared/simple_spacers.dart';
-import 'package:simple_kit/modules/texts/simple_text_styles.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../core/l10n/i10n.dart';
 import '../../../core/services/notification_service.dart';
@@ -53,15 +53,13 @@ class IBanItem extends StatelessObserverWidget {
                     const SpaceH21(),
                     Text(
                       name,
-                      style: sCaptionTextStyle.copyWith(
+                      style: STStyles.captionMedium.copyWith(
                         color: colors.grey1,
                       ),
                     ),
                     Text(
                       text,
-                      style: sSubtitle2Style.copyWith(
-                        color: colors.black,
-                      ),
+                      style: STStyles.subtitle1,
                       maxLines: 2,
                     ),
                     const SpaceH21(),

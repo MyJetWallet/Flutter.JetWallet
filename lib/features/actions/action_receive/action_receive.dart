@@ -78,7 +78,7 @@ Widget receiveItem({
                 baselineType: TextBaseline.alphabetic,
                 child: Text(
                   text,
-                  style: sSubtitle2Style,
+                  style: STStyles.subtitle1,
                 ),
               ),
               Baseline(
@@ -86,7 +86,7 @@ Widget receiveItem({
                 baselineType: TextBaseline.alphabetic,
                 child: Text(
                   subtext,
-                  style: sCaptionTextStyle.copyWith(color: colors.grey3),
+                  style: STStyles.captionMedium.copyWith(color: colors.grey3),
                 ),
               ),
             ],

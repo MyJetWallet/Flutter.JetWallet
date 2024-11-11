@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:open_mail_app/open_mail_app.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../core/di/di.dart';
 import '../../core/services/local_storage_service.dart';
@@ -110,7 +111,7 @@ class _MailOptionsBodyState extends State<_MailOptions> with WidgetsBindingObser
                       const SpaceH3(),
                       Text(
                         intl.mailPicker_rememberChosen,
-                        style: sCaptionTextStyle.copyWith(
+                        style: STStyles.captionMedium.copyWith(
                           fontFamily: 'Gilroy',
                         ),
                       ),
@@ -203,7 +204,7 @@ class MailItem extends StatelessWidget {
                         const SpaceH3(),
                         Text(
                           name,
-                          style: sSubtitle2Style.copyWith(
+                          style: STStyles.subtitle1.copyWith(
                             color: mainColor,
                           ),
                         ),

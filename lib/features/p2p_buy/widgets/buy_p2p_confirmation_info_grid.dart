@@ -12,6 +12,7 @@ import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class BuyP2PConfirmationInfoGrid extends StatefulObserverWidget {
   const BuyP2PConfirmationInfoGrid({
@@ -78,7 +79,7 @@ class _ConfirmationInfoGridState extends State<BuyP2PConfirmationInfoGrid> with 
             children: [
               Text(
                 intl.buy_confirmation_paid_with,
-                style: sBodyText2Style.copyWith(color: sKit.colors.grey1),
+                style: STStyles.body2Medium.copyWith(color: sKit.colors.grey1),
               ),
               if (store.isDataLoaded) ...[
                 Flexible(
@@ -96,7 +97,7 @@ class _ConfirmationInfoGridState extends State<BuyP2PConfirmationInfoGrid> with 
                         child: Text(
                           store.p2pMethod?.name ?? '',
                           overflow: TextOverflow.ellipsis,
-                          style: sSubtitle3Style.copyWith(height: 1.5),
+                          style: STStyles.subtitle2,
                         ),
                       ),
                     ],
@@ -124,7 +125,7 @@ class _ConfirmationInfoGridState extends State<BuyP2PConfirmationInfoGrid> with 
               children: [
                 Text(
                   intl.p2p_buy_conversion_rate,
-                  style: sBodyText2Style.copyWith(color: sKit.colors.grey1),
+                  style: STStyles.body2Medium.copyWith(color: sKit.colors.grey1),
                 ),
                 const Spacer(),
                 if (store.isDataLoaded) ...[
@@ -149,7 +150,7 @@ class _ConfirmationInfoGridState extends State<BuyP2PConfirmationInfoGrid> with 
                       ) : (store.rate ?? Decimal.zero).toFormatCount(
                         symbol: sumbol,
                       )}',
-                    style: sSubtitle3Style,
+                    style: STStyles.subtitle2,
                   ),
                 ] else ...[
                   textPreloader(),
@@ -199,45 +200,4 @@ class _ConfirmationInfoGridState extends State<BuyP2PConfirmationInfoGrid> with 
       ],
     );
   }
-}
-
-void buyConfirmationFeeExplanation({
-  required BuildContext context,
-  required String title,
-  required String fee,
-  required String description,
-}) {
-  sShowBasicModalBottomSheet(
-    context: context,
-    horizontalPinnedPadding: 24,
-    scrollable: true,
-    pinned: SBottomSheetHeader(
-      name: title,
-    ),
-    children: [
-      SPaddingH24(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SpaceH16(),
-            Text(
-              fee,
-              style: sTextH4Style,
-            ),
-            const SpaceH12(),
-            const SDivider(),
-            const SpaceH12(),
-            Text(
-              description,
-              maxLines: 3,
-              style: sCaptionTextStyle.copyWith(
-                color: sKit.colors.grey3,
-              ),
-            ),
-            const SpaceH64(),
-          ],
-        ),
-      ),
-    ],
-  );
 }

@@ -63,13 +63,13 @@ class _FaceCheckScreenState extends State<FaceCheckScreen> {
                 const SizedBox(height: 32),
                 Text(
                   intl.face_check_title,
-                  style: sTextH4Style,
+                  style: STStyles.header5,
                 ),
                 const SizedBox(height: 8),
                 Text(
                   intl.face_check_subtitle,
                   maxLines: 8,
-                  style: sSubtitle3Style.copyWith(color: sKit.colors.grey1),
+                  style: STStyles.subtitle2.copyWith(color: sKit.colors.grey1),
                 ),
                 const Spacer(),
                 SButton.blue(

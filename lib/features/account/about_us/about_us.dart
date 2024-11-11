@@ -39,7 +39,7 @@ class AboutUs extends StatelessObserverWidget {
             child: Text(
               intl.aboutUs_text1,
               maxLines: 3,
-              style: sTextH2Style,
+              style: STStyles.body1Medium,
             ),
           ),
           Baseline(
@@ -48,7 +48,7 @@ class AboutUs extends StatelessObserverWidget {
             child: Text(
               intl.aboutUs_text2,
               maxLines: 6,
-              style: sBodyText1Style,
+              style: STStyles.body1InvestSM,
             ),
           ),
           Baseline(
@@ -57,7 +57,7 @@ class AboutUs extends StatelessObserverWidget {
             child: Text(
               intl.aboutUs_text3,
               maxLines: 8,
-              style: sBodyText1Style,
+              style: STStyles.body1Medium,
             ),
           ),
           Baseline(
@@ -66,7 +66,7 @@ class AboutUs extends StatelessObserverWidget {
             child: Text(
               intl.aboutUs_text4,
               maxLines: 10,
-              style: sBodyText1Style,
+              style: STStyles.body1Medium,
             ),
           ),
           const SpaceH30(),

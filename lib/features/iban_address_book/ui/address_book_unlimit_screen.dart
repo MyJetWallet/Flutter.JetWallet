@@ -96,15 +96,14 @@ class _BodyAdressBookUnlimitState extends State<_BodyAdressBookUnlimit> {
                               if (store.country == null)
                                 Text(
                                   intl.address_book_country_of_recepients_bank,
-                                  style: sSubtitle2Style.copyWith(
-                                    fontSize: 18.0,
+                                  style: STStyles.subtitle1.copyWith(
                                     color: colors.grey2,
                                   ),
                                 )
                               else ...[
                                 Text(
                                   intl.address_book_country_of_recepients_bank,
-                                  style: sCaptionTextStyle.copyWith(
+                                  style: STStyles.captionMedium.copyWith(
                                     fontSize: 12.0,
                                     color: colors.grey2,
                                   ),

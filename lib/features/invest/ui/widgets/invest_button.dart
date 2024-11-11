@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit/modules/shared/simple_paddings.dart';
 import 'package:simple_kit/modules/shared/simple_spacers.dart';
-import 'package:simple_kit/modules/texts/simple_text_styles.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 final _baseButtonRadius = BorderRadius.circular(12.0);
 
@@ -99,17 +99,17 @@ class _SimpleInvestButtonState extends State<SIButton> {
                       Text(
                         widget.name,
                         style: widget.isSecondary
-                            ? sBody1InvestSMStyle.copyWith(
+                            ?  STStyles.body1InvestSM.copyWith(
                                 color: currentNameColor,
                               )
-                            : sButtonTextInvestStyle.copyWith(
+                            : STStyles.header4MInvest.copyWith(
                                 color: currentNameColor,
                               ),
                       ),
                       if (widget.description != null)
                         Text(
                           widget.description!,
-                          style: sBody2InvestSMStyle.copyWith(
+                          style: STStyles.body2InvestSM.copyWith(
                             color: currentNameColor,
                           ),
                         ),

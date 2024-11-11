@@ -3,7 +3,7 @@ import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_kit/core/simple_kit.dart';
 import 'package:simple_kit/modules/shared/simple_skeleton_text_loader.dart';
 import 'package:simple_kit/modules/shared/simple_spacers.dart';
-import 'package:simple_kit/modules/texts/simple_text_styles.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class TransactionNewHeader extends StatelessWidget {
   const TransactionNewHeader({
@@ -45,7 +45,7 @@ class TransactionNewHeader extends StatelessWidget {
           children: [
             Text(
               assetDescription,
-              style: sCaptionTextStyle.copyWith(
+              style: STStyles.captionMedium.copyWith(
                 color: colors.grey1,
                 fontWeight: FontWeight.w600,
               ),
@@ -59,7 +59,7 @@ class TransactionNewHeader extends StatelessWidget {
             else
               Text(
                 assetValue,
-                style: sTextH5Style.copyWith(
+                style: STStyles.header6.copyWith(
                   color: isError ? colors.grey1 : null,
                   decoration: isError ? TextDecoration.lineThrough : null,
                 ),
@@ -67,7 +67,7 @@ class TransactionNewHeader extends StatelessWidget {
             if (assetBaseAmount != null)
               Text(
                 assetBaseAmount!,
-                style: sCaptionTextStyle.copyWith(
+                style: STStyles.captionMedium.copyWith(
                   color: colors.grey1,
                   fontWeight: FontWeight.w600,
                 ),

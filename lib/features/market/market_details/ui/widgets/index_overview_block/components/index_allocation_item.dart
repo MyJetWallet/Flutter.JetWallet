@@ -6,6 +6,7 @@ import 'package:jetwallet/features/wallet/helper/market_item_from.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/indices_model.dart';
 
 class IndexAllocationItem extends StatelessObserverWidget {
@@ -45,7 +46,7 @@ class IndexAllocationItem extends StatelessObserverWidget {
             baseline: 26,
             child: Text(
               '${marketItem.name} (${marketItem.symbol})',
-              style: sBodyText1Style.copyWith(color: colors.grey1),
+              style: STStyles.body1Medium.copyWith(color: colors.grey1),
             ),
           ),
           const Spacer(),
@@ -53,7 +54,7 @@ class IndexAllocationItem extends StatelessObserverWidget {
             baseline: 26,
             child: Text(
               targetRebalanceWeightPercent,
-              style: sBodyText1Style.copyWith(
+              style: STStyles.body1Medium.copyWith(
                 fontWeight: FontWeight.w400,
               ),
             ),

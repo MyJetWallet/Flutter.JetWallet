@@ -162,7 +162,7 @@ class _EarnWithdrawOrderSummaruBody extends StatelessWidget {
                       final days = store.earnPosition.offers.first.lockPeriod ?? 1;
                       return Text(
                         intl.earn_the_funds_will_be_disbursed(formatedData, days),
-                        style: sCaptionTextStyle.copyWith(
+                        style: STStyles.captionMedium.copyWith(
                           color: SColorsLight().gray8,
                         ),
                         maxLines: 5,
@@ -172,7 +172,7 @@ class _EarnWithdrawOrderSummaruBody extends StatelessWidget {
                 else if (!store.isClosing)
                   Text(
                     intl.earn_order_summary_partial_withdrawal_means,
-                    style: sCaptionTextStyle.copyWith(
+                    style: STStyles.captionMedium.copyWith(
                       color: SColorsLight().gray8,
                     ),
                     maxLines: 5,
@@ -225,7 +225,7 @@ class _EarnWithdrawOrderSummaruBody extends StatelessWidget {
               Text(
                 intl.earn_withdrawal_period_explanation_1(countOfDays),
                 maxLines: 10,
-                style: sBodyText1Style.copyWith(
+                style: STStyles.body1Medium.copyWith(
                   color: sKit.colors.grey2,
                 ),
               ),
@@ -233,7 +233,7 @@ class _EarnWithdrawOrderSummaruBody extends StatelessWidget {
               Text(
                 intl.earn_withdrawal_period_explanation_2,
                 maxLines: 10,
-                style: sBodyText1Style.copyWith(
+                style: STStyles.body1Medium.copyWith(
                   color: sKit.colors.grey2,
                 ),
               ),

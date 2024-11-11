@@ -93,7 +93,7 @@ class _SuccessKycScreenBodyState extends State<_SuccessKycScreenBody> {
                 widget.primaryText ?? intl.successKycScreen_success,
                 maxLines: 2,
                 textAlign: TextAlign.center,
-                style: sTextH2Style,
+                style: STStyles.header3,
               ),
             ),
             if (widget.secondaryText != null)
@@ -104,7 +104,7 @@ class _SuccessKycScreenBodyState extends State<_SuccessKycScreenBody> {
                   widget.secondaryText!,
                   maxLines: 10,
                   textAlign: TextAlign.center,
-                  style: sBodyText1Style.copyWith(
+                  style: STStyles.body1Medium.copyWith(
                     color: colors.grey1,
                   ),
                 ),

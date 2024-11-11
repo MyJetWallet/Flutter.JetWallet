@@ -9,6 +9,7 @@ import 'package:jetwallet/features/transaction_history/widgets/transaction_day_s
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
@@ -249,7 +250,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                                             baselineType: TextBaseline.alphabetic,
                                             child: Text(
                                               intl.newsList_wentWrongText,
-                                              style: sBodyText1Style,
+                                              style: STStyles.body1Medium,
                                               maxLines: 2,
                                             ),
                                           ),
@@ -363,7 +364,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                                                     baselineType: TextBaseline.alphabetic,
                                                     child: Text(
                                                       intl.newsList_wentWrongText,
-                                                      style: sBodyText1Style,
+                                                      style: STStyles.body1Medium,
                                                       maxLines: 2,
                                                     ),
                                                   ),

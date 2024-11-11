@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
-import 'package:simple_kit/modules/texts/simple_text_styles.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart' as sk;
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 
 class SDepositCardBadge extends StatelessWidget {
@@ -41,7 +41,7 @@ class SDepositCardBadge extends StatelessWidget {
           const SizedBox(width: 4),
           Text(
             _getTextForStatus(status),
-            style: sCaptionTextStyle.copyWith(
+            style: sk.STStyles.captionMedium.copyWith(
               color: _getMainColor(status, colors),
               fontWeight: FontWeight.w700,
             ),

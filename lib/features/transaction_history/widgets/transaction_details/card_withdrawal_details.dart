@@ -10,6 +10,7 @@ import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 import '../../../../core/di/di.dart';
 import '../../../app/store/app_store.dart';
@@ -102,7 +103,7 @@ class CardWithdrawalDetails extends StatelessWidget {
                 Text(
                   'Simple ${intl.simple_card_card} '
                   '•• ${transactionListItem.cardWithdrawalInfo?.cardLast4}',
-                  style: sSubtitle2Style,
+                  style: STStyles.subtitle1,
                   maxLines: 5,
                 ),
               ],

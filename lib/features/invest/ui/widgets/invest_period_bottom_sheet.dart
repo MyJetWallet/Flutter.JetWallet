@@ -145,33 +145,6 @@ class _PeriodSheetState extends State<PeriodSheet> {
                   ),
                 ],
               ),
-              // const SpaceH12(),
-              // Container(
-              //   height: 32,
-              //   width: MediaQuery.of(context).size.width - 48,
-              //   padding: const EdgeInsets.symmetric(horizontal: 16),
-              //   decoration: BoxDecoration(
-              //     borderRadius: BorderRadius.circular(24),
-              //     color: colors.grey5,
-              //   ),
-              //   child: Center(
-              //     child: Text(
-              //       '${DateFormat('yyyy.MM.dd ', intl.localeName).format(
-              //           DateTime.now().subtract(
-              //             Duration(
-              //               days: getDaysByPeriod(investStore.period),
-              //             ),
-              //           ),
-              //       )}'
-              //       '-'
-              //       '${DateFormat('yyyy.MM.dd ', intl.localeName).format(DateTime.now())}',
-              //       style: sBody2InvestSMStyle.copyWith(
-              //         color: colors.black,
-              //         height: 1,
-              //       ),
-              //     ),
-              //   ),
-              // ),
               const SpaceH16(),
               SizedBox(
                 height: 98.0,

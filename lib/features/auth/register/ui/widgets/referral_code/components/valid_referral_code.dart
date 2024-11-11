@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class ValidReferralCodeInside extends StatelessWidget {
   const ValidReferralCodeInside({
@@ -26,14 +25,14 @@ class ValidReferralCodeInside extends StatelessWidget {
         if (referralCode != null)
           Text(
             '${intl.validReferralCode_yourReferralCode} - $showReferral',
-            style: sBodyText2Style.copyWith(
+            style: STStyles.body2Medium.copyWith(
               color: sKit.colors.blue,
             ),
           )
         else
           Text(
             intl.validReferralCode_validReferralCode,
-            style: sBodyText2Style.copyWith(
+            style: STStyles.body2Medium.copyWith(
               color: sKit.colors.blue,
             ),
           ),

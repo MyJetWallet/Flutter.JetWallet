@@ -38,7 +38,7 @@ class GetSimpleCardScreen extends StatelessWidget {
                 ),
                 Text(
                   intl.card_header,
-                  style: sTextH4Style,
+                  style: STStyles.header5,
                 ),
                 const Gap(16),
                 _StyledText(
@@ -117,7 +117,7 @@ class _StyledText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: sSubtitle3Style.copyWith(
+      style: STStyles.subtitle2.copyWith(
         overflow: TextOverflow.visible,
         color: SColorsLight().gray10,
       ),
@@ -158,9 +158,8 @@ class _StyledList extends StatelessWidget {
               Expanded(
                 child: Text(
                   firstLine,
-                  style: sSubtitle3Style.copyWith(
+                  style: STStyles.subtitle2.copyWith(
                     overflow: TextOverflow.visible,
-                    color: SColorsLight().black,
                   ),
                 ),
               ),
@@ -177,7 +176,7 @@ class _StyledList extends StatelessWidget {
               Expanded(
                 child: Text(
                   secondLine,
-                  style: sSubtitle3Style.copyWith(
+                  style: STStyles.subtitle2.copyWith(
                     overflow: TextOverflow.visible,
                     color: SColorsLight().black,
                   ),

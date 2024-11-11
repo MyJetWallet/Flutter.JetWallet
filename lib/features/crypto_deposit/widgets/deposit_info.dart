@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class DepositInfo extends StatelessObserverWidget {
   @override
@@ -21,7 +22,7 @@ class DepositInfo extends StatelessObserverWidget {
             intl.depositInfo_text,
             maxLines: 3,
             textAlign: TextAlign.center,
-            style: sBodyText2Style,
+            style: STStyles.body2Medium,
           ),
         ),
       ),

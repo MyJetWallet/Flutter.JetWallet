@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class SuggestionButtonWidget extends StatelessWidget {
   const SuggestionButtonWidget({
@@ -55,7 +55,7 @@ class SuggestionButtonWidget extends StatelessWidget {
                       children: [
                         Text(
                           subTitle,
-                          style: sBodyText2Style.copyWith(
+                          style: STStyles.body2Medium.copyWith(
                             color: isDisabled ? greyDisabled : colors.grey1,
                             fontWeight: FontWeight.w600,
                           ),
@@ -63,7 +63,7 @@ class SuggestionButtonWidget extends StatelessWidget {
                         if (title != null)
                           Text(
                             title!,
-                            style: sBodyText2Style.copyWith(
+                            style: STStyles.body2Medium.copyWith(
                               color: isDisabled ? greyDisabled : colors.black,
                               fontWeight: FontWeight.w600,
                               height: 1,
@@ -82,7 +82,7 @@ class SuggestionButtonWidget extends StatelessWidget {
                 Text(
                   trailing ?? '',
                   textAlign: TextAlign.right,
-                  style: sBodyText2Style.copyWith(
+                  style: STStyles.body2Medium.copyWith(
                     color: isDisabled ? greyDisabled : colors.grey1,
                     fontWeight: FontWeight.w600,
                   ),

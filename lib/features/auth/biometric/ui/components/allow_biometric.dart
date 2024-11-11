@@ -143,7 +143,7 @@ class _AllowCameraScreenBodyState extends State<_AllowBiometricScreenBody> with 
                           child: Text(
                             bottomText,
                             maxLines: 3,
-                            style: sBodyText1Style.copyWith(
+                            style: STStyles.body1Medium.copyWith(
                               color: colors.grey1,
                             ),
                           ),

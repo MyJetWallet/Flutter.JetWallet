@@ -183,7 +183,7 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                         intl.send_globally_transfer_info,
                         maxLines: 3,
                         textAlign: TextAlign.start,
-                        style: sCaptionTextStyle.copyWith(
+                        style: STStyles.captionMedium.copyWith(
                           color: colors.grey3,
                         ),
                       ),

@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class AccountStatusBanner extends StatefulWidget {
   const AccountStatusBanner({
@@ -53,7 +54,7 @@ class _AccountStatusBannerState extends State<AccountStatusBanner> {
               Expanded(
                 child: AutoSizeText(
                   widget.title,
-                  style: sSubtitle2Style.copyWith(
+                  style: STStyles.subtitle1.copyWith(
                     color: widget.textColor,
                     height: 1.2,
                   ),

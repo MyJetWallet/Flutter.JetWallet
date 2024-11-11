@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class TransactionDetailsValueText extends StatelessWidget {
   const TransactionDetailsValueText({
@@ -22,7 +22,7 @@ class TransactionDetailsValueText extends StatelessWidget {
     return Text(
       text,
       textAlign: textAlign,
-      style: sSubtitle3Style.copyWith(
+      style: STStyles.subtitle2.copyWith(
         color: color,
       ),
       softWrap: softWrap,

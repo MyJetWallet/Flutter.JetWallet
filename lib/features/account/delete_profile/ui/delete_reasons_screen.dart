@@ -51,7 +51,7 @@ class DeleteReasonsScreen extends StatelessObserverWidget {
                 child: Text(
                   intl.deleteProfileReasons_subText,
                   maxLines: 3,
-                  style: sBodyText1Style.copyWith(
+                  style: STStyles.body1Medium.copyWith(
                     color: colors.grey1,
                   ),
                 ),
@@ -80,7 +80,7 @@ class DeleteReasonsScreen extends StatelessObserverWidget {
                           Expanded(
                             child: Text(
                               store.deleteReason[index].reasonText ?? '',
-                              style: sSubtitle2Style,
+                              style: STStyles.subtitle1,
                               overflow: TextOverflow.visible,
                               softWrap: true,
                             ),

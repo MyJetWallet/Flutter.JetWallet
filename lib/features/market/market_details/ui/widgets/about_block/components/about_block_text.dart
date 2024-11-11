@@ -58,7 +58,7 @@ class _AboutBlockTextState extends State<AboutBlockText> with WidgetsBindingObse
             Text(
               expandText ? widget.marketInfo.aboutMore : widget.marketInfo.aboutLess,
               maxLines: expandText ? 20 : 4,
-              style: sBodyText1Style.copyWith(color: colors.gray10),
+              style: STStyles.body1Medium.copyWith(color: colors.gray10),
             ),
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

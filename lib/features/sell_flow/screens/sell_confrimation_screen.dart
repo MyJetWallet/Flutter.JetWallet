@@ -185,13 +185,13 @@ class _SellConfirmationScreenBody extends StatelessObserverWidget {
                   ),
                   Text(
                     simpleCompanyName,
-                    style: sCaptionTextStyle.copyWith(
+                    style: STStyles.captionMedium.copyWith(
                       color: sKit.colors.grey1,
                     ),
                   ),
                   Text(
                     simpleCompanyAddress,
-                    style: sCaptionTextStyle.copyWith(
+                    style: STStyles.captionMedium.copyWith(
                       color: sKit.colors.grey1,
                     ),
                     maxLines: 2,

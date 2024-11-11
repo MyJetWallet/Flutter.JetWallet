@@ -175,7 +175,7 @@ class PhoneVerificationBody extends StatelessObserverWidget {
             if (args.showChangeTextAlert) ...[
               RichText(
                 text: TextSpan(
-                  style: sBodyText1Style.copyWith(
+                  style: STStyles.body1Medium.copyWith(
                     color: colors.grey1,
                   ),
                   children: [
@@ -196,7 +196,7 @@ class PhoneVerificationBody extends StatelessObserverWidget {
                             );
                           }
                         },
-                      style: sBodyText1Style.copyWith(
+                      style: STStyles.body1Medium.copyWith(
                         color: colors.blue,
                       ),
                     ),
@@ -244,7 +244,7 @@ class PhoneVerificationBody extends StatelessObserverWidget {
               Center(
                 child: Text(
                   args.isUnlimitTransferConfirm ? '' : intl.profileDetails_waitForCall,
-                  style: sCaptionTextStyle.copyWith(
+                  style: STStyles.captionMedium.copyWith(
                     color: colors.grey2,
                   ),
                 ),

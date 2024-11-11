@@ -94,7 +94,7 @@ class _KycSelfieBody extends StatelessObserverWidget {
                           children: [
                             Text(
                               '${intl.kycSelfie_compareWithYourDocument}.',
-                              style: sBodyText1Style,
+                              style: STStyles.body1Medium,
                             ),
                           ],
                         ),
@@ -107,7 +107,7 @@ class _KycSelfieBody extends StatelessObserverWidget {
                               baselineType: TextBaseline.alphabetic,
                               child: Text(
                                 '${intl.kycSelfie_selfieShouldClearly}:',
-                                style: sBodyText1Style,
+                                style: STStyles.body1Medium,
                               ),
                             ),
                           ],
@@ -136,7 +136,7 @@ class _KycSelfieBody extends StatelessObserverWidget {
                                       '${intl.kycSelfie_faceForwardAndMakeSure}'
                                       '${intl.kycSelfie_clearlyVisible}',
                                       maxLines: 2,
-                                      style: sBodyText1Style.copyWith(
+                                      style: STStyles.body1Medium.copyWith(
                                         color: colors.grey1,
                                       ),
                                     ),
@@ -161,7 +161,7 @@ class _KycSelfieBody extends StatelessObserverWidget {
                               child: Text(
                                 intl.kycSelfie_removeYourGlasses,
                                 maxLines: 3,
-                                style: sBodyText1Style.copyWith(
+                                style: STStyles.body1Medium.copyWith(
                                   color: colors.grey1,
                                 ),
                               ),

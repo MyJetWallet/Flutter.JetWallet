@@ -86,7 +86,7 @@ class _SDatePicker extends StatelessObserverWidget {
                 backgroundColor: Colors.transparent,
                 pickerHeight: 280.0,
                 itemHeight: 64,
-                itemTextStyle: sSubtitle2Style.copyWith(
+                itemTextStyle: STStyles.subtitle1.copyWith(
                   color: colors.black,
                 ),
               ),

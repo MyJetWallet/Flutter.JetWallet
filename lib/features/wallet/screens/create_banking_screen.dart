@@ -75,13 +75,13 @@ class _CreateBankingScreenState extends State<CreateBankingScreen> {
             Text(
               intl.create_banking_personal_account,
               maxLines: 6,
-              style: sTextH4Style,
+              style: STStyles.header5,
             ),
             const SpaceH8(),
             Text(
               intl.create_banking_transfer_eur,
               maxLines: 6,
-              style: sSubtitle3Style.copyWith(
+              style: STStyles.subtitle2.copyWith(
                 color: sKit.colors.grey1,
               ),
             ),
@@ -92,7 +92,7 @@ class _CreateBankingScreenState extends State<CreateBankingScreen> {
                 const SpaceW12(),
                 Text(
                   intl.create_banking_conditions_1,
-                  style: sBodyText2Style,
+                  style: STStyles.body2Medium,
                 ),
               ],
             ),
@@ -103,7 +103,7 @@ class _CreateBankingScreenState extends State<CreateBankingScreen> {
                 const SpaceW12(),
                 Text(
                   intl.create_banking_conditions_2,
-                  style: sBodyText2Style,
+                  style: STStyles.body2Medium,
                 ),
               ],
             ),
@@ -117,7 +117,7 @@ class _CreateBankingScreenState extends State<CreateBankingScreen> {
                   child: Text(
                     intl.create_banking_conditions_3,
                     maxLines: 3,
-                    style: sBodyText2Style,
+                    style: STStyles.body2Medium,
                   ),
                 ),
               ],

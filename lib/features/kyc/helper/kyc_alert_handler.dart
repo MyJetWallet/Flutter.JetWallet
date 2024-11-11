@@ -10,6 +10,7 @@ import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @lazySingleton
 class KycAlertHandler {
@@ -305,7 +306,7 @@ class KycAlertHandler {
             baselineType: TextBaseline.alphabetic,
             child: Text(
               '${textNumber + 1}. $title',
-              style: sBodyText1Style.copyWith(
+              style: STStyles.body1Medium.copyWith(
                 color: colors.grey1,
               ),
             ),
@@ -315,7 +316,7 @@ class KycAlertHandler {
               const SpaceH17(),
               Text(
                 '${textNumber + 1}. $title',
-                style: sBodyText1Style.copyWith(
+                style: STStyles.body1Medium.copyWith(
                   color: colors.grey1,
                 ),
               ),

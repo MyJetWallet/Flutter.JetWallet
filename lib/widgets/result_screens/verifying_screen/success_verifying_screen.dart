@@ -91,7 +91,7 @@ class _SuccessScreenBodyState extends State<_SuccessScreenBody> {
                           intl.cardVerification_reviewCompleted,
                           maxLines: 2,
                           textAlign: TextAlign.center,
-                          style: sTextH2Style,
+                          style: STStyles.header3,
                         ),
                       ),
                       Baseline(
@@ -101,7 +101,7 @@ class _SuccessScreenBodyState extends State<_SuccessScreenBody> {
                           intl.cardVerification_completeOrder,
                           maxLines: 10,
                           textAlign: TextAlign.center,
-                          style: sBodyText1Style.copyWith(
+                          style: STStyles.body1Medium.copyWith(
                             color: colors.grey1,
                           ),
                         ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class SITextButton extends StatefulObserverWidget {
   const SITextButton({
@@ -61,7 +62,7 @@ class _SimpleInvestTextButtonState extends State<SITextButton> {
                 padding: const EdgeInsets.only(top: 2),
                 child: Text(
                   widget.name,
-                  style: sBody1InvestSMStyle.copyWith(color: currentNameColor),
+                  style: STStyles.body1InvestSM.copyWith(color: currentNameColor),
                 ),
               ),
               const SpaceW4(),

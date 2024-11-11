@@ -81,9 +81,9 @@ class _GiftReceiversDetailsScreenState extends State<GiftReceiversDetailsScreen>
                             borderRadius: BorderRadius.circular(16),
                           ),
                           labelColor: colors.white,
-                          labelStyle: sSubtitle3Style,
+                          labelStyle: STStyles.subtitle2,
                           unselectedLabelColor: colors.grey1,
-                          unselectedLabelStyle: sSubtitle3Style,
+                          unselectedLabelStyle: STStyles.subtitle2,
                           splashBorderRadius: BorderRadius.circular(16),
                           tabs: [
                             Tab(

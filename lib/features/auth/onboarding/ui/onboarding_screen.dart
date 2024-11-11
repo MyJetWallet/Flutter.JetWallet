@@ -112,14 +112,14 @@ class _OnboardingScreenBodyState extends State<OnboardingScreenBody> with Ticker
               onboardingStore.slidesLabeles[onboardingStore.currentIndex],
               maxLines: 4,
               textAlign: TextAlign.center,
-              style: sTextH2Style,
+              style: STStyles.header3,
             ),
             const SpaceH16(),
             Text(
               onboardingStore.slidesDescrictions[onboardingStore.currentIndex],
               maxLines: 3,
               textAlign: TextAlign.center,
-              style: sSubtitle2Style.copyWith(
+              style: STStyles.subtitle1.copyWith(
                 color: colors.grey1,
               ),
             ),

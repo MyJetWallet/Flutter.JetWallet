@@ -6,6 +6,7 @@ import 'package:jetwallet/features/crypto_deposit/store/crypto_deposit_store.dar
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../core/services/device_size/device_size.dart';
 import '../../../core/services/notification_service.dart';
@@ -162,7 +163,7 @@ class _CryptoDepositWithAddressAndTagState extends State<CryptoDepositWithAddres
                       children: [
                         Text(
                           intl.cryptoDeposit_address,
-                          style: sSubtitle3Style.copyWith(
+                          style: STStyles.subtitle2.copyWith(
                             color: colors.grey3,
                             height: 1,
                           ),
@@ -170,7 +171,7 @@ class _CryptoDepositWithAddressAndTagState extends State<CryptoDepositWithAddres
                         const SizedBox(width: 32),
                         Text(
                           widget.currency.symbol == 'XRP' ? intl.tagOrMemo : intl.tag,
-                          style: sSubtitle3Style.copyWith(
+                          style: STStyles.subtitle2.copyWith(
                             color: colors.grey3,
                             height: 1,
                           ),
@@ -195,7 +196,7 @@ class _CryptoDepositWithAddressAndTagState extends State<CryptoDepositWithAddres
                       ),
                       child: Text(
                         intl.cryptoDeposit_address,
-                        style: sSubtitle3Style.copyWith(
+                        style: STStyles.subtitle2.copyWith(
                           color: colors.white,
                           height: 1,
                         ),
@@ -218,7 +219,7 @@ class _CryptoDepositWithAddressAndTagState extends State<CryptoDepositWithAddres
                       ),
                       child: Text(
                         widget.currency.symbol == 'XRP' ? intl.tagOrMemo : intl.tag,
-                        style: sSubtitle3Style.copyWith(
+                        style: STStyles.subtitle2.copyWith(
                           color: colors.white,
                           height: 1,
                         ),

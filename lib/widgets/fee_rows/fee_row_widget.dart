@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class ProcessingFeeRowWidget extends StatelessWidget {
   const ProcessingFeeRowWidget({
@@ -101,7 +102,7 @@ class _BasicFeeRowWidget extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: sBodyText2Style.copyWith(color: colors.grey1),
+                style: STStyles.body2Medium.copyWith(color: colors.grey1),
               ),
               const SpaceW5(),
               Padding(
@@ -116,7 +117,7 @@ class _BasicFeeRowWidget extends StatelessWidget {
               if (isLoaded) ...[
                 Text(
                   fee,
-                  style: sSubtitle3Style,
+                  style: STStyles.subtitle2,
                 ),
               ] else ...[
                 _textPreloader(),
@@ -160,7 +161,7 @@ class _BasicFeeRowWidget extends StatelessWidget {
               const SpaceH19(),
               Text(
                 fee,
-                style: sTextH3Style,
+                style: STStyles.header4,
               ),
               const SpaceH9(),
               const SDivider(),
@@ -168,7 +169,7 @@ class _BasicFeeRowWidget extends StatelessWidget {
               Text(
                 description,
                 maxLines: 3,
-                style: sCaptionTextStyle.copyWith(
+                style: STStyles.captionMedium.copyWith(
                   color: sKit.colors.grey2,
                 ),
               ),
