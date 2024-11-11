@@ -1081,7 +1081,10 @@ abstract class _WithdrawalStoreBase with Store {
         permissionDescription: intl.withdrawalAddress_pushAllowCamera,
         then: () async {
           Future.delayed(const Duration(microseconds: 100), () async {
-            await _pushQrView(context: context);
+            await _pushQrView(
+              fromSettings: true,
+              context: context,
+            );
           });
         },
       ),
