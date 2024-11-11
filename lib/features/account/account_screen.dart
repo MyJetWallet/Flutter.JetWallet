@@ -73,39 +73,37 @@ class _AccountScreenState extends State<AccountScreen> with SingleTickerProvider
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          SPaddingH24(
-            child: SimpleAccountCategoryHeader(
-              onIconTap: () {
-                if (debugTapCounter >= 30) {
-                  sRouter.push(
-                    const DebugInfoRouter(),
-                  );
-                  setState(() {
-                    debugTapCounter = 0;
-                  });
-                } else {
-                  setState(() {
-                    debugTapCounter++;
-                  });
-                }
-              },
-              userEmail: authInfo.email,
-              userFirstName: userInfo.firstName,
-              userLastName: userInfo.lastName,
-              showUserName: userInfo.firstName.isNotEmpty && userInfo.lastName.isNotEmpty,
-              isVerified: checkKycPassed(
-                    kycState.depositStatus,
-                    kycState.tradeStatus,
-                    kycState.withdrawalStatus,
-                  ) &&
-                  !kycState.isSimpleKyc,
-              icon: Image.asset(
-                verifiedAsset,
-                width: 16,
-                height: 16,
-              ),
-              iconText: intl.account_verified,
+          SimpleAccountCategoryHeader(
+            onIconTap: () {
+              if (debugTapCounter >= 30) {
+                sRouter.push(
+                  const DebugInfoRouter(),
+                );
+                setState(() {
+                  debugTapCounter = 0;
+                });
+              } else {
+                setState(() {
+                  debugTapCounter++;
+                });
+              }
+            },
+            userEmail: authInfo.email,
+            userFirstName: userInfo.firstName,
+            userLastName: userInfo.lastName,
+            showUserName: userInfo.firstName.isNotEmpty && userInfo.lastName.isNotEmpty,
+            isVerified: checkKycPassed(
+                  kycState.depositStatus,
+                  kycState.tradeStatus,
+                  kycState.withdrawalStatus,
+                ) &&
+                !kycState.isSimpleKyc,
+            icon: Image.asset(
+              verifiedAsset,
+              width: 16,
+              height: 16,
             ),
+            iconText: intl.account_verified,
           ),
           Expanded(
             child: ListView(
