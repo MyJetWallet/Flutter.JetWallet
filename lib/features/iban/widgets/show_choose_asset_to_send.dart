@@ -217,7 +217,7 @@ class _ChooseAssetToSend extends StatelessObserverWidget {
                 },
               ),
         const SizedBox(
-          height: 12.0,
+          height: 32.0,
         ),
       ],
     );
@@ -301,6 +301,9 @@ class _ChooseAssetToSend extends StatelessObserverWidget {
             simpleAccount.status == AccountStatus.active ? intl.eur_wallet_simple_account : intl.create_simple_creating,
         hasRightValue: simpleAccount.status == AccountStatus.active,
         onTableAssetTap: () {
+          if (simpleAccount.status == AccountStatus.inCreation) {
+            return;
+          }
           Navigator.pop(context);
 
           if (isGlobalSend) {
@@ -345,6 +348,9 @@ class _ChooseAssetToSend extends StatelessObserverWidget {
         itemBuilder: (context, index) {
           return SimpleTableAsset(
             onTableAssetTap: () {
+              if (searchedBankAccounts[index].status == AccountStatus.inCreation) {
+                return;
+              }
               Navigator.pop(context);
 
               if (isGlobalSend) {
