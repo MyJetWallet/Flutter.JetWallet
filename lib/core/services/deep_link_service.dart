@@ -187,7 +187,7 @@ class DeepLinkService {
             type: command!,
             metadata: parameters,
             messageId: messageId,
-           );
+          );
     } else if (command == _confirmEmail) {
       _confirmEmailCommand(parameters);
     } else if (command == _confirmWithdraw) {
@@ -248,8 +248,23 @@ class DeepLinkService {
         await pushCryptoHistory(parameters);
       }
     }
+
     if (messageId != null && messageId.isNotEmpty) {
-      unawaited(logPushNotificationToBD(messageId, 2));
+      if (getIt.isRegistered<AppStore>() &&
+          getIt.get<AppStore>().remoteConfigStatus is Success &&
+          getIt.get<AppStore>().authorizedStatus is Home &&
+          getIt<TimerService>().isPinScreenOpen == false) {
+        await logPushNotificationToBD(messageId, 2);
+      } else {
+        getIt<RouteQueryService>().addToQuery(
+          RouteQueryModel(
+            func: () async {
+              await Future.delayed(const Duration(seconds: 1));
+              await logPushNotificationToBD(messageId, 2);
+            },
+          ),
+        );
+      }
     }
   }
 

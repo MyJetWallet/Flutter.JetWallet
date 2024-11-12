@@ -78,9 +78,6 @@ class AnchorsService {
           await pushAddExternalIbanScreen(metadata);
         }
     }
-    if (messageId != null && messageId.isNotEmpty) {
-      unawaited(logPushNotificationToBD(messageId, 2));
-    }
   }
 
   Future<void> pushCryptoDepositScreen(
