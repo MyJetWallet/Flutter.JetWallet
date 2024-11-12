@@ -732,7 +732,7 @@
     "input_error_higher_amount": "Wprowadź wyższą kwotę",
     "input_error_smaller_amount": "Wprowadź mniejszą kwotę.",
     "failed": "Nieudane",
-    "send_globally_cond_text_6": "3. Rozumiem, że ten przelew jest przetwarzany za pośrednictwem sieci P2P. Przelewy P2P są organizowane przez Payport LLC.",
+    "send_globally_cond_text_6": "",
     "send_globally_cond_text_7": "Więcej szczegółów",
     "global_send_got_it": "Rozumiem",
     "global_send_popup_details": "Wymiana kryptowalut za pośrednictwem P2P polega na otrzymywaniu środków bezpośrednio od innej osoby na określone dane konta. Smpl Global Limited organizuje ten transfer, ale nie przetwarza go bezpośrednio.",
@@ -1910,5 +1910,6 @@
     "deleteProfileConditions_withdraw_or_transfer_funds": "Wypłać lub przenieś środki",
     "deleteProfileConditions_delete_anyway": "Usuń mimo wszystko",
     "crypto_jar_banner_description": "Dowiedz się więcej",
-    "crypto_jar_banner_title": "Simple Crypto Jars ułatwia odbieranie kryptowalut."
+    "crypto_jar_banner_title": "Simple Crypto Jars ułatwia odbieranie kryptowalut.",
+    "payment_method_current_limits": "Aktualne limity: {value}"
 }
