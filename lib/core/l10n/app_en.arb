@@ -1515,7 +1515,7 @@
         }
     },
     "prepaid_card_prepaid_card": "Prepaid card",
-    "prepaid_card_buy_for_cryptocurrency": "Buy for a cryptocurrency",
+    "prepaid_card_buy_for_cryptocurrency": "Buy with your crypto",
     "prepaid_card_prepaid_card_service": "Prepaid card service",
     "prepaid_card_explanation": "You can buy prepaid bank cards for use with Apple Pay and Google Pay, as well as for online purchases. Prepaid cards are issued by Simple’s partners.",
     "prepaid_card_card_management": "Card management",
@@ -1857,6 +1857,6 @@
     "deleteProfileConditions_total_coins": "Simple Coin balance is {balance}.",
     "deleteProfileConditions_withdraw_or_transfer_funds": "Withdraw or transfer funds",
     "deleteProfileConditions_delete_anyway": "Delete anyway",
-    "crypto_jar_banner_title": "Simple Crypto Jars makes receiving cryptocurrency a breeze.",
-    "crypto_jar_banner_description": "Learn more"
+    "crypto_jar_banner_description": "Learn more",
+    "crypto_jar_banner_title": "Simple Crypto Jars makes receiving cryptocurrency a breeze."
 }

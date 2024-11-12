@@ -1844,5 +1844,7 @@
     "deleteProfileConditions_total_balance": "El saldo total es {balance}.",
     "deleteProfileConditions_total_coins": "El saldo de Simple Coin es {balance}.",
     "deleteProfileConditions_withdraw_or_transfer_funds": "Retirar o transferir fondos",
-    "deleteProfileConditions_delete_anyway": "Eliminar de todos modos"
+    "deleteProfileConditions_delete_anyway": "Eliminar de todos modos",
+    "crypto_jar_banner_description": "Más información",
+    "crypto_jar_banner_title": "Simple Crypto Jars facilita la recepción de criptomonedas."
 }

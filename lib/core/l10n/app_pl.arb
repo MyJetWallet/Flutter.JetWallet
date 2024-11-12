@@ -1908,5 +1908,7 @@
     "deleteProfileConditions_total_balance": "Całkowity saldo wynosi {balance}.",
     "deleteProfileConditions_total_coins": "Saldo Simple Coin wynosi {balance}.",
     "deleteProfileConditions_withdraw_or_transfer_funds": "Wypłać lub przenieś środki",
-    "deleteProfileConditions_delete_anyway": "Usuń mimo wszystko"
+    "deleteProfileConditions_delete_anyway": "Usuń mimo wszystko",
+    "crypto_jar_banner_description": "Dowiedz się więcej",
+    "crypto_jar_banner_title": "Simple Crypto Jars ułatwia odbieranie kryptowalut."
 }

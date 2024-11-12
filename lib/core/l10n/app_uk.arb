@@ -5964,5 +5964,7 @@
     "deleteProfileConditions_total_balance": "Загальний баланс складає {balance}.",
     "deleteProfileConditions_total_coins": "Баланс Simple Coin складає {balance}.",
     "deleteProfileConditions_withdraw_or_transfer_funds": "Вивести або перевести кошти",
-    "deleteProfileConditions_delete_anyway": "Видалити все одно"
+    "deleteProfileConditions_delete_anyway": "Видалити все одно",
+    "crypto_jar_banner_description": "Дізнатися більше",
+    "crypto_jar_banner_title": "Simple Crypto Jars зроблять отримання криптовалюти надзвичайно простим."
 }
