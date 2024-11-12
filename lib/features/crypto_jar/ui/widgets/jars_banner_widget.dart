@@ -45,11 +45,14 @@ class JarsBannerWidget extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              intl.crypto_jar_banner_title,
-                              style: STStyles.body1Medium,
-                              overflow: TextOverflow.visible,
-                              softWrap: true,
+                            Padding(
+                              padding: const EdgeInsets.only(right: 20.0),
+                              child: Text(
+                                intl.crypto_jar_banner_title,
+                                style: STStyles.body1Medium,
+                                overflow: TextOverflow.visible,
+                                softWrap: true,
+                              ),
                             ),
                             const SizedBox(
                               height: 12.0,
