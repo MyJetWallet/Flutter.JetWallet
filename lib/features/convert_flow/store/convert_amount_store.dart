@@ -55,8 +55,7 @@ abstract class _ConvertAmountStoreBase with Store {
     return inputValid &&
         Decimal.parse(primaryAmount) != Decimal.zero &&
         fromAsset != null &&
-        !isNoFromAssetBalance &&
-        !loadingMaxButton;
+        !isNoFromAssetBalance;
   }
 
   @observable

@@ -325,7 +325,6 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
                     },
                     button: SButton.black(
                       text: intl.addCircleCard_continue,
-                      isLoading: store.loadingMaxButton,
                       callback: store.isContinueAvaible
                           ? () {
                               sAnalytics.tapOnTheContinueWithBuyAmountButton(

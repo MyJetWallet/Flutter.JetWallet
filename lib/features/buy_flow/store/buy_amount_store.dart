@@ -86,8 +86,7 @@ abstract class _BuyAmountStoreBase with Store {
     return inputValid &&
         Decimal.parse(primaryAmount) != Decimal.zero &&
         ((account != null && (account?.isNotEmptyBalance ?? false)) || card != null) &&
-        asset != null &&
-        !loadingMaxButton;
+        asset != null;
   }
 
   @observable
