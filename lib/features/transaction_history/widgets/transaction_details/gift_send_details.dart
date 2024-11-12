@@ -2,6 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/app/store/global_loader.dart';
 import 'package:jetwallet/features/send_gift/widgets/share_gift_result_bottom_sheet.dart';
@@ -129,13 +130,28 @@ class GiftSendDetails extends StatelessWidget {
                     onPrimaryButtonTap: () async {
                       getIt.get<GlobalLoader>().setLoading(true);
                       Navigator.pop(context);
-                      await getIt.get<SNetwork>().simpleNetworking.getWalletModule().cancelGift(
-                            transactionListItem.giftSendInfo?.transferId ?? '',
+                      try {
+                        final result = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().cancelGift(
+                              transactionListItem.giftSendInfo?.transferId ?? '',
+                            );
+
+                        if (result.hasError) {
+                          sNotification.showError(
+                            intl.sPaymentSelectEmpty_somethingWentWrong,
+                            id: 1,
                           );
-                      getIt.get<GlobalLoader>().setLoading(false);
-                      if (context.mounted) {
-                        Navigator.pop(context);
+                        }
+
+                        if (context.mounted) {
+                          Navigator.pop(context);
+                        }
+                      } catch (e) {
+                        sNotification.showError(
+                          intl.sPaymentSelectEmpty_somethingWentWrong,
+                          id: 1,
+                        );
                       }
+                      getIt.get<GlobalLoader>().setLoading(false);
                     },
                     onSecondaryButtonTap: () => Navigator.pop(context),
                   );
