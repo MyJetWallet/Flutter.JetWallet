@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
+import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
@@ -34,6 +36,9 @@ abstract class _AllowCameraStoreBase with Store {
   @observable
   bool isAlreadyPushed = false;
 
+  @observable
+  bool isLoading = false;
+
   @computed
   bool get permissionDenied {
     return cameraStatus == CameraStatus.denied;
@@ -53,21 +58,33 @@ abstract class _AllowCameraStoreBase with Store {
 
   @action
   Future<void> handleCameraPermission(BuildContext context) async {
-    _logger.log(notifier, 'handleCameraPermission');
+    try {
+      isLoading = true;
 
-    if (cameraStatus == CameraStatus.denied) {
-      updateUserLocation(UserLocation.settings);
-      await openAppSettings();
-    } else {
-      final status = await Permission.camera.request();
-      await _setCameraStatusInStorage();
+      _logger.log(notifier, 'handleCameraPermission');
 
-      if (status == PermissionStatus.granted) {
-        // TODO
-        //UploadKycDocuments.pushReplacement(context);
+      if (cameraStatus == CameraStatus.denied) {
+        updateUserLocation(UserLocation.settings);
+        await openAppSettings();
       } else {
-        updateCameraStatus(CameraStatus.denied);
+        final status = await Permission.camera.request();
+        await _setCameraStatusInStorage();
+
+        if (status == PermissionStatus.granted) {
+          // TODO
+          //UploadKycDocuments.pushReplacement(context);
+        } else {
+          updateCameraStatus(CameraStatus.denied);
+        }
       }
+    } catch (e) {
+      sNotification.showError(
+        intl.something_went_wrong_try_again2,
+        id: 1,
+        needFeedback: true,
+      );
+    } finally {
+      isLoading = false;
     }
   }
 

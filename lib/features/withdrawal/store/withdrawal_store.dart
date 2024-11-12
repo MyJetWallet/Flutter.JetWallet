@@ -1081,10 +1081,21 @@ abstract class _WithdrawalStoreBase with Store {
         permissionDescription: intl.withdrawalAddress_pushAllowCamera,
         then: () async {
           Future.delayed(const Duration(microseconds: 100), () async {
-            await _pushQrView(
+            final result = await _pushQrView(
               fromSettings: true,
               context: context,
             );
+
+            if (result is Barcode) {
+              addressController.text = result.rawValue ?? '';
+              _moveCursorAtTheEnd(addressController);
+              addressFocus.requestFocus();
+              updateAddress(result.rawValue ?? '');
+              await _validateAddressOrTag(
+                _updateAddressValidation,
+                _triggerErrorOfAddressField,
+              );
+            }
           });
         },
       ),
