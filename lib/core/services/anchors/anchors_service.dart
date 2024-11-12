@@ -8,6 +8,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/anchors/anchors_helper.dart';
 import 'package:jetwallet/core/services/anchors/models/convert_confirmation_model/convert_confirmation_model.dart';
 import 'package:jetwallet/core/services/anchors/models/crypto_deposit/crypto_deposit_model.dart';
+import 'package:jetwallet/core/services/push_notification_service.dart';
 import 'package:jetwallet/core/services/remote_config/models/remote_config_union.dart';
 import 'package:jetwallet/core/services/route_query_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
@@ -31,7 +32,11 @@ class AnchorsService {
     await getIt.get<SNetwork>().simpleNetworking.getAnalyticApiModule().postAddAnchor(anchorRecord);
   }
 
-  void handleDeeplink({required String type, required Map<String, String> metadata}) {
+  Future<void> handleDeeplink({
+    required String type,
+    required Map<String, String> metadata,
+    required String? messageId,
+  }) async {
     if (metadata.isEmpty) {
       if (kDebugMode) {
         print('$_tag error: Metadata is null');
@@ -42,36 +47,39 @@ class AnchorsService {
     switch (type) {
       case AnchorsHelper.anchorTypeCryptoDeposit:
         {
-          pushCryptoDepositScreen(metadata);
+          await pushCryptoDepositScreen(metadata);
         }
       case AnchorsHelper.anchorTypeConvertConfirmation:
         {
-          pushConvertConfirmScreen(metadata);
+          await pushConvertConfirmScreen(metadata);
         }
       case AnchorsHelper.anchorTypeMarketDetails:
         {
-          pushMarketDetailsScreen(metadata);
+          await pushMarketDetailsScreen(metadata);
         }
       case AnchorsHelper.anchorTypeBankingAccountDetails:
         {
-          pushBankingAccountDetailsScreen(metadata);
+          await pushBankingAccountDetailsScreen(metadata);
         }
       case AnchorsHelper.anchorTypeForgotEarnDeposit:
         {
-          pushForgotEarnDepositScreen(metadata);
+          await pushForgotEarnDepositScreen(metadata);
         }
       case AnchorsHelper.anchorTypeForgotTopUpEarnDeposit:
         {
-          pushTopUpEarnDepositScreen(metadata);
+          await pushTopUpEarnDepositScreen(metadata);
         }
       case AnchorsHelper.anchorTypeForgotSectors:
         {
-          pushMarketSectorScreen(metadata);
+          await pushMarketSectorScreen(metadata);
         }
       case AnchorsHelper.anchorTypeAddExternalIban:
         {
-          pushAddExternalIbanScreen(metadata);
+          await pushAddExternalIbanScreen(metadata);
         }
+    }
+    if (messageId != null && messageId.isNotEmpty) {
+      unawaited(logPushNotificationToBD(messageId, 2));
     }
   }
 

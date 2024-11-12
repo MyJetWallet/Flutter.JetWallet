@@ -1,5 +1,7 @@
 // ignore_for_file: unreachable_from_main
 
+import 'dart:convert';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -75,7 +77,7 @@ class PushNotificationService {
         initializationSettings,
         onDidReceiveNotificationResponse: (details) async {
           if (details.payload != null) {
-            getIt.get<DeepLinkService>().handle(Uri.parse(details.payload!));
+            await getIt.get<DeepLinkService>().handle(Uri.parse(details.payload!));
           }
         },
       );
@@ -109,19 +111,24 @@ class PushNotificationService {
   }
 
   void _onMessage(RemoteMessage message) {
+    print('#@#@#@ ${message.data['messageId']}');
+    if (message.data['messageId'] != null) {
+      logPushNotificationToBD(message.data['messageId'] as String, 1);
+    }
     if (_nullChecked(message)) {
       final notification = message.notification!;
 
-      if (message.data['messageId'] != null) {
-        logPushNotificationToBD(message.data['messageId'] as String, 1);
-      }
+      final data = {
+        'actionUrl': message.data['actionUrl'],
+        'messageId': message.data['messageId'],
+      };
 
       _plugin.show(
         notification.hashCode,
         notification.title,
         notification.body,
         _notificationDetails,
-        payload: message.data['actionUrl'] as String?,
+        payload: json.encode(data),
       );
     } else {
       getIt.get<SimpleLoggerService>().log(
@@ -145,7 +152,20 @@ class PushNotificationService {
         initializationSettings,
         onDidReceiveNotificationResponse: (details) async {
           if (details.payload != null) {
-            getIt.get<DeepLinkService>().handle(Uri.parse(details.payload!));
+            final data = json.decode(details.payload ?? '{}') as Map<String, String>;
+            String? messageId;
+            String? actionUrl;
+            if (data['messageId'] != null) {
+              messageId = data['messageId'];
+            }
+            if (data['actionUrl'] != null) {
+              actionUrl = data['actionUrl'];
+            }
+
+            await getIt.get<DeepLinkService>().handle(
+                  Uri.parse(actionUrl ?? ''),
+                  messageId: messageId ?? '',
+                );
           }
         },
       );
@@ -216,15 +236,14 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 Future<void> logPushNotificationToBD(String messageId, int status) async {
   final packageInfo = await PackageInfo.fromPlatform();
   final version = packageInfo.version;
-
-  final device = '${sDeviceInfo.osName} ${sDeviceInfo.model} ${sDeviceInfo.marketingName}';
+  final device = sDeviceInfo.osName;
 
   await getIt.get<SNetwork>().simpleNetworking.getAnalyticApiModule().postPushNotificationOpen(
-    PushNotificationOpenRequestModel(
-      messageId: messageId,
-      appVersion: version,
-      device: device,
-      status: status,
-    ),
-  );
+        PushNotificationOpenRequestModel(
+          messageId: messageId,
+          appVersion: version,
+          device: device,
+          status: status,
+        ),
+      );
 }
