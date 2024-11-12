@@ -19,7 +19,7 @@ abstract class _JarsBannerStoreBase with Store {
   bool get showBanner => landingUrl.isNotEmpty && !isBannerClosed;
 
   @observable
-  bool isBannerClosed = false;
+  bool isBannerClosed = true;
 
   @observable
   String landingUrl = '';

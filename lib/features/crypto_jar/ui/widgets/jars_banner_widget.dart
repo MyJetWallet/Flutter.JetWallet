@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/crypto_jar/store/jars_banner_store.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
@@ -33,7 +34,10 @@ class JarsBannerWidget extends StatelessWidget {
                           onTap: () {
                             store.closeBanner();
                           },
-                          child: Assets.svg.medium.closeAlt.simpleSvg(),
+                          child: Assets.svg.medium.closeAlt.simpleSvg(
+                            height: 20,
+                            width: 20,
+                          ),
                         ),
                       ),
                       Padding(
@@ -42,7 +46,7 @@ class JarsBannerWidget extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Simple Crypto Jars makes receiving cryptocurrency a breeze.',
+                              intl.crypto_jar_banner_title,
                               style: STStyles.body1Medium,
                               overflow: TextOverflow.visible,
                               softWrap: true,
@@ -51,7 +55,7 @@ class JarsBannerWidget extends StatelessWidget {
                               height: 12.0,
                             ),
                             SHyperlink(
-                              text: 'Learn more',
+                              text: intl.crypto_jar_banner_description,
                               onTap: () {
                                 store.openLanding(context);
                               },
