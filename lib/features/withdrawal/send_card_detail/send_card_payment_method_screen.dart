@@ -1,14 +1,20 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/format_service.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/store/send_card_payment_method_store.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/widgets/payment_method_card.dart';
+import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
 import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'SendCardPaymentMethodRouter')
 class SendCardPaymentMethodScreen extends StatelessWidget {
@@ -68,24 +74,37 @@ class SendCardPaymentMethodBody extends StatelessObserverWidget {
               const SDivider(),
               const SizedBox(height: 24),
             ],
-            SPaddingH24(
-              child: GridView.builder(
-                shrinkWrap: true,
-                padding: EdgeInsets.zero,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 8,
-                  crossAxisSpacing: 12,
-                  childAspectRatio: 1 / .64,
-                ),
-                itemCount: store.filtedGlobalSendMethods.length,
-                itemBuilder: (context, i) => PaymentMethodCard.card(
-                  name: store.filtedGlobalSendMethods[i].name ?? '',
-                  url: iconForPaymentMethod(
-                    methodId: store.filtedGlobalSendMethods[i].methodId ?? '',
+            ListView.builder(
+              padding: EdgeInsets.zero,
+              shrinkWrap: true,
+              itemCount: store.filtedGlobalSendMethods.length,
+              itemBuilder: (context, i) {
+                final maxLim = getIt<FormatService>().convertOneCurrencyToAnotherOne(
+                  fromCurrency: store.filtedGlobalSendMethods[i].receiveAsset!,
+                  fromCurrencyAmmount: store.filtedGlobalSendMethods[i].maxAmount!,
+                  toCurrency: currency.symbol,
+                  baseCurrency: sSignalRModules.baseCurrency.symbol,
+                  isMin: false,
+                );
+
+                return SimpleTableAsset(
+                  label: store.filtedGlobalSendMethods[i].name ?? '',
+                  isPaymentMethod: true,
+                  supplement: intl.payment_method_current_limits(
+                    maxLim.toFormatCount(
+                      accuracy: currency.accuracy,
+                      symbol: currency.symbol,
+                    ),
                   ),
-                  onTap: () {
+                  assetIcon: CachedNetworkImage(
+                    height: 40.0,
+                    width: 40.0,
+                    imageUrl: iconForPaymentMethod(
+                      methodId: store.filtedGlobalSendMethods[i].methodId ?? '',
+                    ),
+                    fit: BoxFit.fill,
+                  ),
+                  onTableAssetTap: () {
                     sRouter.push(
                       SendCardDetailRouter(
                         countryCode: countryCode,
@@ -94,8 +113,8 @@ class SendCardPaymentMethodBody extends StatelessObserverWidget {
                       ),
                     );
                   },
-                ),
-              ),
+                );
+              },
             ),
             const SizedBox(height: 24),
           ],

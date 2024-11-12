@@ -1858,5 +1858,6 @@
     "deleteProfileConditions_withdraw_or_transfer_funds": "Withdraw or transfer funds",
     "deleteProfileConditions_delete_anyway": "Delete anyway",
     "crypto_jar_banner_description": "Learn more",
-    "crypto_jar_banner_title": "Simple Crypto Jars makes receiving cryptocurrency a breeze."
+    "crypto_jar_banner_title": "Simple Crypto Jars makes receiving cryptocurrency a breeze.",
+    "payment_method_current_limits": "Current limits: {value}"
 }
