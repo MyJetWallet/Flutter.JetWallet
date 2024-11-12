@@ -8,7 +8,6 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/anchors/anchors_helper.dart';
 import 'package:jetwallet/core/services/anchors/models/convert_confirmation_model/convert_confirmation_model.dart';
 import 'package:jetwallet/core/services/anchors/models/crypto_deposit/crypto_deposit_model.dart';
-import 'package:jetwallet/core/services/push_notification_service.dart';
 import 'package:jetwallet/core/services/remote_config/models/remote_config_union.dart';
 import 'package:jetwallet/core/services/route_query_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';

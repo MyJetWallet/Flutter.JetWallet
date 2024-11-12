@@ -242,6 +242,7 @@ abstract class _BuyAmountStoreBase with Store {
   @action
   void setNewAsset(CurrencyModel newAsset) {
     onMaxPressed = false;
+    isMaxActive = false;
 
     asset = newAsset;
 
@@ -262,6 +263,8 @@ abstract class _BuyAmountStoreBase with Store {
     CircleCard? newCard,
     SimpleBankingAccount? newAccount,
   }) {
+    onMaxPressed = false;
+    isMaxActive = false;
     if (newCard != null) {
       card = newCard;
       account = null;

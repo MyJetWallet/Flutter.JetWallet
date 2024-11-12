@@ -111,7 +111,6 @@ class PushNotificationService {
   }
 
   void _onMessage(RemoteMessage message) {
-    print('#@#@#@ ${message.data['messageId']}');
     if (message.data['messageId'] != null) {
       logPushNotificationToBD(message.data['messageId'] as String, 1);
     }
