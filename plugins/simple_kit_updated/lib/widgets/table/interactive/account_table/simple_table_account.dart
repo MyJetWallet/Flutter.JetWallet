@@ -4,8 +4,8 @@ import 'package:gap/gap.dart';
 import 'package:simple_kit_updated/widgets/button/specific/specific_button.dart';
 import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 import 'package:simple_kit_updated/widgets/shared/safe_gesture.dart';
-import 'package:simple_kit_updated/widgets/table/account_table/simple_account_table_base.dart';
-import 'package:simple_kit_updated/widgets/table/account_table/simple_table_asset.dart';
+import 'package:simple_kit_updated/widgets/table/interactive/simple_interactive_table_base.dart';
+import 'package:simple_kit_updated/widgets/table/interactive/account_table/simple_table_asset.dart';
 
 class SimpleTableAccount extends HookWidget {
   const SimpleTableAccount({
@@ -65,8 +65,7 @@ class SimpleTableAccount extends HookWidget {
         isHighlated.value = p0;
       },
       child: SAccountTableBase(
-        hasButton: hasButton,
-        isHighlated: isHighlated.value,
+        isHighlighted: isHighlated.value,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,

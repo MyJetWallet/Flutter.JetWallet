@@ -59,23 +59,22 @@ class SendCardPaymentMethodBody extends StatelessObserverWidget {
           title: intl.global_send_payment_method_title,
         ),
       ),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            if (store.showSearch) ...[
-              SPaddingH24(
-                child: SStandardField(
-                  controller: store.searchController,
-                  labelText: intl.actionBottomSheetHeader_search,
-                  onChanged: (String value) => store.search(value),
-                ),
+      child: Column(
+        children: [
+          if (store.showSearch) ...[
+            SPaddingH24(
+              child: SStandardField(
+                controller: store.searchController,
+                labelText: intl.actionBottomSheetHeader_search,
+                onChanged: (String value) => store.search(value),
               ),
-              const SDivider(),
-              const SizedBox(height: 24),
-            ],
-            ListView.builder(
-              padding: EdgeInsets.zero,
-              shrinkWrap: true,
+            ),
+            const SDivider(),
+            const SizedBox(height: 24),
+          ],
+          Expanded(
+            child: ListView.builder(
+              padding: const EdgeInsets.only(bottom: 24.0),
               itemCount: store.filtedGlobalSendMethods.length,
               itemBuilder: (context, i) {
                 final maxLim = getIt<FormatService>().convertOneCurrencyToAnotherOne(
@@ -86,24 +85,26 @@ class SendCardPaymentMethodBody extends StatelessObserverWidget {
                   isMin: false,
                 );
 
-                return SimpleTableAsset(
+                return SimpleHistoryTable(
                   label: store.filtedGlobalSendMethods[i].name ?? '',
-                  isPaymentMethod: true,
                   supplement: intl.payment_method_current_limits(
                     maxLim.toFormatCount(
                       accuracy: currency.accuracy,
                       symbol: currency.symbol,
                     ),
                   ),
-                  assetIcon: CachedNetworkImage(
-                    height: 40.0,
-                    width: 40.0,
-                    imageUrl: iconForPaymentMethod(
-                      methodId: store.filtedGlobalSendMethods[i].methodId ?? '',
+                  icon: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 4.0),
+                    child: CachedNetworkImage(
+                      height: 40.0,
+                      width: 40.0,
+                      imageUrl: iconForPaymentMethod(
+                        methodId: store.filtedGlobalSendMethods[i].methodId ?? '',
+                      ),
+                      fit: BoxFit.fill,
                     ),
-                    fit: BoxFit.fill,
                   ),
-                  onTableAssetTap: () {
+                  onTap: () {
                     sRouter.push(
                       SendCardDetailRouter(
                         countryCode: countryCode,
@@ -115,9 +116,8 @@ class SendCardPaymentMethodBody extends StatelessObserverWidget {
                 );
               },
             ),
-            const SizedBox(height: 24),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

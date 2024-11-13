@@ -25,8 +25,14 @@ export 'widgets/navigation/top_app_bar/advanced_app_bar/wallet_app_bar/wallet_ap
 export 'widgets/navigation/top_app_bar/advanced_app_bar/mainscreen_app_bar/collapsed_mainscreen_appbar.dart';
 export 'widgets/navigation/top_app_bar/advanced_app_bar/mainscreen_app_bar/mainscreen_appbar.dart';
 
-export 'widgets/table/account_table/simple_table_asset.dart';
-export 'widgets/table/account_table/simple_table_account.dart';
+///
+/// Table
+///
+// Interactive:
+export 'widgets/table/interactive/account_table/simple_table_asset.dart';
+export 'widgets/table/interactive/account_table/simple_table_account.dart';
+export 'widgets/table/interactive/history_table/simple_history_table.dart';
+
 export 'widgets/table/heading/simple_header.dart';
 export 'widgets/table/placeholder/simple_placeholder.dart';
 export 'widgets/table/actioned/simpe_actioned.dart';

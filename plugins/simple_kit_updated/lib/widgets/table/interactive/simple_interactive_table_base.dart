@@ -4,21 +4,18 @@ import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 class SAccountTableBase extends StatelessWidget {
   const SAccountTableBase({
     super.key,
-    this.hasButton = false,
-    this.isHighlated = false,
+    this.isHighlighted = false,
     required this.child,
   });
 
-  final bool hasButton;
   final Widget child;
 
-  final bool isHighlated;
+  final bool isHighlighted;
 
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
-      color: isHighlated ? SColorsLight().gray2 : Colors.transparent,
-      //height: hasButton ? 128 : 80,
+      color: isHighlighted ? SColorsLight().gray2 : Colors.transparent,
       child: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: 24,
