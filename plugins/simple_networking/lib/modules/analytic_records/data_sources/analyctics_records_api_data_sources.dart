@@ -47,8 +47,8 @@ class AnalycticsRecordsApiDataSources {
   }
 
   Future<DC<ServerRejectException, void>> postAddAnchorRequest(
-      AnchorRecordModel anchorRecord,
-      ) async {
+    AnchorRecordModel anchorRecord,
+  ) async {
     try {
       final recordJson = anchorRecord.toJson();
       recordJson['metadata'] = json.encode(recordJson['metadata']);
@@ -56,6 +56,27 @@ class AnalycticsRecordsApiDataSources {
       final response = await _apiClient.post(
         '${_apiClient.options.walletApi}/analytic-records/add-anchor',
         data: recordJson,
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+
+        handleResultResponse(responseData);
+
+        return DC.data(null);
+      } catch (e) {
+        rethrow;
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<DC<ServerRejectException, void>> postPushNotificationOpenRequest(Map<String, dynamic> data) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/analytic-records/push-notification-open',
+        data: data,
       );
 
       try {

@@ -216,6 +216,7 @@ abstract class _SellAmountStoreBase with Store {
   @action
   void setNewAsset(CurrencyModel newAsset) {
     onMaxPressed = false;
+    isMaxActive = false;
 
     asset = newAsset;
 
@@ -236,6 +237,8 @@ abstract class _SellAmountStoreBase with Store {
     SimpleBankingAccount? newAccount,
     CardDataModel? newCard,
   }) {
+    onMaxPressed = false;
+    isMaxActive = false;
     if (newAccount != null) {
       account = newAccount;
       card = null;

@@ -16,6 +16,7 @@ import 'package:jetwallet/core/services/device_info/device_info.dart';
 import 'package:jetwallet/core/services/intercom/intercom_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
+import 'package:jetwallet/core/services/push_notification_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/route_query_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
@@ -140,11 +141,12 @@ class DeepLinkService {
   String? lastDeepLink;
   DateTime? lastDeepLinkTime;
 
-  void handle(
+  Future<void> handle(
     Uri link, {
     SourceScreen? source,
     bool? fromBG,
-  }) {
+    String? messageId,
+  }) async {
     // old version
     var parameters = link.queryParameters;
 
@@ -171,7 +173,7 @@ class DeepLinkService {
     final utmSource = parameters[_utmSource];
 
     if (utmSource != null) {
-      _saveUtmSourse(utm: utmSource);
+      await _saveUtmSourse(utm: utmSource);
     }
 
     getIt.get<SimpleLoggerService>().log(
@@ -181,65 +183,87 @@ class DeepLinkService {
         );
 
     if (AnchorsHelper.allAnchorTypes.contains(command)) {
-      getIt.get<AnchorsService>().handleDeeplink(
+      await getIt.get<AnchorsService>().handleDeeplink(
             type: command!,
             metadata: parameters,
+            messageId: messageId,
           );
     } else if (command == _confirmEmail) {
       _confirmEmailCommand(parameters);
     } else if (command == _confirmWithdraw) {
       _confirmWithdrawCommand(parameters);
     } else if (command == _inviteFriend) {
-      _inviteFriendCommand();
+      await _inviteFriendCommand();
+      if (messageId != null && messageId.isNotEmpty) {
+        unawaited(logPushNotificationToBD(messageId, 2));
+      }
     } else if (command == _referralRedirect) {
-      _referralRedirectCommand(parameters);
+      await _referralRedirectCommand(parameters);
     } else if (command == _kycVerification) {
       _kycVerificationCommand();
     } else if (command == _depositStart) {
-      _depositStartCommand(source);
+      await _depositStartCommand(source);
     } else if (command == _jwSwap) {
-      pushCryptoHistory(parameters);
+      await pushCryptoHistory(parameters);
     } else if (command == _jwTransferByPhoneSend) {
-      pushCryptoWithdrawal(parameters);
+      await pushCryptoWithdrawal(parameters);
     } else if (command == _jwCrypto_withdrawal_decline) {
-      pushWithrawalDecline(parameters);
+      await pushWithrawalDecline(parameters);
     } else if (command == jw_deposit_successful) {
-      pushDepositSuccess(parameters);
+      await pushDepositSuccess(parameters);
     } else if (command == jw_support_page) {
-      pushSupportPage(parameters);
+      await pushSupportPage(parameters);
     } else if (command == jw_gift_incoming) {
       //just open the application
     } else if (command == jw_gift_remind) {
-      pushRemindGiftBottomSheet(parameters);
+      await pushRemindGiftBottomSheet(parameters);
     } else if (command == _marketsScreen) {
-      pushMarketsScreen(parameters);
+      await pushMarketsScreen(parameters);
     } else if (command == _jwKycBanned) {
-      pushDocumentNotVerified(parameters);
+      await pushDocumentNotVerified(parameters);
     } else if (command == _rateUpCommand) {
-      pushRateUp(parameters);
+      await pushRateUp(parameters);
     } else if (command == _earnScreen) {
-      showEarnScreen(parameters);
+      await showEarnScreen(parameters);
     } else if (command == _techScreen) {
-      showTechToast(parameters);
+      await showTechToast(parameters);
     } else if (command == _profile_screen) {
-      pushProfileScreen(parameters);
+      await pushProfileScreen(parameters);
     } else if (command == _get_simple_card) {
-      showGetSimpleCard(parameters);
+      await showGetSimpleCard(parameters);
     } else if (command == _card_screen) {
-      pushSimpleCardScreen(parameters);
+      await pushSimpleCardScreen(parameters);
     } else if (command == _assetScreen) {
-      _pushAssetScreen(parameters);
+      await _pushAssetScreen(parameters);
     } else if (command == _mySimpleCoinsScreen) {
-      _pushMySimpleCoinsScreen(parameters);
+      await _pushMySimpleCoinsScreen(parameters);
     } else if (command == _jar) {
-      _pushJar(parameters);
+      await _pushJar(parameters);
     } else if (command == _market_sector) {
-      openMarketSectorScreen(parameters);
+      await openMarketSectorScreen(parameters);
     } else if (command == _card_preorder) {
-      openCardPreorderTab(parameters);
+      await openCardPreorderTab(parameters);
     } else {
       if (parameters.containsKey('jw_operation_id')) {
-        pushCryptoHistory(parameters);
+        await pushCryptoHistory(parameters);
+      }
+    }
+
+    if (messageId != null && messageId.isNotEmpty) {
+      if (getIt.isRegistered<AppStore>() &&
+          getIt.get<AppStore>().remoteConfigStatus is Success &&
+          getIt.get<AppStore>().authorizedStatus is Home &&
+          getIt<TimerService>().isPinScreenOpen == false) {
+        await logPushNotificationToBD(messageId, 2);
+      } else {
+        getIt<RouteQueryService>().addToQuery(
+          RouteQueryModel(
+            func: () async {
+              await Future.delayed(const Duration(seconds: 1));
+              await logPushNotificationToBD(messageId, 2);
+            },
+          ),
+        );
       }
     }
   }
@@ -399,13 +423,22 @@ class DeepLinkService {
     final isValidUrl = uri.isAbsolute && uri.hasScheme && uri.host.isNotEmpty;
 
     if (isValidUrl) {
-      handle(uri);
+      await handle(uri);
     }
   }
 
   /// Push Notification Links
 
-  Future<void> handlePushNotificationLink(RemoteMessage message) async {
+  Future<void> handlePushNotificationLink(
+    RemoteMessage message, [
+    bool isBackground = false,
+  ]) async {
+    if (isBackground) {
+      if (message.data['messageId'] != null) {
+        unawaited(logPushNotificationToBD(message.data['messageId'] as String, 1));
+      }
+    }
+
     getIt.get<SimpleLoggerService>().log(
           level: Level.error,
           place: _loggerService,
@@ -422,7 +455,10 @@ class DeepLinkService {
       }
       lastDeepLink = message.data['actionUrl'] as String;
       lastDeepLinkTime = DateTime.now();
-      handle(Uri.parse(message.data['actionUrl'] as String));
+      await handle(
+        Uri.parse(message.data['actionUrl'] as String),
+        messageId: message.data['messageId'] as String? ?? '',
+      );
     }
   }
 

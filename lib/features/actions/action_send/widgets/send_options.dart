@@ -33,16 +33,6 @@ void showSendOptions(
   final isGiftAvaible = _checkGiftAvaible();
   final isAllowBankTransfer = isGlobalAvaible;
 
-  if (currentAsset.networksForBlockchainSend.isEmpty) {
-    showAssetOnlyTradableWithinSimpleAppDialog();
-
-    return;
-  } else if (currency.isAssetBalanceEmpty) {
-    showPleaseAddFundsToYourBalanceDialog(onBuyPressed);
-
-    return;
-  }
-
   if (!(isToCryptoWalletAvaible || isGlobalAvaible || isGiftAvaible)) {
     showSendTimerAlertOr(
       context: context,
@@ -58,6 +48,16 @@ void showSendOptions(
       },
       from: [BlockingType.transfer, BlockingType.withdrawal],
     );
+
+    return;
+  }
+
+  if (currentAsset.networksForBlockchainSend.isEmpty) {
+    showAssetOnlyTradableWithinSimpleAppDialog();
+
+    return;
+  } else if (currency.isAssetBalanceEmpty) {
+    showPleaseAddFundsToYourBalanceDialog(onBuyPressed);
 
     return;
   }

@@ -3540,7 +3540,7 @@
         "description": "Не удалось",
         "type": "text"
     },
-    "send_globally_cond_text_6": "3. Я розумію, що цей грошовий переказ обробляється через мережу P2P. Організатором P2P-переказів є Payport LLC.",
+    "send_globally_cond_text_6": "",
     "@send_globally_cond_text_6": {
         "description": "3. Я понимаю, что этот денежный перевод в большей степени обрабатывается через сеть P2P. Организатором P2P-переводов является Payport LLC.",
         "type": "text"
@@ -5964,5 +5964,8 @@
     "deleteProfileConditions_total_balance": "Загальний баланс складає {balance}.",
     "deleteProfileConditions_total_coins": "Баланс Simple Coin складає {balance}.",
     "deleteProfileConditions_withdraw_or_transfer_funds": "Вивести або перевести кошти",
-    "deleteProfileConditions_delete_anyway": "Видалити все одно"
+    "deleteProfileConditions_delete_anyway": "Видалити все одно",
+    "crypto_jar_banner_description": "Дізнатися більше",
+    "crypto_jar_banner_title": "Simple Crypto Jars зроблять отримання криптовалюти надзвичайно простим.",
+    "payment_method_current_limits": "Поточні ліміти: {value}"
 }

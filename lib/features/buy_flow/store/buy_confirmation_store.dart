@@ -124,9 +124,6 @@ abstract class _BuyConfirmationStoreBase with Store {
   @observable
   bool deviceBindingRequired = false;
 
-  @observable
-  Decimal price = Decimal.zero;
-
   AnimationController? timerAnimation;
   @observable
   int timer = 0;
@@ -525,7 +522,7 @@ abstract class _BuyConfirmationStoreBase with Store {
         final model = ExecuteQuoteRequestModel(
           isFromFixed: isFromFixed,
           operationId: paymentId,
-          price: price,
+          price: rate ?? Decimal.zero,
           fromAssetSymbol: paymentAsset!,
           toAssetSymbol: buyAsset!,
           fromAssetAmount: paymentAmount,

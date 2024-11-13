@@ -5,6 +5,7 @@ import 'package:simple_networking/modules/analytic_records/data_sources/analycti
 import 'package:simple_networking/modules/analytic_records/models/analytic_record.dart';
 import 'package:simple_networking/modules/analytic_records/models/anchor_record.dart';
 import 'package:simple_networking/modules/analytic_records/models/analytic_record_response.dart';
+import 'package:simple_networking/modules/analytic_records/models/push_notification_open_request.dart';
 
 class AnalycticsRecordsApiRepository {
   AnalycticsRecordsApiRepository(this._apiClient) {
@@ -27,6 +28,21 @@ class AnalycticsRecordsApiRepository {
   ) async {
     return _analycticsRecordshApiDataSource.postAddAnchorRequest(
       anchorRecord,
+    );
+  }
+
+  Future<DC<ServerRejectException, void>> postPushNotificationOpen(
+    PushNotificationOpenRequestModel pushNotificationOpenRequestModel,
+  ) async {
+    final Map<String, dynamic> data = {
+      'messageId': pushNotificationOpenRequestModel.messageId,
+      'appVersion': pushNotificationOpenRequestModel.appVersion,
+      'device': pushNotificationOpenRequestModel.device,
+      'status': pushNotificationOpenRequestModel.status,
+    };
+
+    return _analycticsRecordshApiDataSource.postPushNotificationOpenRequest(
+      data,
     );
   }
 }

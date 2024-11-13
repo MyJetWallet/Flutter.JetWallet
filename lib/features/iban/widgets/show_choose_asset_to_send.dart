@@ -98,7 +98,8 @@ class _ChooseAssetToSend extends StatelessObserverWidget {
               element.isAssetBalanceNotEmpty &&
               ((isUahBankTransfer || isGlobalSend)
                   ? element.supporGlobalSendWithdrawal
-                  : element.supportsCryptoWithdrawal),
+                  : element.supportsCryptoWithdrawal) &&
+              element.symbol != 'EUR',
         )
         .toList();
 
@@ -129,12 +130,13 @@ class _ChooseAssetToSend extends StatelessObserverWidget {
           else if (searchedBankAccounts.isNotEmpty)
             _buildEuroText(),
         ],
-        if ((isGlobalSend || isUahBankTransfer) && simpleAccount != null) ...[
-          _buildSimpleBank(
-            context,
-            eurCurrency,
-            simpleAccount,
-          ),
+        if (isGlobalSend || isUahBankTransfer) ...[
+          if (simpleAccount != null)
+            _buildSimpleBank(
+              context,
+              eurCurrency,
+              simpleAccount,
+            ),
         ] else ...[
           if (isCJ! && simpleAccount != null)
             _buildSimpleBank(
@@ -150,22 +152,28 @@ class _ChooseAssetToSend extends StatelessObserverWidget {
             ),
         ],
         if (currencyFiltered.isNotEmpty)
-          Padding(
-            padding: const EdgeInsets.only(
-              left: 24.0,
-              right: 24.0,
-              top: 8.0,
-            ),
-            child: Text(
-              intl.market_crypto,
-              style: STStyles.body2Semibold.copyWith(
-                color: SColorsLight().gray8,
+          if (currencyFiltered.first.isAssetBalanceNotEmpty &&
+              ((isUahBankTransfer || isGlobalSend)
+                  ? currencyFiltered.first.supporGlobalSendWithdrawal
+                  : currencyFiltered.first.supportsCryptoWithdrawal))
+            Padding(
+              padding: const EdgeInsets.only(
+                left: 24.0,
+                right: 24.0,
+                top: 8.0,
+              ),
+              child: Text(
+                intl.market_crypto,
+                style: STStyles.body2Semibold.copyWith(
+                  color: SColorsLight().gray8,
+                ),
               ),
             ),
-          ),
         for (final currency in currencyFiltered)
           if (currency.isAssetBalanceNotEmpty)
-            if (currency.supportsCryptoWithdrawal)
+            if ((isUahBankTransfer || isGlobalSend)
+                ? currency.supporGlobalSendWithdrawal
+                : currency.supportsCryptoWithdrawal)
               SimpleTableAccount(
                 assetIcon: NetworkIconWidget(
                   currency.iconUrl,
@@ -209,7 +217,7 @@ class _ChooseAssetToSend extends StatelessObserverWidget {
                 },
               ),
         const SizedBox(
-          height: 12.0,
+          height: 32.0,
         ),
       ],
     );
@@ -293,6 +301,9 @@ class _ChooseAssetToSend extends StatelessObserverWidget {
             simpleAccount.status == AccountStatus.active ? intl.eur_wallet_simple_account : intl.create_simple_creating,
         hasRightValue: simpleAccount.status == AccountStatus.active,
         onTableAssetTap: () {
+          if (simpleAccount.status == AccountStatus.inCreation) {
+            return;
+          }
           Navigator.pop(context);
 
           if (isGlobalSend) {
@@ -337,6 +348,9 @@ class _ChooseAssetToSend extends StatelessObserverWidget {
         itemBuilder: (context, index) {
           return SimpleTableAsset(
             onTableAssetTap: () {
+              if (searchedBankAccounts[index].status == AccountStatus.inCreation) {
+                return;
+              }
               Navigator.pop(context);
 
               if (isGlobalSend) {

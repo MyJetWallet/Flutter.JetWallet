@@ -2,7 +2,9 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/features/app/store/global_loader.dart';
 import 'package:jetwallet/features/send_gift/widgets/share_gift_result_bottom_sheet.dart';
 import 'package:jetwallet/features/transaction_history/widgets/history_copy_icon.dart';
 import 'package:jetwallet/features/transaction_history/widgets/transaction_details/components/transaction_details_status.dart';
@@ -11,7 +13,6 @@ import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:simple_kit/modules/shared/stack_loader/stack_loader.dart';
-import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
@@ -32,8 +33,6 @@ class GiftSendDetails extends StatelessWidget {
   final OperationHistoryItem transactionListItem;
   final Function(String) onCopyAction;
 
-  final store = StackLoaderStore();
-
   @override
   Widget build(BuildContext context) {
     final receiverContact =
@@ -45,7 +44,7 @@ class GiftSendDetails extends StatelessWidget {
 
     return StackLoader(
       loaderText: intl.register_pleaseWait,
-      loading: store,
+      loading: null,
       child: SPaddingH24(
         child: Column(
           children: [
@@ -129,15 +128,30 @@ class GiftSendDetails extends StatelessWidget {
                     secondaryButtonName: intl.gift_history_no,
                     primaryButtonType: SButtonType.primary3,
                     onPrimaryButtonTap: () async {
-                      store.startLoadingImmediately();
+                      getIt.get<GlobalLoader>().setLoading(true);
                       Navigator.pop(context);
-                      await getIt.get<SNetwork>().simpleNetworking.getWalletModule().cancelGift(
-                            transactionListItem.giftSendInfo?.transferId ?? '',
+                      try {
+                        final result = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().cancelGift(
+                              transactionListItem.giftSendInfo?.transferId ?? '',
+                            );
+
+                        if (result.hasError) {
+                          sNotification.showError(
+                            intl.sPaymentSelectEmpty_somethingWentWrong,
+                            id: 1,
                           );
-                      store.finishLoading();
-                      if (context.mounted) {
-                        Navigator.pop(context);
+                        }
+
+                        if (context.mounted) {
+                          Navigator.pop(context);
+                        }
+                      } catch (e) {
+                        sNotification.showError(
+                          intl.sPaymentSelectEmpty_somethingWentWrong,
+                          id: 1,
+                        );
                       }
+                      getIt.get<GlobalLoader>().setLoading(false);
                     },
                     onSecondaryButtonTap: () => Navigator.pop(context),
                   );

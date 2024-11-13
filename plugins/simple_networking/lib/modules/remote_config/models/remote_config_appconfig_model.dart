@@ -46,6 +46,7 @@ class RemoteConfigAppconfigModel with _$RemoteConfigAppconfigModel {
     @Default(3) int simpleCoinRoadmapCompletedSteep,
     @Default([]) List<RewardsAssetModel> rewardsAssets,
     @Default('https://simple.app/terms-and-conditions-jar/') String jarTerms,
+    @Default('') String jarsInfoLanding,
     @Default(false) bool showPhoneNumberStep,
   }) = _RemoteConfigAppconfigModel;
 
