@@ -94,6 +94,7 @@ Future<void> showSendAction(bool isEmptyBalance, BuildContext context) async {
             Navigator.pop(context);
             _showSendActionChooseAsset(context);
           },
+          hasRightValue: false,
         ),
       if (isGlobalAvaible)
         SimpleTableAsset(
@@ -104,6 +105,7 @@ Future<void> showSendAction(bool isEmptyBalance, BuildContext context) async {
             Navigator.pop(context);
             showGlobalSendCurrenctSelect(context);
           },
+          hasRightValue: false,
         ),
       if (isGiftAvaible)
         SimpleTableAsset(
@@ -114,6 +116,7 @@ Future<void> showSendAction(bool isEmptyBalance, BuildContext context) async {
             Navigator.pop(context);
             sRouter.push(const GiftSelectAssetRouter());
           },
+          hasRightValue: false,
         ),
       if (isAllowBankTransfer)
         SimpleTableAsset(
@@ -124,6 +127,7 @@ Future<void> showSendAction(bool isEmptyBalance, BuildContext context) async {
             Navigator.pop(context);
             showBankTransferTo(context);
           },
+          hasRightValue: false,
         ),
       const SpaceH42(),
     ],
@@ -245,6 +249,7 @@ class _GlobalSendCountriesList extends StatelessObserverWidget {
               );
             }
           },
+          hasRightValue: false,
         );
       },
     );
@@ -474,6 +479,7 @@ void showBankTransferTo(BuildContext context, [CurrencyModel? currency]) {
             }
           }
         },
+        hasRightValue: false,
       ),
       SimpleTableAsset(
         assetIcon: Assets.svg.medium.userSend.simpleSvg(color: SColorsLight().blue),
@@ -524,6 +530,7 @@ void showBankTransferTo(BuildContext context, [CurrencyModel? currency]) {
             }
           }
         },
+        hasRightValue: false,
       ),
       // if (methods.isNotEmpty)
       //   SCardRow(
