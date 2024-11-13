@@ -251,6 +251,7 @@ abstract class _ConvertAmountStoreBase with Store {
     _maxToAssetVolume = Decimal.zero;
 
     onMaxPressed = false;
+    isMaxActive = false;
     setLoadingMaxButton(true);
     unawaited(loadLimits());
 
