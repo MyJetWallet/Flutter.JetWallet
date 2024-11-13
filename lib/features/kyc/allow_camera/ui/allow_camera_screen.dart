@@ -112,6 +112,7 @@ class _AllowCameraScreenBodyState extends State<_AllowCameraScreenBody> with Wid
           right: 24,
         ),
         child: SButton.blue(
+          isLoading: AllowCameraStore.of(context).isLoading,
           callback: () async {
             await AllowCameraStore.of(context).handleCameraPermission(context);
           },

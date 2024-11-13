@@ -1,16 +1,22 @@
 // ignore_for_file: unreachable_from_main
 
+import 'dart:convert';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/deep_link_service.dart';
+import 'package:jetwallet/core/services/device_info/device_info.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
+import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/startup_service.dart';
 import 'package:logger/logger.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_networking/modules/analytic_records/models/push_notification_open_request.dart';
 
 const String _loggerService = 'PushNotificationService';
 
@@ -71,7 +77,7 @@ class PushNotificationService {
         initializationSettings,
         onDidReceiveNotificationResponse: (details) async {
           if (details.payload != null) {
-            getIt.get<DeepLinkService>().handle(Uri.parse(details.payload!));
+            await getIt.get<DeepLinkService>().handle(Uri.parse(details.payload!));
           }
         },
       );
@@ -105,15 +111,23 @@ class PushNotificationService {
   }
 
   void _onMessage(RemoteMessage message) {
+    if (message.data['messageId'] != null) {
+      logPushNotificationToBD(message.data['messageId'] as String, 1);
+    }
     if (_nullChecked(message)) {
       final notification = message.notification!;
+
+      final data = {
+        'actionUrl': message.data['actionUrl'],
+        'messageId': message.data['messageId'],
+      };
 
       _plugin.show(
         notification.hashCode,
         notification.title,
         notification.body,
         _notificationDetails,
-        payload: message.data['actionUrl'] as String?,
+        payload: json.encode(data),
       );
     } else {
       getIt.get<SimpleLoggerService>().log(
@@ -137,7 +151,20 @@ class PushNotificationService {
         initializationSettings,
         onDidReceiveNotificationResponse: (details) async {
           if (details.payload != null) {
-            getIt.get<DeepLinkService>().handle(Uri.parse(details.payload!));
+            final data = json.decode(details.payload ?? '{}') as Map<String, String>;
+            String? messageId;
+            String? actionUrl;
+            if (data['messageId'] != null) {
+              messageId = data['messageId'];
+            }
+            if (data['actionUrl'] != null) {
+              actionUrl = data['actionUrl'];
+            }
+
+            await getIt.get<DeepLinkService>().handle(
+                  Uri.parse(actionUrl ?? ''),
+                  messageId: messageId ?? '',
+                );
           }
         },
       );
@@ -196,11 +223,26 @@ Future<void> messagingBackgroundHandler(RemoteMessage message) async {
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
 
-  await getIt.get<DeepLinkService>().handlePushNotificationLink(message);
+  await getIt.get<DeepLinkService>().handlePushNotificationLink(message, true);
 
   getIt.get<SimpleLoggerService>().log(
     level: Level.info,
     place: _loggerService,
     message: '''_messagingBackgroundHandler \n\n A background message just showed up: $message''',
   );
+}
+
+Future<void> logPushNotificationToBD(String messageId, int status) async {
+  final packageInfo = await PackageInfo.fromPlatform();
+  final version = packageInfo.version;
+  final device = sDeviceInfo.osName;
+
+  await getIt.get<SNetwork>().simpleNetworking.getAnalyticApiModule().postPushNotificationOpen(
+        PushNotificationOpenRequestModel(
+          messageId: messageId,
+          appVersion: version,
+          device: device,
+          status: status,
+        ),
+      );
 }

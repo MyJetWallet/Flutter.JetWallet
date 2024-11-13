@@ -85,9 +85,6 @@ abstract class _ConvertConfirmationStoreBase with Store {
   @observable
   int actualTimeInSecond = 30;
 
-  @observable
-  Decimal price = Decimal.zero;
-
   AnimationController? timerAnimation;
   @observable
   int timer = 0;
@@ -324,7 +321,7 @@ abstract class _ConvertConfirmationStoreBase with Store {
       final model = ExecuteQuoteRequestModel(
         isFromFixed: isFromFixed,
         operationId: paymentId,
-        price: price,
+        price: rate ?? Decimal.zero,
         fromAssetSymbol: paymentAsset!,
         toAssetSymbol: buyAsset!,
         fromAssetAmount: paymentAmount,

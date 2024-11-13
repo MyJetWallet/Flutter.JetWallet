@@ -242,6 +242,7 @@ class RemoteConfig {
     simpleCoinRoadmapCompletedSteep = remoteConfig!.appConfig.simpleCoinRoadmapCompletedSteep;
     rewardsAssets = remoteConfig!.appConfig.rewardsAssets;
     jarTerms = remoteConfig!.appConfig.jarTerms;
+    jarsInfoLanding = remoteConfig!.appConfig.jarsInfoLanding;
     showPhoneNumberStep = remoteConfig!.appConfig.showPhoneNumberStep;
   }
 

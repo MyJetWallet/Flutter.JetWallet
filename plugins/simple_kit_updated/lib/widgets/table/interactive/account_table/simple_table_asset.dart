@@ -25,6 +25,7 @@ class SimpleTableAsset extends HookWidget {
     this.rightValueMarketPositive = true,
     this.isLoading = false,
     this.isHighlated = false,
+    this.isPaymentMethod = false,
     this.chartWidget,
   });
 
@@ -32,6 +33,7 @@ class SimpleTableAsset extends HookWidget {
 
   final bool isCard;
   final bool isCardWallet;
+  final bool isPaymentMethod;
   final Widget? assetIcon;
 
   final bool needPadding;
@@ -69,13 +71,15 @@ class SimpleTableAsset extends HookWidget {
       child: ColoredBox(
         color: isHighlated.value ? SColorsLight().gray2 : Colors.transparent,
         child: SizedBox(
-          height: needPadding
-              ? supplement == null
-                  ? 64
-                  : isCardWallet
-                      ? 72
-                      : 80
-              : 48,
+          height: isPaymentMethod
+              ? 80.0
+              : needPadding
+                  ? supplement == null
+                      ? 64
+                      : isCardWallet
+                          ? 72
+                          : 80
+                  : 48,
           child: Padding(
             padding: needPadding
                 ? EdgeInsets.only(
@@ -99,7 +103,12 @@ class SimpleTableAsset extends HookWidget {
                     ),
                   ),
                 ] else ...[
-                  if (isCardWallet) ...[
+                  if (isPaymentMethod) ...[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4.0),
+                      child: assetIcon,
+                    ),
+                  ] else if (isCardWallet) ...[
                     Padding(
                       padding: const EdgeInsets.only(top: 8, bottom: 4),
                       child: assetIcon,

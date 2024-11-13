@@ -45,14 +45,6 @@ Future<void> showSendAction(bool isEmptyBalance, BuildContext context) async {
   final isGiftAvaible = checkGiftAvaible();
   final isAllowBankTransfer = isGlobalAvaible;
 
-  if (isEmptyBalance) {
-    showPleaseAddFundsToYourBalanceDialog(() {
-      showBuyAction(context: context);
-    });
-
-    return;
-  }
-
   if (!(isToCryptoWalletAvaible || isGlobalAvaible || isGiftAvaible)) {
     handler.handle(
       multiStatus: [
@@ -73,6 +65,14 @@ Future<void> showSendAction(bool isEmptyBalance, BuildContext context) async {
       requiredDocuments: kycState.requiredDocuments,
       requiredVerifications: kycState.requiredVerifications,
     );
+
+    return;
+  }
+
+  if (isEmptyBalance) {
+    showPleaseAddFundsToYourBalanceDialog(() {
+      showBuyAction(context: context);
+    });
 
     return;
   }

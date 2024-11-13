@@ -240,7 +240,7 @@ class _RewardTransferPopupState extends State<RewardTransferPopup> {
                 //if (isClaimButtonActive) ...[
                 SButton.black(
                   text: isClaimButtonActive ? intl.reward_transfer : '',
-                  icon: isClaimButtonActive ? null : const LoaderSpinner(),
+                  isLoading: !isClaimButtonActive,
                   callback: isClaimButtonActive
                       ? () async {
                           setState(() {

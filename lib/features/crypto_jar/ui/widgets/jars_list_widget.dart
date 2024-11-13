@@ -7,6 +7,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/crypto_jar/store/jars_store.dart';
 import 'package:jetwallet/features/crypto_jar/ui/widgets/create_jar_button_widget.dart';
 import 'package:jetwallet/features/crypto_jar/ui/widgets/jar_list_item_widget.dart';
+import 'package:jetwallet/features/crypto_jar/ui/widgets/jars_banner_widget.dart';
 import 'package:jetwallet/features/crypto_jar/ui/widgets/no_active_jars_placeholder_widget.dart';
 import 'package:jetwallet/features/earn/widgets/basic_header.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
@@ -51,6 +52,9 @@ class JarsListWidget extends StatelessWidget {
                   SliverToBoxAdapter(
                     child: _buildJarsHeader(store),
                   ),
+                  const SliverToBoxAdapter(
+                    child: JarsBannerWidget(),
+                  ),
                   SliverList.builder(
                     itemCount: store.shownJars.length,
                     itemBuilder: (context, index) => JarListItemWidget(
@@ -63,6 +67,7 @@ class JarsListWidget extends StatelessWidget {
               return Column(
                 children: [
                   _buildJarsHeader(store),
+                  const JarsBannerWidget(),
                   const SizedBox(
                     height: 7.0,
                   ),

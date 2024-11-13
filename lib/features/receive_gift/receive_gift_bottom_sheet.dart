@@ -225,11 +225,17 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
     try {
       await getIt.get<SNetwork>().simpleNetworking.getWalletModule().acceptGift(giftModel.id);
 
-      await showSuccessScreen(currency);
+      if (sRouter.stack.any((rout) => rout.name == 'ProgressRouter')) {
+        await showSuccessScreen(currency);
+      }
     } on ServerRejectException catch (error) {
-      await showFailureScreen(error.cause, context);
+      if (sRouter.stack.any((rout) => rout.name == 'ProgressRouter')) {
+        await showFailureScreen(error.cause, context);
+      }
     } catch (error) {
-      await showFailureScreen(intl.something_went_wrong, context);
+      if (sRouter.stack.any((rout) => rout.name == 'ProgressRouter')) {
+        await showFailureScreen(intl.something_went_wrong, context);
+      }
     }
   }
 
