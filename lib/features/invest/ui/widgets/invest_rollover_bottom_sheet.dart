@@ -10,9 +10,9 @@ import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/invest/stores/dashboard/invest_dashboard_store.dart';
 import 'package:jetwallet/features/invest/ui/invests/data_line.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
-import 'package:simple_kit/modules/colors/simple_colors_light.dart';
+import 'package:simple_kit/modules/colors/simple_colors_light.dart' as colors;
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/widgets/button/invest_buttons/invest_button.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/invest/new_invest_request_model.dart';
@@ -49,10 +49,10 @@ void showInvestRolloverBottomSheet(
                     children: [
                       Expanded(
                         child: SIButton(
-                          activeColor: SColorsLight().grey5,
-                          activeNameColor: SColorsLight().black,
-                          inactiveColor: SColorsLight().grey2,
-                          inactiveNameColor: SColorsLight().grey4,
+                          activeColor: colors.SColorsLight().grey5,
+                          activeNameColor: colors.SColorsLight().black,
+                          inactiveColor: colors.SColorsLight().grey2,
+                          inactiveNameColor: colors.SColorsLight().grey4,
                           active: true,
                           name: intl.invest_alert_got_it,
                           onTap: () {

@@ -5,6 +5,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/bank_card/helper/masked_text_input_formatter.dart';
 import 'package:jetwallet/features/bank_card/store/bank_card_store.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 
 class BankCardDateLabel extends StatelessObserverWidget {
   const BankCardDateLabel({
@@ -49,9 +50,10 @@ class BankCardDateLabel extends StatelessObserverWidget {
           ),
         ),
         if (showLabel) ...[
-          const SDivider(
+          Container(
             width: 1.0,
             height: 88.0,
+            color: SColorsLight().gray4,
           ),
           Expanded(
             child: SFieldDividerFrame(

@@ -46,6 +46,7 @@ export 'widgets/table/divider/simple_text_divider.dart';
 export 'widgets/table/phone_codes/simple_phone_codes.dart';
 export 'widgets/table/copyable/simple_copyable.dart';
 export 'widgets/table/editable/simple_editable.dart';
+export 'widgets/table/divider/simple_divider.dart';
 
 export 'widgets/button/specific/specific_button.dart';
 export 'widgets/button/limits/limits_button.dart';

@@ -106,7 +106,7 @@ class PaymentCardItem extends StatelessObserverWidget {
                                     baselineType: TextBaseline.alphabetic,
                                     child: Text(
                                       currency ?? '',
-                                      style:  STStyles.captionMedium.copyWith(
+                                      style: STStyles.captionMedium.copyWith(
                                         color: sKit.colors.grey1,
                                         height: 1.38,
                                       ),
@@ -163,10 +163,7 @@ class PaymentCardItem extends StatelessObserverWidget {
               ],
             ),
             const Spacer(),
-            if (!removeDivider)
-              const SDivider(
-                width: double.infinity,
-              ),
+            if (!removeDivider) const SDivider(),
           ],
         ),
       ),

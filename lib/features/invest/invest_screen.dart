@@ -17,9 +17,9 @@ import 'package:jetwallet/features/invest/ui/widgets/invest_favorites_bottom_she
 import 'package:jetwallet/features/invest/ui/widgets/invest_list_bottom_sheet.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_market_watch_bottom_sheet.dart';
 import 'package:simple_kit/core/simple_kit.dart';
-import 'package:simple_kit/modules/shared/simple_divider.dart';
 import 'package:simple_kit/modules/shared/simple_paddings.dart';
 import 'package:simple_kit/modules/shared/simple_spacers.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
 
 import '../../core/di/di.dart';

@@ -29,7 +29,6 @@ import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
-import 'package:simple_kit_updated/widgets/table/divider/simple_divider.dart' as divider;
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../core/di/di.dart';
@@ -290,7 +289,7 @@ class _MarketScreenState extends State<MarketScreen> {
                       const SliverPadding(
                         padding: EdgeInsets.symmetric(horizontal: 24),
                         sliver: SliverToBoxAdapter(
-                          child: divider.SDivider(),
+                          child: SDivider(),
                         ),
                       ),
                     ],

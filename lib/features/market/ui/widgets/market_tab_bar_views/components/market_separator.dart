@@ -39,9 +39,7 @@ class MarketSeparator extends StatelessObserverWidget {
           const SpaceW10(),
           if (isNeedDivider)
             Expanded(
-              child: SDivider(
-                color: colors.grey3,
-              ),
+              child: SDivider(),
             ),
         ],
       ),

@@ -5,7 +5,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/widgets/top_movers_asset_item.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class TopMoversMarketSection extends StatelessWidget {
@@ -13,8 +12,6 @@ class TopMoversMarketSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = SColorsLight();
-
     return Observer(
       builder: (context) {
         final marketItems = [...sSignalRModules.getMarketPrices];
@@ -57,17 +54,14 @@ class TopMoversMarketSection extends StatelessWidget {
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(
+            const Padding(
+              padding: EdgeInsets.only(
                 top: 32,
                 left: 24,
                 right: 24,
                 bottom: 8,
               ),
-              child: SDivider(
-                height: 2,
-                color: colors.gray2,
-              ),
+              child: SDivider(),
             ),
           ],
         );

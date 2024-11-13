@@ -242,7 +242,6 @@ export 'modules/shared/qr_code_fields/simple_skeleton_qr_loader.dart';
 /// Components
 export 'modules/shared/simple_baseline_child.dart';
 export 'modules/shared/simple_clickable_link_text.dart';
-export 'modules/shared/simple_divider.dart';
 export 'modules/shared/simple_field_divider_frame.dart';
 export 'modules/shared/simple_get_widget_size.dart';
 export 'modules/shared/simple_icon_button.dart';

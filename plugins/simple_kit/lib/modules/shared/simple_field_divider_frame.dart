@@ -21,11 +21,14 @@ class SFieldDividerFrame extends StatelessWidget {
           SPaddingH24(
             child: child,
           ),
-          const Positioned(
+          Positioned(
             bottom: 0,
             left: 0,
             right: 0,
-            child: SDivider(),
+            child: Container(
+              height: 1.0,
+              color: SColorsLight().grey4,
+            ),
           ),
         ],
       ),
