@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
-import 'package:simple_kit/modules/notifications/model/notification_model.dart';
-import 'package:simple_kit/modules/notifications/show_notification.dart';
+import 'package:simple_kit_updated/widgets/banner/toast/model/notification_model.dart';
+import 'package:simple_kit_updated/widgets/banner/toast/show_notification.dart';
 import 'package:state_notifier/state_notifier.dart';
 
 const _delay = Duration(milliseconds: 500);
@@ -11,7 +11,6 @@ const _delay = Duration(milliseconds: 500);
 /// If snackbar with id "x" is in the queue and you are trying
 /// to show a second snackbar with the same id "x", it won't be
 /// added to the queue until the first snackbar will finish displaying.
-@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
 class SNotificationNotifier extends StateNotifier<Queue<NotificationModel>> {
   SNotificationNotifier(this.context) : super(Queue());
 
@@ -21,11 +20,9 @@ class SNotificationNotifier extends StateNotifier<Queue<NotificationModel>> {
 
   void showError(
     String message, {
-    @Deprecated('Now the time is always the same. The parameter is not used') int duration = 2,
     int? id,
     bool needFeedback = false,
     bool isError = true,
-    @Deprecated('Not used with the new design system') bool hideIcon = false,
   }) {
     _addToQueue(
       NotificationModel(

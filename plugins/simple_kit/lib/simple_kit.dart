@@ -226,12 +226,6 @@ export 'modules/icons/24x24/public/gift/simple_gift_send_icon.dart';
 export 'modules/icons/24x24/public/history_completed/simple_history_completed_icon.dart';
 export 'modules/icons/24x24/public/history_declined/simple_history_declined_icon.dart';
 
-/// Notifications
-export 'modules/notifications/model/notification_model.dart';
-export 'modules/notifications/simple_notification_service.dart';
-export 'modules/notifications/show_notification.dart';
-export 'modules/notifications/simple_notification_box.dart';
-
 /// Page Frames
 export 'modules/shared/qr_code_fields/simple_address_field_with_copy.dart';
 

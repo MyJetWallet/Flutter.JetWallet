@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit/modules/colors/simple_colors_light.dart';
-
-import '../../../simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class SNotificationBox extends StatelessWidget {
   const SNotificationBox({
@@ -18,7 +16,7 @@ class SNotificationBox extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        const SpaceH60(),
+        const SizedBox(height: 60),
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -35,7 +33,7 @@ class SNotificationBox extends StatelessWidget {
                 child: Text(
                   text,
                   maxLines: 10,
-                  style: sBodyText1Style.copyWith(
+                  style: STStyles.subtitle2.copyWith(
                     color: SColorsLight().white,
                   ),
                 ),

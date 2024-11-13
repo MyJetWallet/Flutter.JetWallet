@@ -1,8 +1,8 @@
 import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:simple_kit_updated/widgets/banner/toast/simple_notification_box.dart';
 
-import '../../../simple_kit.dart';
 
 Future showNotification(
   BuildContext context,
@@ -23,7 +23,8 @@ Future showNotification(
         controller: controller,
         position: FlashPosition.top,
         dismissDirections: FlashDismissDirection.values,
-        child: SPaddingH24(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 24),
           child: SNotificationBox(
             text: message,
             isError: isError,

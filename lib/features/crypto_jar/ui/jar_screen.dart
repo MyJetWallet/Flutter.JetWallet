@@ -7,6 +7,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/format_service.dart';
+import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
@@ -62,7 +63,6 @@ class JarScreen extends StatelessWidget {
     );
   }
 }
-
 
 class _JarBody extends StatefulWidget {
   const _JarBody({
@@ -327,7 +327,7 @@ class __JarBodyState extends State<_JarBody> {
             SColorsLight().blueDark,
             () {
               if (kycState.depositStatus == kycOperationStatus(KycStatus.blocked)) {
-                sk.showNotification(context, intl.operation_bloked_text);
+                sNotification.showError(intl.operation_bloked_text);
               } else {
                 showSendTimerAlertOr(
                   context: context,
@@ -353,7 +353,7 @@ class __JarBodyState extends State<_JarBody> {
             () {
               if (getIt.get<JarsStore>().selectedJar!.balance > 0) {
                 if (kycState.withdrawalStatus == kycOperationStatus(KycStatus.blocked)) {
-                  sk.showNotification(context, intl.operation_bloked_text);
+                  sNotification.showError(intl.operation_bloked_text);
                 } else {
                   showSendTimerAlertOr(
                     context: context,
@@ -395,7 +395,7 @@ class __JarBodyState extends State<_JarBody> {
             (allowCloseByTransactions || getIt.get<JarsStore>().selectedJar!.balanceInJarAsset != 0)
                 ? () {
                     if (kycState.withdrawalStatus == kycOperationStatus(KycStatus.blocked)) {
-                      sk.showNotification(context, intl.operation_bloked_text);
+                      sNotification.showError(intl.operation_bloked_text);
 
                       return;
                     } else {
@@ -555,7 +555,7 @@ class __JarBodyState extends State<_JarBody> {
                                 },
                               );
                             } else {
-                              sk.showNotification(context, intl.jar_close_transactions_in_processed_error);
+                              sNotification.showError(intl.jar_close_transactions_in_processed_error);
                             }
                           }
                         },
@@ -563,7 +563,7 @@ class __JarBodyState extends State<_JarBody> {
                     }
                   }
                 : () {
-                    sk.showNotification(context, intl.jar_close_transactions_in_processed_error);
+                    sNotification.showError(intl.jar_close_transactions_in_processed_error);
                   },
             allowCloseByTransactions || getIt.get<JarsStore>().selectedJar!.balanceInJarAsset != 0,
           ),

@@ -6,6 +6,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
+import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/widgets/flag_item.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -57,13 +58,10 @@ Future<bool?> changeLanguagePopup(BuildContext context) async {
                       getIt.get<AppStore>().setLocale(
                             Locale.fromSubtags(languageCode: e.langCode),
                           );
-                      unawaited(
-                        showNotification(
-                          context,
-                          intl.lang_change_alert,
-                          false,
-                          false,
-                        ),
+
+                      sNotification.showError(
+                        intl.lang_change_alert,
+                        isError: false,
                       );
 
                       Navigator.pop(context);
