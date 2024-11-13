@@ -99,12 +99,11 @@ class _ReferenceBodyState extends State<_ReferenceBody> {
                 hideIconsIfNotEmpty: false,
                 maxLength: 100,
                 suffixIcons: [
-                  SIconButton(
+                  SafeGesture(
                     onTap: () {
                       store.paste().then((value) => setState(() {}));
                     },
-                    defaultIcon: const SPasteIcon(),
-                    pressedIcon: const SPastePressedIcon(),
+                    child: const SPasteIcon(),
                   ),
                 ],
                 onErase: () {},

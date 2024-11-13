@@ -140,7 +140,7 @@ class _BodyAdressBookUnlimitState extends State<_BodyAdressBookUnlimit> {
                           isError: IbanAddressBookStore.of(context).isIBANError,
                           hideIconsIfNotEmpty: false,
                           suffixIcons: [
-                            SIconButton(
+                            SafeGesture(
                               onTap: () {
                                 if (IbanAddressBookStore.of(context).ibanController.text.isEmpty) {
                                   IbanAddressBookStore.of(context).pasteIban().then((value) => setState(() {}));
@@ -157,8 +157,7 @@ class _BodyAdressBookUnlimitState extends State<_BodyAdressBookUnlimit> {
                                   onCopyAction();
                                 }
                               },
-                              defaultIcon: const SPasteIcon(),
-                              pressedIcon: const SPastePressedIcon(),
+                              child: const SPasteIcon(),
                             ),
                           ],
                           inputFormatters: [
@@ -186,7 +185,7 @@ class _BodyAdressBookUnlimitState extends State<_BodyAdressBookUnlimit> {
                         },
                         hideIconsIfNotEmpty: false,
                         suffixIcons: [
-                          SIconButton(
+                          SafeGesture(
                             onTap: () {
                               if (IbanAddressBookStore.of(context).bicController.text.isEmpty) {
                                 IbanAddressBookStore.of(context).pasteBIC().then((value) => setState(() {}));
@@ -200,8 +199,7 @@ class _BodyAdressBookUnlimitState extends State<_BodyAdressBookUnlimit> {
                                 onCopyAction();
                               }
                             },
-                            defaultIcon: const SPasteIcon(),
-                            pressedIcon: const SPastePressedIcon(),
+                            child: const SPasteIcon(),
                           ),
                         ],
                         hideSpace: true,
@@ -219,7 +217,7 @@ class _BodyAdressBookUnlimitState extends State<_BodyAdressBookUnlimit> {
                         },
                         hideIconsIfNotEmpty: false,
                         suffixIcons: [
-                          SIconButton(
+                          SafeGesture(
                             onTap: () {
                               if (IbanAddressBookStore.of(context).fullnameController.text.isEmpty) {
                                 IbanAddressBookStore.of(context).pasteFullName().then((value) => setState(() {}));
@@ -234,8 +232,7 @@ class _BodyAdressBookUnlimitState extends State<_BodyAdressBookUnlimit> {
                                 onCopyAction();
                               }
                             },
-                            defaultIcon: const SPasteIcon(),
-                            pressedIcon: const SPastePressedIcon(),
+                            child: const SPasteIcon(),
                           ),
                         ],
                         hideSpace: true,

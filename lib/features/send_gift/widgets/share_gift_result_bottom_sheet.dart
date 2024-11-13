@@ -38,10 +38,9 @@ void shareGiftResultBottomSheet({
           intl.send_gift_share,
           style: STStyles.header6,
         ),
-        SIconButton(
+        SafeGesture(
           onTap: () => Navigator.pop(context),
-          defaultIcon: const SEraseIcon(),
-          pressedIcon: const SErasePressedIcon(),
+          child: const SEraseIcon(),
         ),
       ],
     ),
@@ -295,7 +294,7 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
                       borderRadius: BorderRadius.circular(24),
                     ),
                     padding: const EdgeInsets.all(10),
-                    child: SIconButton(
+                    child: SafeGesture(
                       onTap: () {
                         sNotification.showError(
                           intl.copy_message,
@@ -308,10 +307,9 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
                           ),
                         );
                       },
-                      defaultIcon: SCopyIcon(
+                      child: SCopyIcon(
                         color: sKit.colors.black,
                       ),
-                      pressedIcon: const SCopyPressedIcon(),
                     ),
                   ),
                   const SpaceW24(),
@@ -323,9 +321,8 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
                       borderRadius: BorderRadius.circular(24),
                     ),
                     padding: const EdgeInsets.all(10),
-                    child: SIconButton(
+                    child: SafeGesture(
                       onTap: () async {
-
                         await Share.share(shareText);
 
                         // final boundary = widgetForImageKey.currentContext!.findRenderObject()! as RenderRepaintBoundary;
@@ -351,7 +348,7 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
                         //   text: shareText,
                         // );
                       },
-                      defaultIcon: const SShareIcon(),
+                      child: const SShareIcon(),
                     ),
                   ),
                 ],

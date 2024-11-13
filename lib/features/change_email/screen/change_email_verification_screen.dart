@@ -166,14 +166,13 @@ class __ChangeEmailVerificationBodyState extends State<_ChangeEmailVerificationB
           },
           child: Assets.svg.medium.chat.simpleSvg(),
         ),
-        leftIcon: SIconButton(
+        leftIcon: SafeGesture(
           onTap: () {
             sRouter.popUntil(
               (route) => route.settings.name == ProfileDetailsRouter.name,
             );
           },
-          defaultIcon: const SCloseIcon(),
-          pressedIcon: const SClosePressedIcon(),
+          child: const SCloseIcon(),
         ),
       ),
       child: SingleChildScrollView(

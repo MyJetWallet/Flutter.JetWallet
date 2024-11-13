@@ -43,20 +43,11 @@ class AboveListLine extends StatelessObserverWidget {
               Row(
                 children: [
                   if (withCheckbox) ...[
-                    SIconButton(
+                    SafeGesture(
                       onTap: () {
                         onCheckboxTap(!checked);
                       },
-                      defaultIcon: checked
-                          ? Assets.svg.invest.checked.simpleSvg(
-                              width: 20,
-                              height: 20,
-                            )
-                          : Assets.svg.invest.check.simpleSvg(
-                              width: 20,
-                              height: 20,
-                            ),
-                      pressedIcon: checked
+                      child: checked
                           ? Assets.svg.invest.checked.simpleSvg(
                               width: 20,
                               height: 20,
@@ -114,25 +105,11 @@ class AboveListLine extends StatelessObserverWidget {
               ),
               if (withSort) ...[
                 const SpaceW2(),
-                SIconButton(
+                SafeGesture(
                   onTap: () {
                     onSortTap?.call();
                   },
-                  defaultIcon: sortState == 0
-                      ? Assets.svg.invest.sortNotSet.simpleSvg(
-                          width: 14,
-                          height: 14,
-                        )
-                      : sortState == 1
-                          ? Assets.svg.invest.sortUp.simpleSvg(
-                              width: 14,
-                              height: 14,
-                            )
-                          : Assets.svg.invest.sortDown.simpleSvg(
-                              width: 14,
-                              height: 14,
-                            ),
-                  pressedIcon: sortState == 0
+                  child: sortState == 0
                       ? Assets.svg.invest.sortNotSet.simpleSvg(
                           width: 14,
                           height: 14,

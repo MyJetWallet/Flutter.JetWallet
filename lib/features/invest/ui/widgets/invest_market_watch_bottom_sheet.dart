@@ -178,9 +178,9 @@ class InstrumentsList extends StatelessObserverWidget {
                     ),
                     const SpaceH8(),
                     Center(
-                      child: SIconButton(
+                      child: SafeGesture(
                         onTap: investStore.setShortDescription,
-                        defaultIcon: investStore.isShortDescription
+                        child: investStore.isShortDescription
                             ? Assets.svg.invest.investArrow.simpleSvg(
                                 width: 14,
                                 height: 14,
@@ -219,24 +219,9 @@ class InstrumentsList extends StatelessObserverWidget {
                         ),
                       ),
                       const SpaceW10(),
-                      SIconButton(
+                      SafeGesture(
                         onTap: investStore.setInstrumentSort,
-                        defaultIcon: investStore.instrumentSort == 0
-                            ? Assets.svg.invest.sortNotSet.simpleSvg(
-                                width: 20,
-                                height: 20,
-                                color: colors.black,
-                              )
-                            : investStore.instrumentSort == 1
-                                ? Assets.svg.invest.sortUp.simpleSvg(
-                                    width: 20,
-                                    height: 20,
-                                  )
-                                : Assets.svg.invest.sortDown.simpleSvg(
-                                    width: 20,
-                                    height: 20,
-                                  ),
-                        pressedIcon: investStore.instrumentSort == 0
+                        child: investStore.instrumentSort == 0
                             ? Assets.svg.invest.sortNotSet.simpleSvg(
                                 width: 20,
                                 height: 20,

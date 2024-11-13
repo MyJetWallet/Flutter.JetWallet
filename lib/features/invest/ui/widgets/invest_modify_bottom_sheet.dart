@@ -5,6 +5,7 @@ import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/helpers/icons_extension.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart' as sk;
 import 'package:simple_kit_updated/widgets/button/invest_buttons/invest_button.dart';
 import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
@@ -218,20 +219,11 @@ class InfoBlock extends StatelessObserverWidget {
                 const SpaceH6(),
                 Row(
                   children: [
-                    SIconButton(
+                    sk.SafeGesture(
                       onTap: () {
                         investNewStore.setIsTPMode(!investNewStore.isTP);
                       },
-                      defaultIcon: investNewStore.isTP
-                          ? Assets.svg.invest.checked.simpleSvg(
-                              width: 20,
-                              height: 20,
-                            )
-                          : Assets.svg.invest.check.simpleSvg(
-                              width: 20,
-                              height: 20,
-                            ),
-                      pressedIcon: investNewStore.isTP
+                      child: investNewStore.isTP
                           ? Assets.svg.invest.checked.simpleSvg(
                               width: 20,
                               height: 20,
@@ -357,20 +349,11 @@ class InfoBlock extends StatelessObserverWidget {
                 const SpaceH12(),
                 Row(
                   children: [
-                    SIconButton(
+                    sk.SafeGesture(
                       onTap: () {
                         investNewStore.setIsSLMode(!investNewStore.isSl);
                       },
-                      defaultIcon: investNewStore.isSl
-                          ? Assets.svg.invest.checked.simpleSvg(
-                              width: 20,
-                              height: 20,
-                            )
-                          : Assets.svg.invest.check.simpleSvg(
-                              width: 20,
-                              height: 20,
-                            ),
-                      pressedIcon: investNewStore.isSl
+                      child: investNewStore.isSl
                           ? Assets.svg.invest.checked.simpleSvg(
                               width: 20,
                               height: 20,

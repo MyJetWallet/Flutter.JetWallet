@@ -151,7 +151,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                         maxLines: 1,
                         onErase: () => store.eraseAddress(),
                         suffixIcons: [
-                          SIconButton(
+                          SafeGesture(
                             onTap: () {
                               if (store.withdrawalType != WithdrawalType.jar) {
                                 sAnalytics.cryptoSendTapPaste(
@@ -162,9 +162,9 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
 
                               store.pasteAddress(scrollController);
                             },
-                            defaultIcon: const SPasteIcon(),
+                            child: const SPasteIcon(),
                           ),
-                          SIconButton(
+                          SafeGesture(
                             onTap: () {
                               if (store.withdrawalType != WithdrawalType.jar) {
                                 sAnalytics.cryptoSendTapQr(
@@ -178,7 +178,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                                 scrollController,
                               );
                             },
-                            defaultIcon: const SQrCodeIcon(),
+                            child: const SQrCodeIcon(),
                           ),
                         ],
                       ),
@@ -200,7 +200,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                           onErase: () => store.eraseTag(),
                           maxLines: 3,
                           suffixIcons: [
-                            SIconButton(
+                            SafeGesture(
                               onTap: () {
                                 if (store.withdrawalType != WithdrawalType.jar) {
                                   sAnalytics.cryptoSendTapPaste(
@@ -211,9 +211,9 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
 
                                 store.pasteTag(scrollController);
                               },
-                              defaultIcon: const SPasteIcon(),
+                              child: const SPasteIcon(),
                             ),
-                            SIconButton(
+                            SafeGesture(
                               onTap: () {
                                 sAnalytics.cryptoSendTapQr(
                                   asset: store.withdrawalInputModel!.currency!.symbol,
@@ -225,7 +225,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                                   scrollController,
                                 );
                               },
-                              defaultIcon: const SQrCodeIcon(),
+                              child: const SQrCodeIcon(),
                             ),
                           ],
                         ),

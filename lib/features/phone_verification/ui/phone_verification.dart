@@ -130,7 +130,7 @@ class PhoneVerificationBody extends StatelessObserverWidget {
           child: Assets.svg.medium.chat.simpleSvg(),
         ),
         leftIcon: args.sendCodeOnInitState
-            ? SIconButton(
+            ? SafeGesture(
                 onTap: () {
                   if (args.isDeviceBinding || args.isUnlimitTransferConfirm) {
                     getIt<AppRouter>().maybePop();
@@ -147,8 +147,7 @@ class PhoneVerificationBody extends StatelessObserverWidget {
 
                   args.onBackTap?.call();
                 },
-                defaultIcon: const SBackIcon(),
-                pressedIcon: const SBackPressedIcon(),
+                child: const SBackIcon(),
               )
             : null,
       ),

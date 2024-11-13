@@ -96,12 +96,11 @@ class SetPhoneNumberBody extends StatelessObserverWidget {
           child: Assets.svg.medium.chat.simpleSvg(),
         ),
         leftIcon: fromRegister
-            ? SIconButton(
+            ? SafeGesture(
                 onTap: () {
                   showModalVerification(context);
                 },
-                defaultIcon: const SCloseIcon(),
-                pressedIcon: const SClosePressedIcon(),
+                child: const SCloseIcon(),
               )
             : null,
       ),
@@ -164,10 +163,9 @@ class SetPhoneNumberBody extends StatelessObserverWidget {
                                 controller: store.phoneNumberController,
                                 suffixIcons: store.phoneInput.isNotEmpty
                                     ? [
-                                        SIconButton(
+                                        SafeGesture(
                                           onTap: () => store.clearPhone(),
-                                          defaultIcon: const SEraseIcon(),
-                                          pressedIcon: const SErasePressedIcon(),
+                                          child: const SEraseIcon(),
                                         ),
                                       ]
                                     : null,

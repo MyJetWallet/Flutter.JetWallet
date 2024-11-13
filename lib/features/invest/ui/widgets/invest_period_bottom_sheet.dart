@@ -4,6 +4,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/invest/ui/invests/bit_of_tab.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart' as sk;
 import 'package:simple_kit_updated/widgets/button/invest_buttons/invest_button.dart';
 import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 
@@ -35,14 +36,11 @@ void showInvestPeriodBottomSheet(
                   height: 24,
                   width: 24,
                   child: Center(
-                    child: SIconButton(
+                    child: sk.SafeGesture(
                       onTap: () {
                         Navigator.pop(context);
                       },
-                      defaultIcon: SCloseIcon(
-                        color: SColorsLight().black,
-                      ),
-                      pressedIcon: SCloseIcon(
+                      child: SCloseIcon(
                         color: SColorsLight().black,
                       ),
                     ),

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:simple_kit/modules/buttons/simple_icon_button.dart';
 import 'package:simple_kit/modules/fields/standard_field/public/simple_standard_field.dart';
 import 'package:simple_kit/modules/icons/24x24/public/paste/simple_paste_icon.dart';
-import 'package:simple_kit/modules/icons/24x24/public/paste/simple_paste_pressed_icon.dart';
 import 'package:simple_kit/modules/shared/simple_paddings.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../core/l10n/i10n.dart';
 import '../store/receiver_datails_store.dart';
@@ -69,7 +68,7 @@ class _EmailFieldTabState extends State<EmailFieldTab> {
             },
             isError: widget.store.showEmailError,
             suffixIcons: [
-              SIconButton(
+              SafeGesture(
                 onTap: () async {
                   final data = await Clipboard.getData('text/plain');
                   final text = data?.text?.replaceAll(' ', '');
@@ -85,8 +84,7 @@ class _EmailFieldTabState extends State<EmailFieldTab> {
                     );
                   });
                 },
-                defaultIcon: const SPasteIcon(),
-                pressedIcon: const SPastePressedIcon(),
+                child: const SPasteIcon(),
               ),
             ],
             maxLines: 1,

@@ -214,7 +214,7 @@ class ShowBankTransferSelect extends StatelessObserverWidget {
               ),
               rightIcon: Padding(
                 padding: const EdgeInsets.only(top: 9.0),
-                child: SIconButton(
+                child: SafeGesture(
                   onTap: () {
                     sAnalytics.eurWithdrawUserTapsOnButtonEdit(
                       isCJ: isCJ,
@@ -264,10 +264,7 @@ class ShowBankTransferSelect extends StatelessObserverWidget {
                       });
                     }
                   },
-                  defaultIcon: const SEditIcon(),
-                  pressedIcon: const SEditIcon(
-                    color: Color(0xFFA8B0BA),
-                  ),
+                  child: const SEditIcon(),
                 ),
               ),
               lable:

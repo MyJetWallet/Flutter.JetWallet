@@ -68,10 +68,9 @@ Future<void> receiveGiftBottomSheet({
           intl.reseive_gift_claim,
           style: STStyles.header6,
         ),
-        SIconButton(
+        SafeGesture(
           onTap: () => Navigator.pop(context),
-          defaultIcon: const SEraseIcon(),
-          pressedIcon: const SErasePressedIcon(),
+          child: const SEraseIcon(),
         ),
       ],
     ),

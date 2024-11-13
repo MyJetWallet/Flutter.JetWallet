@@ -118,19 +118,16 @@ class PaymentCardItem extends StatelessObserverWidget {
                           if (showDelete)
                             Container(
                               transform: Matrix4.translationValues(9, 0, 0),
-                              child: SIconButton(
+                              child: SafeGesture(
                                 onTap: onDelete,
-                                defaultIcon: const SDeleteIcon(),
+                                child: const SDeleteIcon(),
                               ),
                             ),
                           if (showEdit) ...[
                             const SpaceW8(),
-                            SIconButton(
+                            SafeGesture(
                               onTap: onEdit,
-                              defaultIcon: const SEditIcon(),
-                              pressedIcon: const SEditIcon(
-                                color: Color(0xFFA8B0BA),
-                              ),
+                              child: const SEditIcon(),
                             ),
                           ],
                         ],

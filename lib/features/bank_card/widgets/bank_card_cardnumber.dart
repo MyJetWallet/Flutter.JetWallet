@@ -5,6 +5,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/bank_card/helper/masked_text_input_formatter.dart';
 import 'package:jetwallet/features/bank_card/store/bank_card_store.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class BankCardCardnumber extends StatefulObserverWidget {
   const BankCardCardnumber({super.key});
@@ -40,7 +41,7 @@ class _BankCardCardnumberState extends State<BankCardCardnumber> {
         onChanged: store.updateCardNumber,
         suffixIcons: store.cardStoreMode == BankCardStoreMode.add
             ? [
-                SIconButton(
+                SafeGesture(
                   onTap: () {
                     setState(() {
                       store.pasteCode();
@@ -50,7 +51,7 @@ class _BankCardCardnumberState extends State<BankCardCardnumber> {
                       setState(() {});
                     });
                   },
-                  defaultIcon: const SPasteIcon(),
+                  child: const SPasteIcon(),
                 ),
               ]
             : null,

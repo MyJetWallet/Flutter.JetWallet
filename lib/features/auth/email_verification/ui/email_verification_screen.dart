@@ -141,12 +141,11 @@ class __EmailVerificationBodyState extends State<_EmailVerificationBody> with Wi
           },
           child: Assets.svg.medium.chat.simpleSvg(),
         ),
-        leftIcon: SIconButton(
+        leftIcon: SafeGesture(
           onTap: () {
             sRouter.replaceAll([const OnboardingRoute()]);
           },
-          defaultIcon: const SCloseIcon(),
-          pressedIcon: const SClosePressedIcon(),
+          child: const SCloseIcon(),
         ),
       ),
       child: SingleChildScrollView(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit/modules/agreements/simple_privacy_policy/simple_policy_rich_text.dart';
+import 'package:simple_kit/modules/buttons/simple_icon_button.dart';
 
 import '../../../simple_kit.dart';
 

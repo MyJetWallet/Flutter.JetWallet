@@ -113,15 +113,14 @@ class _AddBankCardScreenBody extends StatelessObserverWidget {
                         children: [
                           Column(
                             children: [
-                              SIconButton(
+                              SafeGesture(
                                 onTap: () {
                                   sAnalytics.tapOnSaveCardForFurtherPurchaseButton(
                                     destinationWallet: asset?.symbol ?? '',
                                   );
                                   store.checkSetter();
                                 },
-                                defaultIcon: store.saveCard ? const SCheckboxSelectedIcon() : const SCheckboxIcon(),
-                                pressedIcon: store.saveCard ? const SCheckboxSelectedIcon() : const SCheckboxIcon(),
+                                child: store.saveCard ? const SCheckboxSelectedIcon() : const SCheckboxIcon(),
                               ),
                             ],
                           ),

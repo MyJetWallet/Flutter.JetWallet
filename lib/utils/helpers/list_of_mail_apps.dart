@@ -93,14 +93,13 @@ class _MailOptionsBodyState extends State<_MailOptions> with WidgetsBindingObser
                 children: [
                   Observer(
                     builder: (context) {
-                      return SIconButton(
+                      return SafeGesture(
                         onTap: () {
                           setState(() {
                             checked = !checked;
                           });
                         },
-                        defaultIcon: icon,
-                        pressedIcon: icon,
+                        child: icon,
                       );
                     },
                   ),

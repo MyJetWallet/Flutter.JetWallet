@@ -69,11 +69,11 @@ class _ReferralCodeLinkBody extends StatelessObserverWidget {
                 maxLines: 1,
                 onErase: () => getIt.get<ReferallCodeStore>().clearBottomSheetReferralCode(),
                 suffixIcons: [
-                  SIconButton(
+                  SafeGesture(
                     onTap: () {
                       getIt.get<ReferallCodeStore>().pasteCodeReferralLink();
                     },
-                    defaultIcon: Assets.svg.medium.copyAlt.simpleSvg(
+                    child: Assets.svg.medium.copyAlt.simpleSvg(
                       width: 24,
                       color: sKit.colors.grey3,
                     ),

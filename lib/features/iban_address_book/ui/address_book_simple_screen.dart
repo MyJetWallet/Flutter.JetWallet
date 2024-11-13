@@ -116,7 +116,7 @@ class _BodyAddressBookSimpleState extends State<_BodyAddressBookSimple> {
                         },
                         isError: IbanAddressBookStore.of(context).isIBANError,
                         suffixIcons: [
-                          SIconButton(
+                          SafeGesture(
                             onTap: () {
                               if (IbanAddressBookStore.of(context).ibanController.text.isEmpty) {
                                 IbanAddressBookStore.of(context).pasteIban().then((value) => setState(() {}));
@@ -131,8 +131,7 @@ class _BodyAddressBookSimpleState extends State<_BodyAddressBookSimple> {
                                 onCopyAction();
                               }
                             },
-                            defaultIcon: const SPasteIcon(),
-                            pressedIcon: const SPastePressedIcon(),
+                            child: const SPasteIcon(),
                           ),
                         ],
                         inputFormatters: [

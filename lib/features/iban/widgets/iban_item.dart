@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:simple_kit/core/simple_kit.dart';
-import 'package:simple_kit/modules/buttons/simple_icon_button.dart';
 import 'package:simple_kit/modules/icons/24x24/public/copy/simple_copy_icon.dart';
-import 'package:simple_kit/modules/icons/24x24/public/copy/simple_copy_pressed_icon.dart';
 import 'package:simple_kit/modules/shared/simple_paddings.dart';
 import 'package:simple_kit/modules/shared/simple_spacers.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
@@ -67,7 +65,7 @@ class IBanItem extends StatelessObserverWidget {
                 ),
               ),
               const SpaceW16(),
-              SIconButton(
+              SafeGesture(
                 onTap: () {
                   Clipboard.setData(
                     ClipboardData(
@@ -77,8 +75,7 @@ class IBanItem extends StatelessObserverWidget {
 
                   onCopyAction(afterCopy: afterCopy);
                 },
-                defaultIcon: const SCopyIcon(),
-                pressedIcon: const SCopyPressedIcon(),
+                child: const SCopyIcon(),
               ),
             ],
           ),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
-import 'package:simple_kit_updated/widgets/button/main/simple_icon_button.dart';
 
 enum BannerCorners { sharp, rounded }
 
@@ -50,9 +49,9 @@ class SBannerBasic extends StatelessWidget {
           ),
           if (onClose != null) ...[
             const SizedBox(width: 16),
-            SIconButton(
+            SafeGesture(
               onTap: onClose,
-              icon: onCloseIcon.simpleSvg(
+              child: onCloseIcon.simpleSvg(
                 width: 20,
                 height: 20,
               ),

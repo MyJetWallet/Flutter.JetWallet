@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit/core/simple_kit.dart';
-import 'package:simple_kit/modules/buttons/simple_icon_button.dart';
 import 'package:simple_kit/modules/shared/simple_spacers.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_kit_updated/widgets/shared/simple_skeleton_loader.dart';
@@ -54,16 +53,11 @@ class CardSensitiveData extends StatelessWidget {
               Column(
                 children: [
                   const SpaceH2(),
-                  SIconButton(
+                  SafeGesture(
                     onTap: () {
                       onTap(value);
                     },
-                    defaultIcon: Assets.svg.medium.copy.simpleSvg(
-                      color: colors.white,
-                      width: 16,
-                      height: 16,
-                    ),
-                    pressedIcon: Assets.svg.medium.copy.simpleSvg(
+                    child: Assets.svg.medium.copy.simpleSvg(
                       color: colors.white,
                       width: 16,
                       height: 16,

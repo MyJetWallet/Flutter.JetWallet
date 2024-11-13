@@ -112,10 +112,9 @@ class _ActionBottomSheetHeaderState extends State<ActionBottomSheetHeader> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const SpaceH20(),
-                      SIconButton(
+                      SafeGesture(
                         onTap: () => Navigator.pop(context),
-                        defaultIcon: const SBackIcon(),
-                        pressedIcon: const SBackPressedIcon(),
+                        child: const SBackPressedIcon(),
                       ),
                     ],
                   ),
