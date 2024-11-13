@@ -170,6 +170,7 @@ abstract class _ConvertAmountStoreBase with Store {
     inputError = InputError.none;
     _updatePaymentMethodInputError(null);
     onMaxPressed = false;
+    isMaxActive = false;
 
     if (newAsset.symbol != toAsset?.symbol) {
       fromAsset = newAsset;
@@ -210,6 +211,7 @@ abstract class _ConvertAmountStoreBase with Store {
     inputError = InputError.none;
     _updatePaymentMethodInputError(null);
     onMaxPressed = false;
+    isMaxActive = false;
 
     if (newAsset.symbol != fromAsset?.symbol) {
       toAsset = newAsset;
