@@ -246,7 +246,6 @@ export 'modules/shared/simple_field_divider_frame.dart';
 export 'modules/shared/simple_get_widget_size.dart';
 export 'modules/shared/simple_icon_button.dart';
 export 'modules/shared/simple_paddings.dart';
-export 'modules/shared/simple_profile_details_button.dart';
 export 'modules/shared/simple_requirement.dart';
 export 'modules/shared/simple_show_alert_popup.dart';
 export 'modules/shared/simple_skeleton_text_loader.dart';

@@ -4,14 +4,15 @@ import 'package:simple_kit_updated/simple_kit_updated.dart';
 class SCopyable extends StatelessWidget {
   const SCopyable({
     super.key,
-    required this.lable,
+    required this.label,
     required this.value,
-    required this.onIconTap,
+    required this.onIconTap,  this.icon,
   });
 
-  final String lable;
+  final String label;
   final String value;
   final VoidCallback onIconTap;
+  final Widget? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,7 @@ class SCopyable extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                lable,
+                label,
                 style: STStyles.body2Medium.copyWith(
                   color: colors.gray10,
                 ),
@@ -38,7 +39,7 @@ class SCopyable extends StatelessWidget {
           ),
           SafeGesture(
             onTap: onIconTap,
-            child: Assets.svg.medium.copy.simpleSvg(
+            child: icon ?? Assets.svg.medium.copy.simpleSvg(
               width: 24,
               height: 24,
               color: colors.gray8,

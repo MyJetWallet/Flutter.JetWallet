@@ -257,7 +257,7 @@ class _VoucherCodeField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SCopyable(
-      lable: intl.prepaid_card_security_code,
+      label: intl.prepaid_card_security_code,
       value: code,
       onIconTap: () {
         Clipboard.setData(

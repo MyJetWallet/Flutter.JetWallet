@@ -60,11 +60,11 @@ class _ProfileDetailsState extends State<ProfileDetails> {
       ),
       child: Column(
         children: [
-          SProfileDetailsButton(
-            showIcon: true,
+          SCopyable(
             label: intl.profileDetails_email,
             value: getIt.get<AppStore>().authState.email.toLowerCase(),
-            onTap: () {
+            icon: Assets.svg.medium.edit.simpleSvg(),
+            onIconTap: () {
               sRouter.push(
                 PinScreenRoute(
                   union: const Change(),
@@ -77,12 +77,16 @@ class _ProfileDetailsState extends State<ProfileDetails> {
               );
             },
           ),
-          if (sUserInfo.isPhoneNumberSet)
-            SProfileDetailsButton(
-              showIcon: true,
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 6),
+            child: SDivider(withHorizontalPadding: true),
+          ),
+          if (sUserInfo.isPhoneNumberSet) ...[
+            SCopyable(
               label: intl.setPhoneNumber_phoneNumber,
               value: finalPhone,
-              onTap: () {
+              icon: Assets.svg.medium.edit.simpleSvg(),
+              onIconTap: () {
                 showSendTimerAlertOr(
                   context: context,
                   or: () {
@@ -104,22 +108,30 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                 );
               },
             ),
-          SProfileDetailsButton(
-            showIcon: true,
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 6),
+              child: SDivider(withHorizontalPadding: true),
+            ),
+          ],
+          SCopyable(
             label: intl.profileDetails_baseCurrency,
             value: baseCurrency.description,
-            onTap: () {
+            icon: Assets.svg.medium.edit.simpleSvg(),
+            onIconTap: () {
               sRouter.push(
                 const DefaultAssetChangeRouter(),
               );
             },
           ),
-          SProfileDetailsButton(
-            isDivider: false,
-            showIcon: true,
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 6),
+            child: SDivider(withHorizontalPadding: true),
+          ),
+          SCopyable(
             label: intl.preferred_language,
             value: getTextLocale(),
-            onTap: () async {
+            icon: Assets.svg.medium.edit.simpleSvg(),
+            onIconTap: () async {
               await changeLanguagePopup(context);
 
               setState(() {});
