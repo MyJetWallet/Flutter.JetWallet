@@ -23,13 +23,10 @@ class ReturnRatesBlock extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (returnRates != null) ...[
-            SBaselineChild(
-              baseline: 56,
-              child: Text(
-                intl.returnRatesBlock_returnRates,
-                textAlign: TextAlign.start,
-                style: STStyles.header5,
-              ),
+            STableHeader(
+              size: SHeaderSize.m,
+              title: intl.returnRatesBlock_returnRates,
+              needHorizontalPadding: false,
             ),
           ] else ...[
             const SizedBox(

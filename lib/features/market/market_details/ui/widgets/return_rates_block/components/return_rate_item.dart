@@ -14,26 +14,22 @@ class ReturnRateItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
     final periodChangeColor = value.contains('-') ? colors.red : colors.green;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SBaselineChild(
-          baseline: 44,
-          child: Text(
-            header,
-            style: STStyles.body2Medium,
-          ),
+        const SizedBox(height: 8),
+        Text(
+          header,
+          style: STStyles.body2Medium,
         ),
-        SBaselineChild(
-          baseline: 24,
-          child: Text(
-            value,
-            style: STStyles.subtitle1.copyWith(
-              color: periodChangeColor,
-            ),
+         const SizedBox(height: 8),
+        Text(
+          value,
+          style: STStyles.subtitle1.copyWith(
+            color: periodChangeColor,
           ),
         ),
       ],

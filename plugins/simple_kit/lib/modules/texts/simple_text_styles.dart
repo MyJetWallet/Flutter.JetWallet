@@ -6,13 +6,6 @@ const _basicTextStyle = TextStyle(
 );
 
 @Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
-final sTextH4Style = _basicTextStyle.copyWith(
-  fontSize: 24.0,
-  fontWeight: FontWeight.w600,
-  height: 1.33,
-);
-
-@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
 final sTextH5Style = _basicTextStyle.copyWith(
   fontSize: 20.0,
   fontWeight: FontWeight.w600,

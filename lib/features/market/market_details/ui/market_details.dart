@@ -20,7 +20,6 @@ import 'package:jetwallet/features/market/market_details/store/market_news_store
 import 'package:jetwallet/features/market/market_details/ui/widgets/about_block/about_block.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/balance_block/balance_block.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/deversify_portfolio_widget.dart';
-import 'package:jetwallet/features/market/market_details/ui/widgets/index_allocation_block/index_allocation_block.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/market_info_loader_block/market_info_loader_block.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/market_stats_block/market_stats_block.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/my_balance_widget.dart';
@@ -219,12 +218,8 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
               ReturnRatesBlock(
                 assetSymbol: widget.marketItem.associateAsset,
               ),
-              const SpaceH20(),
-              if (widget.marketItem.type == AssetType.indices) ...[
-                IndexAllocationBlock(
-                  marketItem: widget.marketItem,
-                ),
-              ],
+         
+             
               FutureBuilder<MarketInfoResponseModel?>(
                 future: marketInfo,
                 builder: (context, marketInfo) {
