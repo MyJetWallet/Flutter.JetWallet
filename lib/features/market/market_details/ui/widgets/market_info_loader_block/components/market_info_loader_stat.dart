@@ -15,12 +15,12 @@ class MarketInfoLoaderStat extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SSkeletonTextLoader(
+            SSkeletonLoader(
               height: 10,
               width: 61,
             ),
             SpaceH1(),
-            SSkeletonTextLoader(
+            SSkeletonLoader(
               height: 16,
               width: 88,
             ),

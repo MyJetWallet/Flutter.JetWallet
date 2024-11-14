@@ -236,13 +236,13 @@ class PaymentMethodCardSkeleton extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SSkeletonTextLoader(
+          SSkeletonLoader(
             height: 40,
             width: 40,
             borderRadius: BorderRadius.circular(999),
           ),
           const SizedBox(height: 22.5),
-          const SSkeletonTextLoader(
+          const SSkeletonLoader(
             height: 8,
             width: 88,
           ),

@@ -57,7 +57,7 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid> with Single
     return Baseline(
       baseline: 19.0,
       baselineType: TextBaseline.alphabetic,
-      child: SSkeletonTextLoader(
+      child: SSkeletonLoader(
         height: 24,
         width: 120,
         borderRadius: BorderRadius.circular(4),

@@ -60,6 +60,7 @@ export 'widgets/button/action_button/action_button.dart';
 
 export 'widgets/shared/icons/blue_bank_icon.dart';
 export 'widgets/shared/safe_gesture.dart';
+export 'widgets/shared/simple_skeleton_loader.dart';
 
 export 'widgets/button/context/simple_button_context.dart';
 export 'helpers/icons_extension.dart';

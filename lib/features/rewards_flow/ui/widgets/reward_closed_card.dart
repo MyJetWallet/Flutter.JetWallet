@@ -233,7 +233,7 @@ class RewardClosedCardState extends State<RewardClosedCard> with TickerProviderS
                 height: 120,
               ),
             ] else ...[
-              const SSkeletonTextLoader(
+              const SSkeletonLoader(
                 height: 120,
                 width: 120,
               ),
@@ -253,7 +253,7 @@ class RewardClosedCardState extends State<RewardClosedCard> with TickerProviderS
                 ),
               ),
             ] else ...[
-              const SSkeletonTextLoader(
+              const SSkeletonLoader(
                 height: 30,
                 width: 160,
               ),

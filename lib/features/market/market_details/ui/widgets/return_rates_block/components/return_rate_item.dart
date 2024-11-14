@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class ReturnRateItem extends StatelessWidget {
@@ -47,14 +46,14 @@ class ReturnRateItemSketelon extends StatelessWidget {
     return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SSkeletonTextLoader(
+        SSkeletonLoader(
           height: 10,
           width: 26,
         ),
         SizedBox(
           height: 10,
         ),
-        SSkeletonTextLoader(
+        SSkeletonLoader(
           height: 16,
           width: 52,
         ),

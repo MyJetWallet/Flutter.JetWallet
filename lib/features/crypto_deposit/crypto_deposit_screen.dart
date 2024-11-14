@@ -339,7 +339,7 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
                         padding: EdgeInsets.only(
                           top: 24,
                         ),
-                        child: SSkeletonTextLoader(
+                        child: SSkeletonLoader(
                           height: 16,
                           width: 80,
                         ),

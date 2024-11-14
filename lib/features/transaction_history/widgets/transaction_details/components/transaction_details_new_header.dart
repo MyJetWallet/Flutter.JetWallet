@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_kit/core/simple_kit.dart';
-import 'package:simple_kit/modules/shared/simple_skeleton_text_loader.dart';
 import 'package:simple_kit/modules/shared/simple_spacers.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
@@ -51,7 +50,7 @@ class TransactionNewHeader extends StatelessWidget {
               ),
             ),
             if (isLoading)
-              SSkeletonTextLoader(
+              SSkeletonLoader(
                 width: 120,
                 height: 32,
                 borderRadius: BorderRadius.circular(4),
