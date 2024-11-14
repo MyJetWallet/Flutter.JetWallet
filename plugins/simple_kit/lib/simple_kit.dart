@@ -223,7 +223,6 @@ export 'modules/shared/simple_paddings.dart';
 export 'modules/shared/simple_requirement.dart';
 export 'modules/shared/simple_show_alert_popup.dart';
 export 'modules/shared/simple_spacers.dart';
-export 'modules/shared/simple_transparent_ink_well.dart';
 
 /// Helpers
 export 'helpers/biometrics_auth_helpers.dart';

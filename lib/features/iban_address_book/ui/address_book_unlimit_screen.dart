@@ -77,7 +77,7 @@ class _BodyAdressBookUnlimitState extends State<_BodyAdressBookUnlimit> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SFieldDividerFrame(
-                      child: STransparentInkWell(
+                      child: SafeGesture(
                         onTap: () {
                           showCountryOfBank(
                             context,
