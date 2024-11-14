@@ -5,9 +5,9 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/anchors/anchors_helper.dart';
 import 'package:jetwallet/features/crypto_deposit/model/crypto_deposit_union.dart';
 import 'package:jetwallet/features/crypto_deposit/store/crypto_deposit_store.dart';
+import 'package:jetwallet/features/crypto_deposit/widgets/simple_qr_code_box.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../core/services/notification_service.dart';

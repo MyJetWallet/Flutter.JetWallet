@@ -221,10 +221,6 @@ export 'modules/icons/24x24/public/gift/simple_gift_send_icon.dart';
 export 'modules/icons/24x24/public/history_completed/simple_history_completed_icon.dart';
 export 'modules/icons/24x24/public/history_declined/simple_history_declined_icon.dart';
 
-/// QR Code related
-export 'modules/shared/qr_code_fields/simple_qr_code_box.dart';
-export 'modules/shared/qr_code_fields/simple_skeleton_qr_loader.dart';
-
 /// Components
 export 'modules/shared/simple_clickable_link_text.dart';
 export 'modules/shared/simple_field_divider_frame.dart';
