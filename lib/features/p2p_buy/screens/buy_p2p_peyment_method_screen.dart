@@ -125,7 +125,7 @@ class _BuyP2pPeymentMethodScreenState extends State<BuyP2pPeymentMethodScreen> {
                   );
 
                   return SimpleHistoryTable(
-                    label: methods[i].name ?? '',
+                    label: methods[i].name,
                     supplement: intl.payment_method_current_limits(
                       maxLim.toFormatCount(
                         accuracy: widget.currency.accuracy,
