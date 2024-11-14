@@ -195,6 +195,7 @@ class EarnPositionActiveScreen extends StatelessWidget {
                 (element) => element.status == EarnOfferStatus.activeShow && element.assetId == earnPosition.assetId,
               )
               .toList();
+          assetOffers.sort((a, b) => b.apyRate!.compareTo(a.apyRate!));
           if (assetOffers.isNotEmpty) {
             final currency = getIt.get<FormatService>().findCurrency(
                   findInHideTerminalList: true,
