@@ -39,9 +39,6 @@ class PositionAuditItemView extends StatelessObserverWidget {
     return SPaddingH24(
       child: Column(
         children: [
-          SBottomSheetHeader(
-            name: _getTransactionLabel(positionAudit.auditEventType),
-          ),
           const SizedBox(height: 24),
           _SellDetailsHeader(
             positionAudit: positionAudit,
@@ -124,23 +121,6 @@ class PositionAuditItemView extends StatelessObserverWidget {
         ],
       ),
     );
-  }
-
-  String _getTransactionLabel(AuditEventType type) {
-    switch (type) {
-      case AuditEventType.positionCreate:
-      case AuditEventType.positionDeposit:
-        return intl.earn_received;
-      case AuditEventType.positionWithdraw:
-      case AuditEventType.positionClose:
-        return intl.earn_sent;
-      case AuditEventType.positionIncomePayroll:
-        return intl.earn_saving_income;
-      case AuditEventType.undefined:
-        return '';
-      default:
-        return '';
-    }
   }
 }
 

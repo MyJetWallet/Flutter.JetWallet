@@ -13,6 +13,7 @@ import 'package:jetwallet/features/transaction_history/widgets/transaction_list_
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 
 import '../../../../app/store/app_store.dart';
@@ -32,7 +33,7 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
     final catchingTypes = transactionListItem.operationType == OperationType.nftBuy ||
         transactionListItem.operationType == OperationType.nftSwap ||
         transactionListItem.operationType == OperationType.nftSell;
@@ -140,7 +141,7 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
             transactionListItem.operationType == OperationType.buyPrepaidCard ||
             transactionListItem.operationType == OperationType.p2pBuy ||
             transactionListItem.operationType == OperationType.jarDeposit ||
-            transactionListItem.operationType == OperationType.jarWithdrawal||
+            transactionListItem.operationType == OperationType.jarWithdrawal ||
             transactionListItem.operationType == OperationType.bankingSellWithWithdrawal)
           const SizedBox()
         else if ((!nftTypes.contains(transactionListItem.operationType) || catchingTypes) &&
@@ -199,7 +200,7 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
             transactionListItem.operationType == OperationType.buyPrepaidCard ||
             transactionListItem.operationType == OperationType.p2pBuy ||
             transactionListItem.operationType == OperationType.jarDeposit ||
-            transactionListItem.operationType == OperationType.jarWithdrawal||
+            transactionListItem.operationType == OperationType.jarWithdrawal ||
             transactionListItem.operationType == OperationType.bankingSellWithWithdrawal)
           const SizedBox.shrink()
         else
@@ -282,8 +283,8 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
       );
     }
 
-    return SBottomSheetHeader(
-      name: title,
+    return BasicBottomSheetHeaderWidget(
+      title: title,
     );
   }
 

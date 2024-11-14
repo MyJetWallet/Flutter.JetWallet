@@ -103,6 +103,9 @@ class _EarnsDetailsScreenState extends State<EarnsDetailsScreen> {
                             key: ValueKey(positionAudit.id),
                             onTap: () {
                               showBasicBottomSheet(
+                                header: BasicBottomSheetHeaderWidget(
+                                  title: _getTransactionLabel(positionAudit.auditEventType),
+                                ),
                                 children: [
                                   PositionAuditItemView(
                                     key: ValueKey('${positionAudit.id}_view'),
@@ -214,4 +217,21 @@ String positionAuditClientModelBalanceChange({
     accuracy: accuracy,
     symbol: symbol,
   );
+}
+
+String _getTransactionLabel(AuditEventType type) {
+  switch (type) {
+    case AuditEventType.positionCreate:
+    case AuditEventType.positionDeposit:
+      return intl.earn_received;
+    case AuditEventType.positionWithdraw:
+    case AuditEventType.positionClose:
+      return intl.earn_sent;
+    case AuditEventType.positionIncomePayroll:
+      return intl.earn_saving_income;
+    case AuditEventType.undefined:
+      return '';
+    default:
+      return '';
+  }
 }

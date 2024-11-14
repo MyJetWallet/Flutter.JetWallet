@@ -13,11 +13,6 @@ export 'modules/actions/confirm_action_timer/simple_timer_animation_countdown.da
 export 'modules/agreements/simple_privacy_policy/simple_policy_checkbox.dart';
 export 'modules/agreements/simple_privacy_policy/simple_policy_text.dart';
 
-/// Bottom sheets
-export 'modules/bottom_sheets/components/basic_bottom_sheet/show_basic_modal_bottom_sheet.dart';
-export 'modules/bottom_sheets/components/simple_bottom_sheet_header.dart';
-export 'modules/bottom_sheets/components/simple_shade_animation_stack.dart';
-
 /// Buttons
 export 'modules/buttons/basic_buttons/primary_button/public/simple_primary_button_1.dart';
 export 'modules/buttons/basic_buttons/primary_button/public/simple_primary_button_2.dart';
@@ -237,14 +232,12 @@ export 'modules/shared/qr_code_fields/simple_skeleton_qr_loader.dart';
 export 'modules/shared/simple_baseline_child.dart';
 export 'modules/shared/simple_clickable_link_text.dart';
 export 'modules/shared/simple_field_divider_frame.dart';
-export 'modules/shared/simple_get_widget_size.dart';
 export 'modules/shared/simple_paddings.dart';
 export 'modules/shared/simple_requirement.dart';
 export 'modules/shared/simple_show_alert_popup.dart';
 export 'modules/shared/simple_skeleton_text_loader.dart';
 export 'modules/shared/simple_spacers.dart';
 export 'modules/shared/simple_transparent_ink_well.dart';
-export 'modules/shared/simple_widget_bottom_size.dart';
 
 /// Helpers
 export 'helpers/biometrics_auth_helpers.dart';
