@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit/modules/actions/confirm_action_timer/simple_confirm_action_timer_painter.dart';
-import 'package:simple_kit/modules/colors/simple_colors_light.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'simple_confirm_action_timer_painter.dart';
 
-import '../../../simple_kit.dart';
-
-@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
 class SConfirmActionTimer extends StatelessWidget {
   const SConfirmActionTimer({
     super.key,

@@ -4,11 +4,6 @@ library simple_kit;
 
 export 'core/simple_kit.dart' show sKit;
 
-/// Actions
-export 'modules/actions/confirm_action_timer/simple_confirm_action_timer.dart';
-export 'modules/actions/confirm_action_timer/simple_confirm_action_timer_painter.dart';
-export 'modules/actions/confirm_action_timer/simple_timer_animation_countdown.dart';
-
 /// Agreements
 export 'modules/agreements/simple_privacy_policy/simple_policy_checkbox.dart';
 export 'modules/agreements/simple_privacy_policy/simple_policy_text.dart';
@@ -227,7 +222,6 @@ export 'modules/shared/simple_field_divider_frame.dart';
 export 'modules/shared/simple_paddings.dart';
 export 'modules/shared/simple_requirement.dart';
 export 'modules/shared/simple_show_alert_popup.dart';
-export 'modules/shared/simple_skeleton_text_loader.dart';
 export 'modules/shared/simple_spacers.dart';
 export 'modules/shared/simple_transparent_ink_well.dart';
 
