@@ -77,7 +77,20 @@ class PushNotificationService {
         initializationSettings,
         onDidReceiveNotificationResponse: (details) async {
           if (details.payload != null) {
-            await getIt.get<DeepLinkService>().handle(Uri.parse(details.payload!));
+            final data = json.decode(details.payload ?? '{}') as Map<String, dynamic>;
+            String? messageId;
+            String? actionUrl;
+            if (data['messageId'] != null) {
+              messageId = data['messageId'] as String;
+            }
+            if (data['actionUrl'] != null) {
+              actionUrl = data['actionUrl'] as String;
+            }
+
+            await getIt.get<DeepLinkService>().handle(
+                  Uri.parse(actionUrl ?? ''),
+                  messageId: messageId ?? '',
+                );
           }
         },
       );
@@ -151,14 +164,14 @@ class PushNotificationService {
         initializationSettings,
         onDidReceiveNotificationResponse: (details) async {
           if (details.payload != null) {
-            final data = json.decode(details.payload ?? '{}') as Map<String, String>;
+            final data = json.decode(details.payload ?? '{}') as Map<String, dynamic>;
             String? messageId;
             String? actionUrl;
             if (data['messageId'] != null) {
-              messageId = data['messageId'];
+              messageId = data['messageId'] as String;
             }
             if (data['actionUrl'] != null) {
-              actionUrl = data['actionUrl'];
+              actionUrl = data['actionUrl'] as String;
             }
 
             await getIt.get<DeepLinkService>().handle(
