@@ -63,7 +63,9 @@ class SNumericKeyboard extends StatelessWidget {
                   bottom: MediaQuery.of(context).padding.bottom <= 24 ? 24 : 8,
                 ),
                 child: button,
-              ),
+              ) else SizedBox(
+                height: MediaQuery.of(context).padding.bottom <= 24 ? 16 : 0,
+              )
           ],
         ),
       ),
