@@ -20,22 +20,24 @@ class SCopyable extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                label,
-                style: STStyles.body2Medium.copyWith(
-                  color: colors.gray10,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  label,
+                  style: STStyles.body2Medium.copyWith(
+                    color: colors.gray10,
+                  ),
                 ),
-              ),
-              Text(
-                value,
-                style: STStyles.subtitle1,
-              ),
-            ],
+                Text(
+                  value,
+                  style: STStyles.subtitle1,
+                  maxLines: 3,
+                ),
+              ],
+            ),
           ),
           SafeGesture(
             onTap: onIconTap,

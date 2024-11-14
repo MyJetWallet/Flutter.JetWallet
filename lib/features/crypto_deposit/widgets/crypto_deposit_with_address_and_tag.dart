@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/crypto_deposit/model/crypto_deposit_union.dart';
@@ -231,15 +232,15 @@ class _CryptoDepositWithAddressAndTagState extends State<CryptoDepositWithAddres
           ),
           const Spacer(),
           if (currentPage == 1)
-            SAddressFieldWithCopy(
-              header: widget.currency.symbol == 'XRP' ? intl.tagOrMemo : intl.tag,
+            SCopyable(
+              label: widget.currency.symbol == 'XRP' ? intl.tagOrMemo : intl.tag,
               value: deposit.tag!,
-              realValue: deposit.tag,
-              afterCopyText: intl.cryptoDepositWithAddress_tagCopied,
-              valueLoading: deposit.union is Loading,
-              longString: true,
-              expanded: true,
-              then: () {
+              onIconTap: () {
+                Clipboard.setData(
+                  ClipboardData(
+                    text: deposit.tag!,
+                  ),
+                );
                 sAnalytics.tapOnTheButtonCopyOnReceiveAssetScreen(
                   asset: deposit.currency.symbol,
                   network: deposit.network.description,
@@ -253,16 +254,16 @@ class _CryptoDepositWithAddressAndTagState extends State<CryptoDepositWithAddres
               },
             )
           else
-            SAddressFieldWithCopy(
-              header: '${widget.currency.symbol}'
+            SCopyable(
+              label: '${widget.currency.symbol}'
                   ' ${intl.cryptoDepositWithAddressAndTag_walletAddress}',
               value: deposit.address,
-              realValue: deposit.address,
-              afterCopyText: intl.cryptoDepositWithAddressAndTag_addressCopied,
-              valueLoading: deposit.union is Loading,
-              longString: true,
-              expanded: true,
-              then: () {
+              onIconTap: () {
+                Clipboard.setData(
+                  ClipboardData(
+                    text: deposit.address,
+                  ),
+                );
                 sNotification.showError(
                   intl.copy_message,
                   id: 1,
