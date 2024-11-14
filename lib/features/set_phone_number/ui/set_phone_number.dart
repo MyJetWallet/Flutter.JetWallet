@@ -223,7 +223,7 @@ class SetPhoneNumberBody extends StatelessObserverWidget {
                                   store.updatePin(newPin);
                                   store.sendCode(
                                     then: () {
-                                      sRouter.push(
+                                      sRouter.replace(
                                         PhoneVerificationRouter(
                                           args: PhoneVerificationArgs(
                                             phoneNumber: store.phoneNumber(),

@@ -66,10 +66,12 @@ class SendCardPaymentMethodBody extends StatelessObserverWidget {
                 controller: store.searchController,
                 labelText: intl.actionBottomSheetHeader_search,
                 onChanged: (String value) => store.search(value),
+                maxLines: 1,
+                keyboardType: TextInputType.text,
+                height: 48.0,
               ),
             ),
             const SDivider(),
-            const SizedBox(height: 24),
           ],
           Expanded(
             child: ListView.builder(
@@ -103,14 +105,16 @@ class SendCardPaymentMethodBody extends StatelessObserverWidget {
                       fit: BoxFit.fill,
                     ),
                   ),
-                  onTap: () {
-                    sRouter.push(
-                      SendCardDetailRouter(
-                        countryCode: countryCode,
-                        currency: currency,
-                        method: store.filtedGlobalSendMethods[i],
-                      ),
-                    );
+                  onTap: () async {
+                    if (!sRouter.stack.any((rout) => rout.name == SendCardDetailRouter.name)) {
+                      await sRouter.push(
+                        SendCardDetailRouter(
+                          countryCode: countryCode,
+                          currency: currency,
+                          method: store.filtedGlobalSendMethods[i],
+                        ),
+                      );
+                    }
                   },
                 );
               },
