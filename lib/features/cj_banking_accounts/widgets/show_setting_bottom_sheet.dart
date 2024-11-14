@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/cj_banking_accounts/screens/show_account_details_screen.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
@@ -12,11 +13,10 @@ void showAccountSettings({
   required void Function() onChangeLableTap,
   required SimpleBankingAccount bankingAccount,
 }) {
-  sShowBasicModalBottomSheet(
+  showBasicBottomSheet(
     context: context,
-    then: (value) {},
-    pinned: SBottomSheetHeader(
-      name: intl.simple_card_settings,
+    header: BasicBottomSheetHeaderWidget(
+      title: intl.simple_card_settings,
     ),
     children: [
       _CardSettings(

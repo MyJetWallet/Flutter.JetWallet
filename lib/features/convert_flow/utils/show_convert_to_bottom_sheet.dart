@@ -12,7 +12,7 @@ import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
 import 'package:jetwallet/utils/formatting/base/format_percent.dart';
 import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
@@ -33,23 +33,19 @@ void showConvertToBottomSheet({
 
   final showSearch = currencyFiltered.length >= 7;
 
-  sShowBasicModalBottomSheet(
+  showBasicBottomSheet(
     context: context,
-    pinned: ActionBottomSheetHeader(
-      name: intl.convert_amount_convert_to,
-      showSearch: showSearch,
-      onChanged: (String value) {
-        searchStore.search(value);
-      },
-      horizontalDividerPadding: 24,
-      addPaddingBelowTitle: true,
-      isNewDesign: true,
-      needBottomPadding: false,
+    header: BasicBottomSheetHeaderWidget(
+      title: intl.convert_amount_convert_to,
+      searchOptions: showSearch
+          ? SearchOptions(
+              hint: intl.actionBottomSheetHeader_search,
+              onChange: (String value) {
+                searchStore.search(value);
+              },
+            )
+          : null,
     ),
-    horizontalPinnedPadding: 0,
-    removePinnedPadding: true,
-    horizontalPadding: 0,
-    scrollable: true,
     expanded: showSearch,
     children: [
       Observer(

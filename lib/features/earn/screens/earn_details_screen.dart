@@ -15,9 +15,9 @@ import 'package:jetwallet/features/transaction_history/widgets/transaction_month
 import 'package:jetwallet/features/wallet/helper/format_date.dart';
 import 'package:jetwallet/features/wallet/helper/format_date_to_hm.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
-import 'package:simple_kit/modules/bottom_sheets/components/basic_bottom_sheet/show_basic_modal_bottom_sheet.dart';
 import 'package:simple_kit/utils/constants.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_audit_history_model.dart';
@@ -102,7 +102,7 @@ class _EarnsDetailsScreenState extends State<EarnsDetailsScreen> {
                           return PositionAuditItem(
                             key: ValueKey(positionAudit.id),
                             onTap: () {
-                              sShowBasicModalBottomSheet(
+                              showBasicBottomSheet(
                                 children: [
                                   PositionAuditItemView(
                                     key: ValueKey('${positionAudit.id}_view'),
@@ -112,7 +112,6 @@ class _EarnsDetailsScreenState extends State<EarnsDetailsScreen> {
                                     asset: currency,
                                   ),
                                 ],
-                                scrollable: true,
                                 context: context,
                               );
                             },

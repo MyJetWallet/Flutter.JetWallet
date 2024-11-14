@@ -449,7 +449,7 @@ abstract class _BuyConfirmationStoreBase with Store {
     unawaited(_saveLastPaymentMethod());
 
     if (category == PaymentMethodCategory.cards) {
-      showBankCardCvvBottomSheet(
+      await showBankCardCvvBottomSheet(
         context: sRouter.navigatorKey.currentContext!,
         header: '${intl.previewBuyWithCircle_enter} CVV '
             '${intl.previewBuyWithCircle_for} \n'

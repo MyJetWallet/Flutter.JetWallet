@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
@@ -145,13 +146,10 @@ class _BasicFeeRowWidget extends StatelessWidget {
     required BuildContext context,
     dynamic Function(dynamic)? then,
   }) {
-    sShowBasicModalBottomSheet(
+    showBasicBottomSheet(
       context: context,
-      horizontalPinnedPadding: 24,
-      scrollable: true,
-      then: then,
-      pinned: SBottomSheetHeader(
-        name: title,
+      header: BasicBottomSheetHeaderWidget(
+        title: title,
       ),
       children: [
         SPaddingH24(
@@ -178,6 +176,8 @@ class _BasicFeeRowWidget extends StatelessWidget {
           ),
         ),
       ],
-    );
+    ).then((v) {
+      then?.call(v);
+    });
   }
 }

@@ -5,7 +5,7 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/store/action_search_store.dart';
 import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -40,24 +40,20 @@ void showAddCashFromBottomSheet({
 
   final showSearch = currencyFiltered.length >= 7;
 
-  sShowBasicModalBottomSheet(
+  showBasicBottomSheet(
     context: context,
-    pinned: ActionBottomSheetHeader(
-      name: intl.wallet_choose_asset_from_convert,
-      showSearch: showSearch,
-      onChanged: (String value) {
-        searchStore.search(value);
-      },
-      horizontalDividerPadding: 24,
-      addPaddingBelowTitle: true,
-      isNewDesign: true,
-      needBottomPadding: false,
+    header: BasicBottomSheetHeaderWidget(
+      title: intl.wallet_choose_asset_from_convert,
+      searchOptions: showSearch
+          ? SearchOptions(
+              hint: intl.actionBottomSheetHeader_search,
+              onChange: (String value) {
+                searchStore.search(value);
+              },
+            )
+          : null,
     ),
-    horizontalPinnedPadding: 0,
-    removePinnedPadding: true,
-    horizontalPadding: 0,
-    onDissmis: onClose,
-    scrollable: true,
+    onDismiss: onClose,
     expanded: showSearch,
     children: [
       Observer(

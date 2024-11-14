@@ -12,6 +12,7 @@ import 'package:jetwallet/features/invest/ui/dashboard/new_invest_header.dart';
 import 'package:jetwallet/features/invest/ui/dashboard/symbol_info_line.dart';
 import 'package:jetwallet/features/invest/ui/invests/secondary_switch.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_input.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
@@ -21,44 +22,42 @@ void showInvestMarketWatchBottomSheet(BuildContext context) {
   final investStore = getIt.get<InvestDashboardStore>();
 
   WidgetsBinding.instance.addPostFrameCallback((_) {
-    sShowBasicModalBottomSheet(
+    showBasicBottomSheet(
       context: context,
-      scrollable: true,
       expanded: true,
-      pinned: Observer(
-        builder: (BuildContext context) {
-          return SPaddingH24(
-            child: Column(
-              children: [
-                NewInvestHeader(
-                  title: intl.invest_market_watch,
-                  showRollover: false,
-                  showModify: false,
-                  showIcon: false,
-                  showFull: false,
-                  onButtonTap: () {},
-                ),
-                const SpaceH4(),
-                SecondarySwitch(
-                  onChangeTab: investStore.setActiveSectionByIndex,
-                  fromRight: false,
-                  activeTab: investStore.sections.indexWhere(
-                    (element) => element.id == investStore.activeSection,
+      children: [
+        Observer(
+          builder: (BuildContext context) {
+            return SPaddingH24(
+              child: Column(
+                children: [
+                  NewInvestHeader(
+                    title: intl.invest_market_watch,
+                    showRollover: false,
+                    showModify: false,
+                    showIcon: false,
+                    showFull: false,
+                    onButtonTap: () {},
                   ),
-                  tabs: [
-                    ...investStore.sections.map((section) => section.name!),
-                  ],
-                ),
-                const SpaceH4(),
-              ],
-            ),
-          );
-        },
-      ),
-      horizontalPinnedPadding: 0,
-      removePinnedPadding: true,
-      horizontalPadding: 0,
-      children: [const InstrumentsList()],
+                  const SpaceH4(),
+                  SecondarySwitch(
+                    onChangeTab: investStore.setActiveSectionByIndex,
+                    fromRight: false,
+                    activeTab: investStore.sections.indexWhere(
+                      (element) => element.id == investStore.activeSection,
+                    ),
+                    tabs: [
+                      ...investStore.sections.map((section) => section.name!),
+                    ],
+                  ),
+                  const SpaceH4(),
+                ],
+              ),
+            );
+          },
+        ),
+        const InstrumentsList(),
+      ],
     );
   });
 }

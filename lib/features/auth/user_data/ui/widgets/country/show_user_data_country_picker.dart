@@ -5,6 +5,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/features/auth/user_data/ui/widgets/country/store/kyc_profile_countries_store.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:jetwallet/widgets/empty_search_result.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -18,15 +19,18 @@ void showUserDataCountryPicker(BuildContext context) {
 
   profileCountriesStore.initCountrySearch();
 
-  sShowBasicModalBottomSheet(
+  showBasicBottomSheet(
     context: context,
-    scrollable: true,
-    pinned: _SearchPinned(
-      store: profileCountriesStore,
+    header: BasicBottomSheetHeaderWidget(
+      title: intl.kycCountry_countryOfIssue,
+      searchOptions: SearchOptions(
+        hint: intl.showKycCountryPicker_search,
+        onChange: (value) {
+          profileCountriesStore.updateCountryNameSearch(value);
+        },
+      ),
     ),
     expanded: true,
-    removeBarPadding: true,
-    removePinnedPadding: true,
     children: [
       _Countries(
         store: profileCountriesStore,
@@ -39,15 +43,18 @@ void showUserDataCountryPicker(BuildContext context) {
 void showCountryOfBank(BuildContext context, Function(Country) onTap) {
   final store = KycProfileCountriesStore();
 
-  sShowBasicModalBottomSheet(
+  showBasicBottomSheet(
     context: context,
-    scrollable: true,
-    pinned: _SearchBankPinned(
-      store: store,
+    header: BasicBottomSheetHeaderWidget(
+      title: intl.address_book_country_of_recepients_bank,
+      searchOptions: SearchOptions(
+        hint: intl.showKycCountryPicker_search,
+        onChange: (value) {
+          store.updateCountryNameSearch(value);
+        },
+      ),
     ),
     expanded: true,
-    removeBarPadding: true,
-    removePinnedPadding: true,
     children: [
       Observer(
         builder: (context) {
@@ -87,71 +94,6 @@ void showCountryOfBank(BuildContext context, Function(Country) onTap) {
       const SpaceH40(),
     ],
   );
-}
-
-class _SearchPinned extends StatelessObserverWidget {
-  const _SearchPinned({
-    required this.store,
-  });
-
-  final KycProfileCountriesStore store;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SpaceH20(),
-        Text(
-          intl.kycCountry_countryOfIssue,
-          style: STStyles.header5,
-        ),
-        SStandardField(
-          controller: TextEditingController(),
-          autofocus: true,
-          labelText: intl.showKycCountryPicker_search,
-          onChanged: (value) {
-            store.updateCountryNameSearch(value);
-          },
-          maxLines: 1,
-        ),
-        const SDivider(),
-      ],
-    );
-  }
-}
-
-class _SearchBankPinned extends StatelessObserverWidget {
-  const _SearchBankPinned({
-    required this.store,
-  });
-
-  final KycProfileCountriesStore store;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SpaceH20(),
-        Text(
-          intl.address_book_country_of_recepients_bank,
-          style: STStyles.header5,
-        ),
-        const SpaceH25(),
-        SStandardField(
-          controller: TextEditingController(),
-          autofocus: true,
-          labelText: intl.showKycCountryPicker_search,
-          onChanged: (value) {
-            store.updateCountryNameSearch(value);
-          },
-          maxLines: 1,
-        ),
-        const SDivider(),
-      ],
-    );
-  }
 }
 
 class _Countries extends StatelessObserverWidget {

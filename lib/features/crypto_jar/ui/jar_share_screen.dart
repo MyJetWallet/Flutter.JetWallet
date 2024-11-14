@@ -10,12 +10,11 @@ import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/crypto_jar/store/jars_store.dart';
 import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
-import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:jetwallet/widgets/flag_item.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'JarShareRouter')
@@ -179,14 +178,12 @@ class _JarShareScreenState extends State<JarShareScreen> {
     return SafeGesture(
       onTap: () {
         if (isCountry) {
-          sShowBasicModalBottomSheet(
+          showBasicBottomSheet(
             context: context,
             color: colors.white,
-            pinned: ActionBottomSheetHeader(
-              name: intl.jar_language,
+            header: BasicBottomSheetHeaderWidget(
+              title: intl.jar_language,
             ),
-            horizontalPinnedPadding: 0.0,
-            removePinnedPadding: true,
             children: [
               SafeGesture(
                 onTap: () {

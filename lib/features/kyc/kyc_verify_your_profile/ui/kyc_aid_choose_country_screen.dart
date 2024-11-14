@@ -9,6 +9,7 @@ import 'package:jetwallet/core/services/intercom/intercom_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/features/auth/user_data/ui/widgets/country/country_item/country_profile_item.dart';
 import 'package:jetwallet/features/kyc/kyc_verify_your_profile/store/kyc_aid_countries_store.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:jetwallet/widgets/empty_search_result.dart';
 import 'package:jetwallet/widgets/flag_item.dart';
 import 'package:provider/provider.dart';
@@ -153,55 +154,25 @@ Future<void> showUserDataCountryPicker(BuildContext context) async {
 
   profileCountriesStore.initCountrySearch();
 
-  sShowBasicModalBottomSheet(
+  await showBasicBottomSheet(
     context: context,
-    scrollable: true,
-    pinned: _SearchPinned(
-      store: profileCountriesStore as KycAidCountriesStore,
+    header: BasicBottomSheetHeaderWidget(
+      title: intl.kycCountry_countryOfIssue,
+      searchOptions: SearchOptions(
+        hint: intl.showKycCountryPicker_search,
+        onChange: (value) {
+          profileCountriesStore.updateCountryNameSearch(value);
+        },
+      ),
     ),
     expanded: true,
-    removeBarPadding: true,
-    removePinnedPadding: true,
     children: [
       _Countries(
-        store: profileCountriesStore,
+        store: profileCountriesStore as KycAidCountriesStore,
       ),
       const SpaceH40(),
     ],
   );
-}
-
-class _SearchPinned extends StatelessObserverWidget {
-  const _SearchPinned({
-    required this.store,
-  });
-
-  final KycAidCountriesStore store;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SpaceH20(),
-        Text(
-          intl.kycCountry_countryOfIssue,
-          style: STStyles.header5,
-        ),
-        SStandardField(
-          controller: TextEditingController(),
-          autofocus: true,
-          hintText: intl.showKycCountryPicker_search,
-          onChanged: (value) {
-            store.updateCountryNameSearch(value);
-          },
-          height: 44,
-          maxLines: 1,
-        ),
-        const SDivider(),
-      ],
-    );
-  }
 }
 
 class _Countries extends StatelessObserverWidget {

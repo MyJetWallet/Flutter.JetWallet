@@ -4,35 +4,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/currency_buy/models/preview_buy_with_bank_card_input.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
-void showBankCardCvvBottomSheet({
+Future<void> showBankCardCvvBottomSheet({
   required BuildContext context,
   required String header,
   required void Function(String) onCompleted,
   required PreviewBuyWithBankCardInput input,
   dynamic Function(dynamic)? onDissmis,
-}) {
-  return sShowBasicModalBottomSheet(
+}) async {
+  return showBasicBottomSheet(
     context: context,
-    scrollable: true,
-    pinned: SBottomSheetHeader(
-      name: header,
+    header: BasicBottomSheetHeaderWidget(
+      title: header,
     ),
-    then: (p0) {
-      if (onDissmis != null) onDissmis(p0);
-    },
-    horizontalPadding: 24,
-    horizontalPinnedPadding: 24,
     children: [
       CvvBottomSheetBody(
         onCompleted: onCompleted,
         input: input,
       ),
     ],
-  );
+  ).then((p0) {
+    if (onDissmis != null) onDissmis(p0);
+  });
 }
 
 class CvvBottomSheetBody extends StatelessObserverWidget {

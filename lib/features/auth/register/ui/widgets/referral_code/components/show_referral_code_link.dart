@@ -12,18 +12,10 @@ import 'loading_referral_code.dart';
 import 'valid_referral_code.dart';
 
 void showReferralCode(BuildContext context) {
-  final colors = sKit.colors;
-
   showBasicBottomSheet(
     context: context,
     header: BasicBottomSheetHeaderWidget(
       title: intl.showReferralCode_enterReferralCode,
-    ),
-    button: Material(
-      color: colors.grey5,
-      child: _ReferralCodeBottom(
-        context: context,
-      ),
     ),
     children: [
       _ReferralCodeLinkBody(context: context),
@@ -136,6 +128,9 @@ class _ReferralCodeLinkBody extends StatelessObserverWidget {
               ],
             ),
           ),
+          _ReferralCodeBottom(
+            context: context,
+          ),
         ],
       ),
     );
@@ -151,9 +146,16 @@ class _ReferralCodeBottom extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext ctx) {
+    final systemBottomPadding = MediaQuery.of(context).padding.bottom;
+    final bottomPading = systemBottomPadding + (systemBottomPadding < 24.0 ? 24 : 8);
     return Column(
       children: [
-        SPaddingH24(
+        Padding(
+          padding: EdgeInsets.only(
+            left: 24,
+            right: 24,
+            bottom: bottomPading,
+          ),
           child: SButton.blue(
             text: intl.showBasicModalBottomSheet_continue,
             callback: getIt.get<ReferallCodeStore>().enableContinueButton

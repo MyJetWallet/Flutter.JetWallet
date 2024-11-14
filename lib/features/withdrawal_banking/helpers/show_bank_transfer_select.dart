@@ -7,6 +7,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/iban/store/iban_store.dart';
 import 'package:jetwallet/features/iban/widgets/show_choose_asset_to_send.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
@@ -112,12 +113,11 @@ void showBankTransforSelect(
     return;
   }
 
-  sShowBasicModalBottomSheet(
+  showBasicBottomSheet(
     context: context,
-    pinned: SBottomSheetHeader(
-      name: intl.bankAccountsSelectPopupTitle,
+    header: BasicBottomSheetHeaderWidget(
+      title: intl.bankAccountsSelectPopupTitle,
     ),
-    scrollable: true,
     children: [
       const SpaceH12(),
       ShowBankTransferSelect(

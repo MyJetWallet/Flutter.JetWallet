@@ -21,7 +21,7 @@ import 'package:jetwallet/features/transaction_history/widgets/transaction_list_
 import 'package:jetwallet/features/transaction_history/widgets/transactions_list.dart';
 import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
 import 'package:jetwallet/utils/helpers/currency_from.dart';
-import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:jetwallet/widgets/loaders/loader.dart';
 import 'package:rive/rive.dart' as rive;
 import 'package:simple_analytics/simple_analytics.dart';
@@ -577,14 +577,12 @@ class __JarBodyState extends State<_JarBody> {
             () {
               sAnalytics.jarTapOnButtonMoreOnJar();
 
-              sShowBasicModalBottomSheet(
+              showBasicBottomSheet(
                 context: context,
                 color: colors.white,
-                pinned: ActionBottomSheetHeader(
-                  name: intl.jar_actions,
+                header: BasicBottomSheetHeaderWidget(
+                  title: intl.jar_actions,
                 ),
-                horizontalPinnedPadding: 0.0,
-                removePinnedPadding: true,
                 children: [
                   SafeGesture(
                     onTap: () {

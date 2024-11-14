@@ -3,7 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
-import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -37,34 +37,29 @@ void showSellChooseAssetBottomSheet({
 
   sortByBalanceAndWeight(searchStore.filteredCurrencies);
 
-  sShowBasicModalBottomSheet(
+  showBasicBottomSheet(
     context: context,
-    scrollable: true,
     expanded: showSearch,
-    then: (value) {
-      then?.call(value);
-    },
-    pinned: ActionBottomSheetHeader(
-      name: intl.amount_screen_sell,
-      showSearch: showSearch,
-      onChanged: (String value) {
-        searchStore.search(value);
-      },
-      horizontalDividerPadding: 24,
-      addPaddingBelowTitle: true,
-      needBottomPadding: false,
-      isNewDesign: true,
+    header: BasicBottomSheetHeaderWidget(
+      title: intl.amount_screen_sell,
+      searchOptions: showSearch
+          ? SearchOptions(
+              hint: intl.actionBottomSheetHeader_search,
+              onChange: (String value) {
+                searchStore.search(value);
+              },
+            )
+          : null,
     ),
-    horizontalPinnedPadding: 0,
-    removePinnedPadding: true,
-    horizontalPadding: 0,
     children: [
       _ChooseAssetBody(
         searchStore: searchStore,
         onChooseAsset: onChooseAsset,
       ),
     ],
-  );
+  ).then((value) {
+    then?.call(value);
+  });
 }
 
 class _ChooseAssetBody extends StatelessObserverWidget {

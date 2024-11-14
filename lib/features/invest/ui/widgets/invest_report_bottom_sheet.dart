@@ -11,6 +11,7 @@ import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/invest/stores/dashboard/invest_dashboard_store.dart';
 import 'package:jetwallet/features/invest/ui/invests/data_line.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart' as colors;
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
@@ -33,11 +34,10 @@ void showInvestReportBottomSheet(
   InvestPositionModel position,
   InvestInstrumentModel instrument,
 ) {
-  sShowBasicModalBottomSheet(
+  showBasicBottomSheet(
     context: context,
-    scrollable: true,
     expanded: true,
-    pinnedBottom: (position.status != PositionStatus.cancelled && position.status != PositionStatus.closed)
+    button: (position.status != PositionStatus.cancelled && position.status != PositionStatus.closed)
         ? Material(
             color: SColorsLight().white,
             child: Observer(
@@ -74,9 +74,6 @@ void showInvestReportBottomSheet(
             ),
           )
         : null,
-    horizontalPinnedPadding: 0,
-    removePinnedPadding: true,
-    horizontalPadding: 0,
     children: [
       InvestList(
         position: position,

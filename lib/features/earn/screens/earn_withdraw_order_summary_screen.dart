@@ -8,6 +8,7 @@ import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/earn/store/earn_withdrawal_order_summary_store.dart';
 import 'package:jetwallet/features/wallet/helper/format_date_to_hm.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
@@ -210,12 +211,10 @@ class _EarnWithdrawOrderSummaruBody extends StatelessWidget {
     required BuildContext context,
     required int countOfDays,
   }) {
-    sShowBasicModalBottomSheet(
+    showBasicBottomSheet(
       context: context,
-      horizontalPinnedPadding: 24,
-      scrollable: true,
-      pinned: SBottomSheetHeader(
-        name: intl.earn_withdrawal_period,
+      header: BasicBottomSheetHeaderWidget(
+        title: intl.earn_withdrawal_period,
       ),
       children: [
         SPaddingH24(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:open_mail_app/open_mail_app.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
@@ -14,10 +15,10 @@ void showMailAppsOptions(
   List<MailApp> apps,
   Function() defaultAction,
 ) {
-  sShowBasicModalBottomSheet(
+  showBasicBottomSheet(
     context: context,
-    pinned: SBottomSheetHeader(
-      name: intl.mailPicker_chooseMail,
+    header: BasicBottomSheetHeaderWidget(
+      title: intl.mailPicker_chooseMail,
     ),
     children: [
       _MailOptions(

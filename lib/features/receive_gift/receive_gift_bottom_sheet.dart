@@ -11,6 +11,7 @@ import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
@@ -57,27 +58,14 @@ Future<void> receiveGiftBottomSheet({
   required BuildContext context,
   required IncomingGiftObject giftModel,
 }) async {
-  sShowBasicModalBottomSheet(
+  await showBasicBottomSheet(
     context: context,
-    horizontalPinnedPadding: 24,
-    pinned: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        const SizedBox(width: 24),
-        Text(
-          intl.reseive_gift_claim,
-          style: STStyles.header6,
-        ),
-        SafeGesture(
-          onTap: () => Navigator.pop(context),
-          child: const SEraseIcon(),
-        ),
-      ],
+    header: BasicBottomSheetHeaderWidget(
+      title: intl.reseive_gift_claim,
     ),
     children: [
       _ReceiveGiftBottomSheet(giftModel),
     ],
-    then: (itsPostProcessing) {},
   );
 }
 

@@ -5,6 +5,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/sell_flow/store/sell_confirmation_store.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -190,12 +191,10 @@ void buyConfirmationFeeExplanation({
   required String fee,
   required String description,
 }) {
-  sShowBasicModalBottomSheet(
+  showBasicBottomSheet(
     context: context,
-    horizontalPinnedPadding: 24,
-    scrollable: true,
-    pinned: SBottomSheetHeader(
-      name: title,
+    header: BasicBottomSheetHeaderWidget(
+      title: title,
     ),
     children: [
       SPaddingH24(

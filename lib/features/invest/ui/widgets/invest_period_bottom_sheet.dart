@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/invest/ui/invests/bit_of_tab.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart' as sk;
@@ -15,48 +16,46 @@ void showInvestPeriodBottomSheet(
   Function(InvestHistoryPeriod value) onConfirm,
   InvestHistoryPeriod activePeriod,
 ) {
-  sShowBasicModalBottomSheet(
+  showBasicBottomSheet(
     context: context,
-    scrollable: true,
-    pinned: SPaddingH24(
-      child: SizedBox(
-        height: 56,
-        width: MediaQuery.of(context).size.width - 48,
-        child: Column(
-          children: [
-            const SpaceH14(),
-            Row(
-              children: [
-                Text(
-                  intl.invest_period,
-                  style: STStyles.header1Invest,
-                ),
-                const Spacer(),
-                SizedBox(
-                  height: 24,
-                  width: 24,
-                  child: Center(
-                    child: sk.SafeGesture(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: SCloseIcon(
-                        color: SColorsLight().black,
+    children: [
+      SPaddingH24(
+        child: SizedBox(
+          height: 56,
+          width: MediaQuery.of(context).size.width - 48,
+          child: Column(
+            children: [
+              const SpaceH14(),
+              Row(
+                children: [
+                  Text(
+                    intl.invest_period,
+                    style: STStyles.header1Invest,
+                  ),
+                  const Spacer(),
+                  SizedBox(
+                    height: 24,
+                    width: 24,
+                    child: Center(
+                      child: sk.SafeGesture(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: SCloseIcon(
+                          color: SColorsLight().black,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            const SpaceH13(),
-          ],
+                ],
+              ),
+              const SpaceH13(),
+            ],
+          ),
         ),
       ),
-    ),
-    horizontalPinnedPadding: 0,
-    removePinnedPadding: true,
-    horizontalPadding: 0,
-    children: [PeriodSheet(onConfirm: onConfirm, activePeriod: activePeriod)],
+      PeriodSheet(onConfirm: onConfirm, activePeriod: activePeriod),
+    ],
   );
 }
 

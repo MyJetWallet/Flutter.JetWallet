@@ -4,7 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
-import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -40,32 +40,29 @@ void showConvertFromChooseAssetBottomSheet({
 
   sortByBalanceAndWeight(searchStore.filteredCurrencies);
 
-  sShowBasicModalBottomSheet(
+  showBasicBottomSheet(
     context: context,
-    scrollable: true,
     expanded: showSearch,
-    then: then,
-    pinned: ActionBottomSheetHeader(
-      name: intl.convert_amount_convert,
-      showSearch: showSearch,
-      onChanged: (String value) {
-        searchStore.search(value);
-      },
-      horizontalDividerPadding: 24,
-      addPaddingBelowTitle: true,
-      needBottomPadding: false,
-      isNewDesign: true,
+    header: BasicBottomSheetHeaderWidget(
+      title: intl.convert_amount_convert,
+      searchOptions: showSearch
+          ? SearchOptions(
+              hint: intl.actionBottomSheetHeader_search,
+              onChange: (String value) {
+                searchStore.search(value);
+              },
+            )
+          : null,
     ),
-    horizontalPinnedPadding: 0,
-    removePinnedPadding: true,
-    horizontalPadding: 0,
     children: [
       _ChooseAssetBody(
         searchStore: searchStore,
         onChooseAsset: onChooseAsset,
       ),
     ],
-  );
+  ).then((v) {
+    then?.call(v);
+  });
 }
 
 class _ChooseAssetBody extends StatelessObserverWidget {

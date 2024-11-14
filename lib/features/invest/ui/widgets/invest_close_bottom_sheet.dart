@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/widgets/button/invest_buttons/invest_button.dart';
@@ -13,10 +14,9 @@ void showInvestCloseBottomSheet({
   required bool isProfit,
   required Widget widget,
 }) {
-  sShowBasicModalBottomSheet(
+  showBasicBottomSheet(
     context: context,
-    scrollable: true,
-    pinnedBottom: Material(
+    button: Material(
       color: SColorsLight().white,
       child: Observer(
         builder: (BuildContext context) {
@@ -65,9 +65,6 @@ void showInvestCloseBottomSheet({
         },
       ),
     ),
-    horizontalPinnedPadding: 0,
-    removePinnedPadding: true,
-    horizontalPadding: 0,
     children: [widget],
   );
 }

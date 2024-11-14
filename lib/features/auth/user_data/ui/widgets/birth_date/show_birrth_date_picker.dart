@@ -5,7 +5,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/auth/user_data/store/user_data_store.dart';
 import 'package:jetwallet/features/auth/user_data/ui/widgets/birth_date/store/selected_date_store.dart';
 import 'package:jetwallet/utils/helpers/date_helper.dart';
-import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
@@ -14,11 +14,11 @@ void showBirthDatePicker(
   SelectedDateStore selectDateStore,
   UserDataStore userDateStore,
 ) {
-  sShowBasicModalBottomSheet(
+  showBasicBottomSheet(
     context: context,
-    removePinnedPadding: true,
-    pinned: const _Header(),
-    enableDrag: false,
+    header: BasicBottomSheetHeaderWidget(
+      title: intl.user_data_bottom_sheet_date_of_birth,
+    ),
     children: [
       _SDatePicker(
         store: selectDateStore,
@@ -27,18 +27,6 @@ void showBirthDatePicker(
       const SpaceH42(),
     ],
   );
-}
-
-class _Header extends StatelessWidget {
-  const _Header();
-
-  @override
-  Widget build(BuildContext context) {
-    return ActionBottomSheetHeader(
-      name: intl.user_data_bottom_sheet_date_of_birth,
-      removePadding: true,
-    );
-  }
 }
 
 class _SDatePicker extends StatelessObserverWidget {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
@@ -17,10 +18,9 @@ void showInvestInfoBottomSheet({
   String? subtitle,
   bool removeWidgetSpace = false,
 }) {
-  sShowBasicModalBottomSheet(
+  showBasicBottomSheet(
     context: context,
-    scrollable: true,
-    pinnedBottom: Material(
+    button: Material(
       color: SColorsLight().white,
       child: Observer(
         builder: (BuildContext context) {
@@ -75,9 +75,6 @@ void showInvestInfoBottomSheet({
         },
       ),
     ),
-    horizontalPinnedPadding: 0,
-    removePinnedPadding: true,
-    horizontalPadding: 0,
     children: [
       InfoBlock(
         type: type,

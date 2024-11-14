@@ -11,6 +11,7 @@ import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/withdrawal_banking/helpers/show_bank_transfer_select.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
@@ -26,13 +27,12 @@ void showAccountWithdrawToSelector({
 }) {
   final store = AccountWithdrawToStore()..init(bankingAccount: bankingAccount);
 
-  sShowBasicModalBottomSheet(
+  showBasicBottomSheet(
     context: context,
-    pinned: SBottomSheetHeader(
-      name: intl.withdraw_to,
+    header: BasicBottomSheetHeaderWidget(
+      title: intl.withdraw_to,
     ),
-    scrollable: true,
-    onDissmis: onClose,
+    onDismiss: onClose,
     children: [
       _WithdrawToBody(
         store: store,

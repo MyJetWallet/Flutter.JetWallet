@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/crypto_deposit/widgets/network_item.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/blockchains_model.dart';
 
 void showDepositeNetworkBottomSheet(
@@ -43,13 +45,12 @@ void showDepositeNetworkBottomSheet(
           sendMethodType: '0',
         );
 
-  sShowBasicModalBottomSheet(
+  showBasicBottomSheet(
     context: context,
-    pinned: SBottomSheetHeader(
-      name: intl.showNetworkBottomSheet_chooseNetwork,
+    header: BasicBottomSheetHeaderWidget(
+      title: intl.showNetworkBottomSheet_chooseNetwork,
     ),
     isDismissible: false,
-    then: (p0) => checkOrClose(p0),
     children: [
       for (final network in availableNetworks)
         NetworkItem(
@@ -63,5 +64,5 @@ void showDepositeNetworkBottomSheet(
         ),
       const SpaceH42(),
     ],
-  );
+  ).then((p0) => checkOrClose(p0));
 }

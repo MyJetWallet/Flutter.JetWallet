@@ -4,7 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/phone_verification/utils/simple_number.dart';
 import 'package:jetwallet/features/prepaid_card/store/search_country_store.dart';
-import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:jetwallet/widgets/flag_item.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -20,30 +20,25 @@ void showChooseCountreBottomShet({
 }) {
   countries.sort((a, b) => a.countryName.compareTo(b.countryName));
   final store = SearchCountryStore(allCountries: ObservableList.of(countries));
-  sShowBasicModalBottomSheet(
+  showBasicBottomSheet(
     context: context,
-    then: then,
-    scrollable: true,
     expanded: true,
-    pinned: ActionBottomSheetHeader(
-      name: intl.prepaid_card_choose_country,
-      needBottomPadding: false,
-      showSearch: true,
-      onChanged: store.onSarch,
-      horizontalDividerPadding: 24,
-      addPaddingBelowTitle: true,
-      isNewDesign: true,
+    header: BasicBottomSheetHeaderWidget(
+      title: intl.prepaid_card_choose_country,
+      searchOptions: SearchOptions(
+        hint: intl.actionBottomSheetHeader_search,
+        onChange: store.onSarch,
+      ),
     ),
-    horizontalPinnedPadding: 0.0,
-    removePinnedPadding: true,
-    horizontalPadding: 0,
     children: [
       _PaymentMethodScreenBody(
         onSelected: onSelected,
         store: store,
       ),
     ],
-  );
+  ).then((v) {
+    then?.call(v);
+  });
 }
 
 class _PaymentMethodScreenBody extends StatelessObserverWidget {

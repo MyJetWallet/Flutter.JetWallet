@@ -9,6 +9,7 @@ import 'package:jetwallet/features/cj_banking_accounts/store/account_deposit_by_
 import 'package:jetwallet/features/cj_banking_accounts/widgets/show_add_cash_from_bottom_sheet.dart';
 import 'package:jetwallet/utils/balances/crypto_balance.dart';
 import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
@@ -26,13 +27,12 @@ void showAccountDepositBySelector({
 
   final store = AccountDepositByStore()..init(bankingAccount: bankingAccount);
 
-  sShowBasicModalBottomSheet(
+  showBasicBottomSheet(
     context: context,
-    pinned: SBottomSheetHeader(
-      name: intl.deposit_by,
+    header: BasicBottomSheetHeaderWidget(
+      title: intl.deposit_by,
     ),
-    scrollable: true,
-    onDissmis: onClose,
+    onDismiss: onClose,
     children: [
       _DepositByBody(
         store: store,

@@ -13,6 +13,7 @@ import 'package:jetwallet/features/invest/ui/dashboard/symbol_info_line.dart';
 import 'package:jetwallet/features/invest/ui/invests/above_list_line.dart';
 import 'package:jetwallet/features/invest/ui/invests/secondary_switch.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_input.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
@@ -26,11 +27,10 @@ void showInvestFavoritesBottomSheet(BuildContext context) {
   final currency = currencyFrom(currencies, 'USDT');
   investStore.setFavoritesEdit(false);
 
-  sShowBasicModalBottomSheet(
+  showBasicBottomSheet(
     context: context,
-    scrollable: true,
     expanded: true,
-    pinned: Observer(
+    button: Observer(
       builder: (BuildContext context) {
         return SPaddingH24(
           child: Column(
@@ -64,9 +64,6 @@ void showInvestFavoritesBottomSheet(BuildContext context) {
         );
       },
     ),
-    horizontalPinnedPadding: 0,
-    removePinnedPadding: true,
-    horizontalPadding: 0,
     children: [const InstrumentsList()],
   );
 }
