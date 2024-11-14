@@ -3,6 +3,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
+@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
 class ActionBottomSheetHeader extends StatefulWidget {
   const ActionBottomSheetHeader({
     super.key,

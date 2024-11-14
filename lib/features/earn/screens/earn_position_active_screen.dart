@@ -204,9 +204,9 @@ class EarnPositionActiveScreen extends StatelessWidget {
 
             VoidCallback? contentOnTap;
 
-            showBasicBottomSheet(
+            await showBasicBottomSheet(
               context: sRouter.navigatorKey.currentContext!,
-              basicBottomSheetButton: BasicBottomSheetButton(
+              button: BasicBottomSheetButton(
                 title: intl.earn_continue,
                 onTap: () {
                   contentOnTap?.call();

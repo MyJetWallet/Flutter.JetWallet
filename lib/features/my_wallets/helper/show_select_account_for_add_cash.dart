@@ -15,6 +15,7 @@ import 'package:jetwallet/features/simple_card/ui/widgets/show_simple_card_depos
 import 'package:jetwallet/utils/balances/crypto_balance.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
@@ -68,14 +69,12 @@ void _showDepositToBottomSheet(BuildContext context) {
     context: context,
     from: [BlockingType.deposit],
     or: () async {
-      sShowBasicModalBottomSheet(
+      await showBasicBottomSheet(
         context: context,
-        pinned: SBottomSheetHeader(
-          name: intl.add_cash_to,
+        header: BasicBottomSheetHeaderWidget(
+          title: intl.add_cash_to,
         ),
-        scrollable: true,
         children: [
-          const SpaceH12(),
           const _ShowSelectAccountForAddCash(),
           const SpaceH42(),
         ],

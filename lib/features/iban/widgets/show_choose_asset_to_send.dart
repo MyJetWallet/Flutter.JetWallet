@@ -42,7 +42,7 @@ void showChooseAssetToSend(
 
   showBasicBottomSheet(
     context: context,
-    basicBottomSheetHeader: BasicBottomSheetHeaderWidget(
+    header: BasicBottomSheetHeaderWidget(
       title: intl.actionSend_bottomSheetHeaderName,
       searchOptions: (currencyFiltered.length +
                   (isUahBankTransfer

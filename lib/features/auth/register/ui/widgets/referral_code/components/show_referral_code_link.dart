@@ -3,10 +3,10 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/auth/register/store/referral_code_store.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
-import '../../../../../../../widgets/action_bottom_sheet_header.dart';
 import 'invalid_referral_code.dart';
 import 'loading_referral_code.dart';
 import 'valid_referral_code.dart';
@@ -14,15 +14,12 @@ import 'valid_referral_code.dart';
 void showReferralCode(BuildContext context) {
   final colors = sKit.colors;
 
-  sShowBasicModalBottomSheet(
+  showBasicBottomSheet(
     context: context,
-    color: colors.white,
-    pinned: ActionBottomSheetHeader(
-      name: intl.showReferralCode_enterReferralCode,
+    header: BasicBottomSheetHeaderWidget(
+      title: intl.showReferralCode_enterReferralCode,
     ),
-    horizontalPinnedPadding: 0.0,
-    removePinnedPadding: true,
-    pinnedBottom: Material(
+    button: Material(
       color: colors.grey5,
       child: _ReferralCodeBottom(
         context: context,
@@ -166,7 +163,6 @@ class _ReferralCodeBottom extends StatelessObserverWidget {
                 : null,
           ),
         ),
-        const SpaceH24(),
       ],
     );
   }

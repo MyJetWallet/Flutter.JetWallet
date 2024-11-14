@@ -11,6 +11,7 @@ import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/send_gift/model/send_gift_info_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
@@ -62,11 +63,10 @@ void showSendOptions(
     return;
   }
 
-  sShowBasicModalBottomSheet(
+  showBasicBottomSheet(
     context: context,
-    then: (value) {},
-    pinned: SBottomSheetHeader(
-      name: intl.sendOptions_send,
+    header: BasicBottomSheetHeaderWidget(
+      title: intl.sendOptions_send,
     ),
     children: [
       Column(

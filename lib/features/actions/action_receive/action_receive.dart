@@ -10,7 +10,7 @@ import 'package:jetwallet/features/actions/helpers/show_currency_search.dart';
 import 'package:jetwallet/features/actions/store/action_search_store.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
-import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -28,7 +28,7 @@ void showReceiveAction(BuildContext context) {
     showSendTimerAlertOr(
       context: context,
       or: () {
-        _showReceive(context);
+        showCryptoReceiveAction(context);
       },
       from: [BlockingType.deposit],
     );
@@ -40,63 +40,6 @@ void showReceiveAction(BuildContext context) {
   }
 }
 
-void _showReceive(BuildContext context) {
-  showCryptoReceiveAction(context);
-}
-
-Widget receiveItem({
-  required Widget icon,
-  required String text,
-  required String subtext,
-  required Function() onTap,
-}) {
-  final colors = sKit.colors;
-
-  return InkWell(
-    highlightColor: colors.grey5,
-    onTap: onTap,
-    child: Padding(
-      padding: const EdgeInsets.only(
-        top: 8,
-        bottom: 11,
-        left: 24,
-        right: 24,
-      ),
-      child: Row(
-        children: [
-          SizedBox(
-            width: 24,
-            height: 24,
-            child: icon,
-          ),
-          const SpaceW20(),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Baseline(
-                baseline: 28,
-                baselineType: TextBaseline.alphabetic,
-                child: Text(
-                  text,
-                  style: STStyles.subtitle1,
-                ),
-              ),
-              Baseline(
-                baseline: 18,
-                baselineType: TextBaseline.alphabetic,
-                child: Text(
-                  subtext,
-                  style: STStyles.captionMedium.copyWith(color: colors.grey3),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    ),
-  );
-}
-
 void showCryptoReceiveAction(BuildContext context) {
   final searchStore = getIt.get<ActionSearchStore>();
   searchStore.init();
@@ -105,24 +48,20 @@ void showCryptoReceiveAction(BuildContext context) {
 
   final showSearch = showReceiveCurrencySearch(context);
 
-  sShowBasicModalBottomSheet(
+  // TODO (Yaroslav): fix overflow
+  showBasicBottomSheet(
     context: context,
-    then: (value) {},
-    pinned: ActionBottomSheetHeader(
-      name: intl.actionReceive_bottomSheetHeaderName1,
-      onChanged: (String value) {
-        searchStore.search(value);
-      },
-      showSearch: showSearch,
-      horizontalDividerPadding: 24,
-      addPaddingBelowTitle: true,
-      isNewDesign: true,
-      needBottomPadding: false,
+    header: BasicBottomSheetHeaderWidget(
+      title: intl.actionReceive_bottomSheetHeaderName1,
+      searchOptions: showSearch
+          ? SearchOptions(
+              hint: intl.actionBottomSheetHeader_search,
+              onChange: (String value) {
+                searchStore.search(value);
+              },
+            )
+          : null,
     ),
-    horizontalPinnedPadding: 0,
-    removePinnedPadding: true,
-    horizontalPadding: 0,
-    scrollable: true,
     expanded: true,
     children: [
       _ActionReceive(

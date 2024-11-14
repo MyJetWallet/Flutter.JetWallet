@@ -74,7 +74,7 @@ class _OffersScreenState extends State<OffersScreen> {
 
                           showBasicBottomSheet(
                             context: context,
-                            basicBottomSheetButton: BasicBottomSheetButton(
+                            button: BasicBottomSheetButton(
                               title: intl.earn_continue,
                               onTap: () {
                                 contentOnTap?.call();

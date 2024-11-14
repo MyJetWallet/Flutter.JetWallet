@@ -17,17 +17,19 @@ class BasicBottomSheet extends StatefulWidget {
     required this.topPadding,
     required this.bottomPadding,
     super.key,
+    this.expanded = false,
   });
 
   final List<Widget> children;
   final BasicBottomSheetHeaderWidget header;
-  final BasicBottomSheetButton? button;
+  final Widget? button;
   final Function()? onDismiss;
   final Future Function(bool)? onWillPop;
   final Color color;
   final String? title;
   final double topPadding;
   final double bottomPadding;
+  final bool expanded;
 
   @override
   State<BasicBottomSheet> createState() => _BasicBottomSheetState();
@@ -153,6 +155,12 @@ class _BasicBottomSheetState extends State<BasicBottomSheet> {
   }
 
   void _checkContentSize() {
+    if (widget.expanded) {
+      setState(() {
+        contentTooBig = true;
+      });
+      return;
+    }
     final RenderBox contentBox = _contentKey.currentContext?.findRenderObject() as RenderBox;
     final contentHeight = contentBox.size.height;
 

@@ -13,7 +13,9 @@ import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 
 Future<void> showAddAssetsBottomSheet(BuildContext context) async {
-  final currenciesList = [...sSignalRModules.currenciesList].where((asset) => asset.type == AssetType.crypto).toList()
+  final currenciesList = [...sSignalRModules.currenciesList]
+      .where((asset) => asset.type == AssetType.crypto && asset.symbol == 'BTC')
+      .toList()
     ..sort(
       (a, b) => a.weight.compareTo(
         b.weight,
@@ -24,9 +26,9 @@ Future<void> showAddAssetsBottomSheet(BuildContext context) async {
 
   final watchlistIdsN = getIt.get<WatchlistStore>();
 
-  showBasicBottomSheet(
+  await showBasicBottomSheet(
     context: context,
-    basicBottomSheetHeader: BasicBottomSheetHeaderWidget(
+    header: BasicBottomSheetHeaderWidget(
       title: intl.market_add_assets,
       searchOptions: SearchOptions(
         hint: intl.actionBottomSheetHeader_search,
@@ -35,7 +37,7 @@ Future<void> showAddAssetsBottomSheet(BuildContext context) async {
         },
       ),
     ),
-    basicBottomSheetButton: BasicBottomSheetButton(
+    button: BasicBottomSheetButton(
       title: intl.market_done,
       onTap: () {
         sRouter.maybePop();

@@ -8,6 +8,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:jetwallet/widgets/flag_item.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
@@ -29,15 +30,12 @@ final availableLanguages = [
 ];
 
 Future<bool?> changeLanguagePopup(BuildContext context) async {
-  sShowBasicModalBottomSheet(
+  await showBasicBottomSheet<bool?>(
     context: context,
-    pinned: SBottomSheetHeader(
-      name: intl.preferred_language,
+    header: BasicBottomSheetHeaderWidget(
+      title: intl.preferred_language,
     ),
-    onDissmis: () {
-      return true;
-    },
-    then: (p0) {
+    onDismiss: () {
       return true;
     },
     children: [
@@ -77,7 +75,9 @@ Future<bool?> changeLanguagePopup(BuildContext context) async {
       ),
       const SpaceH54(),
     ],
-  );
+  ).then((p0) {
+    return true;
+  });
 
   return null;
 }

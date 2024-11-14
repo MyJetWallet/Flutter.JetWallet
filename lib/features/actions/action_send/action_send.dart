@@ -23,7 +23,7 @@ import 'package:jetwallet/features/withdrawal/send_card_detail/store/send_card_p
 import 'package:jetwallet/features/withdrawal_banking/helpers/show_bank_transfer_select.dart';
 import 'package:jetwallet/utils/helpers/flag_asset_name.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -77,13 +77,11 @@ Future<void> showSendAction(bool isEmptyBalance, BuildContext context) async {
     return;
   }
 
-  sShowBasicModalBottomSheet(
+  await showBasicBottomSheet(
     context: context,
-    pinned: ActionBottomSheetHeader(
-      name: intl.sendOptions_send,
+    header: BasicBottomSheetHeaderWidget(
+      title: intl.sendOptions_send,
     ),
-    horizontalPinnedPadding: 0.0,
-    removePinnedPadding: true,
     children: [
       if (isToCryptoWalletAvaible)
         SimpleTableAsset(
@@ -164,21 +162,20 @@ Future<void> showSendGlobally(
 
   sAnalytics.destinationCountryScreenView();
 
-  sShowBasicModalBottomSheet(
+  await showBasicBottomSheet(
     context: context,
-    scrollable: availableCountries.length >= 7,
     expanded: availableCountries.length >= 7,
-    then: (value) {},
-    pinned: ActionBottomSheetHeader(
-      name: intl.global_send_destionation_country,
-      showSearch: availableCountries.length >= 7,
-      onChanged: (String value) {
-        globalSearchStore.globalSendSearch(value);
-      },
-      needBottomPadding: false,
+    header: BasicBottomSheetHeaderWidget(
+      title: intl.global_send_destionation_country,
+      searchOptions: availableCountries.length >= 7
+          ? SearchOptions(
+              hint: intl.actionBottomSheetHeader_search,
+              onChange: (String value) {
+                globalSearchStore.globalSendSearch(value);
+              },
+            )
+          : null,
     ),
-    horizontalPinnedPadding: 0.0,
-    removePinnedPadding: true,
     children: [
       _GlobalSendCountriesList(
         currency: currency,
@@ -315,24 +312,25 @@ Future<void> _showSendActionChooseAsset(
     sendMethodType: '0',
   );
 
-  sShowBasicModalBottomSheet(
+  await showBasicBottomSheet(
     context: context,
-    scrollable: true,
-    pinned: ActionBottomSheetHeader(
-      name: intl.actionSend_bottomSheetHeaderName,
-      showSearch: showSearch,
-      onChanged: (String value) {
-        getIt.get<ActionSearchStore>().search(value);
-      },
+    expanded: showSearch,
+    header: BasicBottomSheetHeaderWidget(
+      title: intl.actionSend_bottomSheetHeaderName,
+      searchOptions: showSearch
+          ? SearchOptions(
+              hint: intl.actionBottomSheetHeader_search,
+              onChange: (String value) {
+                getIt.get<ActionSearchStore>().search(value);
+              },
+            )
+          : null,
     ),
-    horizontalPinnedPadding: 0.0,
-    removePinnedPadding: true,
     children: [
       _ActionSend(
         lastCurrency: lastCurrency,
       ),
     ],
-    then: (value) {},
   );
 }
 
@@ -439,13 +437,11 @@ void showBankTransferTo(BuildContext context, [CurrencyModel? currency]) {
     }
   }
 
-  sShowBasicModalBottomSheet(
+  showBasicBottomSheet(
     context: context,
-    pinned: ActionBottomSheetHeader(
-      name: intl.bank_transfer_to,
+    header: BasicBottomSheetHeaderWidget(
+      title: intl.bank_transfer_to,
     ),
-    horizontalPinnedPadding: 0.0,
-    removePinnedPadding: true,
     children: [
       SimpleTableAsset(
         assetIcon: Assets.svg.medium.userAlt.simpleSvg(color: SColorsLight().blue),
@@ -581,27 +577,4 @@ void showGlobalSendCurrenctSelect(BuildContext context) {
     sRouter.navigatorKey.currentContext!,
     isGlobalSend: true,
   );
-  // getIt.get<ActionSearchStore>().init();
-  // getIt.get<ActionSearchStore>().clearSearchValue();
-  // final searchStore = getIt.get<ActionSearchStore>();
-
-  // sShowBasicModalBottomSheet(
-  //   context: context,
-  //   scrollable: true,
-  //   expanded: true,
-  //   then: (value) {},
-  //   pinned: ActionBottomSheetHeader(
-  //     name: intl.action_send_global_send_bottomheet,
-  //     onChanged: (String value) {
-  //       getIt.get<ActionSearchStore>().search(value);
-  //     },
-  //   ),
-  //   horizontalPinnedPadding: 0.0,
-  //   removePinnedPadding: true,
-  //   children: [
-  //     _GlobalSendSelectCurrency(
-  //       searchStore: searchStore,
-  //     ),
-  //   ],
-  // );
 }
