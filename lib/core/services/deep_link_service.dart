@@ -12,6 +12,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/anchors/anchors_helper.dart';
 import 'package:jetwallet/core/services/anchors/anchors_service.dart';
+import 'package:jetwallet/core/services/anchors/models/convert_confirmation_model/convert_confirmation_model.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
 import 'package:jetwallet/core/services/intercom/intercom_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
@@ -129,6 +130,13 @@ const _jw_sector_id = 'jw_sector_id';
 //Card Preorder
 const _card_preorder = 'card_preorder';
 
+// Unfinished operation
+const _unfinishedOperation = 'jw_unfinished_operation';
+const _fromAsset = 'jw_fromAsset';
+const _toAsset = 'jw_toAsset';
+const _amount = 'jw_amount';
+const _side = 'jw_side';
+
 enum SourceScreen {
   bannerOnMarket,
   bannerOnRewards,
@@ -243,6 +251,8 @@ class DeepLinkService {
       await openMarketSectorScreen(parameters);
     } else if (command == _card_preorder) {
       await openCardPreorderTab(parameters);
+    } else if (command == _unfinishedOperation) {
+      await _pushUnfinishedOperationFlow(parameters);
     } else {
       if (parameters.containsKey('jw_operation_id')) {
         await pushCryptoHistory(parameters);
@@ -325,6 +335,67 @@ class DeepLinkService {
               requiredDocuments: kycState.requiredDocuments,
               requiredVerifications: kycState.requiredVerifications,
             );
+          },
+        ),
+      );
+    }
+  }
+
+  Future<void> _pushUnfinishedOperationFlow(
+    Map<String, String> parameters,
+  ) async {
+    final fromAsset = parameters[_fromAsset];
+    final toAsset = parameters[_toAsset];
+    final amount = parameters[_amount];
+    final side = parameters[_side];
+
+    if (fromAsset == null || toAsset == null || amount == null || side == null) {
+      return;
+    }
+
+    Future<void> navigation() async {
+      var fromAmount = Decimal.zero;
+      var toAmount = Decimal.zero;
+      var isFromFixed = false;
+      if (side == 'sell') {
+        fromAmount = Decimal.parse(amount);
+        toAmount = Decimal.zero;
+        isFromFixed = true;
+      } else if (side == 'buy') {
+        fromAmount = Decimal.zero;
+        toAmount = Decimal.parse(amount);
+        isFromFixed = false;
+      }
+      sRouter.popUntilRoot();
+
+      final isPageRouterNow = sRouter.stack.any((rout) => rout.name == ConvertConfirmationRoute.name);
+      if (!isPageRouterNow) {
+        await sRouter.push(
+          ConvertConfirmationRoute(
+            convertConfirmationModel: ConvertConfirmationModel(
+              fromAsset: fromAsset,
+              toAsset: toAsset,
+              fromAmount: fromAmount,
+              toAmount: toAmount,
+              isFromFixed: isFromFixed,
+            ),
+          ),
+        );
+      }
+    }
+
+    if (getIt.isRegistered<AppStore>() &&
+        getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home &&
+        getIt<TimerService>().isPinScreenOpen == false) {
+      await Future.delayed(const Duration(milliseconds: 300));
+
+      await navigation();
+    } else {
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          func: () async {
+            await navigation();
           },
         ),
       );

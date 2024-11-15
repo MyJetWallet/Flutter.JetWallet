@@ -585,9 +585,7 @@ abstract class _IbanSendAmountStoreBase with Store {
     final value =
         inputMode == WithdrawalInputMode.youSend ? Decimal.parse(withAmount) : Decimal.parse(baseConversionValue);
 
-    print('#@#@#@ 0');
     if (_minLimit != null && _minLimit! > value) {
-      print('#@#@#@ 1');
       if (inputMode == WithdrawalInputMode.recepientGets) {
         limitError = '${intl.currencyBuy_paymentInputErrorText1} ${(_minLimit ?? Decimal.zero).toFormatSum(
           accuracy: eurCurrency.accuracy,
@@ -609,7 +607,7 @@ abstract class _IbanSendAmountStoreBase with Store {
     } else if (_maxLimit != null && _maxLimit! < value) {
       if (inputMode == WithdrawalInputMode.youSend) {
         if (currency != null) {
-          limitError = '${intl.currencyBuy_paymentInputErrorText2} ${_maxLimit?.toFormatSum(
+          limitError = '${intl.currencyBuy_paymentInputErrorText2} ${_maxLimit?.toFormatCount(
             accuracy: currency!.accuracy,
             symbol: currency!.symbol,
           )}';
@@ -620,7 +618,7 @@ abstract class _IbanSendAmountStoreBase with Store {
           )}';
         }
       } else {
-        limitError = '${intl.currencyBuy_paymentInputErrorText2} ${_maxLimit?.toFormatCount(
+        limitError = '${intl.currencyBuy_paymentInputErrorText2} ${_maxLimit?.toFormatSum(
           accuracy: eurCurrency.accuracy,
           symbol: eurCurrency.symbol,
         )}';
@@ -649,7 +647,6 @@ abstract class _IbanSendAmountStoreBase with Store {
       );
     }
 
-    print('#@#@#@ $withAmmountInputError');
     withValid = withAmmountInputError == InputError.none && isInputValid(value.toString());
   }
 }

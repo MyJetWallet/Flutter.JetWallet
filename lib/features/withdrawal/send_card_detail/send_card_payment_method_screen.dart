@@ -14,6 +14,7 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'package:simple_kit_updated/widgets/shared/simple_skeleton_loader.dart';
 
 @RoutePage(name: 'SendCardPaymentMethodRouter')
 class SendCardPaymentMethodScreen extends StatelessWidget {
@@ -97,12 +98,21 @@ class SendCardPaymentMethodBody extends StatelessObserverWidget {
                   icon: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 4.0),
                     child: CachedNetworkImage(
-                      height: 40.0,
-                      width: 40.0,
                       imageUrl: iconForPaymentMethod(
                         methodId: store.filtedGlobalSendMethods[i].methodId ?? '',
                       ),
-                      fit: BoxFit.fill,
+                      height: 40.0,
+                      width: 40.0,
+                      fit: BoxFit.cover,
+                      fadeInDuration: Duration.zero,
+                      fadeOutDuration: Duration.zero,
+                      placeholder: (_, __) {
+                        return SSkeletonLoader(
+                          width: 40,
+                          height: 40,
+                          borderRadius: BorderRadius.circular(40),
+                        );
+                      },
                     ),
                   ),
                   onTap: () async {

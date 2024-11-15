@@ -17,6 +17,7 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:logger/logger.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'package:simple_kit_updated/widgets/shared/simple_skeleton_loader.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/wallet_api/models/p2p_methods/p2p_methods_responce_model.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -130,12 +131,21 @@ class _BuyP2pPeymentMethodScreenState extends State<BuyP2pPeymentMethodScreen> {
                     icon: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 4.0),
                       child: CachedNetworkImage(
-                        height: 40.0,
-                        width: 40.0,
                         imageUrl: iconForPaymentMethod(
                           methodId: methods[i].methodId,
                         ),
-                        fit: BoxFit.fill,
+                        height: 40.0,
+                        width: 40.0,
+                        fit: BoxFit.cover,
+                        fadeInDuration: Duration.zero,
+                        fadeOutDuration: Duration.zero,
+                        placeholder: (_, __) {
+                          return SSkeletonLoader(
+                            width: 40,
+                            height: 40,
+                            borderRadius: BorderRadius.circular(40),
+                          );
+                        },
                       ),
                     ),
                     onTap: () {
