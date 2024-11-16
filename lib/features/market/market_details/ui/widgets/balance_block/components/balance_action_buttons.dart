@@ -251,13 +251,19 @@ class BalanceActionButtons extends StatelessObserverWidget {
         from: [BlockingType.deposit],
       );
     } else if (isBuyAvaible) {
-      showSendTimerAlertOr(
-        context: context,
-        or: () => showPayWithBottomSheet(
+      handler.handle(
+        status: kycState.tradeStatus,
+        isProgress: kycState.verificationInProgress,
+        currentNavigate: () => showSendTimerAlertOr(
           context: context,
-          currency: currency,
+          or: () => showPayWithBottomSheet(
+            context: context,
+            currency: currency,
+          ),
+          from: [BlockingType.trade],
         ),
-        from: [BlockingType.trade],
+        requiredDocuments: kycState.requiredDocuments,
+        requiredVerifications: kycState.requiredVerifications,
       );
     } else {
       handler.handle(
