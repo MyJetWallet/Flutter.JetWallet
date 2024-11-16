@@ -123,45 +123,44 @@ class _SingInBody extends StatelessObserverWidget {
                   children: [
                     ColoredBox(
                       color: colors.white,
-                      child: SPaddingH24(
-                        child: AutofillGroup(
-                          child: Observer(
-                            builder: (context) {
-                              return SStandardField(
-                                controller: signInStore.emailController,
-                                labelText: intl.login_emailTextFieldLabel,
-                                autofocus: true,
-                                initialValue: email,
-                                autofillHints: const [AutofillHints.email],
-                                keyboardType: TextInputType.emailAddress,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.deny(
-                                    RegExp('[ ]'),
-                                  ),
-                                ],
-                                onChanged: (value) {
-                                  credentials.updateAndValidateEmail(value);
-
-                                  if (value.isEmpty) {
-                                    SingleSingInStore.of(context).setIsEmailError(false);
-                                  }
-                                  if (credentials.emailValid && SingleSingInStore.of(context).isEmailError) {
-                                    SingleSingInStore.of(context).setIsEmailError(false);
-                                  }
-                                },
-                                onErase: () {
+                      child: AutofillGroup(
+                        child: Observer(
+                          builder: (context) {
+                            return SInput(
+                              controller: signInStore.emailController,
+                              label: intl.login_emailTextFieldLabel,
+                              autofocus: true,
+                              initialValue: email,
+                              autofillHints: const [AutofillHints.email],
+                              keyboardType: TextInputType.emailAddress,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.deny(
+                                  RegExp('[ ]'),
+                                ),
+                              ],
+                              onChanged: (value) {
+                                credentials.updateAndValidateEmail(value);
+                      
+                                if (value.isEmpty) {
                                   SingleSingInStore.of(context).setIsEmailError(false);
-                                },
-                                hideClearButton: credentials.email.isEmpty,
-                                onErrorIconTap: () {
-                                  sNotification.showError(
-                                    intl.register_invalidEmail,
-                                  );
-                                },
-                                isError: SingleSingInStore.of(context).isEmailError,
-                              );
-                            },
-                          ),
+                                }
+                                if (credentials.emailValid && SingleSingInStore.of(context).isEmailError) {
+                                  SingleSingInStore.of(context).setIsEmailError(false);
+                                }
+                              },
+                             
+                              onCloseIconTap: () {
+                                SingleSingInStore.of(context).setIsEmailError(false);
+                              },
+                              hasCloseIcon: credentials.email.isNotEmpty,
+                              onErrorIconTap: () {
+                                sNotification.showError(
+                                  intl.register_invalidEmail,
+                                );
+                              },
+                              hasErrorIcon: SingleSingInStore.of(context).isEmailError,
+                            );
+                          },
                         ),
                       ),
                     ),

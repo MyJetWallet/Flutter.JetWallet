@@ -7,7 +7,7 @@ import 'package:simple_kit_updated/simple_kit_updated.dart';
 class SInput extends HookWidget {
   const SInput({
     super.key,
-    required this.controller,
+    this.controller,
     this.label,
     this.hint,
     this.height,
@@ -19,28 +19,32 @@ class SInput extends HookWidget {
     this.onLabelIconTap,
     this.onErrorIconTap,
     this.suffixIcon,
-
-    //
-
     this.onTextFieldTap,
     this.focusNode,
-    this.keyboardType,
+    this.keyboardType = TextInputType.name,
     this.inputFormatters,
     this.textCapitalization,
     this.obscureText = false,
     this.autofocus = false,
     this.withoutVerticalPadding = false,
+    this.initialValue,
+    this.onChanged,
+    this.autofillHints,
   });
 
   final VoidCallback? onTextFieldTap;
   final FocusNode? focusNode;
   final bool obscureText;
-  final TextInputType? keyboardType;
+  final TextInputType keyboardType;
   final bool autofocus;
   final List<TextInputFormatter>? inputFormatters;
   final TextCapitalization? textCapitalization;
   final Widget? suffixIcon;
   final bool withoutVerticalPadding;
+
+  final String? initialValue;
+  final void Function(String)? onChanged;
+  final Iterable<String>? autofillHints;
 
   final String? label;
   final String? hint;
@@ -49,6 +53,7 @@ class SInput extends HookWidget {
   final bool isDisabled;
 
   final bool hasCloseIcon;
+  // TODO (Yaroslav): implement lable icon
   final bool hasLabelIcon;
   final bool hasErrorIcon;
 
@@ -56,11 +61,16 @@ class SInput extends HookWidget {
   final VoidCallback? onLabelIconTap;
   final VoidCallback? onErrorIconTap;
 
-  final TextEditingController controller;
+  final TextEditingController? controller;
 
   @override
   Widget build(BuildContext context) {
-    useListenable(controller);
+    final TextEditingController controller2 = controller ??
+        TextEditingController(
+          text: initialValue,
+        );
+
+    useListenable(controller2);
 
     return DecoratedBox(
       decoration: BoxDecoration(
@@ -71,54 +81,58 @@ class SInput extends HookWidget {
         constraints: BoxConstraints(
           minHeight: height ?? 80,
         ),
-        child: Padding(
-          padding: withoutVerticalPadding
-              ? const EdgeInsets.symmetric(vertical: 8.0)
-              : label == null
-                  ? const EdgeInsets.symmetric(horizontal: 24, vertical: 26)
-                  : const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
-          child: Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      label ?? '',
-                      style: STStyles.captionMedium.copyWith(
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextFormField(
+                    onTap: onTextFieldTap,
+                    readOnly: isDisabled,
+                    style: STStyles.subtitle1,
+                    controller: controller2,
+                    initialValue: initialValue,
+                    onChanged: onChanged,
+                    maxLines: 1,
+                    focusNode: focusNode,
+                    obscureText: obscureText,
+                    keyboardType: keyboardType,
+                    autofocus: autofocus,
+                    inputFormatters: inputFormatters,
+                    textCapitalization: textCapitalization ?? TextCapitalization.none,
+                    cursorWidth: 3.0,
+                    cursorColor: SColorsLight().blue,
+                    cursorRadius: Radius.zero,
+                    autofillHints: autofillHints,
+                    decoration: InputDecoration(
+                      isDense: true,
+                      contentPadding: withoutVerticalPadding
+                          ? const EdgeInsets.symmetric(vertical: 17)
+                          : const EdgeInsets.only(left: 24, top: 17, bottom: 17),
+                      border: InputBorder.none,
+                      hintText: hint,
+                      labelText: label,
+                      hintStyle: STStyles.subtitle1.copyWith(
+                        color: SColorsLight().gray8,
+                      
+                      ),
+                      labelStyle: STStyles.subtitle1.copyWith(
                         color: SColorsLight().gray8,
                       ),
-                    ),
-                    TextFormField(
-                      readOnly: isDisabled,
-                      style: STStyles.subtitle1,
-                      controller: controller,
-                      maxLines: null,
-                      focusNode: focusNode,
-                      obscureText: obscureText,
-                      keyboardType: keyboardType,
-                      autofocus: autofocus,
-                      inputFormatters: inputFormatters,
-                      textCapitalization: textCapitalization ?? TextCapitalization.none,
-                      cursorWidth: 3.0,
-                      cursorColor: SColorsLight().blue,
-                      cursorRadius: Radius.zero,
-                      decoration: InputDecoration(
-                        isDense: true,
-                        contentPadding: EdgeInsets.zero,
-                        border: InputBorder.none,
-                        floatingLabelBehavior: FloatingLabelBehavior.always,
-                        hintText: hint,
-                        hintStyle: STStyles.subtitle1.copyWith(
-                          color: SColorsLight().gray8,
-                        ),
-                        suffixIconConstraints: const BoxConstraints(),
+                      floatingLabelStyle: STStyles.body2Medium.copyWith(
+                        color: SColorsLight().gray8,
+                       
                       ),
+                      suffixIconConstraints: const BoxConstraints(),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              suffixIcon ??
+            ),
+            Padding(
+              padding: EdgeInsets.only(right: withoutVerticalPadding ? 0 : 24),
+              child: suffixIcon ??
                   (hasCloseIcon || hasErrorIcon
                       ? Row(
                           mainAxisSize: MainAxisSize.min,
@@ -127,7 +141,11 @@ class SInput extends HookWidget {
                             if (hasCloseIcon) ...[
                               SafeGesture(
                                 highlightColor: Colors.transparent,
-                                onTap: onCloseIconTap,
+                                onTap: () {
+                                  onCloseIconTap?.call();
+                                  controller2.clear();
+                                  onChanged?.call('');
+                                },
                                 child: Assets.svg.medium.closeAlt.simpleSvg(
                                   width: 24,
                                   height: 24,
@@ -150,8 +168,8 @@ class SInput extends HookWidget {
                           ],
                         )
                       : Container()),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

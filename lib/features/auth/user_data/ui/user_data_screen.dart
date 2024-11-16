@@ -98,24 +98,22 @@ class _UserDataScreenBody extends StatelessObserverWidget {
                           Expanded(
                             child: ColoredBox(
                               color: colors.white,
-                              child: SPaddingH24(
-                                child: SStandardField(
-                                  controller: UserDataStore.of(context).firstNameController,
-                                  labelText: intl.user_data_first_name,
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.deny(
-                                      RegExp('[ ]'),
-                                    ),
-                                  ],
-                                  isError: UserDataStore.of(context).firstNameError,
-                                  textCapitalization: TextCapitalization.words,
-                                  onErase: () {
-                                    UserDataStore.of(context).clearNameError();
-                                  },
-                                  onChanged: (val) {
-                                    UserDataStore.of(context).updateFirstName(val.trim());
-                                  },
-                                ),
+                              child: SInput(
+                                controller: UserDataStore.of(context).firstNameController,
+                                label: intl.user_data_first_name,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.deny(
+                                    RegExp('[ ]'),
+                                  ),
+                                ],
+                                hasErrorIcon: UserDataStore.of(context).firstNameError,
+                                textCapitalization: TextCapitalization.words,
+                                onErrorIconTap: () {
+                                  UserDataStore.of(context).clearNameError();
+                                },
+                                onChanged: (val) {
+                                  UserDataStore.of(context).updateFirstName(val.trim());
+                                },
                               ),
                             ),
                           ),
@@ -123,21 +121,19 @@ class _UserDataScreenBody extends StatelessObserverWidget {
                           Expanded(
                             child: ColoredBox(
                               color: colors.white,
-                              child: SPaddingH24(
-                                child: SStandardField(
-                                  controller: UserDataStore.of(context).lastNameController,
-                                  labelText: intl.user_data_last_name,
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.deny(
-                                      RegExp('[ ]'),
-                                    ),
-                                  ],
-                                  isError: UserDataStore.of(context).lastNameError,
-                                  textCapitalization: TextCapitalization.words,
-                                  onChanged: (val) {
-                                    UserDataStore.of(context).updateLastName(val.trim());
-                                  },
-                                ),
+                              child: SInput(
+                                controller: UserDataStore.of(context).lastNameController,
+                                label: intl.user_data_last_name,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.deny(
+                                    RegExp('[ ]'),
+                                  ),
+                                ],
+                                hasErrorIcon: UserDataStore.of(context).lastNameError,
+                                textCapitalization: TextCapitalization.words,
+                                onChanged: (val) {
+                                  UserDataStore.of(context).updateLastName(val.trim());
+                                },
                               ),
                             ),
                           ),
@@ -145,26 +141,22 @@ class _UserDataScreenBody extends StatelessObserverWidget {
                       ),
                     ],
                   ),
-                  const SpaceH1(),
                   ColoredBox(
                     color: colors.white,
-                    child: SPaddingH24(
-                      child: SStandardField(
-                        labelText: intl.user_data_date_of_birth,
-                        readOnly: true,
-                        onTap: () {
-                          FocusScope.of(context).unfocus();
-                          showBirthDatePicker(
-                            context,
-                            birthDateInfo,
-                            UserDataStore.of(context),
-                          );
-                        },
-                        controller: birthDateController,
-                      ),
+                    child: SInput(
+                      hint: intl.user_data_date_of_birth,
+                      isDisabled: true,
+                      onTextFieldTap: () {
+                        FocusScope.of(context).unfocus();
+                        showBirthDatePicker(
+                          context,
+                          birthDateInfo,
+                          UserDataStore.of(context),
+                        );
+                      },
+                      controller: birthDateController,
                     ),
                   ),
-                  const SpaceH1(),
                   const CountryProfileField(),
                   const ReferralCode(),
                   const Spacer(),

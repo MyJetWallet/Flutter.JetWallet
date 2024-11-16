@@ -18,8 +18,9 @@ class CountryProfileField extends StatelessObserverWidget {
     final countryInfo = getIt.get<KycProfileCountriesStore>();
     final colors = sKit.colors;
 
-    return ColoredBox(
+    return Container(
       color: colors.white,
+      height: 80,
       child: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
@@ -27,35 +28,32 @@ class CountryProfileField extends StatelessObserverWidget {
           showUserDataCountryPicker(context);
         },
         child: AbsorbPointer(
-          child: SPaddingH24(
-            child: Stack(
-              children: [
-                if (countryInfo.activeCountry != null)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 40.0),
-                    child: Row(
-                      children: [
-                        FlagItem(
-                          countryCode: countryInfo.activeCountry!.countryCode,
+          child: Stack(
+            children: [
+              SInput(
+                isDisabled: true,
+                controller: TextEditingController()..text = countryInfo.activeCountry != null ? ' ' : '',
+                label: intl.user_data_country,
+              ),
+              if (countryInfo.activeCountry != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 33.0, left: 24),
+                  child: Row(
+                    children: [
+                      FlagItem(
+                        countryCode: countryInfo.activeCountry!.countryCode,
+                      ),
+                      const SpaceW10(),
+                      Expanded(
+                        child: Text(
+                          countryInfo.activeCountry!.countryName,
+                          style: STStyles.subtitle1,
                         ),
-                        const SpaceW10(),
-                        Expanded(
-                          child: Text(
-                            countryInfo.activeCountry!.countryName,
-                            style: STStyles.subtitle1,
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                SStandardField(
-                  hideClearButton: true,
-                  readOnly: true,
-                  controller: TextEditingController()..text = countryInfo.activeCountry != null ? ' ' : '',
-                  labelText: intl.user_data_country,
                 ),
-              ],
-            ),
+            ],
           ),
         ),
       ),

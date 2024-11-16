@@ -41,33 +41,26 @@ class _ReferralCodeLinkBody extends StatelessObserverWidget {
         children: [
           Material(
             color: colors.white,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: SStandardField(
-                autofocus: true,
-                isError: getIt.get<ReferallCodeStore>().isInputError,
-                labelText: intl.showReferralCode_referralCode,
-                controller: getIt.get<ReferallCodeStore>().referralCodeController,
-                onChanged: (value) {
-                  getIt.get<ReferallCodeStore>().updateReferralCode(
-                        value,
-                        null,
-                      );
+            child: SInput(
+              autofocus: true,
+              hasErrorIcon: getIt.get<ReferallCodeStore>().isInputError,
+              label: intl.showReferralCode_referralCode,
+              controller: getIt.get<ReferallCodeStore>().referralCodeController,
+              onChanged: (value) {
+                getIt.get<ReferallCodeStore>().updateReferralCode(
+                      value,
+                      null,
+                    );
+              },
+              onCloseIconTap: () => getIt.get<ReferallCodeStore>().clearBottomSheetReferralCode(),
+              suffixIcon: SafeGesture(
+                onTap: () {
+                  getIt.get<ReferallCodeStore>().pasteCodeReferralLink();
                 },
-                hideIconsIfError: false,
-                maxLines: 1,
-                onErase: () => getIt.get<ReferallCodeStore>().clearBottomSheetReferralCode(),
-                suffixIcons: [
-                  SafeGesture(
-                    onTap: () {
-                      getIt.get<ReferallCodeStore>().pasteCodeReferralLink();
-                    },
-                    child: Assets.svg.medium.copyAlt.simpleSvg(
-                      width: 24,
-                      color: sKit.colors.grey3,
-                    ),
-                  ),
-                ],
+                child: Assets.svg.medium.copyAlt.simpleSvg(
+                  width: 24,
+                  color: sKit.colors.grey3,
+                ),
               ),
             ),
           ),
