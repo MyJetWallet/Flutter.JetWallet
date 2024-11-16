@@ -16,7 +16,6 @@ import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
@@ -81,7 +80,7 @@ class _OfferOrderSummaruBody extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  WhatToWhatConvertWidget(
+                  STransaction(
                     isLoading: false,
                     fromAssetIconUrl: store.currency.iconUrl,
                     fromAssetDescription: intl.earn_crypto_wallet,
@@ -170,19 +169,20 @@ class _OfferOrderSummaruBody extends StatelessWidget {
                   const Spacer(),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 24),
-                    child: SPrimaryButton2(
-                      active: store.isTermsAndConditionsChecked,
-                      name: intl.previewBuyWithAsset_confirm,
-                      onTap: () {
-                        sAnalytics.tapOnTheConfirmEarnDepositOrderSummaryButton(
-                          assetName: store.offer.assetId,
-                          earnAPYrate: store.offer.apyRate?.toString() ?? Decimal.zero.toString(),
-                          earnDepositAmount: store.selectedAmount.toString(),
-                          earnPlanName: store.offer.description ?? '',
-                          earnWithdrawalType: store.offer.withdrawType.name,
-                        );
-                        store.confirm();
-                      },
+                    child: SButton.blue(
+                      text: intl.previewBuyWithAsset_confirm,
+                      callback: store.isTermsAndConditionsChecked
+                          ? () {
+                              sAnalytics.tapOnTheConfirmEarnDepositOrderSummaryButton(
+                                assetName: store.offer.assetId,
+                                earnAPYrate: store.offer.apyRate?.toString() ?? Decimal.zero.toString(),
+                                earnDepositAmount: store.selectedAmount.toString(),
+                                earnPlanName: store.offer.description ?? '',
+                                earnWithdrawalType: store.offer.withdrawType.name,
+                              );
+                              store.confirm();
+                            }
+                          : null,
                     ),
                   ),
                   const SizedBox(height: 8),

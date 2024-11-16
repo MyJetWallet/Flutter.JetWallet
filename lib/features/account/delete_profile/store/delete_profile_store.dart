@@ -2,6 +2,7 @@ import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
+import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:mobx/mobx.dart';
@@ -23,9 +24,6 @@ abstract class _DeleteProfileStoreBase with Store {
 
   @observable
   ObservableList<ProfileDeleteReasonsModel> selectedDeleteReason = ObservableList.of([]);
-
-  @observable
-  bool confitionCheckbox = false;
 
   @observable
   StackLoaderStore loader = StackLoaderStore()..finishLoadingImmediately();
@@ -62,22 +60,34 @@ abstract class _DeleteProfileStoreBase with Store {
   @action
   Future<void> deleteProfile() async {
     loader.startLoadingImmediately();
-    final walletApi = sNetwork.getWalletModule();
 
-    await walletApi.postProfileDelete(
-      getIt.get<AppStore>().authState.deleteToken,
-      selectedDeleteReason.map((e) => e.reasonId!).toList(),
-    );
+    try {
+      final walletApi = sNetwork.getWalletModule();
 
-    await getIt.get<LogoutService>().logout(
-          'delete profile',
-          callbackAfterSend: () {},
-        );
+      final response = await walletApi.postProfileDelete(
+        getIt.get<AppStore>().authState.deleteToken,
+        selectedDeleteReason.map((e) => e.reasonId!).toList(),
+      );
+      response.pick(
+        onError: (e) {
+          sNotification.showError(
+            intl.emailVerification_failedToResend,
+          );
+        },
+      );
+
+      await getIt.get<LogoutService>().logout(
+            'delete profile',
+            callbackAfterSend: () {},
+          );
+    } catch (e) {
+      sNotification.showError(
+        intl.emailVerification_failedToResend,
+      );
+    }
     loader.finishLoading();
   }
 
   @action
-  void clickCheckbox() {
-    confitionCheckbox = !confitionCheckbox;
-  }
+  void loadDeleteReason() {}
 }

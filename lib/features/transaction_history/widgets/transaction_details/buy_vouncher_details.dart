@@ -1,7 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 
@@ -12,7 +11,6 @@ import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
@@ -23,7 +21,7 @@ import 'components/transaction_details_item.dart';
 import 'components/transaction_details_status.dart';
 import 'components/transaction_details_value_text.dart';
 
-class BuyVouncherDetails extends StatelessObserverWidget {
+class BuyVouncherDetails extends StatelessWidget {
   const BuyVouncherDetails({
     super.key,
     required this.transactionListItem,
@@ -217,7 +215,7 @@ class _SellDetailsHeader extends StatelessWidget {
 
     return Column(
       children: [
-        WhatToWhatConvertWidget(
+        STransaction(
           removeDefaultPaddings: true,
           isLoading: false,
           fromAssetIconUrl: asset.iconUrl,

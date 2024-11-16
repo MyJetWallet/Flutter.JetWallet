@@ -14,16 +14,18 @@ class ProductsBannersSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final store = BannersStore.of(context);
+
     return Observer(
       builder: (context) {
         final productBanners = store.productBanners;
+        final isSmallBanners = store.marketingBanners.isNotEmpty;
         return productBanners.isNotEmpty
             ? Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
                     margin: const EdgeInsets.only(top: 7),
-                    height: 96,
+                    height: isSmallBanners ? 96 : 144,
                     child: CustomScrollView(
                       scrollDirection: Axis.horizontal,
                       physics: const AlwaysScrollableScrollPhysics(),
@@ -47,6 +49,7 @@ class ProductsBannersSection extends StatelessWidget {
                                         fadeOutDuration: Duration.zero,
                                       )
                                     : const SizedBox(),
+                                isSmallBanners: isSmallBanners,
                               );
                             },
                             separatorBuilder: (context, index) {
@@ -71,10 +74,12 @@ class ProductBannerWidget extends StatelessWidget {
     super.key,
     required this.icon,
     required this.onTap,
+    required this.isSmallBanners,
   });
 
   final Widget icon;
   final void Function() onTap;
+  final bool isSmallBanners;
 
   @override
   Widget build(BuildContext context) {
@@ -82,8 +87,8 @@ class ProductBannerWidget extends StatelessWidget {
     return SafeGesture(
       onTap: onTap,
       child: Container(
-        width: 100.35,
-        height: 96,
+        width: isSmallBanners ? 100.35 : 140,
+        height: isSmallBanners ? 96 : 144,
         decoration: ShapeDecoration(
           color: colors.extraLightsPurple,
           shape: RoundedRectangleBorder(

@@ -14,6 +14,7 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/incoming_gift_model.dart';
 
@@ -184,10 +185,9 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
             ),
           ),
           const SpaceH49(),
-          SPrimaryButton2(
-            active: true,
-            name: intl.reseive_gift_claim,
-            onTap: () async {
+          SButton.blue(
+            text: intl.reseive_gift_claim,
+            callback: () async {
               if (kyc.depositStatus == kycOperationStatus(KycStatus.allowed)) {
                 await claim(currency, context);
               } else {
@@ -228,11 +228,17 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
     try {
       await getIt.get<SNetwork>().simpleNetworking.getWalletModule().acceptGift(giftModel.id);
 
-      await showSuccessScreen(currency);
+      if (sRouter.stack.any((rout) => rout.name == 'ProgressRouter')) {
+        await showSuccessScreen(currency);
+      }
     } on ServerRejectException catch (error) {
-      await showFailureScreen(error.cause, context);
+      if (sRouter.stack.any((rout) => rout.name == 'ProgressRouter')) {
+        await showFailureScreen(error.cause, context);
+      }
     } catch (error) {
-      await showFailureScreen(intl.something_went_wrong, context);
+      if (sRouter.stack.any((rout) => rout.name == 'ProgressRouter')) {
+        await showFailureScreen(intl.something_went_wrong, context);
+      }
     }
   }
 

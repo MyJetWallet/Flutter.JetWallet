@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
 class SIconButton extends StatefulWidget {
   const SIconButton({
     super.key,

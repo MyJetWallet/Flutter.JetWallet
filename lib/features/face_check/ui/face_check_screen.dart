@@ -10,6 +10,7 @@ import 'package:jetwallet/core/services/sumsub_service/sumsub_service.dart';
 import 'package:jetwallet/features/face_check/store/face_check_store.dart';
 import 'package:simple_kit/modules/icons/40x40/public/user/simple_user_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage()
 class FaceCheckScreen extends StatefulWidget {
@@ -70,10 +71,9 @@ class _FaceCheckScreenState extends State<FaceCheckScreen> {
                 style: sSubtitle3Style.copyWith(color: sKit.colors.grey1),
               ),
               const Spacer(),
-              SPrimaryButton2(
-                active: true,
-                name: intl.face_check_continue,
-                onTap: () async {
+              SButton.blue(
+                text: intl.face_check_continue,
+                callback: () async {
                   unawaited(store.runPreloadLoader());
 
                   await getIt<SumsubService>().launchFacecheck(store.checkStatus);

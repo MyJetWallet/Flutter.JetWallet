@@ -41,17 +41,19 @@ if (project.hasProperty('dart-defines')) {
 }
 
 android {
+    namespace 'dev.app.simple.com'
     compileSdkVersion 34
     buildToolsVersion "34.0.0"
     ndkVersion "26.3.11579264"
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
+        coreLibraryDesugaringEnabled true
     }
 
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '21'
     }
 
     sourceSets {
@@ -122,7 +124,8 @@ flutter {
 dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-messaging")
-    implementation(platform("com.google.firebase:firebase-bom:33.1.1"))
+    implementation(platform("com.google.firebase:firebase-bom:33.5.1"))
     implementation "com.squareup.okhttp3:okhttp:4.12.0"
     implementation 'com.google.android.gms:play-services-wallet:19.4.0'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.2'
 }

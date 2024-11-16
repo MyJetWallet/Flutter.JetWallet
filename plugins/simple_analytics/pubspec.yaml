@@ -9,8 +9,8 @@ dependencies:
   flutter:
     sdk: flutter
 
-  crypto: ^3.0.3
-  amplitude_flutter: ^3.16.2
+  crypto: ^3.0.6
+  amplitude_flutter: ^3.16.4
 
 dev_dependencies:
   flutter_test:

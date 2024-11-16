@@ -29,11 +29,9 @@ void showCreatePersonalAccount(
 
       sAnalytics.eurWalletVerifyAccountPartnerSide();
 
-      loading.startLoadingImmediately();
-
-      Future.delayed(const Duration(seconds: 1), () {
+      if (loading.loading) {
         loading.finishLoadingImmediately();
-      });
+      }
 
       getIt.get<GlobalLoader>().setLoading(true);
 

@@ -815,7 +815,7 @@
         "description": "Купить",
         "type": "text"
     },
-    "operationName_feeSharePayment": "Частка нагороди за реферальною програмою",
+    "operationName_feeSharePayment": "Розподіл комісії через нашу реферальну програму",
     "@operationName_feeSharePayment": {
         "description": "Часть вознаграждения по реферальной программе",
         "type": "text"
@@ -2436,49 +2436,9 @@
         "description": "Удалить профиль",
         "type": "text"
     },
-    "profileDetails_deleteProfileDescr": "Цей процес незворотній! Ви впевнені, що хочете видалити свій профіль?",
+    "profileDetails_deleteProfileDescr": "Ви впевнені, що хочете видалити цей профіль? Цю дію не можна скасувати. Процес розпочнеться на наступному кроці",
     "@profileDetails_deleteProfileDescr": {
         "description": "Этот процесс необратим! Вы уверены, что хотите удалить свой профиль?",
-        "type": "text"
-    },
-    "deleteProfileConditions_title": "Видалити свій профіль",
-    "@deleteProfileConditions_title": {
-        "description": "Удалить свой профиль",
-        "type": "text"
-    },
-    "deleteProfileConditions_subTitle": "Обов'язково:",
-    "@deleteProfileConditions_subTitle": {
-        "description": "Обязательно:",
-        "type": "text"
-    },
-    "deleteProfileConditions_conditions": "Я підтверджую, що виконав усі кроки й хочу видалити свій профіль.",
-    "@deleteProfileConditions_conditions": {
-        "description": "Я подтверждаю, что выполнил все шаги и хочу удалить свой профиль.",
-        "type": "text"
-    },
-    "deleteProfileConditions_buttonText": "Видалити профіль і вийти з системи",
-    "@deleteProfileConditions_buttonText": {
-        "description": "Удалить профиль и выйти из системы",
-        "type": "text"
-    },
-    "deleteProfileConditions_menuOneTitle": "Виведіть або перекажіть усі свої кошти",
-    "@deleteProfileConditions_menuOneTitle": {
-        "description": "Выведите или отправьте все свои средства",
-        "type": "text"
-    },
-    "deleteProfileConditions_menuOneSubTitle": "Ваш загальний баланс:␣",
-    "@deleteProfileConditions_menuOneSubTitle": {
-        "description": "Ваш общий баланс:␣",
-        "type": "text"
-    },
-    "deleteProfileConditions_warning": "Цей процес незворотній! Всі кошти, що залишилися на вашому балансі, будуть втрачені. \n\nВи будете миттєво видалені з Simple на всіх ваших пристроях.",
-    "@deleteProfileConditions_warning": {
-        "description": "Этот процесс необратим! Все средства, оставшиеся на вашем балансе, будут потеряны. \n\nВы будете мгновенно удалены из Simple на всех ваших устройствах.",
-        "type": "text"
-    },
-    "deleteProfileConditions_checkbox": "Я підтверджую, що виконав усі кроки і хочу видалити свій профіль.",
-    "@deleteProfileConditions_checkbox": {
-        "description": "Я подтверждаю, что выполнил все шаги и хочу удалить свой профиль.",
         "type": "text"
     },
     "deleteProfileReasons_header": "Чому ви видалили свій профіль?",
@@ -3223,7 +3183,7 @@
     },
     "iban_iban": "IBAN",
     "iban_bic": "BIC",
-    "iban_terms": "Використовуйте ці банківські реквізити для відправки грошей з ваших особистих банківських рахунків. Вхідні банківські перекази від інших осіб будуть відхилені.",
+    "iban_terms": "Використовуйте ці банківські реквізити для переказу грошей з вашого особистого банківського рахунку. Перекази з рахунків третіх осіб не приймаються.",
     "@iban_terms": {
         "description": "Используйте эти банковские реквизиты для отправки денег с ваших личных банковских счетов. Входящие банковские переводы от других лиц будут отклонены.",
         "type": "text"
@@ -3348,7 +3308,7 @@
         "description": "Оплачено с помощью Google Pay",
         "type": "text"
     },
-    "kycChooseDocuments_proceedYourDocument": "Будь ласка, продовжуйте перевірку з будь-яким з наведених нижче документів.",
+    "kycChooseDocuments_proceedYourDocument": "Будь ласка, продовжуйте перевірку з будь-яким із наведених нижче документів.",
     "@kycChooseDocuments_proceedYourDocument": {
         "description": "Пожалуйста, продолжайте проверку с любым из приведенных ниже документов.",
         "type": "text"
@@ -3580,7 +3540,7 @@
         "description": "Не удалось",
         "type": "text"
     },
-    "send_globally_cond_text_6": "3. Я розумію, що цей грошовий переказ обробляється через мережу P2P. Організатором P2P-переказів є Payport LLC.",
+    "send_globally_cond_text_6": "3. Я розумію, що цей грошовий переказ обробляється через мережу P2P.",
     "@send_globally_cond_text_6": {
         "description": "3. Я понимаю, что этот денежный перевод в большей степени обрабатывается через сеть P2P. Организатором P2P-переводов является Payport LLC.",
         "type": "text"
@@ -5080,7 +5040,7 @@
     "showReferralCode_pasteReferralCode": "Вставте реферальний код або перейдіть за посиланням, яке вам дав друг.",
     "onboarding_title_1": "Фінанси - це просто",
     "onboarding_title_2": "Криптовалюта - це легко",
-    "onboarding_title_3": "Надсилайте гроші без перешкод",
+    "onboarding_title_3": "Надсилайте \nГроші без перешкод",
     "onboarding_descriction_1": "Отримайте повний контроль над особистими фінансами та криптовалютним портфелем",
     "onboarding_descriction_2": "Спростіть свої криптовалютні транзакції для зручної купівлі та обміну",
     "onboarding_descriction_3": "Швидко та безпечно переказуйте кошти по всьому світу без зайвих зусиль",
@@ -5461,7 +5421,7 @@
     "earn_choose_a_deposit_plan": "Оберіть план депозиту та заробляйте",
     "earn_flexible_tariff": "Гнучке повернення",
     "earn_are_you_sure": "Ви впевнені?",
-    "earn_your_funds_and_accrued": "Ваші кошти та нараховані доходи будуть виплачені після закриття вашого рахунку Earn. Виплата буде {date}.",
+    "earn_your_funds_and_accrued": "Ваші кошти та нараховані доходи будуть виплачені після закриття вашого рахунку Earn. Виплата буде здійснена {date}.",
     "@earn_your_funds_and_accrued": {
         "placeholders": {
             "date": {
@@ -5936,13 +5896,13 @@
     "jar_view_closed_jars": "Переглянути закриті банки",
     "jar_you_dont_have_any_open_jars": "У вас немає відкритих банок. Відкрийте нову або перевірте закриті.",
     "jar_empty_list": "У вас ще немає банок",
-    "wallet_this_asset_is_only_tradable_within_simple": "Цим активом можна торгувати тільки в додатку Simple",
+    "wallet_this_asset_is_only_tradable_within_simple": "Цим активом можна лише торгувати",
     "wallet_got_it": "Зрозуміло",
     "wallet_please_add_funds_to_your_balance": "Будь ласка, спершу поповніть свій баланс",
     "wallet_buy_crypto": "Купити криптовалюту",
     "earn_offering_no_longer_accepts_deposits": "Ця пропозиція більше не приймає депозити. Відкрийте новий депозит, аби продовжити збільшення ваших заощаджень.",
     "earn_start_new_earn": "Відкрийте новий депозит",
-    "market_gainers_losers_placeholder": "Ринок стабільний. Перевірте пізніше для отримання оновлень",
+    "market_gainers_losers_placeholder": "Ринок стабільний. Повертайтесь пізніше за оновленнями",
     "kyc_verify_identity": "Підтвердити особу",
     "kyc_secure_account": "Захистити акаунт",
     "market_price_change": "Зміна ціни",
@@ -5997,5 +5957,15 @@
     },
     "prepaid_card_security_code": "Код безпеки",
     "bank_transfer_uah_bank_account": "Банківський рахунок UAH",
-    "bank_transfer_ua_iban": "Український IBAN"
+    "bank_transfer_ua_iban": "Український IBAN",
+    "profileDetails_yes": "Так, видалити",
+    "profileDetails_no": "Ні, зберегти",
+    "deleteProfileConditions_funds_remaining": "Залишок коштів",
+    "deleteProfileConditions_total_balance": "Загальний баланс складає {balance}.",
+    "deleteProfileConditions_total_coins": "Баланс Simple Coin складає {balance}.",
+    "deleteProfileConditions_withdraw_or_transfer_funds": "Вивести або перевести кошти",
+    "deleteProfileConditions_delete_anyway": "Видалити все одно",
+    "crypto_jar_banner_description": "Дізнатися більше",
+    "crypto_jar_banner_title": "Simple Crypto Jars зроблять отримання криптовалюти надзвичайно простим.",
+    "payment_method_current_limits": "Поточний ліміт: {value}"
 }

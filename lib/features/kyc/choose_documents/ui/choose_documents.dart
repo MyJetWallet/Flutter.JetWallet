@@ -11,6 +11,7 @@ import 'package:jetwallet/features/kyc/choose_documents/ui/widgets/show_kyc_coun
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'ChooseDocumentsRouter')
 class ChooseDocuments extends StatelessObserverWidget {
@@ -99,29 +100,30 @@ class ChooseDocuments extends StatelessObserverWidget {
             ],
           ),
           SFloatingButtonFrame(
-            button: SPrimaryButton2(
-              onTap: () async {
-                final status = await Permission.camera.request();
+            button: SButton.blue(
+              callback: state.activeButton()
+                  ? () async {
+                      final status = await Permission.camera.request();
 
-                if (status == PermissionStatus.granted) {
-                  await sRouter.push(const UploadKycDocumentsRouter());
-                } else {
-                  await sRouter.push(
-                    AllowCameraRoute(
-                      permissionDescription: '${intl.chooseDocuments_permissionDescriptionText1} '
-                          '${intl.chooseDocument_camera}',
-                      then: () {
-                        Navigator.pop(context);
-                        sRouter.push(
-                          const UploadKycDocumentsRouter(),
+                      if (status == PermissionStatus.granted) {
+                        await sRouter.push(const UploadKycDocumentsRouter());
+                      } else {
+                        await sRouter.push(
+                          AllowCameraRoute(
+                            permissionDescription: '${intl.chooseDocuments_permissionDescriptionText1} '
+                                '${intl.chooseDocument_camera}',
+                            then: () {
+                              Navigator.pop(context);
+                              sRouter.push(
+                                const UploadKycDocumentsRouter(),
+                              );
+                            },
+                          ),
                         );
-                      },
-                    ),
-                  );
-                }
-              },
-              name: intl.chooseDocument_chooseDocument,
-              active: state.activeButton(),
+                      }
+                    }
+                  : null,
+              text: intl.chooseDocument_chooseDocument,
             ),
           ),
         ],

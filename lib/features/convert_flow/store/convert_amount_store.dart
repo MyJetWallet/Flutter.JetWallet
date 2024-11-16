@@ -3,21 +3,18 @@ import 'dart:async';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/services/conversion_price_service/conversion_price_input.dart';
-import 'package:jetwallet/core/services/conversion_price_service/conversion_price_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
-import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/wallet_api/models/limits/swap_limits_request_model.dart';
+
 part 'convert_amount_store.g.dart';
 
 class ConvertAmountStore extends _ConvertAmountStoreBase with _$ConvertAmountStore {
@@ -29,6 +26,7 @@ class ConvertAmountStore extends _ConvertAmountStoreBase with _$ConvertAmountSto
 abstract class _ConvertAmountStoreBase with Store {
   @observable
   bool disableSubmit = false;
+
   @action
   bool setDisableSubmit(bool value) => disableSubmit = value;
 
@@ -36,20 +34,27 @@ abstract class _ConvertAmountStoreBase with Store {
   String? paymentMethodInputError;
 
   @observable
-  Decimal? targetConversionPrice;
-
-  @observable
   InputError inputError = InputError.none;
 
   @observable
   String? errorText;
+
+  @observable
+  bool loadingMaxButton = true;
+
+  @action
+  void setLoadingMaxButton(bool value) {
+    loadingMaxButton = value;
+  }
+
+  @observable
+  bool onMaxPressed = false;
 
   @computed
   bool get isContinueAvaible {
     return inputValid &&
         Decimal.parse(primaryAmount) != Decimal.zero &&
         fromAsset != null &&
-        targetConversionPrice != null &&
         !isNoFromAssetBalance;
   }
 
@@ -120,7 +125,6 @@ abstract class _ConvertAmountStoreBase with Store {
     }
 
     _checkShowTosts();
-    loadConversionPrice();
     loadLimits();
   }
 
@@ -161,6 +165,13 @@ abstract class _ConvertAmountStoreBase with Store {
 
   @action
   void setNewFromAsset(CurrencyModel newAsset) {
+    errorText = null;
+    inputValid = false;
+    inputError = InputError.none;
+    _updatePaymentMethodInputError(null);
+    onMaxPressed = false;
+    isMaxActive = false;
+
     if (newAsset.symbol != toAsset?.symbol) {
       fromAsset = newAsset;
     } else {
@@ -169,7 +180,6 @@ abstract class _ConvertAmountStoreBase with Store {
       toAsset = temp;
     }
 
-    loadConversionPrice();
     loadLimits();
 
     toInputValue = '0';
@@ -196,6 +206,13 @@ abstract class _ConvertAmountStoreBase with Store {
 
   @action
   void setNewToAsset(CurrencyModel newAsset) {
+    errorText = null;
+    inputValid = false;
+    inputError = InputError.none;
+    _updatePaymentMethodInputError(null);
+    onMaxPressed = false;
+    isMaxActive = false;
+
     if (newAsset.symbol != fromAsset?.symbol) {
       toAsset = newAsset;
     } else {
@@ -204,7 +221,6 @@ abstract class _ConvertAmountStoreBase with Store {
       fromAsset = temp;
     }
 
-    loadConversionPrice();
     loadLimits();
 
     toInputValue = '0';
@@ -215,6 +231,11 @@ abstract class _ConvertAmountStoreBase with Store {
 
   @action
   Future<void> onSwapAssets() async {
+    errorText = null;
+    inputValid = false;
+    inputError = InputError.none;
+    _updatePaymentMethodInputError(null);
+
     final temp = toAsset;
     toAsset = fromAsset;
     fromAsset = temp;
@@ -223,25 +244,18 @@ abstract class _ConvertAmountStoreBase with Store {
 
     toInputValue = '0';
     fromInputValue = '0';
-    errorText = null;
-    inputValid = false;
 
-    await loadConversionPrice();
-    await loadLimits();
+    _minFromAssetVolume = Decimal.zero;
+    _maxFromAssetVolume = Decimal.zero;
+    _minToAssetVolume = Decimal.zero;
+    _maxToAssetVolume = Decimal.zero;
+
+    onMaxPressed = false;
+    isMaxActive = false;
+    setLoadingMaxButton(true);
+    unawaited(loadLimits());
 
     _checkShowTosts();
-  }
-
-  @action
-  Future<void> loadConversionPrice() async {
-    if (fromAsset != null && toAsset != null) {
-      targetConversionPrice = await getConversionPrice(
-        ConversionPriceInput(
-          baseAssetSymbol: fromAsset?.symbol ?? '',
-          quotedAssetSymbol: toAsset?.symbol ?? '',
-        ),
-      );
-    }
   }
 
   @computed
@@ -257,6 +271,7 @@ abstract class _ConvertAmountStoreBase with Store {
   @action
   void onConvetrAll() {
     isMaxActive = true;
+    onMaxPressed = true;
     if (isFromEntering) {
       fromInputValue = '0';
       fromInputValue = responseOnInputAction(
@@ -264,8 +279,6 @@ abstract class _ConvertAmountStoreBase with Store {
         newInput: convertAllAmount.toString(),
         accuracy: fromAsset?.accuracy ?? 2,
       );
-
-      _calculateToConversion();
     } else {
       toInputValue = '0';
       toInputValue = responseOnInputAction(
@@ -273,8 +286,6 @@ abstract class _ConvertAmountStoreBase with Store {
         newInput: convertAllAmount.toString(),
         accuracy: toAsset?.accuracy ?? 2,
       );
-
-      _calculateFromConversion();
     }
 
     _validateInput();
@@ -290,7 +301,7 @@ abstract class _ConvertAmountStoreBase with Store {
         accuracy: fromAsset?.accuracy ?? 2,
         wholePartLenght: maxWholePrartLenght,
       );
-      _calculateToConversion();
+      toInputValue = '0';
     } else {
       toInputValue = responseOnInputAction(
         oldInput: toInputValue,
@@ -298,7 +309,7 @@ abstract class _ConvertAmountStoreBase with Store {
         accuracy: toAsset?.accuracy ?? 2,
         wholePartLenght: maxWholePrartLenght,
       );
-      _calculateFromConversion();
+      fromInputValue = '0';
     }
 
     _validateInput();
@@ -308,62 +319,13 @@ abstract class _ConvertAmountStoreBase with Store {
   void pasteValue(String value) {
     if (isFromEntering) {
       fromInputValue = value;
+      toInputValue = '0';
     } else {
       toInputValue = value;
-    }
-    if (isFromEntering) {
-      _calculateToConversion();
-    } else {
-      _calculateFromConversion();
+      fromInputValue = '0';
     }
 
     _validateInput();
-  }
-
-  @action
-  void _calculateToConversion() {
-    if (targetConversionPrice != null && fromInputValue != '0') {
-      final amount = Decimal.parse(fromInputValue);
-      final price = targetConversionPrice!;
-      final accuracy = toAsset?.accuracy ?? 2;
-
-      var conversion = Decimal.zero;
-
-      if (price != Decimal.zero) {
-        conversion = Decimal.parse(
-          (amount * price).toStringAsFixed(accuracy),
-        );
-      }
-
-      toInputValue = truncateZerosFrom(
-        conversion.toString(),
-      );
-    } else {
-      toInputValue = zero;
-    }
-  }
-
-  void _calculateFromConversion() {
-    if (targetConversionPrice != null && toInputValue != '0') {
-      final amount = Decimal.parse(toInputValue);
-      final price = targetConversionPrice!;
-      final accuracy = fromAsset?.accuracy ?? 2;
-
-      var conversion = Decimal.zero;
-
-      if (price != Decimal.zero) {
-        final koef = amount.toDouble() / price.toDouble();
-        conversion = Decimal.parse(
-          koef.toStringAsFixed(accuracy),
-        );
-      }
-
-      fromInputValue = truncateZerosFrom(
-        conversion.toString(),
-      );
-    } else {
-      fromInputValue = zero;
-    }
   }
 
   @computed
@@ -398,7 +360,9 @@ abstract class _ConvertAmountStoreBase with Store {
 
   @action
   Future<void> loadLimits() async {
+    setLoadingMaxButton(true);
     if (fromAsset == null || toAsset == null) {
+      setLoadingMaxButton(false);
       return;
     }
 
@@ -441,6 +405,10 @@ abstract class _ConvertAmountStoreBase with Store {
         id: 1,
         needFeedback: true,
       );
+    }
+    setLoadingMaxButton(false);
+    if (onMaxPressed) {
+      onConvetrAll();
     }
   }
 

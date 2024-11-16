@@ -3,6 +3,7 @@ import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 
 import '../../../simple_kit.dart';
 
+@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
 class SimpleAccountCategoryHeader extends StatelessWidget {
   const SimpleAccountCategoryHeader({
     super.key,
@@ -29,10 +30,11 @@ class SimpleAccountCategoryHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(
-        top: 48.0,
-        bottom: 20.0,
+        top: 12 + 53,
+        bottom: 16,
+        left: 24,
+        right: 24,
       ),
-      height: 120.0,
       child: Row(
         children: <Widget>[
           SIconButton(
@@ -42,7 +44,7 @@ class SimpleAccountCategoryHeader extends StatelessWidget {
             defaultIcon: const SBackIcon(),
             pressedIcon: const SBackPressedIcon(),
           ),
-          const SpaceW20(),
+          const SpaceW16(),
           STransparentInkWell(
             onTap: onIconTap,
             child: Stack(

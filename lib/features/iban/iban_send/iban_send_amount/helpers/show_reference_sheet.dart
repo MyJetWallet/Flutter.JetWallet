@@ -5,6 +5,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 part 'show_reference_sheet.g.dart';
 
@@ -141,20 +142,21 @@ class _ReferenceBodyState extends State<_ReferenceBody> {
                     },
                   ),
                   const SpaceH32(),
-                  SPrimaryButton2(
-                    active: store.isCharactersEnough,
-                    name: intl.withdraw_continue,
-                    onTap: () {
-                      if (store.referenceTextField.text.length >= 5) {
-                        widget.onContinue(store.referenceTextField.text);
+                  SButton.blue(
+                    text: intl.withdraw_continue,
+                    callback: store.isCharactersEnough
+                        ? () {
+                            if (store.referenceTextField.text.length >= 5) {
+                              widget.onContinue(store.referenceTextField.text);
 
-                        sRouter.maybePop();
-                      } else {
-                        store.setError(true);
-                      }
+                              sRouter.maybePop();
+                            } else {
+                              store.setError(true);
+                            }
 
-                      return;
-                    },
+                            return;
+                          }
+                        : null,
                   ),
                   const SpaceH24(),
                 ],

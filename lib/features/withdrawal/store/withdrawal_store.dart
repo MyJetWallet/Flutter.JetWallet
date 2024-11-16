@@ -36,6 +36,7 @@ import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
@@ -589,7 +590,7 @@ abstract class _WithdrawalStoreBase with Store {
     if (withdrawalType == WithdrawalType.asset) {
       if (withdrawalInputModel?.currency == null) return;
 
-      final condition1 = addressValidation is Hide || addressValidation is Valid;
+      final condition1 = addressValidation is Valid;
       final condition2 = tagValidation is Hide || tagValidation is Valid;
       final condition3 = addressController.text.isNotEmpty;
       final condition4 = tag.isNotEmpty || networkController.text == earnRipple;
@@ -611,23 +612,31 @@ abstract class _WithdrawalStoreBase with Store {
 
   @action
   Future<void> validateOnContinue(BuildContext context) async {
-    try {
-      final responseLimit = await sNetwork.getWalletModule().postWithdrawJarLimitRequest(
-        {
-          'assetSymbol': 'USDT',
-        },
-      );
+    if (withdrawalType == WithdrawalType.jar) {
+      try {
+        final responseLimit = sNetwork.getWalletModule().postWithdrawJarLimitRequest(
+          {
+            'assetSymbol': 'USDT',
+          },
+        );
 
-      responseLimit.pick(
-        onData: (data) {
-          _updateJarWithdrawalLimit(data.limit);
-          _updateJarWithdrawalLeftAmount(data.leftAmount);
-        },
-        onError: (error) {},
-      );
-    } catch (error) {
-      if (kDebugMode) {
-        print('WithdrawalJarLimit error $error');
+        unawaited(
+          responseLimit.then(
+            (response) {
+              response.pick(
+                onData: (data) {
+                  _updateJarWithdrawalLimit(data.limit);
+                  _updateJarWithdrawalLeftAmount(data.leftAmount);
+                },
+                onError: (error) {},
+              );
+            },
+          ),
+        );
+      } catch (error) {
+        if (kDebugMode) {
+          print('WithdrawalJarLimit error $error');
+        }
       }
     }
 
@@ -992,6 +1001,7 @@ abstract class _WithdrawalStoreBase with Store {
 
   @action
   Future<void> getWithdrawalFeeByPreview() async {
+    loader.startLoadingImmediately();
     void onError(error, [stackTrace]) {
       setPreviewError(true);
 
@@ -1061,6 +1071,7 @@ abstract class _WithdrawalStoreBase with Store {
         onError(e, stackTrace);
       }
     }
+    loader.finishLoadingImmediately();
   }
 
   @action
@@ -1070,7 +1081,21 @@ abstract class _WithdrawalStoreBase with Store {
         permissionDescription: intl.withdrawalAddress_pushAllowCamera,
         then: () async {
           Future.delayed(const Duration(microseconds: 100), () async {
-            await _pushQrView(context: context);
+            final result = await _pushQrView(
+              fromSettings: true,
+              context: context,
+            );
+
+            if (result is Barcode) {
+              addressController.text = result.rawValue ?? '';
+              _moveCursorAtTheEnd(addressController);
+              addressFocus.requestFocus();
+              updateAddress(result.rawValue ?? '');
+              await _validateAddressOrTag(
+                _updateAddressValidation,
+                _triggerErrorOfAddressField,
+              );
+            }
           });
         },
       ),
@@ -1415,13 +1440,6 @@ abstract class _WithdrawalStoreBase with Store {
     previewLoading = true;
 
     try {
-      final feeSize = previewFee != null
-          ? Decimal.parse(previewFee.toString())
-          : withdrawalInputModel!.currency!.withdrawalFeeSize(
-              network: getNetworkForFee(),
-              amount: Decimal.parse(withAmount),
-            );
-
       final model = WithdrawJarRequestModel(
         requestId: DateTime.now().microsecondsSinceEpoch.toString(),
         assetSymbol: withdrawalInputModel!.jar!.addresses.first.assetSymbol,

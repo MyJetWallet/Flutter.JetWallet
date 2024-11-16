@@ -12,6 +12,7 @@ import 'package:jetwallet/features/add_circle_card/ui/widgets/continue_button_fr
 import 'package:jetwallet/features/add_circle_card/ui/widgets/scrolling_frame.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 
 @RoutePage(name: 'CircleBillingAddressRouter')
@@ -145,20 +146,21 @@ class CircleBillingAddressBody extends StatelessObserverWidget {
               ),
               const Spacer(),
               ContinueButtonFrame(
-                child: SPrimaryButton2(
-                  active: navigationAllowed && store.isBillingAddressValid,
-                  name: intl.circleBillingAddress_continue,
-                  onTap: () async {
-                    store.billingAddressEnableButton = false;
-                    await store.addCard(
-                      onSuccess: onCardAdded,
-                      onError: () {
-                        sRouter.maybePop();
-                        store.clearBillingDetails();
-                        store.billingAddressEnableButton = true;
-                      },
-                    );
-                  },
+                child: SButton.blue(
+                  text: intl.circleBillingAddress_continue,
+                  callback: navigationAllowed && store.isBillingAddressValid
+                      ? () async {
+                          store.billingAddressEnableButton = false;
+                          await store.addCard(
+                            onSuccess: onCardAdded,
+                            onError: () {
+                              sRouter.maybePop();
+                              store.clearBillingDetails();
+                              store.billingAddressEnableButton = true;
+                            },
+                          );
+                        }
+                      : null,
                 ),
               ),
             ],

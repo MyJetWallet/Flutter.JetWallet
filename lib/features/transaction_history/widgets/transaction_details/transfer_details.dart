@@ -1,6 +1,5 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
@@ -9,10 +8,8 @@ import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
-import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 import '../../../../core/di/di.dart';
 import '../../../app/store/app_store.dart';
@@ -21,7 +18,7 @@ import 'components/transaction_details_item.dart';
 import 'components/transaction_details_status.dart';
 import 'components/transaction_details_value_text.dart';
 
-class TransferDetails extends StatelessObserverWidget {
+class TransferDetails extends StatelessWidget {
   const TransferDetails({
     super.key,
     required this.transactionListItem,
@@ -136,7 +133,7 @@ class _TransferDetailsHeader extends StatelessWidget {
 
     return Column(
       children: [
-        WhatToWhatConvertWidget(
+        STransaction(
           removeDefaultPaddings: true,
           isLoading: false,
           fromAssetIconUrl: euroAsset.iconUrl,

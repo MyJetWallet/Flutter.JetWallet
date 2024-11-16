@@ -8,8 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/conversion_price_service/conversion_price_input.dart';
-import 'package:jetwallet/core/services/conversion_price_service/conversion_price_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
@@ -125,9 +123,6 @@ abstract class _BuyConfirmationStoreBase with Store {
 
   @observable
   bool deviceBindingRequired = false;
-
-  @observable
-  Decimal price = Decimal.zero;
 
   AnimationController? timerAnimation;
   @observable
@@ -396,14 +391,6 @@ abstract class _BuyConfirmationStoreBase with Store {
     if (terminateUpdates) return;
 
     try {
-      price = await getConversionPrice(
-            ConversionPriceInput(
-              baseAssetSymbol: buyAsset!,
-              quotedAssetSymbol: paymentAsset!,
-            ),
-          ) ??
-          Decimal.zero;
-
       await getActualData();
 
       _refreshTimerAnimation(actualTimeInSecond);
@@ -535,7 +522,7 @@ abstract class _BuyConfirmationStoreBase with Store {
         final model = ExecuteQuoteRequestModel(
           isFromFixed: isFromFixed,
           operationId: paymentId,
-          price: price,
+          price: rate ?? Decimal.zero,
           fromAssetSymbol: paymentAsset!,
           toAssetSymbol: buyAsset!,
           fromAssetAmount: paymentAmount,
@@ -662,7 +649,6 @@ abstract class _BuyConfirmationStoreBase with Store {
 
                     return NavigationDecision.navigate;
                   } else if (uri.path == '/unlimint/cancel') {
-           
                     onCancel.call(paymentId);
 
                     return NavigationDecision.navigate;
@@ -677,7 +663,6 @@ abstract class _BuyConfirmationStoreBase with Store {
                   return NavigationDecision.navigate;
                 },
               ),
-
             ),
           );
 

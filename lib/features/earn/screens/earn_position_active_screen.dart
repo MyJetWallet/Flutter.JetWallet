@@ -190,11 +190,13 @@ class EarnPositionActiveScreen extends StatelessWidget {
         onPrimaryButtonTap: () async {
           await sRouter.maybePop();
 
-          if (offers
+          final assetOffers = offers
               .where(
-                (element) => element.status == EarnOfferStatus.activeShow,
+                (element) => element.status == EarnOfferStatus.activeShow && element.assetId == earnPosition.assetId,
               )
-              .isNotEmpty) {
+              .toList();
+          assetOffers.sort((a, b) => b.apyRate!.compareTo(a.apyRate!));
+          if (assetOffers.isNotEmpty) {
             final currency = getIt.get<FormatService>().findCurrency(
                   findInHideTerminalList: true,
                   assetSymbol: earnPosition.assetId,
@@ -212,7 +214,7 @@ class EarnPositionActiveScreen extends StatelessWidget {
               ),
               children: [
                 OffersOverlayContent(
-                  offers: offers,
+                  offers: assetOffers,
                   currency: currency,
                   setParentOnTap: (onTap) {
                     contentOnTap = onTap;

@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+// ignore_for_file: conditional_uri_does_not_exist
+
 import 'dart:async';
 import 'dart:ui';
 
@@ -11,8 +13,7 @@ export 'package:share_plus_platform_interface/share_plus_platform_interface.dart
     show ShareResult, ShareResultStatus, XFile;
 
 export 'src/share_plus_linux.dart';
-export 'src/share_plus_windows.dart'
-    if (dart.library.js_interop) 'src/share_plus_web.dart';
+export 'src/share_plus_windows.dart' if (dart.library.js_interop) 'src/share_plus_web.dart';
 
 /// Plugin for summoning a platform share sheet.
 class Share {

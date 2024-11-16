@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
 import '../../../../utils/constants.dart';
@@ -50,10 +51,9 @@ class _SendAlertBottomSheet extends StatelessObserverWidget {
             maxLines: 2,
           ),
           const SpaceH32(),
-          SPrimaryButton1(
-            active: true,
-            name: intl.sendAlert_buyButton,
-            onTap: () {
+          SButton.black(
+            text: intl.sendAlert_buyButton,
+            callback: () {
               showSendTimerAlertOr(
                 context: context,
                 or: () {

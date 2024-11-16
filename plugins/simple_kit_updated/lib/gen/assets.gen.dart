@@ -7,10 +7,10 @@
 // ignore_for_file: type=lint
 // ignore_for_file: directives_ordering,unnecessary_import,implicit_dynamic_list_literal,deprecated_member_use
 
-import 'package:flutter/widgets.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:vector_graphics/vector_graphics.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/flutter_svg.dart' as _svg;
+import 'package:vector_graphics/vector_graphics.dart' as _vg;
 
 class $AssetsImagesGen {
   const $AssetsImagesGen();
@@ -718,6 +718,15 @@ class $AssetsSvgBrandSmallGen {
   /// File path: assets/svg/brand/small/card.svg
   SvgGenImage get card => const SvgGenImage('assets/svg/brand/small/card.svg');
 
+  /// File path: assets/svg/brand/small/checkmark.svg
+  SvgGenImage get checkmark => const SvgGenImage('assets/svg/brand/small/checkmark.svg');
+
+  /// File path: assets/svg/brand/small/error.svg
+  SvgGenImage get error => const SvgGenImage('assets/svg/brand/small/error.svg');
+
+  /// File path: assets/svg/brand/small/iban.svg
+  SvgGenImage get iban => const SvgGenImage('assets/svg/brand/small/iban.svg');
+
   /// File path: assets/svg/brand/small/info_blue.svg
   SvgGenImage get infoBlue => const SvgGenImage('assets/svg/brand/small/info_blue.svg');
 
@@ -725,7 +734,7 @@ class $AssetsSvgBrandSmallGen {
   SvgGenImage get infoYellow => const SvgGenImage('assets/svg/brand/small/info_yellow.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values => [card, infoBlue, infoYellow];
+  List<SvgGenImage> get values => [card, checkmark, error, iban, infoBlue, infoYellow];
 }
 
 class $AssetsSvgOtherLargeGen {
@@ -851,7 +860,7 @@ class AssetGenImage {
     ImageRepeat repeat = ImageRepeat.noRepeat,
     Rect? centerSlice,
     bool matchTextDirection = false,
-    bool gaplessPlayback = false,
+    bool gaplessPlayback = true,
     bool isAntiAlias = false,
     String? package,
     FilterQuality filterQuality = FilterQuality.low,
@@ -920,7 +929,7 @@ class SvgGenImage {
   final Set<String> flavors;
   final bool _isVecFormat;
 
-  SvgPicture svg({
+  _svg.SvgPicture svg({
     Key? key,
     bool matchTextDirection = false,
     AssetBundle? bundle,
@@ -933,29 +942,29 @@ class SvgGenImage {
     WidgetBuilder? placeholderBuilder,
     String? semanticsLabel,
     bool excludeFromSemantics = false,
-    SvgTheme? theme,
+    _svg.SvgTheme? theme,
     ColorFilter? colorFilter,
     Clip clipBehavior = Clip.hardEdge,
     @deprecated Color? color,
     @deprecated BlendMode colorBlendMode = BlendMode.srcIn,
     @deprecated bool cacheColorFilter = false,
   }) {
-    final BytesLoader loader;
+    final _svg.BytesLoader loader;
     if (_isVecFormat) {
-      loader = AssetBytesLoader(
+      loader = _vg.AssetBytesLoader(
         _assetName,
         assetBundle: bundle,
         packageName: package,
       );
     } else {
-      loader = SvgAssetLoader(
+      loader = _svg.SvgAssetLoader(
         _assetName,
         assetBundle: bundle,
         packageName: package,
         theme: theme,
       );
     }
-    return SvgPicture(
+    return _svg.SvgPicture(
       loader,
       key: key,
       matchTextDirection: matchTextDirection,
