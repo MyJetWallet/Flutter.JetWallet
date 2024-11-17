@@ -8,6 +8,7 @@ import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/email_confirmation/store/email_confirmation_store.dart';
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/helpers/open_email_app.dart';
+import 'package:jetwallet/utils/helpers/standard_field_error_notifier.dart';
 import 'package:jetwallet/utils/store/timer_store.dart';
 import 'package:jetwallet/widgets/pin_code_field.dart';
 import 'package:mobx/mobx.dart';

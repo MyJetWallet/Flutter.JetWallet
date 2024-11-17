@@ -25,11 +25,6 @@ export 'modules/buttons/simple_icon_text_button.dart';
 /// Colors
 export 'modules/colors/simple_colors.dart';
 
-/// Fields
-export 'modules/fields/standard_field/base/standard_field_error_notifier.dart';
-export 'modules/fields/standard_field/public/simple_standard_field.dart';
-export 'modules/fields/standard_field/public/simple_standard_field_obscure.dart';
-
 /// Icons
 export 'modules/icons/102x56/public/numeric_keyboard_erase/simple_numeric_keyboard_erase_icon.dart';
 export 'modules/icons/102x56/public/numeric_keyboard_erase/simple_numeric_keyboard_erase_pressed_icon.dart';
