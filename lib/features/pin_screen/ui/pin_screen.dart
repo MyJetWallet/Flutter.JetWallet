@@ -14,6 +14,7 @@ import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:jetwallet/features/pin_screen/store/pin_screen_store.dart';
 import 'package:jetwallet/features/pin_screen/ui/widgets/pin_box.dart';
 import 'package:jetwallet/features/pin_screen/ui/widgets/shake_widget/shake_widget.dart';
+import 'package:jetwallet/utils/biometric/biometric_tools.dart';
 import 'package:jetwallet/widgets/show_verification_modal.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class SRequirement extends StatelessWidget {
   const SRequirement({
@@ -29,7 +29,7 @@ class SRequirement extends StatelessWidget {
       icon = const STickSelectedIcon();
     } else {
       icon = const STickIcon();
-      color = SColorsLight().grey2;
+      color = SColorsLight().gray8;
     }
 
     return SizedBox(
@@ -40,7 +40,7 @@ class SRequirement extends StatelessWidget {
           const SpaceW10(),
           Text(
             description,
-            style: sCaptionTextStyle.copyWith(
+            style: STStyles.captionMedium.copyWith(
               color: color,
             ),
           ),
