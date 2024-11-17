@@ -9,9 +9,6 @@ export 'modules/agreements/simple_privacy_policy/simple_policy_checkbox.dart';
 export 'modules/agreements/simple_privacy_policy/simple_policy_text.dart';
 
 /// Buttons
-export 'modules/buttons/basic_buttons/text_button/public/simple_text_button_1.dart';
-export 'modules/buttons/basic_buttons/text_button/public/simple_text_button_2.dart';
-export 'modules/buttons/resend_button/simple_resend_button.dart';
 export 'modules/buttons/simple_floating_button_frame.dart';
 export 'modules/buttons/simple_floating_button_frame2.dart';
 export 'modules/buttons/simple_circle_icon_button.dart';

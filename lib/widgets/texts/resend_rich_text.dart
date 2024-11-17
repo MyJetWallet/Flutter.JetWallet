@@ -28,12 +28,10 @@ class ResendRichText extends StatelessObserverWidget {
             ),
           ),
           const SpaceH18(),
-          STextButton2(
-            icon: isPhone ? const SPhoneCallIcon() : null,
-            addPadding: isPhone,
-            active: true,
-            autoSize: intl.localeName == 'es' || intl.localeName == 'uk',
-            name: isPhone ? intl.profileDetails_receiveCall : intl.resetRichText_resend,
+          SButtonContext(
+            type: isPhone ? SButtonContextType.iconedMediumInverted : SButtonContextType.basicInverted,
+            icon: isPhone ? Assets.svg.medium.phone : null,
+            text: isPhone ? intl.profileDetails_receiveCall : intl.resetRichText_resend,
             onTap: onTap,
           ),
         ],

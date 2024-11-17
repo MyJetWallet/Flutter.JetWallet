@@ -20,13 +20,6 @@ final sBodyText2Style = _basicTextStyle.copyWith(
 );
 
 @Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
-final sButtonTextStyle = _basicTextStyle.copyWith(
-  fontSize: 18.0,
-  fontWeight: FontWeight.w700,
-  height: 1.56,
-);
-
-@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
 final sCaptionTextStyle = _basicTextStyle.copyWith(
   fontSize: 12.0,
   fontWeight: FontWeight.w500,

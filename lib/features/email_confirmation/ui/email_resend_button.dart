@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit/modules/buttons/basic_buttons/text_button/public/simple_text_button_1.dart';
-import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/modules/shared/simple_spacers.dart';
-import 'package:simple_kit/modules/texts/simple_text_styles.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
-class SResendButton extends StatefulWidget {
-  @Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
-  const SResendButton({
+class EmailResendButton extends StatefulWidget {
+  const EmailResendButton({
     super.key,
     this.active = true,
     required this.onTap,
@@ -26,10 +23,10 @@ class SResendButton extends StatefulWidget {
   final String textResend;
 
   @override
-  State<SResendButton> createState() => _SResendButtonState();
+  State<EmailResendButton> createState() => _EmailResendButtonState();
 }
 
-class _SResendButtonState extends State<SResendButton> with RestorationMixin<SResendButton> {
+class _EmailResendButtonState extends State<EmailResendButton> with RestorationMixin<EmailResendButton> {
   final _timer = RestorableInt(0);
 
   @override
@@ -63,8 +60,8 @@ class _SResendButtonState extends State<SResendButton> with RestorationMixin<SRe
         Center(
           child: Text(
             _timer.value > 0 ? '${widget.text1} ${_timer.value} ${widget.text2}' : '${widget.text3}?',
-            style: sCaptionTextStyle.copyWith(
-              color: SColorsLight().grey2,
+            style: STStyles.captionMedium.copyWith(
+              color: SColorsLight().gray10,
             ),
           ),
         ),
@@ -74,9 +71,10 @@ class _SResendButtonState extends State<SResendButton> with RestorationMixin<SRe
           maintainSize: true,
           maintainAnimation: true,
           maintainState: true,
-          child: STextButton1(
-            active: widget.active,
-            name: widget.textResend,
+          child: SButtonContext(
+            type: SButtonContextType.basicInverted,
+            isDisabled: !widget.active,
+            text: widget.textResend,
             onTap: widget.onTap,
           ),
         ),
