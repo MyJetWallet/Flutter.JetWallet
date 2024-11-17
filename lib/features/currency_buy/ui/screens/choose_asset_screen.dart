@@ -67,14 +67,14 @@ class _ChooseAssetScreenState extends State<ChooseAssetScreen> {
               SPaddingH24(
                 child: Column(
                   children: [
-                    SStandardField(
+                    SInput(
                       controller: searchStore.searchController,
-                      hintText: intl.actionBottomSheetHeader_search,
+                      label: intl.actionBottomSheetHeader_search,
                       onChanged: (String value) {
                         searchStore.search(value);
                       },
-                      maxLines: 1,
                       height: 44,
+                      withoutVerticalPadding: true,
                     ),
                     const SDivider(),
                   ],

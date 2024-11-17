@@ -120,143 +120,121 @@ class _BodyAdressBookUnlimitState extends State<_BodyAdressBookUnlimit> {
                         ),
                       ),
                     ),
-                    SFieldDividerFrame(
-                      child: SizedBox(
-                        child: SStandardField(
-                          height: 80,
-                          labelText: intl.iban_title,
-                          textCapitalization: TextCapitalization.sentences,
-                          textInputAction: TextInputAction.next,
-                          controller: IbanAddressBookStore.of(context).ibanController,
-                          keyboardType: TextInputType.multiline,
-                          onChanged: (text) {
-                            IbanAddressBookStore.of(context).setIsIBANError(false);
-                            IbanAddressBookStore.of(context).checkButton();
-                          },
-                          onErase: () {
-                            IbanAddressBookStore.of(context).setIsIBANError(false);
-                            IbanAddressBookStore.of(context).checkButton();
-                          },
-                          isError: IbanAddressBookStore.of(context).isIBANError,
-                          hideIconsIfNotEmpty: false,
-                          suffixIcons: [
-                            SafeGesture(
-                              onTap: () {
-                                if (IbanAddressBookStore.of(context).ibanController.text.isEmpty) {
-                                  IbanAddressBookStore.of(context).pasteIban().then((value) => setState(() {}));
-                                  IbanAddressBookStore.of(context).checkButton();
+                    SizedBox(
+                      child: SInput(
+                        height: 80,
+                        label: intl.iban_title,
+                        textCapitalization: TextCapitalization.sentences,
+                        textInputAction: TextInputAction.next,
+                        controller: IbanAddressBookStore.of(context).ibanController,
+                        keyboardType: TextInputType.multiline,
+                        onChanged: (text) {
+                          IbanAddressBookStore.of(context).setIsIBANError(false);
+                          IbanAddressBookStore.of(context).checkButton();
+                        },
+                        onCloseIconTap: () {
+                          IbanAddressBookStore.of(context).setIsIBANError(false);
+                          IbanAddressBookStore.of(context).checkButton();
+                        },
+                        hasErrorIcon: IbanAddressBookStore.of(context).isIBANError,
+                        suffixIcon: SafeGesture(
+                          onTap: () {
+                            if (IbanAddressBookStore.of(context).ibanController.text.isEmpty) {
+                              IbanAddressBookStore.of(context).pasteIban().then((value) => setState(() {}));
+                              IbanAddressBookStore.of(context).checkButton();
 
-                                  setState(() {});
-                                } else {
-                                  Clipboard.setData(
-                                    ClipboardData(
-                                      text: IbanAddressBookStore.of(context).ibanController.text,
-                                    ),
-                                  );
+                              setState(() {});
+                            } else {
+                              Clipboard.setData(
+                                ClipboardData(
+                                  text: IbanAddressBookStore.of(context).ibanController.text,
+                                ),
+                              );
 
-                                  onCopyAction();
-                                }
-                              },
-                              child: const SPasteIcon(),
-                            ),
-                          ],
-                          inputFormatters: [
-                            if (IbanAddressBookStore.of(context).ibanMask != null)
-                              IbanAddressBookStore.of(context).ibanMask!,
-                          ],
-                          hideSpace: true,
+                              onCopyAction();
+                            }
+                          },
+                          child: const SPasteIcon(),
                         ),
-                      ),
-                    ),
-                    SFieldDividerFrame(
-                      child: SStandardField(
-                        height: 80,
-                        labelText: intl.iban_bic,
-                        textInputAction: TextInputAction.next,
-                        controller: IbanAddressBookStore.of(context).bicController,
-                        isError: IbanAddressBookStore.of(context).isBICError,
-                        onErase: () {
-                          IbanAddressBookStore.of(context).setIsBICError(false);
-                          IbanAddressBookStore.of(context).checkButton();
-                        },
-                        onChanged: (text) {
-                          IbanAddressBookStore.of(context).setIsBICError(false);
-                          IbanAddressBookStore.of(context).checkButton();
-                        },
-                        hideIconsIfNotEmpty: false,
-                        suffixIcons: [
-                          SafeGesture(
-                            onTap: () {
-                              if (IbanAddressBookStore.of(context).bicController.text.isEmpty) {
-                                IbanAddressBookStore.of(context).pasteBIC().then((value) => setState(() {}));
-                              } else {
-                                Clipboard.setData(
-                                  ClipboardData(
-                                    text: IbanAddressBookStore.of(context).bicController.text,
-                                  ),
-                                );
-
-                                onCopyAction();
-                              }
-                            },
-                            child: const SPasteIcon(),
-                          ),
+                        inputFormatters: [
+                          if (IbanAddressBookStore.of(context).ibanMask != null)
+                            IbanAddressBookStore.of(context).ibanMask!,
                         ],
-                        hideSpace: true,
                       ),
                     ),
-                    SFieldDividerFrame(
-                      child: SStandardField(
-                        height: 80,
-                        labelText: intl.address_book_full_name,
-                        textInputAction: TextInputAction.next,
-                        controller: IbanAddressBookStore.of(context).fullnameController,
-                        isError: IbanAddressBookStore.of(context).isFullNameError,
-                        onChanged: (text) {
-                          IbanAddressBookStore.of(context).checkButton();
-                        },
-                        hideIconsIfNotEmpty: false,
-                        suffixIcons: [
-                          SafeGesture(
-                            onTap: () {
-                              if (IbanAddressBookStore.of(context).fullnameController.text.isEmpty) {
-                                IbanAddressBookStore.of(context).pasteFullName().then((value) => setState(() {}));
-                                IbanAddressBookStore.of(context).checkButton();
-                              } else {
-                                Clipboard.setData(
-                                  ClipboardData(
-                                    text: IbanAddressBookStore.of(context).fullnameController.text,
-                                  ),
-                                );
+                    SInput(
+                      height: 80,
+                      label: intl.iban_bic,
+                      textInputAction: TextInputAction.next,
+                      controller: IbanAddressBookStore.of(context).bicController,
+                      hasErrorIcon: IbanAddressBookStore.of(context).isBICError,
+                      onCloseIconTap: () {
+                        IbanAddressBookStore.of(context).setIsBICError(false);
+                        IbanAddressBookStore.of(context).checkButton();
+                      },
+                      onChanged: (text) {
+                        IbanAddressBookStore.of(context).setIsBICError(false);
+                        IbanAddressBookStore.of(context).checkButton();
+                      },
+                      suffixIcon: SafeGesture(
+                        onTap: () {
+                          if (IbanAddressBookStore.of(context).bicController.text.isEmpty) {
+                            IbanAddressBookStore.of(context).pasteBIC().then((value) => setState(() {}));
+                          } else {
+                            Clipboard.setData(
+                              ClipboardData(
+                                text: IbanAddressBookStore.of(context).bicController.text,
+                              ),
+                            );
 
-                                onCopyAction();
-                              }
-                            },
-                            child: const SPasteIcon(),
-                          ),
-                        ],
-                        hideSpace: true,
+                            onCopyAction();
+                          }
+                        },
+                        child: const SPasteIcon(),
                       ),
                     ),
-                    SFieldDividerFrame(
-                      child: SStandardField(
-                        height: 80,
-                        labelText: intl.iban_label,
-                        maxLines: 1,
-                        maxLength: 30,
-                        controller: IbanAddressBookStore.of(context).labelController,
-                        textInputAction: TextInputAction.next,
-                        isError: IbanAddressBookStore.of(context).isLabelError,
-                        onErase: () {
-                          IbanAddressBookStore.of(context).setLabelError(false);
-                          IbanAddressBookStore.of(context).checkButton();
+                    SInput(
+                      height: 80,
+                      label: intl.address_book_full_name,
+                      textInputAction: TextInputAction.next,
+                      controller: IbanAddressBookStore.of(context).fullnameController,
+                      hasErrorIcon: IbanAddressBookStore.of(context).isFullNameError,
+                      onChanged: (text) {
+                        IbanAddressBookStore.of(context).checkButton();
+                      },
+                      suffixIcon: SafeGesture(
+                        onTap: () {
+                          if (IbanAddressBookStore.of(context).fullnameController.text.isEmpty) {
+                            IbanAddressBookStore.of(context).pasteFullName().then((value) => setState(() {}));
+                            IbanAddressBookStore.of(context).checkButton();
+                          } else {
+                            Clipboard.setData(
+                              ClipboardData(
+                                text: IbanAddressBookStore.of(context).fullnameController.text,
+                              ),
+                            );
+
+                            onCopyAction();
+                          }
                         },
-                        onChanged: (text) {
-                          IbanAddressBookStore.of(context).setLabelError(false);
-                          IbanAddressBookStore.of(context).checkButton();
-                        },
-                        hideSpace: true,
+                        child: const SPasteIcon(),
                       ),
+                    ),
+                    SInput(
+                      height: 80,
+                      label: intl.iban_label,
+                      maxLength: 30,
+                      controller: IbanAddressBookStore.of(context).labelController,
+                      textInputAction: TextInputAction.next,
+                      hasErrorIcon: IbanAddressBookStore.of(context).isLabelError,
+                      onCloseIconTap: () {
+                        IbanAddressBookStore.of(context).setLabelError(false);
+                        IbanAddressBookStore.of(context).checkButton();
+                      },
+                      onChanged: (text) {
+                        IbanAddressBookStore.of(context).setLabelError(false);
+                        IbanAddressBookStore.of(context).checkButton();
+                      },
                     ),
                     const SpaceH20(),
                     const Spacer(),

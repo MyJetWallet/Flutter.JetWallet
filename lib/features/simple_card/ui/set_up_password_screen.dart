@@ -90,25 +90,29 @@ class _SetUpPasswordScreenBody extends StatelessObserverWidget {
               ),
             ),
           ),
-          SFieldDividerFrame(
-            child: SStandardFieldObscure(
-              controller: store.passwordController,
-              labelText: intl.simple_card_password_create,
-              isError: store.passwordError,
-              onChanged: store.setPassword,
-              maxLength: 29,
-              autofocus: true,
-              onHideTap: (bool value) {
-                if (value) {
-                  sAnalytics.tapHideSetupPassword(
-                    cardID: simpleCardStore.cardFull?.cardId ?? '',
-                  );
-                } else {
+          SInput(
+            controller: store.passwordController,
+            label: intl.simple_card_password_create,
+            hasErrorIcon: store.passwordError,
+            onChanged: store.setPassword,
+            maxLength: 29,
+            autofocus: true,
+            obscureText: store.hidePassword,
+            suffixIcon: SafeGesture(
+              onTap: () {
+                if (store.hidePassword) {
                   sAnalytics.tapShowSetupPassword(
                     cardID: simpleCardStore.cardFull?.cardId ?? '',
                   );
+                  store.setHidePassword(false);
+                } else {
+                  sAnalytics.tapHideSetupPassword(
+                    cardID: simpleCardStore.cardFull?.cardId ?? '',
+                  );
+                  store.setHidePassword(true);
                 }
               },
+              child: store.hidePassword ? Assets.svg.medium.show.simpleSvg() : Assets.svg.medium.hide.simpleSvg(),
             ),
           ),
           const SpaceH16(),

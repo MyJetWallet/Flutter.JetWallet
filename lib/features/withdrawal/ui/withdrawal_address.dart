@@ -117,18 +117,15 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                         }
                       },
                       child: SPaddingH24(
-                        child: SStandardField(
+                        child: SInput(
                           controller: store.networkController,
-                          labelText: (store.withdrawalType == WithdrawalType.asset && store.networks.length > 1)
+                          label: (store.withdrawalType == WithdrawalType.asset && store.networks.length > 1)
                               ? intl.currencyWithdraw_chooseNetwork
                               : intl.cryptoDeposit_network,
-                          enabled: false,
-                          hideIconsIfNotEmpty: false,
-                          hideClearButton: true,
-                          suffixIcons: [
-                            if (store.withdrawalType == WithdrawalType.asset && store.networks.length > 1)
-                              const SAngleDownIcon(),
-                          ],
+                          isDisabled: true,
+                          suffixIcon: store.withdrawalType == WithdrawalType.asset && store.networks.length > 1
+                              ? const SAngleDownIcon()
+                              : null,
                         ),
                       ),
                     ),
@@ -136,21 +133,20 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                   const SDivider(),
                   Material(
                     color: colors.white,
-                    child: SPaddingH24(
-                      child: SStandardField(
-                        isError: store.addressError,
-                        labelText: '${intl.currencyWithdraw_enter}'
-                            ' $asset '
-                            '${intl.currencyWithdraw_address}',
-                        focusNode: store.addressFocus,
-                        controller: store.addressController,
-                        onChanged: (value) {
-                          store.scrollToBottom(scrollController);
-                          store.updateAddress(value, validate: true);
-                        },
-                        maxLines: 1,
-                        onErase: () => store.eraseAddress(),
-                        suffixIcons: [
+                    child: SInput(
+                      hasErrorIcon: store.addressError,
+                      label: '${intl.currencyWithdraw_enter}'
+                          ' $asset '
+                          '${intl.currencyWithdraw_address}',
+                      focusNode: store.addressFocus,
+                      controller: store.addressController,
+                      onChanged: (value) {
+                        store.scrollToBottom(scrollController);
+                        store.updateAddress(value, validate: true);
+                      },
+                      onCloseIconTap: () => store.eraseAddress(),
+                      suffixIcon: Row(
+                        children: [
                           SafeGesture(
                             onTap: () {
                               if (store.withdrawalType != WithdrawalType.jar) {
@@ -188,18 +184,17 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                     const SDivider(),
                     Material(
                       color: colors.white,
-                      child: SPaddingH24(
-                        child: SStandardField(
-                          isError: store.tagError,
-                          labelText: store.withdrawalInputModel!.currency!.symbol == 'XRP'
-                              ? intl.currencyWithdraw_enterTagOrMemo
-                              : intl.currencyWithdraw_enterTag,
-                          focusNode: store.tagFocus,
-                          controller: store.tagController,
-                          onChanged: (value) => store.updateTag(value),
-                          onErase: () => store.eraseTag(),
-                          maxLines: 3,
-                          suffixIcons: [
+                      child: SInput(
+                        hasErrorIcon: store.tagError,
+                        label: store.withdrawalInputModel!.currency!.symbol == 'XRP'
+                            ? intl.currencyWithdraw_enterTagOrMemo
+                            : intl.currencyWithdraw_enterTag,
+                        focusNode: store.tagFocus,
+                        controller: store.tagController,
+                        onChanged: (value) => store.updateTag(value),
+                        onCloseIconTap: () => store.eraseTag(),
+                        suffixIcon: Row(
+                          children: [
                             SafeGesture(
                               onTap: () {
                                 if (store.withdrawalType != WithdrawalType.jar) {

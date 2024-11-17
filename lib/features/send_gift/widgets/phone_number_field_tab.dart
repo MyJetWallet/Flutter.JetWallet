@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/features/send_gift/widgets/show_country_phone_number_picker.dart';
 import 'package:simple_kit/core/simple_kit.dart';
-import 'package:simple_kit/modules/fields/standard_field/public/simple_standard_field.dart';
 import 'package:simple_kit/modules/icons/24x24/public/erase/simple_erase_icon.dart';
-import 'package:simple_kit/modules/shared/simple_paddings.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../core/l10n/i10n.dart';
@@ -47,10 +45,9 @@ class PhoneNumberFieldTab extends StatelessWidget {
                   child: SizedBox(
                     width: 76,
                     child: AbsorbPointer(
-                      child: SStandardField(
-                        labelText: intl.setPhoneNumber_code,
-                        readOnly: true,
-                        hideClearButton: true,
+                      child: SInput(
+                        label: intl.setPhoneNumber_code,
+                        isDisabled: true,
                         focusNode: phoneStore.dialFocusNode,
                         controller: phoneStore.dialCodeController,
                       ),
@@ -61,33 +58,29 @@ class PhoneNumberFieldTab extends StatelessWidget {
               Observer(
                 builder: (context) {
                   return Expanded(
-                    child: SPaddingH24(
-                      child: SStandardField(
-                        labelText: intl.setPhoneNumber_phoneNumber,
-                        focusNode: phoneStore.focusNode,
-                        autofillHints: const [
-                          AutofillHints.telephoneNumber,
-                        ],
-                        keyboardType: TextInputType.phone,
-                        textInputAction: TextInputAction.next,
-                        onChanged: (String phone) {
-                          phoneStore.updatePhoneNumber(phone);
-                          phoneStore.phoneNumber();
-                          store.onChangedPhone(
-                            phoneStore.phoneNumberController.text,
-                            phoneStore.dialCodeController.text,
-                          );
-                        },
-                        controller: phoneStore.phoneNumberController,
-                        suffixIcons: phoneStore.phoneInput.isNotEmpty
-                            ? [
-                                SafeGesture(
-                                  onTap: () => phoneStore.clearPhone(),
-                                  child: const SEraseIcon(),
-                                ),
-                              ]
-                            : null,
-                      ),
+                    child: SInput(
+                      label: intl.setPhoneNumber_phoneNumber,
+                      focusNode: phoneStore.focusNode,
+                      autofillHints: const [
+                        AutofillHints.telephoneNumber,
+                      ],
+                      keyboardType: TextInputType.phone,
+                      textInputAction: TextInputAction.next,
+                      onChanged: (String phone) {
+                        phoneStore.updatePhoneNumber(phone);
+                        phoneStore.phoneNumber();
+                        store.onChangedPhone(
+                          phoneStore.phoneNumberController.text,
+                          phoneStore.dialCodeController.text,
+                        );
+                      },
+                      controller: phoneStore.phoneNumberController,
+                      suffixIcon: phoneStore.phoneInput.isNotEmpty
+                          ? SafeGesture(
+                              onTap: () => phoneStore.clearPhone(),
+                              child: const SEraseIcon(),
+                            )
+                          : null,
                     ),
                   );
                 },

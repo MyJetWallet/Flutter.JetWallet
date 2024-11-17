@@ -30,6 +30,8 @@ class SInput extends HookWidget {
     this.initialValue,
     this.onChanged,
     this.autofillHints,
+    this.maxLength,
+    this.textInputAction,
   });
 
   final VoidCallback? onTextFieldTap;
@@ -41,6 +43,8 @@ class SInput extends HookWidget {
   final TextCapitalization? textCapitalization;
   final Widget? suffixIcon;
   final bool withoutVerticalPadding;
+  final int? maxLength;
+  final TextInputAction? textInputAction;
 
   final String? initialValue;
   final void Function(String)? onChanged;
@@ -90,7 +94,9 @@ class SInput extends HookWidget {
                   TextFormField(
                     onTap: onTextFieldTap,
                     readOnly: isDisabled,
-                    style: STStyles.subtitle1,
+                    style: STStyles.subtitle1.copyWith(
+                      color: isDisabled ? SColorsLight().gray6 : SColorsLight().black,
+                    ),
                     controller: controller2,
                     initialValue: initialValue,
                     onChanged: onChanged,
@@ -99,12 +105,16 @@ class SInput extends HookWidget {
                     obscureText: obscureText,
                     keyboardType: keyboardType,
                     autofocus: autofocus,
-                    inputFormatters: inputFormatters,
+                    inputFormatters: [
+                      ...?inputFormatters,
+                      LengthLimitingTextInputFormatter(maxLength),
+                    ],
                     textCapitalization: textCapitalization ?? TextCapitalization.none,
                     cursorWidth: 3.0,
                     cursorColor: SColorsLight().blue,
                     cursorRadius: Radius.zero,
                     autofillHints: autofillHints,
+                    textInputAction: textInputAction,
                     decoration: InputDecoration(
                       isDense: true,
                       contentPadding: withoutVerticalPadding
@@ -115,14 +125,12 @@ class SInput extends HookWidget {
                       labelText: label,
                       hintStyle: STStyles.subtitle1.copyWith(
                         color: SColorsLight().gray8,
-                      
                       ),
                       labelStyle: STStyles.subtitle1.copyWith(
                         color: SColorsLight().gray8,
                       ),
                       floatingLabelStyle: STStyles.body2Medium.copyWith(
                         color: SColorsLight().gray8,
-                       
                       ),
                       suffixIconConstraints: const BoxConstraints(),
                     ),

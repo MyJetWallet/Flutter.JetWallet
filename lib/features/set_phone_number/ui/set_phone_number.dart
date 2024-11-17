@@ -134,10 +134,9 @@ class SetPhoneNumberBody extends StatelessObserverWidget {
                           child: SizedBox(
                             width: 76,
                             child: AbsorbPointer(
-                              child: SStandardField(
-                                labelText: intl.setPhoneNumber_code,
-                                readOnly: true,
-                                hideClearButton: true,
+                              child: SInput(
+                                label: intl.setPhoneNumber_code,
+                                isDisabled: true,
                                 focusNode: store.dialFocusNode,
                                 controller: store.dialCodeController,
                               ),
@@ -148,28 +147,24 @@ class SetPhoneNumberBody extends StatelessObserverWidget {
                       Observer(
                         builder: (context) {
                           return Expanded(
-                            child: SPaddingH24(
-                              child: SStandardField(
-                                labelText: intl.setPhoneNumber_phoneNumber,
-                                focusNode: store.focusNode,
-                                autofillHints: const [
-                                  AutofillHints.telephoneNumber,
-                                ],
-                                keyboardType: TextInputType.phone,
-                                textInputAction: TextInputAction.next,
-                                onChanged: (String phone) {
-                                  store.updatePhoneNumber(phone);
-                                },
-                                controller: store.phoneNumberController,
-                                suffixIcons: store.phoneInput.isNotEmpty
-                                    ? [
-                                        SafeGesture(
-                                          onTap: () => store.clearPhone(),
-                                          child: const SEraseIcon(),
-                                        ),
-                                      ]
-                                    : null,
-                              ),
+                            child: SInput(
+                              label: intl.setPhoneNumber_phoneNumber,
+                              focusNode: store.focusNode,
+                              autofillHints: const [
+                                AutofillHints.telephoneNumber,
+                              ],
+                              keyboardType: TextInputType.phone,
+                              textInputAction: TextInputAction.next,
+                              onChanged: (String phone) {
+                                store.updatePhoneNumber(phone);
+                              },
+                              controller: store.phoneNumberController,
+                              suffixIcon: store.phoneInput.isNotEmpty
+                                  ? SafeGesture(
+                                      onTap: () => store.clearPhone(),
+                                      child: const SEraseIcon(),
+                                    )
+                                  : null,
                             ),
                           );
                         },

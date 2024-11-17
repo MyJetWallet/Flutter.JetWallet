@@ -83,77 +83,61 @@ class _BodyAddressBookSimpleState extends State<_BodyAddressBookSimple> {
                       text2: intl.iban_terms_4,
                       addAccount: true,
                     ),
-                    SFieldDividerFrame(
-                      child: SStandardField(
-                        labelText: intl.iban_label,
-                        maxLines: 1,
-                        maxLength: 30,
-                        controller: IbanAddressBookStore.of(context).labelController,
-                        textInputAction: TextInputAction.next,
-                        onChanged: (text) {
-                          IbanAddressBookStore.of(context).checkButton();
-                        },
-                        hideSpace: true,
-                      ),
+                    SInput(
+                      label: intl.iban_label,
+                      maxLength: 30,
+                      controller: IbanAddressBookStore.of(context).labelController,
+                      textInputAction: TextInputAction.next,
+                      onChanged: (text) {
+                        IbanAddressBookStore.of(context).checkButton();
+                      },
                     ),
-                    SFieldDividerFrame(
-                      child: SStandardField(
-                        labelText: intl.iban_account_number,
-                        textCapitalization: TextCapitalization.sentences,
-                        textInputAction: TextInputAction.next,
-                        controller: IbanAddressBookStore.of(context).ibanController,
-                        keyboardType: TextInputType.multiline,
-                        hideIconsIfNotEmpty: false,
-                        onChanged: (text) {
-                          IbanAddressBookStore.of(context).setIsIBANError(false);
+                    SInput(
+                      label: intl.iban_account_number,
+                      textCapitalization: TextCapitalization.sentences,
+                      textInputAction: TextInputAction.next,
+                      controller: IbanAddressBookStore.of(context).ibanController,
+                      keyboardType: TextInputType.multiline,
+                      onChanged: (text) {
+                        IbanAddressBookStore.of(context).setIsIBANError(false);
 
-                          IbanAddressBookStore.of(context).checkButton();
+                        IbanAddressBookStore.of(context).checkButton();
+                      },
+                      onCloseIconTap: () {
+                        IbanAddressBookStore.of(context).setIsIBANError(false);
+
+                        IbanAddressBookStore.of(context).checkButton();
+                      },
+                      hasErrorIcon: IbanAddressBookStore.of(context).isIBANError,
+                      suffixIcon: SafeGesture(
+                        onTap: () {
+                          if (IbanAddressBookStore.of(context).ibanController.text.isEmpty) {
+                            IbanAddressBookStore.of(context).pasteIban().then((value) => setState(() {}));
+                            IbanAddressBookStore.of(context).checkButton();
+                          } else {
+                            Clipboard.setData(
+                              ClipboardData(
+                                text: IbanAddressBookStore.of(context).ibanController.text,
+                              ),
+                            );
+
+                            onCopyAction();
+                          }
                         },
-                        onErase: () {
-                          IbanAddressBookStore.of(context).setIsIBANError(false);
-
-                          IbanAddressBookStore.of(context).checkButton();
-                        },
-                        isError: IbanAddressBookStore.of(context).isIBANError,
-                        suffixIcons: [
-                          SafeGesture(
-                            onTap: () {
-                              if (IbanAddressBookStore.of(context).ibanController.text.isEmpty) {
-                                IbanAddressBookStore.of(context).pasteIban().then((value) => setState(() {}));
-                                IbanAddressBookStore.of(context).checkButton();
-                              } else {
-                                Clipboard.setData(
-                                  ClipboardData(
-                                    text: IbanAddressBookStore.of(context).ibanController.text,
-                                  ),
-                                );
-
-                                onCopyAction();
-                              }
-                            },
-                            child: const SPasteIcon(),
-                          ),
-                        ],
-                        inputFormatters: [
-                          if (IbanAddressBookStore.of(context).ibanMask != null)
-                            IbanAddressBookStore.of(context).ibanMask!,
-                        ],
-                        hideSpace: true,
+                        child: const SPasteIcon(),
                       ),
+                      inputFormatters: [
+                        if (IbanAddressBookStore.of(context).ibanMask != null)
+                          IbanAddressBookStore.of(context).ibanMask!,
+                      ],
                     ),
-                    SFieldDividerFrame(
-                      child: SStandardField(
-                        controller: TextEditingController(
-                          text: '${sUserInfo.firstName} ${sUserInfo.lastName}',
-                        ),
-                        readOnly: true,
-                        enabled: false,
-                        hideClearButton: true,
-                        labelText: intl.iban_benificiary,
-                        textCapitalization: TextCapitalization.sentences,
-                        hideSpace: true,
-                        grayLabel: true,
+                    SInput(
+                      controller: TextEditingController(
+                        text: '${sUserInfo.firstName} ${sUserInfo.lastName}',
                       ),
+                      isDisabled: true,
+                      label: intl.iban_benificiary,
+                      textCapitalization: TextCapitalization.sentences,
                     ),
                     const SpaceH20(),
                     const Spacer(),

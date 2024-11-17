@@ -229,12 +229,9 @@ class _InvestUIState extends State<InvestUIKIT> {
                     },
                   ),
                 ),
-                SFieldDividerFrame(
-                  child: SStandardField(
-                    labelText: intl.invest_amount,
-                    onChanged: (String? value) {},
-                    hideSpace: true,
-                  ),
+                SInput(
+                  label: intl.invest_amount,
+                  onChanged: (String? value) {},
                 ),
               ],
             ),

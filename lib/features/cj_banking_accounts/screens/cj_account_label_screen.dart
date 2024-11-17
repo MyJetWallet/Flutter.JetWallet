@@ -57,26 +57,22 @@ class _CJAccountLabelScreenState extends State<CJAccountLabelScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SFieldDividerFrame(
-                      child: SStandardField(
-                        labelText: intl.wallet_account_label_input,
-                        maxLines: 1,
-                        maxLength: 20,
-                        controller: labelController,
-                        textInputAction: TextInputAction.next,
-                        onChanged: (text) {
-                          if (text.trim().isNotEmpty && text.trim().length <= 20) {
-                            setState(() {
-                              isButtonActive = true;
-                            });
-                          } else {
-                            setState(() {
-                              isButtonActive = false;
-                            });
-                          }
-                        },
-                        hideSpace: true,
-                      ),
+                    SInput(
+                      label: intl.wallet_account_label_input,
+                      maxLength: 20,
+                      controller: labelController,
+                      textInputAction: TextInputAction.next,
+                      onChanged: (text) {
+                        if (text.trim().isNotEmpty && text.trim().length <= 20) {
+                          setState(() {
+                            isButtonActive = true;
+                          });
+                        } else {
+                          setState(() {
+                            isButtonActive = false;
+                          });
+                        }
+                      },
                     ),
                     const Spacer(),
                     SPaddingH24(

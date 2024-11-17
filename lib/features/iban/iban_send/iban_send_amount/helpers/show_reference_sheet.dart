@@ -91,29 +91,23 @@ class _ReferenceBodyState extends State<_ReferenceBody> {
         const SpaceH20(),
         Observer(
           builder: (context) {
-            return SPaddingH24(
-              child: SStandardField(
-                controller: store.referenceTextField,
-                autofocus: true,
-                isError: store.isError,
-                labelText: intl.iban_reference,
-                hideIconsIfNotEmpty: false,
-                maxLength: 100,
-                suffixIcons: [
-                  SafeGesture(
-                    onTap: () {
-                      store.paste().then((value) => setState(() {}));
-                    },
-                    child: const SPasteIcon(),
-                  ),
-                ],
-                onErase: () {},
-                onChanged: (value) {
-                  store.setError(false);
-
-                  store.setCharactersEnough();
+            return SInput(
+              controller: store.referenceTextField,
+              autofocus: true,
+              hasErrorIcon: store.isError,
+              label: intl.iban_reference,
+              maxLength: 100,
+              suffixIcon: SafeGesture(
+                onTap: () {
+                  store.paste().then((value) => setState(() {}));
                 },
+                child: const SPasteIcon(),
               ),
+              onChanged: (value) {
+                store.setError(false);
+
+                store.setCharactersEnough();
+              },
             );
           },
         ),

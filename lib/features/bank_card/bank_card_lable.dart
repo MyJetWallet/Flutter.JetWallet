@@ -46,18 +46,14 @@ class BankCardLabel extends StatelessObserverWidget {
       ),
       child: Column(
         children: [
-          SFieldDividerFrame(
-            child: SStandardField(
-              maxLines: 1,
-              maxLength: 30,
-              labelText: intl.addCircleCard_label,
-              autofocus: true,
-              isError: store.labelError,
-              enableInteractiveSelection: false,
-              disableErrorOnChanged: false,
-              controller: store.cardLabelController,
-              onChanged: store.setCardLabel,
-            ),
+          SInput(
+            maxLength: 30,
+            label: intl.addCircleCard_label,
+            autofocus: true,
+            hasErrorIcon: store.labelError,
+            controller: store.cardLabelController,
+            onChanged: store.setCardLabel,
+            hasCloseIcon: store.cardLabel.isNotEmpty,
           ),
           const Spacer(),
           ContinueButtonFrame(

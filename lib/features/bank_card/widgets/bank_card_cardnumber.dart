@@ -19,49 +19,44 @@ class _BankCardCardnumberState extends State<BankCardCardnumber> {
   Widget build(BuildContext context) {
     final store = BankCardStore.of(context);
 
-    return SFieldDividerFrame(
-      child: SStandardField(
-        labelText: intl.addCircleCard_cardNumber,
-        keyboardType: TextInputType.number,
-        isError: store.cardNumberError,
-        disableErrorOnChanged: false,
-        // In formatting \u2005 is used instead of \u0020
-        // to avoid \u0020 input from the user
-        inputFormatters: [
-          MaskedTextInputFormatter(
-            mask: 'xxxx\u{2005}xxxx\u{2005}xxxx\u{2005}xxxx',
-            separator: '\u{2005}',
-          ),
-          FilteringTextInputFormatter.allow(
-            RegExp(r'[0-9\u2005]'),
-          ),
-        ],
-        focusNode: store.cardNode,
-        controller: store.cardNumberController,
-        onChanged: store.updateCardNumber,
-        suffixIcons: store.cardStoreMode == BankCardStoreMode.add
-            ? [
-                SafeGesture(
-                  onTap: () {
-                    setState(() {
-                      store.pasteCode();
-                    });
+    return SInput(
+      label: intl.addCircleCard_cardNumber,
+      keyboardType: TextInputType.number,
+      hasErrorIcon: store.cardNumberError,
 
-                    Future.delayed(const Duration(milliseconds: 150), () {
-                      setState(() {});
-                    });
-                  },
-                  child: const SPasteIcon(),
-                ),
-              ]
-            : null,
-        onErase: () {
-          store.onEraseCardNumber();
-        },
-        hideClearButton: store.cardStoreMode == BankCardStoreMode.edit,
-        readOnly: store.cardStoreMode == BankCardStoreMode.edit,
-        grayLabel: store.cardStoreMode == BankCardStoreMode.edit,
-      ),
+      // In formatting \u2005 is used instead of \u0020
+      // to avoid \u0020 input from the user
+      inputFormatters: [
+        MaskedTextInputFormatter(
+          mask: 'xxxx\u{2005}xxxx\u{2005}xxxx\u{2005}xxxx',
+          separator: '\u{2005}',
+        ),
+        FilteringTextInputFormatter.allow(
+          RegExp(r'[0-9\u2005]'),
+        ),
+      ],
+      focusNode: store.cardNode,
+      controller: store.cardNumberController,
+      onChanged: store.updateCardNumber,
+      suffixIcon: store.cardStoreMode == BankCardStoreMode.add
+          ? SafeGesture(
+              onTap: () {
+                setState(() {
+                  store.pasteCode();
+                });
+
+                Future.delayed(const Duration(milliseconds: 150), () {
+                  setState(() {});
+                });
+              },
+              child: const SPasteIcon(),
+            )
+          : null,
+      onCloseIconTap: () {
+        store.onEraseCardNumber();
+      },
+      hasCloseIcon: store.cardStoreMode != BankCardStoreMode.edit,
+      isDisabled: store.cardStoreMode == BankCardStoreMode.edit,
     );
   }
 }

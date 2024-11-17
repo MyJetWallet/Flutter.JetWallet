@@ -6,7 +6,6 @@ import 'package:jetwallet/features/actions/store/action_search_store.dart';
 import 'package:jetwallet/features/send_gift/model/send_gift_info_model.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:mobx/mobx.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../core/di/di.dart';
@@ -91,19 +90,16 @@ class _GiftSelectAssetScreenState extends State<GiftSelectAssetScreen> {
             child: Column(
               children: [
                 if (sortedAssets.length > 7) ...[
-                  SPaddingH24(
-                    child: SStandardField(
-                      controller: textController,
-                      labelText: intl.actionBottomSheetHeader_search,
-                      onChanged: (String value) {
-                        searchStore.searchConvert(
-                          value,
-                          sortedAssets,
-                          sortedAssets,
-                        );
-                      },
-                      maxLines: 1,
-                    ),
+                  SInput(
+                    controller: textController,
+                    label: intl.actionBottomSheetHeader_search,
+                    onChanged: (String value) {
+                      searchStore.searchConvert(
+                        value,
+                        sortedAssets,
+                        sortedAssets,
+                      );
+                    },
                   ),
                   const SDivider(),
                 ],

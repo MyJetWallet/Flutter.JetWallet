@@ -276,13 +276,13 @@ class _MarketScreenState extends State<MarketScreen> {
                       SliverPadding(
                         padding: const EdgeInsets.symmetric(horizontal: 24),
                         sliver: SliverToBoxAdapter(
-                          child: SStandardField(
+                          child: SInput(
                             controller: listsStore.searchContriller,
                             focusNode: listsStore.searchFocusNode,
-                            hintText: intl.showKycCountryPicker_search,
+                            hint: intl.showKycCountryPicker_search,
                             onChanged: (value) {},
                             height: 44,
-                            maxLines: 1,
+                            withoutVerticalPadding: true,
                           ),
                         ),
                       ),

@@ -279,33 +279,27 @@ class _Input extends StatefulWidget {
 class _InputState extends State<_Input> {
   @override
   Widget build(BuildContext context) {
-    return SFieldDividerFrame(
-      child: SStandardField(
-        controller: widget.controller,
-        labelText: widget.labalText,
-        keyboardType: widget.inputType,
-        isError: widget.isError,
-        disableErrorOnChanged: false,
-        hideSpace: true,
-        onErase: () {
-          widget.onErase();
+    return SInput(
+      controller: widget.controller,
+      label: widget.labalText,
+      keyboardType: widget.inputType,
+      hasErrorIcon: widget.isError,
+      onCloseIconTap: () {
+        widget.onErase();
+        setState(() {});
+      },
+      suffixIcon: SafeGesture(
+        onTap: () {
+          widget.paste();
           setState(() {});
         },
-        suffixIcons: [
-          SafeGesture(
-            onTap: () {
-              widget.paste();
-              setState(() {});
-            },
-            child: const SPasteIcon(),
-          ),
-        ],
-        inputFormatters: widget.inputFormatters,
-        onChanged: (str) {
-          widget.onChanged(str);
-          setState(() {});
-        },
+        child: const SPasteIcon(),
       ),
+      inputFormatters: widget.inputFormatters,
+      onChanged: (str) {
+        widget.onChanged(str);
+        setState(() {});
+      },
     );
   }
 }

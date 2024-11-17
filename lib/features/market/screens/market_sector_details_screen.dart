@@ -19,11 +19,9 @@ import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_kit_updated/widgets/navigation/segment_control/models/segment_control_data.dart';
 import 'package:simple_kit_updated/widgets/navigation/segment_control/segment_control.dart';
-import 'package:simple_kit_updated/widgets/shared/simple_skeleton_loader.dart';
 import 'package:simple_kit_updated/widgets/table/divider/simple_divider.dart' as divider;
 import 'package:simple_networking/modules/signal_r/models/market_sectors_message_model.dart';
 
@@ -172,12 +170,12 @@ class _MarketSectorDetailsBodyState extends State<_MarketSectorDetailsBody> with
               SliverPadding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 sliver: SliverToBoxAdapter(
-                  child: SStandardField(
+                  child: SInput(
                     controller: store.searchContriller,
-                    hintText: intl.showKycCountryPicker_search,
+                    hint: intl.showKycCountryPicker_search,
                     onChanged: (value) {},
                     height: 44,
-                    maxLines: 1,
+                    withoutVerticalPadding: true,
                   ),
                 ),
               ),

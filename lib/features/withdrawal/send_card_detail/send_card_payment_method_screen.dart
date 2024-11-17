@@ -12,9 +12,7 @@ import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
 import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
-import 'package:simple_kit_updated/widgets/shared/simple_skeleton_loader.dart';
 
 @RoutePage(name: 'SendCardPaymentMethodRouter')
 class SendCardPaymentMethodScreen extends StatelessWidget {
@@ -62,15 +60,12 @@ class SendCardPaymentMethodBody extends StatelessObserverWidget {
       child: Column(
         children: [
           if (store.showSearch) ...[
-            SPaddingH24(
-              child: SStandardField(
-                controller: store.searchController,
-                labelText: intl.actionBottomSheetHeader_search,
-                onChanged: (String value) => store.search(value),
-                maxLines: 1,
-                keyboardType: TextInputType.text,
-                height: 48.0,
-              ),
+            SInput(
+              controller: store.searchController,
+              label: intl.actionBottomSheetHeader_search,
+              onChanged: (String value) => store.search(value),
+              keyboardType: TextInputType.text,
+              height: 48.0,
             ),
             const SDivider(),
           ],
