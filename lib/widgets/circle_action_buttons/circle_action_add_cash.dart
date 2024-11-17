@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class CircleActionAddCash extends StatelessWidget {
   const CircleActionAddCash({
@@ -14,18 +14,15 @@ class CircleActionAddCash extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
-    return SimpleCircleButton(
-      defaultIcon: SCasheIcon(
+    return SActionButton(
+      icon: Assets.svg.medium.cash.simpleSvg(
         color: colors.white,
       ),
-      pressedIcon: SCasheIcon(
-        color: colors.white.withOpacity(0.7),
-      ),
       onTap: onTap,
-      isDisabled: isDisabled,
-      name: intl.balanceActionButtons_add_cash,
+      state: isDisabled ? ActionButtonState.disabled : ActionButtonState.defaylt,
+      lable: intl.balanceActionButtons_add_cash,
     );
   }
 }

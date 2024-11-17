@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class CircleActionFreeze extends StatelessWidget {
   const CircleActionFreeze({
@@ -16,18 +16,13 @@ class CircleActionFreeze extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
-
-    return SimpleCircleButton(
-      defaultIcon: SFreezeIcon(
-        color: colors.white,
-      ),
-      pressedIcon: SFreezeIcon(
-        color: colors.white.withOpacity(0.7),
-      ),
+    return SActionButton(
       onTap: onTap,
-      isDisabled: isDisabled,
-      name: isFrozen ? intl.simple_card_unfreeze : intl.simple_card_freeze,
+      lable: isFrozen ? intl.simple_card_unfreeze : intl.simple_card_freeze,
+      icon: Assets.svg.medium.arrowUp.simpleSvg(
+        color: SColorsLight().white,
+      ),
+      state: isDisabled ? ActionButtonState.disabled : ActionButtonState.defaylt,
     );
   }
 }

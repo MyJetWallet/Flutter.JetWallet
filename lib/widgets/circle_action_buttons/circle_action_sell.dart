@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class CircleActionSell extends StatelessWidget {
   const CircleActionSell({
@@ -14,26 +14,13 @@ class CircleActionSell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
-
-    return SimpleCircleButton(
-      defaultIcon: SizedBox(
-        width: 24,
-        height: 24,
-        child: SMinusIcon(
-          color: colors.white,
-        ),
-      ),
-      pressedIcon: SizedBox(
-        width: 24,
-        height: 24,
-        child: SMinusIcon(
-          color: colors.white.withOpacity(0.7),
-        ),
-      ),
+    return SActionButton(
       onTap: onTap,
-      isDisabled: isDisabled,
-      name: intl.operationName_sell,
+      lable: intl.operationName_sell,
+      icon: Assets.svg.medium.remove.simpleSvg(
+        color: SColorsLight().white,
+      ),
+      state: isDisabled ? ActionButtonState.disabled : ActionButtonState.defaylt,
     );
   }
 }

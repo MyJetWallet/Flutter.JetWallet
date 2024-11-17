@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:simple_kit/modules/icons/24x24/public/transfer/simple_transfer_icon.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class CircleActionConvert extends StatelessWidget {
   const CircleActionConvert({
@@ -15,18 +14,13 @@ class CircleActionConvert extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
-
-    return SimpleCircleButton(
-      defaultIcon: STransferIcon(
-        color: colors.white,
+    return SActionButton(
+      icon: Assets.svg.medium.transfer.simpleSvg(
+        color: SColorsLight().white,
       ),
-      pressedIcon: STransferIcon(
-        color: colors.white.withOpacity(0.7),
-      ),
+      state: isDisabled ? ActionButtonState.disabled : ActionButtonState.defaylt,
       onTap: onTap,
-      isDisabled: isDisabled,
-      name: intl.convert_convert,
+      lable: intl.convert_convert,
     );
   }
 }

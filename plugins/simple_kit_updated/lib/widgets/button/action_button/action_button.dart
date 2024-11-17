@@ -7,14 +7,14 @@ enum ActionButtonType { primary, secondary }
 
 enum ActionButtonState { defaylt, disabled, skeleton }
 
-class SimpleCircleButton extends HookWidget {
-  const SimpleCircleButton({
+class SActionButton extends HookWidget {
+  const SActionButton({
     super.key,
     this.onTap,
     this.lable,
     required this.icon,
     this.type = ActionButtonType.primary,
-    this.state = ActionButtonState.disabled,
+    this.state = ActionButtonState.defaylt,
   });
 
   final Function()? onTap;
@@ -48,7 +48,9 @@ class SimpleCircleButton extends HookWidget {
                       : SColorsLight().black,
             ),
             padding: const EdgeInsets.all(12),
-            child: icon,
+            child: Center(
+              child: icon,
+            ),
           ),
           if (lable != null) ...[
             const SizedBox(height: 12),

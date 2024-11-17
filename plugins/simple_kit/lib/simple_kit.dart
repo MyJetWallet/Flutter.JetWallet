@@ -4,15 +4,9 @@ library simple_kit;
 
 export 'core/simple_kit.dart' show sKit;
 
-/// Buttons
-export 'modules/buttons/simple_circle_icon_button.dart';
-
 /// Utils
 export 'utils/constants.dart';
 export 'utils/enum.dart';
-
-/// Texts
-export 'modules/texts/simple_text_styles.dart';
 
 /// Theme
 export 'modules/theme/simple_theme.dart';
