@@ -9,7 +9,6 @@ import 'package:jetwallet/features/payment_methods/ui/widgets/payment_card_item.
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/helpers/is_card_expired.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'PaymentMethodsRouter')

@@ -6,9 +6,7 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
-import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../../utils/models/currency_model.dart';
 

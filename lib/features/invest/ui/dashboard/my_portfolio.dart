@@ -6,8 +6,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
-
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import '../../../../core/l10n/i10n.dart';
 import '../../../../utils/models/currency_model.dart';
 

@@ -116,3 +116,7 @@ export '/widgets/banner/toast/simple_notification_service.dart';
 export '/widgets/control/user_agreement/simple_policy_checkbox.dart';
 export '/widgets/control/user_agreement/simple_policy_rich_text.dart';
 export '/widgets/control/user_agreement/simple_policy_text.dart';
+
+//Spaces
+export '/widgets/shared/simple_paddings.dart';
+export '/widgets/shared/simple_spacers.dart';

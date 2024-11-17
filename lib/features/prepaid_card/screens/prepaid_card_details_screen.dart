@@ -16,7 +16,6 @@ import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/prepaid_card/buy_prepaid_card_intention_dto_list_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/prepaid_card/get_purchase_card_list_request_model.dart';

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit/modules/shared/simple_spacers.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class EmailResendButton extends StatefulWidget {

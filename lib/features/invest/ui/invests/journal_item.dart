@@ -7,6 +7,7 @@ import 'package:jetwallet/features/invest/ui/invests/data_line.dart';
 import 'package:jetwallet/features/invest/ui/invests/rollover_line.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/invest/new_invest_request_model.dart';

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit/modules/colors/simple_colors_light.dart';
-import 'package:simple_kit/modules/shared/simple_paddings.dart';
-import 'package:simple_kit/modules/shared/simple_spacers.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart' as sk;
+import 'package:simple_kit/modules/colors/simple_colors_light.dart' as oldColors;
+
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class CardOption extends StatelessWidget {
   const CardOption({
@@ -31,13 +30,13 @@ class CardOption extends StatelessWidget {
     final mainColor = isSelected
         ? SColorsLight().blue
         : isDisabled
-            ? SColorsLight().grey2
+            ? oldColors.SColorsLight().grey2
             : SColorsLight().black;
 
-    final descriptionColor = isDisabled ? SColorsLight().grey2 : SColorsLight().grey3;
+    final descriptionColor = isDisabled ? oldColors.SColorsLight().grey2 : oldColors.SColorsLight().grey3;
 
     return InkWell(
-      highlightColor: SColorsLight().grey5,
+      highlightColor: oldColors.SColorsLight().grey5,
       splashColor: Colors.transparent,
       onTap: onTap,
       child: SPaddingH24(
@@ -88,7 +87,7 @@ class CardOption extends StatelessWidget {
                             Expanded(
                               child: Text(
                                 name,
-                                style: sk.STStyles.subtitle2.copyWith(
+                                style: STStyles.subtitle2.copyWith(
                                   color: mainColor,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -99,7 +98,7 @@ class CardOption extends StatelessWidget {
                         if (!hideDescription)
                           Text(
                             description!,
-                            style: sk.STStyles.body2Medium.copyWith(
+                            style: STStyles.body2Medium.copyWith(
                               color: descriptionColor,
                             ),
                           ),

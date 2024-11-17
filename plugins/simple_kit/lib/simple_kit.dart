@@ -7,10 +7,6 @@ export 'core/simple_kit.dart' show sKit;
 /// Buttons
 export 'modules/buttons/simple_circle_icon_button.dart';
 
-/// Components
-export 'modules/shared/simple_paddings.dart';
-export 'modules/shared/simple_spacers.dart';
-
 /// Utils
 export 'utils/constants.dart';
 export 'utils/enum.dart';

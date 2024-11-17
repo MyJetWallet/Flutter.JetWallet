@@ -13,7 +13,6 @@ import 'package:jetwallet/features/chart/model/chart_union.dart';
 import 'package:jetwallet/features/invest/ui/invests/data_line.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:mobx/mobx.dart';
-import 'package:simple_kit/modules/shared/simple_spacers.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/auth_api/models/asset_model.dart';
 import 'package:simple_networking/modules/candles_api/models/candles_request_model.dart';

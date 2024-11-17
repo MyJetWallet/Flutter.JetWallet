@@ -10,7 +10,6 @@ import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:jetwallet/widgets/flag_item.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class LangItem {

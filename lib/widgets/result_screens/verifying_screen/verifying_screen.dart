@@ -7,7 +7,6 @@ import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../features/kyc/upload_documents/store/upload_kyc_documents_store.dart';

@@ -8,9 +8,7 @@ import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/modules/colors/simple_colors_light.dart';
-import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
 
 class OffersOverlayContent extends StatefulWidget {
@@ -80,7 +78,7 @@ class _OffersOverlayContentState extends State<OffersOverlayContent> {
         SPaddingH24(
           child: Text(
             intl.earn_choose_a_deposit_plan,
-            style: STStyles.body1Medium.copyWith(color: colors.grey1),
+            style: STStyles.body1Medium.copyWith(color: colors.gray10),
             textAlign: TextAlign.center,
             maxLines: 2,
           ),

@@ -11,7 +11,6 @@ import 'package:jetwallet/features/send_gift/model/send_gift_info_model.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../core/l10n/i10n.dart';

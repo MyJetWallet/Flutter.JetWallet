@@ -12,7 +12,6 @@ import 'package:jetwallet/features/transaction_history/widgets/transaction_detai
 import 'package:jetwallet/features/transaction_history/widgets/transaction_list_item.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 

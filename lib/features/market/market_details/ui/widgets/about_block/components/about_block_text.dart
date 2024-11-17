@@ -3,7 +3,6 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/market_info/market_info_response_model.dart';
 

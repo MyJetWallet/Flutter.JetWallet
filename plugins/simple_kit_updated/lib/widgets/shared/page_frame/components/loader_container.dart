@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
-import 'package:simple_kit_updated/widgets/shared/page_frame/components/loader_spinner.dart';
 
 class LoaderContainer extends StatelessWidget {
   const LoaderContainer({

@@ -21,8 +21,6 @@ import 'package:jetwallet/features/invest/ui/widgets/invest_modify_bottom_sheet.
 import 'package:jetwallet/features/invest/ui/widgets/invest_report_bottom_sheet.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/localized_chart_resolution_button.dart';
-import 'package:simple_kit/modules/shared/simple_paddings.dart';
-import 'package:simple_kit/modules/shared/simple_spacers.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';

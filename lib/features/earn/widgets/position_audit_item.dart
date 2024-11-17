@@ -5,8 +5,6 @@ import 'package:jetwallet/features/transaction_history/widgets/transaction_list_
 import 'package:simple_kit/core/simple_kit.dart';
 import 'package:simple_kit/modules/icons/24x24/public/history_completed/simple_history_completed_icon.dart';
 import 'package:simple_kit/modules/icons/24x24/public/history_declined/simple_history_declined_icon.dart';
-import 'package:simple_kit/modules/shared/simple_paddings.dart';
-import 'package:simple_kit/modules/shared/simple_spacers.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 

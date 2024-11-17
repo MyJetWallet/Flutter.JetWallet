@@ -8,9 +8,7 @@ import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
-import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 
 import '../../helpers/percent_info.dart';

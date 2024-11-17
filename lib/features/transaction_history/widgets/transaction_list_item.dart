@@ -14,8 +14,6 @@ import 'package:simple_kit/modules/icons/24x24/public/add_cash/simple_add_cash_i
 import 'package:simple_kit/modules/icons/24x24/public/transfer/simple_transfer_icon.dart';
 import 'package:simple_kit/modules/icons/24x24/public/withdrawal/simple_withdrawal_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 import '../../../core/di/di.dart';

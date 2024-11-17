@@ -8,7 +8,6 @@ import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
 import 'package:jetwallet/utils/formatting/base/format_percent.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 

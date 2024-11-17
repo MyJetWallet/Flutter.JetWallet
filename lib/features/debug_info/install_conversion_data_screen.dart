@@ -4,7 +4,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/apps_flyer_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../core/l10n/i10n.dart';

@@ -11,7 +11,6 @@ import 'package:jetwallet/features/sell_flow/screens/sell_tab_body.dart';
 import 'package:jetwallet/features/transfer_flow/screens/transfer_tab_body.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_kit_updated/widgets/navigation/segment_control/models/segment_control_data.dart';
 import 'package:simple_kit_updated/widgets/navigation/segment_control/segment_control.dart';

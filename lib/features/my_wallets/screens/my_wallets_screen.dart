@@ -47,7 +47,6 @@ import 'package:simple_kit/modules/icons/24x24/public/delete_asset/simple_delete
 import 'package:simple_kit/modules/icons/24x24/public/start_reorder/simple_start_reorder_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
-import 'package:simple_kit_updated/widgets/shared/simple_skeleton_loader.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:timezone/data/latest.dart';

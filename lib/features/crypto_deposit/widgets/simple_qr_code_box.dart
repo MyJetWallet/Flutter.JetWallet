@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'simple_skeleton_qr_loader.dart';
 import 'package:simple_kit/utils/constants.dart';
+
+import 'simple_skeleton_qr_loader.dart';
 
 class SQrCodeBox extends StatelessWidget {
   const SQrCodeBox({

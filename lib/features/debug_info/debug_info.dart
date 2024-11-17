@@ -12,7 +12,6 @@ import 'package:jetwallet/core/services/sumsub_service/sumsub_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/simple_coin/utils/collect_simplecoin.dart';
 import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 

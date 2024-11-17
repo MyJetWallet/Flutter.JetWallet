@@ -4,7 +4,7 @@ import 'package:jetwallet/widgets/circle_action_buttons/circle_action_convert.da
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_receive.dart';
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_sell.dart';
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_send.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class CircleActionButtons extends StatelessWidget {
   const CircleActionButtons({

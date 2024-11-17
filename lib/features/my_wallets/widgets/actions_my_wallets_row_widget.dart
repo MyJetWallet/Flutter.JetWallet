@@ -12,9 +12,7 @@ import 'package:jetwallet/widgets/circle_action_buttons/circle_action_buy.dart';
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_sell.dart';
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_send.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/modules/shared/simple_paddings.dart';
-import 'package:simple_kit/modules/shared/simple_spacers.dart';
-import 'package:simple_kit_updated/widgets/shared/simple_skeleton_loader.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class ActionsMyWalletsRowWidget extends StatelessWidget {
   const ActionsMyWalletsRowWidget({

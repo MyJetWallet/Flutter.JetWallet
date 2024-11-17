@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 Future<void> showCommisionExplanationBottomSheet(BuildContext context) async {

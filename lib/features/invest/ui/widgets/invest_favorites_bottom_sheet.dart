@@ -14,7 +14,6 @@ import 'package:jetwallet/features/invest/ui/invests/above_list_line.dart';
 import 'package:jetwallet/features/invest/ui/invests/secondary_switch.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_input.dart';
 import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../../core/router/app_router.dart';

@@ -17,7 +17,6 @@ import 'package:jetwallet/widgets/result_screens/widgets/result_screen_descripti
 import 'package:jetwallet/widgets/result_screens/widgets/result_screen_title.dart';
 import 'package:lottie/lottie.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_android/webview_flutter_android.dart';

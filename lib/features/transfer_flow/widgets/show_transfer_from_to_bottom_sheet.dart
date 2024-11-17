@@ -5,7 +5,6 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/transfer_flow/store/transfer_from_to_store.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/transfer/account_transfer_preview_request_model.dart';

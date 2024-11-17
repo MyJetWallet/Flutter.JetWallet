@@ -13,8 +13,6 @@ import 'package:jetwallet/features/invest/ui/widgets/invest_alert_bottom_sheet.d
 import 'package:jetwallet/features/invest/ui/widgets/invest_market_watch_bottom_sheet.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/localized_chart_resolution_button.dart';
-import 'package:simple_kit/modules/shared/simple_paddings.dart';
-import 'package:simple_kit/modules/shared/simple_spacers.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 

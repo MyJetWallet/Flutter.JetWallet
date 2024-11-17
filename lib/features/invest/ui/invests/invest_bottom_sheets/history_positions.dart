@@ -10,10 +10,7 @@ import 'package:jetwallet/features/invest/ui/widgets/invest_history_list.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_history_pending_list.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_history_summary_list.dart';
 import 'package:simple_kit/core/simple_kit.dart';
-import 'package:simple_kit/modules/shared/simple_spacers.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
-import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../../../core/services/signal_r/signal_r_service_new.dart';
 import '../../../../../utils/enum.dart';

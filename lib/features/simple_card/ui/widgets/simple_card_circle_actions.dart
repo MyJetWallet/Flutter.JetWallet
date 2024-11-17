@@ -3,7 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_button.dart';
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_freeze.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class SimpleCardActionButtons extends StatelessObserverWidget {
   const SimpleCardActionButtons({

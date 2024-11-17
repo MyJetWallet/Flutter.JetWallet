@@ -176,7 +176,7 @@ class __JarBodyState extends State<_JarBody> {
                     ),
                   ),
                   SliverToBoxAdapter(
-                    child: sk.SPaddingH24(
+                    child: SPaddingH24(
                       child: Text(
                         intl.jar_crypto_jar,
                         style: STStyles.body2Semibold.copyWith(
@@ -186,7 +186,7 @@ class __JarBodyState extends State<_JarBody> {
                     ),
                   ),
                   SliverToBoxAdapter(
-                    child: sk.SPaddingH24(
+                    child: SPaddingH24(
                       child: Row(
                         children: [
                           Expanded(
@@ -216,7 +216,7 @@ class __JarBodyState extends State<_JarBody> {
                     ),
                   ),
                   SliverToBoxAdapter(
-                    child: sk.SPaddingH24(
+                    child: SPaddingH24(
                       child: Text(
                         getIt<AppStore>().isBalanceHide
                             ? '******* ${selectedJar.assetSymbol}'
@@ -239,7 +239,7 @@ class __JarBodyState extends State<_JarBody> {
                     ),
                   ),
                   SliverToBoxAdapter(
-                    child: sk.SPaddingH24(
+                    child: SPaddingH24(
                       child: _buildButtons(
                         kycState,
                         selectedJar,

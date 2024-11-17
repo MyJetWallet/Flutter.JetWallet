@@ -14,7 +14,6 @@ import 'package:jetwallet/features/prepaid_card/store/buy_vouncher_amount_store.
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/prepaid_card/purchase_card_brand_list_response_model.dart';
 import 'package:visibility_detector/visibility_detector.dart';

@@ -31,7 +31,6 @@ import 'package:jetwallet/features/my_wallets/widgets/news_dashboard_section.dar
 import 'package:jetwallet/features/wallet/widgets/wallet_earn_section.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/market_info/market_info_response_model.dart';

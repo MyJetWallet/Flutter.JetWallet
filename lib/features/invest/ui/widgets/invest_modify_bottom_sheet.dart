@@ -2,13 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
-import 'package:simple_kit/modules/colors/simple_colors_light.dart';
-import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart' as sk;
-import 'package:simple_kit_updated/widgets/button/invest_buttons/invest_button.dart';
-import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
+import 'package:simple_kit/modules/colors/simple_colors_light.dart' as oldColors;
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/invest/new_invest_request_model.dart';
@@ -57,7 +52,7 @@ void showInvestModifyBottomSheet({
     investNewStore.onSLAmountInput('${position.stopLossAmount}');
   }
 
-  final colors = sKit.colors;
+  final colors = oldColors.SColorsLight();
 
   showBasicBottomSheet(
     context: context,
@@ -75,10 +70,10 @@ void showInvestModifyBottomSheet({
                     children: [
                       Expanded(
                         child: SIButton(
-                          activeColor: SColorsLight().grey5,
+                          activeColor: oldColors.SColorsLight().grey5,
                           activeNameColor: SColorsLight().black,
-                          inactiveColor: SColorsLight().grey2,
-                          inactiveNameColor: SColorsLight().grey4,
+                          inactiveColor: oldColors.SColorsLight().grey2,
+                          inactiveNameColor: oldColors.SColorsLight().grey4,
                           active: true,
                           name: intl.invest_cancel,
                           onTap: () {
@@ -91,8 +86,8 @@ void showInvestModifyBottomSheet({
                         child: SIButton(
                           activeColor: SColorsLight().blue,
                           activeNameColor: SColorsLight().white,
-                          inactiveColor: SColorsLight().grey4,
-                          inactiveNameColor: SColorsLight().grey2,
+                          inactiveColor: oldColors.SColorsLight().grey4,
+                          inactiveNameColor: oldColors.SColorsLight().grey2,
                           active: true,
                           name: intl.invest_save,
                           onTap: () async {
@@ -172,7 +167,7 @@ class InfoBlock extends StatelessObserverWidget {
     final investNewStore = getIt.get<InvestNewStore>();
     final investStore = getIt.get<InvestDashboardStore>();
 
-    final colors = sKit.colors;
+    final colors = oldColors.SColorsLight();
     final currency = currencyFrom(currencies, 'USDT');
 
     return SPaddingH24(
@@ -216,7 +211,7 @@ class InfoBlock extends StatelessObserverWidget {
                 const SpaceH6(),
                 Row(
                   children: [
-                    sk.SafeGesture(
+                    SafeGesture(
                       onTap: () {
                         investNewStore.setIsTPMode(!investNewStore.isTP);
                       },
@@ -346,7 +341,7 @@ class InfoBlock extends StatelessObserverWidget {
                 const SpaceH12(),
                 Row(
                   children: [
-                    sk.SafeGesture(
+                    SafeGesture(
                       onTap: () {
                         investNewStore.setIsSLMode(!investNewStore.isSl);
                       },

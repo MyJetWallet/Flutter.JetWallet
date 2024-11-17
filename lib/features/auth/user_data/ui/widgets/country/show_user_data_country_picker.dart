@@ -8,7 +8,6 @@ import 'package:jetwallet/features/auth/user_data/ui/widgets/country/store/kyc_p
 import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:jetwallet/widgets/empty_search_result.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/kyc_profile/country_list_response_model.dart';
 

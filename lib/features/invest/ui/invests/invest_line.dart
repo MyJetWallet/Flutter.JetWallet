@@ -6,11 +6,8 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
-import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
-import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/invest/new_invest_request_model.dart';
 
 import '../../../../utils/models/currency_model.dart';
@@ -211,7 +208,7 @@ class InvestLine extends StatelessObserverWidget {
                           overflow: TextOverflow.ellipsis,
                           style: STStyles.body3InvestSM.copyWith(
                             color: profitPercent == Decimal.zero
-                                ? SColorsLight().grey3
+                                ? SColorsLight().gray6
                                 : profitPercent > Decimal.zero
                                     ? SColorsLight().green
                                     : SColorsLight().red,

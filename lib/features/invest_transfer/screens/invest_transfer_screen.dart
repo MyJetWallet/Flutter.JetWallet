@@ -4,8 +4,6 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/invest_transfer/screens/invest_deposite_amount_screen.dart';
 import 'package:jetwallet/features/invest_transfer/screens/invest_withdraw_amount_screen.dart';
-import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_kit_updated/widgets/navigation/segment_control/models/segment_control_data.dart';
 import 'package:simple_kit_updated/widgets/navigation/segment_control/segment_control.dart';

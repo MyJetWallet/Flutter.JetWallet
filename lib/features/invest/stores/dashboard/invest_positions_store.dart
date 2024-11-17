@@ -9,7 +9,6 @@ import 'package:jetwallet/core/services/simple_networking/simple_networking.dart
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:mobx/mobx.dart';
-import 'package:simple_kit/modules/shared/simple_spacers.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';

@@ -7,7 +7,6 @@ import 'package:jetwallet/core/services/remote_config/remote_config_values.dart'
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/account/about_us/widgets/simple_account_term_button.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 

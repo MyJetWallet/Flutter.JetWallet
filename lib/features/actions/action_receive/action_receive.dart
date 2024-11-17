@@ -13,7 +13,6 @@ import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
 import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';

@@ -3,8 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:simple_kit/core/simple_kit.dart';
 import 'package:simple_kit/modules/icons/24x24/public/copy/simple_copy_icon.dart';
-import 'package:simple_kit/modules/shared/simple_paddings.dart';
-import 'package:simple_kit/modules/shared/simple_spacers.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../core/l10n/i10n.dart';

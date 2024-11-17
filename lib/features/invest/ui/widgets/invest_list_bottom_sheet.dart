@@ -13,11 +13,8 @@ import 'package:jetwallet/features/invest/ui/widgets/invest_alert_bottom_sheet.d
 import 'package:jetwallet/features/invest/ui/widgets/invest_market_watch_bottom_sheet.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
-import 'package:simple_kit/modules/colors/simple_colors_light.dart';
-import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
-import 'package:simple_kit_updated/widgets/button/invest_buttons/invest_button.dart';
+import 'package:simple_kit/modules/colors/simple_colors_light.dart' as colors;
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../../core/services/signal_r/signal_r_service_new.dart';
 import '../../../../utils/helpers/currency_from.dart';
@@ -50,8 +47,8 @@ void showInvestListBottomSheet(BuildContext context) {
                             child: SIButton(
                               activeColor: SColorsLight().black,
                               activeNameColor: SColorsLight().white,
-                              inactiveColor: SColorsLight().grey2,
-                              inactiveNameColor: SColorsLight().grey4,
+                              inactiveColor: colors.SColorsLight().grey2,
+                              inactiveNameColor: colors.SColorsLight().grey4,
                               active: true,
                               icon: Assets.svg.invest.investClose.simpleSvg(
                                 width: 20,
@@ -102,8 +99,8 @@ void showInvestListBottomSheet(BuildContext context) {
                           child: SIButton(
                             activeColor: SColorsLight().blue,
                             activeNameColor: SColorsLight().white,
-                            inactiveColor: SColorsLight().grey4,
-                            inactiveNameColor: SColorsLight().grey2,
+                            inactiveColor: colors.SColorsLight().grey4,
+                            inactiveNameColor: colors.SColorsLight().grey2,
                             active: true,
                             icon: Assets.svg.invest.investPlus.simpleSvg(
                               width: 20,
@@ -137,8 +134,8 @@ void showInvestListBottomSheet(BuildContext context) {
                             child: SIButton(
                               activeColor: SColorsLight().black,
                               activeNameColor: SColorsLight().white,
-                              inactiveColor: SColorsLight().grey2,
-                              inactiveNameColor: SColorsLight().grey4,
+                              inactiveColor: colors.SColorsLight().grey2,
+                              inactiveNameColor: colors.SColorsLight().grey4,
                               active: true,
                               icon: Assets.svg.invest.investClose.simpleSvg(
                                 width: 20,
@@ -179,8 +176,8 @@ void showInvestListBottomSheet(BuildContext context) {
                           child: SIButton(
                             activeColor: SColorsLight().blue,
                             activeNameColor: SColorsLight().white,
-                            inactiveColor: SColorsLight().grey4,
-                            inactiveNameColor: SColorsLight().grey2,
+                            inactiveColor: colors.SColorsLight().grey4,
+                            inactiveNameColor: colors.SColorsLight().grey2,
                             active: true,
                             icon: Assets.svg.invest.investPlus.simpleSvg(
                               width: 20,
@@ -213,8 +210,8 @@ void showInvestListBottomSheet(BuildContext context) {
                           child: SIButton(
                             activeColor: SColorsLight().blue,
                             activeNameColor: SColorsLight().white,
-                            inactiveColor: SColorsLight().grey4,
-                            inactiveNameColor: SColorsLight().grey2,
+                            inactiveColor: colors.SColorsLight().grey4,
+                            inactiveNameColor: colors.SColorsLight().grey2,
                             active: true,
                             icon: Assets.svg.invest.investPlus.simpleSvg(
                               width: 20,

@@ -2,9 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
-import 'package:simple_kit/modules/colors/simple_colors_light.dart';
-import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../../core/l10n/i10n.dart';
 
@@ -20,7 +18,7 @@ class ActiveInvestLine extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -51,7 +49,7 @@ class ActiveInvestLine extends StatelessObserverWidget {
               Text(
                 intl.invest_amount,
                 style: STStyles.body3InvestM.copyWith(
-                  color: colors.grey1,
+                  color: colors.gray10,
                 ),
               ),
               const SpaceW4(),
@@ -69,14 +67,14 @@ class ActiveInvestLine extends StatelessObserverWidget {
             Text(
               'PL ',
               style: STStyles.body3InvestM.copyWith(
-                color: colors.grey1,
+                color: colors.gray10,
               ),
             ),
             Text(
               profit.toFormatCount(accuracy: 2),
               style: STStyles.body2InvestB.copyWith(
                 color: profit == Decimal.zero
-                    ? SColorsLight().grey3
+                    ? SColorsLight().gray6
                     : profit > Decimal.zero
                         ? SColorsLight().green
                         : SColorsLight().red,

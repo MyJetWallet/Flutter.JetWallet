@@ -3,11 +3,9 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/invest/ui/invests/bit_of_tab.dart';
 import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
-import 'package:simple_kit/modules/colors/simple_colors_light.dart';
+import 'package:simple_kit/modules/colors/simple_colors_light.dart' as oldColors;
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart' as sk;
-import 'package:simple_kit_updated/widgets/button/invest_buttons/invest_button.dart';
-import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../../utils/enum.dart';
 
@@ -37,7 +35,7 @@ void showInvestPeriodBottomSheet(
                     height: 24,
                     width: 24,
                     child: Center(
-                      child: sk.SafeGesture(
+                      child: SafeGesture(
                         onTap: () {
                           Navigator.pop(context);
                         },
@@ -152,9 +150,9 @@ class _PeriodSheetState extends State<PeriodSheet> {
                       children: [
                         Expanded(
                           child: SIButton(
-                            activeColor: SColorsLight().grey5,
+                            activeColor: oldColors.SColorsLight().grey5,
                             activeNameColor: SColorsLight().black,
-                            inactiveColor: SColorsLight().grey5,
+                            inactiveColor: oldColors.SColorsLight().grey5,
                             inactiveNameColor: SColorsLight().black,
                             active: true,
                             name: intl.invest_cancel,
@@ -168,8 +166,8 @@ class _PeriodSheetState extends State<PeriodSheet> {
                           child: SIButton(
                             activeColor: SColorsLight().blue,
                             activeNameColor: SColorsLight().white,
-                            inactiveColor: SColorsLight().grey4,
-                            inactiveNameColor: SColorsLight().grey2,
+                            inactiveColor: oldColors.SColorsLight().grey4,
+                            inactiveNameColor: oldColors.SColorsLight().grey2,
                             active: true,
                             name: intl.invest_confirm,
                             onTap: () {
