@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
+import 'package:simple_kit/simple_kit.dart';
 
-import '../../../simple_kit.dart';
-
-@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
 class SRequirement extends StatelessWidget {
   const SRequirement({
     super.key,

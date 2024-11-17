@@ -213,9 +213,7 @@ export 'modules/icons/24x24/public/history_declined/simple_history_declined_icon
 
 /// Components
 export 'modules/shared/simple_clickable_link_text.dart';
-export 'modules/shared/simple_field_divider_frame.dart';
 export 'modules/shared/simple_paddings.dart';
-export 'modules/shared/simple_requirement.dart';
 export 'modules/shared/simple_show_alert_popup.dart';
 export 'modules/shared/simple_spacers.dart';
 
