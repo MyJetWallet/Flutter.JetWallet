@@ -111,3 +111,8 @@ export '/widgets/shared/page_frame/components/loader_spinner.dart';
 
 //Toast
 export '/widgets/banner/toast/simple_notification_service.dart';
+
+//User Agreement
+export '/widgets/control/user_agreement/simple_policy_checkbox.dart';
+export '/widgets/control/user_agreement/simple_policy_rich_text.dart';
+export '/widgets/control/user_agreement/simple_policy_text.dart';

@@ -4,10 +4,6 @@ library simple_kit;
 
 export 'core/simple_kit.dart' show sKit;
 
-/// Agreements
-export 'modules/agreements/simple_privacy_policy/simple_policy_checkbox.dart';
-export 'modules/agreements/simple_privacy_policy/simple_policy_text.dart';
-
 /// Buttons
 export 'modules/buttons/simple_circle_icon_button.dart';
 

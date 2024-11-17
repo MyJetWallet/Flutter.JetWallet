@@ -1,10 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:simple_kit/modules/colors/simple_colors_light.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
-import '../../../../simple_kit.dart';
-
-@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
 class SimplePolicyRichText extends StatelessWidget {
   const SimplePolicyRichText({
     super.key,
@@ -46,19 +43,14 @@ class SimplePolicyRichText extends StatelessWidget {
       textAlign: TextAlign.start,
       text: TextSpan(
         text: firstText,
-        style: sBodyText2Style.copyWith(
-          fontFamily: 'Gilroy',
+        style: STStyles.body2Medium.copyWith(
           color: SColorsLight().black,
         ),
         children: [
           if (isSendGlobal != null && isSendGlobal!) ...[
-            const TextSpan(
+            TextSpan(
               text: '\n',
-              style: TextStyle(
-                fontSize: 5.0,
-                fontWeight: FontWeight.w500,
-                height: 1,
-              ),
+              style: STStyles.body2Medium,
             ),
           ],
           if (firstAdditionalText != null)

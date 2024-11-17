@@ -1,9 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:simple_kit/modules/agreements/simple_privacy_policy/simple_policy_rich_text.dart';
+import 'simple_policy_rich_text.dart';
 
-import '../../../simple_kit.dart';
-
-@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
 class SPolicyCheckbox extends StatelessWidget {
   const SPolicyCheckbox({
     super.key,
@@ -48,10 +46,6 @@ class SPolicyCheckbox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    late Widget icon;
-
-    icon = isChecked ? const SCheckboxSelectedIcon() : const SCheckboxIcon();
-
     return SizedBox(
       height: height,
       child: Row(
@@ -59,18 +53,30 @@ class SPolicyCheckbox extends StatelessWidget {
         children: [
           Column(
             children: [
-              const SpaceH21(),
-              GestureDetector(
-                onTap: onCheckboxTap,
-                child: icon,
-              ),
+              SizedBox(height: 21),
+              SizedBox(
+                width: 20,
+                height: 20,
+                child: CupertinoCheckbox(
+                  value: isChecked,
+                  onChanged: (bool? value) {
+                    onCheckboxTap.call();
+                  },
+                  checkColor: Colors.white,
+                  activeColor: Colors.black,
+                  side: BorderSide(
+                    width: 2,
+                    color: Colors.black,
+                  ),
+                ),
+              )
             ],
           ),
-          const SpaceW10(),
+          SizedBox(width: 10),
           Expanded(
             child: Column(
               children: [
-                const SpaceH22(),
+                SizedBox(height: 22),
                 SimplePolicyRichText(
                   isSendGlobal: isSendGlobal,
                   firstText: firstText,
