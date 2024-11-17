@@ -88,10 +88,9 @@ class _EditBankCardScreenBody extends StatelessObserverWidget {
                   ),
                 ),
                 const SpaceH10(),
-                STextButton1(
-                  active: true,
-                  name: intl.addCircleCard_delete,
-                  onTap: () {
+                SButton.text(
+                  text: intl.addCircleCard_delete,
+                  callback: () {
                     showDeleteDisclaimer(
                       context,
                       onDelete: () async {

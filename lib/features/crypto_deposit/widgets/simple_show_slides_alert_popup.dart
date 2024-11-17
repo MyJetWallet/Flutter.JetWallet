@@ -102,10 +102,9 @@ void sShowSlideAlertPopup(
               if (child != null) child,
               const Spacer(),
               if (isNeedPrimaryButton) ...[
-                SPrimaryButton1(
-                  name: primaryButtonName,
-                  active: activePrimaryButton,
-                  onTap: () => onPrimaryButtonTap(),
+                SButton.black(
+                  text: primaryButtonName,
+                  callback: activePrimaryButton ? () => onPrimaryButtonTap() : null,
                 ),
                 if (onSecondaryButtonTap != null && secondaryButtonName != null) ...[
                   const SpaceH10(),
@@ -191,10 +190,9 @@ void sShowSlideAlertPopup(
               const SpaceH10(),
             ],
             if (isNeedPrimaryButton1) ...[
-              SPrimaryButton1(
-                name: primaryButtonName1,
-                active: activePrimaryButton1,
-                onTap: () => onPrimaryButtonTap1(),
+              SButton.black(
+                text: primaryButtonName1,
+                callback: activePrimaryButton1 ? () => onPrimaryButtonTap1() : null,
               ),
             ],
             if (isNeedCancelButton1) ...[

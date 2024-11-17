@@ -187,10 +187,9 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
             },
           ),
           const SpaceH10(),
-          STextButton1(
-            active: true,
-            name: intl.reseive_gift_reject_gift,
-            onTap: () async {
+          SButton.text(
+            text: intl.reseive_gift_reject_gift,
+            callback: () async {
               showAlert(context);
             },
           ),

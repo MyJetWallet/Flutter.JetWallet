@@ -529,14 +529,15 @@ class _TransactionItemState extends State<TransactionItem> with SingleTickerProv
                       right: 24,
                       bottom: 24,
                     ),
-                    child: SSecondaryButton1(
-                      active: !cancelTransfer.loading,
-                      name: intl.transactionItem_cancel_cancel,
-                      onTap: () {
-                        cancelTransfer.cancelTransaction(
-                          widget.transactionListItem.transferByPhoneInfo?.transferId,
-                        );
-                      },
+                    child: SButton.outlined(
+                      text: intl.transactionItem_cancel_cancel,
+                      callback: !cancelTransfer.loading
+                          ? () {
+                              cancelTransfer.cancelTransaction(
+                                widget.transactionListItem.transferByPhoneInfo?.transferId,
+                              );
+                            }
+                          : null,
                     ),
                   ),
                 ),

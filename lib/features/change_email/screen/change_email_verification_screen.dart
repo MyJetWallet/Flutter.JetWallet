@@ -129,7 +129,6 @@ class __ChangeEmailVerificationBodyState extends State<_ChangeEmailVerificationB
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
     final timer = TimerStore.of(context);
 
     final verification = getIt.get<ChangeEmailVerificationStore>();
@@ -256,10 +255,10 @@ class __ChangeEmailVerificationBodyState extends State<_ChangeEmailVerificationB
                         text: '${intl.twoFaPhone_didntReceiveTheCode}?',
                       ),
                       const SpaceH30(),
-                      STextButton1(
-                        active: !verification.isResending,
-                        name: intl.twoFaPhone_resend,
-                        color: colors.blue,
+                      SButtonContext(
+                        type: SButtonContextType.basicInverted,
+                        text: intl.twoFaPhone_resend,
+                        isDisabled: verification.isResending,
                         onTap: () {
                           timer.refreshTimer();
                           verification.resendCode(timer);

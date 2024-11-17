@@ -146,10 +146,9 @@ class _BiometricBody extends StatelessObserverWidget {
                     },
                   ),
                   const SpaceH10(),
-                  STextButton1(
-                    active: true,
-                    name: intl.bio_screen_button_late_text,
-                    onTap: () async {
+                  SButton.text(
+                    text: intl.bio_screen_button_late_text,
+                    callback: () async {
                       if (isAccSettings) {
                         Navigator.pop(context);
                       } else {

@@ -114,10 +114,9 @@ class GiftSendDetails extends StatelessWidget {
                 },
               ),
               const SpaceH10(),
-              STextButton1(
-                active: true,
-                name: intl.gift_history_cancel_transaction,
-                onTap: () {
+              SButton.text(
+                text: intl.gift_history_cancel_transaction,
+                callback: () {
                   sShowAlertPopup(
                     context,
                     primaryText: '${intl.gift_history_cancel_transaction}?',

@@ -169,10 +169,9 @@ class _BodyAddressBookSimpleState extends State<_BodyAddressBookSimple> {
                       SPaddingH24(
                         child: Material(
                           color: colors.grey5,
-                          child: STextButton1(
-                            active: true,
-                            name: intl.iban_edit_delete_account,
-                            onTap: () {
+                          child: SButton.text(
+                            text: intl.iban_edit_delete_account,
+                            callback: () {
                               sAnalytics.eurWithdrawTapDeleteEdit(
                                 isCJ: true,
                                 accountIban: widget.bankingAccount?.iban ?? '',

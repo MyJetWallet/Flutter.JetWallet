@@ -226,10 +226,10 @@ class __EmailVerificationBodyState extends State<_EmailVerificationBody> with Wi
                       text: '${intl.twoFaPhone_didntReceiveTheCode}?',
                     ),
                     const SpaceH30(),
-                    STextButton1(
-                      active: !verification.isResending,
-                      name: intl.twoFaPhone_resend,
-                      color: colors.blue,
+                    SButtonContext(
+                      type: SButtonContextType.basicInverted,
+                      isDisabled: verification.isResending,
+                      text: intl.twoFaPhone_resend,
                       onTap: () {
                         timer.refreshTimer();
                         verification.resendCode(timer);

@@ -371,10 +371,9 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                       ),
                     ],
                   ),
-                  STextButton1(
-                    active: true,
-                    name: intl.transactionsList_retry,
-                    onTap: () {
+                  SButton.text(
+                    text: intl.transactionsList_retry,
+                    callback: () {
                       InvestHistory.of(context).initInvestHistorySummary();
                     },
                   ),

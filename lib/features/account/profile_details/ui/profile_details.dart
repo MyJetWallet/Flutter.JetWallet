@@ -140,11 +140,10 @@ class _ProfileDetailsState extends State<ProfileDetails> {
           const Spacer(),
           Padding(
             padding: const EdgeInsets.only(left: 24, right: 24, bottom: 42),
-            child: SSecondaryButton1(
-              active: true,
+            child: SButton.outlined(
               icon: const SCircleMinusIcon(),
-              name: intl.profileDetails_deleteProfile,
-              onTap: () {
+              text: intl.profileDetails_deleteProfile,
+              callback: () {
                 sShowAlertPopup(
                   context,
                   primaryText: '${intl.profileDetails_deleteProfile}?',

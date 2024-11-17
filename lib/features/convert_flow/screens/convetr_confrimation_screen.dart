@@ -15,7 +15,6 @@ import 'package:jetwallet/utils/helpers/calculate_base_balance.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'ConvertConfirmationRoute')
@@ -139,20 +138,21 @@ class _ConvertConfirmationScreenBody extends StatelessObserverWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 32),
-                      child: SPrimaryButton2(
-                        active: !store.loader.loading,
-                        name: intl.previewBuyWithAsset_confirm,
-                        onTap: () {
-                          getIt.get<AnchorsHelper>().isConvertConfirmed = true;
+                      child: SButton.blue(
+                        text: intl.previewBuyWithAsset_confirm,
+                        callback: !store.loader.loading
+                            ? () {
+                                getIt.get<AnchorsHelper>().isConvertConfirmed = true;
 
-                          sAnalytics.tapOnTheButtonConfirmOnConvertOrderSummary(
-                            enteredAmount: (store.isFromFixed ? store.paymentAmount : store.buyAmount).toString(),
-                            convertFromAsset: store.paymentAsset ?? '',
-                            convertToAsset: store.buyAsset ?? '',
-                            nowInput: store.isFromFixed ? 'ConvertFrom' : 'ConvertTo',
-                          );
-                          store.createPayment();
-                        },
+                                sAnalytics.tapOnTheButtonConfirmOnConvertOrderSummary(
+                                  enteredAmount: (store.isFromFixed ? store.paymentAmount : store.buyAmount).toString(),
+                                  convertFromAsset: store.paymentAsset ?? '',
+                                  convertToAsset: store.buyAsset ?? '',
+                                  nowInput: store.isFromFixed ? 'ConvertFrom' : 'ConvertTo',
+                                );
+                                store.createPayment();
+                              }
+                            : null,
                       ),
                     ),
                   ],

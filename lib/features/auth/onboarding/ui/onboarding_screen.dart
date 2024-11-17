@@ -154,10 +154,9 @@ class _OnboardingScreenBodyState extends State<OnboardingScreenBody> with Ticker
             if (getIt<AppStore>().env == 'stage') ...[
               SizedBox(
                 height: 58,
-                child: STextButton1(
-                  active: true,
-                  name: 'Logs',
-                  onTap: () {
+                child: SButton.text(
+                  text: 'Logs',
+                  callback: () {
                     sRouter.push(
                       const LogsRouter(),
                     );

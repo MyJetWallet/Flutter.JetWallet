@@ -192,10 +192,9 @@ class __EmailConfirmationScreenBodyState extends State<_EmailConfirmationScreenB
                         textResend: intl.emailVerification_resend,
                       ),
                       const Spacer(),
-                      SSecondaryButton1(
-                        active: true,
-                        name: intl.emailConfirmation_cancel,
-                        onTap: () => navigateToRouter(),
+                      SButton.outlined(
+                        text: intl.emailConfirmation_cancel,
+                        callback: () => navigateToRouter(),
                       ),
                       const SpaceH42(),
                     ],

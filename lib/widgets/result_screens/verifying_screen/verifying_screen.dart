@@ -89,10 +89,9 @@ class _VerifyingScreenBody extends StatelessObserverWidget {
               ),
             ),
             const SpaceH90(),
-            SSecondaryButton1(
-              active: true,
-              name: intl.cardVerification_notifyAndSkip,
-              onTap: () {
+            SButton.outlined(
+              text: intl.cardVerification_notifyAndSkip,
+              callback: () {
                 store.skipWaiting();
                 sRouter.popUntilRoot();
               },

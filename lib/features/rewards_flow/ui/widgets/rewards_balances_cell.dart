@@ -284,10 +284,9 @@ class _RewardTransferPopupState extends State<RewardTransferPopup> {
                 //  const LoaderSpinner(),
                 //],
                 const SpaceH10(),
-                STextButton1(
-                  active: true,
-                  name: intl.reward_cancel,
-                  onTap: () {
+                SButton.text(
+                  text: intl.reward_cancel,
+                  callback: () {
                     Navigator.pop(sRouter.navigatorKey.currentContext!);
                   },
                 ),

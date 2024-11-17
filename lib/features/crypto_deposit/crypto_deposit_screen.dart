@@ -218,13 +218,12 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
             const SDivider(),
             const SpaceH23(),
             SPaddingH24(
-              child: SSecondaryButton2(
-                icon: SShareIcon(
-                  color: colors.blue,
+              child: SButton.outlined(
+                icon: Assets.svg.medium.share.simpleSvg(
+                  height: 18,
                 ),
-                active: true,
-                name: intl.cryptoDeposit_share,
-                onTap: () {
+                text: intl.cryptoDeposit_share,
+                callback: () {
                   sAnalytics.tapOnTheButtonShareOnReceiveAssetScreen(
                     asset: deposit.currency.symbol,
                     network: deposit.network.description,
