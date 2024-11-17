@@ -1,11 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:simple_kit/modules/colors/simple_colors_light.dart';
+import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
-import '../../../simple_kit.dart';
-
-// ignore: long-method
 void sShowSlideAlertPopup(
   BuildContext context, {
   Function()? onWillPop,
@@ -21,8 +19,6 @@ void sShowSlideAlertPopup(
   String? cancelText1,
   Widget? image,
   Widget? image1,
-  Widget? topSpacer,
-  Widget? topSpacer1,
   Widget? child,
   Widget? child1,
   bool willPopScope = true,
@@ -33,8 +29,6 @@ void sShowSlideAlertPopup(
   bool isNeedPrimaryButton1 = true,
   bool isNeedCancelButton = false,
   bool isNeedCancelButton1 = false,
-  SButtonType primaryButtonType = SButtonType.primary1,
-  SButtonType primaryButtonType1 = SButtonType.primary1,
   required String primaryText,
   required String primaryText1,
   required String primaryButtonName,
@@ -43,18 +37,10 @@ void sShowSlideAlertPopup(
   required Function() onPrimaryButtonTap1,
   required PageController controller,
   required Widget slidesControllers,
-  required SWidgetSize size,
 }) {
-  final widgetSizeSmall = size == SWidgetSize.small;
-  final useSmallSizes = Platform.isAndroid || widgetSizeSmall;
   final alerts = [
     Dialog(
-      insetPadding: useSmallSizes
-          ? const EdgeInsets.symmetric(
-              horizontal: 6,
-              vertical: 24.0,
-            )
-          : const EdgeInsets.symmetric(horizontal: 6),
+      insetPadding: const EdgeInsets.symmetric(horizontal: 6),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(24.0),
       ),
@@ -66,12 +52,7 @@ void sShowSlideAlertPopup(
           ),
           child: Column(
             children: [
-              topSpacer1 ??
-                  (widgetSizeSmall
-                      ? const SpaceH18()
-                      : Platform.isAndroid
-                          ? const SpaceH32()
-                          : const SpaceH62()),
+              if (Platform.isAndroid) const SpaceH32() else const SpaceH62(),
               if (image != null)
                 image
               else
@@ -92,7 +73,7 @@ void sShowSlideAlertPopup(
                     primaryText,
                     maxLines: (secondaryText != null) ? 5 : 12,
                     textAlign: TextAlign.center,
-                    style: sTextH5Style.copyWith(
+                    style: STStyles.header6.copyWith(
                       overflow: TextOverflow.visible,
                     ),
                   ),
@@ -108,52 +89,37 @@ void sShowSlideAlertPopup(
                     secondaryText,
                     maxLines: 6,
                     textAlign: TextAlign.center,
-                    style: sBodyText1Style.copyWith(
-                      color: SColorsLight().grey1,
+                    style: STStyles.body1Medium.copyWith(
+                      color: SColorsLight().gray10,
                     ),
                   ),
                 ),
               if (isNeedPrimaryButton) ...[
-                if (useSmallSizes) const SpaceH22() else const SpaceH36(),
+                const SpaceH36(),
               ] else ...[
-                if (useSmallSizes) const SpaceH10() else const SpaceH20(),
+                const SpaceH20(),
               ],
               if (child != null) child,
               const Spacer(),
               if (isNeedPrimaryButton) ...[
-                if (primaryButtonType == SButtonType.primary1)
-                  SPrimaryButton1(
-                    name: primaryButtonName,
-                    active: activePrimaryButton,
-                    onTap: () => onPrimaryButtonTap(),
-                  )
-                else if (primaryButtonType == SButtonType.primary2)
-                  SPrimaryButton2(
-                    name: primaryButtonName,
-                    active: activePrimaryButton,
-                    onTap: () => onPrimaryButtonTap(),
-                  )
-                else
-                  SPrimaryButton3(
-                    name: primaryButtonName,
-                    active: activePrimaryButton,
-                    onTap: () => onPrimaryButtonTap(),
-                  ),
+                SPrimaryButton1(
+                  name: primaryButtonName,
+                  active: activePrimaryButton,
+                  onTap: () => onPrimaryButtonTap(),
+                ),
                 if (onSecondaryButtonTap != null && secondaryButtonName != null) ...[
                   const SpaceH10(),
-                  STextButton1(
-                    name: secondaryButtonName,
-                    active: true,
-                    onTap: () => onSecondaryButtonTap(),
+                  SButton.text(
+                    text: secondaryButtonName,
+                    callback: () => onSecondaryButtonTap(),
                   ),
                 ],
               ],
               if (isNeedCancelButton) ...[
                 const SpaceH10(),
-                STextButton1(
-                  active: true,
-                  name: cancelText ?? '',
-                  onTap: () => onCancelButtonTap!(),
+                SButton.text(
+                  text: cancelText ?? '',
+                  callback: () => onCancelButtonTap!(),
                 ),
               ],
               const SpaceH20(),
@@ -163,7 +129,7 @@ void sShowSlideAlertPopup(
       ),
     ),
     Dialog(
-      insetPadding: (Platform.isAndroid || size == SWidgetSize.small)
+      insetPadding: (Platform.isAndroid)
           ? const EdgeInsets.symmetric(
               horizontal: 6,
               vertical: 24.0,
@@ -178,12 +144,7 @@ void sShowSlideAlertPopup(
         ),
         child: Column(
           children: [
-            topSpacer1 ??
-                (widgetSizeSmall
-                    ? const SpaceH18()
-                    : Platform.isAndroid
-                        ? const SpaceH32()
-                        : const SpaceH62()),
+            if (Platform.isAndroid) const SpaceH32() else const SpaceH62(),
             if (image1 != null)
               image1
             else
@@ -200,7 +161,7 @@ void sShowSlideAlertPopup(
                 primaryText1,
                 maxLines: (secondaryText1 != null) ? 5 : 12,
                 textAlign: TextAlign.center,
-                style: sTextH5Style.copyWith(
+                style: STStyles.header6.copyWith(
                   overflow: TextOverflow.visible,
                 ),
               ),
@@ -211,8 +172,8 @@ void sShowSlideAlertPopup(
                 secondaryText1,
                 maxLines: 6,
                 textAlign: TextAlign.center,
-                style: sBodyText1Style.copyWith(
-                  color: SColorsLight().grey1,
+                style: STStyles.body1Medium.copyWith(
+                  color: SColorsLight().gray10,
                 ),
               ),
             if (isNeedPrimaryButton1) ...[
@@ -223,39 +184,24 @@ void sShowSlideAlertPopup(
             if (child1 != null) child1,
             const Spacer(),
             if (onSecondaryButtonTap1 != null && secondaryButtonName1 != null) ...[
-              STextButton1(
-                name: secondaryButtonName1,
-                active: true,
-                onTap: () => onSecondaryButtonTap1(),
+              SButton.text(
+                text: secondaryButtonName1,
+                callback: () => onSecondaryButtonTap1(),
               ),
               const SpaceH10(),
             ],
             if (isNeedPrimaryButton1) ...[
-              if (primaryButtonType1 == SButtonType.primary1)
-                SPrimaryButton1(
-                  name: primaryButtonName1,
-                  active: activePrimaryButton1,
-                  onTap: () => onPrimaryButtonTap1(),
-                )
-              else if (primaryButtonType1 == SButtonType.primary2)
-                SPrimaryButton2(
-                  name: primaryButtonName1,
-                  active: activePrimaryButton1,
-                  onTap: () => onPrimaryButtonTap1(),
-                )
-              else
-                SPrimaryButton3(
-                  name: primaryButtonName1,
-                  active: activePrimaryButton1,
-                  onTap: () => onPrimaryButtonTap1(),
-                ),
+              SPrimaryButton1(
+                name: primaryButtonName1,
+                active: activePrimaryButton1,
+                onTap: () => onPrimaryButtonTap1(),
+              ),
             ],
             if (isNeedCancelButton1) ...[
               const SpaceH10(),
-              STextButton1(
-                active: true,
-                name: cancelText1 ?? '',
-                onTap: () => onCancelButtonTap1!(),
+              SButton.text(
+                text: cancelText1 ?? '',
+                callback: () => onCancelButtonTap1!(),
               ),
             ],
             const SpaceH20(),

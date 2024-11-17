@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
+import 'package:jetwallet/features/crypto_deposit/widgets/simple_show_slides_alert_popup.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
-import 'package:simple_kit/modules/shared/simple_show_slides_alert_popup.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
@@ -36,7 +36,6 @@ void showDepositDisclaimer({
       primaryButtonName: intl.showDepositDisclaimer_next,
       barrierDismissible: false,
       willPopScope: false,
-      size: size,
       onPrimaryButtonTap: () {
         controller.animateToPage(
           1,
