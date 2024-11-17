@@ -13,12 +13,6 @@ final sTextH5Style = _basicTextStyle.copyWith(
 );
 
 @Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
-final sSubtitle2Style = _basicTextStyle.copyWith(
-  fontSize: 18.0,
-  fontWeight: FontWeight.w600,
-  height: 1.56,
-);
-@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
 final sSubtitle3Style = _basicTextStyle.copyWith(
   fontSize: 16.0,
   fontWeight: FontWeight.w600,

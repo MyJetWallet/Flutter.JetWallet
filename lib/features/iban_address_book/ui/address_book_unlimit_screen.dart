@@ -76,7 +76,9 @@ class _BodyAdressBookUnlimitState extends State<_BodyAdressBookUnlimit> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SFieldDividerFrame(
+                    Container(
+                      color: colors.white,
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
                       child: SafeGesture(
                         onTap: () {
                           showCountryOfBank(
@@ -120,6 +122,7 @@ class _BodyAdressBookUnlimitState extends State<_BodyAdressBookUnlimit> {
                         ),
                       ),
                     ),
+                    const SDivider(),
                     SizedBox(
                       child: SInput(
                         height: 80,
