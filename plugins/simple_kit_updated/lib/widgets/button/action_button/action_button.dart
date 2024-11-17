@@ -20,6 +20,7 @@ class SActionButton extends HookWidget {
   final Function()? onTap;
   final Widget icon;
   final String? lable;
+  // TODO (Yaroslav): Implement type
   final ActionButtonType type;
   final ActionButtonState state;
 
