@@ -212,7 +212,6 @@ export 'modules/icons/24x24/public/history_completed/simple_history_completed_ic
 export 'modules/icons/24x24/public/history_declined/simple_history_declined_icon.dart';
 
 /// Components
-export 'modules/shared/simple_clickable_link_text.dart';
 export 'modules/shared/simple_paddings.dart';
 export 'modules/shared/simple_show_alert_popup.dart';
 export 'modules/shared/simple_spacers.dart';

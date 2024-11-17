@@ -181,80 +181,94 @@ class __ChangeEmailVerificationBodyState extends State<_ChangeEmailVerificationB
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SpaceH4(),
-              RichText(
-                text: TextSpan(
-                  text: intl.change_email_email_verification_hint,
-                  style: STStyles.body1Semibold.copyWith(
-                    color: SColorsLight().gray10,
-                  ),
-                  children: [
-                    TextSpan(
-                      text: verification.email,
-                      style: STStyles.body1Semibold.copyWith(
-                        color: SColorsLight().black,
-                      ),
+              SPaddingH24(
+                child: RichText(
+                  text: TextSpan(
+                    text: intl.change_email_email_verification_hint,
+                    style: STStyles.body1Semibold.copyWith(
+                      color: SColorsLight().gray10,
                     ),
-                  ],
+                    children: [
+                      TextSpan(
+                        text: verification.email,
+                        style: STStyles.body1Semibold.copyWith(
+                          color: SColorsLight().black,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               const SpaceH16(),
-              SClickableLinkText(
-                text: intl.emailVerification_openEmail,
-                onTap: () => openEmailApp(context),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: SButtonContext(
+                  text: intl.emailVerification_openEmail,
+                  onTap: () => openEmailApp(context),
+                  type: SButtonContextType.basicInverted,
+                ),
               ),
               const SpaceH61(),
-              GestureDetector(
-                onLongPress: () => verification.pasteCode(),
-                onDoubleTap: () => verification.pasteCode(),
-                onTap: () {
-                  focusNode.unfocus();
-                  Future.delayed(const Duration(microseconds: 100), () {
-                    if (!focusNode.hasFocus) {
-                      focusNode.requestFocus();
-                    }
-                  });
-                },
-                // AbsorbPointer needed to avoid TextField glitch onTap
-                // when it's focused
-                child: AbsorbPointer(
-                  child: PinCodeField(
-                    focusNode: focusNode,
-                    controller: verification.controller,
-                    length: emailVerificationCodeLength,
-                    onCompleted: (_) {
-                      userInfoN.updateIsJustLogged(value: true);
-                      verification.loader.startLoadingImmediately();
-                      verification.verifyCode();
-                    },
-                    autoFocus: true,
-                    onChanged: (_) {
-                      verification.pinError.disableError();
-                    },
-                    pinError: verification.pinError,
+              SPaddingH24(
+                child: GestureDetector(
+                  onLongPress: () => verification.pasteCode(),
+                  onDoubleTap: () => verification.pasteCode(),
+                  onTap: () {
+                    focusNode.unfocus();
+                    Future.delayed(const Duration(microseconds: 100), () {
+                      if (!focusNode.hasFocus) {
+                        focusNode.requestFocus();
+                      }
+                    });
+                  },
+                  // AbsorbPointer needed to avoid TextField glitch onTap
+                  // when it's focused
+                  child: AbsorbPointer(
+                    child: PinCodeField(
+                      focusNode: focusNode,
+                      controller: verification.controller,
+                      length: emailVerificationCodeLength,
+                      onCompleted: (_) {
+                        userInfoN.updateIsJustLogged(value: true);
+                        verification.loader.startLoadingImmediately();
+                        verification.verifyCode();
+                      },
+                      autoFocus: true,
+                      onChanged: (_) {
+                        verification.pinError.disableError();
+                      },
+                      pinError: verification.pinError,
+                    ),
                   ),
                 ),
               ),
               // const Spacer(),
-              if (timer.time > 0 && !verification.isResending) ...[
-                ResendInText(
-                  text: '${intl.twoFaPhone_youCanResendIn} ${timer.time}'
-                      ' ${intl.twoFaPhone_seconds}',
+              SPaddingH24(
+                child: Column(
+                  children: [
+                    if (timer.time > 0 && !verification.isResending) ...[
+                      ResendInText(
+                        text: '${intl.twoFaPhone_youCanResendIn} ${timer.time}'
+                            ' ${intl.twoFaPhone_seconds}',
+                      ),
+                    ] else ...[
+                      ResendInText(
+                        text: '${intl.twoFaPhone_didntReceiveTheCode}?',
+                      ),
+                      const SpaceH30(),
+                      STextButton1(
+                        active: !verification.isResending,
+                        name: intl.twoFaPhone_resend,
+                        color: colors.blue,
+                        onTap: () {
+                          timer.refreshTimer();
+                          verification.resendCode(timer);
+                        },
+                      ),
+                    ],
+                  ],
                 ),
-              ] else ...[
-                ResendInText(
-                  text: '${intl.twoFaPhone_didntReceiveTheCode}?',
-                ),
-                const SpaceH30(),
-                STextButton1(
-                  active: !verification.isResending,
-                  name: intl.twoFaPhone_resend,
-                  color: colors.blue,
-                  onTap: () {
-                    timer.refreshTimer();
-                    verification.resendCode(timer);
-                  },
-                ),
-              ],
+              ),
               const SpaceH24(),
             ],
           ),
