@@ -34,36 +34,45 @@ class SActionButton extends HookWidget {
       onHighlightChanged: (value) {
         isHighlated.value = value;
       },
-      child: Column(
-        children: [
-          Container(
-            height: 48,
-            width: 48,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: state == ActionButtonState.disabled
-                  ? SColorsLight().grayAlfa
-                  : isHighlated.value
-                      ? SColorsLight().gray10
-                      : SColorsLight().black,
-            ),
-            padding: const EdgeInsets.all(12),
-            child: Center(
-              child: icon,
-            ),
-          ),
-          if (lable != null) ...[
-            const SizedBox(height: 12),
-            Text(
-              lable ?? '',
-              style: STStyles.captionSemibold.copyWith(
-                color: state == ActionButtonState.defaylt ? SColorsLight().black : SColorsLight().gray8,
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          minWidth: 48,
+          maxWidth: 75.75,
+        ),
+        child: SizedBox(
+          width: double.infinity,
+          child: Column(
+            children: [
+              Container(
+                height: 48,
+                width: 48,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: state == ActionButtonState.disabled
+                      ? SColorsLight().grayAlfa
+                      : isHighlated.value
+                          ? SColorsLight().gray10
+                          : SColorsLight().black,
+                ),
+                padding: const EdgeInsets.all(12),
+                child: Center(
+                  child: icon,
+                ),
               ),
-              maxLines: 2,
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ],
+              if (lable != null) ...[
+                const SizedBox(height: 12),
+                Text(
+                  lable ?? '',
+                  style: STStyles.captionSemibold.copyWith(
+                    color: state == ActionButtonState.defaylt ? SColorsLight().black : SColorsLight().gray8,
+                  ),
+                  maxLines: 2,
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ],
+          ),
+        ),
       ),
     );
   }
