@@ -23,7 +23,7 @@ import 'components/transaction_details_item.dart';
 import 'components/transaction_details_value_text.dart';
 
 class GiftSendDetails extends StatelessWidget {
-  GiftSendDetails({
+  const GiftSendDetails({
     super.key,
     required this.transactionListItem,
     required this.onCopyAction,
@@ -43,7 +43,6 @@ class GiftSendDetails extends StatelessWidget {
 
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
-      loading: null,
       child: SPaddingH24(
         child: Column(
           children: [
@@ -125,7 +124,7 @@ class GiftSendDetails extends StatelessWidget {
                     secondaryText: intl.gift_history_are_you_sure,
                     primaryButtonName: intl.gift_history_yes_cancel,
                     secondaryButtonName: intl.gift_history_no,
-                    primaryButtonType: SButtonType.primary3,
+                    isPrimaryButtonRed: true,
                     onPrimaryButtonTap: () async {
                       getIt.get<GlobalLoader>().setLoading(true);
                       Navigator.pop(context);

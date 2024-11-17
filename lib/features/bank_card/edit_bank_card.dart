@@ -125,7 +125,7 @@ Future<void> showDeleteDisclaimer(
     secondaryText: '${intl.paymentMethod_showAlertPopupSecondaryDescrText}?',
     primaryButtonName: intl.paymentMethod_yesDelete,
     secondaryButtonName: intl.paymentMethod_cancel,
-    primaryButtonType: SButtonType.primary3,
+    isPrimaryButtonRed: true,
     onPrimaryButtonTap: onDelete,
     onSecondaryButtonTap: () => Navigator.pop(context),
   );

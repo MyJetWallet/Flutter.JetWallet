@@ -284,7 +284,7 @@ class _BodyAdressBookUnlimitState extends State<_BodyAdressBookUnlimit> {
                                 primaryText: '${intl.iban_edit_delete_account}?',
                                 secondaryText: intl.iban_edit_delete_account_descr,
                                 primaryButtonName: intl.iban_edit_delete,
-                                primaryButtonType: SButtonType.primary3,
+                                isPrimaryButtonRed: true,
                                 onPrimaryButtonTap: () {
                                   sAnalytics.eurWithdrawTapConfirmDeleteEdit(
                                     isCJ: false,

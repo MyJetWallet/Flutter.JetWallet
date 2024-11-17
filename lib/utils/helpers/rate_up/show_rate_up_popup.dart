@@ -5,6 +5,7 @@ import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 Future<void> shopRateUpPopup(
   BuildContext context, {

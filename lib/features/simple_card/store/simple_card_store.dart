@@ -14,7 +14,6 @@ import 'package:mobx/mobx.dart';
 import 'package:pointycastle/asymmetric/api.dart';
 import 'package:rsa_encrypt/rsa_encrypt.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/config/constants.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
@@ -638,7 +637,7 @@ abstract class _SimpleCardStoreBase with Store {
           continueTrminate = true;
           sRouter.maybePop();
         },
-        primaryButtonType: SButtonType.primary3,
+        isPrimaryButtonRed: true,
         secondaryButtonName: intl.simple_card_terminate_cancel,
         onSecondaryButtonTap: () {
           sAnalytics.tapOnTheCancelTerminateButton(

@@ -6,8 +6,8 @@ import 'package:jetwallet/core/services/simple_networking/simple_networking.dart
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
-import 'package:simple_kit/modules/shared/simple_show_alert_popup.dart';
 import 'package:simple_kit/utils/constants.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/transfer_cancel/transfer_cancel_request_model.dart';
 
 part 'transaction_cancel_store.g.dart';

@@ -67,6 +67,7 @@ export 'helpers/icons_extension.dart';
 
 export 'widgets/navigation/bottom_bar/simple_bottom_bar.dart';
 export 'widgets/navigation/bottom_bar/models/simple_bottom_item_model.dart';
+export 'widgets/navigation/popup/simple_show_popup.dart';
 
 export 'widgets/button/main/simple_button.dart';
 

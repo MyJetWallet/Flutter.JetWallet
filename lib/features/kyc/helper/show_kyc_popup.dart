@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 void showKycPopup({
   String? imageAsset,
@@ -31,6 +32,5 @@ void showKycPopup({
     onPrimaryButtonTap: onPrimaryButtonTap,
     onSecondaryButtonTap: onSecondaryButtonTap,
     activePrimaryButton: activePrimaryButton,
-    size: size,
   );
 }

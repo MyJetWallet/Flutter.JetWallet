@@ -6,7 +6,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config.dart';
 import 'package:jetwallet/core/services/startup_service.dart';
-import 'package:simple_kit/modules/shared/simple_show_alert_popup.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 ///
 /// Splash error exception decoder:

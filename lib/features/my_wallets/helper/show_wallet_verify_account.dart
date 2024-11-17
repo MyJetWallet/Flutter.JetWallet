@@ -12,6 +12,7 @@ import 'package:jetwallet/features/kyc/kyc_verify_your_profile/utils/start_kyc_a
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/kyc/kyc_plan_responce_model.dart';
 
 void showWalletVerifyAccount(

@@ -150,7 +150,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                   primaryText: '${intl.profileDetails_deleteProfile}?',
                   secondaryText: intl.profileDetails_deleteProfileDescr,
                   primaryButtonName: intl.profileDetails_yes,
-                  primaryButtonType: SButtonType.primary3,
+                  isPrimaryButtonRed: true,
                   onPrimaryButtonTap: deleteAcc,
                   isNeedCancelButton: true,
                   cancelText: intl.profileDetails_no,

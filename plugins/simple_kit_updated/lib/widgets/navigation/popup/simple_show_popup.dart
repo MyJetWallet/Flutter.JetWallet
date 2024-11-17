@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit/modules/colors/simple_colors_light.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
-import '../../../simple_kit.dart';
-
-// ignore: long-method
-@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
 Future<void> sShowAlertPopup(
   BuildContext context, {
   Function()? onWillPop,
@@ -14,15 +10,13 @@ Future<void> sShowAlertPopup(
   String? secondaryButtonName,
   String? cancelText,
   Widget? image,
-  Widget? topSpacer,
   Widget? child,
   bool willPopScope = true,
   bool barrierDismissible = true,
   bool activePrimaryButton = true,
   bool isNeedPrimaryButton = true,
   bool isNeedCancelButton = false,
-  SButtonType primaryButtonType = SButtonType.primary1,
-  SWidgetSize size = SWidgetSize.medium,
+  bool isPrimaryButtonRed = false,
   TextAlign? textAlign = TextAlign.center,
   required String primaryText,
   required String primaryButtonName,
@@ -52,15 +46,13 @@ Future<void> sShowAlertPopup(
                 ),
                 child: Column(
                   children: [
-                    topSpacer ?? const SpaceH40(),
+                    const SizedBox(height: 40),
                     if (image != null)
                       image
                     else
-                      Image.asset(
-                        ellipsisAsset,
+                      Assets.svg.brand.small.infoBlue.simpleSvg(
                         height: 80,
                         width: 80,
-                        package: 'simple_kit',
                       ),
                     if (primaryText.isNotEmpty) ...[
                       Baseline(
@@ -70,14 +62,14 @@ Future<void> sShowAlertPopup(
                           primaryText,
                           maxLines: (secondaryText != null) ? 5 : 12,
                           textAlign: textAlign,
-                          style: sTextH5Style.copyWith(
+                          style: STStyles.header6.copyWith(
                             overflow: TextOverflow.visible,
                           ),
                         ),
                       ),
-                      const SpaceH7(),
+                      const SizedBox(height: 7),
                     ] else ...[
-                      const SpaceH20(),
+                      const SizedBox(height: 20),
                     ],
                     if (secondaryText != null)
                       Padding(
@@ -88,54 +80,44 @@ Future<void> sShowAlertPopup(
                           secondaryText,
                           maxLines: 12,
                           textAlign: textAlign,
-                          style: sBodyText1Style.copyWith(
-                            color: SColorsLight().grey1,
+                          style: STStyles.body1Medium.copyWith(
+                            color: SColorsLight().gray10,
                           ),
                         ),
                       ),
                     if (isNeedPrimaryButton) ...[
-                      const SpaceH36(),
+                      const SizedBox(height: 36),
                     ] else ...[
-                      const SpaceH20(),
+                      const SizedBox(height: 20),
                     ],
                     if (child != null) child,
                     if (isNeedPrimaryButton) ...[
-                      if (primaryButtonType == SButtonType.primary1)
-                        SPrimaryButton1(
-                          name: primaryButtonName,
-                          active: activePrimaryButton,
-                          onTap: () => onPrimaryButtonTap(),
-                        )
-                      else if (primaryButtonType == SButtonType.primary2)
-                        SPrimaryButton2(
-                          name: primaryButtonName,
-                          active: activePrimaryButton,
-                          onTap: () => onPrimaryButtonTap(),
+                      if (isPrimaryButtonRed)
+                        SButton.red(
+                          text: primaryButtonName,
+                          callback: activePrimaryButton ? () => onPrimaryButtonTap() : null,
                         )
                       else
-                        SPrimaryButton3(
-                          name: primaryButtonName,
-                          active: activePrimaryButton,
-                          onTap: () => onPrimaryButtonTap(),
+                        SButton.black(
+                          text: primaryButtonName,
+                          callback: activePrimaryButton ? () => onPrimaryButtonTap() : null,
                         ),
                       if (onSecondaryButtonTap != null && secondaryButtonName != null) ...[
-                        const SpaceH10(),
-                        STextButton1(
-                          name: secondaryButtonName,
-                          active: true,
-                          onTap: () => onSecondaryButtonTap(),
+                        const SizedBox(height: 10),
+                        SButton.text(
+                          text: secondaryButtonName,
+                          callback: () => onSecondaryButtonTap(),
                         ),
                       ],
                     ],
                     if (isNeedCancelButton) ...[
-                      const SpaceH10(),
-                      STextButton1(
-                        active: true,
-                        name: cancelText ?? '',
-                        onTap: () => onCancelButtonTap!(),
+                      const SizedBox(height: 10),
+                      SButton.text(
+                        text: cancelText ?? '',
+                        callback: () => onCancelButtonTap!(),
                       ),
                     ],
-                    const SpaceH20(),
+                    const SizedBox(height: 20),
                   ],
                 ),
               ),

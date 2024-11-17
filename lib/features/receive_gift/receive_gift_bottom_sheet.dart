@@ -264,7 +264,7 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
       secondaryText: intl.reseive_gift_are_you_sure,
       primaryButtonName: intl.reseive_gift_yes_reject,
       secondaryButtonName: intl.gift_history_no,
-      primaryButtonType: SButtonType.primary3,
+      isPrimaryButtonRed: true,
       onPrimaryButtonTap: () async {
         await getIt.get<SNetwork>().simpleNetworking.getWalletModule().declineGift(giftModel.id).then(
           (value) {

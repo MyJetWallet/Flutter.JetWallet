@@ -131,7 +131,6 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
             onSecondaryButtonTap: () {
               Navigator.pop(context);
             },
-            size: widgetSizeFrom(sDeviceSize),
           );
         },
         child: Row(
