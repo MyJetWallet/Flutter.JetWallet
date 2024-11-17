@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/widgets/circle_action_buttons/circle_action_freeze.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class SimpleCardActionButtons extends StatelessObserverWidget {
@@ -37,16 +36,18 @@ class SimpleCardActionButtons extends StatelessObserverWidget {
     return SPaddingH24(
       child: SizedBox(
         width: MediaQuery.of(context).size.width - 48,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
+        child: ActionPannel(
+          actionButtons: [
             if (isFrozen) ...[
-              CircleActionFreeze(
-                isFrozen: isFrozen,
+              SActionButton(
                 onTap: () {
                   onFreeze?.call();
                 },
-              ),
+                lable: isFrozen ? intl.simple_card_unfreeze : intl.simple_card_freeze,
+                icon: Assets.svg.medium.arrowUp.simpleSvg(
+                  color: SColorsLight().white,
+                ),
+              )
             ] else ...[
               SActionButton(
                 lable: intl.wallet_add_cash,

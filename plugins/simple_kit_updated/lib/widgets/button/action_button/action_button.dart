@@ -56,7 +56,9 @@ class SActionButton extends HookWidget {
             const SizedBox(height: 12),
             Text(
               lable ?? '',
-              style: STStyles.captionSemibold,
+              style: STStyles.captionSemibold.copyWith(
+                color: state == ActionButtonState.defaylt ? SColorsLight().black : SColorsLight().gray8,
+              ),
               maxLines: 2,
               textAlign: TextAlign.center,
             ),

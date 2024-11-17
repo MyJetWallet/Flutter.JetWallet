@@ -38,9 +38,8 @@ class ActionsAccountRowWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 24),
       child: Observer(
         builder: (context) {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
+          return ActionPannel(
+            actionButtons: [
               SActionButton(
                 icon: Assets.svg.medium.addCash.simpleSvg(
                   color: SColorsLight().white,

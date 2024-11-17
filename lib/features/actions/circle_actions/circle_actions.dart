@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jetwallet/widgets/circle_action_buttons/circle_action_buy.dart';
-import 'package:jetwallet/widgets/circle_action_buttons/circle_action_convert.dart';
-import 'package:jetwallet/widgets/circle_action_buttons/circle_action_receive.dart';
-import 'package:jetwallet/widgets/circle_action_buttons/circle_action_sell.dart';
-import 'package:jetwallet/widgets/circle_action_buttons/circle_action_send.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class CircleActionButtons extends StatelessWidget {
@@ -34,41 +30,61 @@ class CircleActionButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = SColorsLight();
     return SPaddingH24(
       child: SizedBox(
         width: MediaQuery.of(context).size.width - 48,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            CircleActionBuy(
+        child: ActionPannel(
+          actionButtons: [
+            SActionButton(
+              icon: Assets.svg.medium.add.simpleSvg(
+                color: colors.white,
+              ),
+              state: isBuyDisabled ? ActionButtonState.disabled : ActionButtonState.defaylt,
               onTap: () {
                 onBuy?.call();
               },
-              isDisabled: isBuyDisabled,
+              lable: intl.balanceActionButtons_buy,
             ),
-            CircleActionSell(
+            SActionButton(
               onTap: () {
                 onSell?.call();
               },
-              isDisabled: isSellDisabled,
+              lable: intl.operationName_sell,
+              icon: Assets.svg.medium.remove.simpleSvg(
+                color: SColorsLight().white,
+              ),
+              state: isSellDisabled ? ActionButtonState.disabled : ActionButtonState.defaylt,
             ),
-            CircleActionSend(
+            SActionButton(
               onTap: () {
                 onSend?.call();
               },
-              isDisabled: isSendDisabled,
+              lable: intl.balanceActionButtons_send,
+              icon: Assets.svg.medium.arrowUp.simpleSvg(
+                color: SColorsLight().white,
+              ),
+              state: isSendDisabled ? ActionButtonState.disabled : ActionButtonState.defaylt,
             ),
-            CircleActionReceive(
+            SActionButton(
               onTap: () {
                 onReceive?.call();
               },
-              isDisabled: isReceiveDisabled,
+              lable: intl.balanceActionButtons_receive,
+              icon: Assets.svg.medium.arrowDown.simpleSvg(
+                color: SColorsLight().white,
+              ),
+              state: isReceiveDisabled ? ActionButtonState.disabled : ActionButtonState.defaylt,
             ),
-            CircleActionConvert(
+            SActionButton(
+              icon: Assets.svg.medium.transfer.simpleSvg(
+                color: SColorsLight().white,
+              ),
+              state: isConvertDisabled ? ActionButtonState.disabled : ActionButtonState.defaylt,
               onTap: () {
                 onConvert?.call();
               },
-              isDisabled: isConvertDisabled,
+              lable: intl.convert_convert,
             ),
           ],
         ),

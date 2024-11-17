@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/action_buy/action_buy.dart';
 import 'package:jetwallet/features/actions/action_sell/action_sell.dart';
@@ -7,10 +8,6 @@ import 'package:jetwallet/features/actions/action_send/action_send.dart';
 import 'package:jetwallet/features/my_wallets/helper/show_select_account_for_add_cash.dart';
 import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
 import 'package:jetwallet/utils/helpers/currencies_with_balance_from.dart';
-import 'package:jetwallet/widgets/circle_action_buttons/circle_action_add_cash.dart';
-import 'package:jetwallet/widgets/circle_action_buttons/circle_action_buy.dart';
-import 'package:jetwallet/widgets/circle_action_buttons/circle_action_sell.dart';
-import 'package:jetwallet/widgets/circle_action_buttons/circle_action_send.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
@@ -22,6 +19,7 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final myWalletsSrore = MyWalletsSrore.of(context);
+    final colors = SColorsLight();
 
     return SPaddingH24(
       child: Observer(
@@ -41,10 +39,12 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
                     ],
                   ),
                 )
-              : Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CircleActionBuy(
+              : ActionPannel(
+                  actionButtons: [
+                    SActionButton(
+                      icon: Assets.svg.medium.add.simpleSvg(
+                        color: colors.white,
+                      ),
                       onTap: () {
                         sAnalytics.tapOnTheBuyWalletButton(
                           source: 'Wallets - Buy',
@@ -54,8 +54,9 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
 
                         showBuyAction(context: context);
                       },
+                      lable: intl.balanceActionButtons_buy,
                     ),
-                    CircleActionSell(
+                    SActionButton(
                       onTap: () {
                         sAnalytics.tapOnTheSellButtonOnWalletsScr();
 
@@ -63,15 +64,26 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
 
                         showSellAction(context);
                       },
+                      lable: intl.operationName_sell,
+                      icon: Assets.svg.medium.remove.simpleSvg(
+                        color: SColorsLight().white,
+                      ),
                     ),
-                    CircleActionSend(
+                    SActionButton(
                       onTap: () {
                         myWalletsSrore.endReorderingImmediately();
 
                         showSendAction(isEmptyBalance, context);
                       },
+                      lable: intl.balanceActionButtons_send,
+                      icon: Assets.svg.medium.arrowUp.simpleSvg(
+                        color: SColorsLight().white,
+                      ),
                     ),
-                    CircleActionAddCash(
+                    SActionButton(
+                      icon: Assets.svg.medium.cash.simpleSvg(
+                        color: colors.white,
+                      ),
                       onTap: () {
                         sAnalytics.tapOnTheButtonAddCashWalletsOnWalletsScreen();
                         sAnalytics.tapOnTheDepositButton(
@@ -82,7 +94,8 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
 
                         showSelectAccountForAddCash(context);
                       },
-                    ),
+                      lable: intl.balanceActionButtons_add_cash,
+                    )
                   ],
                 );
         },

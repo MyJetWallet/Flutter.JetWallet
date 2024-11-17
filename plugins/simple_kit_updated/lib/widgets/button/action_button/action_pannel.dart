@@ -10,7 +10,12 @@ class ActionPannel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: List.generate(actionButtons.length, (index) {
-        return actionButtons[index];
+        return Row(
+          children: [
+            actionButtons[index],
+            if (index < actionButtons.length -1) SpaceW8(),
+          ],
+        );
       }),
     );
   }
