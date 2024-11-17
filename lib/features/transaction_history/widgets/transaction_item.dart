@@ -496,17 +496,11 @@ class _TransactionItemState extends State<TransactionItem> with SingleTickerProv
                       right: 24,
                       bottom: 42,
                     ),
-                    child: SIconTextButton(
-                      disabled: cancelTransfer.loading,
+                    child: SButtonContext(
+                      type: SButtonContextType.iconedMedium,
+                      isDisabled: cancelTransfer.loading,
                       text: intl.open_in_explorer,
-                      icon: Container(
-                        width: 20,
-                        height: 20,
-                        margin: const EdgeInsets.symmetric(
-                          vertical: 6,
-                        ),
-                        child: const SNetworkIcon(),
-                      ),
+                      icon: Assets.svg.medium.global,
                       onTap: () async {
                         if (!await launchUrlString(
                           getBlockChainURL(
@@ -516,7 +510,7 @@ class _TransactionItemState extends State<TransactionItem> with SingleTickerProv
                           throw Exception('Could not launch');
                         }
                       },
-                      mainAxisSize: MainAxisSize.max,
+                      expanded: true,
                     ),
                   ),
                 ),

@@ -37,7 +37,6 @@ class BuyP2PDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
     final paymentAsset = nonIndicesWithBalanceFrom(
       sSignalRModules.currenciesWithHiddenList,
     )
@@ -159,18 +158,10 @@ class BuyP2PDetails extends StatelessWidget {
           ),
           if (transactionListItem.status == Status.inProgress) ...[
             const SpaceH30(),
-            SIconTextButton(
+            SButtonContext(
+              type: SButtonContextType.iconedMedium,
               text: intl.p2p_buy_payment_management,
-              icon: Container(
-                width: 20,
-                height: 20,
-                margin: const EdgeInsets.symmetric(
-                  vertical: 6,
-                ),
-                child: Assets.svg.medium.settings.simpleSvg(
-                  color: colors.blue,
-                ),
-              ),
+              icon: Assets.svg.medium.settings,
               onTap: () async {
                 sAnalytics.ptpBuyWebViewScreenView(
                   asset: buyAsset.symbol,
@@ -182,7 +173,7 @@ class BuyP2PDetails extends StatelessWidget {
                   transactionListItem.cryptoBuyInfo?.paymentUrl ?? '',
                 );
               },
-              mainAxisSize: MainAxisSize.max,
+              expanded: true,
             ),
           ],
           const SpaceH58(),

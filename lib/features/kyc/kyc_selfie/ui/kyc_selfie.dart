@@ -10,6 +10,7 @@ import 'package:jetwallet/features/kyc/kyc_selfie/ui/widgets/empty_selfie_box.da
 import 'package:jetwallet/features/kyc/kyc_selfie/ui/widgets/selfie_box.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
+import 'package:jetwallet/widgets/simple_floating_button_frame.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';

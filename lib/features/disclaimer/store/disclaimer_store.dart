@@ -14,6 +14,7 @@ import 'package:jetwallet/features/disclaimer/ui/widgets/disclaimer_checkbox.dar
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:jetwallet/utils/logging.dart';
+import 'package:jetwallet/widgets/simple_floating_button_frame.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -278,7 +279,7 @@ abstract class _DisclaimerStoreBase with Store {
                               ),
                             ),
                           ),
-                          SFloatingButtonFrame2(
+                          SFloatingButtonFrame(
                             button: SButton.black(
                               text: intl.disclaimer_continue,
                               callback: activeButton

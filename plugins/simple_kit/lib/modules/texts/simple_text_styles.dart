@@ -6,13 +6,6 @@ const _basicTextStyle = TextStyle(
 );
 
 @Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
-final sTextButtonStyle = _basicTextStyle.copyWith(
-  fontSize: 16,
-  fontWeight: FontWeight.w700,
-  height: 1,
-);
-
-@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
 final sBodyText2Style = _basicTextStyle.copyWith(
   fontSize: 14.0,
   fontWeight: FontWeight.w500,

@@ -11,6 +11,7 @@ import 'package:jetwallet/features/kyc/upload_documents/models/upload_kyc_docume
 import 'package:jetwallet/features/kyc/upload_documents/store/upload_kyc_documents_store.dart';
 import 'package:jetwallet/features/kyc/upload_documents/ui/widgets/create_kyc_banners_list.dart';
 import 'package:jetwallet/features/kyc/upload_documents/ui/widgets/document_page_view.dart';
+import 'package:jetwallet/widgets/simple_floating_button_frame.dart';
 import 'package:mobx/mobx.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';

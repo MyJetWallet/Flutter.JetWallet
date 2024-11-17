@@ -41,17 +41,11 @@ class ChangeOrderWidget extends StatelessWidget {
                   ),
                 ],
               ),
-              SIconTextButton(
+              SButtonContext(
+                type: SButtonContextType.iconedSmall,
                 onTap: onPressedDone,
                 text: intl.my_wallets_button_done,
-                textStyle: STStyles.body1Bold.copyWith(
-                  color: colors.blue,
-                ),
-                icon: Assets.svg.medium.checkmark.simpleSvg(
-                  width: 20,
-                  height: 20,
-                  color: colors.blue,
-                ),
+                icon: Assets.svg.medium.checkmark,
               ),
             ],
           ),

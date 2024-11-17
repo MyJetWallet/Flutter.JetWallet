@@ -9,10 +9,21 @@ export 'modules/agreements/simple_privacy_policy/simple_policy_checkbox.dart';
 export 'modules/agreements/simple_privacy_policy/simple_policy_text.dart';
 
 /// Buttons
-export 'modules/buttons/simple_floating_button_frame.dart';
-export 'modules/buttons/simple_floating_button_frame2.dart';
 export 'modules/buttons/simple_circle_icon_button.dart';
-export 'modules/buttons/simple_icon_text_button.dart';
+
+/// Components
+export 'modules/shared/simple_paddings.dart';
+export 'modules/shared/simple_spacers.dart';
+
+/// Utils
+export 'utils/constants.dart';
+export 'utils/enum.dart';
+
+/// Texts
+export 'modules/texts/simple_text_styles.dart';
+
+/// Theme
+export 'modules/theme/simple_theme.dart';
 
 /// Colors
 export 'modules/colors/simple_colors.dart';
@@ -202,17 +213,3 @@ export 'modules/icons/custom/public/cards/simple_frozen_icon.dart';
 export 'modules/icons/24x24/public/gift/simple_gift_send_icon.dart';
 export 'modules/icons/24x24/public/history_completed/simple_history_completed_icon.dart';
 export 'modules/icons/24x24/public/history_declined/simple_history_declined_icon.dart';
-
-/// Components
-export 'modules/shared/simple_paddings.dart';
-export 'modules/shared/simple_spacers.dart';
-
-/// Utils
-export 'utils/constants.dart';
-export 'utils/enum.dart';
-
-/// Texts
-export 'modules/texts/simple_text_styles.dart';
-
-/// Theme
-export 'modules/theme/simple_theme.dart';

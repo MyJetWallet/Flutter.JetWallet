@@ -158,21 +158,10 @@ class BuyVouncherDetails extends StatelessWidget {
               padding: const EdgeInsets.only(
                 top: 24,
               ),
-              child: SIconTextButton(
+              child: SButtonContext(
+                type: SButtonContextType.iconedMedium,
                 text: intl.prepaid_card_issue_card,
-                icon: Container(
-                  width: 20,
-                  height: 20,
-                  margin: const EdgeInsets.only(
-                    top: 8,
-                    bottom: 4,
-                  ),
-                  child: Assets.svg.medium.card.simpleSvg(
-                    width: 20,
-                    height: 20,
-                    color: SColorsLight().blue,
-                  ),
-                ),
+                icon: Assets.svg.medium.card,
                 onTap: () async {
                   await sRouter.push(
                     PrepaidCardDetailsRouter(
@@ -180,7 +169,7 @@ class BuyVouncherDetails extends StatelessWidget {
                     ),
                   );
                 },
-                mainAxisSize: MainAxisSize.max,
+                expanded: true,
               ),
             ),
           const SpaceH45(),
