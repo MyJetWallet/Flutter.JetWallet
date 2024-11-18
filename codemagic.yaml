@@ -85,6 +85,9 @@ definitions:
     - name: Add GoogleService-Info.plist
       script: echo $GOOGLE_SERVICE_IOS | base64 --decode > ./ios/Runner/GoogleService-Info.plist
 
+    - name: Test
+      script: cd android | ./gradlew signingReport | cd ..
+
     - name: Clean
       script: flutter clean
 
