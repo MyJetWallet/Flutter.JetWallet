@@ -11,9 +11,6 @@ export 'utils/enum.dart';
 /// Theme
 export 'modules/theme/simple_theme.dart';
 
-/// Colors
-export 'modules/colors/simple_colors.dart';
-
 /// Icons
 export 'modules/icons/16x16/public/close/simple_close_icon.dart';
 export 'modules/icons/16x16/public/tick/simple_tick_icon.dart';
