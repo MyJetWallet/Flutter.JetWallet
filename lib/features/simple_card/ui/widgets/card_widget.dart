@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/core/simple_kit.dart';
 import 'package:simple_kit/modules/icons/24x24/public/action_deposit/simple_action_deposit_icon.dart';
 import 'package:simple_kit/modules/icons/custom/public/cards/simple_mastercard_big_icon.dart';
 import 'package:simple_kit/modules/icons/custom/public/cards/simple_visa_card_big_icon.dart';
@@ -89,7 +88,7 @@ class CardWidgetState extends State<CardWidget> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     void onCopyAction(String value) {
       sAnalytics.tapCopyCardNumber(cardID: widget.card.cardId ?? '');
@@ -145,7 +144,7 @@ class CardWidgetState extends State<CardWidget> with TickerProviderStateMixin {
                         width: 279,
                         height: 170,
                         decoration: BoxDecoration(
-                          color: colors.lightPurple,
+                          color: colors.extraLightsPurple,
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: !isFrontImage(angle.abs())

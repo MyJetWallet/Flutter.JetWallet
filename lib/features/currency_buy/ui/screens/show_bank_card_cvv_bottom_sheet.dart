@@ -6,7 +6,6 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/currency_buy/models/preview_buy_with_bank_card_input.dart';
 import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 Future<void> showBankCardCvvBottomSheet({
@@ -44,7 +43,7 @@ class CvvBottomSheetBody extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
     final focusNode = FocusNode();
 
     return Column(
@@ -54,7 +53,7 @@ class CvvBottomSheetBody extends StatelessObserverWidget {
         Text(
           intl.cvv_description,
           style: STStyles.body1Medium.copyWith(
-            color: colors.grey1,
+            color: colors.gray10,
           ),
           maxLines: 10,
         ),
@@ -87,7 +86,7 @@ class CvvBottomSheetBody extends StatelessObserverWidget {
                   inactiveColor: colors.white,
                 ),
                 hintStyle: STStyles.header3.copyWith(
-                  color: colors.grey4,
+                  color: colors.gray4,
                 ),
                 textStyle: STStyles.header3.copyWith(
                   color: colors.black,

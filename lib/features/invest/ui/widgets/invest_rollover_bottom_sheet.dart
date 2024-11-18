@@ -48,10 +48,10 @@ void showInvestRolloverBottomSheet(
                     children: [
                       Expanded(
                         child: SIButton(
-                          activeColor: colors.SColorsLight().grey5,
+                          activeColor: colors.SColorsLight().gray2,
                           activeNameColor: colors.SColorsLight().black,
-                          inactiveColor: colors.SColorsLight().grey2,
-                          inactiveNameColor: colors.SColorsLight().grey4,
+                          inactiveColor: colors.SColorsLight().gray8,
+                          inactiveNameColor: colors.SColorsLight().gray4,
                           active: true,
                           name: intl.invest_alert_got_it,
                           onTap: () {

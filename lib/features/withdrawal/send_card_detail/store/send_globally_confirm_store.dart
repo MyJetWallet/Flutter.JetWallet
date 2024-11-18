@@ -229,7 +229,7 @@ abstract class _SendGloballyConfirmStoreBase with Store {
               width: 16,
               height: 16,
               child: SAccountWaitingIcon(
-                color: sKit.colors.grey2,
+                color: SColorsLight().gray8,
               ),
             ),
             const SizedBox(width: 8),
@@ -239,7 +239,7 @@ abstract class _SendGloballyConfirmStoreBase with Store {
                 intl.send_globally_success_info,
                 style: STStyles.body1Medium.copyWith(
                   fontSize: 12,
-                  color: sKit.colors.grey2,
+                  color: SColorsLight().gray8,
                   fontWeight: FontWeight.w600,
                 ),
               ),

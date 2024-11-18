@@ -271,7 +271,7 @@ class _RewardShareCardState extends State<RewardShareCard> {
                 child: Text(
                   sSignalRModules.rewardsData?.referralLink ?? '',
                   style: STStyles.body1Medium.copyWith(
-                    color: sKit.colors.grey1,
+                    color: SColorsLight().gray10,
                   ),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,

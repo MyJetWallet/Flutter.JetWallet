@@ -54,7 +54,7 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
     super.build(context);
 
     final deviceSize = sDeviceSize;
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return Provider<BuyAmountStore>(
       create: (context) => BuyAmountStore()
@@ -187,14 +187,14 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
                                   icon: Container(
                                     padding: const EdgeInsets.all(4),
                                     decoration: BoxDecoration(
-                                      color: sKit.colors.blue,
+                                      color: SColorsLight().blue,
                                       shape: BoxShape.circle,
                                     ),
                                     child: SizedBox(
                                       width: 16,
                                       height: 16,
                                       child: SBankMediumIcon(
-                                        color: sKit.colors.white,
+                                        color: SColorsLight().white,
                                       ),
                                     ),
                                   ),
@@ -231,10 +231,10 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
                                   icon: Container(
                                     padding: const EdgeInsets.all(4),
                                     decoration: ShapeDecoration(
-                                      color: sKit.colors.white,
+                                      color: SColorsLight().white,
                                       shape: OvalBorder(
                                         side: BorderSide(
-                                          color: colors.grey4,
+                                          color: colors.gray4,
                                         ),
                                       ),
                                     ),
@@ -276,14 +276,14 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
                                   icon: Container(
                                     padding: const EdgeInsets.all(4),
                                     decoration: BoxDecoration(
-                                      color: sKit.colors.grey1,
+                                      color: SColorsLight().gray10,
                                       shape: BoxShape.circle,
                                     ),
                                     child: SizedBox(
                                       width: 16,
                                       height: 16,
                                       child: SBankMediumIcon(
-                                        color: sKit.colors.white,
+                                        color: SColorsLight().white,
                                       ),
                                     ),
                                   ),

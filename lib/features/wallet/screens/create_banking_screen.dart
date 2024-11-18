@@ -13,7 +13,6 @@ import 'package:jetwallet/features/my_wallets/helper/show_wallet_verify_account.
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/icons/20x20/public/tick/simple_tick_icon.dart';
 import 'package:simple_kit/modules/icons/40x40/public/user/simple_user_icon.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:uuid/uuid.dart';
 
@@ -82,7 +81,7 @@ class _CreateBankingScreenState extends State<CreateBankingScreen> {
               intl.create_banking_transfer_eur,
               maxLines: 6,
               style: STStyles.subtitle2.copyWith(
-                color: sKit.colors.grey1,
+                color: SColorsLight().gray10,
               ),
             ),
             const SpaceH20(),

@@ -31,19 +31,19 @@ class SColorsLight implements SimpleColors {
   Color darkBrown = const Color(0xFF5A2206);
 
   @override
-  Color grey1 = const Color(0xFF777C85);
+  Color gray10 = const Color(0xFF777C85);
 
   @override
-  Color grey2 = const Color(0xFFA8B0BA);
+  Color gray8 = const Color(0xFFA8B0BA);
 
   @override
-  Color grey3 = const Color(0xFFC0C4C9);
+  Color gray6 = const Color(0xFFC0C4C9);
 
   @override
-  Color grey4 = const Color(0xFFE0E5EB);
+  Color gray4 = const Color(0xFFE0E5EB);
 
   @override
-  Color grey5 = const Color(0xFFF1F4F8);
+  Color gray2 = const Color(0xFFF1F4F8);
 
   @override
   Color grey6 = const Color(0xFF828282);

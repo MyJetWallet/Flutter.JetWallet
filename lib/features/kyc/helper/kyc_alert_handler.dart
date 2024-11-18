@@ -10,13 +10,12 @@ import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @lazySingleton
 class KycAlertHandler {
   final BuildContext context = sRouter.navigatorKey.currentContext!;
-  final SimpleColors colors = sKit.colors;
+  final colors = SColorsLight();
 
   // ignore: long-parameter-list
   void handle({
@@ -145,14 +144,14 @@ class KycAlertHandler {
     }
 
     if ((kycStatus == kycOperationStatus(KycStatus.kycRequired) ||
-        multiStatus.contains(kycOperationStatus(KycStatus.kycRequired))) &&
+            multiStatus.contains(kycOperationStatus(KycStatus.kycRequired))) &&
         (kycState != null && !kycState.isSimpleKyc) &&
         needGifteExplanationPopup) {
       _showGiftExplanationAlert(
         requiredVerifications,
       );
     } else if ((kycStatus == kycOperationStatus(KycStatus.kycRequired) ||
-        multiStatus.contains(kycOperationStatus(KycStatus.kycRequired))) &&
+            multiStatus.contains(kycOperationStatus(KycStatus.kycRequired))) &&
         (kycState != null && !kycState.isSimpleKyc)) {
       _showKycRequiredAlert(
         requiredVerifications,
@@ -308,7 +307,7 @@ class KycAlertHandler {
             child: Text(
               '${textNumber + 1}. $title',
               style: STStyles.body1Medium.copyWith(
-                color: colors.grey1,
+                color: colors.gray10,
               ),
             ),
           )
@@ -318,7 +317,7 @@ class KycAlertHandler {
               Text(
                 '${textNumber + 1}. $title',
                 style: STStyles.body1Medium.copyWith(
-                  color: colors.grey1,
+                  color: colors.gray10,
                 ),
               ),
             ],

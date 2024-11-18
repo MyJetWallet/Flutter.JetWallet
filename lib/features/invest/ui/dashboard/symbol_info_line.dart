@@ -43,7 +43,7 @@ class SymbolInfoLine extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 12),
@@ -93,7 +93,7 @@ class SymbolInfoLine extends StatelessObserverWidget {
                           width: 48,
                           child: Text(
                             instrument.description!,
-                            style: STStyles.body3InvestM.copyWith(color: colors.grey2),
+                            style: STStyles.body3InvestM.copyWith(color: colors.gray8),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -132,7 +132,7 @@ class SymbolInfoLine extends StatelessObserverWidget {
                         overflow: TextOverflow.ellipsis,
                         style: STStyles.body3InvestSM.copyWith(
                           color: percent == Decimal.zero
-                              ? colors.grey3
+                              ? colors.gray6
                               : percent > Decimal.zero
                                   ? colors.green
                                   : colors.red,

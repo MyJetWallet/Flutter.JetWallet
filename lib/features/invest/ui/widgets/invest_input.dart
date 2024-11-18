@@ -71,30 +71,30 @@ class _InvestInputState extends State<InvestInput> {
       cursorColor: SColorsLight().blue,
       cursorRadius: Radius.zero,
       style: STStyles.body1InvestSM.copyWith(
-        color: widget.enabled ? SColorsLight().black : SColorsLight().grey2,
+        color: widget.enabled ? SColorsLight().black : SColorsLight().gray8,
       ),
       decoration: InputDecoration(
         filled: !widget.enabled,
-        fillColor: widget.enabled ? null : SColorsLight().grey5,
+        fillColor: widget.enabled ? null : SColorsLight().gray2,
         contentPadding: const EdgeInsets.all(10),
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: SColorsLight().grey4),
+          borderSide: BorderSide(color: SColorsLight().gray4),
           borderRadius: BorderRadius.circular(8),
         ),
         disabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: SColorsLight().grey4),
+          borderSide: BorderSide(color: SColorsLight().gray4),
           borderRadius: BorderRadius.circular(8),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: SColorsLight().grey4),
+          borderSide: BorderSide(color: SColorsLight().gray4),
           borderRadius: BorderRadius.circular(8),
         ),
         labelStyle: STStyles.subtitle1.copyWith(
-          color: SColorsLight().grey2,
+          color: SColorsLight().gray8,
         ),
         floatingLabelStyle: STStyles.captionMedium.copyWith(
           fontSize: 16.0,
-          color: SColorsLight().grey2,
+          color: SColorsLight().gray8,
         ),
         floatingLabelBehavior: FloatingLabelBehavior.never,
         counterText: '',

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit/core/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class CardSensitiveData extends StatelessWidget {
@@ -20,7 +19,7 @@ class CardSensitiveData extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

@@ -7,7 +7,6 @@ import 'package:jetwallet/features/crypto_deposit/store/crypto_deposit_store.dar
 import 'package:jetwallet/features/crypto_deposit/widgets/simple_qr_code_box.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../core/services/device_size/device_size.dart';
@@ -38,7 +37,7 @@ class _CryptoDepositWithAddressAndTagState extends State<CryptoDepositWithAddres
 
   int currentPage = 0;
 
-  final colors = sKit.colors;
+  final colors = SColorsLight();
 
   @override
   void initState() {
@@ -151,7 +150,7 @@ class _CryptoDepositWithAddressAndTagState extends State<CryptoDepositWithAddres
                 child: DecoratedBox(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16),
-                    color: colors.grey5,
+                    color: colors.gray2,
                   ),
                   child: Padding(
                     padding: const EdgeInsets.only(
@@ -166,7 +165,7 @@ class _CryptoDepositWithAddressAndTagState extends State<CryptoDepositWithAddres
                         Text(
                           intl.cryptoDeposit_address,
                           style: STStyles.subtitle2.copyWith(
-                            color: colors.grey3,
+                            color: colors.gray6,
                             height: 1,
                           ),
                         ),
@@ -174,7 +173,7 @@ class _CryptoDepositWithAddressAndTagState extends State<CryptoDepositWithAddres
                         Text(
                           widget.currency.symbol == 'XRP' ? intl.tagOrMemo : intl.tag,
                           style: STStyles.subtitle2.copyWith(
-                            color: colors.grey3,
+                            color: colors.gray6,
                             height: 1,
                           ),
                         ),

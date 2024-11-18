@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class TransferConfirmationInfoGrid extends StatelessWidget {
@@ -53,7 +52,7 @@ class TransferConfirmationInfoGrid extends StatelessWidget {
             children: [
               Text(
                 intl.transfer_confirmation_send_to,
-                style: STStyles.body2Medium.copyWith(color: sKit.colors.grey1),
+                style: STStyles.body2Medium.copyWith(color: SColorsLight().gray10),
               ),
               if (isDataLoaded) ...[
                 Flexible(
@@ -148,7 +147,7 @@ class _FieldRowWidget extends StatelessWidget {
         children: [
           Text(
             lable,
-            style: STStyles.body2Medium.copyWith(color: sKit.colors.grey1),
+            style: STStyles.body2Medium.copyWith(color: SColorsLight().gray10),
           ),
           if (isDataLoaded) ...[
             Flexible(

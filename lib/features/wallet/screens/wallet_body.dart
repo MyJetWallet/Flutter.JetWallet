@@ -16,7 +16,6 @@ import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 const _collapsedCardHeight = 200.0;
@@ -76,7 +75,7 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
   Widget build(BuildContext context) {
     super.build(context);
 
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return Material(
       color: colors.white,

@@ -16,7 +16,7 @@ class IbanTermsContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return Container(
       width: double.infinity,

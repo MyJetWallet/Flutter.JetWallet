@@ -6,7 +6,6 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/simple_card/ui/widgets/password_requirement.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../core/di/di.dart';
@@ -47,12 +46,12 @@ class _SetUpPasswordScreenBody extends StatelessObserverWidget {
     final store = SetUpPasswordStore.of(context);
     final simpleCardStore = getIt.get<SimpleCardStore>();
 
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return SPageFrame(
       loaderText: intl.loader_please_wait,
       resizeToAvoidBottomInset: false,
-      color: colors.grey5,
+      color: colors.gray2,
       loading: isCreatePassword ? simpleCardStore.loader : store.loader,
       header: GlobalBasicAppBar(
         title: intl.simple_card_password_title,
@@ -82,7 +81,7 @@ class _SetUpPasswordScreenBody extends StatelessObserverWidget {
                   Text(
                     intl.simple_card_password_description,
                     style: STStyles.body1Medium.copyWith(
-                      color: colors.grey1,
+                      color: colors.gray10,
                     ),
                     maxLines: 10,
                   ),

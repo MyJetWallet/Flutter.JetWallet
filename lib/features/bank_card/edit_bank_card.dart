@@ -9,7 +9,6 @@ import 'package:jetwallet/features/bank_card/widgets/bank_card_cardnumber.dart';
 import 'package:jetwallet/features/bank_card/widgets/bank_card_date_label.dart';
 import 'package:jetwallet/features/bank_card/widgets/bank_card_holdername.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 
@@ -48,7 +47,7 @@ class _EditBankCardScreenBody extends StatelessObserverWidget {
     return SPageFrame(
       loaderText: intl.loader_please_wait,
       resizeToAvoidBottomInset: false,
-      color: sKit.colors.grey5,
+      color: SColorsLight().gray2,
       loading: store.loader,
       header: GlobalBasicAppBar(
         title: intl.editCircleCard_bigHeaderTitle,

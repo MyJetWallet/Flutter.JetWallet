@@ -54,8 +54,8 @@ class _SSkeletonQrCodeLoaderState extends State<SSkeletonQrCodeLoader> with Sing
               gradient: LinearGradient(
                 stops: const [0.5156, 1],
                 colors: [
-                  SColorsLight().grey4,
-                  SColorsLight().grey5,
+                  SColorsLight().gray4,
+                  SColorsLight().gray2,
                 ],
               ),
             ),
@@ -68,7 +68,7 @@ class _SSkeletonQrCodeLoaderState extends State<SSkeletonQrCodeLoader> with Sing
               decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
-                    color: SColorsLight().grey5,
+                    color: SColorsLight().gray2,
                     blurRadius: 100.0,
                     spreadRadius: 10.0,
                   ),

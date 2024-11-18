@@ -24,7 +24,7 @@ class SuggestionButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     final greyDisabled = SColorsLight().gray8;
 
@@ -34,7 +34,7 @@ class SuggestionButtonWidget extends StatelessWidget {
       margin: const EdgeInsetsDirectional.symmetric(horizontal: 24),
       padding: const EdgeInsetsDirectional.symmetric(horizontal: 12, vertical: 8),
       decoration: ShapeDecoration(
-        color: colors.grey5,
+        color: colors.gray2,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
@@ -56,7 +56,7 @@ class SuggestionButtonWidget extends StatelessWidget {
                         Text(
                           subTitle,
                           style: STStyles.body2Medium.copyWith(
-                            color: isDisabled ? greyDisabled : colors.grey1,
+                            color: isDisabled ? greyDisabled : colors.gray10,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -83,7 +83,7 @@ class SuggestionButtonWidget extends StatelessWidget {
                   trailing ?? '',
                   textAlign: TextAlign.right,
                   style: STStyles.body2Medium.copyWith(
-                    color: isDisabled ? greyDisabled : colors.grey1,
+                    color: isDisabled ? greyDisabled : colors.gray10,
                     fontWeight: FontWeight.w600,
                   ),
                 ),

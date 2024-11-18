@@ -8,7 +8,6 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/confirm_timer/simple_confirm_action_timer.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class ConvertConfirmationInfoGrid extends StatefulObserverWidget {
@@ -75,7 +74,7 @@ class _ConfirmationInfoGridState extends State<ConvertConfirmationInfoGrid> with
           children: [
             Text(
               intl.buy_confirmation_price,
-              style: STStyles.body2Medium.copyWith(color: sKit.colors.grey1),
+              style: STStyles.body2Medium.copyWith(color: SColorsLight().gray10),
             ),
             const Spacer(),
             if (store.isDataLoaded) ...[

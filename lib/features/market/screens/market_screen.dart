@@ -27,7 +27,6 @@ import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -509,7 +508,7 @@ class _MarketScreenState extends State<MarketScreen> {
     required int index,
     required Animation<double> animation,
   }) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return AnimatedBuilder(
       animation: animation,
@@ -520,7 +519,7 @@ class _MarketScreenState extends State<MarketScreen> {
               color: colors.white,
               boxShadow: [
                 BoxShadow(
-                  color: colors.grey1.withOpacity(0.2),
+                  color: colors.gray10.withOpacity(0.2),
                   blurRadius: 20,
                 ),
               ],

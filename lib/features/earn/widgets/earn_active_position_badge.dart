@@ -71,9 +71,9 @@ class SEarnPositionBadge extends StatelessWidget {
       case EarnPositionStatus.closing:
         return colors.blueExtralight;
       case EarnPositionStatus.closed:
-        return oldkit.SColorsLight().grey5;
+        return oldkit.SColorsLight().gray2;
       default:
-        return oldkit.SColorsLight().grey5;
+        return oldkit.SColorsLight().gray2;
     }
   }
 
@@ -84,9 +84,9 @@ class SEarnPositionBadge extends StatelessWidget {
       case EarnPositionStatus.closing:
         return colors.blue;
       case EarnPositionStatus.closed:
-        return oldkit.SColorsLight().grey2;
+        return oldkit.SColorsLight().gray8;
       default:
-        return oldkit.SColorsLight().grey1;
+        return oldkit.SColorsLight().gray10;
     }
   }
 }

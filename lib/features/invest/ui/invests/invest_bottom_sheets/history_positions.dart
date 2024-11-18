@@ -9,7 +9,6 @@ import 'package:jetwallet/features/invest/ui/invests/secondary_switch.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_history_list.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_history_pending_list.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_history_summary_list.dart';
-import 'package:simple_kit/core/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../../../core/services/signal_r/signal_r_service_new.dart';
@@ -25,7 +24,7 @@ class HistoryInvestList extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
     final investPositionsStore = getIt.get<InvestPositionsStore>();
     final investStore = getIt.get<InvestDashboardStore>();
     final currencies = sSignalRModules.currenciesList;

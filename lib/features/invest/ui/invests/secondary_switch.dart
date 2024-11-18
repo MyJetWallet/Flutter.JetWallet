@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_carousel.dart';
-import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class SecondarySwitch extends StatelessObserverWidget {
   const SecondarySwitch({
@@ -24,7 +23,7 @@ class SecondarySwitch extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     void changeActiveTab(int newValue) {
       onChangeTab(newValue);
@@ -57,13 +56,13 @@ class SecondarySwitch extends StatelessObserverWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 8),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(24),
-                            color: activeTab == i ? colors.grey5 : colors.white,
+                            color: activeTab == i ? colors.gray2 : colors.white,
                           ),
                           child: Center(
                             child: Text(
                               tabs[i],
                               style: STStyles.body2InvestSM.copyWith(
-                                color: activeTab == i ? colors.black : colors.grey1,
+                                color: activeTab == i ? colors.black : colors.gray10,
                                 height: 1,
                               ),
                             ),
@@ -87,13 +86,13 @@ class SecondarySwitch extends StatelessObserverWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 8),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(24),
-                        color: activeTab == i ? colors.grey5 : colors.white,
+                        color: activeTab == i ? colors.gray2 : colors.white,
                       ),
                       child: Center(
                         child: Text(
                           tabs[i],
                           style: STStyles.body2InvestSM.copyWith(
-                            color: activeTab == i ? colors.black : colors.grey1,
+                            color: activeTab == i ? colors.black : colors.gray10,
                             height: 1,
                           ),
                         ),
@@ -116,13 +115,13 @@ class SecondarySwitch extends StatelessObserverWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 8),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(24),
-                      color: activeTab == i ? colors.grey5 : colors.white,
+                      color: activeTab == i ? colors.gray2 : colors.white,
                     ),
                     child: Center(
                       child: Text(
                         tabs[i],
                         style: STStyles.body2InvestSM.copyWith(
-                          color: activeTab == i ? colors.black : colors.grey1,
+                          color: activeTab == i ? colors.black : colors.gray10,
                           height: 1,
                         ),
                       ),
@@ -144,7 +143,7 @@ class SecondarySwitch extends StatelessObserverWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 2),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
-                        color: activeTab == i ? colors.grey5 : colors.white,
+                        color: activeTab == i ? colors.gray2 : colors.white,
                       ),
                       child: Center(
                         child: tabsAssets[i],

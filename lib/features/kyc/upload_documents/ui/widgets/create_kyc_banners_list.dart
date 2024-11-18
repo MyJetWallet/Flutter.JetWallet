@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:jetwallet/features/kyc/upload_documents/store/upload_kyc_documents_store.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../../../utils/constants.dart';
 import 'blank_document_first_side.dart';
@@ -17,7 +17,7 @@ List<Widget> createKycBannersList({
   bool showSides = true,
   bool selfie = false,
   bool card = false,
-  required SimpleColors colors,
+  required SColorsLight colors,
   required UploadKycDocumentsStore notifier,
 }) {
   final bannersList = <Widget>[];

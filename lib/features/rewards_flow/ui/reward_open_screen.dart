@@ -19,7 +19,6 @@ import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/rewards/reward_spin_response.dart';
 
@@ -413,7 +412,7 @@ class _RewardOpenScreenBodyState extends State<_RewardOpenScreenBody> with Ticke
                         '${intl.reward_you_have} ${widget.rewardStore.availableSpins} ${intl.reward_more_to_claim}',
                         textAlign: TextAlign.center,
                         style: STStyles.body1Medium.copyWith(
-                          color: sKit.colors.grey1,
+                          color: SColorsLight().gray10,
                         ),
                       ),
                     ] else ...[

@@ -85,7 +85,7 @@ class ActiveEarnWidget extends StatelessObserverWidget {
                   accuracy: currency.accuracy,
                 ),
           style: STStyles.body2Medium.copyWith(
-            color: colors.grey1,
+            color: colors.gray10,
           ),
         ),
         const SizedBox(height: 24),
@@ -93,7 +93,7 @@ class ActiveEarnWidget extends StatelessObserverWidget {
         const SizedBox(height: 24),
         DecoratedBox(
           decoration: BoxDecoration(
-            color: colors.grey5,
+            color: colors.gray2,
             borderRadius: BorderRadius.circular(16),
           ),
           child: Padding(
@@ -105,7 +105,7 @@ class ActiveEarnWidget extends StatelessObserverWidget {
                   children: [
                     Text(
                       intl.earn_balance,
-                      style: STStyles.body2Medium.copyWith(color: colors.grey1),
+                      style: STStyles.body2Medium.copyWith(color: colors.gray10),
                     ),
                     Text(
                       isBalanceHide
@@ -142,7 +142,7 @@ class ActiveEarnWidget extends StatelessObserverWidget {
                               symbol: earnPosition.assetId,
                               accuracy: currency.accuracy,
                             ),
-                      style: STStyles.body2Medium.copyWith(color: colors.grey1),
+                      style: STStyles.body2Medium.copyWith(color: colors.gray10),
                       maxLines: 2,
                     ),
                   ],
@@ -153,7 +153,7 @@ class ActiveEarnWidget extends StatelessObserverWidget {
                   children: [
                     Text(
                       intl.earn_revenue,
-                      style: STStyles.body2Medium.copyWith(color: colors.grey1),
+                      style: STStyles.body2Medium.copyWith(color: colors.gray10),
                     ),
                     Text(
                       isBalanceHide
@@ -190,7 +190,7 @@ class ActiveEarnWidget extends StatelessObserverWidget {
                               accuracy: currency.accuracy,
                               symbol: earnPosition.assetId,
                             ),
-                      style: STStyles.body2Medium.copyWith(color: colors.grey1),
+                      style: STStyles.body2Medium.copyWith(color: colors.gray10),
                       maxLines: 2,
                     ),
                   ],
@@ -202,7 +202,7 @@ class ActiveEarnWidget extends StatelessObserverWidget {
                     children: [
                       Text(
                         intl.earn_variable_apy,
-                        style: STStyles.body2Medium.copyWith(color: colors.grey1),
+                        style: STStyles.body2Medium.copyWith(color: colors.gray10),
                       ),
                       Text(
                         '${double.tryParse(formatApyRate(earnPosition.offerApyRate) ?? '0')?.toFormatPercentCount()}',
@@ -217,7 +217,7 @@ class ActiveEarnWidget extends StatelessObserverWidget {
                     children: [
                       Text(
                         intl.earn_variable_apy,
-                        style: STStyles.body2Medium.copyWith(color: colors.grey1),
+                        style: STStyles.body2Medium.copyWith(color: colors.gray10),
                       ),
                       Text(
                         '${double.tryParse(getHighestApyRateAsString(earnPosition.offers))?.toFormatPercentCount()}',
@@ -233,7 +233,7 @@ class ActiveEarnWidget extends StatelessObserverWidget {
                     children: [
                       Text(
                         intl.earn_started,
-                        style: STStyles.body2Medium.copyWith(color: colors.grey1),
+                        style: STStyles.body2Medium.copyWith(color: colors.gray10),
                       ),
                       Text(
                         DateFormat('dd.MM.yyyy').format(earnPosition.startDateTime!),
@@ -248,7 +248,7 @@ class ActiveEarnWidget extends StatelessObserverWidget {
                     children: [
                       Text(
                         intl.earn_withdrawal,
-                        style: STStyles.body2Medium.copyWith(color: colors.grey1),
+                        style: STStyles.body2Medium.copyWith(color: colors.gray10),
                       ),
                       Text(
                         intl.earn_days_left(
@@ -268,7 +268,7 @@ class ActiveEarnWidget extends StatelessObserverWidget {
                     children: [
                       Text(
                         intl.earn_finished,
-                        style: STStyles.body2Medium.copyWith(color: colors.grey1),
+                        style: STStyles.body2Medium.copyWith(color: colors.gray10),
                       ),
                       Text(
                         DateFormat('dd.MM.yyyy').format(
@@ -287,7 +287,7 @@ class ActiveEarnWidget extends StatelessObserverWidget {
         Center(
           child: Text(
             getWithdrawalMessage(earnPosition),
-            style: STStyles.captionMedium.copyWith(color: colors.grey2),
+            style: STStyles.captionMedium.copyWith(color: colors.gray8),
             maxLines: 2,
             textAlign: TextAlign.center,
           ),

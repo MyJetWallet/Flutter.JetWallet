@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:simple_kit/core/simple_kit.dart';
 import 'package:simple_kit/modules/icons/24x24/public/copy/simple_copy_icon.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
@@ -34,7 +33,7 @@ class IBanItem extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return Column(
       children: [
@@ -50,7 +49,7 @@ class IBanItem extends StatelessObserverWidget {
                     Text(
                       name,
                       style: STStyles.captionMedium.copyWith(
-                        color: colors.grey1,
+                        color: colors.gray10,
                       ),
                     ),
                     Text(

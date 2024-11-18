@@ -60,7 +60,7 @@ class _MailOptionsBodyState extends State<_MailOptions> with WidgetsBindingObser
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     icon = checked ? const SCheckboxSelectedIcon() : const SCheckboxIcon();
 
@@ -128,7 +128,7 @@ class _MailOptionsBodyState extends State<_MailOptions> with WidgetsBindingObser
   }
 }
 
-Widget _iconFrom(String name, SimpleColors colors) {
+Widget _iconFrom(String name, SColorsLight colors) {
   switch (name) {
     case 'Gmail':
       return Image.asset(
@@ -152,7 +152,7 @@ Widget _iconFrom(String name, SimpleColors colors) {
       return Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20.0),
-          color: colors.grey5,
+          color: colors.gray2,
         ),
         width: 40,
         height: 40,
@@ -177,11 +177,11 @@ class MailItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
     final mainColor = colors.black;
 
     return InkWell(
-      highlightColor: colors.grey5,
+      highlightColor: colors.gray2,
       splashColor: Colors.transparent,
       onTap: onTap,
       child: SPaddingH24(

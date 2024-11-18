@@ -13,7 +13,6 @@ import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/incoming_gift_model.dart';
@@ -76,7 +75,7 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final sColors = sKit.colors;
+    final sColors = SColorsLight();
 
     final kyc = getIt.get<KycService>();
     final handler = getIt.get<KycAlertHandler>();
@@ -98,7 +97,7 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
             width: 327,
             height: 240,
             decoration: BoxDecoration(
-              color: sKit.colors.grey5,
+              color: SColorsLight().gray2,
               borderRadius: BorderRadius.circular(24),
             ),
             child: ClipRRect(
@@ -165,7 +164,7 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
             '''${intl.reseive_gift_a_gift_of} $giftAmount ${intl.reseive_gift_from} ${giftModel.fromName} \n${intl.reseive_gift_is_waiting_for_you}''',
             textAlign: TextAlign.center,
             style: STStyles.body1Medium.copyWith(
-              color: sColors.grey1,
+              color: sColors.gray10,
             ),
           ),
           const SpaceH49(),

@@ -40,12 +40,12 @@ class PaymentCardItem extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
     final notifier = PaymentMethodsStore();
     final isDisabled = expired || status == CircleCardStatus.failed;
 
     return InkWell(
-      highlightColor: colors.grey5,
+      highlightColor: colors.gray2,
       splashColor: Colors.transparent,
       onTap: () {
         onTap();
@@ -82,7 +82,7 @@ class PaymentCardItem extends StatelessObserverWidget {
                                   child: Text(
                                     lable,
                                     style: STStyles.subtitle1.copyWith(
-                                      color: isDisabled ? colors.grey2 : colors.black,
+                                      color: isDisabled ? colors.gray8 : colors.black,
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
@@ -90,13 +90,13 @@ class PaymentCardItem extends StatelessObserverWidget {
                                 Text(
                                   ' ••••',
                                   style: STStyles.subtitle1.copyWith(
-                                    color: isDisabled ? colors.grey2 : colors.black,
+                                    color: isDisabled ? colors.gray8 : colors.black,
                                   ),
                                 ),
                                 Text(
                                   last4numbers,
                                   style: STStyles.subtitle1.copyWith(
-                                    color: isDisabled ? colors.grey2 : colors.black,
+                                    color: isDisabled ? colors.gray8 : colors.black,
                                   ),
                                 ),
                                 const SpaceW8(),
@@ -107,7 +107,7 @@ class PaymentCardItem extends StatelessObserverWidget {
                                     child: Text(
                                       currency ?? '',
                                       style: STStyles.captionMedium.copyWith(
-                                        color: sKit.colors.grey1,
+                                        color: SColorsLight().gray10,
                                         height: 1.38,
                                       ),
                                     ),
@@ -146,7 +146,7 @@ class PaymentCardItem extends StatelessObserverWidget {
                                           ? intl.paymentMethod_Failed
                                           : expirationDate,
                                   style: STStyles.captionSemibold.copyWith(
-                                    color: isDisabled ? colors.red : colors.grey3,
+                                    color: isDisabled ? colors.red : colors.gray6,
                                   ),
                                 ),
                               ),
@@ -185,7 +185,7 @@ class PaymentCardItem extends StatelessObserverWidget {
           height: 25,
           child: Center(
             child: SActionDepositIcon(
-              color: sKit.colors.blue,
+              color: SColorsLight().blue,
             ),
           ),
         );

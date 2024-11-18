@@ -13,7 +13,6 @@ import 'package:jetwallet/features/invest/ui/dashboard/symbol_info_line.dart';
 import 'package:jetwallet/features/invest/ui/invests/secondary_switch.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_input.dart';
 import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../../core/router/app_router.dart';
@@ -70,7 +69,7 @@ class InstrumentsList extends StatelessObserverWidget {
     final investStore = getIt.get<InvestDashboardStore>();
     final investChartStore = getIt.get<InvestChartStore>();
     final investPositionsStore = getIt.get<InvestPositionsStore>();
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     int getGroupedLength(String symbol) {
       final groupedPositions = investPositionsStore.activeList.where(
@@ -159,7 +158,7 @@ class InstrumentsList extends StatelessObserverWidget {
                                         false,
                                   ).toList().length} ${intl.invest_tokens}',
                               style: STStyles.body3InvestM.copyWith(
-                                color: colors.grey1,
+                                color: colors.gray10,
                               ),
                             ),
                             const SpaceH3(),
@@ -171,7 +170,7 @@ class InstrumentsList extends StatelessObserverWidget {
                     Text(
                       section.description ?? '',
                       style: STStyles.body2InvestM.copyWith(
-                        color: colors.grey1,
+                        color: colors.gray10,
                       ),
                       maxLines: investStore.isShortDescription ? 2 : 10,
                     ),

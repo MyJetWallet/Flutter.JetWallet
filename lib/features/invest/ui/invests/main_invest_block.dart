@@ -42,7 +42,7 @@ class MainInvestBlock extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
     final isBalanceHide = getIt<AppStore>().isBalanceHide;
 
     return Row(
@@ -70,7 +70,7 @@ class MainInvestBlock extends StatelessObserverWidget {
                       Text(
                         intl.invest_amount,
                         style: STStyles.body3InvestM.copyWith(
-                          color: colors.grey1,
+                          color: colors.gray10,
                         ),
                       ),
                       const SpaceW4(),
@@ -135,7 +135,7 @@ class MainInvestBlock extends StatelessObserverWidget {
                     overflow: TextOverflow.ellipsis,
                     style: STStyles.body3InvestSM.copyWith(
                       color: percent == Decimal.zero
-                          ? colors.grey3
+                          ? colors.gray6
                           : percent > Decimal.zero
                               ? colors.green
                               : colors.red,

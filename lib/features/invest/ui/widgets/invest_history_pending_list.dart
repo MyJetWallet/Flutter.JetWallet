@@ -86,7 +86,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     final listToShow = InvestHistory.of(context).investPendingItems;
     final currencies = sSignalRModules.currenciesList;
@@ -220,7 +220,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                               borderRadius: BorderRadius.circular(16),
                               border: Border.all(
                                 width: 2,
-                                color: colors.grey4,
+                                color: colors.gray4,
                               ),
                             ),
                             child: Column(
@@ -333,7 +333,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                                       borderRadius: BorderRadius.circular(16),
                                       border: Border.all(
                                         width: 2,
-                                        color: colors.grey4,
+                                        color: colors.gray4,
                                       ),
                                     ),
                                     child: Column(
@@ -471,7 +471,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                                     width: 24.0,
                                     height: 24.0,
                                     decoration: BoxDecoration(
-                                      color: colors.grey5,
+                                      color: colors.gray2,
                                       shape: BoxShape.circle,
                                     ),
                                     child: const RiveAnimation.asset(

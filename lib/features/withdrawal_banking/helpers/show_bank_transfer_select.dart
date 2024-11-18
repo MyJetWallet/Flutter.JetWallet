@@ -147,7 +147,7 @@ class ShowBankTransferSelect extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     final store = getIt.get<IbanStore>();
 
@@ -196,7 +196,7 @@ class ShowBankTransferSelect extends StatelessObserverWidget {
           child: Text(
             isCJ ? intl.bankAccountsSelectPopupMyAccounts : intl.bankAccountsSelectPopupRecipients,
             style: STStyles.body2Medium.copyWith(
-              color: colors.grey2,
+              color: colors.gray8,
             ),
           ),
         ),

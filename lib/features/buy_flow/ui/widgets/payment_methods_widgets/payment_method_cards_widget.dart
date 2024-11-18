@@ -135,7 +135,7 @@ class PaymentMethodCardsWidget extends StatelessObserverWidget {
                   width: 24,
                   height: 24,
                   child: SPlusIcon(
-                    color: sKit.colors.blue,
+                    color: SColorsLight().blue,
                   ),
                 ),
                 name: intl.add_card_text,

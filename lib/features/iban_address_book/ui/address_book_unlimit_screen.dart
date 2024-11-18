@@ -55,12 +55,12 @@ class _BodyAdressBookUnlimitState extends State<_BodyAdressBookUnlimit> {
   Widget build(BuildContext context) {
     final store = IbanAddressBookStore.of(context);
 
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return SPageFrame(
       loaderText: intl.loader_please_wait,
       loading: IbanAddressBookStore.of(context).loader,
-      color: colors.grey5,
+      color: colors.gray2,
       header: GlobalBasicAppBar(
         title: store.isEditMode ? intl.address_book_edit_recipient : intl.address_book_add_recipient,
         onLeftIconTap: () => Navigator.pop(context, false),
@@ -99,7 +99,7 @@ class _BodyAdressBookUnlimitState extends State<_BodyAdressBookUnlimit> {
                                 Text(
                                   intl.address_book_country_of_recepients_bank,
                                   style: STStyles.subtitle1.copyWith(
-                                    color: colors.grey2,
+                                    color: colors.gray8,
                                   ),
                                 )
                               else ...[
@@ -107,7 +107,7 @@ class _BodyAdressBookUnlimitState extends State<_BodyAdressBookUnlimit> {
                                   intl.address_book_country_of_recepients_bank,
                                   style: STStyles.captionMedium.copyWith(
                                     fontSize: 12.0,
-                                    color: colors.grey2,
+                                    color: colors.gray8,
                                   ),
                                 ),
                                 CountryProfileItem(
@@ -244,7 +244,7 @@ class _BodyAdressBookUnlimitState extends State<_BodyAdressBookUnlimit> {
                     if (store.isEditMode) ...[
                       SPaddingH24(
                         child: Material(
-                          color: colors.grey5,
+                          color: colors.gray2,
                           child: SButton.black(
                             text: intl.iban_edit_save_changes,
                             callback: IbanAddressBookStore.of(context).isButtonActive
@@ -268,7 +268,7 @@ class _BodyAdressBookUnlimitState extends State<_BodyAdressBookUnlimit> {
                       const SizedBox(height: 8),
                       SPaddingH24(
                         child: Material(
-                          color: colors.grey5,
+                          color: colors.gray2,
                           child: SButton.text(
                             text: intl.iban_edit_delete_account,
                             callback: () {
@@ -306,7 +306,7 @@ class _BodyAdressBookUnlimitState extends State<_BodyAdressBookUnlimit> {
                     ] else ...[
                       SPaddingH24(
                         child: Material(
-                          color: colors.grey5,
+                          color: colors.gray2,
                           child: SButton.blue(
                             text: intl.create_continue,
                             callback: IbanAddressBookStore.of(context).isButtonActive

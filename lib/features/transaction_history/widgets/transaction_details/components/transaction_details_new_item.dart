@@ -47,7 +47,7 @@ class TransactionDetailsNewItem extends StatelessWidget {
                 child: SizedBox(
                   width: 16,
                   height: 16,
-                  child: SInfoIcon(color: sKit.colors.grey1),
+                  child: SInfoIcon(color: SColorsLight().gray10),
                 ),
               ),
             ),
@@ -87,7 +87,7 @@ class TransactionDetailsNewItem extends StatelessWidget {
                 description,
                 maxLines: 3,
                 style: STStyles.captionMedium.copyWith(
-                  color: sKit.colors.grey3,
+                  color: SColorsLight().gray6,
                 ),
               ),
               const SpaceH64(),

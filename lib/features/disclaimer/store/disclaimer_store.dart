@@ -17,7 +17,6 @@ import 'package:jetwallet/utils/logging.dart';
 import 'package:jetwallet/widgets/simple_floating_button_frame.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/disclaimer/disclaimers_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/disclaimer/disclaimers_response_model.dart';
@@ -178,7 +177,7 @@ abstract class _DisclaimerStoreBase with Store {
     if (disclaimerShowed) return;
 
     final context = sRouter.navigatorKey.currentContext!;
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     disclaimerShowed = true;
 
@@ -243,7 +242,7 @@ abstract class _DisclaimerStoreBase with Store {
                                       maxLines: 6,
                                       textAlign: TextAlign.center,
                                       style: STStyles.body1Medium.copyWith(
-                                        color: colors.grey1,
+                                        color: colors.gray10,
                                       ),
                                     ),
                                   const SpaceH35(),
@@ -310,7 +309,7 @@ abstract class _DisclaimerStoreBase with Store {
   Flexible parsedTextWidget(
     String text,
     BuildContext context,
-    SimpleColors colors,
+    SColorsLight colors,
   ) {
     final widgets = <TextSpan>[];
 

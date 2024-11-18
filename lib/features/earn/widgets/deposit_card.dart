@@ -51,7 +51,7 @@ class SDepositCard extends StatelessObserverWidget {
           elevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
-            side: BorderSide(color: colors.grey4),
+            side: BorderSide(color: colors.gray4),
           ),
           color: colors.white,
           child: Padding(
@@ -214,12 +214,12 @@ class CryptoCardHeader extends StatelessWidget {
               if (apyRate != null)
                 Text(
                   '${intl.earn_variable_apy} ${double.parse(apyRate ?? '0').toFormatPercentCount()}',
-                  style: STStyles.body2Medium.copyWith(color: colors.grey1),
+                  style: STStyles.body2Medium.copyWith(color: colors.gray10),
                 ),
               if (isShowDate)
                 Text(
                   period,
-                  style: STStyles.body2Medium.copyWith(color: colors.grey1),
+                  style: STStyles.body2Medium.copyWith(color: colors.gray10),
                 ),
             ],
           ),
@@ -249,7 +249,7 @@ class CryptoCardBody extends StatelessWidget {
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: colors.grey5,
+        color: colors.gray2,
         borderRadius: BorderRadius.circular(16),
       ),
       child: Padding(
@@ -264,7 +264,7 @@ class CryptoCardBody extends StatelessWidget {
             Container(
               height: 50,
               width: 1,
-              color: colors.grey3,
+              color: colors.gray6,
             ),
             const SizedBox(width: 24),
             CryptoBodyColumn(
@@ -300,7 +300,7 @@ class CryptoBodyColumn extends StatelessWidget {
         children: [
           Text(
             title,
-            style: STStyles.body2Medium.copyWith(color: colors.grey1),
+            style: STStyles.body2Medium.copyWith(color: colors.gray10),
           ),
           Text(
             amount,
@@ -308,7 +308,7 @@ class CryptoBodyColumn extends StatelessWidget {
           ),
           Text(
             btcAmount,
-            style: STStyles.body2Medium.copyWith(color: colors.grey1),
+            style: STStyles.body2Medium.copyWith(color: colors.gray10),
             maxLines: 2,
           ),
         ],

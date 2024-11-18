@@ -1,6 +1,5 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class InvestEmptyScreen extends StatelessWidget {
@@ -21,10 +20,10 @@ class InvestEmptyScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return DottedBorder(
-      color: colors.grey4,
+      color: colors.gray4,
       borderType: BorderType.RRect,
       radius: const Radius.circular(12),
       padding: EdgeInsets.zero,
@@ -32,7 +31,7 @@ class InvestEmptyScreen extends StatelessWidget {
         width: width,
         height: height,
         decoration: BoxDecoration(
-          color: colors.grey5,
+          color: colors.gray2,
           borderRadius: BorderRadius.circular(12),
         ),
         padding: const EdgeInsets.all(24),
@@ -59,7 +58,7 @@ class InvestEmptyScreen extends StatelessWidget {
                   activeColor: Colors.transparent,
                   activeNameColor: colors.black,
                   inactiveColor: Colors.transparent,
-                  inactiveNameColor: colors.grey4,
+                  inactiveNameColor: colors.gray4,
                   active: true,
                   isSecondary: true,
                   name: buttonName,

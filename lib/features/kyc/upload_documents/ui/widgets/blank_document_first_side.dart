@@ -8,7 +8,7 @@ class BlankDocumentFirstSide extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return Stack(
       children: [
@@ -16,7 +16,7 @@ class BlankDocumentFirstSide extends StatelessObserverWidget {
           padding: const EdgeInsets.all(20.0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16.0),
-            color: colors.grey4,
+            color: colors.gray4,
           ),
           child: Column(
             children: [
@@ -31,13 +31,13 @@ class BlankDocumentFirstSide extends StatelessObserverWidget {
                       vertical: 22.0,
                     ),
                     decoration: BoxDecoration(
-                      color: colors.grey5,
+                      color: colors.gray2,
                       borderRadius: const BorderRadius.all(
                         Radius.circular(16.0),
                       ),
                     ),
                     child: SSelfieIcon(
-                      color: colors.grey4,
+                      color: colors.gray4,
                     ),
                   ),
                   const SpaceW20(),
@@ -45,7 +45,7 @@ class BlankDocumentFirstSide extends StatelessObserverWidget {
                     child: Container(
                       height: 20,
                       decoration: BoxDecoration(
-                        color: colors.grey5,
+                        color: colors.gray2,
                         borderRadius: const BorderRadius.all(
                           Radius.circular(16.0),
                         ),
@@ -60,7 +60,7 @@ class BlankDocumentFirstSide extends StatelessObserverWidget {
                   Expanded(
                     child: Container(
                       height: 4.0,
-                      color: colors.grey5,
+                      color: colors.gray2,
                     ),
                   ),
                 ],
@@ -71,7 +71,7 @@ class BlankDocumentFirstSide extends StatelessObserverWidget {
                   Expanded(
                     child: Container(
                       height: 4.0,
-                      color: colors.grey5,
+                      color: colors.gray2,
                     ),
                   ),
                 ],
@@ -82,7 +82,7 @@ class BlankDocumentFirstSide extends StatelessObserverWidget {
                   Expanded(
                     child: Container(
                       height: 4.0,
-                      color: colors.grey5,
+                      color: colors.gray2,
                     ),
                   ),
                 ],
@@ -97,7 +97,7 @@ class BlankDocumentFirstSide extends StatelessObserverWidget {
             height: 20.0,
             width: 95.0,
             decoration: BoxDecoration(
-              color: colors.grey5,
+              color: colors.gray2,
               borderRadius: const BorderRadius.all(
                 Radius.circular(16.0),
               ),

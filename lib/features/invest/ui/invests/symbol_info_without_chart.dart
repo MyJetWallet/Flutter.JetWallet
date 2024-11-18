@@ -26,7 +26,7 @@ class SymbolInfoWithoutChart extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return InkWell(
       splashColor: Colors.transparent,
@@ -64,7 +64,7 @@ class SymbolInfoWithoutChart extends StatelessObserverWidget {
                     Text(
                       instrument.description ?? '',
                       style: STStyles.body2InvestM.copyWith(
-                        color: colors.grey2,
+                        color: colors.gray8,
                       ),
                     ),
                   ],
@@ -92,7 +92,7 @@ class SymbolInfoWithoutChart extends StatelessObserverWidget {
                         overflow: TextOverflow.ellipsis,
                         style: STStyles.body3InvestSM.copyWith(
                           color: percent == Decimal.zero
-                              ? colors.grey3
+                              ? colors.gray6
                               : percent > Decimal.zero
                                   ? colors.green
                                   : colors.red,

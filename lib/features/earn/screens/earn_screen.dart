@@ -10,7 +10,6 @@ import 'package:jetwallet/features/earn/widgets/earn_positions_list.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -100,7 +99,7 @@ class _EarnViewState extends State<_EarnView> {
   @override
   Widget build(BuildContext context) {
     final store = Provider.of<EarnStore>(context);
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return SPageFrame(
       loaderText: '',

@@ -150,9 +150,9 @@ class _PeriodSheetState extends State<PeriodSheet> {
                       children: [
                         Expanded(
                           child: SIButton(
-                            activeColor: oldColors.SColorsLight().grey5,
+                            activeColor: oldColors.SColorsLight().gray2,
                             activeNameColor: SColorsLight().black,
-                            inactiveColor: oldColors.SColorsLight().grey5,
+                            inactiveColor: oldColors.SColorsLight().gray2,
                             inactiveNameColor: SColorsLight().black,
                             active: true,
                             name: intl.invest_cancel,
@@ -166,8 +166,8 @@ class _PeriodSheetState extends State<PeriodSheet> {
                           child: SIButton(
                             activeColor: SColorsLight().blue,
                             activeNameColor: SColorsLight().white,
-                            inactiveColor: oldColors.SColorsLight().grey4,
-                            inactiveNameColor: oldColors.SColorsLight().grey2,
+                            inactiveColor: oldColors.SColorsLight().gray4,
+                            inactiveNameColor: oldColors.SColorsLight().gray8,
                             active: true,
                             name: intl.invest_confirm,
                             onTap: () {

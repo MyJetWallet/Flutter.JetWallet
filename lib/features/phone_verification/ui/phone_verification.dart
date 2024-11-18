@@ -100,7 +100,7 @@ class PhoneVerificationBody extends StatelessObserverWidget {
     final store = PhoneVerificationStore.of(context);
 
     // TODO add phoneVerificationCountdown
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     store.focusNode.addListener(() {
       if (store.focusNode.hasFocus && store.controller.value.text.length == codeLength && store.pinFieldError.value) {
@@ -175,7 +175,7 @@ class PhoneVerificationBody extends StatelessObserverWidget {
               RichText(
                 text: TextSpan(
                   style: STStyles.body1Medium.copyWith(
-                    color: colors.grey1,
+                    color: colors.gray10,
                   ),
                   children: [
                     TextSpan(
@@ -244,7 +244,7 @@ class PhoneVerificationBody extends StatelessObserverWidget {
                 child: Text(
                   args.isUnlimitTransferConfirm ? '' : intl.profileDetails_waitForCall,
                   style: STStyles.captionMedium.copyWith(
-                    color: colors.grey2,
+                    color: colors.gray8,
                   ),
                 ),
               )

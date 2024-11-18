@@ -16,7 +16,6 @@ import 'package:jetwallet/features/invest/ui/widgets/invest_carousel.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_favorites_bottom_sheet.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_list_bottom_sheet.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_market_watch_bottom_sheet.dart';
-import 'package:simple_kit/core/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
 
@@ -41,7 +40,7 @@ class _InvestScreenState extends State<InvestScreen> {
     final investPositionsStore = getIt.get<InvestPositionsStore>();
     final investChartStore = getIt.get<InvestChartStore>();
 
-    final colors = sKit.colors;
+    final colors = SColorsLight();
     final currency = currencyFrom(currencies, 'USDT');
 
     Decimal getGroupedProfit(String symbol) {
@@ -124,7 +123,7 @@ class _InvestScreenState extends State<InvestScreen> {
                     return Container(
                       padding: const EdgeInsets.only(top: 8, bottom: 12),
                       decoration: BoxDecoration(
-                        color: colors.grey5,
+                        color: colors.gray2,
                       ),
                       child: Column(
                         children: [

@@ -62,13 +62,13 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     final store = SendCardDetailStore.of(context);
 
     return SPageFrame(
       loaderText: intl.loader_please_wait,
-      color: colors.grey5,
+      color: colors.gray2,
       header: GlobalBasicAppBar(
         title: intl.global_send_title,
         subtitle: widget.method.name,
@@ -195,7 +195,7 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
                 const SpaceH40(),
                 SPaddingH24(
                   child: Material(
-                    color: colors.grey5,
+                    color: colors.gray2,
                     child: SButton.blue(
                       text: intl.addCircleCard_continue,
                       callback: store.isContinueAvailable && getIt<AppStore>().isAcceptedGlobalSendTC

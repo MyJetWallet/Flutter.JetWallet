@@ -6,7 +6,6 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/wallet/helper/format_date_to_hm.dart';
 import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/signalr_log.dart';
 
@@ -60,7 +59,7 @@ class SignalrDebugInfo extends StatelessWidget {
                     ),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
-                      color: sKit.colors.grey5,
+                      color: SColorsLight().gray2,
                     ),
                     child: Row(
                       children: [
@@ -166,7 +165,7 @@ class _SignalRLogDetailState extends State<SignalRLogDetail> {
                   Text(
                     'Action: ${filtredLogs[index].type}',
                     style: STStyles.body1Medium.copyWith(
-                      color: filtredLogs[index].type == SLogType.error ? sKit.colors.red : sKit.colors.black,
+                      color: filtredLogs[index].type == SLogType.error ? SColorsLight().red : SColorsLight().black,
                     ),
                   ),
                   Text(
@@ -174,7 +173,7 @@ class _SignalRLogDetailState extends State<SignalRLogDetail> {
                       (filtredLogs[index].date ?? DateTime.now()).toString(),
                     )}',
                     style: STStyles.body2Medium.copyWith(
-                      color: sKit.colors.grey1,
+                      color: SColorsLight().gray10,
                     ),
                   ),
                   if (filtredLogs[index].type == SLogType.error) ...[

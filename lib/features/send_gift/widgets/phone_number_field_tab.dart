@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/features/send_gift/widgets/show_country_phone_number_picker.dart';
-import 'package:simple_kit/core/simple_kit.dart';
 import 'package:simple_kit/modules/icons/24x24/public/erase/simple_erase_icon.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
@@ -18,7 +17,7 @@ class PhoneNumberFieldTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -34,7 +33,7 @@ class PhoneNumberFieldTab extends StatelessWidget {
                 decoration: BoxDecoration(
                   border: Border(
                     right: BorderSide(
-                      color: colors.grey4,
+                      color: colors.gray4,
                     ),
                   ),
                 ),

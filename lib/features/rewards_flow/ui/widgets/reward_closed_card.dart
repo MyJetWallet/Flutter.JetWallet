@@ -249,7 +249,7 @@ class RewardClosedCardState extends State<RewardClosedCard> with TickerProviderS
                 ),
                 style: STStyles.header6.copyWith(
                   fontSize: 32,
-                  color: sKit.colors.white,
+                  color: SColorsLight().white,
                 ),
               ),
             ] else ...[

@@ -12,7 +12,6 @@ import 'package:jetwallet/core/services/remote_config/remote_config_values.dart'
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/change_email/store/change_email_store.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'ChangeEmailRouter')
@@ -42,7 +41,7 @@ class _ChangeEmailBody extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     final credentials = getIt.get<CredentialsService>();
     final changeEmailStore = ChangeEmailStore.of(context);
@@ -52,7 +51,7 @@ class _ChangeEmailBody extends StatelessObserverWidget {
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
       loading: changeEmailStore.loader,
-      color: colors.grey5,
+      color: colors.gray2,
       header: SimpleLargeAppbar(
         title: intl.change_email_enter_new_email,
         hasRightIcon: true,

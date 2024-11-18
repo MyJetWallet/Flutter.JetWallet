@@ -14,7 +14,6 @@ import 'package:jetwallet/utils/store/timer_store.dart';
 import 'package:jetwallet/widgets/pin_code_field.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../models/email_confirmation_union.dart';
@@ -71,7 +70,7 @@ class __EmailConfirmationScreenBodyState extends State<_EmailConfirmationScreenB
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     final confirmation = EmailConfirmationStore.of(context);
 
@@ -123,7 +122,7 @@ class __EmailConfirmationScreenBodyState extends State<_EmailConfirmationScreenB
                         intl.emailConfirmation_text,
                         maxLines: 3,
                         style: STStyles.body1Medium.copyWith(
-                          color: colors.grey1,
+                          color: colors.gray10,
                         ),
                       ),
                       Text(

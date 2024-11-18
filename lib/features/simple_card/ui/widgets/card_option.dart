@@ -30,13 +30,13 @@ class CardOption extends StatelessWidget {
     final mainColor = isSelected
         ? SColorsLight().blue
         : isDisabled
-            ? oldColors.SColorsLight().grey2
+            ? oldColors.SColorsLight().gray8
             : SColorsLight().black;
 
-    final descriptionColor = isDisabled ? oldColors.SColorsLight().grey2 : oldColors.SColorsLight().grey3;
+    final descriptionColor = isDisabled ? oldColors.SColorsLight().gray8 : oldColors.SColorsLight().gray6;
 
     return InkWell(
-      highlightColor: oldColors.SColorsLight().grey5,
+      highlightColor: oldColors.SColorsLight().gray2,
       splashColor: Colors.transparent,
       onTap: onTap,
       child: SPaddingH24(

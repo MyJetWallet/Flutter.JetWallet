@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:charts/model/candle_model.dart';
 import 'package:flutter/material.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class SmallChart extends StatelessWidget {
   const SmallChart({
@@ -53,7 +53,7 @@ class _ChartPainter extends CustomPainter {
       return;
     }
 
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     final maxPrice = candles.map((c) => c.high).reduce(max);
     final minPrice = candles.map((c) => c.low).reduce(min);

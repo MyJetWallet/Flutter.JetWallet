@@ -33,7 +33,7 @@ class BuyDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
     final paymentAsset = nonIndicesWithBalanceFrom(
       sSignalRModules.currenciesWithHiddenList,
     )
@@ -94,10 +94,10 @@ class BuyDetails extends StatelessWidget {
                         Container(
                           padding: const EdgeInsets.all(4),
                           decoration: ShapeDecoration(
-                            color: sKit.colors.white,
+                            color: SColorsLight().white,
                             shape: OvalBorder(
                               side: BorderSide(
-                                color: colors.grey4,
+                                color: colors.gray4,
                               ),
                             ),
                           ),

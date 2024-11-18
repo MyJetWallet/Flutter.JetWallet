@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/transaction_history/widgets/history_copy_icon.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 import '../../../wallet/helper/format_date_to_hm.dart';
@@ -22,7 +21,7 @@ class ReceiveDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
     final senderName = transactionListItem.receiveByPhoneInfo!.senderName ?? '';
     final fromPhoneNumber = transactionListItem.receiveByPhoneInfo?.fromPhoneNumber ?? '';
 
@@ -68,7 +67,7 @@ class ReceiveDetails extends StatelessWidget {
                   Text(
                     senderName,
                     style: STStyles.body2Medium.copyWith(
-                      color: colors.grey1,
+                      color: colors.gray10,
                     ),
                   ),
                 ],

@@ -13,7 +13,6 @@ import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:jetwallet/widgets/empty_search_result.dart';
 import 'package:jetwallet/widgets/flag_item.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'KycAidChooseCountryRouter')
@@ -104,7 +103,7 @@ class CountryProfileField extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final countryInfo = KycAidCountriesStore.of(context);
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return Container(
       color: colors.white,

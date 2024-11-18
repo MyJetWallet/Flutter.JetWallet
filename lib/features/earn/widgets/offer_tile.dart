@@ -36,7 +36,7 @@ class OfferListItem extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
           decoration: BoxDecoration(
-            color: colors.grey5,
+            color: colors.gray2,
             borderRadius: BorderRadius.circular(16),
           ),
           child: Row(

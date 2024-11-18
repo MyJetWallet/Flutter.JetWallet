@@ -9,7 +9,6 @@ import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/core/services/sumsub_service/sumsub_service.dart';
 import 'package:jetwallet/features/face_check/store/face_check_store.dart';
 import 'package:simple_kit/modules/icons/40x40/public/user/simple_user_icon.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage()
@@ -69,7 +68,7 @@ class _FaceCheckScreenState extends State<FaceCheckScreen> {
                 Text(
                   intl.face_check_subtitle,
                   maxLines: 8,
-                  style: STStyles.subtitle2.copyWith(color: sKit.colors.grey1),
+                  style: STStyles.subtitle2.copyWith(color: SColorsLight().gray10),
                 ),
                 const Spacer(),
                 SButton.blue(

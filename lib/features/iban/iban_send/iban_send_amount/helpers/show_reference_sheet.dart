@@ -112,7 +112,7 @@ class _ReferenceBodyState extends State<_ReferenceBody> {
           },
         ),
         Material(
-          color: sKit.colors.grey5,
+          color: SColorsLight().gray2,
           child: SPaddingH24(
             child: SizedBox(
               width: double.infinity,
@@ -128,7 +128,7 @@ class _ReferenceBodyState extends State<_ReferenceBody> {
                           Text(
                             intl.reference_character_minimum,
                             style: STStyles.body2Medium.copyWith(
-                              color: store.isCharactersEnough ? sKit.colors.blue : sKit.colors.black,
+                              color: store.isCharactersEnough ? SColorsLight().blue : SColorsLight().black,
                             ),
                           ),
                         ],

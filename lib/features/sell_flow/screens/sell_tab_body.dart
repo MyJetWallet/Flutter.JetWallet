@@ -174,14 +174,14 @@ class _SellAmountScreenBodyState extends State<SellAmountTabBody> with Automatic
                                   icon: Container(
                                     padding: const EdgeInsets.all(4),
                                     decoration: BoxDecoration(
-                                      color: sKit.colors.blue,
+                                      color: SColorsLight().blue,
                                       shape: BoxShape.circle,
                                     ),
                                     child: SizedBox(
                                       width: 16,
                                       height: 16,
                                       child: SBankMediumIcon(
-                                        color: sKit.colors.white,
+                                        color: SColorsLight().white,
                                       ),
                                     ),
                                   ),
@@ -256,14 +256,14 @@ class _SellAmountScreenBodyState extends State<SellAmountTabBody> with Automatic
                                   icon: Container(
                                     padding: const EdgeInsets.all(4),
                                     decoration: BoxDecoration(
-                                      color: sKit.colors.grey1,
+                                      color: SColorsLight().gray10,
                                       shape: BoxShape.circle,
                                     ),
                                     child: SizedBox(
                                       width: 16,
                                       height: 16,
                                       child: SBankMediumIcon(
-                                        color: sKit.colors.white,
+                                        color: SColorsLight().white,
                                       ),
                                     ),
                                   ),

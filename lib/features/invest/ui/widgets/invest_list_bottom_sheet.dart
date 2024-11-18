@@ -47,8 +47,8 @@ void showInvestListBottomSheet(BuildContext context) {
                             child: SIButton(
                               activeColor: SColorsLight().black,
                               activeNameColor: SColorsLight().white,
-                              inactiveColor: colors.SColorsLight().grey2,
-                              inactiveNameColor: colors.SColorsLight().grey4,
+                              inactiveColor: colors.SColorsLight().gray8,
+                              inactiveNameColor: colors.SColorsLight().gray4,
                               active: true,
                               icon: Assets.svg.invest.investClose.simpleSvg(
                                 width: 20,
@@ -99,8 +99,8 @@ void showInvestListBottomSheet(BuildContext context) {
                           child: SIButton(
                             activeColor: SColorsLight().blue,
                             activeNameColor: SColorsLight().white,
-                            inactiveColor: colors.SColorsLight().grey4,
-                            inactiveNameColor: colors.SColorsLight().grey2,
+                            inactiveColor: colors.SColorsLight().gray4,
+                            inactiveNameColor: colors.SColorsLight().gray8,
                             active: true,
                             icon: Assets.svg.invest.investPlus.simpleSvg(
                               width: 20,
@@ -134,8 +134,8 @@ void showInvestListBottomSheet(BuildContext context) {
                             child: SIButton(
                               activeColor: SColorsLight().black,
                               activeNameColor: SColorsLight().white,
-                              inactiveColor: colors.SColorsLight().grey2,
-                              inactiveNameColor: colors.SColorsLight().grey4,
+                              inactiveColor: colors.SColorsLight().gray8,
+                              inactiveNameColor: colors.SColorsLight().gray4,
                               active: true,
                               icon: Assets.svg.invest.investClose.simpleSvg(
                                 width: 20,
@@ -176,8 +176,8 @@ void showInvestListBottomSheet(BuildContext context) {
                           child: SIButton(
                             activeColor: SColorsLight().blue,
                             activeNameColor: SColorsLight().white,
-                            inactiveColor: colors.SColorsLight().grey4,
-                            inactiveNameColor: colors.SColorsLight().grey2,
+                            inactiveColor: colors.SColorsLight().gray4,
+                            inactiveNameColor: colors.SColorsLight().gray8,
                             active: true,
                             icon: Assets.svg.invest.investPlus.simpleSvg(
                               width: 20,
@@ -210,8 +210,8 @@ void showInvestListBottomSheet(BuildContext context) {
                           child: SIButton(
                             activeColor: SColorsLight().blue,
                             activeNameColor: SColorsLight().white,
-                            inactiveColor: colors.SColorsLight().grey4,
-                            inactiveNameColor: colors.SColorsLight().grey2,
+                            inactiveColor: colors.SColorsLight().gray4,
+                            inactiveNameColor: colors.SColorsLight().gray8,
                             active: true,
                             icon: Assets.svg.invest.investPlus.simpleSvg(
                               width: 20,

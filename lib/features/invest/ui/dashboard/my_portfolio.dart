@@ -34,7 +34,7 @@ class MyPortfolio extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return InkWell(
       onTap: onTap,
@@ -67,7 +67,7 @@ class MyPortfolio extends StatelessObserverWidget {
                       Text(
                         intl.invest_amount,
                         style: STStyles.body3InvestM.copyWith(
-                          color: colors.grey1,
+                          color: colors.gray10,
                         ),
                       ),
                       Row(
@@ -98,7 +98,7 @@ class MyPortfolio extends StatelessObserverWidget {
                       Text(
                         intl.invest_pending,
                         style: STStyles.body3InvestM.copyWith(
-                          color: colors.grey1,
+                          color: colors.gray10,
                         ),
                       ),
                       Row(

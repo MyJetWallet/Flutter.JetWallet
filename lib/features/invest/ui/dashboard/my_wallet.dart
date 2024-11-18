@@ -5,7 +5,6 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../../utils/models/currency_model.dart';
@@ -20,12 +19,12 @@ class MyWallet extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return Container(
       padding: const EdgeInsets.only(left: 6, right: 8, bottom: 3, top: 4),
       decoration: BoxDecoration(
-        color: colors.grey5,
+        color: colors.gray2,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(

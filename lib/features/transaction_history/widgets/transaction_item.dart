@@ -22,7 +22,6 @@ import 'package:jetwallet/features/transaction_history/widgets/transaction_detai
 import 'package:jetwallet/features/transaction_history/widgets/transaction_details/withdraw_details.dart';
 import 'package:jetwallet/features/transaction_history/widgets/transaction_list_item.dart';
 import 'package:jetwallet/utils/helpers/find_blockchain_by_descr.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -88,7 +87,7 @@ class _TransactionItemState extends State<TransactionItem> with SingleTickerProv
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     final cancelTransfer = TransactionCancelStore();
     final deviceSize = sDeviceSize;

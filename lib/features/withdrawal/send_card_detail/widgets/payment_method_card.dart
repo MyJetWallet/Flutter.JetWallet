@@ -94,7 +94,7 @@ class PaymentMethodCardWidget extends StatelessWidget {
             Text(
               name,
               style: STStyles.subtitle2.copyWith(
-                color: sKit.colors.black,
+                color: SColorsLight().black,
               ),
             ),
           ],
@@ -131,7 +131,7 @@ class PaymentMethodCardIconWidget extends StatelessWidget {
             Text(
               name,
               style: STStyles.subtitle2.copyWith(
-                color: sKit.colors.purple,
+                color: SColorsLight().blue,
               ),
             ),
           ],
@@ -189,7 +189,7 @@ class PaymentMethodBankCardWidget extends StatelessWidget {
               Text(
                 subName2 ?? '',
                 style: STStyles.captionMedium.copyWith(
-                  color: expire ? sKit.colors.red : sKit.colors.grey2,
+                  color: expire ? SColorsLight().red : SColorsLight().gray8,
                   height: 1.384,
                 ),
               ),
@@ -217,7 +217,7 @@ class PaymentMethodBankCardWidget extends StatelessWidget {
           height: 25,
           child: Center(
             child: SActionDepositIcon(
-              color: sKit.colors.blue,
+              color: SColorsLight().blue,
             ),
           ),
         );
@@ -271,7 +271,7 @@ class _BaseContainer extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         border: Border.all(
-          color: sKit.colors.grey4,
+          color: SColorsLight().gray4,
         ),
         borderRadius: BorderRadius.circular(16),
       ),
@@ -299,7 +299,7 @@ class MethodPlaceholder extends StatelessWidget {
       width: width,
       height: height,
       decoration: BoxDecoration(
-        color: sKit.colors.grey4,
+        color: SColorsLight().gray4,
         shape: BoxShape.circle,
       ),
       padding: const EdgeInsets.only(bottom: 4),

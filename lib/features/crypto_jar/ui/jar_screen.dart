@@ -25,7 +25,6 @@ import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:jetwallet/widgets/loaders/loader.dart';
 import 'package:rive/rive.dart' as rive;
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart' as sk;
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
@@ -84,7 +83,7 @@ class __JarBodyState extends State<_JarBody> {
   Widget build(BuildContext context) {
     final store = getIt.get<JarsStore>();
 
-    final colors = sk.sKit.colors;
+    final colors = SColorsLight();
 
     final kycState = getIt.get<KycService>();
 
@@ -136,7 +135,7 @@ class __JarBodyState extends State<_JarBody> {
                             child: Container(
                               width: 24.0,
                               decoration: BoxDecoration(
-                                color: colors.grey5,
+                                color: colors.gray2,
                                 shape: BoxShape.circle,
                               ),
                               alignment: Alignment.center,
@@ -316,7 +315,7 @@ class __JarBodyState extends State<_JarBody> {
     }
   }
 
-  Widget _buildButtons(KycService kycState, JarResponseModel selectedJar, SimpleColors colors, int accuracy) {
+  Widget _buildButtons(KycService kycState, JarResponseModel selectedJar, SColorsLight colors, int accuracy) {
     if (selectedJar.status != JarStatus.closed && selectedJar.status != JarStatus.creating) {
       return Row(
         children: [

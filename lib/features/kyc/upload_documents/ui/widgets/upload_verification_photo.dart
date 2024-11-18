@@ -59,7 +59,7 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final store = UploadKycDocumentsStore.of(context);
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     final banners = createKycBannersList(
       documentFirstSide: store.documentFirstSide,
@@ -119,7 +119,7 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
                                 intl.cardVerification_providePhoto,
                                 maxLines: 2,
                                 style: STStyles.body1Medium.copyWith(
-                                  color: colors.grey1,
+                                  color: colors.gray10,
                                 ),
                               ),
                             ),
@@ -145,7 +145,7 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
                                 intl.cardVerification_coverSymbols,
                                 maxLines: 5,
                                 style: STStyles.body1Medium.copyWith(
-                                  color: colors.grey1,
+                                  color: colors.gray10,
                                 ),
                               ),
                             ),
@@ -178,7 +178,7 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
                                     height: 3,
                                     width: 6,
                                     margin: const EdgeInsets.only(right: 10.0),
-                                    color: colors.grey1,
+                                    color: colors.gray10,
                                   ),
                                   SizedBox(
                                     height: 30,
@@ -186,7 +186,7 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
                                       intl.cardVerification_face,
                                       textAlign: TextAlign.center,
                                       style: STStyles.body1Medium.copyWith(
-                                        color: colors.grey1,
+                                        color: colors.gray10,
                                       ),
                                     ),
                                   ),
@@ -198,7 +198,7 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
                                   height: 3,
                                   width: 6,
                                   margin: const EdgeInsets.only(right: 10.0),
-                                  color: colors.grey1,
+                                  color: colors.gray10,
                                 ),
                                 SizedBox(
                                   height: 30,
@@ -206,7 +206,7 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
                                     intl.cardVerification_nameAndDate,
                                     textAlign: TextAlign.center,
                                     style: STStyles.body1Medium.copyWith(
-                                      color: colors.grey1,
+                                      color: colors.gray10,
                                     ),
                                   ),
                                 ),
@@ -218,7 +218,7 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
                                   height: 3,
                                   width: 6,
                                   margin: const EdgeInsets.only(right: 10.0),
-                                  color: colors.grey1,
+                                  color: colors.gray10,
                                 ),
                                 SizedBox(
                                   height: 30,
@@ -226,7 +226,7 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
                                     intl.cardVerification_digits,
                                     textAlign: TextAlign.center,
                                     style: STStyles.body1Medium.copyWith(
-                                      color: colors.grey1,
+                                      color: colors.gray10,
                                     ),
                                   ),
                                 ),

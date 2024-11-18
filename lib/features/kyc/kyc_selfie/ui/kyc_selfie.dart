@@ -36,7 +36,7 @@ class _KycSelfieBody extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final state = KycSelfieStore.of(context);
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     final kycN = getIt.get<KycService>();
 
@@ -123,7 +123,7 @@ class _KycSelfieBody extends StatelessObserverWidget {
                                 height: 3,
                                 width: 6,
                                 margin: const EdgeInsets.only(right: 10.0),
-                                color: colors.grey1,
+                                color: colors.gray10,
                               ),
                             ),
                             Row(
@@ -138,7 +138,7 @@ class _KycSelfieBody extends StatelessObserverWidget {
                                       '${intl.kycSelfie_clearlyVisible}',
                                       maxLines: 2,
                                       style: STStyles.body1Medium.copyWith(
-                                        color: colors.grey1,
+                                        color: colors.gray10,
                                       ),
                                     ),
                                   ),
@@ -155,7 +155,7 @@ class _KycSelfieBody extends StatelessObserverWidget {
                               height: 3,
                               width: 6,
                               margin: const EdgeInsets.only(right: 10.0),
-                              color: colors.grey1,
+                              color: colors.gray10,
                             ),
                             SizedBox(
                               height: 30,
@@ -163,7 +163,7 @@ class _KycSelfieBody extends StatelessObserverWidget {
                                 intl.kycSelfie_removeYourGlasses,
                                 maxLines: 3,
                                 style: STStyles.body1Medium.copyWith(
-                                  color: colors.grey1,
+                                  color: colors.gray10,
                                 ),
                               ),
                             ),

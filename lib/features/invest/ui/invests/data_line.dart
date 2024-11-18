@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class DataLine extends StatelessObserverWidget {
@@ -23,7 +22,7 @@ class DataLine extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return SizedBox(
       width: fullWidth ? MediaQuery.of(context).size.width - 48 : null,
@@ -44,7 +43,7 @@ class DataLine extends StatelessObserverWidget {
           Text(
             mainText,
             style: STStyles.body2InvestM.copyWith(
-              color: colors.grey1,
+              color: colors.gray10,
             ),
           ),
           if (fullWidth) const Spacer() else const SpaceW5(),

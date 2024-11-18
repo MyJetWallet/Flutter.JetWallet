@@ -84,10 +84,10 @@ class CardWithdrawalDetails extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(2),
                   decoration: ShapeDecoration(
-                    color: sKit.colors.white,
+                    color: SColorsLight().white,
                     shape: OvalBorder(
                       side: BorderSide(
-                        color: sKit.colors.grey4,
+                        color: SColorsLight().gray4,
                       ),
                     ),
                   ),

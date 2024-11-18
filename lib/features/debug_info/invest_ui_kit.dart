@@ -36,7 +36,7 @@ class _InvestUIState extends State<InvestUIKIT> {
   @override
   Widget build(BuildContext context) {
     final currencies = sSignalRModules.currenciesList;
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     final currency = currencyFrom(currencies, 'USDT');
 
@@ -201,7 +201,7 @@ class _InvestUIState extends State<InvestUIKIT> {
                 SliderTheme(
                   data: SliderTheme.of(context).copyWith(
                     activeTrackColor: colors.black,
-                    inactiveTrackColor: colors.grey5,
+                    inactiveTrackColor: colors.gray2,
                     trackShape: const RoundedRectSliderTrackShape(),
                     trackHeight: 6.0,
                     thumbShape: const SliderThumbShape(disabledThumbRadius: 8),
@@ -210,11 +210,11 @@ class _InvestUIState extends State<InvestUIKIT> {
                     overlayShape: const RoundSliderOverlayShape(overlayRadius: 0),
                     tickMarkShape: const RoundSliderTickMarkShape(tickMarkRadius: 2),
                     activeTickMarkColor: colors.black,
-                    inactiveTickMarkColor: colors.grey4,
+                    inactiveTickMarkColor: colors.gray4,
                     valueIndicatorShape: const PaddleSliderValueIndicatorShape(),
                     valueIndicatorColor: colors.blue,
                     valueIndicatorTextStyle: TextStyle(
-                      color: colors.brown,
+                      color: colors.yellowDark,
                     ),
                   ),
                   child: Slider(
@@ -325,7 +325,7 @@ class _SignalRLogDetailState extends State<SignalRLogDetail> {
                   Text(
                     'Action: ${filtredLogs[index].type}',
                     style: STStyles.body1Medium.copyWith(
-                      color: filtredLogs[index].type == SLogType.error ? sKit.colors.red : sKit.colors.black,
+                      color: filtredLogs[index].type == SLogType.error ? SColorsLight().red : SColorsLight().black,
                     ),
                   ),
                   Text(
@@ -333,7 +333,7 @@ class _SignalRLogDetailState extends State<SignalRLogDetail> {
                       (filtredLogs[index].date ?? DateTime.now()).toString(),
                     )}',
                     style: STStyles.body2Medium.copyWith(
-                      color: sKit.colors.grey1,
+                      color: SColorsLight().gray10,
                     ),
                   ),
                   if (filtredLogs[index].type == SLogType.error) ...[

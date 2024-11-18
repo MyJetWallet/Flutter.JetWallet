@@ -122,7 +122,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     final store = OperationHistory.of(context);
 
@@ -156,7 +156,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                         Text(
                           intl.historyRecurringBuy_text1,
                           style: STStyles.body1Medium.copyWith(
-                            color: colors.grey1,
+                            color: colors.gray10,
                           ),
                         ),
                         const SpaceH120(),
@@ -181,7 +181,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                           child: Container(
                             width: 24.0,
                             decoration: BoxDecoration(
-                              color: colors.grey5,
+                              color: colors.gray2,
                               shape: BoxShape.circle,
                             ),
                             alignment: Alignment.center,
@@ -248,7 +248,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                             width: 24.0,
                             height: 24.0,
                             decoration: BoxDecoration(
-                              color: colors.grey5,
+                              color: colors.gray2,
                               shape: BoxShape.circle,
                             ),
                             child: const rive.RiveAnimation.asset(
@@ -295,7 +295,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
   }
 
   Widget transactionError() {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return Column(
       children: [
@@ -307,7 +307,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
               width: 2,
-              color: colors.grey4,
+              color: colors.gray4,
             ),
           ),
           child: Column(

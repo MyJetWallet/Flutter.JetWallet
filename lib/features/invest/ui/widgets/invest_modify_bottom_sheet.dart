@@ -70,10 +70,10 @@ void showInvestModifyBottomSheet({
                     children: [
                       Expanded(
                         child: SIButton(
-                          activeColor: oldColors.SColorsLight().grey5,
+                          activeColor: oldColors.SColorsLight().gray2,
                           activeNameColor: SColorsLight().black,
-                          inactiveColor: oldColors.SColorsLight().grey2,
-                          inactiveNameColor: oldColors.SColorsLight().grey4,
+                          inactiveColor: oldColors.SColorsLight().gray8,
+                          inactiveNameColor: oldColors.SColorsLight().gray4,
                           active: true,
                           name: intl.invest_cancel,
                           onTap: () {
@@ -86,8 +86,8 @@ void showInvestModifyBottomSheet({
                         child: SIButton(
                           activeColor: SColorsLight().blue,
                           activeNameColor: SColorsLight().white,
-                          inactiveColor: oldColors.SColorsLight().grey4,
-                          inactiveNameColor: oldColors.SColorsLight().grey2,
+                          inactiveColor: oldColors.SColorsLight().gray4,
+                          inactiveNameColor: oldColors.SColorsLight().gray8,
                           active: true,
                           name: intl.invest_save,
                           onTap: () async {

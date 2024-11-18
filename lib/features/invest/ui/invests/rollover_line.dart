@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class RolloverLine extends StatelessObserverWidget {
@@ -15,7 +14,7 @@ class RolloverLine extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return SizedBox(
       width: MediaQuery.of(context).size.width - 48,
@@ -24,14 +23,14 @@ class RolloverLine extends StatelessObserverWidget {
           Text(
             mainText,
             style: STStyles.body1InvestM.copyWith(
-              color: colors.grey2,
+              color: colors.gray8,
             ),
           ),
           const SpaceW5(),
           Text(
             secondaryText,
             style: STStyles.body3InvestSM.copyWith(
-              color: colors.grey2,
+              color: colors.gray8,
             ),
           ),
           const SpaceW5(),
@@ -39,7 +38,7 @@ class RolloverLine extends StatelessObserverWidget {
             child: Container(
               height: 1,
               decoration: BoxDecoration(
-                color: colors.grey4,
+                color: colors.gray4,
               ),
             ),
           ),

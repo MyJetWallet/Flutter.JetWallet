@@ -13,7 +13,6 @@ import 'package:jetwallet/features/invest/ui/invests/data_line.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart' as colors;
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
@@ -52,10 +51,10 @@ void showInvestReportBottomSheet(
                           children: [
                             Expanded(
                               child: SIButton(
-                                activeColor: colors.SColorsLight().grey5,
+                                activeColor: colors.SColorsLight().gray2,
                                 activeNameColor: colors.SColorsLight().black,
-                                inactiveColor: colors.SColorsLight().grey2,
-                                inactiveNameColor: colors.SColorsLight().grey4,
+                                inactiveColor: colors.SColorsLight().gray8,
+                                inactiveNameColor: colors.SColorsLight().gray4,
                                 active: true,
                                 name: intl.invest_alert_got_it,
                                 onTap: () {
@@ -145,7 +144,7 @@ class _InvestListScreenState extends State<InvestList> {
     final investPositionStore = getIt.get<InvestPositionsStore>();
     final investNewStore = getIt.get<InvestNewStore>();
     final currencies = sSignalRModules.currenciesList;
-    final colors = sKit.colors;
+    final colors = SColorsLight();
     final currency = currencyFrom(currencies, widget.instrument.name ?? '');
     final isBalanceHide = getIt<AppStore>().isBalanceHide;
 

@@ -7,7 +7,6 @@ import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/features/kyc/allow_camera/store/allow_camera_store.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'AllowCameraRoute')
@@ -77,7 +76,7 @@ class _AllowCameraScreenBodyState extends State<_AllowCameraScreenBody> with Wid
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
     final deviceSize = getIt.get<DeviceSize>().size;
 
     final size = MediaQuery.of(context).size;
@@ -146,7 +145,7 @@ class _AllowCameraScreenBodyState extends State<_AllowCameraScreenBody> with Wid
                         '${intl.allowCamera_text1}.',
                         maxLines: 3,
                         style: STStyles.body1Medium.copyWith(
-                          color: colors.grey1,
+                          color: colors.gray10,
                         ),
                       ),
                     ),
@@ -161,7 +160,7 @@ class _AllowCameraScreenBodyState extends State<_AllowCameraScreenBody> with Wid
                             widget.permissionDescription,
                             maxLines: 3,
                             style: STStyles.body1Medium.copyWith(
-                              color: colors.grey1,
+                              color: colors.gray10,
                             ),
                           ),
                         ),

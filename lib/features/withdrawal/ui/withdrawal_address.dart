@@ -65,7 +65,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     final store = WithdrawalStore.of(context);
 
@@ -82,7 +82,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
       canPop: !store.loader.loading,
       child: SPageFrame(
         loaderText: intl.register_pleaseWait,
-        color: colors.grey5,
+        color: colors.gray2,
         loading: store.loader,
         header: GlobalBasicAppBar(
           title: store.header,
@@ -102,7 +102,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                   Material(
                     color: colors.white,
                     child: InkWell(
-                      highlightColor: colors.grey5,
+                      highlightColor: colors.gray2,
                       splashColor: Colors.transparent,
                       onTap: () {
                         if (store.withdrawalType == WithdrawalType.asset && store.networks.length > 1) {
@@ -247,7 +247,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                       store.withdrawHint,
                       maxLines: 3,
                       style: STStyles.captionMedium.copyWith(
-                        color: colors.grey1,
+                        color: colors.gray10,
                       ),
                     ),
                   ),

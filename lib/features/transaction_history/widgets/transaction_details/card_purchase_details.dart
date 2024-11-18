@@ -84,10 +84,10 @@ class CardPurchaseDetails extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(2),
                   decoration: ShapeDecoration(
-                    color: sKit.colors.white,
+                    color: SColorsLight().white,
                     shape: OvalBorder(
                       side: BorderSide(
-                        color: sKit.colors.grey4,
+                        color: SColorsLight().gray4,
                       ),
                     ),
                   ),
@@ -143,7 +143,7 @@ class CardPurchaseDetails extends StatelessWidget {
             Text(
               intl.card_history_purchase_progress,
               style: STStyles.captionMedium.copyWith(
-                color: sKit.colors.grey2,
+                color: SColorsLight().gray8,
               ),
               maxLines: 5,
             )
@@ -151,7 +151,7 @@ class CardPurchaseDetails extends StatelessWidget {
             Text(
               intl.card_history_purchase_declined,
               style: STStyles.captionMedium.copyWith(
-                color: sKit.colors.grey2,
+                color: SColorsLight().gray8,
               ),
               maxLines: 5,
             ),

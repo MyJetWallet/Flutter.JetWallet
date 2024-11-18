@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class ResendInText extends StatelessObserverWidget {
   const ResendInText({
@@ -13,7 +13,7 @@ class ResendInText extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return Center(
       child: AutoSizeText(
@@ -31,7 +31,7 @@ class ResendInText extends StatelessObserverWidget {
           fontSize: 12.0,
           fontFamily: 'Gilroy',
           fontWeight: FontWeight.w500,
-          color: colors.grey2,
+          color: colors.gray8,
         ),
       ),
     );

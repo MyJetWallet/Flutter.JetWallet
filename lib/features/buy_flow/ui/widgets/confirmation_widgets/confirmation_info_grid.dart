@@ -10,7 +10,6 @@ import 'package:jetwallet/widgets/confirm_timer/simple_confirm_action_timer.dart
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 
@@ -83,7 +82,7 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid> with Single
             children: [
               Text(
                 intl.buy_confirmation_paid_with,
-                style: STStyles.body2Medium.copyWith(color: sKit.colors.grey1),
+                style: STStyles.body2Medium.copyWith(color: SColorsLight().gray10),
               ),
               const SpaceW8(),
               if (store.isDataLoaded) ...[
@@ -131,13 +130,13 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid> with Single
                         Container(
                           padding: const EdgeInsets.all(4),
                           decoration: BoxDecoration(
-                            color: sKit.colors.blue,
+                            color: SColorsLight().blue,
                             shape: BoxShape.circle,
                           ),
                           child: SizedBox(
                             width: 16,
                             height: 16,
-                            child: SBankMediumIcon(color: sKit.colors.white),
+                            child: SBankMediumIcon(color: SColorsLight().white),
                           ),
                         ),
                         const SpaceW8(),
@@ -164,7 +163,7 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid> with Single
           children: [
             Text(
               intl.buy_confirmation_price,
-              style: STStyles.body2Medium.copyWith(color: sKit.colors.grey1),
+              style: STStyles.body2Medium.copyWith(color: SColorsLight().gray10),
             ),
             const Spacer(),
             if (store.isDataLoaded) ...[

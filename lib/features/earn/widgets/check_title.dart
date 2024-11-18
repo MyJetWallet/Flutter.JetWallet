@@ -67,7 +67,7 @@ class CheckTitle<T> extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Text(
                         description!,
-                        style: STStyles.body2Medium.copyWith(color: colors.grey1),
+                        style: STStyles.body2Medium.copyWith(color: colors.gray10),
                         maxLines: 5,
                       ),
                     ),

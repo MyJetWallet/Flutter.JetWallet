@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class BitOfTap extends StatelessObserverWidget {
   const BitOfTap({
@@ -17,7 +16,7 @@ class BitOfTap extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return InkWell(
       splashColor: Colors.transparent,
@@ -31,9 +30,9 @@ class BitOfTap extends StatelessObserverWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(24),
-          color: isActive ? colors.white : colors.grey5,
+          color: isActive ? colors.white : colors.gray2,
           border: Border.all(
-            color: isActive ? colors.blue : colors.grey5,
+            color: isActive ? colors.blue : colors.gray2,
             width: 1.5,
           ),
         ),

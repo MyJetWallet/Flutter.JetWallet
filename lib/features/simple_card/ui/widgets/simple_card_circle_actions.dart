@@ -47,7 +47,7 @@ class SimpleCardActionButtons extends StatelessObserverWidget {
                 icon: Assets.svg.medium.arrowUp.simpleSvg(
                   color: SColorsLight().white,
                 ),
-              )
+              ),
             ] else ...[
               SActionButton(
                 lable: intl.wallet_add_cash,

@@ -55,12 +55,12 @@ class _BodyAddressBookSimpleState extends State<_BodyAddressBookSimple> {
   Widget build(BuildContext context) {
     final store = IbanAddressBookStore.of(context);
 
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return SPageFrame(
       loaderText: intl.loader_please_wait,
       loading: IbanAddressBookStore.of(context).loader,
-      color: colors.grey5,
+      color: colors.gray2,
       header: GlobalBasicAppBar(
         title: store.isEditMode ? intl.iban_edit_bank_account : intl.iban_add_bank_account,
         hasRightIcon: store.isEditMode,
@@ -144,7 +144,7 @@ class _BodyAddressBookSimpleState extends State<_BodyAddressBookSimple> {
                     if (store.isEditMode) ...[
                       SPaddingH24(
                         child: Material(
-                          color: colors.grey5,
+                          color: colors.gray2,
                           child: SButton.black(
                             text: intl.iban_edit_save_changes,
                             callback: IbanAddressBookStore.of(context).isButtonActive
@@ -168,7 +168,7 @@ class _BodyAddressBookSimpleState extends State<_BodyAddressBookSimple> {
                       const SizedBox(height: 10),
                       SPaddingH24(
                         child: Material(
-                          color: colors.grey5,
+                          color: colors.gray2,
                           child: SButton.text(
                             text: intl.iban_edit_delete_account,
                             callback: () {
@@ -206,7 +206,7 @@ class _BodyAddressBookSimpleState extends State<_BodyAddressBookSimple> {
                     ] else ...[
                       SPaddingH24(
                         child: Material(
-                          color: colors.grey5,
+                          color: colors.gray2,
                           child: SButton.blue(
                             text: intl.create_continue,
                             callback: IbanAddressBookStore.of(context).isButtonActive

@@ -55,7 +55,7 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final sColors = sKit.colors;
+    final sColors = SColorsLight();
 
     final appUrl = sSignalRModules.rewardsData?.referralLink ?? appDownloadUrl;
 
@@ -83,7 +83,7 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
                 width: 327,
                 height: 240,
                 decoration: BoxDecoration(
-                  color: sKit.colors.white,
+                  color: SColorsLight().white,
                 ),
                 child: Stack(
                   children: [
@@ -91,7 +91,7 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
                       width: 327,
                       height: 240,
                       decoration: BoxDecoration(
-                        color: sKit.colors.grey5,
+                        color: SColorsLight().gray2,
                       ),
                       child: Image.asset(
                         shareGiftBackgroundAsset,
@@ -149,7 +149,7 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
                 width: 327,
                 height: 496,
                 decoration: BoxDecoration(
-                  color: sKit.colors.grey5,
+                  color: SColorsLight().gray2,
                   borderRadius: BorderRadius.circular(24),
                 ),
                 child: ClipRRect(
@@ -191,7 +191,7 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
                             Container(
                               width: 327,
                               decoration: BoxDecoration(
-                                color: sKit.colors.grey5,
+                                color: SColorsLight().gray2,
                                 borderRadius: BorderRadius.circular(24),
                               ),
                               child: Padding(
@@ -246,7 +246,7 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
                                                 Text(
                                                   intl.send_gift_get_app,
                                                   style: STStyles.captionSemibold.copyWith(
-                                                    color: sColors.grey2,
+                                                    color: sColors.gray8,
                                                   ),
                                                   maxLines: 2,
                                                 ),
@@ -275,7 +275,7 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
                     width: 48,
                     height: 48,
                     decoration: BoxDecoration(
-                      color: sKit.colors.grey5,
+                      color: SColorsLight().gray2,
                       borderRadius: BorderRadius.circular(24),
                     ),
                     padding: const EdgeInsets.all(10),
@@ -293,7 +293,7 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
                         );
                       },
                       child: SCopyIcon(
-                        color: sKit.colors.black,
+                        color: SColorsLight().black,
                       ),
                     ),
                   ),
@@ -302,7 +302,7 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
                     width: 48,
                     height: 48,
                     decoration: BoxDecoration(
-                      color: sKit.colors.grey5,
+                      color: SColorsLight().gray2,
                       borderRadius: BorderRadius.circular(24),
                     ),
                     padding: const EdgeInsets.all(10),

@@ -4,7 +4,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'CJAccountLabelRouter')
@@ -42,7 +41,7 @@ class _CJAccountLabelScreenState extends State<CJAccountLabelScreen> {
     return SPageFrame(
       loaderText: intl.loader_please_wait,
       loading: loader,
-      color: sKit.colors.grey5,
+      color: SColorsLight().gray2,
       header: GlobalBasicAppBar(
         title: intl.wallet_account_label,
         hasRightIcon: false,
@@ -77,7 +76,7 @@ class _CJAccountLabelScreenState extends State<CJAccountLabelScreen> {
                     const Spacer(),
                     SPaddingH24(
                       child: Material(
-                        color: sKit.colors.grey5,
+                        color: SColorsLight().gray2,
                         child: SButton.blue(
                           text: intl.iban_edit_save_changes,
                           callback: isButtonActive

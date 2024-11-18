@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class AboveListLine extends StatelessObserverWidget {
@@ -31,7 +30,7 @@ class AboveListLine extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return SizedBox(
       width: MediaQuery.of(context).size.width - 48,
@@ -77,7 +76,7 @@ class AboveListLine extends StatelessObserverWidget {
                           color: colors.black,
                         )
                       : STStyles.body3InvestM.copyWith(
-                          color: colors.grey2,
+                          color: colors.gray8,
                         ),
                 ),
               ),
@@ -85,7 +84,7 @@ class AboveListLine extends StatelessObserverWidget {
               Text(
                 secondaryColumn,
                 style: STStyles.body3InvestSM.copyWith(
-                  color: colors.grey2,
+                  color: colors.gray8,
                 ),
               ),
               const SpaceW24(),
@@ -99,7 +98,7 @@ class AboveListLine extends StatelessObserverWidget {
                 child: Text(
                   lastColumn,
                   style: STStyles.body3InvestSM.copyWith(
-                    color: colors.grey2,
+                    color: colors.gray8,
                   ),
                 ),
               ),

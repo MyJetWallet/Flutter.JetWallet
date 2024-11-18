@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/colors/simple_colors_dark.dart';
 /// ! 2) For some reason fontFamily doesn't set globally
 /// ! INVESTIGATE
 CupertinoThemeData sDarkTheme = CupertinoThemeData(
-  scaffoldBackgroundColor: SColorsDark().grey5,
+  scaffoldBackgroundColor: SColorsDark().gray2,
   textTheme: CupertinoTextThemeData(
     textStyle: TextStyle(
       color: SColorsDark().white,

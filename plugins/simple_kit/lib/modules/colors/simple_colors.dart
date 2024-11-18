@@ -11,11 +11,11 @@ abstract class SimpleColors {
   abstract Color orange;
   abstract Color brown;
   abstract Color darkBrown;
-  abstract Color grey1;
-  abstract Color grey2;
-  abstract Color grey3;
-  abstract Color grey4;
-  abstract Color grey5;
+  abstract Color gray10;
+  abstract Color gray8;
+  abstract Color gray6;
+  abstract Color gray4;
+  abstract Color gray2;
   abstract Color grey6;
   abstract Color black;
   abstract Color white;

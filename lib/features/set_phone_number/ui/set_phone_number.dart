@@ -68,7 +68,7 @@ class SetPhoneNumberBody extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     final store = Provider.of<SetPhoneNumberStore>(context, listen: false);
 
@@ -76,7 +76,7 @@ class SetPhoneNumberBody extends StatelessObserverWidget {
       key: UniqueKey(),
       loaderText: intl.setPhoneNumber_pleaseWait,
       loading: store.loader,
-      color: colors.grey5,
+      color: colors.gray2,
       header: SimpleLargeAppbar(
         title: intl.setPhoneNumber_phoneNumber,
         hasRightIcon: true,
@@ -123,7 +123,7 @@ class SetPhoneNumberBody extends StatelessObserverWidget {
                         decoration: BoxDecoration(
                           border: Border(
                             right: BorderSide(
-                              color: colors.grey4,
+                              color: colors.gray4,
                             ),
                           ),
                         ),
@@ -179,7 +179,7 @@ class SetPhoneNumberBody extends StatelessObserverWidget {
                       intl.phone_cahange_warning,
                       textAlign: TextAlign.left,
                       maxLines: 10,
-                      style: STStyles.body1Medium.copyWith(color: colors.grey1),
+                      style: STStyles.body1Medium.copyWith(color: colors.gray10),
                     ),
                   ),
                   const SpaceH20(),

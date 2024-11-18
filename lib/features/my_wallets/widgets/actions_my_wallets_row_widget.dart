@@ -95,7 +95,7 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
                         showSelectAccountForAddCash(context);
                       },
                       lable: intl.balanceActionButtons_add_cash,
-                    )
+                    ),
                   ],
                 );
         },

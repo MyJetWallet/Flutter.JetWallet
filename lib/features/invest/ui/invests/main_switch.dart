@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../../core/l10n/i10n.dart';
 
@@ -17,7 +16,7 @@ class MainSwitch extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     void changeActiveTab(int newValue) {
       onChangeTab(newValue);
@@ -29,7 +28,7 @@ class MainSwitch extends StatelessObserverWidget {
           width: MediaQuery.of(context).size.width - 48,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
-            color: colors.grey5,
+            color: colors.gray2,
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 4),
@@ -48,7 +47,7 @@ class MainSwitch extends StatelessObserverWidget {
                       child: Text(
                         intl.invest_switch_active,
                         style: STStyles.body1InvestSM.copyWith(
-                          color: colors.grey1,
+                          color: colors.gray10,
                           height: 1,
                         ),
                       ),
@@ -68,7 +67,7 @@ class MainSwitch extends StatelessObserverWidget {
                       child: Text(
                         intl.invest_switch_pending,
                         style: STStyles.body1InvestSM.copyWith(
-                          color: colors.grey1,
+                          color: colors.gray10,
                           height: 1,
                         ),
                       ),
@@ -88,7 +87,7 @@ class MainSwitch extends StatelessObserverWidget {
                       child: Text(
                         intl.invest_switch_history,
                         style: STStyles.body1InvestSM.copyWith(
-                          color: colors.grey1,
+                          color: colors.gray10,
                           height: 1,
                         ),
                       ),

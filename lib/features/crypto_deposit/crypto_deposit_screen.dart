@@ -59,7 +59,7 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
   late ScrollController controller;
   late PageController pageController;
 
-  final colors = sKit.colors;
+  final colors = SColorsLight();
 
   final kycState = getIt.get<KycService>();
   final kycAlertHandler = getIt.get<KycAlertHandler>();
@@ -143,7 +143,7 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
             Text(
               intl.actionBuy_kycRequired,
               style: STStyles.captionMedium.copyWith(
-                color: colors.grey2,
+                color: colors.gray8,
               ),
             ),
           ],
@@ -284,7 +284,7 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
               vertical: 16,
             ),
             child: InkWell(
-              highlightColor: colors.grey5,
+              highlightColor: colors.gray2,
               splashColor: Colors.transparent,
               onTap: deposit.currency.isSingleNetwork
                   ? null
@@ -313,7 +313,7 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
-                    color: colors.grey3,
+                    color: colors.gray6,
                   ),
                 ),
                 padding: const EdgeInsets.symmetric(
@@ -328,7 +328,7 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
                       child: Text(
                         intl.cryptoDeposit_network,
                         style: STStyles.captionMedium.copyWith(
-                          color: colors.grey2,
+                          color: colors.gray8,
                         ),
                       ),
                     ),

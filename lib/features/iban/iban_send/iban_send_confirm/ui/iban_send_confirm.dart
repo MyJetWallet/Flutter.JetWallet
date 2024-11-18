@@ -18,7 +18,6 @@ import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:jetwallet/widgets/simple_floating_button_frame.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
@@ -104,7 +103,7 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final deviceSize = sDeviceSize;
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     final state = IbanSendConfirmStore.of(context);
 
@@ -242,7 +241,7 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                             maxLines: 3,
                             textAlign: TextAlign.start,
                             style: STStyles.captionMedium.copyWith(
-                              color: colors.grey3,
+                              color: colors.gray6,
                             ),
                           ),
                           Text(
@@ -250,7 +249,7 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                             maxLines: 3,
                             textAlign: TextAlign.start,
                             style: STStyles.captionMedium.copyWith(
-                              color: colors.grey3,
+                              color: colors.gray6,
                             ),
                           ),
                           Text(
@@ -258,7 +257,7 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                             maxLines: 3,
                             textAlign: TextAlign.start,
                             style: STStyles.captionMedium.copyWith(
-                              color: colors.grey3,
+                              color: colors.gray6,
                             ),
                           ),
                         ],

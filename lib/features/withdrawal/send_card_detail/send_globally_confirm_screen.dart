@@ -15,7 +15,6 @@ import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:jetwallet/widgets/simple_floating_button_frame.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
@@ -59,7 +58,7 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final deviceSize = sDeviceSize;
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     final state = SendGloballyConfirmStore.of(context);
 
@@ -185,7 +184,7 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                         maxLines: 3,
                         textAlign: TextAlign.start,
                         style: STStyles.captionMedium.copyWith(
-                          color: colors.grey3,
+                          color: colors.gray6,
                         ),
                       ),
                     ),

@@ -83,7 +83,7 @@ class _BasicFeeRowWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return Padding(
       padding: needPadding ? const EdgeInsets.symmetric(vertical: 8) : EdgeInsets.zero,
@@ -103,7 +103,7 @@ class _BasicFeeRowWidget extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: STStyles.body2Medium.copyWith(color: colors.grey1),
+                style: STStyles.body2Medium.copyWith(color: colors.gray10),
               ),
               const SpaceW5(),
               Padding(
@@ -111,7 +111,7 @@ class _BasicFeeRowWidget extends StatelessWidget {
                 child: SizedBox(
                   width: 16,
                   height: 16,
-                  child: SInfoIcon(color: colors.grey1),
+                  child: SInfoIcon(color: colors.gray10),
                 ),
               ),
               const Spacer(),
@@ -168,7 +168,7 @@ class _BasicFeeRowWidget extends StatelessWidget {
                 description,
                 maxLines: 3,
                 style: STStyles.captionMedium.copyWith(
-                  color: sKit.colors.grey2,
+                  color: SColorsLight().gray8,
                 ),
               ),
               const SpaceH64(),

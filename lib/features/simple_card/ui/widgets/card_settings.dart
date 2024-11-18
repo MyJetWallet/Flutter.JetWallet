@@ -42,7 +42,7 @@ class _CardSettings extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final simpleCardStore = getIt.get<SimpleCardStore>();
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return Column(
       children: [

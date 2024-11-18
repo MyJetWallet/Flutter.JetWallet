@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class ChangeOrderWidget extends StatelessWidget {
@@ -12,7 +11,7 @@ class ChangeOrderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return Container(
       padding: const EdgeInsets.symmetric(
@@ -35,7 +34,7 @@ class ChangeOrderWidget extends StatelessWidget {
                   Text(
                     intl.my_wallets_move_wallets,
                     style: STStyles.body2Medium.copyWith(
-                      color: colors.grey2,
+                      color: colors.gray8,
                       height: 1.4,
                     ),
                   ),

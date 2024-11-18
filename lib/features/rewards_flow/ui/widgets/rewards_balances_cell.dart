@@ -71,7 +71,7 @@ class _BalanceCellState extends State<_BalanceCell> {
 
     return InkWell(
       splashColor: Colors.transparent,
-      highlightColor: sKit.colors.grey5,
+      highlightColor: SColorsLight().gray2,
       hoverColor: Colors.transparent,
       onTap: () {
         showDialog(
@@ -106,17 +106,17 @@ class _BalanceCellState extends State<_BalanceCell> {
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   decoration: ShapeDecoration(
                     shape: RoundedRectangleBorder(
-                      side: BorderSide(color: sKit.colors.grey4),
+                      side: BorderSide(color: SColorsLight().gray4),
                       borderRadius: BorderRadius.circular(22),
                     ),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         width: 16,
                         height: 16,
-                        child: SRewardTrophyIcon(color: sKit.colors.confetti1),
+                        child: SRewardTrophyIcon(color: Color(0xFF9575F3)),
                       ),
                       const SpaceW10(),
                       Padding(

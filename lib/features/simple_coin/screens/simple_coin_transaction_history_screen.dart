@@ -44,7 +44,7 @@ class _SimpleCoinTransactionHistoryScreenState extends State<SimpleCoinTransacti
       child: Observer(
         builder: (context) {
           final store = Provider.of<SimpleCoinTransactionHistoryStore>(context);
-          final colors = sKit.colors;
+          final colors = SColorsLight();
 
           scrollController.addListener(() {
             if (scrollController.position.pixels >= scrollController.position.maxScrollExtent) {
@@ -120,7 +120,7 @@ class _SimpleCoinTransactionHistoryScreenState extends State<SimpleCoinTransacti
                             width: 24.0,
                             height: 24.0,
                             decoration: BoxDecoration(
-                              color: colors.grey5,
+                              color: colors.gray2,
                               shape: BoxShape.circle,
                             ),
                             child: const RiveAnimation.asset(

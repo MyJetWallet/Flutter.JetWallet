@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/utils/helpers/standard_field_error_notifier.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class PinCodeField extends StatelessObserverWidget {
@@ -29,7 +28,7 @@ class PinCodeField extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return PinCodeTextField(
       focusNode: focusNode,
@@ -56,7 +55,7 @@ class PinCodeField extends StatelessObserverWidget {
         // color of the inactive box (body and border)
         inactiveColor: colors.white,
       ),
-      hintStyle: STStyles.header3.copyWith(color: colors.grey4),
+      hintStyle: STStyles.header3.copyWith(color: colors.gray4),
       textStyle: STStyles.header3.copyWith(
         color: pinError.value ? colors.red : colors.black,
       ),

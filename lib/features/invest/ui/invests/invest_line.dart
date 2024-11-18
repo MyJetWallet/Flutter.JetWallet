@@ -49,7 +49,7 @@ class InvestLine extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
     final isBalanceHide = getIt<AppStore>().isBalanceHide;
 
     return InkWell(
@@ -113,7 +113,7 @@ class InvestLine extends StatelessObserverWidget {
                       Text(
                         currency.description,
                         style: STStyles.body2InvestM.copyWith(
-                          color: colors.grey2,
+                          color: colors.gray8,
                         ),
                       ),
                     ],
@@ -127,7 +127,7 @@ class InvestLine extends StatelessObserverWidget {
                 padding: const EdgeInsets.only(left: 5, top: 4, bottom: 4, right: 3),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
-                  color: colors.grey5,
+                  color: colors.gray2,
                 ),
                 child: Row(
                   children: [
@@ -168,7 +168,7 @@ class InvestLine extends StatelessObserverWidget {
                   Text(
                     'x${leverage.toFormatCount(accuracy: 2).replaceAll(' ', '')}',
                     style: STStyles.body3InvestM.copyWith(
-                      color: colors.grey2,
+                      color: colors.gray8,
                     ),
                   ),
                 ],

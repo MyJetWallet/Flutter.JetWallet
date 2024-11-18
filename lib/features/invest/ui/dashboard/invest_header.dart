@@ -37,7 +37,7 @@ class InvestHeader extends StatelessObserverWidget {
     final kycState = getIt.get<KycService>();
     final kycAlertHandler = getIt.get<KycAlertHandler>();
 
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return Column(
       children: [
@@ -98,7 +98,7 @@ class InvestHeader extends StatelessObserverWidget {
           Container(
             height: 0.5,
             decoration: BoxDecoration(
-              color: colors.grey4,
+              color: colors.gray4,
             ),
           ),
       ],

@@ -50,7 +50,7 @@ class SBasicHeader extends StatelessWidget {
                     Text(
                       subtitle!,
                       style: STStyles.body1Medium.copyWith(
-                        color: colors.grey1,
+                        color: colors.gray10,
                       ),
                     ),
                     const SizedBox(width: 8),

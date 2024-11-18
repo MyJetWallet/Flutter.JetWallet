@@ -8,7 +8,6 @@ import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/utils/store/timer_store.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../../../utils/constants.dart';
@@ -70,7 +69,7 @@ class _SuccessKycScreenBodyState extends State<_SuccessKycScreenBody> {
   @override
   Widget build(BuildContext context) {
     final deviceSize = sDeviceSize;
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
@@ -105,7 +104,7 @@ class _SuccessKycScreenBodyState extends State<_SuccessKycScreenBody> {
                   maxLines: 10,
                   textAlign: TextAlign.center,
                   style: STStyles.body1Medium.copyWith(
-                    color: colors.grey1,
+                    color: colors.gray10,
                   ),
                 ),
               ),

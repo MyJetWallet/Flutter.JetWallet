@@ -82,7 +82,7 @@ class _RewardsFlowScreenBodyState extends State<_RewardsFlowScreenBody> {
                         decoration: ShapeDecoration(
                           color: Colors.white,
                           shape: RoundedRectangleBorder(
-                            side: BorderSide(color: sKit.colors.grey4),
+                            side: BorderSide(color: SColorsLight().gray4),
                             borderRadius: BorderRadius.circular(16),
                           ),
                         ),
@@ -118,7 +118,7 @@ class _RewardsFlowScreenBodyState extends State<_RewardsFlowScreenBody> {
                                 Text(
                                   intl.rewards_to_claim,
                                   style: STStyles.body1Medium.copyWith(
-                                    color: sKit.colors.grey1,
+                                    color: SColorsLight().gray10,
                                   ),
                                 ),
                               ],
@@ -147,7 +147,7 @@ class _RewardsFlowScreenBodyState extends State<_RewardsFlowScreenBody> {
                     child: Text(
                       intl.reward_your_reward_subtitle_2,
                       style: STStyles.body1Medium.copyWith(
-                        color: sKit.colors.grey1,
+                        color: SColorsLight().gray10,
                       ),
                       maxLines: 8,
                     ),
@@ -157,7 +157,7 @@ class _RewardsFlowScreenBodyState extends State<_RewardsFlowScreenBody> {
                     child: Text(
                       intl.reward_your_reward_subtitle_2,
                       style: STStyles.body1Medium.copyWith(
-                        color: sKit.colors.grey1,
+                        color: SColorsLight().gray10,
                       ),
                       maxLines: 8,
                     ),
