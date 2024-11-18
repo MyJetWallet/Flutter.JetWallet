@@ -20,10 +20,7 @@ import 'package:jetwallet/features/invest/ui/widgets/invest_slider_input.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/localized_chart_resolution_button.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
-import 'package:simple_kit_updated/widgets/button/invest_buttons/invest_button.dart';
-import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 
 import '../../../core/di/di.dart';
@@ -93,7 +90,7 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
     final currencies = sSignalRModules.currenciesList;
     final investStore = getIt.get<InvestDashboardStore>();
 
-    final colors = sKit.colors;
+    final colors = SColorsLight();
     final currency = currencyFrom(currencies, 'USDT');
 
     void changeOrderType(int type) {
@@ -413,11 +410,11 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
                           const SpaceW10(),
                           Transform.rotate(
                             angle: pi,
-                            child: SIconButton(
+                            child: SafeGesture(
                               onTap: () {
                                 investNewStore.setIsLimitsVisible(false);
                               },
-                              defaultIcon: Assets.svg.invest.investArrow.simpleSvg(
+                              child: Assets.svg.invest.investArrow.simpleSvg(
                                 width: 24,
                                 height: 24,
                                 color: colors.black,
@@ -425,7 +422,7 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
                             ),
                           ),
                         ] else
-                          SIconButton(
+                          SafeGesture(
                             onTap: () {
                               investNewStore.setIsLimitsVisible(true);
                               Timer(
@@ -439,7 +436,7 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
                                 },
                               );
                             },
-                            defaultIcon: Assets.svg.invest.investArrow.simpleSvg(
+                            child: Assets.svg.invest.investArrow.simpleSvg(
                               width: 24,
                               height: 24,
                               color: colors.black,
@@ -459,7 +456,7 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
                     const SpaceH6(),
                     Row(
                       children: [
-                        SIconButton(
+                        SafeGesture(
                           onTap: () {
                             investNewStore.setIsTPMode(!investNewStore.isTP);
                             Timer(
@@ -473,16 +470,7 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
                               },
                             );
                           },
-                          defaultIcon: investNewStore.isTP
-                              ? Assets.svg.invest.checked.simpleSvg(
-                                  width: 20,
-                                  height: 20,
-                                )
-                              : Assets.svg.invest.check.simpleSvg(
-                                  width: 20,
-                                  height: 20,
-                                ),
-                          pressedIcon: investNewStore.isTP
+                          child: investNewStore.isTP
                               ? Assets.svg.invest.checked.simpleSvg(
                                   width: 20,
                                   height: 20,
@@ -626,7 +614,7 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
                     const SpaceH12(),
                     Row(
                       children: [
-                        SIconButton(
+                        SafeGesture(
                           onTap: () {
                             investNewStore.setIsSLMode(!investNewStore.isSl);
                             Timer(
@@ -640,16 +628,7 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
                               },
                             );
                           },
-                          defaultIcon: investNewStore.isSl
-                              ? Assets.svg.invest.checked.simpleSvg(
-                                  width: 20,
-                                  height: 20,
-                                )
-                              : Assets.svg.invest.check.simpleSvg(
-                                  width: 20,
-                                  height: 20,
-                                ),
-                          pressedIcon: investNewStore.isSl
+                          child: investNewStore.isSl
                               ? Assets.svg.invest.checked.simpleSvg(
                                   width: 20,
                                   height: 20,

@@ -19,7 +19,6 @@ import 'package:jetwallet/utils/balances/crypto_balance.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
@@ -156,10 +155,9 @@ class PayWithScreen extends StatelessObserverWidget {
   Widget build(BuildContext context) {
     return SPageFrame(
       loaderText: '',
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: intl.amount_screen_pay_with,
-        ),
+      header: GlobalBasicAppBar(
+        title: intl.amount_screen_pay_with,
+        hasRightIcon: false,
       ),
       child: SingleChildScrollView(
         child: Column(

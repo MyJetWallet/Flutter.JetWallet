@@ -14,7 +14,6 @@ import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_audit_history_model.dart';
 
@@ -39,9 +38,6 @@ class PositionAuditItemView extends StatelessObserverWidget {
     return SPaddingH24(
       child: Column(
         children: [
-          SBottomSheetHeader(
-            name: _getTransactionLabel(positionAudit.auditEventType),
-          ),
           const SizedBox(height: 24),
           _SellDetailsHeader(
             positionAudit: positionAudit,
@@ -125,23 +121,6 @@ class PositionAuditItemView extends StatelessObserverWidget {
       ),
     );
   }
-
-  String _getTransactionLabel(AuditEventType type) {
-    switch (type) {
-      case AuditEventType.positionCreate:
-      case AuditEventType.positionDeposit:
-        return intl.earn_received;
-      case AuditEventType.positionWithdraw:
-      case AuditEventType.positionClose:
-        return intl.earn_sent;
-      case AuditEventType.positionIncomePayroll:
-        return intl.earn_saving_income;
-      case AuditEventType.undefined:
-        return '';
-      default:
-        return '';
-    }
-  }
 }
 
 String formatApyRate(Decimal? apyRate) {
@@ -207,9 +186,12 @@ class _SellDetailsHeader extends StatelessWidget {
           hasSecondAsset: !isSavingIncome,
         ),
         const SizedBox(height: 24),
-        const SBadge(
-          status: SBadgeStatus.success,
-          text: 'Completed',
+        SBadge(
+          lable: intl.transactionDetailsStatus_completed,
+          icon: Assets.svg.medium.checkmarkAlt.simpleSvg(
+            color: SColorsLight().green,
+            width: 20,
+          ),
         ),
         const SizedBox(height: 24),
       ],

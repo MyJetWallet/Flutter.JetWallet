@@ -6,9 +6,10 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
+import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:jetwallet/widgets/flag_item.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class LangItem {
@@ -28,15 +29,12 @@ final availableLanguages = [
 ];
 
 Future<bool?> changeLanguagePopup(BuildContext context) async {
-  sShowBasicModalBottomSheet(
+  await showBasicBottomSheet<bool?>(
     context: context,
-    pinned: SBottomSheetHeader(
-      name: intl.preferred_language,
+    header: BasicBottomSheetHeaderWidget(
+      title: intl.preferred_language,
     ),
-    onDissmis: () {
-      return true;
-    },
-    then: (p0) {
+    onDismiss: () {
       return true;
     },
     children: [
@@ -57,13 +55,10 @@ Future<bool?> changeLanguagePopup(BuildContext context) async {
                       getIt.get<AppStore>().setLocale(
                             Locale.fromSubtags(languageCode: e.langCode),
                           );
-                      unawaited(
-                        showNotification(
-                          context,
-                          intl.lang_change_alert,
-                          false,
-                          false,
-                        ),
+
+                      sNotification.showError(
+                        intl.lang_change_alert,
+                        isError: false,
                       );
 
                       Navigator.pop(context);
@@ -79,7 +74,9 @@ Future<bool?> changeLanguagePopup(BuildContext context) async {
       ),
       const SpaceH54(),
     ],
-  );
+  ).then((p0) {
+    return true;
+  });
 
   return null;
 }

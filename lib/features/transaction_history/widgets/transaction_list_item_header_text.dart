@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class TransactionListItemHeaderText extends StatelessWidget {
   const TransactionListItemHeaderText({
@@ -17,7 +17,7 @@ class TransactionListItemHeaderText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: sSubtitle2Style.copyWith(color: color),
+      style: STStyles.subtitle1.copyWith(color: color),
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
       textAlign: textAlign,

@@ -5,11 +5,11 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/sell_flow/store/sell_confirmation_store.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
+import 'package:jetwallet/widgets/confirm_timer/simple_confirm_action_timer.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
 class SellConfirmationInfoGrid extends StatefulObserverWidget {
@@ -60,7 +60,7 @@ class _ConfirmationInfoGridState extends State<SellConfirmationInfoGrid> with Si
     return Baseline(
       baseline: 19.0,
       baselineType: TextBaseline.alphabetic,
-      child: SSkeletonTextLoader(
+      child: SSkeletonLoader(
         height: 24,
         width: 120,
         borderRadius: BorderRadius.circular(4),
@@ -85,7 +85,7 @@ class _ConfirmationInfoGridState extends State<SellConfirmationInfoGrid> with Si
             children: [
               Text(
                 intl.sell_confirmation_sell_to,
-                style: sBodyText2Style.copyWith(color: sKit.colors.grey1),
+                style: STStyles.body2Medium.copyWith(color: SColorsLight().gray10),
               ),
               if (store.isDataLoaded) ...[
                 Flexible(
@@ -106,7 +106,7 @@ class _ConfirmationInfoGridState extends State<SellConfirmationInfoGrid> with Si
                         child: Text(
                           widget.account?.label ?? widget.simpleCard?.label ?? '',
                           overflow: TextOverflow.ellipsis,
-                          style: sSubtitle3Style.copyWith(height: 1.5),
+                          style: STStyles.subtitle2,
                         ),
                       ),
                     ],
@@ -124,7 +124,7 @@ class _ConfirmationInfoGridState extends State<SellConfirmationInfoGrid> with Si
           children: [
             Text(
               intl.buy_confirmation_price,
-              style: sBodyText2Style.copyWith(color: sKit.colors.grey1),
+              style: STStyles.body2Medium.copyWith(color: SColorsLight().gray10),
             ),
             const Spacer(),
             if (store.isDataLoaded) ...[
@@ -147,7 +147,7 @@ class _ConfirmationInfoGridState extends State<SellConfirmationInfoGrid> with Si
                 )} = ${(store.rate ?? Decimal.zero).toFormatCount(
                   symbol: widget.paymentCurrency.symbol,
                 )}',
-                style: sSubtitle3Style,
+                style: STStyles.subtitle2,
               ),
             ] else ...[
               textPreloader(),
@@ -191,12 +191,10 @@ void buyConfirmationFeeExplanation({
   required String fee,
   required String description,
 }) {
-  sShowBasicModalBottomSheet(
+  showBasicBottomSheet(
     context: context,
-    horizontalPinnedPadding: 24,
-    scrollable: true,
-    pinned: SBottomSheetHeader(
-      name: title,
+    header: BasicBottomSheetHeaderWidget(
+      title: title,
     ),
     children: [
       SPaddingH24(
@@ -206,7 +204,7 @@ void buyConfirmationFeeExplanation({
             const SpaceH16(),
             Text(
               fee,
-              style: sTextH4Style,
+              style: STStyles.header5,
             ),
             const SpaceH12(),
             const SDivider(),
@@ -214,8 +212,8 @@ void buyConfirmationFeeExplanation({
             Text(
               description,
               maxLines: 3,
-              style: sCaptionTextStyle.copyWith(
-                color: sKit.colors.grey3,
+              style: STStyles.captionMedium.copyWith(
+                color: SColorsLight().gray6,
               ),
             ),
             const SpaceH64(),

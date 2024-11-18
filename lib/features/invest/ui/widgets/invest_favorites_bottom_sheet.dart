@@ -13,9 +13,8 @@ import 'package:jetwallet/features/invest/ui/dashboard/symbol_info_line.dart';
 import 'package:jetwallet/features/invest/ui/invests/above_list_line.dart';
 import 'package:jetwallet/features/invest/ui/invests/secondary_switch.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_input.dart';
-import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../../core/router/app_router.dart';
 import '../../../../core/services/signal_r/signal_r_service_new.dart';
@@ -27,11 +26,10 @@ void showInvestFavoritesBottomSheet(BuildContext context) {
   final currency = currencyFrom(currencies, 'USDT');
   investStore.setFavoritesEdit(false);
 
-  sShowBasicModalBottomSheet(
+  showBasicBottomSheet(
     context: context,
-    scrollable: true,
     expanded: true,
-    pinned: Observer(
+    button: Observer(
       builder: (BuildContext context) {
         return SPaddingH24(
           child: Column(
@@ -65,9 +63,6 @@ void showInvestFavoritesBottomSheet(BuildContext context) {
         );
       },
     ),
-    horizontalPinnedPadding: 0,
-    removePinnedPadding: true,
-    horizontalPadding: 0,
     children: [const InstrumentsList()],
   );
 }
@@ -169,23 +164,9 @@ class InstrumentsList extends StatelessObserverWidget {
                       ),
                     ),
                     const SpaceW10(),
-                    SIconButton(
+                    SafeGesture(
                       onTap: investStore.setInstrumentSort,
-                      defaultIcon: investStore.instrumentSort == 0
-                          ? Assets.svg.invest.sortNotSet.simpleSvg(
-                              width: 14,
-                              height: 14,
-                            )
-                          : investStore.instrumentSort == 1
-                              ? Assets.svg.invest.sortUp.simpleSvg(
-                                  width: 14,
-                                  height: 14,
-                                )
-                              : Assets.svg.invest.sortDown.simpleSvg(
-                                  width: 14,
-                                  height: 14,
-                                ),
-                      pressedIcon: investStore.instrumentSort == 0
+                      child: investStore.instrumentSort == 0
                           ? Assets.svg.invest.sortNotSet.simpleSvg(
                               width: 14,
                               height: 14,

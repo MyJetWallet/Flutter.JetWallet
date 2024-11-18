@@ -12,8 +12,8 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_card_response.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_request_model.dart';
@@ -229,7 +229,7 @@ abstract class _SendGloballyConfirmStoreBase with Store {
               width: 16,
               height: 16,
               child: SAccountWaitingIcon(
-                color: sKit.colors.grey2,
+                color: SColorsLight().gray8,
               ),
             ),
             const SizedBox(width: 8),
@@ -237,9 +237,9 @@ abstract class _SendGloballyConfirmStoreBase with Store {
               padding: const EdgeInsets.only(bottom: 2),
               child: Text(
                 intl.send_globally_success_info,
-                style: sBodyText1Style.copyWith(
+                style: STStyles.body1Medium.copyWith(
                   fontSize: 12,
-                  color: sKit.colors.grey2,
+                  color: SColorsLight().gray8,
                   fontWeight: FontWeight.w600,
                 ),
               ),

@@ -11,6 +11,7 @@ import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/send_gift/model/send_gift_info_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
@@ -62,21 +63,20 @@ void showSendOptions(
     return;
   }
 
-  sShowBasicModalBottomSheet(
+  showBasicBottomSheet(
     context: context,
-    then: (value) {},
-    pinned: SBottomSheetHeader(
-      name: intl.sendOptions_send,
+    header: BasicBottomSheetHeaderWidget(
+      title: intl.sendOptions_send,
     ),
     children: [
       Column(
         children: [
           if (isToCryptoWalletAvaible)
-            SCardRow(
-              icon: const SWallet2Icon(),
-              name: intl.sendOptions_to_crypto_wallet,
-              helper: intl.sendOptions_actionItemDescription2,
-              onTap: () {
+            SimpleTableAsset(
+              assetIcon: const SWallet2Icon(),
+              label: intl.sendOptions_to_crypto_wallet,
+              supplement: intl.sendOptions_actionItemDescription2,
+              onTableAssetTap: () {
                 Navigator.pop(context);
                 sRouter.push(
                   WithdrawRouter(
@@ -86,30 +86,27 @@ void showSendOptions(
                   ),
                 );
               },
-              amount: '',
-              description: '',
+              hasRightValue: false,
             ),
           if (isGlobalAvaible)
-            SCardRow(
-              icon: const SNetworkIcon(),
-              name: intl.global_send_name,
-              helper: intl.global_send_helper,
-              onTap: () {
+            SimpleTableAsset(
+              assetIcon: const SNetworkIcon(),
+              label: intl.global_send_name,
+              supplement: intl.global_send_helper,
+              onTableAssetTap: () {
                 Navigator.pop(context);
                 showSendGlobally(
                   getIt<AppRouter>().navigatorKey.currentContext!,
                   currency,
                 );
               },
-              amount: '',
-              description: '',
             ),
           if (isGiftAvaible)
-            SCardRow(
-              icon: const SGiftSendIcon(),
-              name: intl.send_gift,
-              helper: intl.send_gift_to_simple_wallet,
-              onTap: () async {
+            SimpleTableAsset(
+              assetIcon: const SGiftSendIcon(),
+              label: intl.send_gift,
+              supplement: intl.send_gift_to_simple_wallet,
+              onTableAssetTap: () async {
                 Navigator.pop(context);
                 await sRouter.push(
                   GiftReceiversDetailsRouter(
@@ -117,20 +114,16 @@ void showSendOptions(
                   ),
                 );
               },
-              amount: '',
-              description: '',
             ),
           if (isAllowBankTransfer)
-            SCardRow(
-              icon: Assets.svg.medium.bank.simpleSvg(color: SColorsLight().blue),
-              onTap: () {
+            SimpleTableAsset(
+              assetIcon: Assets.svg.medium.bank.simpleSvg(color: SColorsLight().blue),
+              label: intl.bank_transfer,
+              supplement: intl.bank_transfer_to_yourself,
+              onTableAssetTap: () {
                 Navigator.pop(context);
                 showBankTransferTo(context, currency);
               },
-              amount: '',
-              description: '',
-              name: intl.bank_transfer,
-              helper: intl.bank_transfer_to_yourself,
             ),
           const SpaceH40(),
         ],

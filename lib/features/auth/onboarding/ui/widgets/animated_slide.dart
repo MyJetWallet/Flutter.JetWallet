@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import 'slide_container.dart';
 
@@ -17,7 +17,7 @@ class AnimatedOnboardingSlide extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final sColors = sKit.colors;
+    final sColors = SColorsLight();
 
     return Flexible(
       child: Padding(

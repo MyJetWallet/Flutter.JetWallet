@@ -3,7 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/package_info_service.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class AppVersionBox extends StatelessObserverWidget {
   const AppVersionBox({super.key});
@@ -11,7 +11,7 @@ class AppVersionBox extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final packageInfo = getIt.get<PackageInfoService>().info;
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return packageInfo.version != 'unknown' && packageInfo.buildNumber != 'unknown'
         ? Container(
@@ -20,7 +20,7 @@ class AppVersionBox extends StatelessObserverWidget {
               horizontal: 10.0,
             ),
             decoration: BoxDecoration(
-              color: colors.grey5,
+              color: colors.gray2,
               borderRadius: BorderRadius.circular(16.0),
             ),
             alignment: Alignment.center,
@@ -28,8 +28,8 @@ class AppVersionBox extends StatelessObserverWidget {
             child: Text(
               '${intl.appVersionBox_version}: ${packageInfo.version}'
               ' (${packageInfo.buildNumber})',
-              style: sCaptionTextStyle.copyWith(
-                color: colors.grey1,
+              style: STStyles.captionMedium.copyWith(
+                color: colors.gray10,
               ),
             ),
           )

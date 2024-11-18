@@ -9,7 +9,6 @@ import 'package:jetwallet/features/auth/biometric/store/biometric_store.dart';
 import 'package:jetwallet/features/kyc/allow_camera/store/allow_camera_store.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'AllowBiometricRoute')
@@ -60,7 +59,7 @@ class _AllowCameraScreenBodyState extends State<_AllowBiometricScreenBody> with 
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
     final deviceInfo = sDeviceInfo;
     final notifier = BiometricStore.of(context);
 
@@ -88,18 +87,19 @@ class _AllowCameraScreenBodyState extends State<_AllowBiometricScreenBody> with 
     final deviceSize = sDeviceSize;
     final size = MediaQuery.of(context).size;
 
-    return SPageFrameWithPadding(
+    return SPageFrame(
       loaderText: intl.register_pleaseWait,
       header: deviceSize.when(
         small: () {
-          return SSmallHeader(
+          return GlobalBasicAppBar(
             title: headerText,
+            hasRightIcon: false,
           );
         },
         medium: () {
-          return SMegaHeader(
-            titleAlign: TextAlign.left,
+          return SimpleLargeAppbar(
             title: headerText,
+            titleMaxLines: 2,
           );
         },
       ),
@@ -117,41 +117,44 @@ class _AllowCameraScreenBodyState extends State<_AllowBiometricScreenBody> with 
           text: intl.allowCamera_goToSettings,
         ),
       ),
-      child: CustomScrollView(
-        slivers: [
-          SliverFillRemaining(
-            hasScrollBody: false,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Spacer(),
-                Image.asset(
-                  image,
-                  height: size.width * 0.6,
-                ),
-                const Spacer(),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Flexible(
-                      child: Baseline(
-                        baseline: 48,
-                        baselineType: TextBaseline.alphabetic,
-                        child: Text(
-                          bottomText,
-                          maxLines: 3,
-                          style: sBodyText1Style.copyWith(
-                            color: colors.grey1,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        child: CustomScrollView(
+          slivers: [
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Spacer(),
+                  Image.asset(
+                    image,
+                    height: size.width * 0.6,
+                  ),
+                  const Spacer(),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Flexible(
+                        child: Baseline(
+                          baseline: 48,
+                          baselineType: TextBaseline.alphabetic,
+                          child: Text(
+                            bottomText,
+                            maxLines: 3,
+                            style: STStyles.body1Medium.copyWith(
+                              color: colors.gray10,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

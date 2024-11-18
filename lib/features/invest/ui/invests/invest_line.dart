@@ -6,11 +6,8 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
-import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
-import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/invest/new_invest_request_model.dart';
 
 import '../../../../utils/models/currency_model.dart';
@@ -52,7 +49,7 @@ class InvestLine extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
     final isBalanceHide = getIt<AppStore>().isBalanceHide;
 
     return InkWell(
@@ -116,7 +113,7 @@ class InvestLine extends StatelessObserverWidget {
                       Text(
                         currency.description,
                         style: STStyles.body2InvestM.copyWith(
-                          color: colors.grey2,
+                          color: colors.gray8,
                         ),
                       ),
                     ],
@@ -130,7 +127,7 @@ class InvestLine extends StatelessObserverWidget {
                 padding: const EdgeInsets.only(left: 5, top: 4, bottom: 4, right: 3),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
-                  color: colors.grey5,
+                  color: colors.gray2,
                 ),
                 child: Row(
                   children: [
@@ -171,7 +168,7 @@ class InvestLine extends StatelessObserverWidget {
                   Text(
                     'x${leverage.toFormatCount(accuracy: 2).replaceAll(' ', '')}',
                     style: STStyles.body3InvestM.copyWith(
-                      color: colors.grey2,
+                      color: colors.gray8,
                     ),
                   ),
                 ],
@@ -211,7 +208,7 @@ class InvestLine extends StatelessObserverWidget {
                           overflow: TextOverflow.ellipsis,
                           style: STStyles.body3InvestSM.copyWith(
                             color: profitPercent == Decimal.zero
-                                ? SColorsLight().grey3
+                                ? SColorsLight().gray6
                                 : profitPercent > Decimal.zero
                                     ? SColorsLight().green
                                     : SColorsLight().red,

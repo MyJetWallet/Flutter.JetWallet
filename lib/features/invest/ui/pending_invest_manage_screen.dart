@@ -15,12 +15,6 @@ import 'package:jetwallet/features/invest/ui/widgets/invest_market_watch_bottom_
 import 'package:jetwallet/features/invest/ui/widgets/invest_modify_bottom_sheet.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/localized_chart_resolution_button.dart';
-import 'package:simple_kit/core/simple_kit.dart';
-import 'package:simple_kit/modules/shared/page_frames/simple_page_frame.dart';
-import 'package:simple_kit/modules/shared/simple_divider.dart';
-import 'package:simple_kit/modules/shared/simple_paddings.dart';
-import 'package:simple_kit/modules/shared/simple_spacers.dart';
-import 'package:simple_kit/modules/shared/stack_loader/components/loader_spinner.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
@@ -103,7 +97,7 @@ class _PendingInvestManageScreenState extends State<PendingInvestManageScreen> {
     final investStore = getIt.get<InvestDashboardStore>();
     final investNewStore = getIt.get<InvestNewStore>();
 
-    final colors = sKit.colors;
+    final colors = SColorsLight();
     final currency = currencyFrom(currencies, 'USDT');
 
     return SPageFrame(
@@ -131,8 +125,8 @@ class _PendingInvestManageScreenState extends State<PendingInvestManageScreen> {
                       child: SIButton(
                         activeColor: colors.black,
                         activeNameColor: colors.white,
-                        inactiveColor: colors.grey2,
-                        inactiveNameColor: colors.grey4,
+                        inactiveColor: colors.gray8,
+                        inactiveNameColor: colors.gray4,
                         active: true,
                         icon: Assets.svg.invest.investClose.simpleSvg(
                           width: 20,
@@ -173,8 +167,8 @@ class _PendingInvestManageScreenState extends State<PendingInvestManageScreen> {
                         borderColor: colors.blue,
                         activeColor: colors.white,
                         activeNameColor: colors.blue,
-                        inactiveColor: colors.grey4,
-                        inactiveNameColor: colors.grey2,
+                        inactiveColor: colors.gray4,
+                        inactiveNameColor: colors.gray8,
                         active: true,
                         icon: Assets.svg.invest.edit.simpleSvg(
                           width: 20,

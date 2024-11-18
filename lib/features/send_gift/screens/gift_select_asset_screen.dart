@@ -6,7 +6,6 @@ import 'package:jetwallet/features/actions/store/action_search_store.dart';
 import 'package:jetwallet/features/send_gift/model/send_gift_info_model.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:mobx/mobx.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../core/di/di.dart';
@@ -33,7 +32,7 @@ class _GiftSelectAssetScreenState extends State<GiftSelectAssetScreen> {
     final storageService = getIt.get<LocalStorageService>();
     textController = TextEditingController();
     storageService.getValue(lastAssetSend).then(
-          (value) {
+      (value) {
         setState(() {
           lastCurrency = value;
         });
@@ -58,7 +57,7 @@ class _GiftSelectAssetScreenState extends State<GiftSelectAssetScreen> {
     final sortedAssets = isGiftSendActive
         .where(
           (element) => element.supportsGiftlSend && element.isAssetBalanceNotEmpty,
-    )
+        )
         .toList();
 
     sortedAssets.sort((a, b) {
@@ -74,17 +73,16 @@ class _GiftSelectAssetScreenState extends State<GiftSelectAssetScreen> {
     });
 
     getIt.get<ActionSearchStore>().initConvert(
-      sortedAssets,
-      sortedAssets,
-    );
+          sortedAssets,
+          sortedAssets,
+        );
     final searchStore = getIt.get<ActionSearchStore>();
 
     return SPageFrame(
       loaderText: intl.loader_please_wait,
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: intl.send_gift_sending_asset,
-        ),
+      header: GlobalBasicAppBar(
+        title: intl.send_gift_sending_asset,
+        hasRightIcon: false,
       ),
       child: CustomScrollView(
         slivers: [
@@ -92,19 +90,16 @@ class _GiftSelectAssetScreenState extends State<GiftSelectAssetScreen> {
             child: Column(
               children: [
                 if (sortedAssets.length > 7) ...[
-                  SPaddingH24(
-                    child: SStandardField(
-                      controller: textController,
-                      labelText: intl.actionBottomSheetHeader_search,
-                      onChanged: (String value) {
-                        searchStore.searchConvert(
-                          value,
-                          sortedAssets,
-                          sortedAssets,
-                        );
-                      },
-                      maxLines: 1,
-                    ),
+                  SInput(
+                    controller: textController,
+                    label: intl.actionBottomSheetHeader_search,
+                    onChanged: (String value) {
+                      searchStore.searchConvert(
+                        value,
+                        sortedAssets,
+                        sortedAssets,
+                      );
+                    },
                   ),
                   const SDivider(),
                 ],

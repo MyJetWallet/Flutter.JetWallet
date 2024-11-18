@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 import 'transaction_details_name_text.dart';
 import 'transaction_details_value_text.dart';
@@ -18,7 +18,7 @@ class TransactionDetailsStatus extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return Row(
       children: [
@@ -61,12 +61,12 @@ class TransactionDetailsStatus extends StatelessObserverWidget {
     }
   }
 
-  Color _color(SimpleColors colors) {
+  Color _color(SColorsLight colors) {
     switch (status) {
       case Status.completed:
         return colors.green;
       case Status.inProgress:
-        return colors.grey1;
+        return colors.gray10;
       case Status.declined:
         return colors.red;
     }

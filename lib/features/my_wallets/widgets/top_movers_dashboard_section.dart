@@ -15,7 +15,6 @@ import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:jetwallet/utils/formatting/base/format_percent.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class TopMoversDashboardSection extends StatelessWidget {
@@ -23,8 +22,6 @@ class TopMoversDashboardSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = SColorsLight();
-
     return Observer(
       builder: (context) {
         final marketItems = [...sSignalRModules.getMarketPrices];
@@ -61,17 +58,14 @@ class TopMoversDashboardSection extends StatelessWidget {
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(
+            const Padding(
+              padding: EdgeInsets.only(
                 top: 8,
                 left: 24,
                 right: 24,
                 bottom: 8,
               ),
-              child: SDivider(
-                height: 2,
-                color: colors.gray2,
-              ),
+              child: SDivider(),
             ),
           ],
         );

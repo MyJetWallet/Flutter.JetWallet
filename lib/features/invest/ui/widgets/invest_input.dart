@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:simple_kit/modules/colors/simple_colors_light.dart';
-import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class InvestInput extends StatefulObserverWidget {
   const InvestInput({
@@ -72,30 +70,30 @@ class _InvestInputState extends State<InvestInput> {
       cursorColor: SColorsLight().blue,
       cursorRadius: Radius.zero,
       style: STStyles.body1InvestSM.copyWith(
-        color: widget.enabled ? SColorsLight().black : SColorsLight().grey2,
+        color: widget.enabled ? SColorsLight().black : SColorsLight().gray8,
       ),
       decoration: InputDecoration(
         filled: !widget.enabled,
-        fillColor: widget.enabled ? null : SColorsLight().grey5,
+        fillColor: widget.enabled ? null : SColorsLight().gray2,
         contentPadding: const EdgeInsets.all(10),
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: SColorsLight().grey4),
+          borderSide: BorderSide(color: SColorsLight().gray4),
           borderRadius: BorderRadius.circular(8),
         ),
         disabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: SColorsLight().grey4),
+          borderSide: BorderSide(color: SColorsLight().gray4),
           borderRadius: BorderRadius.circular(8),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: SColorsLight().grey4),
+          borderSide: BorderSide(color: SColorsLight().gray4),
           borderRadius: BorderRadius.circular(8),
         ),
-        labelStyle: sSubtitle2Style.copyWith(
-          color: SColorsLight().grey2,
+        labelStyle: STStyles.subtitle1.copyWith(
+          color: SColorsLight().gray8,
         ),
-        floatingLabelStyle: sCaptionTextStyle.copyWith(
+        floatingLabelStyle: STStyles.captionMedium.copyWith(
           fontSize: 16.0,
-          color: SColorsLight().grey2,
+          color: SColorsLight().gray8,
         ),
         floatingLabelBehavior: FloatingLabelBehavior.never,
         counterText: '',

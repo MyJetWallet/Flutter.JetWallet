@@ -12,10 +12,8 @@ import 'package:jetwallet/features/invest/ui/dashboard/new_invest_header.dart';
 import 'package:jetwallet/features/invest/ui/dashboard/symbol_info_line.dart';
 import 'package:jetwallet/features/invest/ui/invests/secondary_switch.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_input.dart';
-import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
-import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../../core/router/app_router.dart';
 
@@ -23,44 +21,42 @@ void showInvestMarketWatchBottomSheet(BuildContext context) {
   final investStore = getIt.get<InvestDashboardStore>();
 
   WidgetsBinding.instance.addPostFrameCallback((_) {
-    sShowBasicModalBottomSheet(
+    showBasicBottomSheet(
       context: context,
-      scrollable: true,
       expanded: true,
-      pinned: Observer(
-        builder: (BuildContext context) {
-          return SPaddingH24(
-            child: Column(
-              children: [
-                NewInvestHeader(
-                  title: intl.invest_market_watch,
-                  showRollover: false,
-                  showModify: false,
-                  showIcon: false,
-                  showFull: false,
-                  onButtonTap: () {},
-                ),
-                const SpaceH4(),
-                SecondarySwitch(
-                  onChangeTab: investStore.setActiveSectionByIndex,
-                  fromRight: false,
-                  activeTab: investStore.sections.indexWhere(
-                    (element) => element.id == investStore.activeSection,
+      children: [
+        Observer(
+          builder: (BuildContext context) {
+            return SPaddingH24(
+              child: Column(
+                children: [
+                  NewInvestHeader(
+                    title: intl.invest_market_watch,
+                    showRollover: false,
+                    showModify: false,
+                    showIcon: false,
+                    showFull: false,
+                    onButtonTap: () {},
                   ),
-                  tabs: [
-                    ...investStore.sections.map((section) => section.name!),
-                  ],
-                ),
-                const SpaceH4(),
-              ],
-            ),
-          );
-        },
-      ),
-      horizontalPinnedPadding: 0,
-      removePinnedPadding: true,
-      horizontalPadding: 0,
-      children: [const InstrumentsList()],
+                  const SpaceH4(),
+                  SecondarySwitch(
+                    onChangeTab: investStore.setActiveSectionByIndex,
+                    fromRight: false,
+                    activeTab: investStore.sections.indexWhere(
+                      (element) => element.id == investStore.activeSection,
+                    ),
+                    tabs: [
+                      ...investStore.sections.map((section) => section.name!),
+                    ],
+                  ),
+                  const SpaceH4(),
+                ],
+              ),
+            );
+          },
+        ),
+        const InstrumentsList(),
+      ],
     );
   });
 }
@@ -73,7 +69,7 @@ class InstrumentsList extends StatelessObserverWidget {
     final investStore = getIt.get<InvestDashboardStore>();
     final investChartStore = getIt.get<InvestChartStore>();
     final investPositionsStore = getIt.get<InvestPositionsStore>();
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     int getGroupedLength(String symbol) {
       final groupedPositions = investPositionsStore.activeList.where(
@@ -162,7 +158,7 @@ class InstrumentsList extends StatelessObserverWidget {
                                         false,
                                   ).toList().length} ${intl.invest_tokens}',
                               style: STStyles.body3InvestM.copyWith(
-                                color: colors.grey1,
+                                color: colors.gray10,
                               ),
                             ),
                             const SpaceH3(),
@@ -174,15 +170,15 @@ class InstrumentsList extends StatelessObserverWidget {
                     Text(
                       section.description ?? '',
                       style: STStyles.body2InvestM.copyWith(
-                        color: colors.grey1,
+                        color: colors.gray10,
                       ),
                       maxLines: investStore.isShortDescription ? 2 : 10,
                     ),
                     const SpaceH8(),
                     Center(
-                      child: SIconButton(
+                      child: SafeGesture(
                         onTap: investStore.setShortDescription,
-                        defaultIcon: investStore.isShortDescription
+                        child: investStore.isShortDescription
                             ? Assets.svg.invest.investArrow.simpleSvg(
                                 width: 14,
                                 height: 14,
@@ -221,24 +217,9 @@ class InstrumentsList extends StatelessObserverWidget {
                         ),
                       ),
                       const SpaceW10(),
-                      SIconButton(
+                      SafeGesture(
                         onTap: investStore.setInstrumentSort,
-                        defaultIcon: investStore.instrumentSort == 0
-                            ? Assets.svg.invest.sortNotSet.simpleSvg(
-                                width: 20,
-                                height: 20,
-                                color: colors.black,
-                              )
-                            : investStore.instrumentSort == 1
-                                ? Assets.svg.invest.sortUp.simpleSvg(
-                                    width: 20,
-                                    height: 20,
-                                  )
-                                : Assets.svg.invest.sortDown.simpleSvg(
-                                    width: 20,
-                                    height: 20,
-                                  ),
-                        pressedIcon: investStore.instrumentSort == 0
+                        child: investStore.instrumentSort == 0
                             ? Assets.svg.invest.sortNotSet.simpleSvg(
                                 width: 20,
                                 height: 20,

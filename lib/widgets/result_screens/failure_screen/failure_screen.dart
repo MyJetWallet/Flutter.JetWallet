@@ -4,7 +4,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/widgets/result_screens/widgets/result_screen_title.dart';
 import 'package:lottie/lottie.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../core/l10n/i10n.dart';

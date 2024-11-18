@@ -17,7 +17,6 @@ import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'SingInRouter')
@@ -50,7 +49,7 @@ class _SingInBody extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     final credentials = getIt.get<CredentialsService>();
     final signInStore = SingleSingInStore.of(context);
@@ -89,7 +88,7 @@ class _SingInBody extends StatelessObserverWidget {
       },
       child: SPageFrame(
         loaderText: intl.register_pleaseWait,
-        color: colors.grey5,
+        color: colors.gray2,
         loading: signInStore.loader,
         header: SimpleLargeAppbar(
           title: intl.register_enterYourEmail,
@@ -123,51 +122,50 @@ class _SingInBody extends StatelessObserverWidget {
                   children: [
                     ColoredBox(
                       color: colors.white,
-                      child: SPaddingH24(
-                        child: AutofillGroup(
-                          child: Observer(
-                            builder: (context) {
-                              return SStandardField(
-                                controller: signInStore.emailController,
-                                labelText: intl.login_emailTextFieldLabel,
-                                autofocus: true,
-                                initialValue: email,
-                                autofillHints: const [AutofillHints.email],
-                                keyboardType: TextInputType.emailAddress,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.deny(
-                                    RegExp('[ ]'),
-                                  ),
-                                ],
-                                onChanged: (value) {
-                                  credentials.updateAndValidateEmail(value);
-
-                                  if (value.isEmpty) {
-                                    SingleSingInStore.of(context).setIsEmailError(false);
-                                  }
-                                  if (credentials.emailValid && SingleSingInStore.of(context).isEmailError) {
-                                    SingleSingInStore.of(context).setIsEmailError(false);
-                                  }
-                                },
-                                onErase: () {
+                      child: AutofillGroup(
+                        child: Observer(
+                          builder: (context) {
+                            return SInput(
+                              controller: signInStore.emailController,
+                              label: intl.login_emailTextFieldLabel,
+                              autofocus: true,
+                              initialValue: email,
+                              autofillHints: const [AutofillHints.email],
+                              keyboardType: TextInputType.emailAddress,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.deny(
+                                  RegExp('[ ]'),
+                                ),
+                              ],
+                              onChanged: (value) {
+                                credentials.updateAndValidateEmail(value);
+                      
+                                if (value.isEmpty) {
                                   SingleSingInStore.of(context).setIsEmailError(false);
-                                },
-                                hideClearButton: credentials.email.isEmpty,
-                                onErrorIconTap: () {
-                                  sNotification.showError(
-                                    intl.register_invalidEmail,
-                                  );
-                                },
-                                isError: SingleSingInStore.of(context).isEmailError,
-                              );
-                            },
-                          ),
+                                }
+                                if (credentials.emailValid && SingleSingInStore.of(context).isEmailError) {
+                                  SingleSingInStore.of(context).setIsEmailError(false);
+                                }
+                              },
+                             
+                              onCloseIconTap: () {
+                                SingleSingInStore.of(context).setIsEmailError(false);
+                              },
+                              hasCloseIcon: credentials.email.isNotEmpty,
+                              onErrorIconTap: () {
+                                sNotification.showError(
+                                  intl.register_invalidEmail,
+                                );
+                              },
+                              hasErrorIcon: SingleSingInStore.of(context).isEmailError,
+                            );
+                          },
                         ),
                       ),
                     ),
                     const Spacer(),
                     ColoredBox(
-                      color: colors.grey5,
+                      color: colors.gray2,
                       child: SPaddingH24(
                         child: SPolicyCheckbox(
                           firstText: '${intl.register_herebyConfirm} ',

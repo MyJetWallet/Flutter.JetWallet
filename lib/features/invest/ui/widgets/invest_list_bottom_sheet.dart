@@ -8,19 +8,16 @@ import 'package:jetwallet/features/invest/stores/dashboard/invest_positions_stor
 import 'package:jetwallet/features/invest/ui/invests/data_line.dart';
 import 'package:jetwallet/features/invest/ui/invests/invest_bottom_sheets/history_positions.dart';
 import 'package:jetwallet/features/invest/ui/invests/invest_bottom_sheets/pending_positions.dart';
+import 'package:jetwallet/features/invest/ui/invests/main_switch.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_alert_bottom_sheet.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_market_watch_bottom_sheet.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
-import 'package:simple_kit/modules/colors/simple_colors_light.dart';
-import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
-import 'package:simple_kit_updated/widgets/button/invest_buttons/invest_button.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../../core/services/signal_r/signal_r_service_new.dart';
 import '../../../../utils/helpers/currency_from.dart';
 import '../invests/invest_bottom_sheets/active_positions.dart';
-import '../invests/main_switch.dart';
 
 void showInvestListBottomSheet(BuildContext context) {
   final investPositionsStore = getIt.get<InvestPositionsStore>();
@@ -28,25 +25,10 @@ void showInvestListBottomSheet(BuildContext context) {
   final currencies = sSignalRModules.currenciesList;
   final currency = currencyFrom(currencies, 'USDT');
 
-  sShowBasicModalBottomSheet(
+  showBasicBottomSheet(
     context: context,
-    scrollable: true,
     expanded: true,
-    pinned: SPaddingH24(
-      child: Column(
-        children: [
-          Observer(
-            builder: (BuildContext context) {
-              return MainSwitch(
-                onChangeTab: investPositionsStore.setActiveTab,
-                activeTab: investPositionsStore.activeTab,
-              );
-            },
-          ),
-        ],
-      ),
-    ),
-    pinnedBottom: Material(
+    button: Material(
       color: SColorsLight().white,
       child: Observer(
         builder: (BuildContext context) {
@@ -64,8 +46,8 @@ void showInvestListBottomSheet(BuildContext context) {
                             child: SIButton(
                               activeColor: SColorsLight().black,
                               activeNameColor: SColorsLight().white,
-                              inactiveColor: SColorsLight().grey2,
-                              inactiveNameColor: SColorsLight().grey4,
+                              inactiveColor: SColorsLight().gray8,
+                              inactiveNameColor: SColorsLight().gray4,
                               active: true,
                               icon: Assets.svg.invest.investClose.simpleSvg(
                                 width: 20,
@@ -116,8 +98,8 @@ void showInvestListBottomSheet(BuildContext context) {
                           child: SIButton(
                             activeColor: SColorsLight().blue,
                             activeNameColor: SColorsLight().white,
-                            inactiveColor: SColorsLight().grey4,
-                            inactiveNameColor: SColorsLight().grey2,
+                            inactiveColor: SColorsLight().gray4,
+                            inactiveNameColor: SColorsLight().gray8,
                             active: true,
                             icon: Assets.svg.invest.investPlus.simpleSvg(
                               width: 20,
@@ -151,8 +133,8 @@ void showInvestListBottomSheet(BuildContext context) {
                             child: SIButton(
                               activeColor: SColorsLight().black,
                               activeNameColor: SColorsLight().white,
-                              inactiveColor: SColorsLight().grey2,
-                              inactiveNameColor: SColorsLight().grey4,
+                              inactiveColor: SColorsLight().gray8,
+                              inactiveNameColor: SColorsLight().gray4,
                               active: true,
                               icon: Assets.svg.invest.investClose.simpleSvg(
                                 width: 20,
@@ -193,8 +175,8 @@ void showInvestListBottomSheet(BuildContext context) {
                           child: SIButton(
                             activeColor: SColorsLight().blue,
                             activeNameColor: SColorsLight().white,
-                            inactiveColor: SColorsLight().grey4,
-                            inactiveNameColor: SColorsLight().grey2,
+                            inactiveColor: SColorsLight().gray4,
+                            inactiveNameColor: SColorsLight().gray8,
                             active: true,
                             icon: Assets.svg.invest.investPlus.simpleSvg(
                               width: 20,
@@ -227,8 +209,8 @@ void showInvestListBottomSheet(BuildContext context) {
                           child: SIButton(
                             activeColor: SColorsLight().blue,
                             activeNameColor: SColorsLight().white,
-                            inactiveColor: SColorsLight().grey4,
-                            inactiveNameColor: SColorsLight().grey2,
+                            inactiveColor: SColorsLight().gray4,
+                            inactiveNameColor: SColorsLight().gray8,
                             active: true,
                             icon: Assets.svg.invest.investPlus.simpleSvg(
                               width: 20,
@@ -252,10 +234,23 @@ void showInvestListBottomSheet(BuildContext context) {
         },
       ),
     ),
-    horizontalPinnedPadding: 0,
-    removePinnedPadding: true,
-    horizontalPadding: 0,
-    children: [const InvestList()],
+    children: [
+      SPaddingH24(
+        child: Column(
+          children: [
+            Observer(
+              builder: (BuildContext context) {
+                return MainSwitch(
+                  onChangeTab: investPositionsStore.setActiveTab,
+                  activeTab: investPositionsStore.activeTab,
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+      const InvestList(),
+    ],
   );
 }
 

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class TransactionDaySeparator extends StatelessObserverWidget {
@@ -13,7 +12,7 @@ class TransactionDaySeparator extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return SizedBox(
       height: 21,
@@ -25,13 +24,13 @@ class TransactionDaySeparator extends StatelessObserverWidget {
             Text(
               text,
               style: STStyles.body2Semibold.copyWith(
-                color: colors.grey3,
+                color: colors.gray6,
               ),
             ),
             const SizedBox(width: 4),
             Expanded(
               child: Divider(
-                color: colors.grey3,
+                color: colors.gray6,
               ),
             ),
           ],

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class VerificationSteep extends StatelessWidget {

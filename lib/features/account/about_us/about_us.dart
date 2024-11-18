@@ -5,8 +5,9 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/account/about_us/widgets/simple_account_term_button.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 
 @RoutePage(name: 'AboutUsRouter')
@@ -21,15 +22,15 @@ class AboutUs extends StatelessObserverWidget {
     final isJarAvaible = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
         .any((element) => element.id == AssetPaymentProductsEnum.jar);
 
-    return SPageFrameWithPadding(
+    return SPageFrame(
       loaderText: intl.register_pleaseWait,
-      header: SSmallHeader(
+      header: GlobalBasicAppBar(
         title: intl.account_aboutUs,
-        onBackButtonTap: () => Navigator.pop(context),
+        hasRightIcon: false,
       ),
       child: ListView(
         physics: const BouncingScrollPhysics(),
-        padding: EdgeInsets.zero,
+        padding: const EdgeInsets.symmetric(horizontal: 24),
         children: [
           Baseline(
             baseline: 60,
@@ -37,7 +38,7 @@ class AboutUs extends StatelessObserverWidget {
             child: Text(
               intl.aboutUs_text1,
               maxLines: 3,
-              style: sTextH2Style,
+              style: STStyles.body1Medium,
             ),
           ),
           Baseline(
@@ -46,7 +47,7 @@ class AboutUs extends StatelessObserverWidget {
             child: Text(
               intl.aboutUs_text2,
               maxLines: 6,
-              style: sBodyText1Style,
+              style: STStyles.body1InvestSM,
             ),
           ),
           Baseline(
@@ -55,7 +56,7 @@ class AboutUs extends StatelessObserverWidget {
             child: Text(
               intl.aboutUs_text3,
               maxLines: 8,
-              style: sBodyText1Style,
+              style: STStyles.body1Medium,
             ),
           ),
           Baseline(
@@ -64,7 +65,7 @@ class AboutUs extends StatelessObserverWidget {
             child: Text(
               intl.aboutUs_text4,
               maxLines: 10,
-              style: sBodyText1Style,
+              style: STStyles.body1Medium,
             ),
           ),
           const SpaceH30(),

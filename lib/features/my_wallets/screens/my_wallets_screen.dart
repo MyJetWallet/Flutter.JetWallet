@@ -47,7 +47,6 @@ import 'package:simple_kit/modules/icons/24x24/public/delete_asset/simple_delete
 import 'package:simple_kit/modules/icons/24x24/public/start_reorder/simple_start_reorder_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
-import 'package:simple_kit_updated/widgets/shared/simple_skeleton_loader.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:timezone/data/latest.dart';
@@ -195,7 +194,7 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     final list = slidableItems(store);
 
@@ -290,7 +289,7 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                                   child: Container(
                                     width: 24.0,
                                     decoration: BoxDecoration(
-                                      color: colors.grey5,
+                                      color: colors.gray2,
                                       shape: BoxShape.circle,
                                     ),
                                     alignment: Alignment.center,
@@ -473,7 +472,7 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
   }
 
   List<Widget> slidableItems(MyWalletsSrore store) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
     final list = <Widget>[];
 
     for (var index = 0; index < store.currencies.length; index += 1) {
@@ -503,7 +502,7 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                                 onPressed: (context) {
                                   store.onStartReordering();
                                 },
-                                backgroundColor: colors.purple,
+                                backgroundColor: colors.blue,
                                 foregroundColor: colors.white,
                                 child: SStartReorderIcon(
                                   color: colors.white,
@@ -553,7 +552,7 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
     required Animation<double> animation,
     required MyWalletsSrore store,
   }) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return AnimatedBuilder(
       animation: animation,
@@ -564,7 +563,7 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
               color: colors.white,
               boxShadow: [
                 BoxShadow(
-                  color: colors.grey1.withOpacity(0.2),
+                  color: colors.gray10.withOpacity(0.2),
                   blurRadius: 20,
                 ),
               ],

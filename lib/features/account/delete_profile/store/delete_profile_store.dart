@@ -6,7 +6,7 @@ import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:mobx/mobx.dart';
-import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/profile/profile_delete_reasons_model.dart';
 
 part 'delete_profile_store.g.dart';

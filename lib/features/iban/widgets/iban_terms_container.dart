@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class IbanTermsContainer extends StatelessWidget {
   const IbanTermsContainer({
@@ -15,7 +16,7 @@ class IbanTermsContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return Container(
       width: double.infinity,
@@ -36,7 +37,7 @@ class IbanTermsContainer extends StatelessWidget {
               const SpaceW14(),
               Text(
                 text1,
-                style: sBodyText2Style,
+                style: STStyles.body2Medium,
               ),
             ],
           ),
@@ -55,7 +56,7 @@ class IbanTermsContainer extends StatelessWidget {
                 width: MediaQuery.of(context).size.width - 88,
                 child: Text(
                   text2,
-                  style: sBodyText2Style,
+                  style: STStyles.body2Medium,
                   maxLines: 15,
                 ),
               ),

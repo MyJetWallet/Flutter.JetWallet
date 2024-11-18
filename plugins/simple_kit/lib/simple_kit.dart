@@ -4,123 +4,33 @@ library simple_kit;
 
 export 'core/simple_kit.dart' show sKit;
 
-/// Account Banners
-export 'modules/account/banners/simple_account_banner.dart';
+/// Utils
+export 'utils/constants.dart';
+export 'utils/enum.dart';
 
-/// Account
-export 'modules/account/buttons/account_category_button/simple_account_category_button.dart';
-export 'modules/account/buttons/term/simple_account_term_button.dart';
-export 'modules/account/headers/simple_account_category_header.dart';
-
-/// Indicator
-export 'modules/account/phone_number/simple_number.dart';
-
-/// Countries
-export 'modules/account/phone_number/simple_phone_numbers.dart';
-
-/// Actions
-export 'modules/actions/confirm_action_timer/simple_confirm_action_timer.dart';
-export 'modules/actions/confirm_action_timer/simple_confirm_action_timer_painter.dart';
-export 'modules/actions/confirm_action_timer/simple_timer_animation_countdown.dart';
-export 'modules/actions/simple_action_confirm_text.dart';
-
-/// Agreements
-export 'modules/agreements/simple_privacy_policy/simple_policy_checkbox.dart';
-export 'modules/agreements/simple_privacy_policy/simple_policy_text.dart';
-
-/// Asset Items
-export 'modules/asset_items/simple_action_item.dart';
-export 'modules/asset_items/simple_card_row.dart';
-
-/// Bottom sheets
-export 'modules/bottom_sheets/components/basic_bottom_sheet/show_basic_modal_bottom_sheet.dart';
-export 'modules/bottom_sheets/components/simple_bottom_sheet_header.dart';
-export 'modules/bottom_sheets/components/simple_shade_animation_stack.dart';
-
-/// Buttons
-export 'modules/buttons/basic_buttons/primary_button/public/simple_primary_button_1.dart';
-export 'modules/buttons/basic_buttons/primary_button/public/simple_primary_button_2.dart';
-export 'modules/buttons/basic_buttons/primary_button/public/simple_primary_button_3.dart';
-export 'modules/buttons/basic_buttons/secondary_button/public/simple_secondary_button_1.dart';
-export 'modules/buttons/basic_buttons/secondary_button/public/simple_secondary_button_2.dart';
-export 'modules/buttons/basic_buttons/text_button/public/simple_text_button_1.dart';
-export 'modules/buttons/basic_buttons/text_button/public/simple_text_button_2.dart';
-export 'modules/buttons/kyc_button/simple_choose_document_button.dart';
-export 'modules/buttons/resend_button/simple_resend_button.dart';
-export 'modules/buttons/simple_floating_button_frame.dart';
-export 'modules/buttons/simple_floating_button_frame2.dart';
-export 'modules/buttons/simple_circle_icon_button.dart';
-export 'modules/buttons/simple_icon_text_button.dart';
-
-/// Colors
-export 'modules/colors/simple_colors.dart';
-
-/// Fields
-export 'modules/fields/standard_field/base/standard_field_error_notifier.dart';
-export 'modules/fields/standard_field/public/simple_standard_field.dart';
-export 'modules/fields/standard_field/public/simple_standard_field_obscure.dart';
-
-/// Headers
-export 'modules/headers/simple_big_header.dart';
-export 'modules/headers/simple_mega_header.dart';
-export 'modules/headers/simple_small_header.dart';
+/// Theme
+export 'modules/theme/simple_theme.dart';
 
 /// Icons
-export 'modules/icons/102x56/public/numeric_keyboard_erase/simple_numeric_keyboard_erase_icon.dart';
-export 'modules/icons/102x56/public/numeric_keyboard_erase/simple_numeric_keyboard_erase_pressed_icon.dart';
-export 'modules/icons/102x56/public/numeric_keyboard_face_id/simple_numeric_keyboard_face_id_icon.dart';
-export 'modules/icons/102x56/public/numeric_keyboard_face_id/simple_numeric_keyboard_face_id_pressed_icon.dart';
-export 'modules/icons/102x56/public/numeric_keyboard_fingerprint/simple_numeric_keyboard_fingerprint_icon.dart';
-export 'modules/icons/102x56/public/numeric_keyboard_fingerprint/simple_numeric_keyboard_fingerprint_pressed_icon.dart';
-export 'modules/icons/13x14/public/stats/simple_stats_icon.dart';
-export 'modules/icons/14x16/public/start/simple_start_icon.dart';
 export 'modules/icons/16x16/public/close/simple_close_icon.dart';
-export 'modules/icons/16x16/public/fee_alert/simple_fee_alert_icon.dart';
-export 'modules/icons/16x16/public/small_arrow/simple_small_arrow_negative_icon.dart';
-export 'modules/icons/16x16/public/small_arrow/simple_small_arrow_positive_icon.dart';
-export 'modules/icons/16x16/public/smiles/simple_smile_bad_icon.dart';
-export 'modules/icons/16x16/public/smiles/simple_smile_good_icon.dart';
-export 'modules/icons/16x16/public/smiles/simple_smile_neutral_icon.dart';
 export 'modules/icons/16x16/public/tick/simple_tick_icon.dart';
 export 'modules/icons/16x16/public/tick/simple_tick_selected_icon.dart';
-export 'modules/icons/18x18/public/paid_interest_rate/simple_paid_interest_rate_icon.dart';
-export 'modules/icons/18x18/public/earn/simple_earn_deposit_icon.dart';
-export 'modules/icons/20x20/public/deposit/simple_deposit_icon.dart';
-export 'modules/icons/20x20/public/deposit_in_progress/simple_deposit_buy_icon.dart';
-export 'modules/icons/20x20/public/deposit_in_progress/simple_deposit_send_icon.dart';
-export 'modules/icons/20x20/public/deposit_in_progress/simple_deposit_earn_icon.dart';
-export 'modules/icons/20x20/public/deposit_in_progress/simple_deposit_total_icon.dart';
-export 'modules/icons/20x20/public/deposit_in_progress/simple_clock_icon.dart';
 export 'modules/icons/20x20/public/minus/simple_minus_icon.dart';
 export 'modules/icons/20x20/public/list_checkmark/simple_minus_list_icon.dart';
 export 'modules/icons/20x20/public/list_checkmark/simple_check_list_icon.dart';
 export 'modules/icons/20x20/public/plus/simple_plus_icon.dart';
 export 'modules/icons/20x20/public/receive_by_phone/simple_receive_by_phone_icon.dart';
-export 'modules/icons/20x20/public/reward_payment/simple_reward_payment_icon.dart';
-export 'modules/icons/20x20/public/send/simple_send_icon.dart';
 export 'modules/icons/20x20/public/send_by_phone/simple_send_by_phone_icon.dart';
-export 'modules/icons/20x20/public/swap/simple_swap_icon.dart';
-export 'modules/icons/20x20/public/settings/simple_settings_icon.dart';
-export 'modules/icons/20x20/public/withdrawal_fee/simple_withdrawal_fee_icon.dart';
 export 'modules/icons/20x20/public/circle_minus/simple_circle_minus_icon.dart';
 export 'modules/icons/20x20/public/bank/simple_bank_icon.dart';
 export 'modules/icons/20x20/public/user/simple_user_icon.dart';
 export 'modules/icons/20x20/public/rewards/simple_reward_icon.dart';
-export 'modules/icons/20x20/public/cash/simple_cash_icon.dart';
-export 'modules/icons/20x20/public/simple_card_actions/simple_card_settings_icon.dart';
-export 'modules/icons/20x20/public/simple_card_actions/simple_freeze_icon.dart';
-export 'modules/icons/20x20/public/simple_card_actions/simple_hide_details_icon.dart';
-export 'modules/icons/20x20/public/simple_card_actions/simple_show_details_icon.dart';
-export 'modules/icons/20x20/public/simple_card_actions/simple_terminate_icon.dart';
 export 'modules/icons/24x24/public/about_us/simple_about_us_icon.dart';
 export 'modules/icons/24x24/public/account_status/simple_account_verify_icon.dart';
 export 'modules/icons/24x24/public/account_status/simple_account_waiting_icon.dart';
 export 'modules/icons/24x24/public/account_status/simple_account_blocked_icon.dart';
-export 'modules/icons/24x24/public/action_buy/simple_action_buy_icon.dart';
 export 'modules/icons/24x24/public/action_convert/simple_action_convert_icon.dart';
 export 'modules/icons/24x24/public/action_deposit/simple_action_deposit_icon.dart';
-export 'modules/icons/24x24/public/action_receive/simple_action_receive_icon.dart';
-export 'modules/icons/24x24/public/action_sell/simple_action_sell_icon.dart';
 export 'modules/icons/24x24/public/action_send/simple_action_send_icon.dart';
 export 'modules/icons/24x24/public/action_withdraw/simple_action_withdraw_icon.dart';
 export 'modules/icons/24x24/public/adv_cash/simple_adv_cash_icon.dart';
@@ -206,121 +116,15 @@ export 'modules/icons/24x24/public/star/simple_star_selected_icon.dart';
 export 'modules/icons/24x24/public/support/simple_support_icon.dart';
 export 'modules/icons/24x24/public/two_factor_auth/simple_two_factor_auth_icon.dart';
 export 'modules/icons/24x24/public/wallet/simple_wallet_icon.dart';
-export 'modules/icons/24x24/public/wire/simple_wire_icon.dart';
 export 'modules/icons/24x24/public/network/simple_network_icon.dart';
 export 'modules/icons/24x24/public/account/simple_account_icon.dart';
 export 'modules/icons/24x24/public/rewards/simple_rewards_icon.dart';
-export 'modules/icons/36x36/public/face_id/simple_face_id_icon.dart';
-export 'modules/icons/36x36/public/face_id/simple_face_id_pressed_icon.dart';
-export 'modules/icons/36x36/public/fingerprint/simple_fingerprint_icon.dart';
-export 'modules/icons/36x36/public/fingerprint/simple_fingerprint_pressed_icon.dart';
-export 'modules/icons/36x36/public/keyboard_erase/simple_keyboard_erase_icon.dart';
-export 'modules/icons/36x36/public/keyboard_erase/simple_keyboard_erase_pressed_icon.dart';
 export 'modules/icons/40x22/public/delete/simple_delete_icon.dart';
-export 'modules/icons/40x40/public/convert/simple_convert_icon.dart';
-export 'modules/icons/40x40/public/convert/simple_convert_pressed_icon.dart';
-export 'modules/icons/56x56/public/action/simple_action_active_highlighted_icon.dart';
-export 'modules/icons/56x56/public/action/simple_action_active_icon.dart';
-export 'modules/icons/56x56/public/action/simple_action_default_icon.dart';
-export 'modules/icons/56x56/public/market/simple_market_active_icon.dart';
-export 'modules/icons/56x56/public/market/simple_market_default_icon.dart';
-export 'modules/icons/56x56/public/news/simple_news_active_icon.dart';
-export 'modules/icons/56x56/public/news/simple_news_default_icon.dart';
-export 'modules/icons/56x56/public/earn/simple_earn_active_icon.dart';
-export 'modules/icons/56x56/public/earn/simple_earn_default_icon.dart';
-export 'modules/icons/56x56/public/portfolio/simple_portfolio_active_icon.dart';
-export 'modules/icons/56x56/public/portfolio/simple_portfolio_default_icon.dart';
-export 'modules/icons/56x56/public/profile/simple_profile_active_icon.dart';
-export 'modules/icons/56x56/public/profile/simple_profile_default_icon.dart';
 export 'modules/icons/custom/public/cards/simple_visa_card_icon.dart';
 export 'modules/icons/custom/public/cards/simple_visa_card_big_icon.dart';
 export 'modules/icons/custom/public/cards/simple_mastercard_icon.dart';
-export 'modules/icons/custom/public/cards/simple_google_pay_icon.dart';
-export 'modules/icons/custom/public/invest/simple_invest_arrow.dart';
-export 'modules/icons/custom/public/invest/simple_invest_asset_placeholder.dart';
-export 'modules/icons/custom/public/invest/simple_invest_buy.dart';
-export 'modules/icons/custom/public/invest/simple_invest_chart_candles.dart';
-export 'modules/icons/custom/public/invest/simple_invest_chart_line.dart';
-export 'modules/icons/custom/public/invest/simple_invest_calendar.dart';
-export 'modules/icons/custom/public/invest/simple_invest_check.dart';
-export 'modules/icons/custom/public/invest/simple_invest_checked.dart';
-export 'modules/icons/custom/public/invest/simple_invest_close.dart';
-export 'modules/icons/custom/public/invest/simple_invest_edit.dart';
-export 'modules/icons/custom/public/invest/simple_invest_plus.dart';
-export 'modules/icons/custom/public/invest/simple_invest_profit_equal.dart';
-export 'modules/icons/custom/public/invest/simple_invest_profit_loss.dart';
-export 'modules/icons/custom/public/invest/simple_invest_profit_win.dart';
-export 'modules/icons/custom/public/invest/simple_invest_report.dart';
-export 'modules/icons/custom/public/invest/simple_invest_sell.dart';
-export 'modules/icons/custom/public/invest/simple_invest_search.dart';
-export 'modules/icons/custom/public/invest/simple_invest_setting.dart';
-export 'modules/icons/custom/public/invest/simple_invest_sort_down.dart';
-export 'modules/icons/custom/public/invest/simple_invest_sort_not_set.dart';
-export 'modules/icons/custom/public/invest/simple_invest_sort_up.dart';
-export 'modules/icons/custom/public/invest/simple_invest_share.dart';
-export 'modules/icons/custom/public/invest/simple_invest_wallet.dart';
-export 'modules/icons/custom/public/stars/simple_stars_icon.dart';
 export 'modules/icons/custom/public/star/simple_star_icon.dart';
-export 'modules/icons/custom/public/cards/simple_card.dart';
-export 'modules/icons/custom/public/cards/simple_wallet_card.dart';
 export 'modules/icons/custom/public/cards/simple_mastercard_big_icon.dart';
-export 'modules/icons/custom/public/cards/simple_frozen_card_icon.dart';
-export 'modules/icons/custom/public/cards/simple_frozen_icon.dart';
 export 'modules/icons/24x24/public/gift/simple_gift_send_icon.dart';
 export 'modules/icons/24x24/public/history_completed/simple_history_completed_icon.dart';
 export 'modules/icons/24x24/public/history_declined/simple_history_declined_icon.dart';
-
-/// Keyboards
-export 'modules/kyc/simple_documents_recommendations.dart';
-
-/// Notifications
-export 'modules/notifications/model/notification_model.dart';
-export 'modules/notifications/simple_notification_service.dart';
-export 'modules/notifications/show_notification.dart';
-export 'modules/notifications/simple_notification_box.dart';
-
-/// Page Frames
-export 'modules/shared/page_frames/simple_page_frame.dart';
-export 'modules/shared/page_frames/simple_page_frame_with_padding.dart';
-export 'modules/shared/qr_code_fields/simple_address_field_with_copy.dart';
-
-/// QR Code related
-export 'modules/shared/qr_code_fields/simple_qr_code_box.dart';
-export 'modules/shared/qr_code_fields/simple_skeleton_qr_loader.dart';
-
-/// Components
-export 'modules/shared/simple_baseline_child.dart';
-export 'modules/shared/simple_clickable_link_text.dart';
-export 'modules/shared/simple_divider.dart';
-export 'modules/shared/simple_field_divider_frame.dart';
-export 'modules/shared/simple_get_widget_size.dart';
-export 'modules/shared/simple_icon_button.dart';
-export 'modules/shared/simple_network_svg.dart';
-export 'modules/shared/simple_paddings.dart';
-export 'modules/shared/simple_profile_details_button.dart';
-export 'modules/shared/simple_requirement.dart';
-export 'modules/shared/simple_show_alert_popup.dart';
-export 'modules/shared/simple_skeleton_text_loader.dart';
-export 'modules/shared/simple_spacers.dart';
-export 'modules/shared/simple_transparent_ink_well.dart';
-export 'modules/shared/simple_widget_bottom_size.dart';
-export 'modules/shared/stack_loader/notifier/stack_loader_notifier.dart';
-export 'modules/shared/stack_loader/components/loader_spinner.dart';
-export 'modules/loader/simple_loader.dart';
-export 'modules/shared/blue_bank_icon.dart';
-export 'modules/badge/simple_badge.dart';
-
-/// Helpers
-export 'helpers/biometrics_auth_helpers.dart';
-export 'helpers/validators/validator.dart';
-export 'helpers/validators/latin_validator.dart';
-
-/// Utils
-export 'utils/constants.dart';
-export 'utils/enum.dart';
-
-/// Texts
-export 'modules/texts/simple_text_styles.dart';
-
-/// Theme
-export 'modules/theme/simple_theme.dart';

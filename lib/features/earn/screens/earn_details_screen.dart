@@ -15,15 +15,11 @@ import 'package:jetwallet/features/transaction_history/widgets/transaction_month
 import 'package:jetwallet/features/wallet/helper/format_date.dart';
 import 'package:jetwallet/features/wallet/helper/format_date_to_hm.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
-import 'package:simple_kit/core/simple_kit.dart';
-import 'package:simple_kit/modules/bottom_sheets/components/basic_bottom_sheet/show_basic_modal_bottom_sheet.dart';
-import 'package:simple_kit/modules/shared/page_frames/simple_page_frame.dart';
 import 'package:simple_kit/utils/constants.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
-import 'package:simple_kit_updated/widgets/navigation/top_app_bar/global_basic_appbar.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_audit_history_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 
@@ -58,7 +54,7 @@ class _EarnsDetailsScreenState extends State<EarnsDetailsScreen> {
       child: Observer(
         builder: (context) {
           final store = Provider.of<EarnsDetailsStore>(context);
-          final colors = sKit.colors;
+          final colors = SColorsLight();
           final currencies = sSignalRModules.currenciesWithHiddenList;
 
           scrollController.addListener(() {
@@ -106,7 +102,10 @@ class _EarnsDetailsScreenState extends State<EarnsDetailsScreen> {
                           return PositionAuditItem(
                             key: ValueKey(positionAudit.id),
                             onTap: () {
-                              sShowBasicModalBottomSheet(
+                              showBasicBottomSheet(
+                                header: BasicBottomSheetHeaderWidget(
+                                  title: _getTransactionLabel(positionAudit.auditEventType),
+                                ),
                                 children: [
                                   PositionAuditItemView(
                                     key: ValueKey('${positionAudit.id}_view'),
@@ -116,7 +115,6 @@ class _EarnsDetailsScreenState extends State<EarnsDetailsScreen> {
                                     asset: currency,
                                   ),
                                 ],
-                                scrollable: true,
                                 context: context,
                               );
                             },
@@ -144,7 +142,7 @@ class _EarnsDetailsScreenState extends State<EarnsDetailsScreen> {
                             width: 24.0,
                             height: 24.0,
                             decoration: BoxDecoration(
-                              color: colors.grey5,
+                              color: colors.gray2,
                               shape: BoxShape.circle,
                             ),
                             child: const RiveAnimation.asset(
@@ -168,7 +166,7 @@ class _EarnsDetailsScreenState extends State<EarnsDetailsScreen> {
   Widget _transactionLabelIcon({
     required AuditEventType type,
   }) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     switch (type) {
       case AuditEventType.positionCreate:
@@ -219,4 +217,21 @@ String positionAuditClientModelBalanceChange({
     accuracy: accuracy,
     symbol: symbol,
   );
+}
+
+String _getTransactionLabel(AuditEventType type) {
+  switch (type) {
+    case AuditEventType.positionCreate:
+    case AuditEventType.positionDeposit:
+      return intl.earn_received;
+    case AuditEventType.positionWithdraw:
+    case AuditEventType.positionClose:
+      return intl.earn_sent;
+    case AuditEventType.positionIncomePayroll:
+      return intl.earn_saving_income;
+    case AuditEventType.undefined:
+      return '';
+    default:
+      return '';
+  }
 }

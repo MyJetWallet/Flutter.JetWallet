@@ -9,7 +9,6 @@ import 'package:jetwallet/features/bank_card/widgets/bank_card_cardnumber.dart';
 import 'package:jetwallet/features/bank_card/widgets/bank_card_date_label.dart';
 import 'package:jetwallet/features/bank_card/widgets/bank_card_holdername.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 
@@ -48,15 +47,12 @@ class _EditBankCardScreenBody extends StatelessObserverWidget {
     return SPageFrame(
       loaderText: intl.loader_please_wait,
       resizeToAvoidBottomInset: false,
-      color: sKit.colors.grey5,
+      color: SColorsLight().gray2,
       loading: store.loader,
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: intl.editCircleCard_bigHeaderTitle,
-          showBackButton: false,
-          onCLoseButton: () => sRouter.maybePop(),
-          showCloseButton: true,
-        ),
+      header: GlobalBasicAppBar(
+        title: intl.editCircleCard_bigHeaderTitle,
+        hasLeftIcon: false,
+        onRightIconTap: () => sRouter.maybePop(),
       ),
       child: Column(
         children: [
@@ -91,10 +87,9 @@ class _EditBankCardScreenBody extends StatelessObserverWidget {
                   ),
                 ),
                 const SpaceH10(),
-                STextButton1(
-                  active: true,
-                  name: intl.addCircleCard_delete,
-                  onTap: () {
+                SButton.text(
+                  text: intl.addCircleCard_delete,
+                  callback: () {
                     showDeleteDisclaimer(
                       context,
                       onDelete: () async {
@@ -128,7 +123,7 @@ Future<void> showDeleteDisclaimer(
     secondaryText: '${intl.paymentMethod_showAlertPopupSecondaryDescrText}?',
     primaryButtonName: intl.paymentMethod_yesDelete,
     secondaryButtonName: intl.paymentMethod_cancel,
-    primaryButtonType: SButtonType.primary3,
+    isPrimaryButtonRed: true,
     onPrimaryButtonTap: onDelete,
     onSecondaryButtonTap: () => Navigator.pop(context),
   );

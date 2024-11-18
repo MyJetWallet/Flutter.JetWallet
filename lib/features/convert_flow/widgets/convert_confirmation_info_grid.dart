@@ -5,9 +5,10 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/convert_flow/store/convert_confirmation_store.dart';
 import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:jetwallet/widgets/confirm_timer/simple_confirm_action_timer.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class ConvertConfirmationInfoGrid extends StatefulObserverWidget {
   const ConvertConfirmationInfoGrid({
@@ -51,7 +52,7 @@ class _ConfirmationInfoGridState extends State<ConvertConfirmationInfoGrid> with
     return Baseline(
       baseline: 19.0,
       baselineType: TextBaseline.alphabetic,
-      child: SSkeletonTextLoader(
+      child: SSkeletonLoader(
         height: 24,
         width: 120,
         borderRadius: BorderRadius.circular(4),
@@ -73,7 +74,7 @@ class _ConfirmationInfoGridState extends State<ConvertConfirmationInfoGrid> with
           children: [
             Text(
               intl.buy_confirmation_price,
-              style: sBodyText2Style.copyWith(color: sKit.colors.grey1),
+              style: STStyles.body2Medium.copyWith(color: SColorsLight().gray10),
             ),
             const Spacer(),
             if (store.isDataLoaded) ...[
@@ -97,7 +98,7 @@ class _ConfirmationInfoGridState extends State<ConvertConfirmationInfoGrid> with
                   accuracy: store.rate?.scale ?? 0,
                   symbol: store.paymentAsset ?? '',
                 )}',
-                style: sSubtitle3Style,
+                style: STStyles.subtitle2,
               ),
             ] else ...[
               textPreloader(),
@@ -119,45 +120,4 @@ class _ConfirmationInfoGridState extends State<ConvertConfirmationInfoGrid> with
       ],
     );
   }
-}
-
-void buyConfirmationFeeExplanation({
-  required BuildContext context,
-  required String title,
-  required String fee,
-  required String description,
-}) {
-  sShowBasicModalBottomSheet(
-    context: context,
-    horizontalPinnedPadding: 24,
-    scrollable: true,
-    pinned: SBottomSheetHeader(
-      name: title,
-    ),
-    children: [
-      SPaddingH24(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SpaceH16(),
-            Text(
-              fee,
-              style: sTextH4Style,
-            ),
-            const SpaceH12(),
-            const SDivider(),
-            const SpaceH12(),
-            Text(
-              description,
-              maxLines: 3,
-              style: sCaptionTextStyle.copyWith(
-                color: sKit.colors.grey3,
-              ),
-            ),
-            const SpaceH64(),
-          ],
-        ),
-      ),
-    ],
-  );
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class ProcessingFeeRowWidget extends StatelessWidget {
   const ProcessingFeeRowWidget({
@@ -81,7 +83,7 @@ class _BasicFeeRowWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return Padding(
       padding: needPadding ? const EdgeInsets.symmetric(vertical: 8) : EdgeInsets.zero,
@@ -101,7 +103,7 @@ class _BasicFeeRowWidget extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: sBodyText2Style.copyWith(color: colors.grey1),
+                style: STStyles.body2Medium.copyWith(color: colors.gray10),
               ),
               const SpaceW5(),
               Padding(
@@ -109,14 +111,14 @@ class _BasicFeeRowWidget extends StatelessWidget {
                 child: SizedBox(
                   width: 16,
                   height: 16,
-                  child: SInfoIcon(color: colors.grey1),
+                  child: SInfoIcon(color: colors.gray10),
                 ),
               ),
               const Spacer(),
               if (isLoaded) ...[
                 Text(
                   fee,
-                  style: sSubtitle3Style,
+                  style: STStyles.subtitle2,
                 ),
               ] else ...[
                 _textPreloader(),
@@ -132,7 +134,7 @@ class _BasicFeeRowWidget extends StatelessWidget {
     return Baseline(
       baseline: 19.0,
       baselineType: TextBaseline.alphabetic,
-      child: SSkeletonTextLoader(
+      child: SSkeletonLoader(
         height: 24,
         width: 120,
         borderRadius: BorderRadius.circular(4),
@@ -144,13 +146,10 @@ class _BasicFeeRowWidget extends StatelessWidget {
     required BuildContext context,
     dynamic Function(dynamic)? then,
   }) {
-    sShowBasicModalBottomSheet(
+    showBasicBottomSheet(
       context: context,
-      horizontalPinnedPadding: 24,
-      scrollable: true,
-      then: then,
-      pinned: SBottomSheetHeader(
-        name: title,
+      header: BasicBottomSheetHeaderWidget(
+        title: title,
       ),
       children: [
         SPaddingH24(
@@ -160,7 +159,7 @@ class _BasicFeeRowWidget extends StatelessWidget {
               const SpaceH19(),
               Text(
                 fee,
-                style: sTextH3Style,
+                style: STStyles.header4,
               ),
               const SpaceH9(),
               const SDivider(),
@@ -168,8 +167,8 @@ class _BasicFeeRowWidget extends StatelessWidget {
               Text(
                 description,
                 maxLines: 3,
-                style: sCaptionTextStyle.copyWith(
-                  color: sKit.colors.grey2,
+                style: STStyles.captionMedium.copyWith(
+                  color: SColorsLight().gray8,
                 ),
               ),
               const SpaceH64(),
@@ -177,6 +176,8 @@ class _BasicFeeRowWidget extends StatelessWidget {
           ),
         ),
       ],
-    );
+    ).then((v) {
+      then?.call(v);
+    });
   }
 }

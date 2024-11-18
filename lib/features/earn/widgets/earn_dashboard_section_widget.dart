@@ -24,7 +24,6 @@ import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
 
@@ -48,7 +47,6 @@ class _EarnSectionBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final store = Provider.of<EarnStore>(context);
-    final colors = SColorsLight();
 
     return Observer(
       builder: (context) {
@@ -66,17 +64,14 @@ class _EarnSectionBody extends StatelessWidget {
               const _EarnSectionDefaultState()
             else
               const _EarnSectionEmptyState(),
-            Padding(
-              padding: const EdgeInsets.only(
+            const Padding(
+              padding: EdgeInsets.only(
                 top: 32,
                 left: 24,
                 right: 24,
                 bottom: 8,
               ),
-              child: SDivider(
-                height: 2,
-                color: colors.gray2,
-              ),
+              child: SDivider(),
             ),
           ],
         );
@@ -138,7 +133,7 @@ class _EarnSectionEmptyState extends StatelessWidget {
 
                     showBasicBottomSheet(
                       context: context,
-                      basicBottomSheetButton: BasicBottomSheetButton(
+                      button: BasicBottomSheetButton(
                         title: intl.earn_continue,
                         onTap: () {
                           contentOnTap?.call();

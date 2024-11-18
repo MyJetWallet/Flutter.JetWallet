@@ -3,51 +3,47 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
 import 'package:jetwallet/features/my_wallets/widgets/wallet_search_item.dart';
-import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 void showAddWalletBottomSheet(BuildContext context) {
   final store = MyWalletsSrore.of(context);
 
   sAnalytics.addWalletForFavouritesScreenView();
 
-  sShowBasicModalBottomSheet(
+  showBasicBottomSheet(
     context: context,
-    scrollable: true,
-    then: (isAssetChoosed) {
-      final isAssetChoosedTemp = (isAssetChoosed as bool?) ?? false;
-      if (!isAssetChoosedTemp) {
-        store.onCloseSearchBottomSheetWithoutChoose();
-        sAnalytics.walletsScreenView(
-          favouritesAssetsList: List.generate(
-            store.currencies.length,
-            (index) => store.currencies[index].symbol,
-          ),
-        );
-      }
-    },
     expanded: true,
-    pinned: ActionBottomSheetHeader(
-      name: intl.my_wallets_add_wallet,
-      showSearch: store.currenciesForSearch.length >= 7,
-      onChanged: (String value) {
-        store.onSearch(value);
-      },
-      horizontalDividerPadding: 24,
-      addPaddingBelowTitle: true,
-      isNewDesign: true,
+    header: BasicBottomSheetHeaderWidget(
+      title: intl.my_wallets_add_wallet,
+      searchOptions: store.currenciesForSearch.length >= 7
+          ? SearchOptions(
+              hint: intl.actionBottomSheetHeader_search,
+              onChange: (String value) {
+                store.onSearch(value);
+              },
+            )
+          : null,
     ),
-    horizontalPinnedPadding: 0,
-    removePinnedPadding: true,
-    horizontalPadding: 0,
     children: [
       _AssetsList(
         contextWithMyWalletsSrore: context,
       ),
     ],
-  );
+  ).then((isAssetChoosed) {
+    final isAssetChoosedTemp = (isAssetChoosed as bool?) ?? false;
+    if (!isAssetChoosedTemp) {
+      store.onCloseSearchBottomSheetWithoutChoose();
+      sAnalytics.walletsScreenView(
+        favouritesAssetsList: List.generate(
+          store.currencies.length,
+          (index) => store.currencies[index].symbol,
+        ),
+      );
+    }
+  });
 }
 
 class _AssetsList extends StatelessObserverWidget {

@@ -7,6 +7,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/intercom/intercom_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/features/phone_verification/store/phone_verification_store.dart';
+import 'package:jetwallet/features/phone_verification/utils/simple_number.dart';
 import 'package:jetwallet/utils/store/timer_store.dart';
 import 'package:jetwallet/widgets/pin_code_field.dart';
 import 'package:jetwallet/widgets/texts/resend_in_text.dart';
@@ -99,7 +100,7 @@ class PhoneVerificationBody extends StatelessObserverWidget {
     final store = PhoneVerificationStore.of(context);
 
     // TODO add phoneVerificationCountdown
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     store.focusNode.addListener(() {
       if (store.focusNode.hasFocus && store.controller.value.text.length == codeLength && store.pinFieldError.value) {
@@ -129,7 +130,7 @@ class PhoneVerificationBody extends StatelessObserverWidget {
           child: Assets.svg.medium.chat.simpleSvg(),
         ),
         leftIcon: args.sendCodeOnInitState
-            ? SIconButton(
+            ? SafeGesture(
                 onTap: () {
                   if (args.isDeviceBinding || args.isUnlimitTransferConfirm) {
                     getIt<AppRouter>().maybePop();
@@ -146,8 +147,7 @@ class PhoneVerificationBody extends StatelessObserverWidget {
 
                   args.onBackTap?.call();
                 },
-                defaultIcon: const SBackIcon(),
-                pressedIcon: const SBackPressedIcon(),
+                child: const SBackIcon(),
               )
             : null,
       ),
@@ -174,8 +174,8 @@ class PhoneVerificationBody extends StatelessObserverWidget {
             if (args.showChangeTextAlert) ...[
               RichText(
                 text: TextSpan(
-                  style: sBodyText1Style.copyWith(
-                    color: colors.grey1,
+                  style: STStyles.body1Medium.copyWith(
+                    color: colors.gray10,
                   ),
                   children: [
                     TextSpan(
@@ -195,7 +195,7 @@ class PhoneVerificationBody extends StatelessObserverWidget {
                             );
                           }
                         },
-                      style: sBodyText1Style.copyWith(
+                      style: STStyles.body1Medium.copyWith(
                         color: colors.blue,
                       ),
                     ),
@@ -243,8 +243,8 @@ class PhoneVerificationBody extends StatelessObserverWidget {
               Center(
                 child: Text(
                   args.isUnlimitTransferConfirm ? '' : intl.profileDetails_waitForCall,
-                  style: sCaptionTextStyle.copyWith(
-                    color: colors.grey2,
+                  style: STStyles.captionMedium.copyWith(
+                    color: colors.gray8,
                   ),
                 ),
               )

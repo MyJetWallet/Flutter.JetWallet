@@ -102,7 +102,7 @@ class __EmailVerificationBodyState extends State<_EmailVerificationBody> with Wi
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
     final timer = TimerStore.of(context);
 
     final verification = getIt.get<EmailVerificationStore>();
@@ -141,39 +141,46 @@ class __EmailVerificationBodyState extends State<_EmailVerificationBody> with Wi
           },
           child: Assets.svg.medium.chat.simpleSvg(),
         ),
-        leftIcon: SIconButton(
+        leftIcon: SafeGesture(
           onTap: () {
             sRouter.replaceAll([const OnboardingRoute()]);
           },
-          defaultIcon: const SCloseIcon(),
-          pressedIcon: const SClosePressedIcon(),
+          child: const SCloseIcon(),
         ),
       ),
       child: SingleChildScrollView(
-        child: SPaddingH24(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SpaceH4(),
-              FittedBox(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SpaceH4(),
+            SPaddingH24(
+              child: FittedBox(
                 child: Text(
                   intl.emailVerification_enterCode,
-                  style: sBodyText1Style.copyWith(
-                    color: colors.grey1,
+                  style: STStyles.body1Medium.copyWith(
+                    color: colors.gray10,
                   ),
                 ),
               ),
-              Text(
+            ),
+            SPaddingH24(
+              child: Text(
                 authInfo.email,
-                style: sBodyText1Style,
+                style: STStyles.body1Medium,
               ),
-              const SpaceH16(),
-              SClickableLinkText(
+            ),
+            const SpaceH8(),
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: SButtonContext(
                 text: intl.emailVerification_openEmail,
                 onTap: () => openEmailApp(context),
+                type: SButtonContextType.basicInverted,
               ),
-              const SpaceH61(),
-              GestureDetector(
+            ),
+            const SpaceH61(),
+            SPaddingH24(
+              child: GestureDetector(
                 onLongPress: () => verification.pasteCode(),
                 onDoubleTap: () => verification.pasteCode(),
                 onTap: () {
@@ -204,30 +211,36 @@ class __EmailVerificationBodyState extends State<_EmailVerificationBody> with Wi
                   ),
                 ),
               ),
-              // const Spacer(),
-              if (timer.time > 0 && !verification.isResending) ...[
-                ResendInText(
-                  text: '${intl.twoFaPhone_youCanResendIn} ${timer.time}'
-                      ' ${intl.twoFaPhone_seconds}',
-                ),
-              ] else ...[
-                ResendInText(
-                  text: '${intl.twoFaPhone_didntReceiveTheCode}?',
-                ),
-                const SpaceH30(),
-                STextButton1(
-                  active: !verification.isResending,
-                  name: intl.twoFaPhone_resend,
-                  color: colors.blue,
-                  onTap: () {
-                    timer.refreshTimer();
-                    verification.resendCode(timer);
-                  },
-                ),
-              ],
-              const SpaceH24(),
-            ],
-          ),
+            ),
+            // const Spacer(),
+            SPaddingH24(
+              child: Column(
+                children: [
+                  if (timer.time > 0 && !verification.isResending) ...[
+                    ResendInText(
+                      text: '${intl.twoFaPhone_youCanResendIn} ${timer.time}'
+                          ' ${intl.twoFaPhone_seconds}',
+                    ),
+                  ] else ...[
+                    ResendInText(
+                      text: '${intl.twoFaPhone_didntReceiveTheCode}?',
+                    ),
+                    const SpaceH30(),
+                    SButtonContext(
+                      type: SButtonContextType.basicInverted,
+                      isDisabled: verification.isResending,
+                      text: intl.twoFaPhone_resend,
+                      onTap: () {
+                        timer.refreshTimer();
+                        verification.resendCode(timer);
+                      },
+                    ),
+                  ],
+                ],
+              ),
+            ),
+            const SpaceH24(),
+          ],
         ),
       ),
     );

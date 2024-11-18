@@ -11,13 +11,14 @@ import 'package:jetwallet/features/kyc/upload_documents/models/upload_kyc_docume
 import 'package:jetwallet/features/kyc/upload_documents/store/upload_kyc_documents_store.dart';
 import 'package:jetwallet/features/kyc/upload_documents/ui/widgets/create_kyc_banners_list.dart';
 import 'package:jetwallet/features/kyc/upload_documents/ui/widgets/document_page_view.dart';
+import 'package:jetwallet/widgets/simple_floating_button_frame.dart';
 import 'package:mobx/mobx.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit/modules/headers/simple_auth_header.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
+// TODO (Yaroslav): this screen isn't using in the app
 @RoutePage(name: 'UploadVerificationPhotoRouter')
 class UploadVerificationPhoto extends StatelessWidget {
   const UploadVerificationPhoto({
@@ -58,7 +59,7 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final store = UploadKycDocumentsStore.of(context);
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     final banners = createKycBannersList(
       documentFirstSide: store.documentFirstSide,
@@ -97,8 +98,7 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
         loaderText: (store.loaderSuccess.loading) ? intl.uploadKycDocuments_done : intl.uploadKycDocuments_pleaseWait,
         loading: store.loader,
         loadSuccess: store.loaderSuccess,
-        header: SLargeHeader(
-          progressValue: isSelfie ? 50 : 100,
+        header: SimpleLargeAppbar(
           title: intl.cardVerification_title,
         ),
         child: Stack(
@@ -118,8 +118,8 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
                               child: Text(
                                 intl.cardVerification_providePhoto,
                                 maxLines: 2,
-                                style: sBodyText1Style.copyWith(
-                                  color: colors.grey1,
+                                style: STStyles.body1Medium.copyWith(
+                                  color: colors.gray10,
                                 ),
                               ),
                             ),
@@ -144,8 +144,8 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
                               child: Text(
                                 intl.cardVerification_coverSymbols,
                                 maxLines: 5,
-                                style: sBodyText1Style.copyWith(
-                                  color: colors.grey1,
+                                style: STStyles.body1Medium.copyWith(
+                                  color: colors.gray10,
                                 ),
                               ),
                             ),
@@ -164,7 +164,7 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
                                   child: Text(
                                     intl.cardVerification_photoShow,
                                     textAlign: TextAlign.center,
-                                    style: sBodyText1Style.copyWith(
+                                    style: STStyles.body1Medium.copyWith(
                                       color: colors.black,
                                     ),
                                   ),
@@ -178,15 +178,15 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
                                     height: 3,
                                     width: 6,
                                     margin: const EdgeInsets.only(right: 10.0),
-                                    color: colors.grey1,
+                                    color: colors.gray10,
                                   ),
                                   SizedBox(
                                     height: 30,
                                     child: Text(
                                       intl.cardVerification_face,
                                       textAlign: TextAlign.center,
-                                      style: sBodyText1Style.copyWith(
-                                        color: colors.grey1,
+                                      style: STStyles.body1Medium.copyWith(
+                                        color: colors.gray10,
                                       ),
                                     ),
                                   ),
@@ -198,15 +198,15 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
                                   height: 3,
                                   width: 6,
                                   margin: const EdgeInsets.only(right: 10.0),
-                                  color: colors.grey1,
+                                  color: colors.gray10,
                                 ),
                                 SizedBox(
                                   height: 30,
                                   child: Text(
                                     intl.cardVerification_nameAndDate,
                                     textAlign: TextAlign.center,
-                                    style: sBodyText1Style.copyWith(
-                                      color: colors.grey1,
+                                    style: STStyles.body1Medium.copyWith(
+                                      color: colors.gray10,
                                     ),
                                   ),
                                 ),
@@ -218,15 +218,15 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
                                   height: 3,
                                   width: 6,
                                   margin: const EdgeInsets.only(right: 10.0),
-                                  color: colors.grey1,
+                                  color: colors.gray10,
                                 ),
                                 SizedBox(
                                   height: 30,
                                   child: Text(
                                     intl.cardVerification_digits,
                                     textAlign: TextAlign.center,
-                                    style: sBodyText1Style.copyWith(
-                                      color: colors.grey1,
+                                    style: STStyles.body1Medium.copyWith(
+                                      color: colors.gray10,
                                     ),
                                   ),
                                 ),

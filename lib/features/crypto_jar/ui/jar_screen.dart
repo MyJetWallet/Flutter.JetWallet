@@ -7,6 +7,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/format_service.dart';
+import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
@@ -20,11 +21,10 @@ import 'package:jetwallet/features/transaction_history/widgets/transaction_list_
 import 'package:jetwallet/features/transaction_history/widgets/transactions_list.dart';
 import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
 import 'package:jetwallet/utils/helpers/currency_from.dart';
-import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:jetwallet/widgets/loaders/loader.dart';
 import 'package:rive/rive.dart' as rive;
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart' as sk;
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
@@ -63,7 +63,6 @@ class JarScreen extends StatelessWidget {
   }
 }
 
-
 class _JarBody extends StatefulWidget {
   const _JarBody({
     required this.hasLeftIcon,
@@ -84,7 +83,7 @@ class __JarBodyState extends State<_JarBody> {
   Widget build(BuildContext context) {
     final store = getIt.get<JarsStore>();
 
-    final colors = sk.sKit.colors;
+    final colors = SColorsLight();
 
     final kycState = getIt.get<KycService>();
 
@@ -97,7 +96,7 @@ class __JarBodyState extends State<_JarBody> {
 
     return PopScope(
       canPop: widget.hasLeftIcon,
-      child: sk.SPageFrame(
+      child: SPageFrame(
         loaderText: '',
         color: colors.white,
         header: GlobalBasicAppBar(
@@ -136,7 +135,7 @@ class __JarBodyState extends State<_JarBody> {
                             child: Container(
                               width: 24.0,
                               decoration: BoxDecoration(
-                                color: colors.grey5,
+                                color: colors.gray2,
                                 shape: BoxShape.circle,
                               ),
                               alignment: Alignment.center,
@@ -176,7 +175,7 @@ class __JarBodyState extends State<_JarBody> {
                     ),
                   ),
                   SliverToBoxAdapter(
-                    child: sk.SPaddingH24(
+                    child: SPaddingH24(
                       child: Text(
                         intl.jar_crypto_jar,
                         style: STStyles.body2Semibold.copyWith(
@@ -186,7 +185,7 @@ class __JarBodyState extends State<_JarBody> {
                     ),
                   ),
                   SliverToBoxAdapter(
-                    child: sk.SPaddingH24(
+                    child: SPaddingH24(
                       child: Row(
                         children: [
                           Expanded(
@@ -216,7 +215,7 @@ class __JarBodyState extends State<_JarBody> {
                     ),
                   ),
                   SliverToBoxAdapter(
-                    child: sk.SPaddingH24(
+                    child: SPaddingH24(
                       child: Text(
                         getIt<AppStore>().isBalanceHide
                             ? '******* ${selectedJar.assetSymbol}'
@@ -239,7 +238,7 @@ class __JarBodyState extends State<_JarBody> {
                     ),
                   ),
                   SliverToBoxAdapter(
-                    child: sk.SPaddingH24(
+                    child: SPaddingH24(
                       child: _buildButtons(
                         kycState,
                         selectedJar,
@@ -316,7 +315,7 @@ class __JarBodyState extends State<_JarBody> {
     }
   }
 
-  Widget _buildButtons(KycService kycState, JarResponseModel selectedJar, SimpleColors colors, int accuracy) {
+  Widget _buildButtons(KycService kycState, JarResponseModel selectedJar, SColorsLight colors, int accuracy) {
     if (selectedJar.status != JarStatus.closed && selectedJar.status != JarStatus.creating) {
       return Row(
         children: [
@@ -327,7 +326,7 @@ class __JarBodyState extends State<_JarBody> {
             SColorsLight().blueDark,
             () {
               if (kycState.depositStatus == kycOperationStatus(KycStatus.blocked)) {
-                sk.showNotification(context, intl.operation_bloked_text);
+                sNotification.showError(intl.operation_bloked_text);
               } else {
                 showSendTimerAlertOr(
                   context: context,
@@ -353,7 +352,7 @@ class __JarBodyState extends State<_JarBody> {
             () {
               if (getIt.get<JarsStore>().selectedJar!.balance > 0) {
                 if (kycState.withdrawalStatus == kycOperationStatus(KycStatus.blocked)) {
-                  sk.showNotification(context, intl.operation_bloked_text);
+                  sNotification.showError(intl.operation_bloked_text);
                 } else {
                   showSendTimerAlertOr(
                     context: context,
@@ -395,7 +394,7 @@ class __JarBodyState extends State<_JarBody> {
             (allowCloseByTransactions || getIt.get<JarsStore>().selectedJar!.balanceInJarAsset != 0)
                 ? () {
                     if (kycState.withdrawalStatus == kycOperationStatus(KycStatus.blocked)) {
-                      sk.showNotification(context, intl.operation_bloked_text);
+                      sNotification.showError(intl.operation_bloked_text);
 
                       return;
                     } else {
@@ -555,7 +554,7 @@ class __JarBodyState extends State<_JarBody> {
                                 },
                               );
                             } else {
-                              sk.showNotification(context, intl.jar_close_transactions_in_processed_error);
+                              sNotification.showError(intl.jar_close_transactions_in_processed_error);
                             }
                           }
                         },
@@ -563,7 +562,7 @@ class __JarBodyState extends State<_JarBody> {
                     }
                   }
                 : () {
-                    sk.showNotification(context, intl.jar_close_transactions_in_processed_error);
+                    sNotification.showError(intl.jar_close_transactions_in_processed_error);
                   },
             allowCloseByTransactions || getIt.get<JarsStore>().selectedJar!.balanceInJarAsset != 0,
           ),
@@ -577,14 +576,12 @@ class __JarBodyState extends State<_JarBody> {
             () {
               sAnalytics.jarTapOnButtonMoreOnJar();
 
-              sShowBasicModalBottomSheet(
+              showBasicBottomSheet(
                 context: context,
                 color: colors.white,
-                pinned: ActionBottomSheetHeader(
-                  name: intl.jar_actions,
+                header: BasicBottomSheetHeaderWidget(
+                  title: intl.jar_actions,
                 ),
-                horizontalPinnedPadding: 0.0,
-                removePinnedPadding: true,
                 children: [
                   SafeGesture(
                     onTap: () {

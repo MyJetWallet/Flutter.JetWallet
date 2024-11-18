@@ -8,9 +8,9 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/features/phone_verification/utils/simple_number.dart';
 import 'package:jetwallet/features/prepaid_card/store/buy_vouncher_confirmation_store.dart';
 import 'package:jetwallet/features/prepaid_card/utils/show_commision_explanation_bottom_sheet.dart';
 import 'package:jetwallet/features/prepaid_card/utils/show_country_explanation_bottom_sheet.dart';
@@ -18,7 +18,6 @@ import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/prepaid_card/purchase_card_brand_list_response_model.dart';
 
@@ -57,22 +56,14 @@ class _BuyVouncherConfirmationBody extends StatelessObserverWidget {
     final store = BuyVouncherConfirmationStore.of(context);
     final colors = SColorsLight();
 
-    return SPageFrameWithPadding(
-      needPadding: false,
+    return SPageFrame(
       loading: store.loader,
       loaderText: intl.register_pleaseWait,
       customLoader: store.showProcessing ? const WaitingScreen() : null,
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: intl.buy_confirmation_title,
-          subTitle: intl.prepaid_card_buy_voucher,
-          subTitleStyle: sBodyText2Style.copyWith(
-            color: colors.gray10,
-          ),
-          onBackButtonTap: () {
-            sRouter.maybePop();
-          },
-        ),
+      header: GlobalBasicAppBar(
+        title: intl.buy_confirmation_title,
+        subtitle: intl.prepaid_card_buy_voucher,
+        hasRightIcon: false,
       ),
       child: CustomScrollView(
         slivers: [

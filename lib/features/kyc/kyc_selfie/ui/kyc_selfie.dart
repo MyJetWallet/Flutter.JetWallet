@@ -10,11 +10,13 @@ import 'package:jetwallet/features/kyc/kyc_selfie/ui/widgets/empty_selfie_box.da
 import 'package:jetwallet/features/kyc/kyc_selfie/ui/widgets/selfie_box.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
+import 'package:jetwallet/widgets/simple_floating_button_frame.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
+// TODO (Yaroslav): this screen isn't using in the app
 @RoutePage(name: 'KycSelfieRouter')
 class KycSelfie extends StatelessWidget {
   const KycSelfie({super.key});
@@ -34,7 +36,7 @@ class _KycSelfieBody extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final state = KycSelfieStore.of(context);
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     final kycN = getIt.get<KycService>();
 
@@ -67,10 +69,9 @@ class _KycSelfieBody extends StatelessObserverWidget {
         loaderText: (state.loaderSuccess.loading) ? intl.kycSelfie_done : intl.kycSelfie_pleaseWait,
         loading: state.loader,
         loadSuccess: state.loaderSuccess,
-        header: SPaddingH24(
-          child: SSmallHeader(
-            title: intl.kycDocumentType_selfieImage,
-          ),
+        header: GlobalBasicAppBar(
+          title: intl.kycDocumentType_selfieImage,
+          hasRightIcon: false,
         ),
         child: Stack(
           children: [
@@ -94,7 +95,7 @@ class _KycSelfieBody extends StatelessObserverWidget {
                           children: [
                             Text(
                               '${intl.kycSelfie_compareWithYourDocument}.',
-                              style: sBodyText1Style,
+                              style: STStyles.body1Medium,
                             ),
                           ],
                         ),
@@ -107,7 +108,7 @@ class _KycSelfieBody extends StatelessObserverWidget {
                               baselineType: TextBaseline.alphabetic,
                               child: Text(
                                 '${intl.kycSelfie_selfieShouldClearly}:',
-                                style: sBodyText1Style,
+                                style: STStyles.body1Medium,
                               ),
                             ),
                           ],
@@ -122,7 +123,7 @@ class _KycSelfieBody extends StatelessObserverWidget {
                                 height: 3,
                                 width: 6,
                                 margin: const EdgeInsets.only(right: 10.0),
-                                color: colors.grey1,
+                                color: colors.gray10,
                               ),
                             ),
                             Row(
@@ -136,8 +137,8 @@ class _KycSelfieBody extends StatelessObserverWidget {
                                       '${intl.kycSelfie_faceForwardAndMakeSure}'
                                       '${intl.kycSelfie_clearlyVisible}',
                                       maxLines: 2,
-                                      style: sBodyText1Style.copyWith(
-                                        color: colors.grey1,
+                                      style: STStyles.body1Medium.copyWith(
+                                        color: colors.gray10,
                                       ),
                                     ),
                                   ),
@@ -154,15 +155,15 @@ class _KycSelfieBody extends StatelessObserverWidget {
                               height: 3,
                               width: 6,
                               margin: const EdgeInsets.only(right: 10.0),
-                              color: colors.grey1,
+                              color: colors.gray10,
                             ),
                             SizedBox(
                               height: 30,
                               child: Text(
                                 intl.kycSelfie_removeYourGlasses,
                                 maxLines: 3,
-                                style: sBodyText1Style.copyWith(
-                                  color: colors.grey1,
+                                style: STStyles.body1Medium.copyWith(
+                                  color: colors.gray10,
                                 ),
                               ),
                             ),

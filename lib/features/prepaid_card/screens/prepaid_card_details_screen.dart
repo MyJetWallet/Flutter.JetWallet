@@ -16,7 +16,6 @@ import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/prepaid_card/buy_prepaid_card_intention_dto_list_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/prepaid_card/get_purchase_card_list_request_model.dart';
@@ -55,15 +54,12 @@ class _PrepaidCardDetailsBody extends StatelessWidget {
     final colors = SColorsLight();
     return SPageFrame(
       loaderText: '',
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: '',
-          showBackButton: false,
-          showCloseButton: true,
-          onCLoseButton: () {
-            sRouter.maybePop();
-          },
-        ),
+      header: GlobalBasicAppBar(
+        title: '',
+        hasLeftIcon: false,
+        onRightIconTap: () {
+          sRouter.maybePop();
+        },
       ),
       child: Stack(
         children: [
@@ -83,9 +79,19 @@ class _PrepaidCardDetailsBody extends StatelessWidget {
                           bottom: 24,
                         ),
                         child: SBadge(
-                          status: SBadgeStatus.primary,
-                          text: intl.transactionDetailsStatus_balanceInProcess,
-                          isLoading: true,
+                          type: SBadgeType.neutral,
+                          lable: intl.transactionDetailsStatus_balanceInProcess,
+                          icon: Padding(
+                            padding: const EdgeInsets.only(left: 2),
+                            child: SizedBox(
+                              height: 16,
+                              width: 16,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 3,
+                                color: colors.blue,
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     )
@@ -250,7 +256,7 @@ class _VoucherCodeField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SCopyable(
-      lable: intl.prepaid_card_security_code,
+      label: intl.prepaid_card_security_code,
       value: code,
       onIconTap: () {
         Clipboard.setData(

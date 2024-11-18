@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/features/disclaimer/store/disclaimer_store.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class DisclaimerCheckbox extends StatelessObserverWidget {
   const DisclaimerCheckbox({
@@ -33,10 +34,9 @@ class DisclaimerCheckbox extends StatelessObserverWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SIconButton(
+          SafeGesture(
             onTap: onCheckboxTap,
-            defaultIcon: icon,
-            pressedIcon: icon,
+            child: icon,
           ),
           const SpaceW10(),
           questions,

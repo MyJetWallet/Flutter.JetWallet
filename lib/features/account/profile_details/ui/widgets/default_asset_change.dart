@@ -6,7 +6,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../../market/market_details/helper/currency_from_all.dart';
 import '../../store/change_base_asset_store.dart';
@@ -20,7 +20,7 @@ class DefaultAssetChange extends StatelessObserverWidget {
     final baseAsset = getIt.get<ChangeBaseAssetStore>();
     final currencies = sSignalRModules.currenciesWithHiddenList;
     final iterableAssets = <CurrencyModel>[];
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     for (final asset in baseAsset.assetsList) {
       final currencyByAsset = currencyFromAll(currencies, asset);
@@ -35,11 +35,9 @@ class DefaultAssetChange extends StatelessObserverWidget {
       child: SPageFrame(
         loaderText: intl.register_pleaseWait,
         loading: baseAsset.loader,
-        header: SPaddingH24(
-          child: SSmallHeader(
-            title: intl.profileDetails_baseCurrency,
-            onBackButtonTap: () => Navigator.pop(context),
-          ),
+        header: GlobalBasicAppBar(
+          title: intl.profileDetails_baseCurrency,
+          hasRightIcon: false,
         ),
         child: Column(
           children: [
@@ -49,7 +47,7 @@ class DefaultAssetChange extends StatelessObserverWidget {
                   baseAsset.changeBaseAsset(asset.symbol);
                 },
                 splashColor: Colors.transparent,
-                highlightColor: colors.grey5,
+                highlightColor: colors.gray2,
                 hoverColor: Colors.transparent,
                 child: SPaddingH24(
                   child: Container(
@@ -71,7 +69,7 @@ class DefaultAssetChange extends StatelessObserverWidget {
                           children: [
                             Text(
                               asset.description,
-                              style: sSubtitle2Style.copyWith(
+                              style: STStyles.subtitle1.copyWith(
                                 color: asset.symbol != baseAsset.checkedAsset ? colors.black : colors.blue,
                               ),
                             ),

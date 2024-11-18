@@ -12,11 +12,7 @@ import 'package:jetwallet/features/account/crisp/crisp.dart';
 import 'package:jetwallet/features/account/delete_profile/ui/delete_profile.dart';
 import 'package:jetwallet/features/account/delete_profile/ui/delete_reasons_screen.dart';
 import 'package:jetwallet/features/account/profile_details/ui/profile_details.dart';
-import 'package:jetwallet/features/account/profile_details/ui/widgets/change_password.dart';
 import 'package:jetwallet/features/account/profile_details/ui/widgets/default_asset_change.dart';
-import 'package:jetwallet/features/account/profile_details/ui/widgets/set_new_password.dart';
-import 'package:jetwallet/features/add_circle_card/ui/add_circle_card.dart';
-import 'package:jetwallet/features/add_circle_card/ui/circle_billing_address/circle_billing_address.dart';
 import 'package:jetwallet/features/auth/biometric/ui/biometric.dart';
 import 'package:jetwallet/features/auth/biometric/ui/components/allow_biometric.dart';
 import 'package:jetwallet/features/auth/email_verification/ui/email_verification_screen.dart';
@@ -44,7 +40,6 @@ import 'package:jetwallet/features/crypto_jar/ui/jar_closed_confirmation_screen.
 import 'package:jetwallet/features/crypto_jar/ui/jar_screen.dart';
 import 'package:jetwallet/features/crypto_jar/ui/jar_share_screen.dart';
 import 'package:jetwallet/features/crypto_jar/ui/jar_transaction_history_screen.dart';
-import 'package:jetwallet/features/currency_buy/ui/screens/add_bank_card.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/pay_with_bottom_sheet.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
 import 'package:jetwallet/features/debug_info/debug_history.dart';
@@ -67,7 +62,6 @@ import 'package:jetwallet/features/email_confirmation/ui/email_confirmation_scre
 import 'package:jetwallet/features/face_check/ui/face_check_screen.dart';
 import 'package:jetwallet/features/home/home_screen.dart';
 import 'package:jetwallet/features/iban/get_personal_iban_screen.dart';
-import 'package:jetwallet/features/iban/iban_add_bank_account_screen.dart';
 import 'package:jetwallet/features/iban/iban_send/iban_send_amount/ui/iban_send_amount.dart';
 import 'package:jetwallet/features/iban/iban_send/iban_send_confirm/ui/iban_send_confirm.dart';
 import 'package:jetwallet/features/iban_address_book/ui/address_book_simple_screen.dart';
@@ -79,14 +73,12 @@ import 'package:jetwallet/features/invest_transfer/screens/invest_deposite_confr
 import 'package:jetwallet/features/invest_transfer/screens/invest_transfer_screen.dart';
 import 'package:jetwallet/features/invest_transfer/screens/invest_withdraw_confrimation_screen.dart';
 import 'package:jetwallet/features/kyc/allow_camera/ui/allow_camera_screen.dart';
-import 'package:jetwallet/features/kyc/choose_documents/ui/choose_documents.dart';
 import 'package:jetwallet/features/kyc/kyc_selfie/ui/kyc_selfie.dart';
 import 'package:jetwallet/features/kyc/kyc_selfie/ui/widgets/success_kys_screen.dart';
 import 'package:jetwallet/features/kyc/kyc_verify_your_profile/ui/kyc_aid_choose_country_screen.dart';
 import 'package:jetwallet/features/kyc/kyc_verify_your_profile/ui/kyc_aid_webview_screen.dart';
 import 'package:jetwallet/features/kyc/kyc_verify_your_profile/ui/kyc_verification.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
-import 'package:jetwallet/features/kyc/upload_documents/ui/upload_kyc_documents.dart';
 import 'package:jetwallet/features/kyc/upload_documents/ui/widgets/upload_verification_photo.dart';
 import 'package:jetwallet/features/market/market_details/ui/market_details.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/about_block/components/pdf_view_screen.dart';
@@ -100,6 +92,7 @@ import 'package:jetwallet/features/p2p_buy/screens/p2p_buy_amount_screen.dart';
 import 'package:jetwallet/features/p2p_buy/screens/payment_currence_buy_screen.dart';
 import 'package:jetwallet/features/payment_methods/ui/payment_methods.dart';
 import 'package:jetwallet/features/phone_verification/ui/phone_verification.dart';
+import 'package:jetwallet/features/phone_verification/utils/simple_number.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:jetwallet/features/pin_screen/ui/pin_screen.dart';
 import 'package:jetwallet/features/prepaid_card/screens/buy_vouncher_amount_screen.dart';
@@ -118,11 +111,8 @@ import 'package:jetwallet/features/simple_card/ui/simple_card_limits_screen.dart
 import 'package:jetwallet/features/simple_card/ui/simple_card_screen.dart';
 import 'package:jetwallet/features/simple_coin/screens/my_simple_coins_screen.dart';
 import 'package:jetwallet/features/simple_coin/screens/simple_coin_transaction_history_screen.dart';
-import 'package:jetwallet/features/sms_autheticator/sms_authenticator.dart';
 import 'package:jetwallet/features/transaction_history/screens/transaction_hisotry_screen.dart';
 import 'package:jetwallet/features/transfer_flow/screens/transfer_confrimation_screen.dart';
-import 'package:jetwallet/features/two_fa_phone/model/two_fa_phone_trigger_union.dart';
-import 'package:jetwallet/features/two_fa_phone/ui/two_fa_phone.dart';
 import 'package:jetwallet/features/wallet/screens/asset_transaction_history.dart';
 import 'package:jetwallet/features/wallet/screens/create_banking_screen.dart';
 import 'package:jetwallet/features/wallet/screens/wallet_screen.dart';
@@ -133,7 +123,6 @@ import 'package:jetwallet/features/withdrawal/send_card_detail/send_globally_con
 import 'package:jetwallet/features/withdrawal/ui/scanner_screen.dart';
 import 'package:jetwallet/features/withdrawal/ui/withdrawal_address.dart';
 import 'package:jetwallet/features/withdrawal/ui/withdrawal_ammount.dart';
-import 'package:jetwallet/features/withdrawal/ui/withdrawal_confirm.dart';
 import 'package:jetwallet/features/withdrawal/ui/withdrawal_preview.dart';
 import 'package:jetwallet/features/withdrawal/ui/withdrawal_screen.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
@@ -144,8 +133,7 @@ import 'package:jetwallet/widgets/result_screens/verifying_screen/verifying_scre
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:jetwallet/widgets/web_view/screens/web_view_screen.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:simple_kit/modules/account/phone_number/simple_number.dart';
-import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
@@ -171,7 +159,6 @@ import '../../features/auth/splash/splash_screen.dart';
 import '../../features/currency_buy/ui/screens/choose_asset_screen.dart';
 import '../../features/debug_info/install_conversion_data_screen.dart';
 import '../../features/debug_info/logs_screen.dart';
-import '../../features/iban/widgets/iban_billing_address.dart';
 import '../../features/invest/invest_screen.dart';
 import '../../features/invest/ui/active_invest_manage_screen.dart';
 import '../../features/invest/ui/invest_history_screen.dart';
@@ -308,14 +295,6 @@ class AppRouter extends RootStackRouter {
       page: CrispRouter.page,
     ),
     AutoRoute(
-      path: '/choose_documents',
-      page: ChooseDocumentsRouter.page,
-    ),
-    AutoRoute(
-      path: '/upload_kyc_documents',
-      page: UploadKycDocumentsRouter.page,
-    ),
-    AutoRoute(
       path: '/upload_verification_photo',
       page: UploadVerificationPhotoRouter.page,
     ),
@@ -336,37 +315,12 @@ class AppRouter extends RootStackRouter {
       page: TransactionHistoryRouter.page,
     ),
     AutoRoute(
-      path: '/add_circle_card',
-      page: AddCircleCardRouter.page,
-    ),
-    AutoRoute(
-      path: '/add_bank_card',
-      page: AddUnlimintCardRouter.page,
-    ),
-    AutoRoute(
-      path: '/circle_billing_address',
-      page: CircleBillingAddressRouter.page,
-    ),
-    AutoRoute(
-      path: '/iban_address',
-      page: IbanAddressRouter.page,
-    ),
-    AutoRoute(
-      path: '/iban_add_account',
-      page: IbanAddBankAccountRouter.page,
-    ),
-    AutoRoute(
       path: '/iban_add_account_simpe',
       page: IbanAdressBookSimpleRoute.page,
     ),
     AutoRoute(
       path: '/iban_add_account_unlimit',
       page: IbanAdressBookUnlimitRoute.page,
-    ),
-    CustomRoute(
-      path: '/iban_edit_account',
-      page: IbanEditBankAccountRouter.page,
-      transitionsBuilder: TransitionsBuilders.slideBottom,
     ),
     AutoRoute(
       path: '/success_screen',
@@ -389,16 +343,8 @@ class AppRouter extends RootStackRouter {
       page: SuccessVerifyingScreenRouter.page,
     ),
     AutoRoute(
-      path: '/sms_authenticator',
-      page: SmsAuthenticatorRouter.page,
-    ),
-    AutoRoute(
       path: '/set_phone_number',
       page: SetPhoneNumberRouter.page,
-    ),
-    AutoRoute(
-      path: '/set_new_password',
-      page: SetNewPasswordRouter.page,
     ),
     AutoRoute(
       path: '/phone_verification',
@@ -413,20 +359,12 @@ class AppRouter extends RootStackRouter {
       page: PinScreenRoute.page,
     ),
     AutoRoute(
-      path: '/two_fa_phone',
-      page: TwoFaPhoneRouter.page,
-    ),
-    AutoRoute(
       path: '/email_confirmation',
       page: EmailConfirmationRouter.page,
     ),
     AutoRoute(
       path: '/biometric',
       page: BiometricRouter.page,
-    ),
-    AutoRoute(
-      path: '/change_password',
-      page: ChangePasswordRouter.page,
     ),
     AutoRoute(
       path: '/delete_profile',
@@ -503,10 +441,6 @@ class AppRouter extends RootStackRouter {
         AutoRoute(
           path: 'withdrawal_ammount',
           page: WithdrawalAmmountRouter.page,
-        ),
-        AutoRoute(
-          path: 'withdrawal_confirm',
-          page: WithdrawalConfirmRouter.page,
         ),
         AutoRoute(
           path: 'wiGthdrawal_preview',

@@ -4,7 +4,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
-import 'package:simple_kit/modules/shared/simple_show_alert_popup.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class InternetCheckerService {
   final _connectivity = Connectivity();

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class MarketSeparator extends StatelessObserverWidget {
   const MarketSeparator({
@@ -14,7 +14,7 @@ class MarketSeparator extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return SizedBox(
       height: 21,
@@ -29,18 +29,16 @@ class MarketSeparator extends StatelessObserverWidget {
               baselineType: TextBaseline.alphabetic,
               child: Text(
                 text,
-                style: sCaptionTextStyle.copyWith(
-                  color: colors.grey3,
+                style: STStyles.captionMedium.copyWith(
+                  color: colors.gray6,
                 ),
               ),
             ),
           ),
           const SpaceW10(),
           if (isNeedDivider)
-            Expanded(
-              child: SDivider(
-                color: colors.grey3,
-              ),
+            const Expanded(
+              child: SDivider(),
             ),
         ],
       ),

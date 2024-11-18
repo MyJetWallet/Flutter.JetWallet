@@ -8,7 +8,6 @@ import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
 import 'package:jetwallet/utils/formatting/base/format_percent.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 
@@ -56,13 +55,9 @@ class _ChooseAssetScreenState extends State<ChooseAssetScreen> {
 
     return SPageFrame(
       loaderText: intl.loader_please_wait,
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: intl.choose_asser_screan_header,
-          onBackButtonTap: () {
-            Navigator.pop(context);
-          },
-        ),
+      header: GlobalBasicAppBar(
+        title: intl.choose_asser_screan_header,
+        hasRightIcon: false,
       ),
       child: SingleChildScrollView(
         child: Column(
@@ -71,14 +66,14 @@ class _ChooseAssetScreenState extends State<ChooseAssetScreen> {
               SPaddingH24(
                 child: Column(
                   children: [
-                    SStandardField(
+                    SInput(
                       controller: searchStore.searchController,
-                      hintText: intl.actionBottomSheetHeader_search,
+                      label: intl.actionBottomSheetHeader_search,
                       onChanged: (String value) {
                         searchStore.search(value);
                       },
-                      maxLines: 1,
                       height: 44,
+                      withoutVerticalPadding: true,
                     ),
                     const SDivider(),
                   ],

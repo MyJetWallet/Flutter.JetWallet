@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/kyc/upload_documents/store/upload_kyc_documents_store.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class PageIndicator extends StatelessObserverWidget {
   const PageIndicator({
@@ -15,7 +15,7 @@ class PageIndicator extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final state = UploadKycDocumentsStore.of(context);
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,

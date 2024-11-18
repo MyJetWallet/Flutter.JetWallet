@@ -14,7 +14,7 @@ import 'package:jetwallet/features/invest/ui/widgets/invest_input.dart';
 import 'package:jetwallet/features/invest/ui/widgets/slider_thumb_shape.dart';
 import 'package:jetwallet/features/wallet/helper/format_date_to_hm.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/signalr_log.dart';
 import 'package:simple_networking/modules/wallet_api/models/invest/new_invest_request_model.dart';
 
@@ -36,16 +36,15 @@ class _InvestUIState extends State<InvestUIKIT> {
   @override
   Widget build(BuildContext context) {
     final currencies = sSignalRModules.currenciesList;
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     final currency = currencyFrom(currencies, 'USDT');
 
     return SPageFrame(
       loaderText: intl.loader_please_wait,
-      header: const SPaddingH24(
-        child: SSmallHeader(
-          title: 'Invest UI KIT',
-        ),
+      header: const GlobalBasicAppBar(
+        title: 'Invest UI KIT',
+        hasRightIcon: false,
       ),
       child: SafeArea(
         child: SingleChildScrollView(
@@ -202,7 +201,7 @@ class _InvestUIState extends State<InvestUIKIT> {
                 SliderTheme(
                   data: SliderTheme.of(context).copyWith(
                     activeTrackColor: colors.black,
-                    inactiveTrackColor: colors.grey5,
+                    inactiveTrackColor: colors.gray2,
                     trackShape: const RoundedRectSliderTrackShape(),
                     trackHeight: 6.0,
                     thumbShape: const SliderThumbShape(disabledThumbRadius: 8),
@@ -211,11 +210,11 @@ class _InvestUIState extends State<InvestUIKIT> {
                     overlayShape: const RoundSliderOverlayShape(overlayRadius: 0),
                     tickMarkShape: const RoundSliderTickMarkShape(tickMarkRadius: 2),
                     activeTickMarkColor: colors.black,
-                    inactiveTickMarkColor: colors.grey4,
+                    inactiveTickMarkColor: colors.gray4,
                     valueIndicatorShape: const PaddleSliderValueIndicatorShape(),
                     valueIndicatorColor: colors.blue,
                     valueIndicatorTextStyle: TextStyle(
-                      color: colors.brown,
+                      color: colors.yellowDark,
                     ),
                   ),
                   child: Slider(
@@ -230,12 +229,9 @@ class _InvestUIState extends State<InvestUIKIT> {
                     },
                   ),
                 ),
-                SFieldDividerFrame(
-                  child: SStandardField(
-                    labelText: intl.invest_amount,
-                    onChanged: (String? value) {},
-                    hideSpace: true,
-                  ),
+                SInput(
+                  label: intl.invest_amount,
+                  onChanged: (String? value) {},
                 ),
               ],
             ),
@@ -278,7 +274,7 @@ class _SignalRLogDetailState extends State<SignalRLogDetail> {
             formatDateToDMonthYHmFromDate(
               (widget.log.sessionTime ?? DateTime.now()).toString(),
             ),
-            style: sSubtitle2Style,
+            style: STStyles.subtitle1,
           ),
           const SizedBox(height: 6),
           Wrap(
@@ -292,7 +288,7 @@ class _SignalRLogDetailState extends State<SignalRLogDetail> {
                 },
                 child: Text(
                   'Reset',
-                  style: sBodyText1Style.copyWith(
+                  style: STStyles.body1Medium.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -309,7 +305,7 @@ class _SignalRLogDetailState extends State<SignalRLogDetail> {
                 },
                 child: Text(
                   'Hide Ping/Pong messages',
-                  style: sBodyText1Style.copyWith(
+                  style: STStyles.body1Medium.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -328,22 +324,22 @@ class _SignalRLogDetailState extends State<SignalRLogDetail> {
                 children: [
                   Text(
                     'Action: ${filtredLogs[index].type}',
-                    style: sBodyText1Style.copyWith(
-                      color: filtredLogs[index].type == SLogType.error ? sKit.colors.red : sKit.colors.black,
+                    style: STStyles.body1Medium.copyWith(
+                      color: filtredLogs[index].type == SLogType.error ? SColorsLight().red : SColorsLight().black,
                     ),
                   ),
                   Text(
                     'Time: ${formatDateToHms(
                       (filtredLogs[index].date ?? DateTime.now()).toString(),
                     )}',
-                    style: sBodyText2Style.copyWith(
-                      color: sKit.colors.grey1,
+                    style: STStyles.body2Medium.copyWith(
+                      color: SColorsLight().gray10,
                     ),
                   ),
                   if (filtredLogs[index].type == SLogType.error) ...[
                     Text(
                       filtredLogs[index].error ?? '',
-                      style: sBodyText2Style,
+                      style: STStyles.body2Medium,
                     ),
                   ],
                 ],

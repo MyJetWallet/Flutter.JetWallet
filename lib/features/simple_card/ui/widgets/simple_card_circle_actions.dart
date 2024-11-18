@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/widgets/circle_action_buttons/circle_action_button.dart';
-import 'package:jetwallet/widgets/circle_action_buttons/circle_action_freeze.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class SimpleCardActionButtons extends StatelessObserverWidget {
   const SimpleCardActionButtons({
@@ -38,35 +36,43 @@ class SimpleCardActionButtons extends StatelessObserverWidget {
     return SPaddingH24(
       child: SizedBox(
         width: MediaQuery.of(context).size.width - 48,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
+        child: ActionPannel(
+          actionButtons: [
             if (isFrozen) ...[
-              CircleActionFreeze(
-                isFrozen: isFrozen,
+              SActionButton(
                 onTap: () {
                   onFreeze?.call();
                 },
+                lable: isFrozen ? intl.simple_card_unfreeze : intl.simple_card_freeze,
+                icon: Assets.svg.medium.arrowUp.simpleSvg(
+                  color: SColorsLight().white,
+                ),
               ),
             ] else ...[
-              CircleActionButton(
-                text: intl.wallet_add_cash,
-                type: CircleButtonType.addCash,
+              SActionButton(
+                lable: intl.wallet_add_cash,
+                icon: Assets.svg.medium.addCash.simpleSvg(
+                  color: SColorsLight().white,
+                ),
                 onTap: () {
                   onAddCash?.call();
                 },
               ),
-              CircleActionButton(
-                text: intl.wallet_withdraw,
-                type: CircleButtonType.withdraw,
-                isDisabled: !isWithdrawAvailable,
+              SActionButton(
+                lable: intl.wallet_withdraw,
+                icon: Assets.svg.medium.withdrawal.simpleSvg(
+                  color: SColorsLight().white,
+                ),
+                state: isWithdrawAvailable ? ActionButtonState.defaylt : ActionButtonState.disabled,
                 onTap: () {
                   onWithdraw?.call();
                 },
               ),
-              CircleActionButton(
-                text: intl.simple_card_actions_settings,
-                type: CircleButtonType.settings,
+              SActionButton(
+                lable: intl.simple_card_actions_settings,
+                icon: Assets.svg.medium.settings.simpleSvg(
+                  color: SColorsLight().white,
+                ),
                 onTap: () {
                   onSettings?.call();
                 },

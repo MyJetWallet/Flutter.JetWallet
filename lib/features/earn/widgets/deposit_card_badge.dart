@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:simple_kit/modules/colors/simple_colors_light.dart';
-import 'package:simple_kit/modules/texts/simple_text_styles.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 
 class SDepositCardBadge extends StatelessWidget {
@@ -41,7 +40,7 @@ class SDepositCardBadge extends StatelessWidget {
           const SizedBox(width: 4),
           Text(
             _getTextForStatus(status),
-            style: sCaptionTextStyle.copyWith(
+            style: STStyles.captionMedium.copyWith(
               color: _getMainColor(status, colors),
               fontWeight: FontWeight.w700,
             ),
@@ -65,13 +64,13 @@ class SDepositCardBadge extends StatelessWidget {
   Color _getBGColor(EarnPositionStatus status, SColorsLight colors) {
     switch (status) {
       case EarnPositionStatus.active:
-        return colors.greenExtraLight;
+        return colors.greenExtralight;
       case EarnPositionStatus.closing:
-        return colors.blueExtraLight;
+        return colors.blueExtralight;
       case EarnPositionStatus.closed:
-        return colors.grey5;
+        return colors.gray2;
       default:
-        return colors.grey5;
+        return colors.gray2;
     }
   }
 
@@ -82,9 +81,9 @@ class SDepositCardBadge extends StatelessWidget {
       case EarnPositionStatus.closing:
         return colors.blue;
       case EarnPositionStatus.closed:
-        return colors.grey1;
+        return colors.gray10;
       default:
-        return colors.grey1;
+        return colors.gray10;
     }
   }
 

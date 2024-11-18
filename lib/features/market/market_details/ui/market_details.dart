@@ -19,9 +19,7 @@ import 'package:jetwallet/features/market/market_details/helper/get_market_info.
 import 'package:jetwallet/features/market/market_details/store/market_news_store.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/about_block/about_block.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/balance_block/balance_block.dart';
-import 'package:jetwallet/features/market/market_details/ui/widgets/cpower_block/cpower_block.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/deversify_portfolio_widget.dart';
-import 'package:jetwallet/features/market/market_details/ui/widgets/index_allocation_block/index_allocation_block.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/market_info_loader_block/market_info_loader_block.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/market_stats_block/market_stats_block.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/my_balance_widget.dart';
@@ -33,7 +31,6 @@ import 'package:jetwallet/features/my_wallets/widgets/news_dashboard_section.dar
 import 'package:jetwallet/features/wallet/widgets/wallet_earn_section.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/market_info/market_info_response_model.dart';
@@ -220,12 +217,8 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
               ReturnRatesBlock(
                 assetSymbol: widget.marketItem.associateAsset,
               ),
-              const SpaceH20(),
-              if (widget.marketItem.type == AssetType.indices) ...[
-                IndexAllocationBlock(
-                  marketItem: widget.marketItem,
-                ),
-              ],
+         
+             
               FutureBuilder<MarketInfoResponseModel?>(
                 future: marketInfo,
                 builder: (context, marketInfo) {
@@ -258,11 +251,6 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
                   }
                 },
               ),
-              if (widget.marketItem.symbol == 'CPWR') ...[
-                const SPaddingH24(
-                  child: CpowerBlock(),
-                ),
-              ],
               const NewsDashboardSection(),
               const SpaceH120(),
             ],

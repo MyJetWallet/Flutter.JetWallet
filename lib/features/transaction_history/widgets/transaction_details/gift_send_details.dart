@@ -7,13 +7,11 @@ import 'package:jetwallet/core/services/simple_networking/simple_networking.dart
 import 'package:jetwallet/features/app/store/global_loader.dart';
 import 'package:jetwallet/features/send_gift/widgets/share_gift_result_bottom_sheet.dart';
 import 'package:jetwallet/features/transaction_history/widgets/history_copy_icon.dart';
-import 'package:jetwallet/features/transaction_history/widgets/transaction_details/components/transaction_details_status.dart';
+import 'package:jetwallet/features/transaction_history/widgets/transaction_status_badge.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
-import 'package:simple_kit/modules/shared/stack_loader/stack_loader.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 import '../../../../core/services/signal_r/signal_r_service_new.dart';
@@ -24,7 +22,7 @@ import 'components/transaction_details_item.dart';
 import 'components/transaction_details_value_text.dart';
 
 class GiftSendDetails extends StatelessWidget {
-  GiftSendDetails({
+  const GiftSendDetails({
     super.key,
     required this.transactionListItem,
     required this.onCopyAction,
@@ -42,9 +40,8 @@ class GiftSendDetails extends StatelessWidget {
       transactionListItem.assetId,
     );
 
-    return StackLoader(
+    return SPageFrame(
       loaderText: intl.register_pleaseWait,
-      loading: null,
       child: SPaddingH24(
         child: Column(
           children: [
@@ -116,17 +113,16 @@ class GiftSendDetails extends StatelessWidget {
                 },
               ),
               const SpaceH10(),
-              STextButton1(
-                active: true,
-                name: intl.gift_history_cancel_transaction,
-                onTap: () {
+              SButton.text(
+                text: intl.gift_history_cancel_transaction,
+                callback: () {
                   sShowAlertPopup(
                     context,
                     primaryText: '${intl.gift_history_cancel_transaction}?',
                     secondaryText: intl.gift_history_are_you_sure,
                     primaryButtonName: intl.gift_history_yes_cancel,
                     secondaryButtonName: intl.gift_history_no,
-                    primaryButtonType: SButtonType.primary3,
+                    isPrimaryButtonRed: true,
                     onPrimaryButtonTap: () async {
                       getIt.get<GlobalLoader>().setLoading(true);
                       Navigator.pop(context);
@@ -216,15 +212,7 @@ class _GiftSendDetailsHeader extends StatelessWidget {
           isError: transactionListItem.status == Status.declined,
         ),
         const SizedBox(height: 24),
-        SBadge(
-          status: transactionListItem.status == Status.inProgress
-              ? SBadgeStatus.primary
-              : transactionListItem.status == Status.completed
-                  ? SBadgeStatus.success
-                  : SBadgeStatus.error,
-          text: transactionDetailsStatusText(transactionListItem.status),
-          isLoading: transactionListItem.status == Status.inProgress,
-        ),
+        TransactionStatusBadge(status: transactionListItem.status),
         const SizedBox(height: 24),
       ],
     );

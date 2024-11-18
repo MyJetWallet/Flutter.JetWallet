@@ -68,7 +68,7 @@ class SetPhoneNumberBody extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     final store = Provider.of<SetPhoneNumberStore>(context, listen: false);
 
@@ -76,7 +76,7 @@ class SetPhoneNumberBody extends StatelessObserverWidget {
       key: UniqueKey(),
       loaderText: intl.setPhoneNumber_pleaseWait,
       loading: store.loader,
-      color: colors.grey5,
+      color: colors.gray2,
       header: SimpleLargeAppbar(
         title: intl.setPhoneNumber_phoneNumber,
         hasRightIcon: true,
@@ -96,12 +96,11 @@ class SetPhoneNumberBody extends StatelessObserverWidget {
           child: Assets.svg.medium.chat.simpleSvg(),
         ),
         leftIcon: fromRegister
-            ? SIconButton(
+            ? SafeGesture(
                 onTap: () {
                   showModalVerification(context);
                 },
-                defaultIcon: const SCloseIcon(),
-                pressedIcon: const SClosePressedIcon(),
+                child: const SCloseIcon(),
               )
             : null,
       ),
@@ -124,7 +123,7 @@ class SetPhoneNumberBody extends StatelessObserverWidget {
                         decoration: BoxDecoration(
                           border: Border(
                             right: BorderSide(
-                              color: colors.grey4,
+                              color: colors.gray4,
                             ),
                           ),
                         ),
@@ -135,10 +134,9 @@ class SetPhoneNumberBody extends StatelessObserverWidget {
                           child: SizedBox(
                             width: 76,
                             child: AbsorbPointer(
-                              child: SStandardField(
-                                labelText: intl.setPhoneNumber_code,
-                                readOnly: true,
-                                hideClearButton: true,
+                              child: SInput(
+                                label: intl.setPhoneNumber_code,
+                                isDisabled: true,
                                 focusNode: store.dialFocusNode,
                                 controller: store.dialCodeController,
                               ),
@@ -149,29 +147,24 @@ class SetPhoneNumberBody extends StatelessObserverWidget {
                       Observer(
                         builder: (context) {
                           return Expanded(
-                            child: SPaddingH24(
-                              child: SStandardField(
-                                labelText: intl.setPhoneNumber_phoneNumber,
-                                focusNode: store.focusNode,
-                                autofillHints: const [
-                                  AutofillHints.telephoneNumber,
-                                ],
-                                keyboardType: TextInputType.phone,
-                                textInputAction: TextInputAction.next,
-                                onChanged: (String phone) {
-                                  store.updatePhoneNumber(phone);
-                                },
-                                controller: store.phoneNumberController,
-                                suffixIcons: store.phoneInput.isNotEmpty
-                                    ? [
-                                        SIconButton(
-                                          onTap: () => store.clearPhone(),
-                                          defaultIcon: const SEraseIcon(),
-                                          pressedIcon: const SErasePressedIcon(),
-                                        ),
-                                      ]
-                                    : null,
-                              ),
+                            child: SInput(
+                              label: intl.setPhoneNumber_phoneNumber,
+                              focusNode: store.focusNode,
+                              autofillHints: const [
+                                AutofillHints.telephoneNumber,
+                              ],
+                              keyboardType: TextInputType.phone,
+                              textInputAction: TextInputAction.next,
+                              onChanged: (String phone) {
+                                store.updatePhoneNumber(phone);
+                              },
+                              controller: store.phoneNumberController,
+                              suffixIcon: store.phoneInput.isNotEmpty
+                                  ? SafeGesture(
+                                      onTap: () => store.clearPhone(),
+                                      child: const SEraseIcon(),
+                                    )
+                                  : null,
                             ),
                           );
                         },
@@ -186,7 +179,7 @@ class SetPhoneNumberBody extends StatelessObserverWidget {
                       intl.phone_cahange_warning,
                       textAlign: TextAlign.left,
                       maxLines: 10,
-                      style: sBodyText1Style.copyWith(color: colors.grey1),
+                      style: STStyles.body1Medium.copyWith(color: colors.gray10),
                     ),
                   ),
                   const SpaceH20(),

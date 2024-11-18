@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:simple_kit/modules/buttons/simple_icon_button.dart';
-import 'package:simple_kit/modules/fields/standard_field/public/simple_standard_field.dart';
 import 'package:simple_kit/modules/icons/24x24/public/paste/simple_paste_icon.dart';
-import 'package:simple_kit/modules/icons/24x24/public/paste/simple_paste_pressed_icon.dart';
-import 'package:simple_kit/modules/shared/simple_paddings.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../core/l10n/i10n.dart';
 import '../store/receiver_datails_store.dart';
@@ -47,50 +44,43 @@ class _EmailFieldTabState extends State<EmailFieldTab> {
   Widget build(BuildContext context) {
     return Observer(
       builder: (context) {
-        return SPaddingH24(
-          child: SStandardField(
-            focusNode: focusNode,
-            labelText: intl.send_gift_e_mail_address,
-            textCapitalization: TextCapitalization.none,
-            textInputAction: TextInputAction.done,
-            controller: _textController,
-            keyboardType: TextInputType.emailAddress,
-            inputFormatters: [
-              FilteringTextInputFormatter.deny(
-                RegExp('[ ]'),
-              ),
-            ],
-            onChanged: (text) {
-              widget.store.onChangedEmail(text);
+        return SInput(
+          focusNode: focusNode,
+          label: intl.send_gift_e_mail_address,
+          textCapitalization: TextCapitalization.none,
+          textInputAction: TextInputAction.done,
+          controller: _textController,
+          keyboardType: TextInputType.emailAddress,
+          inputFormatters: [
+            FilteringTextInputFormatter.deny(
+              RegExp('[ ]'),
+            ),
+          ],
+          onChanged: (text) {
+            widget.store.onChangedEmail(text);
+          },
+          onCloseIconTap: () {
+            widget.store.onChangedEmail('');
+            _textController = TextEditingController(text: '');
+          },
+          hasErrorIcon: widget.store.showEmailError,
+          suffixIcon: SafeGesture(
+            onTap: () async {
+              final data = await Clipboard.getData('text/plain');
+              final text = data?.text?.replaceAll(' ', '');
+              if (text != null) {
+                widget.store.onChangedEmail(text);
+              }
+              setState(() {
+                _textController = TextEditingController(text: text);
+                _textController.selection = TextSelection.fromPosition(
+                  TextPosition(
+                    offset: _textController.text.length,
+                  ),
+                );
+              });
             },
-            onErase: () {
-              widget.store.onChangedEmail('');
-              _textController = TextEditingController(text: '');
-            },
-            isError: widget.store.showEmailError,
-            suffixIcons: [
-              SIconButton(
-                onTap: () async {
-                  final data = await Clipboard.getData('text/plain');
-                  final text = data?.text?.replaceAll(' ', '');
-                  if (text != null) {
-                    widget.store.onChangedEmail(text);
-                  }
-                  setState(() {
-                    _textController = TextEditingController(text: text);
-                    _textController.selection = TextSelection.fromPosition(
-                      TextPosition(
-                        offset: _textController.text.length,
-                      ),
-                    );
-                  });
-                },
-                defaultIcon: const SPasteIcon(),
-                pressedIcon: const SPastePressedIcon(),
-              ),
-            ],
-            maxLines: 1,
-            hideSpace: true,
+            child: const SPasteIcon(),
           ),
         );
       },

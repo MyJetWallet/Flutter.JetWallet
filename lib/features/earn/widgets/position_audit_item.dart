@@ -2,12 +2,9 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/features/transaction_history/widgets/transaction_list_item_header_text.dart';
 import 'package:jetwallet/features/transaction_history/widgets/transaction_list_item_text.dart';
-import 'package:simple_kit/core/simple_kit.dart';
 import 'package:simple_kit/modules/icons/24x24/public/history_completed/simple_history_completed_icon.dart';
 import 'package:simple_kit/modules/icons/24x24/public/history_declined/simple_history_declined_icon.dart';
-import 'package:simple_kit/modules/loader/simple_loader.dart';
-import 'package:simple_kit/modules/shared/simple_paddings.dart';
-import 'package:simple_kit/modules/shared/simple_spacers.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 
 class PositionAuditItem extends StatelessWidget {
@@ -34,12 +31,12 @@ class PositionAuditItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return InkWell(
       onTap: onTap,
       splashColor: Colors.transparent,
-      highlightColor: colors.grey5,
+      highlightColor: colors.gray2,
       hoverColor: Colors.transparent,
       child: SPaddingH24(
         child: SizedBox(
@@ -60,7 +57,7 @@ class PositionAuditItem extends StatelessWidget {
                       children: [
                         TransactionListItemHeaderText(
                           text: labele,
-                          color: status == Status.declined ? colors.grey2 : colors.black,
+                          color: status == Status.declined ? colors.gray8 : colors.black,
                         ),
                         if (labelIcon != null) ...[
                           Padding(
@@ -94,7 +91,7 @@ class PositionAuditItem extends StatelessWidget {
                         fontSize: 18.0,
                         fontFamily: 'Gilroy',
                         fontWeight: FontWeight.w600,
-                        color: status == Status.declined ? colors.grey2 : colors.black,
+                        color: status == Status.declined ? colors.gray8 : colors.black,
                         decoration: status == Status.declined ? TextDecoration.lineThrough : null,
                       ),
                     ),
@@ -106,13 +103,13 @@ class PositionAuditItem extends StatelessWidget {
                   const SpaceW34(),
                   TransactionListItemText(
                     text: timeStamp,
-                    color: colors.grey1,
+                    color: colors.gray10,
                   ),
                   const Spacer(),
                   if (rightSupplement != null)
                     TransactionListItemText(
                       text: rightSupplement!,
-                      color: colors.grey1,
+                      color: colors.gray10,
                     ),
                   const SpaceW5(),
                   if (status == Status.inProgress)
@@ -121,7 +118,7 @@ class PositionAuditItem extends StatelessWidget {
                     const SHistoryCompletedIcon()
                   else if (status == Status.declined)
                     SHistoryDeclinedIcon(
-                      color: colors.grey2,
+                      color: colors.gray8,
                     ),
                 ],
               ),

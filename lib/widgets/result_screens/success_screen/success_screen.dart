@@ -11,7 +11,6 @@ import 'package:jetwallet/widgets/result_screens/widgets/result_screen_title.dar
 import 'package:lottie/lottie.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../utils/constants.dart';

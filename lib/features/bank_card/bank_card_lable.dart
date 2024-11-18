@@ -4,10 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/features/add_circle_card/ui/widgets/continue_button_frame.dart';
 import 'package:jetwallet/features/bank_card/store/bank_card_store.dart';
+import 'package:jetwallet/features/bank_card/widgets/continue_button_frame.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 
@@ -35,30 +34,25 @@ class BankCardLabel extends StatelessObserverWidget {
 
     return SPageFrame(
       loaderText: intl.loader_please_wait,
-      color: sKit.colors.grey5,
+      color: SColorsLight().gray2,
       loading: store.loader,
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: intl.bank_card_leable_headet,
-          onBackButtonTap: () {
-            sRouter.maybePop();
-          },
-        ),
+      header: GlobalBasicAppBar(
+        title: intl.bank_card_leable_headet,
+        onLeftIconTap: () {
+          sRouter.maybePop();
+        },
+        hasRightIcon: false,
       ),
       child: Column(
         children: [
-          SFieldDividerFrame(
-            child: SStandardField(
-              maxLines: 1,
-              maxLength: 30,
-              labelText: intl.addCircleCard_label,
-              autofocus: true,
-              isError: store.labelError,
-              enableInteractiveSelection: false,
-              disableErrorOnChanged: false,
-              controller: store.cardLabelController,
-              onChanged: store.setCardLabel,
-            ),
+          SInput(
+            maxLength: 30,
+            label: intl.addCircleCard_label,
+            autofocus: true,
+            hasErrorIcon: store.labelError,
+            controller: store.cardLabelController,
+            onChanged: store.setCardLabel,
+            hasCloseIcon: store.cardLabel.isNotEmpty,
           ),
           const Spacer(),
           ContinueButtonFrame(

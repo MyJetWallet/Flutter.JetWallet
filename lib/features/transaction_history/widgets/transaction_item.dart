@@ -22,7 +22,7 @@ import 'package:jetwallet/features/transaction_history/widgets/transaction_detai
 import 'package:jetwallet/features/transaction_history/widgets/transaction_details/withdraw_details.dart';
 import 'package:jetwallet/features/transaction_history/widgets/transaction_list_item.dart';
 import 'package:jetwallet/utils/helpers/find_blockchain_by_descr.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -87,7 +87,7 @@ class _TransactionItemState extends State<TransactionItem> with SingleTickerProv
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     final cancelTransfer = TransactionCancelStore();
     final deviceSize = sDeviceSize;
@@ -151,7 +151,7 @@ class _TransactionItemState extends State<TransactionItem> with SingleTickerProv
                         child: Center(
                           child: Text(
                             '$copiedText ${intl.transactionItem_copied}',
-                            style: sBodyText1Style.copyWith(
+                            style: STStyles.body1Medium.copyWith(
                               color: Colors.green,
                             ),
                           ),
@@ -495,17 +495,11 @@ class _TransactionItemState extends State<TransactionItem> with SingleTickerProv
                       right: 24,
                       bottom: 42,
                     ),
-                    child: SIconTextButton(
-                      disabled: cancelTransfer.loading,
+                    child: SButtonContext(
+                      type: SButtonContextType.iconedMedium,
+                      isDisabled: cancelTransfer.loading,
                       text: intl.open_in_explorer,
-                      icon: Container(
-                        width: 20,
-                        height: 20,
-                        margin: const EdgeInsets.symmetric(
-                          vertical: 6,
-                        ),
-                        child: const SNetworkIcon(),
-                      ),
+                      icon: Assets.svg.medium.global,
                       onTap: () async {
                         if (!await launchUrlString(
                           getBlockChainURL(
@@ -515,7 +509,7 @@ class _TransactionItemState extends State<TransactionItem> with SingleTickerProv
                           throw Exception('Could not launch');
                         }
                       },
-                      mainAxisSize: MainAxisSize.max,
+                      expanded: true,
                     ),
                   ),
                 ),
@@ -528,14 +522,15 @@ class _TransactionItemState extends State<TransactionItem> with SingleTickerProv
                       right: 24,
                       bottom: 24,
                     ),
-                    child: SSecondaryButton1(
-                      active: !cancelTransfer.loading,
-                      name: intl.transactionItem_cancel_cancel,
-                      onTap: () {
-                        cancelTransfer.cancelTransaction(
-                          widget.transactionListItem.transferByPhoneInfo?.transferId,
-                        );
-                      },
+                    child: SButton.outlined(
+                      text: intl.transactionItem_cancel_cancel,
+                      callback: !cancelTransfer.loading
+                          ? () {
+                              cancelTransfer.cancelTransaction(
+                                widget.transactionListItem.transferByPhoneInfo?.transferId,
+                              );
+                            }
+                          : null,
                     ),
                   ),
                 ),

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
-import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class AboveListLine extends StatelessObserverWidget {
   const AboveListLine({
@@ -33,7 +30,7 @@ class AboveListLine extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return SizedBox(
       width: MediaQuery.of(context).size.width - 48,
@@ -45,20 +42,11 @@ class AboveListLine extends StatelessObserverWidget {
               Row(
                 children: [
                   if (withCheckbox) ...[
-                    SIconButton(
+                    SafeGesture(
                       onTap: () {
                         onCheckboxTap(!checked);
                       },
-                      defaultIcon: checked
-                          ? Assets.svg.invest.checked.simpleSvg(
-                              width: 20,
-                              height: 20,
-                            )
-                          : Assets.svg.invest.check.simpleSvg(
-                              width: 20,
-                              height: 20,
-                            ),
-                      pressedIcon: checked
+                      child: checked
                           ? Assets.svg.invest.checked.simpleSvg(
                               width: 20,
                               height: 20,
@@ -88,7 +76,7 @@ class AboveListLine extends StatelessObserverWidget {
                           color: colors.black,
                         )
                       : STStyles.body3InvestM.copyWith(
-                          color: colors.grey2,
+                          color: colors.gray8,
                         ),
                 ),
               ),
@@ -96,7 +84,7 @@ class AboveListLine extends StatelessObserverWidget {
               Text(
                 secondaryColumn,
                 style: STStyles.body3InvestSM.copyWith(
-                  color: colors.grey2,
+                  color: colors.gray8,
                 ),
               ),
               const SpaceW24(),
@@ -110,31 +98,17 @@ class AboveListLine extends StatelessObserverWidget {
                 child: Text(
                   lastColumn,
                   style: STStyles.body3InvestSM.copyWith(
-                    color: colors.grey2,
+                    color: colors.gray8,
                   ),
                 ),
               ),
               if (withSort) ...[
                 const SpaceW2(),
-                SIconButton(
+                SafeGesture(
                   onTap: () {
                     onSortTap?.call();
                   },
-                  defaultIcon: sortState == 0
-                      ? Assets.svg.invest.sortNotSet.simpleSvg(
-                          width: 14,
-                          height: 14,
-                        )
-                      : sortState == 1
-                          ? Assets.svg.invest.sortUp.simpleSvg(
-                              width: 14,
-                              height: 14,
-                            )
-                          : Assets.svg.invest.sortDown.simpleSvg(
-                              width: 14,
-                              height: 14,
-                            ),
-                  pressedIcon: sortState == 0
+                  child: sortState == 0
                       ? Assets.svg.invest.sortNotSet.simpleSvg(
                           width: 14,
                           height: 14,

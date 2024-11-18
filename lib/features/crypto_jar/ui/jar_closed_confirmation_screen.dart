@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:simple_kit/simple_kit.dart' as sk;
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'JarClosedConfirmationRouter')
@@ -22,11 +21,11 @@ class JarClosedConfirmationScreen extends StatefulWidget {
 class _JarClosedConfirmationScreenState extends State<JarClosedConfirmationScreen> {
   @override
   Widget build(BuildContext context) {
-    final colors = sk.sKit.colors;
+    final colors = SColorsLight();
 
     return PopScope(
       canPop: false,
-      child: sk.SPageFrame(
+      child: SPageFrame(
         loaderText: '',
         color: colors.white,
         header: GlobalBasicAppBar(

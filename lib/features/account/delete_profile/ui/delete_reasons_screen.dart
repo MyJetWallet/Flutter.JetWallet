@@ -13,7 +13,7 @@ class DeleteReasonsScreen extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     final store = getIt.get<DeleteProfileStore>();
 
@@ -22,12 +22,10 @@ class DeleteReasonsScreen extends StatelessObserverWidget {
       child: SPageFrame(
         loaderText: intl.register_pleaseWait,
         loading: store.loader,
-        header: SPaddingH24(
-          child: SMegaHeader(
-            titleAlign: TextAlign.start,
-            title: intl.deleteProfileReasons_header,
-            showBackButton: false,
-          ),
+        header: SimpleLargeAppbar(
+          title: intl.deleteProfileReasons_header,
+          titleMaxLines: 3,
+          hasLeftIcon: false,
         ),
         bottomNavigationBar: Padding(
           padding: const EdgeInsets.symmetric(
@@ -53,8 +51,8 @@ class DeleteReasonsScreen extends StatelessObserverWidget {
                 child: Text(
                   intl.deleteProfileReasons_subText,
                   maxLines: 3,
-                  style: sBodyText1Style.copyWith(
-                    color: colors.grey1,
+                  style: STStyles.body1Medium.copyWith(
+                    color: colors.gray10,
                   ),
                 ),
               ),
@@ -68,7 +66,7 @@ class DeleteReasonsScreen extends StatelessObserverWidget {
                 separatorBuilder: (context, index) => const SDivider(),
                 itemBuilder: (context, index) {
                   return InkWell(
-                    highlightColor: colors.grey5,
+                    highlightColor: colors.gray2,
                     onTap: () {
                       store.selectDeleteReason(index);
                     },
@@ -82,7 +80,7 @@ class DeleteReasonsScreen extends StatelessObserverWidget {
                           Expanded(
                             child: Text(
                               store.deleteReason[index].reasonText ?? '',
-                              style: sSubtitle2Style,
+                              style: STStyles.subtitle1,
                               overflow: TextOverflow.visible,
                               softWrap: true,
                             ),
@@ -91,7 +89,7 @@ class DeleteReasonsScreen extends StatelessObserverWidget {
                             width: 10.0,
                           ),
                           SCompleteIcon(
-                            color: store.isAlreadySelected(index) ? colors.blue : colors.grey1,
+                            color: store.isAlreadySelected(index) ? colors.blue : colors.gray10,
                           ),
                         ],
                       ),

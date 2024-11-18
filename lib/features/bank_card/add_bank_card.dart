@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/features/add_circle_card/ui/widgets/continue_button_frame.dart';
 import 'package:jetwallet/features/bank_card/bank_card_lable.dart';
 import 'package:jetwallet/features/bank_card/store/bank_card_store.dart';
 import 'package:jetwallet/features/bank_card/widgets/bank_card_cardnumber.dart';
 import 'package:jetwallet/features/bank_card/widgets/bank_card_date_label.dart';
 import 'package:jetwallet/features/bank_card/widgets/bank_card_holdername.dart';
+import 'package:jetwallet/features/bank_card/widgets/continue_button_frame.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -82,17 +82,14 @@ class _AddBankCardScreenBody extends StatelessObserverWidget {
 
     return SPageFrame(
       loaderText: intl.loader_please_wait,
-      color: sKit.colors.grey5,
+      color: SColorsLight().gray2,
       loading: store.loader,
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: intl.addCircleCard_bigHeaderTitle,
-          showBackButton: false,
-          onCLoseButton: () {
-            sRouter.maybePop();
-          },
-          showCloseButton: true,
-        ),
+      header: GlobalBasicAppBar(
+        title: intl.addCircleCard_bigHeaderTitle,
+        hasLeftIcon: false,
+        onRightIconTap: () {
+          sRouter.maybePop();
+        },
       ),
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
@@ -105,7 +102,7 @@ class _AddBankCardScreenBody extends StatelessObserverWidget {
             ),
             const Spacer(),
             Container(
-              color: sKit.colors.grey5,
+              color: SColorsLight().gray2,
               height: 144,
               child: Column(
                 children: [
@@ -116,15 +113,14 @@ class _AddBankCardScreenBody extends StatelessObserverWidget {
                         children: [
                           Column(
                             children: [
-                              SIconButton(
+                              SafeGesture(
                                 onTap: () {
                                   sAnalytics.tapOnSaveCardForFurtherPurchaseButton(
                                     destinationWallet: asset?.symbol ?? '',
                                   );
                                   store.checkSetter();
                                 },
-                                defaultIcon: store.saveCard ? const SCheckboxSelectedIcon() : const SCheckboxIcon(),
-                                pressedIcon: store.saveCard ? const SCheckboxSelectedIcon() : const SCheckboxIcon(),
+                                child: store.saveCard ? const SCheckboxSelectedIcon() : const SCheckboxIcon(),
                               ),
                             ],
                           ),

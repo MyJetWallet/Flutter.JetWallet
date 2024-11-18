@@ -5,7 +5,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
 import 'package:jetwallet/features/simple_card/store/simple_card_withdraw_to_store.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
@@ -19,13 +19,12 @@ void showSimpleCardWithdrawToSelector({
 }) {
   final store = SimpleCardWithdrawToStore()..init(newCard: card);
 
-  sShowBasicModalBottomSheet(
+  showBasicBottomSheet(
     context: context,
-    pinned: SBottomSheetHeader(
-      name: intl.withdraw_to,
+    header: BasicBottomSheetHeaderWidget(
+      title: intl.withdraw_to,
     ),
-    scrollable: true,
-    onDissmis: onClose,
+    onDismiss: onClose,
     children: [
       _WithdrawToBody(
         store: store,

@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/payment_methods/store/payment_methods_store.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 
 class PaymentCardItem extends StatelessObserverWidget {
@@ -39,12 +40,12 @@ class PaymentCardItem extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
     final notifier = PaymentMethodsStore();
     final isDisabled = expired || status == CircleCardStatus.failed;
 
     return InkWell(
-      highlightColor: colors.grey5,
+      highlightColor: colors.gray2,
       splashColor: Colors.transparent,
       onTap: () {
         onTap();
@@ -80,22 +81,22 @@ class PaymentCardItem extends StatelessObserverWidget {
                                   flex: 1000000,
                                   child: Text(
                                     lable,
-                                    style: sSubtitle2Style.copyWith(
-                                      color: isDisabled ? colors.grey2 : colors.black,
+                                    style: STStyles.subtitle1.copyWith(
+                                      color: isDisabled ? colors.gray8 : colors.black,
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
                                 ),
                                 Text(
                                   ' ••••',
-                                  style: sSubtitle2Style.copyWith(
-                                    color: isDisabled ? colors.grey2 : colors.black,
+                                  style: STStyles.subtitle1.copyWith(
+                                    color: isDisabled ? colors.gray8 : colors.black,
                                   ),
                                 ),
                                 Text(
                                   last4numbers,
-                                  style: sSubtitle2Style.copyWith(
-                                    color: isDisabled ? colors.grey2 : colors.black,
+                                  style: STStyles.subtitle1.copyWith(
+                                    color: isDisabled ? colors.gray8 : colors.black,
                                   ),
                                 ),
                                 const SpaceW8(),
@@ -105,8 +106,8 @@ class PaymentCardItem extends StatelessObserverWidget {
                                     baselineType: TextBaseline.alphabetic,
                                     child: Text(
                                       currency ?? '',
-                                      style: sOverlineTextStyle.copyWith(
-                                        color: sKit.colors.grey1,
+                                      style: STStyles.captionMedium.copyWith(
+                                        color: SColorsLight().gray10,
                                         height: 1.38,
                                       ),
                                     ),
@@ -117,19 +118,16 @@ class PaymentCardItem extends StatelessObserverWidget {
                           if (showDelete)
                             Container(
                               transform: Matrix4.translationValues(9, 0, 0),
-                              child: SIconButton(
+                              child: SafeGesture(
                                 onTap: onDelete,
-                                defaultIcon: const SDeleteIcon(),
+                                child: const SDeleteIcon(),
                               ),
                             ),
                           if (showEdit) ...[
                             const SpaceW8(),
-                            SIconButton(
+                            SafeGesture(
                               onTap: onEdit,
-                              defaultIcon: const SEditIcon(),
-                              pressedIcon: const SEditIcon(
-                                color: Color(0xFFA8B0BA),
-                              ),
+                              child: const SEditIcon(),
                             ),
                           ],
                         ],
@@ -147,8 +145,8 @@ class PaymentCardItem extends StatelessObserverWidget {
                                       : status == CircleCardStatus.failed
                                           ? intl.paymentMethod_Failed
                                           : expirationDate,
-                                  style: sCaptionTextStyle.copyWith(
-                                    color: isDisabled ? colors.red : colors.grey3,
+                                  style: STStyles.captionSemibold.copyWith(
+                                    color: isDisabled ? colors.red : colors.gray6,
                                   ),
                                 ),
                               ),
@@ -162,10 +160,7 @@ class PaymentCardItem extends StatelessObserverWidget {
               ],
             ),
             const Spacer(),
-            if (!removeDivider)
-              const SDivider(
-                width: double.infinity,
-              ),
+            if (!removeDivider) const SDivider(),
           ],
         ),
       ),
@@ -190,7 +185,7 @@ class PaymentCardItem extends StatelessObserverWidget {
           height: 25,
           child: Center(
             child: SActionDepositIcon(
-              color: sKit.colors.blue,
+              color: SColorsLight().blue,
             ),
           ),
         );

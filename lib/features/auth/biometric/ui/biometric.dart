@@ -11,11 +11,10 @@ import 'package:jetwallet/core/services/device_info/device_info.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/auth/biometric/store/biometric_store.dart';
+import 'package:jetwallet/utils/biometric/biometric_tools.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/modules/headers/simple_auth_header.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../../core/services/apps_flyer_service.dart';
@@ -49,7 +48,7 @@ class _BiometricBody extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
     final biometric = BiometricStore.of(context);
     final size = MediaQuery.of(context).size;
     final deviceInfo = sDeviceInfo;
@@ -86,11 +85,10 @@ class _BiometricBody extends StatelessObserverWidget {
 
           return SPageFrame(
             loaderText: intl.register_pleaseWait,
-            header: SLargeHeader(
-              customIconButton: const SpaceH10(),
+            header: SimpleLargeAppbar(
+              hasLeftIcon: false,
               title: headerText,
-              isAutoSize: true,
-              maxLines: 2,
+              titleMaxLines: 2,
             ),
             child: SPaddingH24(
               child: Column(
@@ -104,8 +102,8 @@ class _BiometricBody extends StatelessObserverWidget {
                   Text(
                     intl.bio_screen_text,
                     maxLines: 2,
-                    style: sBodyText1Style.copyWith(
-                      color: colors.grey1,
+                    style: STStyles.body1Medium.copyWith(
+                      color: colors.gray10,
                     ),
                   ),
                   const SpaceH40(),
@@ -148,10 +146,9 @@ class _BiometricBody extends StatelessObserverWidget {
                     },
                   ),
                   const SpaceH10(),
-                  STextButton1(
-                    active: true,
-                    name: intl.bio_screen_button_late_text,
-                    onTap: () async {
+                  SButton.text(
+                    text: intl.bio_screen_button_late_text,
+                    callback: () async {
                       if (isAccSettings) {
                         Navigator.pop(context);
                       } else {

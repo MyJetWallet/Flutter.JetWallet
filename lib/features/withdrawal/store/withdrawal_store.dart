@@ -26,6 +26,7 @@ import 'package:jetwallet/utils/helpers/calculate_base_balance.dart';
 import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
+import 'package:jetwallet/utils/helpers/standard_field_error_notifier.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
@@ -34,8 +35,6 @@ import 'package:mobx/mobx.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
@@ -53,7 +52,7 @@ part 'withdrawal_store.g.dart';
 
 enum WithdrawalType { asset, nft, jar }
 
-enum WithdrawStep { address, ammount, preview, confirm }
+enum WithdrawStep { address, ammount, preview}
 
 enum WithdrawalInputMode { youSend, recepientGets }
 
@@ -572,13 +571,6 @@ abstract class _WithdrawalStoreBase with Store {
           sRouter.popUntil((route) => route.settings is WithdrawalPreviewRouter);
         } else {
           sRouter.push(const WithdrawalPreviewRouter());
-        }
-
-      case WithdrawStep.confirm:
-        if (isReplace) {
-          sRouter.popUntil((route) => route.settings is WithdrawalConfirmRouter);
-        } else {
-          sRouter.push(const WithdrawalConfirmRouter());
         }
 
       default:

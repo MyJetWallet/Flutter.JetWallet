@@ -9,7 +9,7 @@ import 'package:jetwallet/core/services/package_info_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'CrispRouter')
 class Crisp extends StatefulObserverWidget {
@@ -66,10 +66,9 @@ class _CrispState extends State<Crisp> {
   Widget build(BuildContext context) {
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: intl.crisp_support,
-        ),
+      header: GlobalBasicAppBar(
+        title: intl.crisp_support,
+        hasRightIcon: false,
       ),
       child: CrispView(
         crispMain: crispMain,

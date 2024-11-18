@@ -186,7 +186,7 @@ class _SendGloballyAmountScreenBodyState extends State<SendGloballyAmountScreenB
           height: 25,
           child: Center(
             child: SActionDepositIcon(
-              color: sKit.colors.blue,
+              color: SColorsLight().blue,
             ),
           ),
         );

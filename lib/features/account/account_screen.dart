@@ -20,6 +20,7 @@ import 'package:jetwallet/features/prepaid_card/widgets/prepaid_card_profile_ban
 import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 
 import '../../core/services/deep_link_service.dart';
@@ -43,7 +44,7 @@ class _AccountScreenState extends State<AccountScreen> with SingleTickerProvider
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
     final flavor = flavorService();
 
     final logout = getIt.get<LogoutService>();
@@ -93,10 +94,11 @@ class _AccountScreenState extends State<AccountScreen> with SingleTickerProvider
             userLastName: userInfo.lastName,
             showUserName: userInfo.firstName.isNotEmpty && userInfo.lastName.isNotEmpty,
             isVerified: checkKycPassed(
-              kycState.depositStatus,
-              kycState.tradeStatus,
-              kycState.withdrawalStatus,
-            ) && !kycState.isSimpleKyc,
+                  kycState.depositStatus,
+                  kycState.tradeStatus,
+                  kycState.withdrawalStatus,
+                ) &&
+                !kycState.isSimpleKyc,
             icon: Image.asset(
               verifiedAsset,
               width: 16,
@@ -111,21 +113,18 @@ class _AccountScreenState extends State<AccountScreen> with SingleTickerProvider
               children: [
                 AccountBannerList(
                   kycRequired: checkKycRequired(
-                    kycState.depositStatus,
-                    kycState.tradeStatus,
-                    kycState.withdrawalStatus,
-                  ) || (kycState.isSimpleKyc && kycState.earlyKycFlowAllowed),
+                        kycState.depositStatus,
+                        kycState.tradeStatus,
+                        kycState.withdrawalStatus,
+                      ) ||
+                      (kycState.isSimpleKyc && kycState.earlyKycFlowAllowed),
                   kycBlocked: checkKycBlocked(
                     kycState.depositStatus,
                     kycState.tradeStatus,
                     kycState.withdrawalStatus,
                   ),
                   verificationInProgress: kycState.inVerificationProgress,
-                  twoFaEnabled: true,
                   phoneVerified: userInfo.phoneVerified,
-                  onTwoFaBannerTap: () {
-                    sRouter.push(const SmsAuthenticatorRouter());
-                  },
                   onChatBannerTap: () async {
                     if (showZendesk) {
                       await getIt.get<IntercomService>().showMessenger();

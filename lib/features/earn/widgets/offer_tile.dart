@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/earn/widgets/check_title.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
-import 'package:simple_kit/modules/colors/simple_colors_light.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
-import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
 
 class OfferListItem extends StatelessWidget {
@@ -36,7 +33,7 @@ class OfferListItem extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
           decoration: BoxDecoration(
-            color: colors.grey5,
+            color: colors.gray2,
             borderRadius: BorderRadius.circular(16),
           ),
           child: Row(

@@ -132,7 +132,7 @@ class _OfferForAssetWidget extends StatelessWidget {
 
               showBasicBottomSheet(
                 context: context,
-                basicBottomSheetButton: BasicBottomSheetButton(
+                button: BasicBottomSheetButton(
                   title: intl.earn_continue,
                   onTap: () {
                     contentOnTap?.call();

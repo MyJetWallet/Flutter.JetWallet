@@ -41,6 +41,7 @@ class SButtonContext extends HookWidget {
     this.backgroundColor,
     this.icon,
     this.iconCustomColor,
+    this.expanded = false,
   });
 
   final SButtonContextType type;
@@ -51,6 +52,7 @@ class SButtonContext extends HookWidget {
   final Color? backgroundColor;
   final SvgGenImage? icon;
   final Color? iconCustomColor;
+  final bool expanded;
 
   @override
   Widget build(BuildContext context) {
@@ -167,7 +169,7 @@ class SButtonContext extends HookWidget {
           child: Padding(
             padding: getPaddingOnType(),
             child: Row(
-              mainAxisSize: MainAxisSize.min,
+              mainAxisSize: expanded ? MainAxisSize.max : MainAxisSize.min,
               children: [
                 if (_withIconButtonContextTypes.contains(type)) ...[
                   SizedBox(

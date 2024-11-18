@@ -16,7 +16,6 @@ import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
 
@@ -33,8 +32,6 @@ class OfferOrderSummaryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
-
     return Provider<OfferOrderSummaryStore>(
       create: (context) => OfferOrderSummaryStore(
         offer: offer,
@@ -43,16 +40,14 @@ class OfferOrderSummaryScreen extends StatelessWidget {
       builder: (context, child) {
         final store = OfferOrderSummaryStore.of(context);
 
-        return SPageFrameWithPadding(
+        return SPageFrame(
           loading: store.loader,
           loaderText: intl.register_pleaseWait,
           customLoader: store.showProcessing ? const WaitingScreen() : null,
-          header: SSmallHeader(
+          header: GlobalBasicAppBar(
             title: intl.earn_order_summary,
-            subTitle: intl.earn_transfer,
-            subTitleStyle: sBodyText2Style.copyWith(
-              color: colors.grey1,
-            ),
+            subtitle: intl.earn_transfer,
+            hasRightIcon: false,
           ),
           child: const _OfferOrderSummaruBody(),
         );
@@ -71,125 +66,128 @@ class _OfferOrderSummaruBody extends StatelessWidget {
     final formatService = getIt.get<FormatService>();
     return Observer(
       builder: (context) {
-        return CustomScrollView(
-          shrinkWrap: true,
-          physics: const ClampingScrollPhysics(),
-          slivers: [
-            SliverFillRemaining(
-              hasScrollBody: false,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  STransaction(
-                    isLoading: false,
-                    fromAssetIconUrl: store.currency.iconUrl,
-                    fromAssetDescription: intl.earn_crypto_wallet,
-                    fromAssetValue: isBalanceHide
-                        ? '**** ${store.currency.symbol}'
-                        : store.selectedAmount.toFormatCount(
-                            symbol: store.currency.symbol,
-                          ),
-                    fromAssetBaseAmount: isBalanceHide
-                        ? '**** ${sSignalRModules.baseCurrency.symbol}'
-                        : '≈${formatService.convertOneCurrencyToAnotherOne(
-                              fromCurrency: store.currency.symbol,
-                              fromCurrencyAmmount: store.selectedAmount,
-                              toCurrency: sSignalRModules.baseCurrency.symbol,
-                              baseCurrency: sSignalRModules.baseCurrency.symbol,
-                              isMin: true,
-                            ).toFormatSum(
-                              symbol: store.fiatSymbol,
-                              accuracy: store.eurCurrency.accuracy,
-                            )}',
-                    toAssetIconUrl: store.currency.iconUrl,
-                    toAssetDescription: intl.earn_earn,
-                    toAssetValue: isBalanceHide
-                        ? '**** ${store.currency.symbol}'
-                        : store.selectedAmount.toFormatCount(
-                            symbol: store.currency.symbol,
-                          ),
-                    toAssetBaseAmount: isBalanceHide
-                        ? '**** ${sSignalRModules.baseCurrency.symbol}'
-                        : '≈${formatService.convertOneCurrencyToAnotherOne(
-                              fromCurrency: store.currency.symbol,
-                              fromCurrencyAmmount: store.selectedAmount,
-                              toCurrency: sSignalRModules.baseCurrency.symbol,
-                              baseCurrency: sSignalRModules.baseCurrency.symbol,
-                              isMin: true,
-                            ).toFormatSum(
-                              symbol: store.fiatSymbol,
-                              accuracy: store.eurCurrency.accuracy,
-                            )}',
-                  ),
-                  const SDivider(),
-                  const SizedBox(height: 19),
-                  if (store.offer.name != null && store.offer.name!.isNotEmpty)
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: CustomScrollView(
+            shrinkWrap: true,
+            physics: const ClampingScrollPhysics(),
+            slivers: [
+              SliverFillRemaining(
+                hasScrollBody: false,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    STransaction(
+                      isLoading: false,
+                      fromAssetIconUrl: store.currency.iconUrl,
+                      fromAssetDescription: intl.earn_crypto_wallet,
+                      fromAssetValue: isBalanceHide
+                          ? '**** ${store.currency.symbol}'
+                          : store.selectedAmount.toFormatCount(
+                              symbol: store.currency.symbol,
+                            ),
+                      fromAssetBaseAmount: isBalanceHide
+                          ? '**** ${sSignalRModules.baseCurrency.symbol}'
+                          : '≈${formatService.convertOneCurrencyToAnotherOne(
+                                fromCurrency: store.currency.symbol,
+                                fromCurrencyAmmount: store.selectedAmount,
+                                toCurrency: sSignalRModules.baseCurrency.symbol,
+                                baseCurrency: sSignalRModules.baseCurrency.symbol,
+                                isMin: true,
+                              ).toFormatSum(
+                                symbol: store.fiatSymbol,
+                                accuracy: store.eurCurrency.accuracy,
+                              )}',
+                      toAssetIconUrl: store.currency.iconUrl,
+                      toAssetDescription: intl.earn_earn,
+                      toAssetValue: isBalanceHide
+                          ? '**** ${store.currency.symbol}'
+                          : store.selectedAmount.toFormatCount(
+                              symbol: store.currency.symbol,
+                            ),
+                      toAssetBaseAmount: isBalanceHide
+                          ? '**** ${sSignalRModules.baseCurrency.symbol}'
+                          : '≈${formatService.convertOneCurrencyToAnotherOne(
+                                fromCurrency: store.currency.symbol,
+                                fromCurrencyAmmount: store.selectedAmount,
+                                toCurrency: sSignalRModules.baseCurrency.symbol,
+                                baseCurrency: sSignalRModules.baseCurrency.symbol,
+                                isMin: true,
+                              ).toFormatSum(
+                                symbol: store.fiatSymbol,
+                                accuracy: store.eurCurrency.accuracy,
+                              )}',
+                    ),
+                    const SDivider(),
+                    const SizedBox(height: 19),
+                    if (store.offer.name != null && store.offer.name!.isNotEmpty)
+                      TwoColumnCell(
+                        label: intl.earn_to,
+                        value: store.offer.name,
+                        needHorizontalPadding: false,
+                      ),
+                    if (store.offer.apyRate != null)
+                      TwoColumnCell(
+                        label: intl.earn_apy_rate,
+                        value: (store.offer.apyRate! * Decimal.fromInt(100)).toFormatPercentCount(),
+                        needHorizontalPadding: false,
+                      ),
                     TwoColumnCell(
-                      label: intl.earn_to,
-                      value: store.offer.name,
+                      label: intl.earn_earning_term,
+                      value: store.offer.withdrawType == WithdrawType.instant
+                          ? intl.earn_flexible
+                          : intl.earn_freeze(store.offer.lockPeriod ?? ''),
                       needHorizontalPadding: false,
+                      valueMaxLines: 2,
                     ),
-                  if (store.offer.apyRate != null)
-                    TwoColumnCell(
-                      label: intl.earn_apy_rate,
-                      value: (store.offer.apyRate! * Decimal.fromInt(100)).toFormatPercentCount(),
-                      needHorizontalPadding: false,
+                    const SizedBox(height: 7),
+                    ProcessingFeeRowWidget(
+                      fee: '0 ${store.currency.symbol}',
                     ),
-                  TwoColumnCell(
-                    label: intl.earn_earning_term,
-                    value: store.offer.withdrawType == WithdrawType.instant
-                        ? intl.earn_flexible
-                        : intl.earn_freeze(store.offer.lockPeriod ?? ''),
-                    needHorizontalPadding: false,
-                    valueMaxLines: 2,
-                  ),
-                  const SizedBox(height: 7),
-                  ProcessingFeeRowWidget(
-                    fee: '0 ${store.currency.symbol}',
-                  ),
-                  const SizedBox(height: 16),
-                  const SDivider(),
-                  const SizedBox(height: 16),
-                  SPolicyCheckbox(
-                    onPrivacyPolicyTap: () {
-                      launchURL(context, privacyEarnLink);
-                    },
-                    onUserAgreementTap: () {
-                      launchURL(context, infoEarnLink);
-                    },
-                    firstText: '${intl.earn_i_have_read_and_agreed_to} ',
-                    userAgreementText: intl.earn_terms_and_conditions,
-                    betweenText: ', ',
-                    privacyPolicyText: intl.earn_privacy_policy,
-                    isChecked: store.isTermsAndConditionsChecked,
-                    onCheckboxTap: () {
-                      store.toggleCheckbox();
-                    },
-                  ),
-                  const Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 24),
-                    child: SButton.blue(
-                      text: intl.previewBuyWithAsset_confirm,
-                      callback: store.isTermsAndConditionsChecked
-                          ? () {
-                              sAnalytics.tapOnTheConfirmEarnDepositOrderSummaryButton(
-                                assetName: store.offer.assetId,
-                                earnAPYrate: store.offer.apyRate?.toString() ?? Decimal.zero.toString(),
-                                earnDepositAmount: store.selectedAmount.toString(),
-                                earnPlanName: store.offer.description ?? '',
-                                earnWithdrawalType: store.offer.withdrawType.name,
-                              );
-                              store.confirm();
-                            }
-                          : null,
+                    const SizedBox(height: 16),
+                    const SDivider(),
+                    const SizedBox(height: 16),
+                    SPolicyCheckbox(
+                      onPrivacyPolicyTap: () {
+                        launchURL(context, privacyEarnLink);
+                      },
+                      onUserAgreementTap: () {
+                        launchURL(context, infoEarnLink);
+                      },
+                      firstText: '${intl.earn_i_have_read_and_agreed_to} ',
+                      userAgreementText: intl.earn_terms_and_conditions,
+                      betweenText: ', ',
+                      privacyPolicyText: intl.earn_privacy_policy,
+                      isChecked: store.isTermsAndConditionsChecked,
+                      onCheckboxTap: () {
+                        store.toggleCheckbox();
+                      },
                     ),
-                  ),
-                  const SizedBox(height: 8),
-                ],
+                    const Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 24),
+                      child: SButton.blue(
+                        text: intl.previewBuyWithAsset_confirm,
+                        callback: store.isTermsAndConditionsChecked
+                            ? () {
+                                sAnalytics.tapOnTheConfirmEarnDepositOrderSummaryButton(
+                                  assetName: store.offer.assetId,
+                                  earnAPYrate: store.offer.apyRate?.toString() ?? Decimal.zero.toString(),
+                                  earnDepositAmount: store.selectedAmount.toString(),
+                                  earnPlanName: store.offer.description ?? '',
+                                  earnWithdrawalType: store.offer.withdrawType.name,
+                                );
+                                store.confirm();
+                              }
+                            : null,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         );
       },
     );

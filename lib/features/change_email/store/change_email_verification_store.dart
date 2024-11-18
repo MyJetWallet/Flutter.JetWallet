@@ -8,11 +8,11 @@ import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/auth/email_verification/model/email_verification_union.dart';
+import 'package:jetwallet/utils/helpers/standard_field_error_notifier.dart';
 import 'package:jetwallet/utils/store/timer_store.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 
 part 'change_email_verification_store.g.dart';

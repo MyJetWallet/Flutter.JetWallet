@@ -6,13 +6,14 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/email_confirmation/store/email_confirmation_store.dart';
+import 'package:jetwallet/features/email_confirmation/ui/email_resend_button.dart';
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/helpers/open_email_app.dart';
+import 'package:jetwallet/utils/helpers/standard_field_error_notifier.dart';
 import 'package:jetwallet/utils/store/timer_store.dart';
 import 'package:jetwallet/widgets/pin_code_field.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../models/email_confirmation_union.dart';
@@ -69,7 +70,7 @@ class __EmailConfirmationScreenBodyState extends State<_EmailConfirmationScreenB
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     final confirmation = EmailConfirmationStore.of(context);
 
@@ -101,104 +102,106 @@ class __EmailConfirmationScreenBodyState extends State<_EmailConfirmationScreenB
       },
       child: PopScope(
         canPop: !confirmation.loader.loading,
-        child: SPageFrameWithPadding(
+        child: SPageFrame(
           loaderText: intl.register_pleaseWait,
           loading: confirmation.loader,
-          header: SSmallHeader(
+          header: GlobalBasicAppBar(
             title: intl.emailConfirmation_title,
-            showBackButton: false,
+            hasLeftIcon: false,
           ),
-          child: CustomScrollView(
-            slivers: [
-              SliverFillRemaining(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SpaceH7(),
-                    Text(
-                      intl.emailConfirmation_text,
-                      maxLines: 3,
-                      style: sBodyText1Style.copyWith(
-                        color: colors.grey1,
-                      ),
-                    ),
-                    Text(
-                      authInfo.email,
-                      style: sBodyText1Style,
-                    ),
-                    const SpaceH17(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SButtonContext(
-                          type: SButtonContextType.basicInverted,
-                          text: intl.emailVerification_openEmail,
-                          onTap: () => openEmailApp(context),
-                        ),
-                      ],
-                    ),
-                    const SpaceH40(),
-                    GestureDetector(
-                      onLongPress: () => confirmation.pasteCode(),
-                      onDoubleTap: () => confirmation.pasteCode(),
-                      onTap: () {
-                        focusNode.unfocus();
-
-                        Future.delayed(const Duration(microseconds: 100), () {
-                          if (!focusNode.hasFocus) {
-                            focusNode.requestFocus();
-                          }
-                        });
-                      },
-                      // AbsorbPointer needed to avoid TextField glitch onTap
-                      // when it's focused
-                      child: AbsorbPointer(
-                        child: PinCodeField(
-                          focusNode: focusNode,
-                          controller: confirmation.controller,
-                          length: emailVerificationCodeLength,
-                          onCompleted: (_) {
-                            confirmation.verifyCode();
-                          },
-                          autoFocus: true,
-                          onChanged: (_) {
-                            pinError.disableError();
-                          },
-                          pinError: pinError,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: CustomScrollView(
+              slivers: [
+                SliverFillRemaining(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SpaceH7(),
+                      Text(
+                        intl.emailConfirmation_text,
+                        maxLines: 3,
+                        style: STStyles.body1Medium.copyWith(
+                          color: colors.gray10,
                         ),
                       ),
-                    ),
-                    const SpaceH7(),
-                    SResendButton(
-                      active: !confirmation.isResending,
-                      timer: confirmation.showResendButton ? 0 : timer.time,
-                      onTap: () {
-                        confirmation.controller.clear();
-                        confirmation.updateResendButton(false);
+                      Text(
+                        authInfo.email,
+                        style: STStyles.body1Medium,
+                      ),
+                      const SpaceH17(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SButtonContext(
+                            type: SButtonContextType.basicInverted,
+                            text: intl.emailVerification_openEmail,
+                            onTap: () => openEmailApp(context),
+                          ),
+                        ],
+                      ),
+                      const SpaceH40(),
+                      GestureDetector(
+                        onLongPress: () => confirmation.pasteCode(),
+                        onDoubleTap: () => confirmation.pasteCode(),
+                        onTap: () {
+                          focusNode.unfocus();
 
-                        confirmation.resendCode(
-                          onSuccess: () {
-                            timer.refreshTimer();
-                            confirmation.updateResendButton(false);
-                          },
-                        );
-                      },
-                      text1: intl.emailVerification_youCanResendIn,
-                      text2: intl.emailVerification_seconds,
-                      text3: intl.emailVerification_didntReceiveTheCode,
-                      textResend: intl.emailVerification_resend,
-                    ),
-                    const Spacer(),
-                    SSecondaryButton1(
-                      active: true,
-                      name: intl.emailConfirmation_cancel,
-                      onTap: () => navigateToRouter(),
-                    ),
-                    const SpaceH42(),
-                  ],
+                          Future.delayed(const Duration(microseconds: 100), () {
+                            if (!focusNode.hasFocus) {
+                              focusNode.requestFocus();
+                            }
+                          });
+                        },
+                        // AbsorbPointer needed to avoid TextField glitch onTap
+                        // when it's focused
+                        child: AbsorbPointer(
+                          child: PinCodeField(
+                            focusNode: focusNode,
+                            controller: confirmation.controller,
+                            length: emailVerificationCodeLength,
+                            onCompleted: (_) {
+                              confirmation.verifyCode();
+                            },
+                            autoFocus: true,
+                            onChanged: (_) {
+                              pinError.disableError();
+                            },
+                            pinError: pinError,
+                          ),
+                        ),
+                      ),
+                      const SpaceH7(),
+                      EmailResendButton(
+                        active: !confirmation.isResending,
+                        timer: confirmation.showResendButton ? 0 : timer.time,
+                        onTap: () {
+                          confirmation.controller.clear();
+                          confirmation.updateResendButton(false);
+
+                          confirmation.resendCode(
+                            onSuccess: () {
+                              timer.refreshTimer();
+                              confirmation.updateResendButton(false);
+                            },
+                          );
+                        },
+                        text1: intl.emailVerification_youCanResendIn,
+                        text2: intl.emailVerification_seconds,
+                        text3: intl.emailVerification_didntReceiveTheCode,
+                        textResend: intl.emailVerification_resend,
+                      ),
+                      const Spacer(),
+                      SButton.outlined(
+                        text: intl.emailConfirmation_cancel,
+                        callback: () => navigateToRouter(),
+                      ),
+                      const SpaceH42(),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

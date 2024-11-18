@@ -10,9 +10,8 @@ import 'package:jetwallet/features/sell_flow/store/sell_payment_method_store.dar
 import 'package:jetwallet/utils/balances/crypto_balance.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
@@ -38,18 +37,11 @@ void showSellPayWithBottomSheet({
       asset: currency,
     );
 
-  sShowBasicModalBottomSheet(
+  showBasicBottomSheet(
     context: context,
-    then: (value) {
-      then?.call(value);
-    },
-    scrollable: true,
-    pinned: ActionBottomSheetHeader(
-      name: intl.sell_amount_sell_to,
-      needBottomPadding: false,
+    header: BasicBottomSheetHeaderWidget(
+      title: intl.sell_amount_sell_to,
     ),
-    horizontalPinnedPadding: 0.0,
-    removePinnedPadding: true,
     children: [
       _PaymentMethodScreenBody(
         asset: currency,
@@ -58,7 +50,9 @@ void showSellPayWithBottomSheet({
         onSelectedCryptoAsset: onSelectedCryptoAsset,
       ),
     ],
-  );
+  ).then((value) {
+    then?.call(value);
+  });
 }
 
 class _PaymentMethodScreenBody extends StatelessObserverWidget {

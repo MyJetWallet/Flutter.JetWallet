@@ -5,7 +5,6 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit/simple_kit.dart';
 
 part 'onboarding_store.g.dart';
 
@@ -146,18 +145,6 @@ abstract class _OnboardingStoreBase with Store {
 
   String showImages(int index) {
     return _onboardingImages[index];
-  }
-
-  Color backgroundColor(SimpleColors colors) {
-    if (currentIndex == 0) {
-      return colors.blueLight2;
-    } else if (currentIndex == 1) {
-      return colors.greenLight2;
-    } else if (currentIndex == 2) {
-      return colors.brownLight;
-    } else {
-      return colors.violetLight;
-    }
   }
 
   void precacheImages(BuildContext context) {

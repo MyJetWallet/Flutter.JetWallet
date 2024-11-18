@@ -10,7 +10,7 @@ import 'package:jetwallet/features/crypto_jar/store/jar_update_store.dart';
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/jar/jar_response_model.dart';
 
 part 'jars_store.g.dart';
@@ -82,7 +82,7 @@ abstract class _JarsStoreBase with Store {
 
       unawaited(
         responseLimit.then(
-              (response) {
+          (response) {
             response.pick(
               onData: (data) {
                 setLimit(data.limit);

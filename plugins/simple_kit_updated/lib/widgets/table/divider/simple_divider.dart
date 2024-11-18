@@ -4,22 +4,19 @@ import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 class SDivider extends StatelessWidget {
   const SDivider({
     super.key,
-    this.width,
-    this.height,
-    this.color,
+    this.withHorizontalPadding = false,
   });
 
-  final double? width;
-  final double? height;
-  final Color? color;
+  final bool withHorizontalPadding;
 
   @override
   Widget build(BuildContext context) {
-    return Divider(
+    return Container(
       height: 1,
-      indent: 0,
-      thickness: height ?? 1.0,
-      color: color ?? SColorsLight().gray4,
+      color: SColorsLight().gray4,
+      margin: EdgeInsets.symmetric(
+        horizontal: withHorizontalPadding ? 24 : 0,
+      ),
     );
   }
 }

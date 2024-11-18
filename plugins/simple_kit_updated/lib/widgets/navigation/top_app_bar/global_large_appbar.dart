@@ -19,6 +19,8 @@ class SimpleLargeAppbar extends StatelessWidget {
     this.subicon1,
     this.hasSubicon2 = false,
     this.subicon2,
+    this.onLeftIconTap,
+    this.onRightIconTap,
   });
 
   final String title;
@@ -26,9 +28,11 @@ class SimpleLargeAppbar extends StatelessWidget {
 
   final bool hasLeftIcon;
   final Widget? leftIcon;
+  final VoidCallback? onLeftIconTap;
 
   final bool hasRightIcon;
   final Widget? rightIcon;
+  final VoidCallback? onRightIconTap;
 
   final bool hasSubicon1;
   final Widget? subicon1;
@@ -53,7 +57,7 @@ class SimpleLargeAppbar extends StatelessWidget {
                     opacity: hasLeftIcon ? 1 : 0,
                     child: leftIcon ??
                         SafeGesture(
-                          onTap: () => Navigator.of(context).pop(),
+                          onTap: () => onLeftIconTap ?? Navigator.of(context).pop(),
                           child: Assets.svg.medium.arrowLeft.simpleSvg(),
                         ),
                   ),
@@ -61,7 +65,7 @@ class SimpleLargeAppbar extends StatelessWidget {
                     opacity: hasRightIcon ? 1 : 0,
                     child: rightIcon ??
                         SafeGesture(
-                          onTap: () => Navigator.of(context).pop(),
+                          onTap: () => onRightIconTap ?? Navigator.of(context).pop(),
                           child: Assets.svg.medium.close.simpleSvg(),
                         ),
                   ),

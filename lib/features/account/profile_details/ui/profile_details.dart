@@ -14,6 +14,7 @@ import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:jetwallet/utils/helpers/currencies_with_balance_from.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
 import '../../../../utils/helpers/country_code_by_user_register.dart';
@@ -53,19 +54,17 @@ class _ProfileDetailsState extends State<ProfileDetails> {
 
     return SPageFrame(
       loaderText: intl.loader_please_wait,
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: intl.profileDetails_profileDetails,
-          onBackButtonTap: () => Navigator.pop(context),
-        ),
+      header: GlobalBasicAppBar(
+        title: intl.profileDetails_profileDetails,
+        hasRightIcon: false,
       ),
       child: Column(
         children: [
-          SProfileDetailsButton(
-            showIcon: true,
+          SCopyable(
             label: intl.profileDetails_email,
             value: getIt.get<AppStore>().authState.email.toLowerCase(),
-            onTap: () {
+            icon: Assets.svg.medium.edit.simpleSvg(),
+            onIconTap: () {
               sRouter.push(
                 PinScreenRoute(
                   union: const Change(),
@@ -78,12 +77,16 @@ class _ProfileDetailsState extends State<ProfileDetails> {
               );
             },
           ),
-          if (sUserInfo.isPhoneNumberSet)
-            SProfileDetailsButton(
-              showIcon: true,
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 6),
+            child: SDivider(withHorizontalPadding: true),
+          ),
+          if (sUserInfo.isPhoneNumberSet) ...[
+            SCopyable(
               label: intl.setPhoneNumber_phoneNumber,
               value: finalPhone,
-              onTap: () {
+              icon: Assets.svg.medium.edit.simpleSvg(),
+              onIconTap: () {
                 showSendTimerAlertOr(
                   context: context,
                   or: () {
@@ -105,22 +108,30 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                 );
               },
             ),
-          SProfileDetailsButton(
-            showIcon: true,
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 6),
+              child: SDivider(withHorizontalPadding: true),
+            ),
+          ],
+          SCopyable(
             label: intl.profileDetails_baseCurrency,
             value: baseCurrency.description,
-            onTap: () {
+            icon: Assets.svg.medium.edit.simpleSvg(),
+            onIconTap: () {
               sRouter.push(
                 const DefaultAssetChangeRouter(),
               );
             },
           ),
-          SProfileDetailsButton(
-            isDivider: false,
-            showIcon: true,
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 6),
+            child: SDivider(withHorizontalPadding: true),
+          ),
+          SCopyable(
             label: intl.preferred_language,
             value: getTextLocale(),
-            onTap: () async {
+            icon: Assets.svg.medium.edit.simpleSvg(),
+            onIconTap: () async {
               await changeLanguagePopup(context);
 
               setState(() {});
@@ -129,17 +140,16 @@ class _ProfileDetailsState extends State<ProfileDetails> {
           const Spacer(),
           Padding(
             padding: const EdgeInsets.only(left: 24, right: 24, bottom: 42),
-            child: SSecondaryButton1(
-              active: true,
+            child: SButton.outlined(
               icon: const SCircleMinusIcon(),
-              name: intl.profileDetails_deleteProfile,
-              onTap: () {
+              text: intl.profileDetails_deleteProfile,
+              callback: () {
                 sShowAlertPopup(
                   context,
                   primaryText: '${intl.profileDetails_deleteProfile}?',
                   secondaryText: intl.profileDetails_deleteProfileDescr,
                   primaryButtonName: intl.profileDetails_yes,
-                  primaryButtonType: SButtonType.primary3,
+                  isPrimaryButtonRed: true,
                   onPrimaryButtonTap: deleteAcc,
                   isNeedCancelButton: true,
                   cancelText: intl.profileDetails_no,

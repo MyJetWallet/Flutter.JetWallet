@@ -5,6 +5,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/currency_withdraw/model/address_validation_union.dart';
 import 'package:jetwallet/features/withdrawal/store/withdrawal_store.dart';
+import 'package:jetwallet/features/withdrawal/ui/simple_requirement.dart';
 import 'package:jetwallet/widgets/network_bottom_sheet/show_witrhdrawal_network_bottom_sheet.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -64,7 +65,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     final store = WithdrawalStore.of(context);
 
@@ -81,15 +82,14 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
       canPop: !store.loader.loading,
       child: SPageFrame(
         loaderText: intl.register_pleaseWait,
-        color: colors.grey5,
+        color: colors.gray2,
         loading: store.loader,
-        header: SPaddingH24(
-          child: SSmallHeader(
-            title: store.header,
-            onBackButtonTap: () {
-              sRouter.maybePop();
-            },
-          ),
+        header: GlobalBasicAppBar(
+          title: store.header,
+          hasRightIcon: false,
+          onLeftIconTap: () {
+            sRouter.maybePop();
+          },
         ),
         child: CustomScrollView(
           controller: scrollController,
@@ -102,7 +102,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                   Material(
                     color: colors.white,
                     child: InkWell(
-                      highlightColor: colors.grey5,
+                      highlightColor: colors.gray2,
                       splashColor: Colors.transparent,
                       onTap: () {
                         if (store.withdrawalType == WithdrawalType.asset && store.networks.length > 1) {
@@ -117,42 +117,35 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                           );
                         }
                       },
-                      child: SPaddingH24(
-                        child: SStandardField(
-                          controller: store.networkController,
-                          labelText: (store.withdrawalType == WithdrawalType.asset && store.networks.length > 1)
-                              ? intl.currencyWithdraw_chooseNetwork
-                              : intl.cryptoDeposit_network,
-                          enabled: false,
-                          hideIconsIfNotEmpty: false,
-                          hideClearButton: true,
-                          suffixIcons: [
-                            if (store.withdrawalType == WithdrawalType.asset && store.networks.length > 1)
-                              const SAngleDownIcon(),
-                          ],
-                        ),
+                      child: SInput(
+                        controller: store.networkController,
+                        label: (store.withdrawalType == WithdrawalType.asset && store.networks.length > 1)
+                            ? intl.currencyWithdraw_chooseNetwork
+                            : intl.cryptoDeposit_network,
+                        isDisabled: true,
+                        suffixIcon: store.withdrawalType == WithdrawalType.asset && store.networks.length > 1
+                            ? const SAngleDownIcon()
+                            : null,
                       ),
                     ),
                   ),
-                  const SDivider(),
                   Material(
                     color: colors.white,
-                    child: SPaddingH24(
-                      child: SStandardField(
-                        isError: store.addressError,
-                        labelText: '${intl.currencyWithdraw_enter}'
-                            ' $asset '
-                            '${intl.currencyWithdraw_address}',
-                        focusNode: store.addressFocus,
-                        controller: store.addressController,
-                        onChanged: (value) {
-                          store.scrollToBottom(scrollController);
-                          store.updateAddress(value, validate: true);
-                        },
-                        maxLines: 1,
-                        onErase: () => store.eraseAddress(),
-                        suffixIcons: [
-                          SIconButton(
+                    child: SInput(
+                      hasErrorIcon: store.addressError,
+                      label: '${intl.currencyWithdraw_enter}'
+                          ' $asset '
+                          '${intl.currencyWithdraw_address}',
+                      focusNode: store.addressFocus,
+                      controller: store.addressController,
+                      onChanged: (value) {
+                        store.scrollToBottom(scrollController);
+                        store.updateAddress(value, validate: true);
+                      },
+                      onCloseIconTap: () => store.eraseAddress(),
+                      suffixIcon: Row(
+                        children: [
+                          SafeGesture(
                             onTap: () {
                               if (store.withdrawalType != WithdrawalType.jar) {
                                 sAnalytics.cryptoSendTapPaste(
@@ -163,9 +156,10 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
 
                               store.pasteAddress(scrollController);
                             },
-                            defaultIcon: const SPasteIcon(),
+                            child: const SPasteIcon(),
                           ),
-                          SIconButton(
+                          const SpaceW10(),
+                          SafeGesture(
                             onTap: () {
                               if (store.withdrawalType != WithdrawalType.jar) {
                                 sAnalytics.cryptoSendTapQr(
@@ -179,29 +173,27 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                                 scrollController,
                               );
                             },
-                            defaultIcon: const SQrCodeIcon(),
+                            child: const SQrCodeIcon(),
                           ),
                         ],
                       ),
                     ),
                   ),
                   if (store.network.tagType == TagType.tag || store.network.tagType == TagType.memo) ...[
-                    const SDivider(),
                     Material(
                       color: colors.white,
-                      child: SPaddingH24(
-                        child: SStandardField(
-                          isError: store.tagError,
-                          labelText: store.withdrawalInputModel!.currency!.symbol == 'XRP'
-                              ? intl.currencyWithdraw_enterTagOrMemo
-                              : intl.currencyWithdraw_enterTag,
-                          focusNode: store.tagFocus,
-                          controller: store.tagController,
-                          onChanged: (value) => store.updateTag(value),
-                          onErase: () => store.eraseTag(),
-                          maxLines: 3,
-                          suffixIcons: [
-                            SIconButton(
+                      child: SInput(
+                        hasErrorIcon: store.tagError,
+                        label: store.withdrawalInputModel!.currency!.symbol == 'XRP'
+                            ? intl.currencyWithdraw_enterTagOrMemo
+                            : intl.currencyWithdraw_enterTag,
+                        focusNode: store.tagFocus,
+                        controller: store.tagController,
+                        onChanged: (value) => store.updateTag(value),
+                        onCloseIconTap: () => store.eraseTag(),
+                        suffixIcon: Row(
+                          children: [
+                            SafeGesture(
                               onTap: () {
                                 if (store.withdrawalType != WithdrawalType.jar) {
                                   sAnalytics.cryptoSendTapPaste(
@@ -212,9 +204,10 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
 
                                 store.pasteTag(scrollController);
                               },
-                              defaultIcon: const SPasteIcon(),
+                              child: const SPasteIcon(),
                             ),
-                            SIconButton(
+                            const SpaceW10(),
+                            SafeGesture(
                               onTap: () {
                                 sAnalytics.cryptoSendTapQr(
                                   asset: store.withdrawalInputModel!.currency!.symbol,
@@ -226,7 +219,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                                   scrollController,
                                 );
                               },
-                              defaultIcon: const SQrCodeIcon(),
+                              child: const SQrCodeIcon(),
                             ),
                           ],
                         ),
@@ -253,8 +246,8 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                     child: Text(
                       store.withdrawHint,
                       maxLines: 3,
-                      style: sCaptionTextStyle.copyWith(
-                        color: colors.grey1,
+                      style: STStyles.captionMedium.copyWith(
+                        color: colors.gray10,
                       ),
                     ),
                   ),

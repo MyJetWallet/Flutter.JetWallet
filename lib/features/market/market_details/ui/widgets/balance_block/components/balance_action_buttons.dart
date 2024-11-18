@@ -19,7 +19,6 @@ import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/features/sell_flow/widgets/sell_with_bottom_sheet.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';

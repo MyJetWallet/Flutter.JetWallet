@@ -2,28 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/features/account/widgets/create_banners_list.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class AccountBannerList extends StatefulObserverWidget {
   const AccountBannerList({
     super.key,
-    this.onTwoFaBannerTap,
     this.onChatBannerTap,
     this.onKycBannerTap,
     required this.kycRequired,
     required this.kycBlocked,
-    required this.twoFaEnabled,
     required this.phoneVerified,
     required this.verificationInProgress,
   });
 
-  final Function()? onTwoFaBannerTap;
   final Function()? onChatBannerTap;
   final Function()? onKycBannerTap;
   final bool kycRequired;
   final bool kycBlocked;
-  final bool twoFaEnabled;
   final bool phoneVerified;
   final bool verificationInProgress;
 
@@ -35,7 +31,7 @@ class _AccountBannerListState extends State<AccountBannerList> {
   @override
   Widget build(BuildContext context) {
     final controller = PageController(viewportFraction: 0.9);
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return FutureBuilder(
       future: downloadData(colors, context),
@@ -95,7 +91,7 @@ class _AccountBannerListState extends State<AccountBannerList> {
   }
 
   Future<List<Widget>> downloadData(
-    SimpleColors colors,
+    SColorsLight colors,
     BuildContext context,
   ) async {
     final storage = sLocalStorageService;
@@ -105,10 +101,8 @@ class _AccountBannerListState extends State<AccountBannerList> {
       kycRequired: widget.kycRequired,
       kycBlocked: widget.kycBlocked,
       verificationInProgress: widget.verificationInProgress,
-      twoFaEnabled: true,
       phoneVerified: widget.phoneVerified,
       onChatBannerTap: widget.onChatBannerTap,
-      onTwoFaBannerTap: widget.onTwoFaBannerTap,
       onKycBannerTap: widget.onKycBannerTap,
       colors: colors,
       showChatChecker: showChatChecker,

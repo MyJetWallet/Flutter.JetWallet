@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:simple_kit/modules/colors/simple_colors_light.dart';
-import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
-import 'package:simple_kit_updated/widgets/button/invest_buttons/invest_button.dart';
-import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/invest/new_invest_request_model.dart';
@@ -55,12 +51,11 @@ void showInvestModifyBottomSheet({
     investNewStore.onSLAmountInput('${position.stopLossAmount}');
   }
 
-  final colors = sKit.colors;
+  final colors = SColorsLight();
 
-  sShowBasicModalBottomSheet(
+  showBasicBottomSheet(
     context: context,
-    scrollable: true,
-    pinnedBottom: Material(
+    button: Material(
       color: SColorsLight().white,
       child: Observer(
         builder: (BuildContext context) {
@@ -74,10 +69,10 @@ void showInvestModifyBottomSheet({
                     children: [
                       Expanded(
                         child: SIButton(
-                          activeColor: SColorsLight().grey5,
+                          activeColor: SColorsLight().gray2,
                           activeNameColor: SColorsLight().black,
-                          inactiveColor: SColorsLight().grey2,
-                          inactiveNameColor: SColorsLight().grey4,
+                          inactiveColor: SColorsLight().gray8,
+                          inactiveNameColor: SColorsLight().gray4,
                           active: true,
                           name: intl.invest_cancel,
                           onTap: () {
@@ -90,8 +85,8 @@ void showInvestModifyBottomSheet({
                         child: SIButton(
                           activeColor: SColorsLight().blue,
                           activeNameColor: SColorsLight().white,
-                          inactiveColor: SColorsLight().grey4,
-                          inactiveNameColor: SColorsLight().grey2,
+                          inactiveColor: SColorsLight().gray4,
+                          inactiveNameColor: SColorsLight().gray8,
                           active: true,
                           name: intl.invest_save,
                           onTap: () async {
@@ -120,9 +115,6 @@ void showInvestModifyBottomSheet({
         },
       ),
     ),
-    horizontalPinnedPadding: 0,
-    removePinnedPadding: true,
-    horizontalPadding: 0,
     children: [
       if (isPendingInvest) ...[
         SPaddingH24(
@@ -174,7 +166,7 @@ class InfoBlock extends StatelessObserverWidget {
     final investNewStore = getIt.get<InvestNewStore>();
     final investStore = getIt.get<InvestDashboardStore>();
 
-    final colors = sKit.colors;
+    final colors = SColorsLight();
     final currency = currencyFrom(currencies, 'USDT');
 
     return SPaddingH24(
@@ -218,20 +210,11 @@ class InfoBlock extends StatelessObserverWidget {
                 const SpaceH6(),
                 Row(
                   children: [
-                    SIconButton(
+                    SafeGesture(
                       onTap: () {
                         investNewStore.setIsTPMode(!investNewStore.isTP);
                       },
-                      defaultIcon: investNewStore.isTP
-                          ? Assets.svg.invest.checked.simpleSvg(
-                              width: 20,
-                              height: 20,
-                            )
-                          : Assets.svg.invest.check.simpleSvg(
-                              width: 20,
-                              height: 20,
-                            ),
-                      pressedIcon: investNewStore.isTP
+                      child: investNewStore.isTP
                           ? Assets.svg.invest.checked.simpleSvg(
                               width: 20,
                               height: 20,
@@ -357,20 +340,11 @@ class InfoBlock extends StatelessObserverWidget {
                 const SpaceH12(),
                 Row(
                   children: [
-                    SIconButton(
+                    SafeGesture(
                       onTap: () {
                         investNewStore.setIsSLMode(!investNewStore.isSl);
                       },
-                      defaultIcon: investNewStore.isSl
-                          ? Assets.svg.invest.checked.simpleSvg(
-                              width: 20,
-                              height: 20,
-                            )
-                          : Assets.svg.invest.check.simpleSvg(
-                              width: 20,
-                              height: 20,
-                            ),
-                      pressedIcon: investNewStore.isSl
+                      child: investNewStore.isSl
                           ? Assets.svg.invest.checked.simpleSvg(
                               width: 20,
                               height: 20,

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
-import 'package:simple_kit/core/simple_kit.dart';
-import 'package:simple_kit/modules/shared/simple_skeleton_text_loader.dart';
-import 'package:simple_kit/modules/shared/simple_spacers.dart';
-import 'package:simple_kit/modules/texts/simple_text_styles.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class TransactionNewHeader extends StatelessWidget {
   const TransactionNewHeader({
@@ -26,7 +23,7 @@ class TransactionNewHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return Row(
       children: [
@@ -45,13 +42,13 @@ class TransactionNewHeader extends StatelessWidget {
           children: [
             Text(
               assetDescription,
-              style: sCaptionTextStyle.copyWith(
-                color: colors.grey1,
+              style: STStyles.captionMedium.copyWith(
+                color: colors.gray10,
                 fontWeight: FontWeight.w600,
               ),
             ),
             if (isLoading)
-              SSkeletonTextLoader(
+              SSkeletonLoader(
                 width: 120,
                 height: 32,
                 borderRadius: BorderRadius.circular(4),
@@ -59,16 +56,16 @@ class TransactionNewHeader extends StatelessWidget {
             else
               Text(
                 assetValue,
-                style: sTextH5Style.copyWith(
-                  color: isError ? colors.grey1 : null,
+                style: STStyles.header6.copyWith(
+                  color: isError ? colors.gray10 : null,
                   decoration: isError ? TextDecoration.lineThrough : null,
                 ),
               ),
             if (assetBaseAmount != null)
               Text(
                 assetBaseAmount!,
-                style: sCaptionTextStyle.copyWith(
-                  color: colors.grey1,
+                style: STStyles.captionMedium.copyWith(
+                  color: colors.gray10,
                   fontWeight: FontWeight.w600,
                 ),
               ),

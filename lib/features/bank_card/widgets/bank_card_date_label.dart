@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/features/add_circle_card/helper/masked_text_input_formatter.dart';
+import 'package:jetwallet/features/bank_card/helper/masked_text_input_formatter.dart';
 import 'package:jetwallet/features/bank_card/store/bank_card_store.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class BankCardDateLabel extends StatelessObserverWidget {
   const BankCardDateLabel({
@@ -27,45 +27,38 @@ class BankCardDateLabel extends StatelessObserverWidget {
                 store.validExpiry();
               }
             },
-            child: SFieldDividerFrame(
-              child: SStandardField(
-                labelText: intl.addCircleCard_expiryMonth,
-                focusNode: store.monthNode,
-                keyboardType: TextInputType.number,
-                isError: store.expiryMonthError,
-                disableErrorOnChanged: false,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                  LengthLimitingTextInputFormatter(4),
-                  CardMonthInputFormatter(),
-                ],
-                controller: store.expiryMonthController,
-                onChanged: store.updateExpiryMonth,
-                hideClearButton: store.cardStoreMode == BankCardStoreMode.edit,
-                readOnly: store.cardStoreMode == BankCardStoreMode.edit,
-                grayLabel: store.cardStoreMode == BankCardStoreMode.edit,
-              ),
+            child: SInput(
+              label: intl.addCircleCard_expiryMonth,
+              focusNode: store.monthNode,
+              keyboardType: TextInputType.number,
+              hasErrorIcon: store.expiryMonthError,
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+                LengthLimitingTextInputFormatter(4),
+                CardMonthInputFormatter(),
+              ],
+              controller: store.expiryMonthController,
+              onChanged: store.updateExpiryMonth,
+              hasCloseIcon: store.cardStoreMode != BankCardStoreMode.edit,
+              isDisabled: store.cardStoreMode == BankCardStoreMode.edit,
             ),
           ),
         ),
         if (showLabel) ...[
-          const SDivider(
+          Container(
             width: 1.0,
-            height: 88.0,
+            height: 80.0,
+            color: SColorsLight().gray4,
           ),
           Expanded(
-            child: SFieldDividerFrame(
-              child: SStandardField(
-                maxLines: 1,
-                maxLength: 30,
-                labelText: intl.addCircleCard_label,
-                focusNode: store.labelNode,
-                isError: store.labelError,
-                enableInteractiveSelection: false,
-                disableErrorOnChanged: false,
-                controller: store.cardLabelController,
-                onChanged: store.setCardLabel,
-              ),
+            child: SInput(
+              label: intl.addCircleCard_label,
+              focusNode: store.labelNode,
+              hasErrorIcon: store.labelError,
+              hasCloseIcon: store.cardLabel.isNotEmpty,
+              controller: store.cardLabelController,
+              onChanged: store.setCardLabel,
+              maxLength: 30,
             ),
           ),
         ],

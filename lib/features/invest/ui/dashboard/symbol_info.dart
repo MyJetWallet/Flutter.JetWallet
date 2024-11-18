@@ -7,10 +7,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/icon_url_from.dart';
-import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
-import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 
 import '../../helpers/percent_info.dart';
@@ -38,7 +35,7 @@ class SymbolInfo extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return InkWell(
       splashColor: Colors.transparent,
@@ -53,7 +50,7 @@ class SymbolInfo extends StatelessObserverWidget {
           border: showProfit
               ? null
               : Border.all(
-                  color: colors.grey4,
+                  color: colors.gray4,
                 ),
           color: colors.white,
         ),
@@ -99,7 +96,7 @@ class SymbolInfo extends StatelessObserverWidget {
                       overflow: TextOverflow.ellipsis,
                       style: STStyles.body3InvestSM.copyWith(
                         color: percent == Decimal.zero
-                            ? colors.grey3
+                            ? colors.gray6
                             : percent > Decimal.zero
                                 ? colors.green
                                 : colors.red,
@@ -139,7 +136,7 @@ class SymbolInfo extends StatelessObserverWidget {
                   Text(
                     'PL ',
                     style: STStyles.body3InvestM.copyWith(
-                      color: colors.grey1,
+                      color: colors.gray10,
                     ),
                   ),
                   Text(

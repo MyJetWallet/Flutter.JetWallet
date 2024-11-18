@@ -15,7 +15,6 @@ import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 
@@ -32,13 +31,9 @@ class EarnWithdrawalAmountScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SPageFrame(
       loaderText: '',
-      header: SPaddingH24(
-        child: SSmallHeader(
-          onBackButtonTap: () {
-            Navigator.of(context).pop();
-          },
-          title: intl.earn_partial_withdrawal,
-        ),
+      header: GlobalBasicAppBar(
+        title: intl.earn_partial_withdrawal,
+        hasRightIcon: false,
       ),
       child: Provider<EarnWithdrawalAmountStore>(
         create: (context) => EarnWithdrawalAmountStore(

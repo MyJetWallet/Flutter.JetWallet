@@ -11,9 +11,8 @@ import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
-import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/incoming_gift_model.dart';
@@ -58,28 +57,14 @@ Future<void> receiveGiftBottomSheet({
   required BuildContext context,
   required IncomingGiftObject giftModel,
 }) async {
-  sShowBasicModalBottomSheet(
+  await showBasicBottomSheet(
     context: context,
-    horizontalPinnedPadding: 24,
-    pinned: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        const SizedBox(width: 24),
-        Text(
-          intl.reseive_gift_claim,
-          style: sTextH5Style,
-        ),
-        SIconButton(
-          onTap: () => Navigator.pop(context),
-          defaultIcon: const SEraseIcon(),
-          pressedIcon: const SErasePressedIcon(),
-        ),
-      ],
+    header: BasicBottomSheetHeaderWidget(
+      title: intl.reseive_gift_claim,
     ),
     children: [
       _ReceiveGiftBottomSheet(giftModel),
     ],
-    then: (itsPostProcessing) {},
   );
 }
 
@@ -90,7 +75,7 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final sColors = sKit.colors;
+    final sColors = SColorsLight();
 
     final kyc = getIt.get<KycService>();
     final handler = getIt.get<KycAlertHandler>();
@@ -112,7 +97,7 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
             width: 327,
             height: 240,
             decoration: BoxDecoration(
-              color: sKit.colors.grey5,
+              color: SColorsLight().gray2,
               borderRadius: BorderRadius.circular(24),
             ),
             child: ClipRRect(
@@ -140,7 +125,7 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
                           const SpaceW4(),
                           Text(
                             giftAmount,
-                            style: sTextH4Style.copyWith(
+                            style: STStyles.header5.copyWith(
                               color: sColors.white,
                             ),
                           ),
@@ -172,16 +157,14 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
           Text(
             '${intl.reseive_gift_gift_from} ${giftModel.fromName}',
             textAlign: TextAlign.center,
-            style: sTextH4Style.copyWith(
-              color: sColors.black,
-            ),
+            style: STStyles.header5,
           ),
           const SpaceH8(),
           Text(
             '''${intl.reseive_gift_a_gift_of} $giftAmount ${intl.reseive_gift_from} ${giftModel.fromName} \n${intl.reseive_gift_is_waiting_for_you}''',
             textAlign: TextAlign.center,
-            style: sBodyText1Style.copyWith(
-              color: sColors.grey1,
+            style: STStyles.body1Medium.copyWith(
+              color: sColors.gray10,
             ),
           ),
           const SpaceH49(),
@@ -203,10 +186,9 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
             },
           ),
           const SpaceH10(),
-          STextButton1(
-            active: true,
-            name: intl.reseive_gift_reject_gift,
-            onTap: () async {
+          SButton.text(
+            text: intl.reseive_gift_reject_gift,
+            callback: () async {
               showAlert(context);
             },
           ),
@@ -280,7 +262,7 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
       secondaryText: intl.reseive_gift_are_you_sure,
       primaryButtonName: intl.reseive_gift_yes_reject,
       secondaryButtonName: intl.gift_history_no,
-      primaryButtonType: SButtonType.primary3,
+      isPrimaryButtonRed: true,
       onPrimaryButtonTap: () async {
         await getIt.get<SNetwork>().simpleNetworking.getWalletModule().declineGift(giftModel.id).then(
           (value) {

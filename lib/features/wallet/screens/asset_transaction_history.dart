@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/transaction_history/widgets/transaction_list_item.dart';
 import 'package:jetwallet/features/transaction_history/widgets/transactions_list.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'AssetTransactionHistoryRouter')

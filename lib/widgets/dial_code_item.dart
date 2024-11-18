@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:jetwallet/features/phone_verification/utils/simple_number.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import 'flag_item.dart';
 
@@ -18,11 +19,11 @@ class DialCodeItem extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
     final size = MediaQuery.of(context).size;
 
     return InkWell(
-      highlightColor: colors.grey5,
+      highlightColor: colors.gray2,
       splashColor: Colors.transparent,
       onTap: onTap,
       child: SPaddingH24(
@@ -50,8 +51,8 @@ class DialCodeItem extends StatelessObserverWidget {
                           width: 68.0,
                           child: Text(
                             dialCode.countryCode,
-                            style: sSubtitle2Style.copyWith(
-                              color: colors.grey3,
+                            style: STStyles.subtitle1.copyWith(
+                              color: colors.gray6,
                             ),
                           ),
                         ),
@@ -60,7 +61,7 @@ class DialCodeItem extends StatelessObserverWidget {
                           width: size.width - 160.0,
                           child: Text(
                             dialCode.countryName,
-                            style: sSubtitle2Style.copyWith(
+                            style: STStyles.subtitle1.copyWith(
                               color: active ? colors.blue : colors.black,
                             ),
                           ),

@@ -13,7 +13,6 @@ import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
@@ -248,13 +247,13 @@ class _AsssetWidget extends StatelessWidget {
               : Container(
                   padding: const EdgeInsets.all(4),
                   decoration: BoxDecoration(
-                    color: sKit.colors.grey1,
+                    color: SColorsLight().gray10,
                     shape: BoxShape.circle,
                   ),
                   child: SizedBox(
                     width: 16,
                     height: 16,
-                    child: SBankMediumIcon(color: sKit.colors.white),
+                    child: SBankMediumIcon(color: SColorsLight().white),
                   ),
                 ),
       onTap: onTap,

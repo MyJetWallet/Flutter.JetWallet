@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/invest/ui/invests/bit_of_tab.dart';
-import 'package:simple_kit/modules/colors/simple_colors_light.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/widgets/button/invest_buttons/invest_button.dart';
-import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../../utils/enum.dart';
 
@@ -14,51 +13,46 @@ void showInvestPeriodBottomSheet(
   Function(InvestHistoryPeriod value) onConfirm,
   InvestHistoryPeriod activePeriod,
 ) {
-  sShowBasicModalBottomSheet(
+  showBasicBottomSheet(
     context: context,
-    scrollable: true,
-    pinned: SPaddingH24(
-      child: SizedBox(
-        height: 56,
-        width: MediaQuery.of(context).size.width - 48,
-        child: Column(
-          children: [
-            const SpaceH14(),
-            Row(
-              children: [
-                Text(
-                  intl.invest_period,
-                  style: STStyles.header1Invest,
-                ),
-                const Spacer(),
-                SizedBox(
-                  height: 24,
-                  width: 24,
-                  child: Center(
-                    child: SIconButton(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      defaultIcon: SCloseIcon(
-                        color: SColorsLight().black,
-                      ),
-                      pressedIcon: SCloseIcon(
-                        color: SColorsLight().black,
+    children: [
+      SPaddingH24(
+        child: SizedBox(
+          height: 56,
+          width: MediaQuery.of(context).size.width - 48,
+          child: Column(
+            children: [
+              const SpaceH14(),
+              Row(
+                children: [
+                  Text(
+                    intl.invest_period,
+                    style: STStyles.header1Invest,
+                  ),
+                  const Spacer(),
+                  SizedBox(
+                    height: 24,
+                    width: 24,
+                    child: Center(
+                      child: SafeGesture(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: SCloseIcon(
+                          color: SColorsLight().black,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            const SpaceH13(),
-          ],
+                ],
+              ),
+              const SpaceH13(),
+            ],
+          ),
         ),
       ),
-    ),
-    horizontalPinnedPadding: 0,
-    removePinnedPadding: true,
-    horizontalPadding: 0,
-    children: [PeriodSheet(onConfirm: onConfirm, activePeriod: activePeriod)],
+      PeriodSheet(onConfirm: onConfirm, activePeriod: activePeriod),
+    ],
   );
 }
 
@@ -145,33 +139,6 @@ class _PeriodSheetState extends State<PeriodSheet> {
                   ),
                 ],
               ),
-              // const SpaceH12(),
-              // Container(
-              //   height: 32,
-              //   width: MediaQuery.of(context).size.width - 48,
-              //   padding: const EdgeInsets.symmetric(horizontal: 16),
-              //   decoration: BoxDecoration(
-              //     borderRadius: BorderRadius.circular(24),
-              //     color: colors.grey5,
-              //   ),
-              //   child: Center(
-              //     child: Text(
-              //       '${DateFormat('yyyy.MM.dd ', intl.localeName).format(
-              //           DateTime.now().subtract(
-              //             Duration(
-              //               days: getDaysByPeriod(investStore.period),
-              //             ),
-              //           ),
-              //       )}'
-              //       '-'
-              //       '${DateFormat('yyyy.MM.dd ', intl.localeName).format(DateTime.now())}',
-              //       style: sBody2InvestSMStyle.copyWith(
-              //         color: colors.black,
-              //         height: 1,
-              //       ),
-              //     ),
-              //   ),
-              // ),
               const SpaceH16(),
               SizedBox(
                 height: 98.0,
@@ -182,9 +149,9 @@ class _PeriodSheetState extends State<PeriodSheet> {
                       children: [
                         Expanded(
                           child: SIButton(
-                            activeColor: SColorsLight().grey5,
+                            activeColor: SColorsLight().gray2,
                             activeNameColor: SColorsLight().black,
-                            inactiveColor: SColorsLight().grey5,
+                            inactiveColor: SColorsLight().gray2,
                             inactiveNameColor: SColorsLight().black,
                             active: true,
                             name: intl.invest_cancel,
@@ -198,8 +165,8 @@ class _PeriodSheetState extends State<PeriodSheet> {
                           child: SIButton(
                             activeColor: SColorsLight().blue,
                             activeNameColor: SColorsLight().white,
-                            inactiveColor: SColorsLight().grey4,
-                            inactiveNameColor: SColorsLight().grey2,
+                            inactiveColor: SColorsLight().gray4,
+                            inactiveNameColor: SColorsLight().gray8,
                             active: true,
                             name: intl.invest_confirm,
                             onTap: () {

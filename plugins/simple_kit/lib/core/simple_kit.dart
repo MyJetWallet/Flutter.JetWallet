@@ -1,8 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:mobx/mobx.dart';
-import 'package:simple_kit/modules/colors/simple_colors.dart';
-import 'package:simple_kit/modules/colors/simple_colors_dark.dart';
-import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/modules/theme/simple_dark_theme.dart';
 import 'package:simple_kit/modules/theme/simple_light_theme.dart';
 import 'package:simple_kit/utils/enum.dart';
@@ -11,7 +8,6 @@ import 'di.dart';
 
 part 'simple_kit.g.dart';
 
-@Deprecated('This is a widget from the old ui kit, please use the widget from the new ui kit')
 final sKit = sGetIt.get<SimpleKit>();
 
 // ignore: library_private_types_in_public_api
@@ -27,7 +23,4 @@ abstract class _SimpleKitBase with Store {
   CupertinoThemeData getTheme() {
     return currentTheme == STheme.dark ? sDarkTheme : sLightTheme;
   }
-
-  @computed
-  SimpleColors get colors => currentTheme == STheme.dark ? SColorsDark() : SColorsLight();
 }

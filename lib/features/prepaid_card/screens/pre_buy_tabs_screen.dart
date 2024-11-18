@@ -9,7 +9,6 @@ import 'package:jetwallet/features/prepaid_card/screens/buy_voucher_text_third_s
 import 'package:jetwallet/features/prepaid_card/screens/choose_country_and_plan_screen.dart';
 import 'package:jetwallet/features/prepaid_card/store/choose_country_and_plan_store.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'PrepaidCardPreBuyTabsRouter')
@@ -99,18 +98,15 @@ class _PrepaidCardPreBuyTabsBodyState extends State<_PrepaidCardPreBuyTabsBody> 
 
     return SPageFrame(
       loaderText: '',
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: '',
-          showCloseButton: true,
-          showBackButton: isShowBackButtton,
-          onBackButtonTap: () {
-            _goToPreviosTab();
-          },
-          onCLoseButton: () {
-            sRouter.popUntilRouteWithName(PrepaidCardServiceRouter.name);
-          },
-        ),
+      header: GlobalBasicAppBar(
+        title: '',
+        hasLeftIcon: isShowBackButtton,
+        onLeftIconTap: () {
+          _goToPreviosTab();
+        },
+        onRightIconTap: () {
+          sRouter.popUntilRouteWithName(PrepaidCardServiceRouter.name);
+        },
       ),
       child: Stack(
         children: [

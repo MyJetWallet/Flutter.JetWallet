@@ -3,45 +3,30 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/set_phone_number/store/set_phone_number_store.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:jetwallet/widgets/dial_code_item.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 void showCountryPhoneNumberPicker(BuildContext context) {
   Provider.of<SetPhoneNumberStore>(context, listen: false).initDialCodeSearch();
-
-  sShowBasicModalBottomSheet(
+  final store = Provider.of<SetPhoneNumberStore>(context, listen: false);
+  showBasicBottomSheet(
     context: context,
-    scrollable: true,
-    pinned: _SearchPinned(context: context),
     expanded: true,
-    removeBarPadding: true,
-    removePinnedPadding: true,
+    header: BasicBottomSheetHeaderWidget(
+      searchOptions: SearchOptions(
+        hint: intl.showCountryPhoneNumberPicker_searchCountry,
+        onChange: (String value) {
+          store.updateDialCodeSearch(value);
+        },
+      ),
+    ),
     children: [
       _DialCodes(context: context),
       const SpaceH24(),
     ],
   );
-}
-
-class _SearchPinned extends StatelessObserverWidget {
-  const _SearchPinned({required this.context});
-
-  final BuildContext context;
-
-  @override
-  Widget build(BuildContext con) {
-    final store = Provider.of<SetPhoneNumberStore>(context, listen: false);
-
-    return SStandardField(
-      controller: TextEditingController(),
-      autofocus: true,
-      labelText: intl.showCountryPhoneNumberPicker_searchCountry,
-      onChanged: (value) {
-        store.updateDialCodeSearch(value);
-      },
-    );
-  }
 }
 
 class _DialCodes extends StatelessObserverWidget {

@@ -9,10 +9,10 @@ import 'package:jetwallet/core/services/intercom/intercom_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/features/auth/user_data/ui/widgets/country/country_item/country_profile_item.dart';
 import 'package:jetwallet/features/kyc/kyc_verify_your_profile/store/kyc_aid_countries_store.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:jetwallet/widgets/empty_search_result.dart';
 import 'package:jetwallet/widgets/flag_item.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'KycAidChooseCountryRouter')
@@ -103,46 +103,42 @@ class CountryProfileField extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final countryInfo = KycAidCountriesStore.of(context);
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
-    return ColoredBox(
+    return Container(
       color: colors.white,
+      height: 80,
       child: GestureDetector(
         onTap: () {
           showUserDataCountryPicker(context);
         },
         child: AbsorbPointer(
-          child: SPaddingH24(
-            child: Stack(
-              children: [
-                if (countryInfo.activeCountry != null)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 40.0),
-                    child: Row(
-                      children: [
-                        FlagItem(
-                          countryCode: countryInfo.activeCountry!.countryCode,
+          child: Stack(
+            children: [
+              SInput(
+                isDisabled: true,
+                controller: TextEditingController()..text = countryInfo.activeCountry != null ? ' ' : '',
+                label: intl.user_data_country,
+              ),
+              if (countryInfo.activeCountry != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 33.0, left: 24),
+                  child: Row(
+                    children: [
+                      FlagItem(
+                        countryCode: countryInfo.activeCountry!.countryCode,
+                      ),
+                      const SpaceW10(),
+                      Expanded(
+                        child: Text(
+                          countryInfo.activeCountry!.countryName,
+                          style: STStyles.subtitle1,
                         ),
-                        const SpaceW10(),
-                        Expanded(
-                          child: Text(
-                            countryInfo.activeCountry!.countryName,
-                            style: sSubtitle2Style.copyWith(
-                              color: colors.black,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                SStandardField(
-                  hideClearButton: true,
-                  readOnly: true,
-                  controller: TextEditingController()..text = countryInfo.activeCountry != null ? ' ' : '',
-                  labelText: intl.kyc_id_issuing_country,
                 ),
-              ],
-            ),
+            ],
           ),
         ),
       ),
@@ -155,55 +151,25 @@ Future<void> showUserDataCountryPicker(BuildContext context) async {
 
   profileCountriesStore.initCountrySearch();
 
-  sShowBasicModalBottomSheet(
+  await showBasicBottomSheet(
     context: context,
-    scrollable: true,
-    pinned: _SearchPinned(
-      store: profileCountriesStore as KycAidCountriesStore,
+    header: BasicBottomSheetHeaderWidget(
+      title: intl.kycCountry_countryOfIssue,
+      searchOptions: SearchOptions(
+        hint: intl.showKycCountryPicker_search,
+        onChange: (value) {
+          profileCountriesStore.updateCountryNameSearch(value);
+        },
+      ),
     ),
     expanded: true,
-    removeBarPadding: true,
-    removePinnedPadding: true,
     children: [
       _Countries(
-        store: profileCountriesStore,
+        store: profileCountriesStore as KycAidCountriesStore,
       ),
       const SpaceH40(),
     ],
   );
-}
-
-class _SearchPinned extends StatelessObserverWidget {
-  const _SearchPinned({
-    required this.store,
-  });
-
-  final KycAidCountriesStore store;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SpaceH20(),
-        Text(
-          intl.kycCountry_countryOfIssue,
-          style: sTextH4Style,
-        ),
-        SStandardField(
-          controller: TextEditingController(),
-          autofocus: true,
-          hintText: intl.showKycCountryPicker_search,
-          onChanged: (value) {
-            store.updateCountryNameSearch(value);
-          },
-          height: 44,
-          maxLines: 1,
-        ),
-        const SDivider(),
-      ],
-    );
-  }
 }
 
 class _Countries extends StatelessObserverWidget {

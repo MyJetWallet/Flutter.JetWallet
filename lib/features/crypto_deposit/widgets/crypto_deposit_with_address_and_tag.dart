@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/crypto_deposit/model/crypto_deposit_union.dart';
 import 'package:jetwallet/features/crypto_deposit/store/crypto_deposit_store.dart';
+import 'package:jetwallet/features/crypto_deposit/widgets/simple_qr_code_box.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../core/services/device_size/device_size.dart';
 import '../../../core/services/notification_service.dart';
@@ -35,7 +37,7 @@ class _CryptoDepositWithAddressAndTagState extends State<CryptoDepositWithAddres
 
   int currentPage = 0;
 
-  final colors = sKit.colors;
+  final colors = SColorsLight();
 
   @override
   void initState() {
@@ -148,7 +150,7 @@ class _CryptoDepositWithAddressAndTagState extends State<CryptoDepositWithAddres
                 child: DecoratedBox(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16),
-                    color: colors.grey5,
+                    color: colors.gray2,
                   ),
                   child: Padding(
                     padding: const EdgeInsets.only(
@@ -162,16 +164,16 @@ class _CryptoDepositWithAddressAndTagState extends State<CryptoDepositWithAddres
                       children: [
                         Text(
                           intl.cryptoDeposit_address,
-                          style: sSubtitle3Style.copyWith(
-                            color: colors.grey3,
+                          style: STStyles.subtitle2.copyWith(
+                            color: colors.gray6,
                             height: 1,
                           ),
                         ),
                         const SizedBox(width: 32),
                         Text(
                           widget.currency.symbol == 'XRP' ? intl.tagOrMemo : intl.tag,
-                          style: sSubtitle3Style.copyWith(
-                            color: colors.grey3,
+                          style: STStyles.subtitle2.copyWith(
+                            color: colors.gray6,
                             height: 1,
                           ),
                         ),
@@ -195,7 +197,7 @@ class _CryptoDepositWithAddressAndTagState extends State<CryptoDepositWithAddres
                       ),
                       child: Text(
                         intl.cryptoDeposit_address,
-                        style: sSubtitle3Style.copyWith(
+                        style: STStyles.subtitle2.copyWith(
                           color: colors.white,
                           height: 1,
                         ),
@@ -218,7 +220,7 @@ class _CryptoDepositWithAddressAndTagState extends State<CryptoDepositWithAddres
                       ),
                       child: Text(
                         widget.currency.symbol == 'XRP' ? intl.tagOrMemo : intl.tag,
-                        style: sSubtitle3Style.copyWith(
+                        style: STStyles.subtitle2.copyWith(
                           color: colors.white,
                           height: 1,
                         ),
@@ -230,15 +232,15 @@ class _CryptoDepositWithAddressAndTagState extends State<CryptoDepositWithAddres
           ),
           const Spacer(),
           if (currentPage == 1)
-            SAddressFieldWithCopy(
-              header: widget.currency.symbol == 'XRP' ? intl.tagOrMemo : intl.tag,
+            SCopyable(
+              label: widget.currency.symbol == 'XRP' ? intl.tagOrMemo : intl.tag,
               value: deposit.tag!,
-              realValue: deposit.tag,
-              afterCopyText: intl.cryptoDepositWithAddress_tagCopied,
-              valueLoading: deposit.union is Loading,
-              longString: true,
-              expanded: true,
-              then: () {
+              onIconTap: () {
+                Clipboard.setData(
+                  ClipboardData(
+                    text: deposit.tag!,
+                  ),
+                );
                 sAnalytics.tapOnTheButtonCopyOnReceiveAssetScreen(
                   asset: deposit.currency.symbol,
                   network: deposit.network.description,
@@ -252,16 +254,16 @@ class _CryptoDepositWithAddressAndTagState extends State<CryptoDepositWithAddres
               },
             )
           else
-            SAddressFieldWithCopy(
-              header: '${widget.currency.symbol}'
+            SCopyable(
+              label: '${widget.currency.symbol}'
                   ' ${intl.cryptoDepositWithAddressAndTag_walletAddress}',
               value: deposit.address,
-              realValue: deposit.address,
-              afterCopyText: intl.cryptoDepositWithAddressAndTag_addressCopied,
-              valueLoading: deposit.union is Loading,
-              longString: true,
-              expanded: true,
-              then: () {
+              onIconTap: () {
+                Clipboard.setData(
+                  ClipboardData(
+                    text: deposit.address,
+                  ),
+                );
                 sNotification.showError(
                   intl.copy_message,
                   id: 1,

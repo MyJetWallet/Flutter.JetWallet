@@ -12,7 +12,6 @@ import 'package:jetwallet/core/services/remote_config/remote_config_values.dart'
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/change_email/store/change_email_store.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'ChangeEmailRouter')
@@ -42,7 +41,7 @@ class _ChangeEmailBody extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     final credentials = getIt.get<CredentialsService>();
     final changeEmailStore = ChangeEmailStore.of(context);
@@ -52,7 +51,7 @@ class _ChangeEmailBody extends StatelessObserverWidget {
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
       loading: changeEmailStore.loader,
-      color: colors.grey5,
+      color: colors.gray2,
       header: SimpleLargeAppbar(
         title: intl.change_email_enter_new_email,
         hasRightIcon: true,
@@ -87,59 +86,49 @@ class _ChangeEmailBody extends StatelessObserverWidget {
                     children: [
                       ColoredBox(
                         color: colors.white,
-                        child: SPaddingH24(
-                          child: AutofillGroup(
-                            child: SStandardField(
-                              grayLabel: true,
-                              readOnly: true,
-                              enabled: false,
-                              controller:
-                                  TextEditingController(text: getIt.get<AppStore>().authState.email.toLowerCase()),
-                              labelText: intl.change_email_current_email,
-                              hideClearButton: true,
-                            ),
+                        child: AutofillGroup(
+                          child: SInput(
+                            isDisabled: true,
+                            controller:
+                                TextEditingController(text: getIt.get<AppStore>().authState.email.toLowerCase()),
+                            label: intl.change_email_current_email,
                           ),
                         ),
                       ),
-                      const SizedBox(
-                        height: 2.0,
-                      ),
                       ColoredBox(
                         color: colors.white,
-                        child: SPaddingH24(
-                          child: AutofillGroup(
-                            child: SStandardField(
-                              controller: emailController,
-                              labelText: intl.change_email_new_email,
-                              autofocus: true,
-                              autofillHints: const [AutofillHints.email],
-                              keyboardType: TextInputType.emailAddress,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.deny(
-                                  RegExp('[ ]'),
-                                ),
-                              ],
-                              onChanged: (value) {
-                                credentials.updateAndValidateEmail(value);
-
-                                if (value.isEmpty) {
-                                  changeEmailStore.setIsEmailError(false);
-                                }
-                                if (credentials.emailValid && changeEmailStore.isEmailError) {
-                                  changeEmailStore.setIsEmailError(false);
-                                }
-                              },
-                              onErase: () {
+                        child: AutofillGroup(
+                          child: SInput(
+                            controller: emailController,
+                            label: intl.change_email_new_email,
+                            autofocus: true,
+                            autofillHints: const [AutofillHints.email],
+                            keyboardType: TextInputType.emailAddress,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.deny(
+                                RegExp('[ ]'),
+                              ),
+                            ],
+                            onChanged: (value) {
+                              credentials.updateAndValidateEmail(value);
+                        
+                              if (value.isEmpty) {
                                 changeEmailStore.setIsEmailError(false);
-                              },
-                              hideClearButton: credentials.email.isEmpty,
-                              onErrorIconTap: () {
-                                sNotification.showError(
-                                  intl.register_invalidEmail,
-                                );
-                              },
-                              isError: changeEmailStore.isEmailError,
-                            ),
+                              }
+                              if (credentials.emailValid && changeEmailStore.isEmailError) {
+                                changeEmailStore.setIsEmailError(false);
+                              }
+                            },
+                            onCloseIconTap: () {
+                              changeEmailStore.setIsEmailError(false);
+                            },
+                            hasCloseIcon: credentials.email.isNotEmpty,
+                            onErrorIconTap: () {
+                              sNotification.showError(
+                                intl.register_invalidEmail,
+                              );
+                            },
+                            hasErrorIcon: changeEmailStore.isEmailError,
                           ),
                         ),
                       ),

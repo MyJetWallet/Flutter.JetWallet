@@ -11,8 +11,7 @@ import 'package:jetwallet/features/sell_flow/screens/sell_tab_body.dart';
 import 'package:jetwallet/features/transfer_flow/screens/transfer_tab_body.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_kit_updated/widgets/navigation/segment_control/models/segment_control_data.dart';
 import 'package:simple_kit_updated/widgets/navigation/segment_control/segment_control.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
@@ -139,34 +138,32 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
   Widget build(BuildContext context) {
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: '',
-          onBackButtonTap: () {
-            switch (tabController.index) {
-              case 0:
-                sAnalytics.tapOnTheBackFromAmountScreenButton(
-                  destinationWallet: widget.asset?.symbol ?? '',
-                  pmType: widget.card != null
-                      ? PaymenthMethodType.card
-                      : widget.account?.isClearjuctionAccount ?? false
-                          ? PaymenthMethodType.cjAccount
-                          : PaymenthMethodType.unlimitAccount,
-                  buyPM: widget.card != null
-                      ? 'Saved card ${widget.card?.last4}'
-                      : widget.account?.isClearjuctionAccount ?? false
-                          ? 'CJ  ${widget.account?.last4IbanCharacters}'
-                          : 'Unlimint  ${widget.account?.last4IbanCharacters}',
-                  sourceCurrency: 'EUR',
-                );
-              case 1:
-                sAnalytics.tapOnTheBackFromSellAmountButton();
-              default:
-            }
+      header: GlobalBasicAppBar(
+        hasRightIcon: false,
+        onLeftIconTap: () {
+          switch (tabController.index) {
+            case 0:
+              sAnalytics.tapOnTheBackFromAmountScreenButton(
+                destinationWallet: widget.asset?.symbol ?? '',
+                pmType: widget.card != null
+                    ? PaymenthMethodType.card
+                    : widget.account?.isClearjuctionAccount ?? false
+                        ? PaymenthMethodType.cjAccount
+                        : PaymenthMethodType.unlimitAccount,
+                buyPM: widget.card != null
+                    ? 'Saved card ${widget.card?.last4}'
+                    : widget.account?.isClearjuctionAccount ?? false
+                        ? 'CJ  ${widget.account?.last4IbanCharacters}'
+                        : 'Unlimint  ${widget.account?.last4IbanCharacters}',
+                sourceCurrency: 'EUR',
+              );
+            case 1:
+              sAnalytics.tapOnTheBackFromSellAmountButton();
+            default:
+          }
 
-            sRouter.maybePop();
-          },
-        ),
+          sRouter.maybePop();
+        },
       ),
       child: Column(
         children: [

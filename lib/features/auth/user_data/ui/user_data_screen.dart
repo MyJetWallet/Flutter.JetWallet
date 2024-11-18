@@ -12,8 +12,6 @@ import 'package:jetwallet/features/auth/user_data/ui/widgets/country/country_fie
 import 'package:jetwallet/widgets/show_verification_modal.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/modules/headers/simple_auth_header.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../../core/di/di.dart';
@@ -63,7 +61,7 @@ class _UserDataScreenBody extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     final birthDateInfo = SelectedDateStore.of(context);
     final birthDateController = TextEditingController();
@@ -73,17 +71,14 @@ class _UserDataScreenBody extends StatelessObserverWidget {
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
       loading: birthDateInfo.loader,
-      color: colors.grey5,
-      header: SLargeHeader(
-        //customIconButton: const SpaceH24(),
-        progressValue: 60,
+      color: colors.gray2,
+      header: SimpleLargeAppbar(
         title: intl.user_data_whats_your_name,
-        customIconButton: SIconButton(
+        leftIcon: SafeGesture(
           onTap: () {
             showModalVerification(context);
           },
-          defaultIcon: const SCloseIcon(),
-          pressedIcon: const SClosePressedIcon(),
+          child: Assets.svg.medium.close.simpleSvg(),
         ),
       ),
       child: CustomScrollView(
@@ -102,24 +97,22 @@ class _UserDataScreenBody extends StatelessObserverWidget {
                           Expanded(
                             child: ColoredBox(
                               color: colors.white,
-                              child: SPaddingH24(
-                                child: SStandardField(
-                                  controller: UserDataStore.of(context).firstNameController,
-                                  labelText: intl.user_data_first_name,
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.deny(
-                                      RegExp('[ ]'),
-                                    ),
-                                  ],
-                                  isError: UserDataStore.of(context).firstNameError,
-                                  textCapitalization: TextCapitalization.words,
-                                  onErase: () {
-                                    UserDataStore.of(context).clearNameError();
-                                  },
-                                  onChanged: (val) {
-                                    UserDataStore.of(context).updateFirstName(val.trim());
-                                  },
-                                ),
+                              child: SInput(
+                                controller: UserDataStore.of(context).firstNameController,
+                                label: intl.user_data_first_name,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.deny(
+                                    RegExp('[ ]'),
+                                  ),
+                                ],
+                                hasErrorIcon: UserDataStore.of(context).firstNameError,
+                                textCapitalization: TextCapitalization.words,
+                                onErrorIconTap: () {
+                                  UserDataStore.of(context).clearNameError();
+                                },
+                                onChanged: (val) {
+                                  UserDataStore.of(context).updateFirstName(val.trim());
+                                },
                               ),
                             ),
                           ),
@@ -127,21 +120,19 @@ class _UserDataScreenBody extends StatelessObserverWidget {
                           Expanded(
                             child: ColoredBox(
                               color: colors.white,
-                              child: SPaddingH24(
-                                child: SStandardField(
-                                  controller: UserDataStore.of(context).lastNameController,
-                                  labelText: intl.user_data_last_name,
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.deny(
-                                      RegExp('[ ]'),
-                                    ),
-                                  ],
-                                  isError: UserDataStore.of(context).lastNameError,
-                                  textCapitalization: TextCapitalization.words,
-                                  onChanged: (val) {
-                                    UserDataStore.of(context).updateLastName(val.trim());
-                                  },
-                                ),
+                              child: SInput(
+                                controller: UserDataStore.of(context).lastNameController,
+                                label: intl.user_data_last_name,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.deny(
+                                    RegExp('[ ]'),
+                                  ),
+                                ],
+                                hasErrorIcon: UserDataStore.of(context).lastNameError,
+                                textCapitalization: TextCapitalization.words,
+                                onChanged: (val) {
+                                  UserDataStore.of(context).updateLastName(val.trim());
+                                },
                               ),
                             ),
                           ),
@@ -149,26 +140,22 @@ class _UserDataScreenBody extends StatelessObserverWidget {
                       ),
                     ],
                   ),
-                  const SpaceH1(),
                   ColoredBox(
                     color: colors.white,
-                    child: SPaddingH24(
-                      child: SStandardField(
-                        labelText: intl.user_data_date_of_birth,
-                        readOnly: true,
-                        onTap: () {
-                          FocusScope.of(context).unfocus();
-                          showBirthDatePicker(
-                            context,
-                            birthDateInfo,
-                            UserDataStore.of(context),
-                          );
-                        },
-                        controller: birthDateController,
-                      ),
+                    child: SInput(
+                      hint: intl.user_data_date_of_birth,
+                      isDisabled: true,
+                      onTextFieldTap: () {
+                        FocusScope.of(context).unfocus();
+                        showBirthDatePicker(
+                          context,
+                          birthDateInfo,
+                          UserDataStore.of(context),
+                        );
+                      },
+                      controller: birthDateController,
                     ),
                   ),
-                  const SpaceH1(),
                   const CountryProfileField(),
                   const ReferralCode(),
                   const Spacer(),

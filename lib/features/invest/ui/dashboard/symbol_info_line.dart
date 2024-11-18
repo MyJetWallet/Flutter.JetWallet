@@ -7,7 +7,7 @@ import 'package:jetwallet/features/invest/ui/dashboard/active_invest_line.dart';
 import 'package:jetwallet/features/invest/ui/widgets/small_chart.dart';
 import 'package:jetwallet/utils/formatting/base/format_percent.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 
 import '../../../../utils/helpers/icon_url_from.dart';
@@ -43,7 +43,7 @@ class SymbolInfoLine extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 12),
@@ -93,7 +93,7 @@ class SymbolInfoLine extends StatelessObserverWidget {
                           width: 48,
                           child: Text(
                             instrument.description!,
-                            style: STStyles.body3InvestM.copyWith(color: colors.grey2),
+                            style: STStyles.body3InvestM.copyWith(color: colors.gray8),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -132,7 +132,7 @@ class SymbolInfoLine extends StatelessObserverWidget {
                         overflow: TextOverflow.ellipsis,
                         style: STStyles.body3InvestSM.copyWith(
                           color: percent == Decimal.zero
-                              ? colors.grey3
+                              ? colors.gray6
                               : percent > Decimal.zero
                                   ? colors.green
                                   : colors.red,
@@ -145,11 +145,11 @@ class SymbolInfoLine extends StatelessObserverWidget {
               ),
               const SpaceW10(),
               if (withFavorites)
-                SIconButton(
+                SafeGesture(
                   onTap: () {
                     onTapFavorites?.call();
                   },
-                  defaultIcon: isFavorite
+                  child: isFavorite
                       ? SStarPressedIcon(
                           color: colors.black,
                         )

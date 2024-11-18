@@ -7,7 +7,6 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/market/helper/sector_extensions.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
-import 'package:simple_kit_updated/widgets/shared/simple_skeleton_loader.dart';
 import 'package:simple_networking/modules/signal_r/models/market_sectors_message_model.dart';
 
 class MarketSectorItemWidget extends StatelessWidget {

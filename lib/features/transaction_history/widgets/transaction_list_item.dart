@@ -14,8 +14,7 @@ import 'package:simple_kit/modules/icons/24x24/public/add_cash/simple_add_cash_i
 import 'package:simple_kit/modules/icons/24x24/public/transfer/simple_transfer_icon.dart';
 import 'package:simple_kit/modules/icons/24x24/public/withdrawal/simple_withdrawal_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 import '../../../core/di/di.dart';
 import '../../app/store/app_store.dart';
@@ -135,8 +134,8 @@ class TransactionListItem extends StatelessWidget {
     required bool isFailed,
     required OperationHistoryItem transactionListItem,
   }) {
-    final colors = sKit.colors;
-    final failedColor = colors.grey2;
+    final colors = SColorsLight();
+    final failedColor = colors.gray8;
     switch (type) {
       case OperationType.deposit:
         return SReceiveByPhoneIcon(color: isFailed ? failedColor : null);
@@ -405,12 +404,12 @@ class TransactionBaseItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return InkWell(
       onTap: onTap,
       splashColor: Colors.transparent,
-      highlightColor: colors.grey5,
+      highlightColor: colors.gray2,
       hoverColor: Colors.transparent,
       child: SPaddingH24(
         child: SizedBox(
@@ -431,7 +430,7 @@ class TransactionBaseItem extends StatelessWidget {
                       children: [
                         TransactionListItemHeaderText(
                           text: labele,
-                          color: status == Status.declined ? colors.grey2 : colors.black,
+                          color: status == Status.declined ? colors.gray8 : colors.black,
                         ),
                         if (labelIcon != null) ...[
                           Padding(
@@ -465,7 +464,7 @@ class TransactionBaseItem extends StatelessWidget {
                         fontSize: 18.0,
                         fontFamily: 'Gilroy',
                         fontWeight: FontWeight.w600,
-                        color: status == Status.declined ? colors.grey2 : colors.black,
+                        color: status == Status.declined ? colors.gray8 : colors.black,
                         decoration: status == Status.declined ? TextDecoration.lineThrough : null,
                       ),
                     ),
@@ -482,7 +481,7 @@ class TransactionBaseItem extends StatelessWidget {
                         Flexible(
                           child: TransactionListItemText(
                             text: supplement ?? '${formatDateToDMY(timeStamp)}, ${formatDateToHm(timeStamp)}',
-                            color: colors.grey1,
+                            color: colors.gray10,
                           ),
                         ),
                       ],
@@ -498,7 +497,7 @@ class TransactionBaseItem extends StatelessWidget {
                         if (rightSupplement != null)
                           TransactionListItemText(
                             text: rightSupplement!,
-                            color: colors.grey1,
+                            color: colors.gray10,
                           ),
                         const SpaceW8(),
                         if (status == Status.inProgress)
@@ -507,7 +506,7 @@ class TransactionBaseItem extends StatelessWidget {
                           const SHistoryCompletedIcon()
                         else if (status == Status.declined)
                           SHistoryDeclinedIcon(
-                            color: colors.grey2,
+                            color: colors.gray8,
                           ),
                       ],
                     ),

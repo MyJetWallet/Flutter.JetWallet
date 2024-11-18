@@ -15,7 +15,6 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/wallet_api/models/p2p_methods/p2p_methods_responce_model.dart';
@@ -67,19 +66,18 @@ class P2PBuyAmountScreen extends StatelessWidget {
 
           return SPageFrame(
             loaderText: '',
-            header: SPaddingH24(
-              child: SSmallHeader(
-                title: intl.operationName_buy,
-                onBackButtonTap: () {
-                  sAnalytics.tapOnTheBackFromAmountScreenButton(
-                    destinationWallet: currency.symbol,
-                    pmType: PaymenthMethodType.ptp,
-                    buyPM: 'PTP',
-                    sourceCurrency: paymentCurrecy.asset,
-                  );
-                  sRouter.maybePop();
-                },
-              ),
+            header: GlobalBasicAppBar(
+              title: intl.operationName_buy,
+              onLeftIconTap: () {
+                sAnalytics.tapOnTheBackFromAmountScreenButton(
+                  destinationWallet: currency.symbol,
+                  pmType: PaymenthMethodType.ptp,
+                  buyPM: 'PTP',
+                  sourceCurrency: paymentCurrecy.asset,
+                );
+                sRouter.maybePop();
+              },
+              hasRightIcon: false,
             ),
             child: Observer(
               builder: (context) {

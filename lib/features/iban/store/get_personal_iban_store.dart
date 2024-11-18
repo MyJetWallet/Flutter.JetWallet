@@ -9,7 +9,7 @@ import 'package:jetwallet/features/my_wallets/helper/show_create_personal_accoun
 import 'package:jetwallet/features/my_wallets/helper/show_wallet_verify_account.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:uuid/uuid.dart';
 
 part 'get_personal_iban_store.g.dart';

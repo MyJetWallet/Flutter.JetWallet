@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import '../../../../../core/l10n/i10n.dart';
 import 'transaction_details_name_text.dart';
 
@@ -45,7 +47,7 @@ class TransactionDetailsNewItem extends StatelessWidget {
                 child: SizedBox(
                   width: 16,
                   height: 16,
-                  child: SInfoIcon(color: sKit.colors.grey1),
+                  child: SInfoIcon(color: SColorsLight().gray10),
                 ),
               ),
             ),
@@ -63,12 +65,10 @@ class TransactionDetailsNewItem extends StatelessWidget {
     required String fee,
     required String description,
   }) {
-    sShowBasicModalBottomSheet(
+    showBasicBottomSheet(
       context: context,
-      horizontalPinnedPadding: 24,
-      scrollable: true,
-      pinned: SBottomSheetHeader(
-        name: title,
+      header: BasicBottomSheetHeaderWidget(
+        title: title,
       ),
       children: [
         SPaddingH24(
@@ -78,7 +78,7 @@ class TransactionDetailsNewItem extends StatelessWidget {
               const SpaceH16(),
               Text(
                 fee,
-                style: sTextH4Style,
+                style: STStyles.header5,
               ),
               const SpaceH12(),
               const SDivider(),
@@ -86,8 +86,8 @@ class TransactionDetailsNewItem extends StatelessWidget {
               Text(
                 description,
                 maxLines: 3,
-                style: sCaptionTextStyle.copyWith(
-                  color: sKit.colors.grey3,
+                style: STStyles.captionMedium.copyWith(
+                  color: SColorsLight().gray6,
                 ),
               ),
               const SpaceH64(),

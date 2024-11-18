@@ -8,7 +8,6 @@ import 'package:jetwallet/utils/store/timer_store.dart';
 import 'package:jetwallet/widgets/result_screens/widgets/progress_bar.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../utils/constants.dart';
@@ -51,7 +50,7 @@ class _SuccessScreenBodyState extends State<_SuccessScreenBody> {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
     final deviceSize = sDeviceSize;
 
     return ReactionBuilder(
@@ -68,7 +67,7 @@ class _SuccessScreenBodyState extends State<_SuccessScreenBody> {
       },
       child: PopScope(
         canPop: false,
-        child: SPageFrameWithPadding(
+        child: SPageFrame(
           loaderText: intl.register_pleaseWait,
           child: Observer(
             builder: (context) {
@@ -91,7 +90,7 @@ class _SuccessScreenBodyState extends State<_SuccessScreenBody> {
                           intl.cardVerification_reviewCompleted,
                           maxLines: 2,
                           textAlign: TextAlign.center,
-                          style: sTextH2Style,
+                          style: STStyles.header3,
                         ),
                       ),
                       Baseline(
@@ -101,8 +100,8 @@ class _SuccessScreenBodyState extends State<_SuccessScreenBody> {
                           intl.cardVerification_completeOrder,
                           maxLines: 10,
                           textAlign: TextAlign.center,
-                          style: sBodyText1Style.copyWith(
-                            color: colors.grey1,
+                          style: STStyles.body1Medium.copyWith(
+                            color: colors.gray10,
                           ),
                         ),
                       ),

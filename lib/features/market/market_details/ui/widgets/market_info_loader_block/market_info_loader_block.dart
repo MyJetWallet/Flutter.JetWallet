@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import 'components/market_info_loader_stat.dart';
 
@@ -23,7 +23,7 @@ class MarketInfoLoaderBlock extends StatelessWidget {
                 child: Baseline(
                   baseline: 35,
                   baselineType: TextBaseline.alphabetic,
-                  child: SSkeletonTextLoader(
+                  child: SSkeletonLoader(
                     height: 16,
                     width: 133,
                   ),

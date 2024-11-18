@@ -10,7 +10,6 @@ import 'package:jetwallet/features/auth/onboarding/ui/widgets/animated_slide.dar
 import 'package:jetwallet/widgets/splash_screen_gradient.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'OnboardingRoute')
@@ -66,12 +65,12 @@ class _OnboardingScreenBodyState extends State<OnboardingScreenBody> with Ticker
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     final onboardingStore = OnboardingStore.of(context);
 
     return OnboardingFullScreenGradient(
-      backgroundColor: colors.grey5,
+      backgroundColor: colors.gray2,
       onTapNext: onboardingStore.nextSlider,
       onTapBack: onboardingStore.prevSlider,
       onLongPress: onboardingStore.stopSlider,
@@ -112,15 +111,15 @@ class _OnboardingScreenBodyState extends State<OnboardingScreenBody> with Ticker
               onboardingStore.slidesLabeles[onboardingStore.currentIndex],
               maxLines: 4,
               textAlign: TextAlign.center,
-              style: sTextH2Style,
+              style: STStyles.header3,
             ),
             const SpaceH16(),
             Text(
               onboardingStore.slidesDescrictions[onboardingStore.currentIndex],
               maxLines: 3,
               textAlign: TextAlign.center,
-              style: sSubtitle2Style.copyWith(
-                color: colors.grey1,
+              style: STStyles.subtitle1.copyWith(
+                color: colors.gray10,
               ),
             ),
             const SpaceH46(),
@@ -154,10 +153,9 @@ class _OnboardingScreenBodyState extends State<OnboardingScreenBody> with Ticker
             if (getIt<AppStore>().env == 'stage') ...[
               SizedBox(
                 height: 58,
-                child: STextButton1(
-                  active: true,
-                  name: 'Logs',
-                  onTap: () {
+                child: SButton.text(
+                  text: 'Logs',
+                  callback: () {
                     sRouter.push(
                       const LogsRouter(),
                     );

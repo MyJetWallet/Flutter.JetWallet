@@ -9,6 +9,7 @@ import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/rewards/reward_spin_response.dart';
 
 class FlipCardController {
@@ -232,7 +233,7 @@ class RewardClosedCardState extends State<RewardClosedCard> with TickerProviderS
                 height: 120,
               ),
             ] else ...[
-              const SSkeletonTextLoader(
+              const SSkeletonLoader(
                 height: 120,
                 width: 120,
               ),
@@ -246,13 +247,13 @@ class RewardClosedCardState extends State<RewardClosedCard> with TickerProviderS
                   accuracy: currency.accuracy,
                   symbol: currency.symbol,
                 ),
-                style: sTextH5Style.copyWith(
+                style: STStyles.header6.copyWith(
                   fontSize: 32,
-                  color: sKit.colors.white,
+                  color: SColorsLight().white,
                 ),
               ),
             ] else ...[
-              const SSkeletonTextLoader(
+              const SSkeletonLoader(
                 height: 30,
                 width: 160,
               ),

@@ -21,13 +21,13 @@ import 'package:jetwallet/utils/device_binding_required_flow/show_device_binding
 import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
 import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:jetwallet/widgets/confirm_timer/simple_timer_animation_countdown.dart';
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:rsa_encrypt/rsa_encrypt.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
@@ -449,7 +449,7 @@ abstract class _BuyConfirmationStoreBase with Store {
     unawaited(_saveLastPaymentMethod());
 
     if (category == PaymentMethodCategory.cards) {
-      showBankCardCvvBottomSheet(
+      await showBankCardCvvBottomSheet(
         context: sRouter.navigatorKey.currentContext!,
         header: '${intl.previewBuyWithCircle_enter} CVV '
             '${intl.previewBuyWithCircle_for} \n'

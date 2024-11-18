@@ -1,24 +1,20 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
-import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/features/transaction_history/widgets/transaction_details/card_purchase_details.dart';
 import 'package:jetwallet/features/transaction_history/widgets/transaction_details/card_refund_details.dart';
 import 'package:jetwallet/features/transaction_history/widgets/transaction_details/card_withdrawal_details.dart';
 import 'package:jetwallet/features/transaction_history/widgets/transaction_list_item.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
-import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 
 import '../../../../app/store/app_store.dart';
 import '../../../../wallet/helper/is_operation_support_copy.dart';
 import '../../../../wallet/helper/nft_types.dart';
-import '../../../helper/operation_name.dart';
 
 class CommonTransactionDetailsBlock extends StatelessObserverWidget {
   const CommonTransactionDetailsBlock({
@@ -32,7 +28,7 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
     final catchingTypes = transactionListItem.operationType == OperationType.nftBuy ||
         transactionListItem.operationType == OperationType.nftSwap ||
         transactionListItem.operationType == OperationType.nftSell;
@@ -57,15 +53,6 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
 
     return Column(
       children: [
-        SPaddingH24(
-          child: _transactionHeader(
-            transactionListItem,
-            currency,
-            context,
-            null,
-            intl,
-          ),
-        ),
         if (devicePR == 2) ...[
           const SpaceH30(),
         ] else if (transactionListItem.operationType == OperationType.bankingAccountWithdrawal ||
@@ -140,7 +127,7 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
             transactionListItem.operationType == OperationType.buyPrepaidCard ||
             transactionListItem.operationType == OperationType.p2pBuy ||
             transactionListItem.operationType == OperationType.jarDeposit ||
-            transactionListItem.operationType == OperationType.jarWithdrawal||
+            transactionListItem.operationType == OperationType.jarWithdrawal ||
             transactionListItem.operationType == OperationType.bankingSellWithWithdrawal)
           const SizedBox()
         else if ((!nftTypes.contains(transactionListItem.operationType) || catchingTypes) &&
@@ -199,91 +186,12 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
             transactionListItem.operationType == OperationType.buyPrepaidCard ||
             transactionListItem.operationType == OperationType.p2pBuy ||
             transactionListItem.operationType == OperationType.jarDeposit ||
-            transactionListItem.operationType == OperationType.jarWithdrawal||
+            transactionListItem.operationType == OperationType.jarWithdrawal ||
             transactionListItem.operationType == OperationType.bankingSellWithWithdrawal)
           const SizedBox.shrink()
         else
           const SpaceH72(),
       ],
-    );
-  }
-
-  Widget _transactionHeader(
-    OperationHistoryItem transactionListItem,
-    CurrencyModel currency,
-    BuildContext context,
-    String? nftName,
-    AppLocalizations intl,
-  ) {
-    String title;
-    if (transactionListItem.operationType == OperationType.simplexBuy) {
-      title = '${operationName(OperationType.swapBuy, context)} '
-          '${currency.description} - '
-          '${operationName(transactionListItem.operationType, context)}';
-    } else if (transactionListItem.operationType == OperationType.earningDeposit ||
-        transactionListItem.operationType == OperationType.earningWithdrawal) {
-      if (transactionListItem.earnInfo?.totalBalance != transactionListItem.balanceChange.abs() &&
-          transactionListItem.operationType == OperationType.earningDeposit) {
-        title = operationName(
-          transactionListItem.operationType,
-          context,
-          isToppedUp: true,
-        );
-      }
-
-      title = operationName(transactionListItem.operationType, context);
-    } else if (transactionListItem.operationType == OperationType.swapBuy ||
-        transactionListItem.operationType == OperationType.swapSell) {
-      title = operationName(
-        OperationType.swap,
-        context,
-      );
-    } else if (transactionListItem.operationType == OperationType.sendGlobally) {
-      title = operationName(
-        OperationType.sendGlobally,
-        context,
-      );
-    } else if (transactionListItem.operationType == OperationType.bankingAccountWithdrawal) {
-      title = operationName(
-        OperationType.bankingAccountWithdrawal,
-        context,
-      );
-    } else if (transactionListItem.operationType == OperationType.giftSend) {
-      title = operationName(
-        OperationType.giftSend,
-        context,
-      );
-    } else if (transactionListItem.operationType == OperationType.giftReceive) {
-      title = operationName(
-        OperationType.giftReceive,
-        context,
-      );
-    } else if (transactionListItem.operationType == OperationType.bankingTransfer) {
-      if (source == TransactionItemSource.history) {
-        title = intl.transferDetails_transfer;
-      } else if (transactionListItem.balanceChange > Decimal.zero) {
-        title = intl.history_added_cash;
-      } else {
-        title = intl.history_withdrawn;
-      }
-    } else if (transactionListItem.operationType == OperationType.cardTransfer) {
-      if (source == TransactionItemSource.history) {
-        title = intl.transferDetails_transfer;
-      } else if (transactionListItem.balanceChange > Decimal.zero) {
-        title = intl.history_added_cash;
-      } else {
-        title = intl.history_withdrawn;
-      }
-    } else {
-      title = operationName(
-        transactionListItem.operationType,
-        context,
-        asset: transactionListItem.assetId,
-      );
-    }
-
-    return SBottomSheetHeader(
-      name: title,
     );
   }
 

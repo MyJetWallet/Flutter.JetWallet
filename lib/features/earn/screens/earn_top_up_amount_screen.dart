@@ -20,7 +20,6 @@ import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 
@@ -103,10 +102,9 @@ class _EarnTopUpAmountScreenState extends State<EarnTopUpAmountScreen> {
   Widget build(BuildContext context) {
     return SPageFrame(
       loaderText: '',
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: intl.earn_deposit,
-        ),
+      header: GlobalBasicAppBar(
+        title: intl.earn_deposit,
+        hasRightIcon: false,
       ),
       child: Provider<EarnTopUpAmountStore>(
         create: (_) => store,

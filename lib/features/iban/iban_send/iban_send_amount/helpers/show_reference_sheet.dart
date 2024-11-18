@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
@@ -53,7 +54,7 @@ abstract class __ReferenceStoreBase with Store {
 }
 
 void showReferenceSheet(BuildContext context, Function(String) onContinue) {
-  sShowBasicModalBottomSheet(
+  showBasicBottomSheet(
     context: context,
     children: [
       _ReferenceBody(
@@ -84,41 +85,34 @@ class _ReferenceBodyState extends State<_ReferenceBody> {
         SPaddingH24(
           child: Text(
             intl.iban_reference,
-            style: sTextH4Style,
+            style: STStyles.header5,
           ),
         ),
         const SpaceH20(),
         Observer(
           builder: (context) {
-            return SPaddingH24(
-              child: SStandardField(
-                controller: store.referenceTextField,
-                autofocus: true,
-                isError: store.isError,
-                labelText: intl.iban_reference,
-                hideIconsIfNotEmpty: false,
-                maxLength: 100,
-                suffixIcons: [
-                  SIconButton(
-                    onTap: () {
-                      store.paste().then((value) => setState(() {}));
-                    },
-                    defaultIcon: const SPasteIcon(),
-                    pressedIcon: const SPastePressedIcon(),
-                  ),
-                ],
-                onErase: () {},
-                onChanged: (value) {
-                  store.setError(false);
-
-                  store.setCharactersEnough();
+            return SInput(
+              controller: store.referenceTextField,
+              autofocus: true,
+              hasErrorIcon: store.isError,
+              label: intl.iban_reference,
+              maxLength: 100,
+              suffixIcon: SafeGesture(
+                onTap: () {
+                  store.paste().then((value) => setState(() {}));
                 },
+                child: const SPasteIcon(),
               ),
+              onChanged: (value) {
+                store.setError(false);
+
+                store.setCharactersEnough();
+              },
             );
           },
         ),
         Material(
-          color: sKit.colors.grey5,
+          color: SColorsLight().gray2,
           child: SPaddingH24(
             child: SizedBox(
               width: double.infinity,
@@ -133,8 +127,8 @@ class _ReferenceBodyState extends State<_ReferenceBody> {
                           const SpaceW12(),
                           Text(
                             intl.reference_character_minimum,
-                            style: sBodyText2Style.copyWith(
-                              color: store.isCharactersEnough ? sKit.colors.blue : sKit.colors.black,
+                            style: STStyles.body2Medium.copyWith(
+                              color: store.isCharactersEnough ? SColorsLight().blue : SColorsLight().black,
                             ),
                           ),
                         ],

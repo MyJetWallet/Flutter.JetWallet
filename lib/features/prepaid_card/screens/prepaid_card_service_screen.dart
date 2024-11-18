@@ -24,7 +24,6 @@ import 'package:simple_networking/modules/wallet_api/models/prepaid_card/buy_pre
 import 'package:simple_networking/modules/wallet_api/models/prepaid_card/get_purchase_card_list_request_model.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
-
 @RoutePage(name: 'PrepaidCardServiceRouter')
 class PrepaidCardServiceScreen extends StatelessWidget {
   const PrepaidCardServiceScreen({super.key});
@@ -81,13 +80,8 @@ class _PrepaidCardServiceScreenBodyState extends State<_PrepaidCardServiceScreen
     final colors = SColorsLight();
     return SPageFrame(
       loaderText: '',
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: '',
-          onBackButtonTap: () {
-            sRouter.maybePop();
-          },
-        ),
+      header: const GlobalBasicAppBar(
+        hasRightIcon: false,
       ),
       child: Stack(
         children: [

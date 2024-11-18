@@ -15,6 +15,7 @@ import 'package:jetwallet/features/pin_screen/model/pin_box_enum.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_screen_union.dart';
 import 'package:jetwallet/features/pin_screen/ui/widgets/shake_widget/shake_widget.dart';
+import 'package:jetwallet/utils/biometric/biometric_tools.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:local_auth/local_auth.dart';
@@ -22,8 +23,6 @@ import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 

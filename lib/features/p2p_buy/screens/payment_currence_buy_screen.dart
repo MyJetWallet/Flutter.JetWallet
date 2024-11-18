@@ -14,7 +14,7 @@ import 'package:jetwallet/core/services/simple_networking/simple_networking.dart
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:logger/logger.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/wallet_api/models/p2p_methods/p2p_methods_responce_model.dart';
@@ -77,13 +77,12 @@ class _PaymentCurrenceBuyScreenState extends State<PaymentCurrenceBuyScreen> {
       },
       child: SPageFrame(
         loaderText: '',
-        header: SPaddingH24(
-          child: SSmallHeader(
-            title: intl.buy_payment_currency,
-            onBackButtonTap: () {
-              sRouter.maybePop();
-            },
-          ),
+        header: GlobalBasicAppBar(
+          title: intl.buy_payment_currency,
+          onLeftIconTap: () {
+            sRouter.maybePop();
+          },
+          hasRightIcon: false,
         ),
         child: CustomScrollView(
           slivers: [
@@ -95,8 +94,8 @@ class _PaymentCurrenceBuyScreenState extends State<PaymentCurrenceBuyScreen> {
                       assetSymbol: availableCurrency[index].asset,
                     );
 
-                return SCardRow(
-                  icon: SizedBox(
+                return SimpleTableAsset(
+                  assetIcon: SizedBox(
                     height: 24,
                     child: Container(
                       clipBehavior: Clip.antiAlias,
@@ -115,9 +114,14 @@ class _PaymentCurrenceBuyScreenState extends State<PaymentCurrenceBuyScreen> {
                       ),
                     ),
                   ),
-                  spaceBIandText: 10,
-                  height: 69,
-                  onTap: () {
+                  label: curr.description,
+                  customRightWidget: Text(
+                    availableCurrency[index].asset,
+                    style: STStyles.subtitle2.copyWith(
+                      color: SColorsLight().gray10,
+                    ),
+                  ),
+                  onTableAssetTap: () {
                     sAnalytics.tapOnThePTPBuyCurrencyButton(
                       asset: widget.currency.symbol,
                       ptpCurrency: availableCurrency[index].asset,
@@ -137,16 +141,6 @@ class _PaymentCurrenceBuyScreenState extends State<PaymentCurrenceBuyScreen> {
                       ),
                     );
                   },
-                  needSpacer: true,
-                  rightIcon: Text(
-                    availableCurrency[index].asset,
-                    style: sSubtitle3Style.copyWith(
-                      color: sKit.colors.grey2,
-                    ),
-                  ),
-                  amount: '',
-                  description: '',
-                  name: curr.description,
                 );
               },
             ),

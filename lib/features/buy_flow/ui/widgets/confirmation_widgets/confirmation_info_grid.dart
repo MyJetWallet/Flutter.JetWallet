@@ -6,10 +6,11 @@ import 'package:jetwallet/features/buy_flow/store/buy_confirmation_store.dart';
 import 'package:jetwallet/features/buy_flow/ui/buy_tab_body.dart';
 import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:jetwallet/widgets/confirm_timer/simple_confirm_action_timer.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 
 class ConfirmationInfoGrid extends StatefulObserverWidget {
@@ -56,7 +57,7 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid> with Single
     return Baseline(
       baseline: 19.0,
       baselineType: TextBaseline.alphabetic,
-      child: SSkeletonTextLoader(
+      child: SSkeletonLoader(
         height: 24,
         width: 120,
         borderRadius: BorderRadius.circular(4),
@@ -81,7 +82,7 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid> with Single
             children: [
               Text(
                 intl.buy_confirmation_paid_with,
-                style: sBodyText2Style.copyWith(color: sKit.colors.grey1),
+                style: STStyles.body2Medium.copyWith(color: SColorsLight().gray10),
               ),
               const SpaceW8(),
               if (store.isDataLoaded) ...[
@@ -106,13 +107,13 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid> with Single
                                 child: Text(
                                   store.card?.cardLabel ?? '',
                                   overflow: TextOverflow.ellipsis,
-                                  style: sSubtitle3Style,
+                                  style: STStyles.subtitle2,
                                 ),
                               ),
                               Text(
                                 ' •• ${store.card?.last4 ?? ''}',
                                 overflow: TextOverflow.ellipsis,
-                                style: sSubtitle3Style,
+                                style: STStyles.subtitle2,
                               ),
                             ],
                           ),
@@ -129,13 +130,13 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid> with Single
                         Container(
                           padding: const EdgeInsets.all(4),
                           decoration: BoxDecoration(
-                            color: sKit.colors.blue,
+                            color: SColorsLight().blue,
                             shape: BoxShape.circle,
                           ),
                           child: SizedBox(
                             width: 16,
                             height: 16,
-                            child: SBankMediumIcon(color: sKit.colors.white),
+                            child: SBankMediumIcon(color: SColorsLight().white),
                           ),
                         ),
                         const SpaceW8(),
@@ -143,7 +144,7 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid> with Single
                           child: Text(
                             store.account?.label ?? '',
                             overflow: TextOverflow.ellipsis,
-                            style: sSubtitle3Style.copyWith(height: 1.5),
+                            style: STStyles.subtitle2,
                           ),
                         ),
                       ],
@@ -162,7 +163,7 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid> with Single
           children: [
             Text(
               intl.buy_confirmation_price,
-              style: sBodyText2Style.copyWith(color: sKit.colors.grey1),
+              style: STStyles.body2Medium.copyWith(color: SColorsLight().gray10),
             ),
             const Spacer(),
             if (store.isDataLoaded) ...[
@@ -186,7 +187,7 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid> with Single
                   accuracy: store.rate?.scale ?? 0,
                   prefix: widget.paymentCurrency.prefixSymbol,
                 )}',
-                style: sSubtitle3Style,
+                style: STStyles.subtitle2,
               ),
             ] else ...[
               textPreloader(),

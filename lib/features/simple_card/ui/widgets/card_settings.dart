@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/simple_card/ui/set_up_password_screen.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
@@ -15,11 +16,10 @@ void showCardSettings({
   required void Function() onChangeLableTap,
   required void Function() onFreezeTap,
 }) {
-  sShowBasicModalBottomSheet(
+  showBasicBottomSheet(
     context: context,
-    then: (value) {},
-    pinned: SBottomSheetHeader(
-      name: intl.simple_card_settings,
+    header: BasicBottomSheetHeaderWidget(
+      title: intl.simple_card_settings,
     ),
     children: [
       _CardSettings(
@@ -42,7 +42,7 @@ class _CardSettings extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final simpleCardStore = getIt.get<SimpleCardStore>();
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return Column(
       children: [

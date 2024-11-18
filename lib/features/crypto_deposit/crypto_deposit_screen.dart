@@ -23,6 +23,7 @@ import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 @RoutePage(name: 'CryptoDepositRouter')
@@ -58,7 +59,7 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
   late ScrollController controller;
   late PageController pageController;
 
-  final colors = sKit.colors;
+  final colors = SColorsLight();
 
   final kycState = getIt.get<KycService>();
   final kycAlertHandler = getIt.get<KycAlertHandler>();
@@ -130,7 +131,6 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
             onSecondaryButtonTap: () {
               Navigator.pop(context);
             },
-            size: widgetSizeFrom(sDeviceSize),
           );
         },
         child: Row(
@@ -142,8 +142,8 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
             const SpaceW10(),
             Text(
               intl.actionBuy_kycRequired,
-              style: sCaptionTextStyle.copyWith(
-                color: colors.grey2,
+              style: STStyles.captionMedium.copyWith(
+                color: colors.gray8,
               ),
             ),
           ],
@@ -207,10 +207,9 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
 
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: '${intl.balanceActionButtons_receive} ${deposit.currency.description}',
-        ),
+      header: GlobalBasicAppBar(
+        title: '${intl.balanceActionButtons_receive} ${deposit.currency.description}',
+        hasRightIcon: false,
       ),
       bottomNavigationBar: SizedBox(
         height: 122,
@@ -219,13 +218,12 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
             const SDivider(),
             const SpaceH23(),
             SPaddingH24(
-              child: SSecondaryButton2(
-                icon: SShareIcon(
-                  color: colors.blue,
+              child: SButton.outlined(
+                icon: Assets.svg.medium.share.simpleSvg(
+                  height: 18,
                 ),
-                active: true,
-                name: intl.cryptoDeposit_share,
-                onTap: () {
+                text: intl.cryptoDeposit_share,
+                callback: () {
                   sAnalytics.tapOnTheButtonShareOnReceiveAssetScreen(
                     asset: deposit.currency.symbol,
                     network: deposit.network.description,
@@ -286,7 +284,7 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
               vertical: 16,
             ),
             child: InkWell(
-              highlightColor: colors.grey5,
+              highlightColor: colors.gray2,
               splashColor: Colors.transparent,
               onTap: deposit.currency.isSingleNetwork
                   ? null
@@ -315,7 +313,7 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
-                    color: colors.grey3,
+                    color: colors.gray6,
                   ),
                 ),
                 padding: const EdgeInsets.symmetric(
@@ -329,8 +327,8 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
                       ),
                       child: Text(
                         intl.cryptoDeposit_network,
-                        style: sCaptionTextStyle.copyWith(
-                          color: colors.grey2,
+                        style: STStyles.captionMedium.copyWith(
+                          color: colors.gray8,
                         ),
                       ),
                     ),
@@ -339,7 +337,7 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
                         padding: EdgeInsets.only(
                           top: 24,
                         ),
-                        child: SSkeletonTextLoader(
+                        child: SSkeletonLoader(
                           height: 16,
                           width: 80,
                         ),
@@ -351,7 +349,7 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
                         ),
                         child: Text(
                           deposit.network.description,
-                          style: sSubtitle2Style,
+                          style: STStyles.subtitle1,
                         ),
                       ),
                     if (!deposit.currency.isSingleNetwork)

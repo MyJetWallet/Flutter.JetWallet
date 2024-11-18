@@ -21,15 +21,13 @@ import 'package:jetwallet/features/kyc/models/kyc_country_model.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/store/send_card_payment_method_store.dart';
 import 'package:jetwallet/features/withdrawal_banking/helpers/show_bank_transfer_select.dart';
-import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
 import 'package:jetwallet/utils/helpers/flag_asset_name.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
-import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
@@ -79,61 +77,55 @@ Future<void> showSendAction(bool isEmptyBalance, BuildContext context) async {
     return;
   }
 
-  sShowBasicModalBottomSheet(
+  await showBasicBottomSheet(
     context: context,
-    pinned: ActionBottomSheetHeader(
-      name: intl.sendOptions_send,
+    header: BasicBottomSheetHeaderWidget(
+      title: intl.sendOptions_send,
     ),
-    horizontalPinnedPadding: 0.0,
-    removePinnedPadding: true,
     children: [
       if (isToCryptoWalletAvaible)
-        SCardRow(
-          icon: const SWallet2Icon(),
-          onTap: () {
+        SimpleTableAsset(
+          assetIcon: const SWallet2Icon(),
+          label: intl.sendOptions_to_crypto_wallet,
+          supplement: intl.withdrawOptions_actionItemNameDescr,
+          onTableAssetTap: () {
             Navigator.pop(context);
             _showSendActionChooseAsset(context);
           },
-          amount: '',
-          description: '',
-          name: intl.sendOptions_to_crypto_wallet,
-          helper: intl.withdrawOptions_actionItemNameDescr,
+          hasRightValue: false,
         ),
       if (isGlobalAvaible)
-        SCardRow(
-          icon: const SNetworkIcon(),
-          onTap: () {
+        SimpleTableAsset(
+          assetIcon: const SNetworkIcon(),
+          label: intl.global_send_name,
+          supplement: intl.global_send_helper,
+          onTableAssetTap: () {
             Navigator.pop(context);
             showGlobalSendCurrenctSelect(context);
           },
-          amount: '',
-          description: '',
-          name: intl.global_send_name,
-          helper: intl.global_send_helper,
+          hasRightValue: false,
         ),
       if (isGiftAvaible)
-        SCardRow(
-          icon: const SGiftSendIcon(),
-          onTap: () {
+        SimpleTableAsset(
+          assetIcon: const SGiftSendIcon(),
+          label: intl.send_gift,
+          supplement: intl.send_gift_to_simple_wallet,
+          onTableAssetTap: () {
             Navigator.pop(context);
             sRouter.push(const GiftSelectAssetRouter());
           },
-          amount: '',
-          description: '',
-          name: intl.send_gift,
-          helper: intl.send_gift_to_simple_wallet,
+          hasRightValue: false,
         ),
       if (isAllowBankTransfer)
-        SCardRow(
-          icon: Assets.svg.medium.bank.simpleSvg(color: SColorsLight().blue),
-          onTap: () {
+        SimpleTableAsset(
+          assetIcon: Assets.svg.medium.bank.simpleSvg(color: SColorsLight().blue),
+          label: intl.bank_transfer,
+          supplement: intl.bank_transfer_to_yourself,
+          onTableAssetTap: () {
             Navigator.pop(context);
             showBankTransferTo(context);
           },
-          amount: '',
-          description: '',
-          name: intl.bank_transfer,
-          helper: intl.bank_transfer_to_yourself,
+          hasRightValue: false,
         ),
       const SpaceH42(),
     ],
@@ -170,21 +162,20 @@ Future<void> showSendGlobally(
 
   sAnalytics.destinationCountryScreenView();
 
-  sShowBasicModalBottomSheet(
+  await showBasicBottomSheet(
     context: context,
-    scrollable: availableCountries.length >= 7,
     expanded: availableCountries.length >= 7,
-    then: (value) {},
-    pinned: ActionBottomSheetHeader(
-      name: intl.global_send_destionation_country,
-      showSearch: availableCountries.length >= 7,
-      onChanged: (String value) {
-        globalSearchStore.globalSendSearch(value);
-      },
-      needBottomPadding: false,
+    header: BasicBottomSheetHeaderWidget(
+      title: intl.global_send_destionation_country,
+      searchOptions: availableCountries.length >= 7
+          ? SearchOptions(
+              hint: intl.actionBottomSheetHeader_search,
+              onChange: (String value) {
+                globalSearchStore.globalSendSearch(value);
+              },
+            )
+          : null,
     ),
-    horizontalPinnedPadding: 0.0,
-    removePinnedPadding: true,
     children: [
       _GlobalSendCountriesList(
         currency: currency,
@@ -212,8 +203,8 @@ class _GlobalSendCountriesList extends StatelessObserverWidget {
       itemCount: store.filtredGlobalSendCountries.length,
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
-        return SCardRow(
-          icon: SizedBox(
+        return SimpleTableAsset(
+          assetIcon: SizedBox(
             height: 24,
             child: Container(
               clipBehavior: Clip.antiAlias,
@@ -230,9 +221,8 @@ class _GlobalSendCountriesList extends StatelessObserverWidget {
               ),
             ),
           ),
-          spaceBIandText: 10,
-          height: 69,
-          onTap: () {
+          label: store.filtredGlobalSendCountries[index].countryName,
+          onTableAssetTap: () {
             Navigator.pop(context);
 
             final list = getCountryMethodsList(
@@ -256,11 +246,7 @@ class _GlobalSendCountriesList extends StatelessObserverWidget {
               );
             }
           },
-          amount: '',
-          description: '',
-          name: store.filtredGlobalSendCountries[index].countryName,
-          removeDivider: false,
-          divider: index != store.filtredGlobalSendCountries.length - 1,
+          hasRightValue: false,
         );
       },
     );
@@ -326,24 +312,25 @@ Future<void> _showSendActionChooseAsset(
     sendMethodType: '0',
   );
 
-  sShowBasicModalBottomSheet(
+  await showBasicBottomSheet(
     context: context,
-    scrollable: true,
-    pinned: ActionBottomSheetHeader(
-      name: intl.actionSend_bottomSheetHeaderName,
-      showSearch: showSearch,
-      onChanged: (String value) {
-        getIt.get<ActionSearchStore>().search(value);
-      },
+    expanded: showSearch,
+    header: BasicBottomSheetHeaderWidget(
+      title: intl.actionSend_bottomSheetHeaderName,
+      searchOptions: showSearch
+          ? SearchOptions(
+              hint: intl.actionBottomSheetHeader_search,
+              onChange: (String value) {
+                getIt.get<ActionSearchStore>().search(value);
+              },
+            )
+          : null,
     ),
-    horizontalPinnedPadding: 0.0,
-    removePinnedPadding: true,
     children: [
       _ActionSend(
         lastCurrency: lastCurrency,
       ),
     ],
-    then: (value) {},
   );
 }
 
@@ -450,17 +437,25 @@ void showBankTransferTo(BuildContext context, [CurrencyModel? currency]) {
     }
   }
 
-  sShowBasicModalBottomSheet(
+  showBasicBottomSheet(
     context: context,
-    pinned: ActionBottomSheetHeader(
-      name: intl.bank_transfer_to,
+    header: BasicBottomSheetHeaderWidget(
+      title: intl.bank_transfer_to,
     ),
-    horizontalPinnedPadding: 0.0,
-    removePinnedPadding: true,
     children: [
-      SCardRow(
-        icon: Assets.svg.medium.userAlt.simpleSvg(color: SColorsLight().blue),
-        onTap: () {
+      SimpleTableAsset(
+        assetIcon: Assets.svg.medium.userAlt.simpleSvg(color: SColorsLight().blue),
+        label: intl.bank_transfer_to_myself,
+        supplement: allowSimpleBanking
+            ? simpleBankingShowState != SimpleAccountStatus.allowed
+                ? intl.bank_transfer_coming_soon
+                : simpleAccounts == null
+                    ? intl.bank_transfer_coming_soon
+                    : simpleAccounts.status == AccountStatus.active
+                        ? ''
+                        : intl.bank_transfer_coming_soon
+            : intl.bank_transfer_coming_soon,
+        onTableAssetTap: () {
           if (!allowSimpleBanking) {
             return;
           }
@@ -480,22 +475,13 @@ void showBankTransferTo(BuildContext context, [CurrencyModel? currency]) {
             }
           }
         },
-        amount: '',
-        description: '',
-        name: intl.bank_transfer_to_myself,
-        helper: allowSimpleBanking
-            ? simpleBankingShowState != SimpleAccountStatus.allowed
-                ? intl.bank_transfer_coming_soon
-                : simpleAccounts == null
-                    ? intl.bank_transfer_coming_soon
-                    : simpleAccounts.status == AccountStatus.active
-                        ? ''
-                        : intl.bank_transfer_coming_soon
-            : intl.bank_transfer_coming_soon,
+        hasRightValue: false,
       ),
-      SCardRow(
-        icon: Assets.svg.medium.userSend.simpleSvg(color: SColorsLight().blue),
-        onTap: () {
+      SimpleTableAsset(
+        assetIcon: Assets.svg.medium.userSend.simpleSvg(color: SColorsLight().blue),
+        label: intl.bank_transfer_to_another_person,
+        supplement: getHelperTextToSendAnyone(),
+        onTableAssetTap: () {
           if (!allowBanking) {
             return;
           }
@@ -540,10 +526,7 @@ void showBankTransferTo(BuildContext context, [CurrencyModel? currency]) {
             }
           }
         },
-        amount: '',
-        description: '',
-        name: intl.bank_transfer_to_another_person,
-        helper: getHelperTextToSendAnyone(),
+        hasRightValue: false,
       ),
       // if (methods.isNotEmpty)
       //   SCardRow(
@@ -594,236 +577,4 @@ void showGlobalSendCurrenctSelect(BuildContext context) {
     sRouter.navigatorKey.currentContext!,
     isGlobalSend: true,
   );
-  // getIt.get<ActionSearchStore>().init();
-  // getIt.get<ActionSearchStore>().clearSearchValue();
-  // final searchStore = getIt.get<ActionSearchStore>();
-
-  // sShowBasicModalBottomSheet(
-  //   context: context,
-  //   scrollable: true,
-  //   expanded: true,
-  //   then: (value) {},
-  //   pinned: ActionBottomSheetHeader(
-  //     name: intl.action_send_global_send_bottomheet,
-  //     onChanged: (String value) {
-  //       getIt.get<ActionSearchStore>().search(value);
-  //     },
-  //   ),
-  //   horizontalPinnedPadding: 0.0,
-  //   removePinnedPadding: true,
-  //   children: [
-  //     _GlobalSendSelectCurrency(
-  //       searchStore: searchStore,
-  //     ),
-  //   ],
-  // );
-}
-
-class _GlobalSendSelectCurrency extends StatelessObserverWidget {
-  const _GlobalSendSelectCurrency({
-    required this.searchStore,
-  });
-
-  final ActionSearchStore searchStore;
-
-  @override
-  Widget build(BuildContext context) {
-    final state = searchStore;
-    final colors = sKit.colors;
-
-    final watchList = sSignalRModules.keyValue.watchlist?.value ?? [];
-    sortByBalanceWatchlistAndWeight(state.fCurrencies, watchList);
-
-    var currencyFiltered = List<CurrencyModel>.from(state.fCurrencies);
-    currencyFiltered = currencyFiltered
-        .where(
-          (element) => element.type == AssetType.crypto && element.supportsGlobalSend,
-        )
-        .toList();
-
-    final cryptoSearchLength = sSignalRModules.currenciesList
-        .where(
-          (element) => element.type == AssetType.crypto && element.supportsGlobalSend && element.isAssetBalanceNotEmpty,
-        )
-        .length;
-    final showCryptoSearch = cryptoSearchLength >= 7;
-
-    final showFiatLength = sSignalRModules.currenciesList
-        .where(
-          (element) => element.type == AssetType.fiat && element.supportsGlobalSend && element.isAssetBalanceNotEmpty,
-        )
-        .length;
-    final showFiatSearch = showFiatLength >= 7;
-
-    if (cryptoSearchLength == 0) {
-      state.updateShowCrypto(false);
-    } else if (showFiatLength == 0) {
-      state.updateShowCrypto(true);
-    }
-
-    return Column(
-      children: [
-        if (cryptoSearchLength != 0 && showFiatLength != 0) ...[
-          Stack(
-            children: [
-              GestureDetector(
-                onTap: () {
-                  state.updateShowCrypto(!state.showCrypto);
-                  state.search('');
-                  state.searchController.text = '';
-                },
-                child: Container(
-                  width: MediaQuery.of(context).size.width - 48,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    color: colors.grey5,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 9),
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          width: (MediaQuery.of(context).size.width - 48) / 2,
-                          child: Center(
-                            child: Text(
-                              intl.actionDeposit_crypto,
-                              style: sSubtitle3Style.copyWith(
-                                color: colors.grey3,
-                                height: 1,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: (MediaQuery.of(context).size.width - 48) / 2,
-                          child: Center(
-                            child: Text(
-                              intl.actionDeposit_fiat,
-                              style: sSubtitle3Style.copyWith(
-                                color: colors.grey3,
-                                height: 1,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              if (state.showCrypto)
-                Positioned(
-                  left: 0,
-                  child: Container(
-                    width: (MediaQuery.of(context).size.width - 48) / 2,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      color: colors.black,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 9),
-                      child: Center(
-                        child: Text(
-                          intl.actionDeposit_crypto,
-                          style: sSubtitle3Style.copyWith(
-                            color: colors.white,
-                            height: 1,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                )
-              else
-                Positioned(
-                  right: 0,
-                  child: Container(
-                    width: (MediaQuery.of(context).size.width - 48) / 2,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      color: colors.black,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 9),
-                      child: Center(
-                        child: Text(
-                          intl.actionDeposit_fiat,
-                          style: sSubtitle3Style.copyWith(
-                            color: colors.white,
-                            height: 1,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-            ],
-          ),
-          const SpaceH12(),
-        ],
-        if (state.showCrypto && showCryptoSearch) ...[
-          SPaddingH24(
-            child: SStandardField(
-              controller: state.searchController,
-              labelText: intl.actionBottomSheetHeader_search,
-              onChanged: (String value) => state.search(value),
-            ),
-          ),
-          const SDivider(),
-        ] else if (showFiatSearch) ...[
-          SPaddingH24(
-            child: SStandardField(
-              controller: state.searchController,
-              labelText: intl.actionBottomSheetHeader_search,
-              onChanged: (String value) => state.search(value),
-            ),
-          ),
-          const SDivider(),
-        ],
-        if (state.showCrypto) ...[
-          Column(
-            children: [
-              for (final currency in state.fCurrencies)
-                if (currency.type == AssetType.crypto)
-                  if (currency.supportsGlobalSend && currency.isAssetBalanceNotEmpty)
-                    SimpleTableAccount(
-                      assetIcon: NetworkIconWidget(
-                        currency.iconUrl,
-                      ),
-                      label: currency.description,
-                      supplement: currency.symbol,
-                      onTableAssetTap: () {
-                        Navigator.pop(context);
-                        showSendGlobally(context, currency);
-                      },
-                      hasRightValue: false,
-                    ),
-            ],
-          ),
-        ] else ...[
-          Column(
-            children: [
-              for (final currency in state.fCurrencies)
-                if (currency.type == AssetType.fiat)
-                  if (currency.supportsGlobalSend && currency.isAssetBalanceNotEmpty)
-                    SimpleTableAccount(
-                      assetIcon: NetworkIconWidget(
-                        currency.iconUrl,
-                      ),
-                      label: currency.description,
-                      supplement: currency.symbol,
-                      onTableAssetTap: () {
-                        Navigator.pop(context);
-                        showSendGlobally(context, currency);
-                      },
-                      hasRightValue: false,
-                    ),
-              const SpaceH42(),
-            ],
-          ),
-        ],
-        const SpaceH42(),
-      ],
-    );
-  }
 }

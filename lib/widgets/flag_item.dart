@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jetwallet/utils/helpers/flag_asset_name.dart';
-import 'package:simple_kit/core/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class FlagItem extends StatelessObserverWidget {
   const FlagItem({
@@ -14,7 +14,7 @@ class FlagItem extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return Container(
       clipBehavior: Clip.antiAlias,
@@ -33,7 +33,7 @@ class FlagItem extends StatelessObserverWidget {
           : Container(
               height: 20,
               width: 20,
-              color: colors.grey4,
+              color: colors.gray4,
             ),
     );
   }

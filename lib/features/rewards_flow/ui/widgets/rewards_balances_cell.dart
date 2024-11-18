@@ -71,7 +71,7 @@ class _BalanceCellState extends State<_BalanceCell> {
 
     return InkWell(
       splashColor: Colors.transparent,
-      highlightColor: sKit.colors.grey5,
+      highlightColor: SColorsLight().gray2,
       hoverColor: Colors.transparent,
       onTap: () {
         showDialog(
@@ -98,7 +98,7 @@ class _BalanceCellState extends State<_BalanceCell> {
                   padding: const EdgeInsets.only(bottom: 3.5),
                   child: Text(
                     curr.description,
-                    style: sSubtitle2Style,
+                    style: STStyles.subtitle1,
                   ),
                 ),
                 const Spacer(),
@@ -106,17 +106,17 @@ class _BalanceCellState extends State<_BalanceCell> {
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   decoration: ShapeDecoration(
                     shape: RoundedRectangleBorder(
-                      side: BorderSide(color: sKit.colors.grey4),
+                      side: BorderSide(color: SColorsLight().gray4),
                       borderRadius: BorderRadius.circular(22),
                     ),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         width: 16,
                         height: 16,
-                        child: SRewardTrophyIcon(color: sKit.colors.confetti1),
+                        child: SRewardTrophyIcon(color: Color(0xFF9575F3)),
                       ),
                       const SpaceW10(),
                       Padding(
@@ -131,7 +131,7 @@ class _BalanceCellState extends State<_BalanceCell> {
                                       symbol: curr.symbol,
                                     ),
                               textAlign: TextAlign.right,
-                              style: sSubtitle2Style.copyWith(
+                              style: STStyles.subtitle1.copyWith(
                                 height: 1,
                               ),
                             );
@@ -231,7 +231,7 @@ class _RewardTransferPopupState extends State<RewardTransferPopup> {
                     '${intl.reward_transfer} ${widget.fAmount} \n${intl.reward_to_my_account}',
                     maxLines: 12,
                     textAlign: TextAlign.center,
-                    style: sTextH5Style.copyWith(
+                    style: STStyles.header6.copyWith(
                       overflow: TextOverflow.visible,
                     ),
                   ),
@@ -284,10 +284,9 @@ class _RewardTransferPopupState extends State<RewardTransferPopup> {
                 //  const LoaderSpinner(),
                 //],
                 const SpaceH10(),
-                STextButton1(
-                  active: true,
-                  name: intl.reward_cancel,
-                  onTap: () {
+                SButton.text(
+                  text: intl.reward_cancel,
+                  callback: () {
                     Navigator.pop(sRouter.navigatorKey.currentContext!);
                   },
                 ),

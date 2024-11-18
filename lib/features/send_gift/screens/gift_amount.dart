@@ -9,7 +9,6 @@ import 'package:jetwallet/features/send_gift/store/receiver_datails_store.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../core/di/di.dart';
@@ -45,22 +44,17 @@ class _GiftAmountState extends State<GiftAmount> {
   @override
   Widget build(BuildContext context) {
     final deviceSize = sDeviceSize;
-    final sColors = sKit.colors;
 
     return SPageFrame(
       loaderText: intl.loader_please_wait,
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: intl.send_gift_title,
-          subTitle:
-              '${intl.send_gift_available}: ${getIt<AppStore>().isBalanceHide ? '**** ${widget.sendGiftInfo.currency?.symbol ?? ''}' : geftSendAmountStore.availableCurrency.toFormatCount(
-                  accuracy: widget.sendGiftInfo.currency?.accuracy ?? 0,
-                  symbol: widget.sendGiftInfo.currency?.symbol ?? '',
-                )}',
-          subTitleStyle: sBodyText2Style.copyWith(
-            color: sColors.grey1,
-          ),
-        ),
+      header: GlobalBasicAppBar(
+        title: intl.send_gift_title,
+        subtitle:
+            '${intl.send_gift_available}: ${getIt<AppStore>().isBalanceHide ? '**** ${widget.sendGiftInfo.currency?.symbol ?? ''}' : geftSendAmountStore.availableCurrency.toFormatCount(
+                accuracy: widget.sendGiftInfo.currency?.accuracy ?? 0,
+                symbol: widget.sendGiftInfo.currency?.symbol ?? '',
+              )}',
+        hasRightIcon: false,
       ),
       child: Column(
         children: [

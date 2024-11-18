@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/modules/icons/20x20/public/checkmark/simple_checkmark_icon.dart';
-import 'package:simple_kit/modules/texts/simple_text_styles.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 
 class SEarnPositionBadge extends StatelessWidget {
@@ -32,7 +29,7 @@ class SEarnPositionBadge extends StatelessWidget {
           _getIcon(status, _getMainColor(status, colors)),
           Text(
             getTextForStatus(status),
-            style: sBodyText1Style.copyWith(
+            style: STStyles.body1Medium.copyWith(
               height: 1,
               color: _getMainColor(status, colors),
               fontWeight: FontWeight.w700,
@@ -69,13 +66,13 @@ class SEarnPositionBadge extends StatelessWidget {
   Color _getBGColor(EarnPositionStatus status, SColorsLight colors) {
     switch (status) {
       case EarnPositionStatus.active:
-        return colors.greenExtraLight;
+        return colors.greenExtralight;
       case EarnPositionStatus.closing:
-        return colors.blueExtraLight;
+        return colors.blueExtralight;
       case EarnPositionStatus.closed:
-        return colors.grey5;
+        return SColorsLight().gray2;
       default:
-        return colors.grey5;
+        return SColorsLight().gray2;
     }
   }
 
@@ -86,9 +83,9 @@ class SEarnPositionBadge extends StatelessWidget {
       case EarnPositionStatus.closing:
         return colors.blue;
       case EarnPositionStatus.closed:
-        return colors.grey2;
+        return SColorsLight().gray8;
       default:
-        return colors.grey1;
+        return SColorsLight().gray10;
     }
   }
 }

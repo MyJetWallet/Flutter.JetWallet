@@ -5,10 +5,12 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/features/transaction_history/widgets/history_copy_icon.dart';
+import 'package:jetwallet/features/transaction_history/widgets/transaction_status_badge.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 import '../../../../core/di/di.dart';
 import '../../../app/store/app_store.dart';
@@ -16,7 +18,6 @@ import '../../../wallet/helper/format_date_to_hm.dart';
 import 'components/transaction_details_new_header.dart';
 import 'components/transaction_details_new_item.dart';
 import 'components/transaction_details_new_value_text.dart';
-import 'components/transaction_details_status.dart';
 
 class CardRefundDetails extends StatelessWidget {
   const CardRefundDetails({
@@ -83,10 +84,10 @@ class CardRefundDetails extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(2),
                   decoration: ShapeDecoration(
-                    color: sKit.colors.white,
+                    color: SColorsLight().white,
                     shape: OvalBorder(
                       side: BorderSide(
-                        color: sKit.colors.grey4,
+                        color: SColorsLight().gray4,
                       ),
                     ),
                   ),
@@ -102,7 +103,7 @@ class CardRefundDetails extends StatelessWidget {
                 Text(
                   'Simple ${intl.simple_card_card} '
                   '•• ${transactionListItem.cardRefundInfo?.cardLast4}',
-                  style: sSubtitle2Style,
+                  style: STStyles.subtitle1,
                   maxLines: 5,
                 ),
               ],
@@ -183,17 +184,7 @@ class CardRefundDetailsHeader extends StatelessWidget {
             isError: transactionListItem.status == Status.declined,
           ),
           const SizedBox(height: 24),
-          SBadge(
-            status: transactionListItem.status == Status.inProgress
-                ? SBadgeStatus.pending
-                : transactionListItem.status == Status.completed
-                    ? SBadgeStatus.success
-                    : SBadgeStatus.error,
-            text: transactionDetailsStatusText(
-              transactionListItem.status,
-              isPending: true,
-            ),
-          ),
+          TransactionStatusBadge(status: transactionListItem.status),
           const SizedBox(height: 24),
         ],
       ),

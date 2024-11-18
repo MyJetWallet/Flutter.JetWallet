@@ -6,12 +6,10 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/home/store/bottom_bar_store.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/modules/bottom_sheets/components/simple_shade_animation_stack.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'HomeRouter')
@@ -56,12 +54,9 @@ class _HomeScreenState extends State<HomeScreen> {
           transitionBuilder: (context, child, animation) {
             return Observer(
               builder: (context) {
-                return SShadeAnimationStack(
-                  showShade: getIt.get<AppStore>().actionMenuActive,
-                  child: FadeTransition(
-                    opacity: animation,
-                    child: child,
-                  ),
+                return FadeTransition(
+                  opacity: animation,
+                  child: child,
                 );
               },
             );

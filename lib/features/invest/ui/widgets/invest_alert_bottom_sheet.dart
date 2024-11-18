@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:simple_kit/modules/colors/simple_colors_light.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
-import 'package:simple_kit_updated/widgets/button/invest_buttons/invest_button.dart';
-import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../../utils/constants.dart';
 
@@ -21,10 +18,9 @@ void showInvestInfoBottomSheet({
   String? subtitle,
   bool removeWidgetSpace = false,
 }) {
-  sShowBasicModalBottomSheet(
+  showBasicBottomSheet(
     context: context,
-    scrollable: true,
-    pinnedBottom: Material(
+    button: Material(
       color: SColorsLight().white,
       child: Observer(
         builder: (BuildContext context) {
@@ -38,10 +34,10 @@ void showInvestInfoBottomSheet({
                     children: [
                       Expanded(
                         child: SIButton(
-                          activeColor: SColorsLight().grey5,
+                          activeColor: SColorsLight().gray2,
                           activeNameColor: SColorsLight().black,
-                          inactiveColor: SColorsLight().grey2,
-                          inactiveNameColor: SColorsLight().grey4,
+                          inactiveColor: SColorsLight().gray8,
+                          inactiveNameColor: SColorsLight().gray10,
                           active: true,
                           name: primaryButtonName,
                           onTap: () {
@@ -55,8 +51,8 @@ void showInvestInfoBottomSheet({
                           child: SIButton(
                             activeColor: SColorsLight().black,
                             activeNameColor: SColorsLight().white,
-                            inactiveColor: SColorsLight().grey4,
-                            inactiveNameColor: SColorsLight().grey2,
+                            inactiveColor: SColorsLight().gray10,
+                            inactiveNameColor: SColorsLight().gray8,
                             active: true,
                             icon: Assets.svg.invest.investClose.simpleSvg(
                               width: 20,
@@ -79,9 +75,6 @@ void showInvestInfoBottomSheet({
         },
       ),
     ),
-    horizontalPinnedPadding: 0,
-    removePinnedPadding: true,
-    horizontalPadding: 0,
     children: [
       InfoBlock(
         type: type,
@@ -143,7 +136,7 @@ class InfoBlock extends StatelessObserverWidget {
             const SpaceH8(),
             Text(
               subtitle!,
-              style: STStyles.body1InvestM.copyWith(color: SColorsLight().grey1),
+              style: STStyles.body1InvestM.copyWith(color: SColorsLight().gray10),
               textAlign: TextAlign.center,
               maxLines: 4,
             ),

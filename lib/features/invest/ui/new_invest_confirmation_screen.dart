@@ -12,15 +12,7 @@ import 'package:jetwallet/features/invest/ui/dashboard/invest_header.dart';
 import 'package:jetwallet/features/invest/ui/invests/symbol_info_without_chart.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/localized_chart_resolution_button.dart';
-import 'package:simple_kit/core/simple_kit.dart';
-import 'package:simple_kit/modules/shared/page_frames/simple_page_frame.dart';
-import 'package:simple_kit/modules/shared/simple_divider.dart';
-import 'package:simple_kit/modules/shared/simple_paddings.dart';
-import 'package:simple_kit/modules/shared/simple_spacers.dart';
-import 'package:simple_kit/modules/shared/stack_loader/components/loader_spinner.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
-import 'package:simple_kit_updated/widgets/button/invest_buttons/invest_button.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 
 import '../../../core/di/di.dart';
@@ -84,7 +76,7 @@ class _NewInvestConfirmationScreenState extends State<NewInvestConfirmationScree
     final investStore = getIt.get<InvestDashboardStore>();
     final isBalanceHide = getIt<AppStore>().isBalanceHide;
 
-    final colors = sKit.colors;
+    final colors = SColorsLight();
     final currency = currencyFrom(currencies, 'USDT');
     return SPageFrame(
       loaderText: intl.register_pleaseWait,

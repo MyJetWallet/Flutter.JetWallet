@@ -4,8 +4,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/features/invest/ui/widgets/slider_thumb_shape.dart';
-import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class InvestSliderInput extends StatelessObserverWidget {
   const InvestSliderInput({
@@ -37,7 +36,7 @@ class InvestSliderInput extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
     var currentNewValue = currentValue > maxValue
         ? maxValue
         : currentValue < minValue
@@ -68,8 +67,8 @@ class InvestSliderInput extends StatelessObserverWidget {
             valueIndicatorColor: Colors.transparent,
             valueIndicatorTextStyle: const TextStyle(color: Colors.transparent),
             activeTrackColor: colors.black,
-            inactiveTrackColor: colors.grey5,
-            disabledInactiveTrackColor: colors.grey5,
+            inactiveTrackColor: colors.gray2,
+            disabledInactiveTrackColor: colors.gray2,
             trackShape: const RoundedRectSliderTrackShape(),
             trackHeight: 6.0,
             thumbShape: const SliderThumbShape(disabledThumbRadius: 8),
@@ -121,7 +120,7 @@ class InvestSliderInput extends StatelessObserverWidget {
                 child: Text(
                   '$prefix${arrayOfValues[i]}',
                   style: STStyles.body3InvestM.copyWith(
-                    color: colors.grey1,
+                    color: colors.gray10,
                   ),
                 ),
               ),

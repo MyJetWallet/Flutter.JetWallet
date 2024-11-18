@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit/modules/icons/24x24/light/star/simple_light_star_icon.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class TransactionListLoadingItem extends StatelessWidget {
   const TransactionListLoadingItem({
@@ -27,17 +27,17 @@ class TransactionListLoadingItem extends StatelessWidget {
               Row(
                 children: [
                   const SpaceW2(),
-                  const SSkeletonTextLoader(
+                  const SSkeletonLoader(
                     height: 16,
                     width: 16,
                   ),
                   const SpaceW12(),
-                  const SSkeletonTextLoader(
+                  const SSkeletonLoader(
                     height: 16,
                     width: 80,
                   ),
                   const Spacer(),
-                  const SSkeletonTextLoader(
+                  const SSkeletonLoader(
                     height: 16,
                     width: 80,
                   ),
@@ -54,12 +54,12 @@ class TransactionListLoadingItem extends StatelessWidget {
               Row(
                 children: [
                   const SpaceW30(),
-                  const SSkeletonTextLoader(
+                  const SSkeletonLoader(
                     height: 10,
                     width: 32,
                   ),
                   const Spacer(),
-                  const SSkeletonTextLoader(
+                  const SSkeletonLoader(
                     height: 10,
                     width: 60,
                   ),

@@ -5,7 +5,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/wallet/helper/format_date_to_hm.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/signalr_log.dart';
 
@@ -17,10 +17,9 @@ class SignalrDebugInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return SPageFrame(
       loaderText: intl.loader_please_wait,
-      header: const SPaddingH24(
-        child: SSmallHeader(
-          title: 'SignalR Logs',
-        ),
+      header: const GlobalBasicAppBar(
+        title: 'SignalR Logs',
+        hasRightIcon: false,
       ),
       child: SafeArea(
         child: SingleChildScrollView(
@@ -43,11 +42,8 @@ class SignalrDebugInfo extends StatelessWidget {
                 separatorBuilder: (context, index) => const SizedBox(height: 12),
                 itemBuilder: (context, index) => InkWell(
                   onTap: () {
-                    sShowBasicModalBottomSheet(
+                    showBasicBottomSheet(
                       context: context,
-                      scrollable: true,
-                      horizontalPinnedPadding: 0.0,
-                      removePinnedPadding: true,
                       children: [
                         SignalRLogDetail(
                           log: sSignalRModules.signalRLogs[index],
@@ -63,7 +59,7 @@ class SignalrDebugInfo extends StatelessWidget {
                     ),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
-                      color: sKit.colors.grey5,
+                      color: SColorsLight().gray2,
                     ),
                     child: Row(
                       children: [
@@ -118,7 +114,7 @@ class _SignalRLogDetailState extends State<SignalRLogDetail> {
             formatDateToDMonthYHmFromDate(
               (widget.log.sessionTime ?? DateTime.now()).toString(),
             ),
-            style: sSubtitle2Style,
+            style: STStyles.subtitle1,
           ),
           const SizedBox(height: 6),
           Wrap(
@@ -132,7 +128,7 @@ class _SignalRLogDetailState extends State<SignalRLogDetail> {
                 },
                 child: Text(
                   'Reset',
-                  style: sBodyText1Style.copyWith(
+                  style: STStyles.body1Semibold.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -149,7 +145,7 @@ class _SignalRLogDetailState extends State<SignalRLogDetail> {
                 },
                 child: Text(
                   'Hide Ping/Pong messages',
-                  style: sBodyText1Style.copyWith(
+                  style: STStyles.body1Semibold.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -168,22 +164,22 @@ class _SignalRLogDetailState extends State<SignalRLogDetail> {
                 children: [
                   Text(
                     'Action: ${filtredLogs[index].type}',
-                    style: sBodyText1Style.copyWith(
-                      color: filtredLogs[index].type == SLogType.error ? sKit.colors.red : sKit.colors.black,
+                    style: STStyles.body1Medium.copyWith(
+                      color: filtredLogs[index].type == SLogType.error ? SColorsLight().red : SColorsLight().black,
                     ),
                   ),
                   Text(
                     'Time: ${formatDateToHms(
                       (filtredLogs[index].date ?? DateTime.now()).toString(),
                     )}',
-                    style: sBodyText2Style.copyWith(
-                      color: sKit.colors.grey1,
+                    style: STStyles.body2Medium.copyWith(
+                      color: SColorsLight().gray10,
                     ),
                   ),
                   if (filtredLogs[index].type == SLogType.error) ...[
                     Text(
                       filtredLogs[index].error ?? '',
-                      style: sBodyText2Style,
+                      style: STStyles.body2Medium,
                     ),
                   ],
                 ],

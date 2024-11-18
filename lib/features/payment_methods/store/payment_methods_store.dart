@@ -9,6 +9,7 @@ import 'package:jetwallet/core/services/key_value_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/features/bank_card/add_bank_card.dart';
 import 'package:jetwallet/features/payment_methods/models/payment_methods_union.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
@@ -168,12 +169,41 @@ abstract class _PaymentMethodsStoreBase with Store {
         secondaryText: intl.previewBuyWithCircle_failureDescription,
         secondaryButtonName: intl.previewBuyWithCircle_failureAnotherCard,
         onSecondaryButtonTap: () {
-          sRouter.navigate(
-            AddCircleCardRouter(
-              onCardAdded: (card) {
-                sRouter.maybePop();
-              },
-            ),
+          final context = sRouter.navigatorKey.currentContext;
+          if (context != null) {
+            onAddCardTap(context);
+          }
+        },
+      ),
+    );
+  }
+
+  void onAddCardTap(BuildContext context) {
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        opaque: false,
+        barrierColor: Colors.white,
+        pageBuilder: (BuildContext _, __, ___) {
+          return AddBankCardScreen(
+            onCardAdded: () {
+              sRouter.maybePop();
+            },
+            amount: '',
+            isPreview: true,
+            divideDateAndLabel: true,
+          );
+        },
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          const begin = Offset(0.0, 1.0);
+          const end = Offset.zero;
+          const curve = Curves.ease;
+
+          final tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+          return SlideTransition(
+            position: animation.drive(tween),
+            child: child,
           );
         },
       ),

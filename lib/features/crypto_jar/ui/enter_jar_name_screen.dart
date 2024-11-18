@@ -7,7 +7,6 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/crypto_jar/helpers/jar_extension.dart';
 import 'package:jetwallet/features/crypto_jar/store/jars_store.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart' as sk;
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/jar/jar_response_model.dart';
 
@@ -48,13 +47,13 @@ class _EnterJarNameScreenState extends State<EnterJarNameScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sk.sKit.colors;
+    final colors = SColorsLight();
 
     final mediaQuery = MediaQuery.of(context);
     final screenHeight = mediaQuery.size.height - 64 - 53;
     final keyboardHeight = mediaQuery.viewInsets.bottom;
 
-    return sk.SPageFrame(
+    return SPageFrame(
       resizeToAvoidBottomInset: false,
       loaderText: '',
       color: colors.white,

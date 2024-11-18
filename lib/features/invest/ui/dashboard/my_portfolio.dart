@@ -6,8 +6,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
-
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import '../../../../core/l10n/i10n.dart';
 import '../../../../utils/models/currency_model.dart';
 
@@ -35,7 +34,7 @@ class MyPortfolio extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return InkWell(
       onTap: onTap,
@@ -68,7 +67,7 @@ class MyPortfolio extends StatelessObserverWidget {
                       Text(
                         intl.invest_amount,
                         style: STStyles.body3InvestM.copyWith(
-                          color: colors.grey1,
+                          color: colors.gray10,
                         ),
                       ),
                       Row(
@@ -99,7 +98,7 @@ class MyPortfolio extends StatelessObserverWidget {
                       Text(
                         intl.invest_pending,
                         style: STStyles.body3InvestM.copyWith(
-                          color: colors.grey1,
+                          color: colors.gray10,
                         ),
                       ),
                       Row(

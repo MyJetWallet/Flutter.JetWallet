@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class ReturnRateItem extends StatelessWidget {
   const ReturnRateItem({
@@ -13,26 +13,22 @@ class ReturnRateItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
     final periodChangeColor = value.contains('-') ? colors.red : colors.green;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SBaselineChild(
-          baseline: 44,
-          child: Text(
-            header,
-            style: sBodyText2Style,
-          ),
+        const SizedBox(height: 8),
+        Text(
+          header,
+          style: STStyles.body2Medium,
         ),
-        SBaselineChild(
-          baseline: 24,
-          child: Text(
-            value,
-            style: sSubtitle2Style.copyWith(
-              color: periodChangeColor,
-            ),
+         const SizedBox(height: 8),
+        Text(
+          value,
+          style: STStyles.subtitle1.copyWith(
+            color: periodChangeColor,
           ),
         ),
       ],
@@ -50,14 +46,14 @@ class ReturnRateItemSketelon extends StatelessWidget {
     return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SSkeletonTextLoader(
+        SSkeletonLoader(
           height: 10,
           width: 26,
         ),
         SizedBox(
           height: 10,
         ),
-        SSkeletonTextLoader(
+        SSkeletonLoader(
           height: 16,
           width: 52,
         ),

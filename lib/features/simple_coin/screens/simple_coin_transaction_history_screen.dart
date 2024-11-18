@@ -44,7 +44,7 @@ class _SimpleCoinTransactionHistoryScreenState extends State<SimpleCoinTransacti
       child: Observer(
         builder: (context) {
           final store = Provider.of<SimpleCoinTransactionHistoryStore>(context);
-          final colors = sKit.colors;
+          final colors = SColorsLight();
 
           scrollController.addListener(() {
             if (scrollController.position.pixels >= scrollController.position.maxScrollExtent) {
@@ -55,15 +55,10 @@ class _SimpleCoinTransactionHistoryScreenState extends State<SimpleCoinTransacti
           return SPageFrame(
             loaderText: '',
             color: colors.white,
-            header: SPaddingH24(
-              child: SSmallHeader(
-                title: intl.simplecoin_transaction_historyr,
-                subTitle: 'SMPL',
-                subTitleStyle: sBodyText2Style.copyWith(
-                  color: colors.grey1,
-                ),
-                titleMaxLines: 1,
-              ),
+            header: GlobalBasicAppBar(
+              title: intl.simplecoin_transaction_historyr,
+              subtitle: 'SMPL',
+              hasRightIcon: false,
             ),
             child: store.isLoadingInitialData
                 ? const EarnDetailsSkeleton()
@@ -125,7 +120,7 @@ class _SimpleCoinTransactionHistoryScreenState extends State<SimpleCoinTransacti
                             width: 24.0,
                             height: 24.0,
                             decoration: BoxDecoration(
-                              color: colors.grey5,
+                              color: colors.gray2,
                               shape: BoxShape.circle,
                             ),
                             child: const RiveAnimation.asset(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class VerificationDescriptionText extends StatelessObserverWidget {
   const VerificationDescriptionText({
@@ -14,12 +14,12 @@ class VerificationDescriptionText extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return RichText(
       text: TextSpan(
-        style: sBodyText1Style.copyWith(
-          color: colors.grey1,
+        style: STStyles.body1Medium.copyWith(
+          color: colors.gray10,
         ),
         children: [
           TextSpan(
@@ -27,7 +27,7 @@ class VerificationDescriptionText extends StatelessObserverWidget {
           ),
           TextSpan(
             text: boldText,
-            style: sBodyText1Style.copyWith(
+            style: STStyles.body1Medium.copyWith(
               color: colors.black,
             ),
           ),

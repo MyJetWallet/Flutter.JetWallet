@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:jetwallet/features/add_circle_card/helper/masked_text_input_formatter.dart';
+import 'package:jetwallet/features/bank_card/helper/masked_text_input_formatter.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/store/send_card_detail_store.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 
 // ignore: avoid_classes_with_only_static_members
@@ -278,34 +279,27 @@ class _Input extends StatefulWidget {
 class _InputState extends State<_Input> {
   @override
   Widget build(BuildContext context) {
-    return SFieldDividerFrame(
-      child: SStandardField(
-        controller: widget.controller,
-        labelText: widget.labalText,
-        keyboardType: widget.inputType,
-        isError: widget.isError,
-        disableErrorOnChanged: false,
-        hideSpace: true,
-        onErase: () {
-          widget.onErase();
+    return SInput(
+      controller: widget.controller,
+      label: widget.labalText,
+      keyboardType: widget.inputType,
+      hasErrorIcon: widget.isError,
+      onCloseIconTap: () {
+        widget.onErase();
+        setState(() {});
+      },
+      suffixIcon: SafeGesture(
+        onTap: () {
+          widget.paste();
           setState(() {});
         },
-        suffixIcons: [
-          SIconButton(
-            onTap: () {
-              widget.paste();
-              setState(() {});
-            },
-            defaultIcon: const SPasteIcon(),
-            pressedIcon: const SPastePressedIcon(),
-          ),
-        ],
-        inputFormatters: widget.inputFormatters,
-        onChanged: (str) {
-          widget.onChanged(str);
-          setState(() {});
-        },
+        child: const SPasteIcon(),
       ),
+      inputFormatters: widget.inputFormatters,
+      onChanged: (str) {
+        widget.onChanged(str);
+        setState(() {});
+      },
     );
   }
 }

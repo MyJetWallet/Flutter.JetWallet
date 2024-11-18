@@ -148,13 +148,13 @@ class _RewardShareCardState extends State<RewardShareCard> {
             const SpaceH8(),
             Text(
               sSignalRModules.rewardsData?.titleText ?? '',
-              style: sTextH4Style,
+              style: STStyles.header5,
               maxLines: 6,
             ),
             const SpaceH16(),
             Text(
               sSignalRModules.rewardsData?.descriptionText ?? '',
-              style: sBodyText1Style,
+              style: STStyles.body1Medium,
               maxLines: 6,
             ),
             Stack(
@@ -241,7 +241,7 @@ class _RewardShareCardState extends State<RewardShareCard> {
             const SpaceH32(),
             Text(
               intl.rewards_flow_copy_link,
-              style: sSubtitle3Style,
+              style: STStyles.subtitle2,
             ),
             const SpaceH7(),
             InkWell(
@@ -270,8 +270,8 @@ class _RewardShareCardState extends State<RewardShareCard> {
                 ),
                 child: Text(
                   sSignalRModules.rewardsData?.referralLink ?? '',
-                  style: sBodyText1Style.copyWith(
-                    color: sKit.colors.grey1,
+                  style: STStyles.body1Medium.copyWith(
+                    color: SColorsLight().gray10,
                   ),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 
 // ignore: avoid_classes_with_only_static_members
@@ -92,8 +93,8 @@ class PaymentMethodCardWidget extends StatelessWidget {
             const Spacer(),
             Text(
               name,
-              style: sSubtitle3Style.copyWith(
-                color: sKit.colors.black,
+              style: STStyles.subtitle2.copyWith(
+                color: SColorsLight().black,
               ),
             ),
           ],
@@ -129,8 +130,8 @@ class PaymentMethodCardIconWidget extends StatelessWidget {
             const SizedBox(height: 1),
             Text(
               name,
-              style: sSubtitle3Style.copyWith(
-                color: sKit.colors.purple,
+              style: STStyles.subtitle2.copyWith(
+                color: SColorsLight().blue,
               ),
             ),
           ],
@@ -182,15 +183,13 @@ class PaymentMethodBankCardWidget extends StatelessWidget {
             const SpaceH12(),
             Text(
               name,
-              style: sSubtitle3Style.copyWith(
-                color: sKit.colors.black,
-              ),
+              style: STStyles.subtitle2,
             ),
             if (subName2 != null)
               Text(
                 subName2 ?? '',
-                style: sCaptionTextStyle.copyWith(
-                  color: expire ? sKit.colors.red : sKit.colors.grey2,
+                style: STStyles.captionMedium.copyWith(
+                  color: expire ? SColorsLight().red : SColorsLight().gray8,
                   height: 1.384,
                 ),
               ),
@@ -218,7 +217,7 @@ class PaymentMethodBankCardWidget extends StatelessWidget {
           height: 25,
           child: Center(
             child: SActionDepositIcon(
-              color: sKit.colors.blue,
+              color: SColorsLight().blue,
             ),
           ),
         );
@@ -237,13 +236,13 @@ class PaymentMethodCardSkeleton extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SSkeletonTextLoader(
+          SSkeletonLoader(
             height: 40,
             width: 40,
             borderRadius: BorderRadius.circular(999),
           ),
           const SizedBox(height: 22.5),
-          const SSkeletonTextLoader(
+          const SSkeletonLoader(
             height: 8,
             width: 88,
           ),
@@ -272,7 +271,7 @@ class _BaseContainer extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         border: Border.all(
-          color: sKit.colors.grey4,
+          color: SColorsLight().gray4,
         ),
         borderRadius: BorderRadius.circular(16),
       ),
@@ -300,14 +299,14 @@ class MethodPlaceholder extends StatelessWidget {
       width: width,
       height: height,
       decoration: BoxDecoration(
-        color: sKit.colors.grey4,
+        color: SColorsLight().gray4,
         shape: BoxShape.circle,
       ),
       padding: const EdgeInsets.only(bottom: 4),
       alignment: Alignment.center,
       child: Text(
         name.isEmpty ? '' : name[0].toUpperCase(),
-        style: sSubtitle1Style.copyWith(
+        style: STStyles.button.copyWith(
           color: Colors.white,
         ),
       ),

@@ -2,7 +2,6 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/features/send_gift/model/send_gift_info_model.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../core/l10n/i10n.dart';
@@ -47,15 +46,14 @@ class _GiftReceiversDetailsScreenState extends State<GiftReceiversDetailsScreen>
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return SPageFrame(
       loaderText: intl.loader_please_wait,
-      color: colors.grey5,
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: intl.send_gift_Receiver_details,
-        ),
+      color: colors.gray2,
+      header: GlobalBasicAppBar(
+        title: intl.send_gift_Receiver_details,
+        hasRightIcon: false,
       ),
       child: CustomScrollView(
         shrinkWrap: true,
@@ -72,7 +70,7 @@ class _GiftReceiversDetailsScreenState extends State<GiftReceiversDetailsScreen>
                         height: 32,
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          color: colors.grey5,
+                          color: colors.gray2,
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: TabBar(
@@ -82,9 +80,9 @@ class _GiftReceiversDetailsScreenState extends State<GiftReceiversDetailsScreen>
                             borderRadius: BorderRadius.circular(16),
                           ),
                           labelColor: colors.white,
-                          labelStyle: sSubtitle3Style,
-                          unselectedLabelColor: colors.grey1,
-                          unselectedLabelStyle: sSubtitle3Style,
+                          labelStyle: STStyles.subtitle2,
+                          unselectedLabelColor: colors.gray10,
+                          unselectedLabelStyle: STStyles.subtitle2,
                           splashBorderRadius: BorderRadius.circular(16),
                           tabs: [
                             Tab(
@@ -174,7 +172,7 @@ class _GiftReceiversDetailsScreenState extends State<GiftReceiversDetailsScreen>
                   },
                 ),
                 ColoredBox(
-                  color: colors.grey5,
+                  color: colors.gray2,
                   child: const SpaceH40(),
                 ),
               ],

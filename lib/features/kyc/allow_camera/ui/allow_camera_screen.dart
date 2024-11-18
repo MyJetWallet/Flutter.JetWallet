@@ -7,7 +7,6 @@ import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/features/kyc/allow_camera/store/allow_camera_store.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'AllowCameraRoute')
@@ -77,29 +76,30 @@ class _AllowCameraScreenBodyState extends State<_AllowCameraScreenBody> with Wid
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
     final deviceSize = getIt.get<DeviceSize>().size;
 
     final size = MediaQuery.of(context).size;
 
-    return SPageFrameWithPadding(
+    return SPageFrame(
       loaderText: intl.register_pleaseWait,
       header: deviceSize.when(
         small: () {
-          return SSmallHeader(
+          return GlobalBasicAppBar(
             title: _headerTitle(
               AllowCameraStore.of(context).permissionDenied,
               context,
             ),
+            hasRightIcon: false,
           );
         },
         medium: () {
-          return SMegaHeader(
-            titleAlign: TextAlign.left,
+          return SimpleLargeAppbar(
             title: _headerTitle(
               AllowCameraStore.of(context).permissionDenied,
               context,
             ),
+            titleMaxLines: 2,
           );
         },
       ),
@@ -120,53 +120,58 @@ class _AllowCameraScreenBodyState extends State<_AllowCameraScreenBody> with Wid
               : intl.allowCamera_enableCamera,
         ),
       ),
-      child: CustomScrollView(
-        slivers: [
-          SliverFillRemaining(
-            hasScrollBody: false,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Spacer(),
-                Image.asset(
-                  allowCameraAsset,
-                  height: size.width * 0.6,
-                ),
-                const Spacer(),
-                if (!AllowCameraStore.of(context).permissionDenied)
-                  Baseline(
-                    baseline: 48,
-                    baselineType: TextBaseline.alphabetic,
-                    child: Text(
-                      '${intl.allowCamera_text1}.',
-                      maxLines: 3,
-                      style: sBodyText1Style.copyWith(
-                        color: colors.grey1,
-                      ),
-                    ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 24,
+        ),
+        child: CustomScrollView(
+          slivers: [
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Spacer(),
+                  Image.asset(
+                    allowCameraAsset,
+                    height: size.width * 0.6,
                   ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Flexible(
-                      child: Baseline(
-                        baseline: 48,
-                        baselineType: TextBaseline.alphabetic,
-                        child: Text(
-                          widget.permissionDescription,
-                          maxLines: 3,
-                          style: sBodyText1Style.copyWith(
-                            color: colors.grey1,
-                          ),
+                  const Spacer(),
+                  if (!AllowCameraStore.of(context).permissionDenied)
+                    Baseline(
+                      baseline: 48,
+                      baselineType: TextBaseline.alphabetic,
+                      child: Text(
+                        '${intl.allowCamera_text1}.',
+                        maxLines: 3,
+                        style: STStyles.body1Medium.copyWith(
+                          color: colors.gray10,
                         ),
                       ),
                     ),
-                  ],
-                ),
-              ],
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Flexible(
+                        child: Baseline(
+                          baseline: 48,
+                          baselineType: TextBaseline.alphabetic,
+                          child: Text(
+                            widget.permissionDescription,
+                            maxLines: 3,
+                            style: STStyles.body1Medium.copyWith(
+                              color: colors.gray10,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class DepositInfoTag extends StatelessObserverWidget {
   const DepositInfoTag({
@@ -12,7 +12,7 @@ class DepositInfoTag extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return Container(
       width: double.infinity,
@@ -27,7 +27,7 @@ class DepositInfoTag extends StatelessObserverWidget {
             text,
             maxLines: 3,
             textAlign: TextAlign.center,
-            style: sBodyText2Style.copyWith(
+            style: STStyles.body2Medium.copyWith(
               color: colors.red,
             ),
           ),

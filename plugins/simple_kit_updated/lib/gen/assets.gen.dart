@@ -12,6 +12,16 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart' as _svg;
 import 'package:vector_graphics/vector_graphics.dart' as _vg;
 
+class $AssetsAnimationsGen {
+  const $AssetsAnimationsGen();
+
+  /// File path: assets/animations/loader.riv
+  String get loader => 'assets/animations/loader.riv';
+
+  /// List of all assets
+  List<String> get values => [loader];
+}
+
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
@@ -361,6 +371,9 @@ class $AssetsSvgMediumGen {
   /// File path: assets/svg/medium/loading.svg
   SvgGenImage get loading => const SvgGenImage('assets/svg/medium/loading.svg');
 
+  /// File path: assets/svg/medium/lock.svg
+  SvgGenImage get lock => const SvgGenImage('assets/svg/medium/lock.svg');
+
   /// File path: assets/svg/medium/mail.svg
   SvgGenImage get mail => const SvgGenImage('assets/svg/medium/mail.svg');
 
@@ -378,6 +391,9 @@ class $AssetsSvgMediumGen {
 
   /// File path: assets/svg/medium/phone.svg
   SvgGenImage get phone => const SvgGenImage('assets/svg/medium/phone.svg');
+
+  /// File path: assets/svg/medium/pin.svg
+  SvgGenImage get pin => const SvgGenImage('assets/svg/medium/pin.svg');
 
   /// File path: assets/svg/medium/purchase.svg
   SvgGenImage get purchase => const SvgGenImage('assets/svg/medium/purchase.svg');
@@ -511,12 +527,14 @@ class $AssetsSvgMediumGen {
         jar,
         linkedin,
         loading,
+        lock,
         mail,
         mobile,
         mobileUnavailable,
         more,
         percent,
         phone,
+        pin,
         purchase,
         qrCode,
         referral,
@@ -826,6 +844,7 @@ class $AssetsSvgPaymentMethodsCardsSimpleGen {
 class Assets {
   Assets._();
 
+  static const $AssetsAnimationsGen animations = $AssetsAnimationsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
   static const $AssetsSvgGen svg = $AssetsSvgGen();
 }

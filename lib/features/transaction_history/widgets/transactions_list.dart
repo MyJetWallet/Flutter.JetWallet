@@ -124,7 +124,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     final listToShow = widget.isRecurring
         ? OperationHistory.of(context)
@@ -182,7 +182,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                           borderRadius: BorderRadius.circular(16),
                           border: Border.all(
                             width: 2,
-                            color: colors.grey4,
+                            color: colors.gray4,
                           ),
                         ),
                         child: Column(
@@ -212,7 +212,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                                         baselineType: TextBaseline.alphabetic,
                                         child: Text(
                                           intl.newsList_wentWrongText,
-                                          style: sBodyText1Style,
+                                          style: STStyles.body1Medium,
                                           maxLines: 2,
                                         ),
                                       ),
@@ -221,10 +221,9 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                                 ),
                               ],
                             ),
-                            STextButton1(
-                              active: true,
-                              name: intl.transactionsList_retry,
-                              onTap: () {
+                            SButton.text(
+                              text: intl.transactionsList_retry,
+                              callback: () {
                                 OperationHistory.of(context).initOperationHistory();
                               },
                             ),
@@ -266,7 +265,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                                   borderRadius: BorderRadius.circular(16),
                                   border: Border.all(
                                     width: 2,
-                                    color: colors.grey4,
+                                    color: colors.gray4,
                                   ),
                                 ),
                                 child: Column(
@@ -296,7 +295,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                                                 baselineType: TextBaseline.alphabetic,
                                                 child: Text(
                                                   intl.newsList_wentWrongText,
-                                                  style: sBodyText1Style,
+                                                  style: STStyles.body1Medium,
                                                   maxLines: 2,
                                                 ),
                                               ),
@@ -305,10 +304,9 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                                         ),
                                       ],
                                     ),
-                                    STextButton1(
-                                      active: true,
-                                      name: intl.transactionsList_retry,
-                                      onTap: () {
+                                    SButton.text(
+                                      text: intl.transactionsList_retry,
+                                      callback: () {
                                         OperationHistory.of(context).operationHistory(
                                           widget.symbol,
                                         );
@@ -355,7 +353,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                                 width: 24.0,
                                 height: 24.0,
                                 decoration: BoxDecoration(
-                                  color: colors.grey5,
+                                  color: colors.gray2,
                                   shape: BoxShape.circle,
                                 ),
                                 child: const rive.RiveAnimation.asset(

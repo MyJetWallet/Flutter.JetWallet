@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
 import '../../../../core/di/di.dart';
@@ -37,7 +37,7 @@ class InvestHeader extends StatelessObserverWidget {
     final kycState = getIt.get<KycService>();
     final kycAlertHandler = getIt.get<KycAlertHandler>();
 
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return Column(
       children: [
@@ -52,9 +52,8 @@ class InvestHeader extends StatelessObserverWidget {
                 ),
               )
             else
-              SIconButton(
-                defaultIcon: const SBackIcon(),
-                pressedIcon: const SBackIcon(),
+              SafeGesture(
+                child: const SBackIcon(),
                 onTap: () {
                   onBackButton?.call();
                 },
@@ -99,7 +98,7 @@ class InvestHeader extends StatelessObserverWidget {
           Container(
             height: 0.5,
             decoration: BoxDecoration(
-              color: colors.grey4,
+              color: colors.gray4,
             ),
           ),
       ],

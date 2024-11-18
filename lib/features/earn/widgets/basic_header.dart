@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit/modules/colors/simple_colors_light.dart';
-import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
+// TODO (Yaroslav): check this widget
 class SBasicHeader extends StatelessWidget {
   const SBasicHeader({
     required this.title,
@@ -36,7 +35,7 @@ class SBasicHeader extends StatelessWidget {
           if (subtitle != null) ...[
             Text(
               title,
-              style: sTextH4Style,
+              style: STStyles.header5,
             ),
             const SizedBox(height: 8),
           ],
@@ -50,7 +49,7 @@ class SBasicHeader extends StatelessWidget {
                     Text(
                       subtitle!,
                       style: STStyles.body1Medium.copyWith(
-                        color: colors.grey1,
+                        color: colors.gray10,
                       ),
                     ),
                     const SizedBox(width: 8),
@@ -61,7 +60,7 @@ class SBasicHeader extends StatelessWidget {
                 Flexible(
                   child: Text(
                     title,
-                    style: sTextH4Style,
+                    style: STStyles.header5,
                   ),
                 ),
               if (onTap != null && buttonTitle != null) ...[

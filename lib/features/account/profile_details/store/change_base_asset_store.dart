@@ -9,7 +9,7 @@ import 'package:jetwallet/utils/logging.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
-import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/wallet_api/models/base_asset/set_base_assets_request_model.dart';
 

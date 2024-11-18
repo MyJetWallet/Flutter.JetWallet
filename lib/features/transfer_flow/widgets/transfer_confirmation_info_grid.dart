@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class TransferConfirmationInfoGrid extends StatelessWidget {
   const TransferConfirmationInfoGrid({
@@ -31,7 +29,7 @@ class TransferConfirmationInfoGrid extends StatelessWidget {
     return Baseline(
       baseline: 19.0,
       baselineType: TextBaseline.alphabetic,
-      child: SSkeletonTextLoader(
+      child: SSkeletonLoader(
         height: 24,
         width: 120,
         borderRadius: BorderRadius.circular(4),
@@ -54,7 +52,7 @@ class TransferConfirmationInfoGrid extends StatelessWidget {
             children: [
               Text(
                 intl.transfer_confirmation_send_to,
-                style: sBodyText2Style.copyWith(color: sKit.colors.grey1),
+                style: STStyles.body2Medium.copyWith(color: SColorsLight().gray10),
               ),
               if (isDataLoaded) ...[
                 Flexible(
@@ -75,7 +73,7 @@ class TransferConfirmationInfoGrid extends StatelessWidget {
                         child: Text(
                           sendToLable,
                           overflow: TextOverflow.ellipsis,
-                          style: sSubtitle3Style.copyWith(height: 1.5),
+                          style: STStyles.subtitle2.copyWith(height: 1.5),
                         ),
                       ),
                     ],
@@ -149,7 +147,7 @@ class _FieldRowWidget extends StatelessWidget {
         children: [
           Text(
             lable,
-            style: sBodyText2Style.copyWith(color: sKit.colors.grey1),
+            style: STStyles.body2Medium.copyWith(color: SColorsLight().gray10),
           ),
           if (isDataLoaded) ...[
             Flexible(
@@ -160,7 +158,7 @@ class _FieldRowWidget extends StatelessWidget {
                     child: Text(
                       value,
                       overflow: TextOverflow.ellipsis,
-                      style: sSubtitle3Style.copyWith(height: 1.5),
+                      style: STStyles.subtitle2,
                     ),
                   ),
                 ],
@@ -178,7 +176,7 @@ class _FieldRowWidget extends StatelessWidget {
     return Baseline(
       baseline: 19.0,
       baselineType: TextBaseline.alphabetic,
-      child: SSkeletonTextLoader(
+      child: SSkeletonLoader(
         height: 24,
         width: 120,
         borderRadius: BorderRadius.circular(4),

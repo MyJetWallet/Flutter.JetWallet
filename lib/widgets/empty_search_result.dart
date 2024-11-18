@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class EmptySearchResult extends StatelessObserverWidget {
   const EmptySearchResult({
@@ -14,7 +14,7 @@ class EmptySearchResult extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return SizedBox(
       height: MediaQuery.of(context).size.height - MediaQuery.of(context).viewInsets.bottom - 220,
@@ -24,15 +24,13 @@ class EmptySearchResult extends StatelessObserverWidget {
           children: <Widget>[
             Text(
               intl.emptySearchResult_noResultsFor,
-              style: sBodyText1Style.copyWith(
-                color: colors.grey1,
+              style: STStyles.body1Medium.copyWith(
+                color: colors.gray10,
               ),
             ),
             Text(
               text ?? '',
-              style: sTextH4Style.copyWith(
-                color: colors.black,
-              ),
+              style: STStyles.header5,
             ),
           ],
         ),

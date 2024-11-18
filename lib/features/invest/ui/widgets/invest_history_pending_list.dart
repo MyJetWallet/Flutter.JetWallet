@@ -9,6 +9,7 @@ import 'package:jetwallet/features/transaction_history/widgets/transaction_day_s
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
@@ -85,7 +86,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     final listToShow = InvestHistory.of(context).investPendingItems;
     final currencies = sSignalRModules.currenciesList;
@@ -219,7 +220,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                               borderRadius: BorderRadius.circular(16),
                               border: Border.all(
                                 width: 2,
-                                color: colors.grey4,
+                                color: colors.gray4,
                               ),
                             ),
                             child: Column(
@@ -249,7 +250,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                                             baselineType: TextBaseline.alphabetic,
                                             child: Text(
                                               intl.newsList_wentWrongText,
-                                              style: sBodyText1Style,
+                                              style: STStyles.body1Medium,
                                               maxLines: 2,
                                             ),
                                           ),
@@ -258,10 +259,9 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                                     ),
                                   ],
                                 ),
-                                STextButton1(
-                                  active: true,
-                                  name: intl.transactionsList_retry,
-                                  onTap: () {
+                                SButton.text(
+                                  text: intl.transactionsList_retry,
+                                  callback: () {
                                     InvestHistory.of(context).initInvestPending(
                                       symbol: widget.instrument,
                                     );
@@ -333,7 +333,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                                       borderRadius: BorderRadius.circular(16),
                                       border: Border.all(
                                         width: 2,
-                                        color: colors.grey4,
+                                        color: colors.gray4,
                                       ),
                                     ),
                                     child: Column(
@@ -363,7 +363,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                                                     baselineType: TextBaseline.alphabetic,
                                                     child: Text(
                                                       intl.newsList_wentWrongText,
-                                                      style: sBodyText1Style,
+                                                      style: STStyles.body1Medium,
                                                       maxLines: 2,
                                                     ),
                                                   ),
@@ -372,10 +372,9 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                                             ),
                                           ],
                                         ),
-                                        STextButton1(
-                                          active: true,
-                                          name: intl.transactionsList_retry,
-                                          onTap: () {
+                                        SButton.text(
+                                          text: intl.transactionsList_retry,
+                                          callback: () {
                                             InvestHistory.of(context).investHistoryPending(
                                               widget.instrument,
                                             );
@@ -472,7 +471,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                                     width: 24.0,
                                     height: 24.0,
                                     decoration: BoxDecoration(
-                                      color: colors.grey5,
+                                      color: colors.gray2,
                                       shape: BoxShape.circle,
                                     ),
                                     child: const RiveAnimation.asset(

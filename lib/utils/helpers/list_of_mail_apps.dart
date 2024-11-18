@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:open_mail_app/open_mail_app.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../core/di/di.dart';
 import '../../core/services/local_storage_service.dart';
@@ -13,10 +15,10 @@ void showMailAppsOptions(
   List<MailApp> apps,
   Function() defaultAction,
 ) {
-  sShowBasicModalBottomSheet(
+  showBasicBottomSheet(
     context: context,
-    pinned: SBottomSheetHeader(
-      name: intl.mailPicker_chooseMail,
+    header: BasicBottomSheetHeaderWidget(
+      title: intl.mailPicker_chooseMail,
     ),
     children: [
       _MailOptions(
@@ -58,7 +60,7 @@ class _MailOptionsBodyState extends State<_MailOptions> with WidgetsBindingObser
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     icon = checked ? const SCheckboxSelectedIcon() : const SCheckboxIcon();
 
@@ -92,14 +94,13 @@ class _MailOptionsBodyState extends State<_MailOptions> with WidgetsBindingObser
                 children: [
                   Observer(
                     builder: (context) {
-                      return SIconButton(
+                      return SafeGesture(
                         onTap: () {
                           setState(() {
                             checked = !checked;
                           });
                         },
-                        defaultIcon: icon,
-                        pressedIcon: icon,
+                        child: icon,
                       );
                     },
                   ),
@@ -110,7 +111,7 @@ class _MailOptionsBodyState extends State<_MailOptions> with WidgetsBindingObser
                       const SpaceH3(),
                       Text(
                         intl.mailPicker_rememberChosen,
-                        style: sCaptionTextStyle.copyWith(
+                        style: STStyles.captionMedium.copyWith(
                           fontFamily: 'Gilroy',
                         ),
                       ),
@@ -127,7 +128,7 @@ class _MailOptionsBodyState extends State<_MailOptions> with WidgetsBindingObser
   }
 }
 
-Widget _iconFrom(String name, SimpleColors colors) {
+Widget _iconFrom(String name, SColorsLight colors) {
   switch (name) {
     case 'Gmail':
       return Image.asset(
@@ -151,7 +152,7 @@ Widget _iconFrom(String name, SimpleColors colors) {
       return Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20.0),
-          color: colors.grey5,
+          color: colors.gray2,
         ),
         width: 40,
         height: 40,
@@ -176,11 +177,11 @@ class MailItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
     final mainColor = colors.black;
 
     return InkWell(
-      highlightColor: colors.grey5,
+      highlightColor: colors.gray2,
       splashColor: Colors.transparent,
       onTap: onTap,
       child: SPaddingH24(
@@ -203,7 +204,7 @@ class MailItem extends StatelessWidget {
                         const SpaceH3(),
                         Text(
                           name,
-                          style: sSubtitle2Style.copyWith(
+                          style: STStyles.subtitle1.copyWith(
                             color: mainColor,
                           ),
                         ),

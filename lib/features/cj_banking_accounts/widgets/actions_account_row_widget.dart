@@ -12,8 +12,8 @@ import 'package:jetwallet/features/cj_banking_accounts/widgets/show_account_with
 import 'package:jetwallet/features/cj_banking_accounts/widgets/show_setting_bottom_sheet.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
-import 'package:jetwallet/widgets/circle_action_buttons/circle_action_button.dart';
 import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
@@ -38,12 +38,13 @@ class ActionsAccountRowWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 24),
       child: Observer(
         builder: (context) {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              CircleActionButton(
-                text: intl.wallet_add_cash,
-                type: CircleButtonType.addCash,
+          return ActionPannel(
+            actionButtons: [
+              SActionButton(
+                icon: Assets.svg.medium.addCash.simpleSvg(
+                  color: SColorsLight().white,
+                ),
+                lable: intl.wallet_add_cash,
                 onTap: () {
                   sAnalytics.tapOnTheDepositButton(source: 'Wallet - Deposit');
 
@@ -74,10 +75,14 @@ class ActionsAccountRowWidget extends StatelessWidget {
                   );
                 },
               ),
-              CircleActionButton(
-                text: intl.wallet_withdraw,
-                type: CircleButtonType.withdraw,
-                isDisabled: !((bankingAccount.balance ?? Decimal.zero) > Decimal.zero),
+              SActionButton(
+                lable: intl.wallet_withdraw,
+                icon: Assets.svg.medium.withdrawal.simpleSvg(
+                  color: SColorsLight().white,
+                ),
+                state: ((bankingAccount.balance ?? Decimal.zero) > Decimal.zero)
+                    ? ActionButtonState.defaylt
+                    : ActionButtonState.disabled,
                 onTap: () {
                   handler.handle(
                     multiStatus: [
@@ -95,10 +100,12 @@ class ActionsAccountRowWidget extends StatelessWidget {
                 },
               ),
               if (bankingAccount.isClearjuctionAccount)
-                CircleActionButton(
-                  text: intl.account_actions_exchange,
-                  type: CircleButtonType.exchange,
-                  isDisabled: !bankingAccount.isNotEmptyBalance,
+                SActionButton(
+                  lable: intl.account_actions_exchange,
+                  icon: Assets.svg.medium.transfer.simpleSvg(
+                    color: SColorsLight().white,
+                  ),
+                  state: bankingAccount.isNotEmptyBalance ? ActionButtonState.defaylt : ActionButtonState.disabled,
                   onTap: () {
                     handler.handle(
                       multiStatus: [
@@ -123,9 +130,11 @@ class ActionsAccountRowWidget extends StatelessWidget {
                     );
                   },
                 ),
-              CircleActionButton(
-                text: intl.account_actions_settings,
-                type: CircleButtonType.settings,
+              SActionButton(
+                lable: intl.account_actions_settings,
+                icon: Assets.svg.medium.settings.simpleSvg(
+                  color: SColorsLight().white,
+                ),
                 onTap: () {
                   showAccountSettings(
                     context: context,

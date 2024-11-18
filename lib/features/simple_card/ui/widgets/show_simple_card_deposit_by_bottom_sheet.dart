@@ -8,8 +8,8 @@ import 'package:jetwallet/features/cj_banking_accounts/widgets/show_add_cash_fro
 import 'package:jetwallet/features/simple_card/store/simple_card_deposit_by_store.dart';
 import 'package:jetwallet/utils/balances/crypto_balance.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
@@ -25,13 +25,12 @@ void showSimpleCardDepositBySelector({
 
   final store = SimpleCardDepositByStore()..init(newCard: card);
 
-  sShowBasicModalBottomSheet(
+  showBasicBottomSheet(
     context: context,
-    pinned: SBottomSheetHeader(
-      name: intl.deposit_by,
+    header: BasicBottomSheetHeaderWidget(
+      title: intl.deposit_by,
     ),
-    scrollable: true,
-    onDissmis: onClose,
+    onDismiss: onClose,
     children: [
       _DepositByBody(
         store: store,

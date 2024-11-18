@@ -6,7 +6,6 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/simple_card/ui/widgets/password_requirement.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../core/di/di.dart';
@@ -47,29 +46,23 @@ class _SetUpPasswordScreenBody extends StatelessObserverWidget {
     final store = SetUpPasswordStore.of(context);
     final simpleCardStore = getIt.get<SimpleCardStore>();
 
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return SPageFrame(
       loaderText: intl.loader_please_wait,
       resizeToAvoidBottomInset: false,
-      color: colors.grey5,
+      color: colors.gray2,
       loading: isCreatePassword ? simpleCardStore.loader : store.loader,
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: intl.simple_card_password_title,
-          subTitle: intl.simple_card_password_subtitle,
-          subTitleStyle: sBodyText2Style.copyWith(
-            color: colors.grey1,
-          ),
-          showBackButton: false,
-          onCLoseButton: () {
-            sAnalytics.tapCloseSetUpPassword(
-              cardID: simpleCardStore.cardFull?.cardId ?? '',
-            );
-            Navigator.pop(context);
-          },
-          showCloseButton: true,
-        ),
+      header: GlobalBasicAppBar(
+        title: intl.simple_card_password_title,
+        subtitle: intl.simple_card_password_subtitle,
+        hasLeftIcon: false,
+        onRightIconTap: () {
+          sAnalytics.tapCloseSetUpPassword(
+            cardID: simpleCardStore.cardFull?.cardId ?? '',
+          );
+          Navigator.pop(context);
+        },
       ),
       child: Column(
         children: [
@@ -87,8 +80,8 @@ class _SetUpPasswordScreenBody extends StatelessObserverWidget {
                 children: [
                   Text(
                     intl.simple_card_password_description,
-                    style: sBodyText1Style.copyWith(
-                      color: colors.grey1,
+                    style: STStyles.body1Medium.copyWith(
+                      color: colors.gray10,
                     ),
                     maxLines: 10,
                   ),
@@ -96,25 +89,29 @@ class _SetUpPasswordScreenBody extends StatelessObserverWidget {
               ),
             ),
           ),
-          SFieldDividerFrame(
-            child: SStandardFieldObscure(
-              controller: store.passwordController,
-              labelText: intl.simple_card_password_create,
-              isError: store.passwordError,
-              onChanged: store.setPassword,
-              maxLength: 29,
-              autofocus: true,
-              onHideTap: (bool value) {
-                if (value) {
-                  sAnalytics.tapHideSetupPassword(
-                    cardID: simpleCardStore.cardFull?.cardId ?? '',
-                  );
-                } else {
+          SInput(
+            controller: store.passwordController,
+            label: intl.simple_card_password_create,
+            hasErrorIcon: store.passwordError,
+            onChanged: store.setPassword,
+            maxLength: 29,
+            autofocus: true,
+            obscureText: store.hidePassword,
+            suffixIcon: SafeGesture(
+              onTap: () {
+                if (store.hidePassword) {
                   sAnalytics.tapShowSetupPassword(
                     cardID: simpleCardStore.cardFull?.cardId ?? '',
                   );
+                  store.setHidePassword(false);
+                } else {
+                  sAnalytics.tapHideSetupPassword(
+                    cardID: simpleCardStore.cardFull?.cardId ?? '',
+                  );
+                  store.setHidePassword(true);
                 }
               },
+              child: store.hidePassword ? Assets.svg.medium.show.simpleSvg() : Assets.svg.medium.hide.simpleSvg(),
             ),
           ),
           const SpaceH16(),

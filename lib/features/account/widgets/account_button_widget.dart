@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class AccountButtonWidget extends StatelessWidget {
@@ -33,7 +32,7 @@ class AccountButtonWidget extends StatelessWidget {
                 baselineType: TextBaseline.alphabetic,
                 child: Text(
                   title,
-                  style: sSubtitle2Style,
+                  style: STStyles.subtitle1,
                 ),
               ),
             ),

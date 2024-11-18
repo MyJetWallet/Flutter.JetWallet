@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit/core/simple_kit.dart';
-import 'package:simple_kit_updated/widgets/shared/simple_skeleton_loader.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class EarnArchivesSceletonList extends StatelessWidget {
   const EarnArchivesSceletonList({
@@ -23,7 +22,7 @@ class EarnArchivesSkeletonItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
     return Padding(
       padding: const EdgeInsets.only(
         left: 16,
@@ -35,7 +34,7 @@ class EarnArchivesSkeletonItem extends StatelessWidget {
         width: double.infinity,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: colors.grey4),
+          border: Border.all(color: colors.gray4),
         ),
         child: Padding(
           padding: const EdgeInsets.all(16.0),

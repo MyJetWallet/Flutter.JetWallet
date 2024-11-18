@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:jetwallet/utils/extension/string_extension.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../../core/l10n/i10n.dart';
@@ -18,15 +17,12 @@ class GetSimpleCardScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SPageFrame(
       loaderText: '',
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: '',
-          showBackButton: false,
-          showCloseButton: true,
-          onCLoseButton: () {
-            sRouter.maybePop(false);
-          },
-        ),
+      header: GlobalBasicAppBar(
+        title: '',
+        hasLeftIcon: false,
+        onRightIconTap: () {
+          sRouter.maybePop(false);
+        },
       ),
       child: SPaddingH24(
         child: Stack(
@@ -41,7 +37,7 @@ class GetSimpleCardScreen extends StatelessWidget {
                 ),
                 Text(
                   intl.card_header,
-                  style: sTextH4Style,
+                  style: STStyles.header5,
                 ),
                 const Gap(16),
                 _StyledText(
@@ -120,7 +116,7 @@ class _StyledText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: sSubtitle3Style.copyWith(
+      style: STStyles.subtitle2.copyWith(
         overflow: TextOverflow.visible,
         color: SColorsLight().gray10,
       ),
@@ -161,9 +157,8 @@ class _StyledList extends StatelessWidget {
               Expanded(
                 child: Text(
                   firstLine,
-                  style: sSubtitle3Style.copyWith(
+                  style: STStyles.subtitle2.copyWith(
                     overflow: TextOverflow.visible,
-                    color: SColorsLight().black,
                   ),
                 ),
               ),
@@ -180,7 +175,7 @@ class _StyledList extends StatelessWidget {
               Expanded(
                 child: Text(
                   secondLine,
-                  style: sSubtitle3Style.copyWith(
+                  style: STStyles.subtitle2.copyWith(
                     overflow: TextOverflow.visible,
                     color: SColorsLight().black,
                   ),

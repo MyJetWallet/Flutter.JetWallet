@@ -12,7 +12,7 @@ import 'package:jetwallet/core/services/sumsub_service/sumsub_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/simple_coin/utils/collect_simplecoin.dart';
 import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 
 import '../../core/di/di.dart';
@@ -51,11 +51,9 @@ class _DebugInfoState extends State<DebugInfo> with SingleTickerProviderStateMix
 
     return SPageFrame(
       loaderText: intl.loader_please_wait,
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: 'Debug mode',
-          onBackButtonTap: () => Navigator.pop(context),
-        ),
+      header: const GlobalBasicAppBar(
+        title: 'Debug mode',
+        hasRightIcon: false,
       ),
       child: Scaffold(
         body: Center(
@@ -65,12 +63,12 @@ class _DebugInfoState extends State<DebugInfo> with SingleTickerProviderStateMix
               children: [
                 Text(
                   getIt<AppStore>().sessionID,
-                  style: sBodyText2Style,
+                  style: STStyles.body2Medium,
                 ),
                 const SpaceH10(),
                 Text(
                   'Device pixel ratio: $devicePixelRatio',
-                  style: sTextH5Style,
+                  style: STStyles.header6,
                 ),
                 const SpaceH20(),
                 SizedBox(

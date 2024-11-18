@@ -21,7 +21,6 @@ import 'package:jetwallet/features/transaction_history/widgets/transactions_list
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_sevsitive_response.dart';
@@ -338,7 +337,7 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                           textAlign: TextAlign.center,
                           maxLines: 3,
                           style: STStyles.subtitle2.copyWith(
-                            color: sKit.colors.grey2,
+                            color: SColorsLight().gray8,
                           ),
                         ),
                       ],

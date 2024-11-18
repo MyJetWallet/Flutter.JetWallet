@@ -380,11 +380,6 @@ abstract class _AppStoreBase with Store {
   AuthInfoState authState = const AuthInfoState();
 
   @observable
-  bool actionMenuActive = false;
-  @action
-  bool setActionMenuActive(bool value) => actionMenuActive = value;
-
-  @observable
   bool openBottomMenu = false;
   @action
   bool setOpenBottomMenu(bool value) => openBottomMenu = value;
@@ -536,7 +531,6 @@ abstract class _AppStoreBase with Store {
     initRouter = const RouterUnion.unauthorized();
 
     authState = const AuthInfoState();
-    actionMenuActive = false;
     openBottomMenu = false;
     fromLoginRegister = false;
     withdrawDynamicLink = false;

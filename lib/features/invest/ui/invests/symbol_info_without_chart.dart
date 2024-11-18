@@ -4,7 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jetwallet/utils/formatting/base/format_percent.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 
 import '../../../../utils/helpers/icon_url_from.dart';
@@ -26,7 +26,7 @@ class SymbolInfoWithoutChart extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return InkWell(
       splashColor: Colors.transparent,
@@ -64,7 +64,7 @@ class SymbolInfoWithoutChart extends StatelessObserverWidget {
                     Text(
                       instrument.description ?? '',
                       style: STStyles.body2InvestM.copyWith(
-                        color: colors.grey2,
+                        color: colors.gray8,
                       ),
                     ),
                   ],
@@ -92,7 +92,7 @@ class SymbolInfoWithoutChart extends StatelessObserverWidget {
                         overflow: TextOverflow.ellipsis,
                         style: STStyles.body3InvestSM.copyWith(
                           color: percent == Decimal.zero
-                              ? colors.grey3
+                              ? colors.gray6
                               : percent > Decimal.zero
                                   ? colors.green
                                   : colors.red,

@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit/modules/colors/simple_colors_light.dart';
-import 'package:simple_kit/modules/shared/simple_paddings.dart';
-import 'package:simple_kit/modules/shared/simple_spacers.dart';
-import 'package:simple_kit/modules/texts/simple_text_styles.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class CardOption extends StatelessWidget {
   const CardOption({
@@ -31,13 +28,13 @@ class CardOption extends StatelessWidget {
     final mainColor = isSelected
         ? SColorsLight().blue
         : isDisabled
-            ? SColorsLight().grey2
+            ? SColorsLight().gray8
             : SColorsLight().black;
 
-    final descriptionColor = isDisabled ? SColorsLight().grey2 : SColorsLight().grey3;
+    final descriptionColor = isDisabled ? SColorsLight().gray8 :SColorsLight().gray6;
 
     return InkWell(
-      highlightColor: SColorsLight().grey5,
+      highlightColor: SColorsLight().gray2,
       splashColor: Colors.transparent,
       onTap: onTap,
       child: SPaddingH24(
@@ -88,7 +85,7 @@ class CardOption extends StatelessWidget {
                             Expanded(
                               child: Text(
                                 name,
-                                style: sSubtitle1Style.copyWith(
+                                style: STStyles.subtitle2.copyWith(
                                   color: mainColor,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -99,7 +96,7 @@ class CardOption extends StatelessWidget {
                         if (!hideDescription)
                           Text(
                             description!,
-                            style: sBodyText2Style.copyWith(
+                            style: STStyles.body2Medium.copyWith(
                               color: descriptionColor,
                             ),
                           ),

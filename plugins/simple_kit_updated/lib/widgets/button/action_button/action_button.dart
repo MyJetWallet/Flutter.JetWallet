@@ -7,19 +7,20 @@ enum ActionButtonType { primary, secondary }
 
 enum ActionButtonState { defaylt, disabled, skeleton }
 
-class SimpleCircleButton extends HookWidget {
-  const SimpleCircleButton({
+class SActionButton extends HookWidget {
+  const SActionButton({
     super.key,
     this.onTap,
     this.lable,
     required this.icon,
     this.type = ActionButtonType.primary,
-    this.state = ActionButtonState.disabled,
+    this.state = ActionButtonState.defaylt,
   });
 
   final Function()? onTap;
   final Widget icon;
   final String? lable;
+  // TODO (Yaroslav): Implement type
   final ActionButtonType type;
   final ActionButtonState state;
 
@@ -34,32 +35,45 @@ class SimpleCircleButton extends HookWidget {
       onHighlightChanged: (value) {
         isHighlated.value = value;
       },
-      child: Column(
-        children: [
-          Container(
-            height: 48,
-            width: 48,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: state == ActionButtonState.disabled
-                  ? SColorsLight().grayAlfa
-                  : isHighlated.value
-                      ? SColorsLight().gray10
-                      : SColorsLight().black,
-            ),
-            padding: const EdgeInsets.all(12),
-            child: icon,
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          minWidth: 48,
+          maxWidth: 75.75,
+        ),
+        child: SizedBox(
+          width: double.infinity,
+          child: Column(
+            children: [
+              Container(
+                height: 48,
+                width: 48,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: state == ActionButtonState.disabled
+                      ? SColorsLight().grayAlfa
+                      : isHighlated.value
+                          ? SColorsLight().gray10
+                          : SColorsLight().black,
+                ),
+                padding: const EdgeInsets.all(12),
+                child: Center(
+                  child: icon,
+                ),
+              ),
+              if (lable != null) ...[
+                const SizedBox(height: 12),
+                Text(
+                  lable ?? '',
+                  style: STStyles.captionSemibold.copyWith(
+                    color: state == ActionButtonState.defaylt ? SColorsLight().black : SColorsLight().gray8,
+                  ),
+                  maxLines: 2,
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ],
           ),
-          if (lable != null) ...[
-            const SizedBox(height: 12),
-            Text(
-              lable ?? '',
-              style: STStyles.captionSemibold,
-              maxLines: 2,
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ],
+        ),
       ),
     );
   }

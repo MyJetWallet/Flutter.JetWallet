@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class EmptySelfieBox extends StatelessWidget {
   const EmptySelfieBox({
@@ -7,7 +8,7 @@ class EmptySelfieBox extends StatelessWidget {
     required this.colors,
   });
 
-  final SimpleColors colors;
+  final SColorsLight colors;
 
   @override
   Widget build(BuildContext context) {
@@ -22,14 +23,14 @@ class EmptySelfieBox extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16.0),
-        color: colors.grey4,
+        color: colors.gray4,
       ),
       child: SSelfieIcon(
-        color: colors.grey5,
+        color: colors.gray2,
       ),
       // SvgPicture.asset(
       //   personaAsset,
-      //   color: colors.grey5,
+      //   color: colors.gray2,
       // ),
     );
   }

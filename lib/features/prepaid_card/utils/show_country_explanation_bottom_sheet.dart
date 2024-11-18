@@ -1,15 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 Future<void> showCountryExplanationBottomSheet(BuildContext context) async {
-  sShowBasicModalBottomSheet(
+  await showBasicBottomSheet(
     context: context,
-    horizontalPinnedPadding: 24,
-    scrollable: true,
-    pinned: SBottomSheetHeader(
-      name: intl.prepaid_card_country,
+    header: BasicBottomSheetHeaderWidget(
+      title: intl.prepaid_card_country,
     ),
     children: [
       SPaddingH24(

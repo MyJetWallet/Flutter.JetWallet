@@ -7,7 +7,7 @@ import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../features/kyc/upload_documents/store/upload_kyc_documents_store.dart';
 
@@ -45,7 +45,7 @@ class _VerifyingScreenBody extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
     final store = UploadKycDocumentsStore.of(context);
     final deviceSize = sDeviceSize;
 
@@ -53,7 +53,7 @@ class _VerifyingScreenBody extends StatelessObserverWidget {
 
     return PopScope(
       canPop: false,
-      child: SPageFrameWithPadding(
+      child: SPageFrame(
         loaderText: intl.register_pleaseWait,
         child: Column(
           children: [
@@ -72,7 +72,7 @@ class _VerifyingScreenBody extends StatelessObserverWidget {
                 intl.cardVerification_verifyingNow,
                 maxLines: 2,
                 textAlign: TextAlign.center,
-                style: sTextH2Style,
+                style: STStyles.header3,
               ),
             ),
             Baseline(
@@ -82,16 +82,15 @@ class _VerifyingScreenBody extends StatelessObserverWidget {
                 intl.cardVerification_verificationProcess,
                 maxLines: 3,
                 textAlign: TextAlign.center,
-                style: sBodyText1Style.copyWith(
-                  color: colors.grey1,
+                style: STStyles.body1Medium.copyWith(
+                  color: colors.gray10,
                 ),
               ),
             ),
             const SpaceH90(),
-            SSecondaryButton1(
-              active: true,
-              name: intl.cardVerification_notifyAndSkip,
-              onTap: () {
+            SButton.outlined(
+              text: intl.cardVerification_notifyAndSkip,
+              callback: () {
                 store.skipWaiting();
                 sRouter.popUntilRoot();
               },

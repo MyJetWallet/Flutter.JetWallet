@@ -14,9 +14,9 @@ import 'package:jetwallet/features/disclaimer/ui/widgets/disclaimer_checkbox.dar
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:jetwallet/utils/logging.dart';
+import 'package:jetwallet/widgets/simple_floating_button_frame.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/disclaimer/disclaimers_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/disclaimer/disclaimers_response_model.dart';
@@ -177,7 +177,7 @@ abstract class _DisclaimerStoreBase with Store {
     if (disclaimerShowed) return;
 
     final context = sRouter.navigatorKey.currentContext!;
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     disclaimerShowed = true;
 
@@ -230,7 +230,7 @@ abstract class _DisclaimerStoreBase with Store {
                                       title,
                                       maxLines: (description.isNotEmpty) ? 5 : 12,
                                       textAlign: TextAlign.center,
-                                      style: sTextH5Style.copyWith(
+                                      style: STStyles.header6.copyWith(
                                         overflow: TextOverflow.visible,
                                       ),
                                     ),
@@ -241,8 +241,8 @@ abstract class _DisclaimerStoreBase with Store {
                                       description,
                                       maxLines: 6,
                                       textAlign: TextAlign.center,
-                                      style: sBodyText1Style.copyWith(
-                                        color: colors.grey1,
+                                      style: STStyles.body1Medium.copyWith(
+                                        color: colors.gray10,
                                       ),
                                     ),
                                   const SpaceH35(),
@@ -278,7 +278,7 @@ abstract class _DisclaimerStoreBase with Store {
                               ),
                             ),
                           ),
-                          SFloatingButtonFrame2(
+                          SFloatingButtonFrame(
                             button: SButton.black(
                               text: intl.disclaimer_continue,
                               callback: activeButton
@@ -309,7 +309,7 @@ abstract class _DisclaimerStoreBase with Store {
   Flexible parsedTextWidget(
     String text,
     BuildContext context,
-    SimpleColors colors,
+    SColorsLight colors,
   ) {
     final widgets = <TextSpan>[];
 
@@ -325,7 +325,7 @@ abstract class _DisclaimerStoreBase with Store {
                   key,
                 );
               },
-            style: sCaptionTextStyle.copyWith(
+            style: STStyles.captionMedium.copyWith(
               color: colors.blue,
             ),
           ),
@@ -334,7 +334,7 @@ abstract class _DisclaimerStoreBase with Store {
         widgets.add(
           TextSpan(
             text: key,
-            style: sCaptionTextStyle.copyWith(
+            style: STStyles.captionMedium.copyWith(
               color: Colors.black,
             ),
           ),

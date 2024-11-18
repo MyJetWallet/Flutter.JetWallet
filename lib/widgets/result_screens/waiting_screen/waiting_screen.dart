@@ -6,7 +6,6 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/widgets/result_screens/widgets/result_screen_title.dart';
 import 'package:lottie/lottie.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../utils/constants.dart';
