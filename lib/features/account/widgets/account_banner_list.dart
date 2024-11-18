@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/features/account/widgets/create_banners_list.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -32,7 +31,7 @@ class _AccountBannerListState extends State<AccountBannerList> {
   @override
   Widget build(BuildContext context) {
     final controller = PageController(viewportFraction: 0.9);
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return FutureBuilder(
       future: downloadData(colors, context),
@@ -92,7 +91,7 @@ class _AccountBannerListState extends State<AccountBannerList> {
   }
 
   Future<List<Widget>> downloadData(
-    SimpleColors colors,
+    SColorsLight colors,
     BuildContext context,
   ) async {
     final storage = sLocalStorageService;

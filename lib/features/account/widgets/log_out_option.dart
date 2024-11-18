@@ -21,13 +21,13 @@ class LogOutOption extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return Stack(
       children: [
         InkWell(
           onTap: onTap,
-          highlightColor: colors.grey5,
+          highlightColor: colors.gray2,
           child: Container(
             padding: const EdgeInsets.symmetric(
               horizontal: 24,

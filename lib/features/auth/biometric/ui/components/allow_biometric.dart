@@ -9,7 +9,6 @@ import 'package:jetwallet/features/auth/biometric/store/biometric_store.dart';
 import 'package:jetwallet/features/kyc/allow_camera/store/allow_camera_store.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'AllowBiometricRoute')
@@ -60,7 +59,7 @@ class _AllowCameraScreenBodyState extends State<_AllowBiometricScreenBody> with 
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
     final deviceInfo = sDeviceInfo;
     final notifier = BiometricStore.of(context);
 
@@ -144,7 +143,7 @@ class _AllowCameraScreenBodyState extends State<_AllowBiometricScreenBody> with 
                             bottomText,
                             maxLines: 3,
                             style: STStyles.body1Medium.copyWith(
-                              color: colors.grey1,
+                              color: colors.gray10,
                             ),
                           ),
                         ),

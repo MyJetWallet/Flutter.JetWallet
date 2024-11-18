@@ -4,7 +4,6 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/auth/register/store/referral_code_store.dart';
 import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import 'invalid_referral_code.dart';
@@ -32,10 +31,10 @@ class _ReferralCodeLinkBody extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext ctx) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return ColoredBox(
-      color: colors.grey5,
+      color: colors.gray2,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -59,7 +58,7 @@ class _ReferralCodeLinkBody extends StatelessObserverWidget {
                 },
                 child: Assets.svg.medium.copyAlt.simpleSvg(
                   width: 24,
-                  color: sKit.colors.grey3,
+                  color: colors.gray6,
                 ),
               ),
             ),
@@ -70,7 +69,7 @@ class _ReferralCodeLinkBody extends StatelessObserverWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Material(
-                  color: colors.grey5,
+                  color: colors.gray2,
                   child: SPaddingH24(
                     child: getIt.get<ReferallCodeStore>().bottomSheetReferralCodeValidation.maybeWhen(
                       loading: () {
@@ -107,14 +106,14 @@ class _ReferralCodeLinkBody extends StatelessObserverWidget {
                   ),
                 ),
                 Container(
-                  color: colors.grey5,
+                  color: colors.gray2,
                   padding: const EdgeInsets.symmetric(
                     horizontal: 24.0,
                     vertical: 11.0,
                   ),
                   child: Text(
                     intl.showReferralCode_pasteReferralCode,
-                    style: STStyles.captionMedium.copyWith(color: colors.grey2),
+                    style: STStyles.captionMedium.copyWith(color: colors.gray8),
                     maxLines: 3,
                   ),
                 ),

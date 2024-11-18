@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import 'account_status_banner.dart';
 
@@ -12,7 +13,7 @@ List<Widget> createBannersList({
   required bool kycBlocked,
   required bool phoneVerified,
   required bool verificationInProgress,
-  required SimpleColors colors,
+  required SColorsLight colors,
 }) {
   final bannersList = <Widget>[];
 
@@ -39,7 +40,7 @@ List<Widget> createBannersList({
           onKycBannerTap?.call();
         },
         mainColor: colors.yellowLight,
-        textColor: colors.orange,
+        textColor: colors.yellow,
       ),
     );
   }

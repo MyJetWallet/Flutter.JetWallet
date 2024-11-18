@@ -17,7 +17,6 @@ import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'SingInRouter')
@@ -50,7 +49,7 @@ class _SingInBody extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     final credentials = getIt.get<CredentialsService>();
     final signInStore = SingleSingInStore.of(context);
@@ -89,7 +88,7 @@ class _SingInBody extends StatelessObserverWidget {
       },
       child: SPageFrame(
         loaderText: intl.register_pleaseWait,
-        color: colors.grey5,
+        color: colors.gray2,
         loading: signInStore.loader,
         header: SimpleLargeAppbar(
           title: intl.register_enterYourEmail,
@@ -166,7 +165,7 @@ class _SingInBody extends StatelessObserverWidget {
                     ),
                     const Spacer(),
                     ColoredBox(
-                      color: colors.grey5,
+                      color: colors.gray2,
                       child: SPaddingH24(
                         child: SPolicyCheckbox(
                           firstText: '${intl.register_herebyConfirm} ',

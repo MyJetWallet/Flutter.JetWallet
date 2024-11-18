@@ -102,7 +102,7 @@ class __EmailVerificationBodyState extends State<_EmailVerificationBody> with Wi
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
     final timer = TimerStore.of(context);
 
     final verification = getIt.get<EmailVerificationStore>();
@@ -158,7 +158,7 @@ class __EmailVerificationBodyState extends State<_EmailVerificationBody> with Wi
                 child: Text(
                   intl.emailVerification_enterCode,
                   style: STStyles.body1Medium.copyWith(
-                    color: colors.grey1,
+                    color: colors.gray10,
                   ),
                 ),
               ),

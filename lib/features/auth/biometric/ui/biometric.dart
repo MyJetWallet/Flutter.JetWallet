@@ -15,7 +15,6 @@ import 'package:jetwallet/utils/biometric/biometric_tools.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../../core/services/apps_flyer_service.dart';
@@ -49,7 +48,7 @@ class _BiometricBody extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
     final biometric = BiometricStore.of(context);
     final size = MediaQuery.of(context).size;
     final deviceInfo = sDeviceInfo;
@@ -104,7 +103,7 @@ class _BiometricBody extends StatelessObserverWidget {
                     intl.bio_screen_text,
                     maxLines: 2,
                     style: STStyles.body1Medium.copyWith(
-                      color: colors.grey1,
+                      color: colors.gray10,
                     ),
                   ),
                   const SpaceH40(),

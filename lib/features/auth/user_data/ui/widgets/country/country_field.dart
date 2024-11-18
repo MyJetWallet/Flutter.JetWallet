@@ -5,7 +5,6 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/auth/user_data/ui/widgets/country/store/kyc_profile_countries_store.dart';
 import 'package:jetwallet/widgets/flag_item.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import 'show_user_data_country_picker.dart';
@@ -16,7 +15,7 @@ class CountryProfileField extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final countryInfo = getIt.get<KycProfileCountriesStore>();
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return Container(
       color: colors.white,

@@ -82,7 +82,7 @@ class _AddBankCardScreenBody extends StatelessObserverWidget {
 
     return SPageFrame(
       loaderText: intl.loader_please_wait,
-      color: sKit.colors.grey5,
+      color: SColorsLight().gray2,
       loading: store.loader,
       header: GlobalBasicAppBar(
         title: intl.addCircleCard_bigHeaderTitle,
@@ -102,7 +102,7 @@ class _AddBankCardScreenBody extends StatelessObserverWidget {
             ),
             const Spacer(),
             Container(
-              color: sKit.colors.grey5,
+              color: SColorsLight().gray2,
               height: 144,
               child: Column(
                 children: [

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class CountryProfileName extends StatelessWidget {
@@ -14,7 +13,7 @@ class CountryProfileName extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return Flexible(
       child: Row(
@@ -24,7 +23,7 @@ class CountryProfileName extends StatelessWidget {
             child: Text(
               countryName,
               style: STStyles.subtitle1.copyWith(
-                color: isBlocked ? colors.grey3 : colors.black,
+                color: isBlocked ? colors.gray6 : colors.black,
               ),
             ),
           ),

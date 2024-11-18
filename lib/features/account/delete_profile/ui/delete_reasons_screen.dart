@@ -13,7 +13,7 @@ class DeleteReasonsScreen extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     final store = getIt.get<DeleteProfileStore>();
 
@@ -52,7 +52,7 @@ class DeleteReasonsScreen extends StatelessObserverWidget {
                   intl.deleteProfileReasons_subText,
                   maxLines: 3,
                   style: STStyles.body1Medium.copyWith(
-                    color: colors.grey1,
+                    color: colors.gray10,
                   ),
                 ),
               ),
@@ -66,7 +66,7 @@ class DeleteReasonsScreen extends StatelessObserverWidget {
                 separatorBuilder: (context, index) => const SDivider(),
                 itemBuilder: (context, index) {
                   return InkWell(
-                    highlightColor: colors.grey5,
+                    highlightColor: colors.gray2,
                     onTap: () {
                       store.selectDeleteReason(index);
                     },
@@ -89,7 +89,7 @@ class DeleteReasonsScreen extends StatelessObserverWidget {
                             width: 10.0,
                           ),
                           SCompleteIcon(
-                            color: store.isAlreadySelected(index) ? colors.blue : colors.grey1,
+                            color: store.isAlreadySelected(index) ? colors.blue : colors.gray10,
                           ),
                         ],
                       ),

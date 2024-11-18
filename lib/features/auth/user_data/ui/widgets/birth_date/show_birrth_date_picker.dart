@@ -6,7 +6,6 @@ import 'package:jetwallet/features/auth/user_data/store/user_data_store.dart';
 import 'package:jetwallet/features/auth/user_data/ui/widgets/birth_date/store/selected_date_store.dart';
 import 'package:jetwallet/utils/helpers/date_helper.dart';
 import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 void showBirthDatePicker(
@@ -40,7 +39,7 @@ class _SDatePicker extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
     var date = formatDateForUi(getMinBirthDate());
 
     return Column(
@@ -54,14 +53,14 @@ class _SDatePicker extends StatelessObserverWidget {
                   const SpaceH4(),
                   Container(
                     height: 1,
-                    color: colors.grey4,
+                    color: colors.gray4,
                   ),
                   const SizedBox(
                     height: 60,
                   ),
                   Container(
                     height: 1,
-                    color: colors.grey4,
+                    color: colors.gray4,
                   ),
                 ],
               ),

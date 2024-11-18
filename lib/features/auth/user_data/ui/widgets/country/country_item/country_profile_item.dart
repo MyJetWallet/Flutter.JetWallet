@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/widgets/flag_item.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import 'components/country_profile_name.dart';
 import 'components/country_profile_warning.dart';
@@ -25,10 +25,10 @@ class CountryProfileItem extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
+    final colors = SColorsLight();
 
     return InkWell(
-      highlightColor: colors.grey5,
+      highlightColor: colors.gray2,
       splashColor: Colors.transparent,
       onTap: onTap,
       child: Padding(
