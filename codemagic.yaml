@@ -85,6 +85,17 @@ definitions:
     - name: Add GoogleService-Info.plist
       script: echo $GOOGLE_SERVICE_IOS | base64 --decode > ./ios/Runner/GoogleService-Info.plist
 
+    - name: Decode keystore
+      script: echo $FCI_KEYSTORE | base64 --decode > $FCI_KEYSTORE_PATH
+
+    - name: Get SHA256 fingerprint
+      script: |
+        keytool -list -v \
+          -keystore $FCI_KEYSTORE_PATH \
+          -alias $FCI_KEY_ALIAS \
+          -storepass $FCI_KEYSTORE_PASSWORD \
+          -keypass $FCI_KEY_PASSWORD
+
     - name: Clean
       script: flutter clean
 
@@ -109,17 +120,6 @@ definitions:
         --build-name=$(git ls-remote --tags origin | cut -d'/' -f3 | sort -V | tail -n1) --build-number=$PROJECT_BUILD_NUMBER \
         --dart-define=MY_APP_ENV=prod \
         --export-options-plist=/Users/builder/export_options.plist \
-
-    - name: Decode keystore
-      script: echo $FCI_KEYSTORE | base64 --decode > $FCI_KEYSTORE_PATH
-
-    - name: Get SHA256 fingerprint
-      script: |
-        keytool -list -v \
-          -keystore $FCI_KEYSTORE_PATH \
-          -alias $FCI_KEY_ALIAS \
-          -storepass $FCI_KEYSTORE_PASSWORD \
-          -keypass $FCI_KEY_PASSWORD
 
     - name: Build Android (APK)
       script: |
