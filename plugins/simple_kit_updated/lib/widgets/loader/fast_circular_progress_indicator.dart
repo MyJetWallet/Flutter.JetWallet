@@ -13,7 +13,7 @@ class FastCircularProgressIndicator extends StatefulWidget {
   final double strokeWidth;
 
   @override
-  _FastCircularProgressIndicatorState createState() => _FastCircularProgressIndicatorState();
+  State<FastCircularProgressIndicator> createState() => _FastCircularProgressIndicatorState();
 }
 
 class _FastCircularProgressIndicatorState extends State<FastCircularProgressIndicator>

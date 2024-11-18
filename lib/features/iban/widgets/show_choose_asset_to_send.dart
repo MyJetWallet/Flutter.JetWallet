@@ -244,47 +244,6 @@ class _ChooseAssetToSend extends StatelessObserverWidget {
         ),
       );
 
-  Widget _buildEurCurrency(
-    BuildContext context,
-    CurrencyModel eurCurrency,
-    SimpleBankingAccount simpleAccount,
-  ) =>
-      SimpleTableAccount(
-        assetIcon: NetworkIconWidget(
-          eurCurrency.iconUrl,
-        ),
-        label: eurCurrency.description,
-        rightValue: getIt<AppStore>().isBalanceHide
-            ? '**** ${eurCurrency.symbol}'
-            : simpleAccount.balance!.toFormatSum(
-                accuracy: eurCurrency.accuracy,
-                symbol: eurCurrency.symbol,
-              ),
-        supplement: eurCurrency.symbol,
-        onTableAssetTap: () {
-          Navigator.pop(context);
-
-          if (isGlobalSend) {
-            _globalSendFlow(eurCurrency);
-          } else if (isUahBankTransfer) {
-            final methods = sSignalRModules.globalSendMethods?.methods
-                    ?.where((method) => method.type == 10 && (method.countryCodes?.contains('UA') ?? true))
-                    .toList() ??
-                [];
-
-            if (methods.isNotEmpty) {
-              sRouter.push(
-                SendCardDetailRouter(
-                  method: methods.first,
-                  countryCode: 'UA',
-                  currency: eurCurrency,
-                ),
-              );
-            }
-          }
-        },
-      );
-
   Widget _buildSimpleBank(BuildContext context, CurrencyModel eurCurrency, SimpleBankingAccount simpleAccount) =>
       SimpleTableAccount(
         assetIcon: const BlueBankIcon(
