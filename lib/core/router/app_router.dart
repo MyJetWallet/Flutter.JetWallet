@@ -30,6 +30,10 @@ import 'package:jetwallet/features/change_email/screen/change_email_verification
 import 'package:jetwallet/features/cj_banking_accounts/screens/cj_account_label_screen.dart';
 import 'package:jetwallet/features/cj_banking_accounts/screens/cj_account_screen.dart';
 import 'package:jetwallet/features/convert_flow/screens/convetr_confrimation_screen.dart';
+import 'package:jetwallet/features/crypto_card/screens/crypto_card_default_asset_screen.dart';
+import 'package:jetwallet/features/crypto_card/screens/crypto_card_main_screen.dart';
+import 'package:jetwallet/features/crypto_card/screens/crypto_card_root_screen.dart';
+import 'package:jetwallet/features/crypto_card/screens/get_crypto_card_screen.dart';
 import 'package:jetwallet/features/crypto_deposit/crypto_deposit_screen.dart';
 import 'package:jetwallet/features/crypto_jar/ui/all_jars_screen.dart';
 import 'package:jetwallet/features/crypto_jar/ui/create_new_jar_screen.dart';
@@ -249,6 +253,10 @@ class AppRouter extends RootStackRouter {
         AutoRoute(
           path: 'earn',
           page: EarnRouter.page,
+        ),
+        AutoRoute(
+          path: 'crypto_card_root',
+          page: CryptoCardRootRoute.page,
         ),
       ],
     ),
@@ -730,6 +738,18 @@ class AppRouter extends RootStackRouter {
     AutoRoute(
       path: '/web_view',
       page: WebViewRouter.page,
+    ),
+    AutoRoute(
+      path: '/crypto_card_main',
+      page: CryptoCardMainRoute.page,
+    ),
+    AutoRoute(
+      path: '/пet_сrypto_сard',
+      page: GetCryptoCardRoute.page,
+    ),
+     AutoRoute(
+      path: '/crypto_card_default_asset',
+      page: CryptoCardDefaultAssetRoute.page,
     ),
   ];
 }

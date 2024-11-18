@@ -1859,5 +1859,13 @@
     "deleteProfileConditions_delete_anyway": "Delete anyway",
     "crypto_jar_banner_description": "Learn more",
     "crypto_jar_banner_title": "Simple Crypto Jars makes receiving cryptocurrency a breeze.",
-    "payment_method_current_limits": "Current limit: {value}"
+    "payment_method_current_limits": "Current limit: {value}",
+    "crypto_card_order_title": "Your virtual Simple Card is almost here!",
+    "crypto_card_order_description": "Pay contactless in stores with your phone or use it online like any other Mastercard. Fill in the final details and start using your card instantly.",
+    "crypto_card_get_your_virtual_card_now": "Get your virtual card now",
+    "crypto_card_acknowledgment": "Acknowledgment",
+    "crypto_card_description": "Before proceeding, please confirm that you have read and agreed to the Terms and Conditions and Privacy Policy.",
+    "crypto_card_account_title": "Account",
+    "crypto_card_account_description": "In case of a shortage of euros, the crypto will be automatically charged.",
+    "crypto_card_account_crypto": "Crypto"
 }

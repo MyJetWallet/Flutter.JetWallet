@@ -5,6 +5,7 @@ enum BottomItemType {
   market,
   invest,
   card,
+  cryptoCard,
   rewards,
   earn,
 }

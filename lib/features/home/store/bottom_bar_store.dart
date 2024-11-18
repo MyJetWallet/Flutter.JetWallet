@@ -61,6 +61,8 @@ abstract class _BottomBarStoreBase with Store {
         )) ...[
           BottomItemType.card,
         ],
+        // TODO (Yaroslav): SPU-4804 add product method check
+        BottomItemType.cryptoCard,
         if ((sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
             .where(
               (element) => element.id == AssetPaymentProductsEnum.rewardsOnboardingProgram,

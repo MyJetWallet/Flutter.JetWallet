@@ -163,3 +163,6 @@ const cryptopanicLogo = 'assets/images/cryptopanic_logo.svg';
 
 // Market
 const addAssetsBannerBg = 'assets/images/add_assets_banner_bg.png';
+
+//Crypto card
+const cryptoCardPreview = 'assets/images/crypto_card_preview.png';
