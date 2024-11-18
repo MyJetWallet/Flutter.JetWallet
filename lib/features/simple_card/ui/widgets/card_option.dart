@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit/modules/colors/simple_colors_light.dart' as oldColors;
-
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class CardOption extends StatelessWidget {
@@ -30,13 +28,13 @@ class CardOption extends StatelessWidget {
     final mainColor = isSelected
         ? SColorsLight().blue
         : isDisabled
-            ? oldColors.SColorsLight().gray8
+            ? SColorsLight().gray8
             : SColorsLight().black;
 
-    final descriptionColor = isDisabled ? oldColors.SColorsLight().gray8 : oldColors.SColorsLight().gray6;
+    final descriptionColor = isDisabled ? SColorsLight().gray8 :SColorsLight().gray6;
 
     return InkWell(
-      highlightColor: oldColors.SColorsLight().gray2,
+      highlightColor: SColorsLight().gray2,
       splashColor: Colors.transparent,
       onTap: onTap,
       child: SPaddingH24(

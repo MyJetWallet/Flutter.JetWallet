@@ -3,7 +3,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/invest/ui/invests/bit_of_tab.dart';
 import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
-import 'package:simple_kit/modules/colors/simple_colors_light.dart' as oldColors;
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
@@ -150,9 +149,9 @@ class _PeriodSheetState extends State<PeriodSheet> {
                       children: [
                         Expanded(
                           child: SIButton(
-                            activeColor: oldColors.SColorsLight().gray2,
+                            activeColor: SColorsLight().gray2,
                             activeNameColor: SColorsLight().black,
-                            inactiveColor: oldColors.SColorsLight().gray2,
+                            inactiveColor: SColorsLight().gray2,
                             inactiveNameColor: SColorsLight().black,
                             active: true,
                             name: intl.invest_cancel,
@@ -166,8 +165,8 @@ class _PeriodSheetState extends State<PeriodSheet> {
                           child: SIButton(
                             activeColor: SColorsLight().blue,
                             activeNameColor: SColorsLight().white,
-                            inactiveColor: oldColors.SColorsLight().gray4,
-                            inactiveNameColor: oldColors.SColorsLight().gray8,
+                            inactiveColor: SColorsLight().gray4,
+                            inactiveNameColor: SColorsLight().gray8,
                             active: true,
                             name: intl.invest_confirm,
                             onTap: () {

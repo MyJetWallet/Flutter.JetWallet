@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:simple_kit/modules/colors/simple_colors_light.dart' as oldkit;
 import 'package:simple_kit/modules/icons/20x20/public/checkmark/simple_checkmark_icon.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
@@ -71,9 +70,9 @@ class SEarnPositionBadge extends StatelessWidget {
       case EarnPositionStatus.closing:
         return colors.blueExtralight;
       case EarnPositionStatus.closed:
-        return oldkit.SColorsLight().gray2;
+        return SColorsLight().gray2;
       default:
-        return oldkit.SColorsLight().gray2;
+        return SColorsLight().gray2;
     }
   }
 
@@ -84,9 +83,9 @@ class SEarnPositionBadge extends StatelessWidget {
       case EarnPositionStatus.closing:
         return colors.blue;
       case EarnPositionStatus.closed:
-        return oldkit.SColorsLight().gray8;
+        return SColorsLight().gray8;
       default:
-        return oldkit.SColorsLight().gray10;
+        return SColorsLight().gray10;
     }
   }
 }

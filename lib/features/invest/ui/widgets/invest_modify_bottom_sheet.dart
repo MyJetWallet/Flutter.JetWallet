@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
-import 'package:simple_kit/modules/colors/simple_colors_light.dart' as oldColors;
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
@@ -52,7 +51,7 @@ void showInvestModifyBottomSheet({
     investNewStore.onSLAmountInput('${position.stopLossAmount}');
   }
 
-  final colors = oldColors.SColorsLight();
+  final colors = SColorsLight();
 
   showBasicBottomSheet(
     context: context,
@@ -70,10 +69,10 @@ void showInvestModifyBottomSheet({
                     children: [
                       Expanded(
                         child: SIButton(
-                          activeColor: oldColors.SColorsLight().gray2,
+                          activeColor: SColorsLight().gray2,
                           activeNameColor: SColorsLight().black,
-                          inactiveColor: oldColors.SColorsLight().gray8,
-                          inactiveNameColor: oldColors.SColorsLight().gray4,
+                          inactiveColor: SColorsLight().gray8,
+                          inactiveNameColor: SColorsLight().gray4,
                           active: true,
                           name: intl.invest_cancel,
                           onTap: () {
@@ -86,8 +85,8 @@ void showInvestModifyBottomSheet({
                         child: SIButton(
                           activeColor: SColorsLight().blue,
                           activeNameColor: SColorsLight().white,
-                          inactiveColor: oldColors.SColorsLight().gray4,
-                          inactiveNameColor: oldColors.SColorsLight().gray8,
+                          inactiveColor: SColorsLight().gray4,
+                          inactiveNameColor: SColorsLight().gray8,
                           active: true,
                           name: intl.invest_save,
                           onTap: () async {
@@ -167,7 +166,7 @@ class InfoBlock extends StatelessObserverWidget {
     final investNewStore = getIt.get<InvestNewStore>();
     final investStore = getIt.get<InvestDashboardStore>();
 
-    final colors = oldColors.SColorsLight();
+    final colors = SColorsLight();
     final currency = currencyFrom(currencies, 'USDT');
 
     return SPaddingH24(
