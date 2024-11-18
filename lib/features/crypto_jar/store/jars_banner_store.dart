@@ -40,7 +40,7 @@ abstract class _JarsBannerStoreBase with Store {
 
   void openLanding(BuildContext context) {
     if (landingUrl.isNotEmpty) {
-      launchURL(context, landingUrl);
+      launchURL(context, 'https://uat.simple-spot.biz/lp/jars/');
     }
   }
 }
