@@ -150,7 +150,7 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                       builder: (context) {
                         final text =
                             '''${intl.buy_confirm_with_unlimit_1_part} ${(store.paymentAmount ?? Decimal.zero).toFormatCount(symbol: store.payCurrency.symbol, accuracy: store.payCurrency.accuracy)} ${intl.buy_confirm_with_unlimit_2_part} ${splitIban(store.ibanBuyDestination.trim())} ${intl.buy_confirm_with_unlimit_3_part} ${store.ibanBuyBeneficiary}''';
-        
+
                         return Text(
                           text,
                           style: STStyles.captionMedium.copyWith(
