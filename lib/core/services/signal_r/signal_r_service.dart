@@ -202,6 +202,7 @@ class SignalRService {
       banersListMessage: sSignalRModules.setBanersListData,
       smplWalletModel: sSignalRModules.setSmplWalletModelData,
       marketSectorsMessage: sSignalRModules.setMarketSectorsModelData,
+      cryptoCardMessage: sSignalRModules.setCryptoCardModelData,
 
       ///
       createNewSessionLog: () {

@@ -494,6 +494,12 @@ class SignalRModuleNew {
       marketSectors,
       method: handler.marketSectorsMessageHandler,
     );
+
+    // Crypto card
+    _hubConnection?.off(
+      cryptoCard,
+      method: handler.cryptoCardMessageHandler,
+    );
   }
 
   Future<void> setupMessageHandler() async {
@@ -598,5 +604,8 @@ class SignalRModuleNew {
     _hubConnection?.on(smplWalletProfile, handler.smplWalletProfileMessageHandler);
 
     _hubConnection?.on(marketSectors, handler.marketSectorsMessageHandler);
+
+    // Crypto card
+    _hubConnection?.on(cryptoCard, handler.cryptoCardMessageHandler);
   }
 }
