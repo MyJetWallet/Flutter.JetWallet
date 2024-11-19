@@ -37,6 +37,8 @@ class AppsFlyerService {
       registerOnDeepLinkingCallback: true,
     );
 
+    appsflyerSdk.addPushNotificationDeepLinkPath(['af_push']);
+
     appsflyerSdk.onInstallConversionData((value) async {
       installConversionDataTemp = value.toString();
       final prevInstallConversionData = await storage.getValue(installConversionDataKey);
