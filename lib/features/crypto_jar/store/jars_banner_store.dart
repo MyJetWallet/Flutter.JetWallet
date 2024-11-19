@@ -27,8 +27,7 @@ abstract class _JarsBannerStoreBase with Store {
 
   @action
   Future<void> init() async {
-    // landingUrl = jarsInfoLanding;
-    landingUrl = 'https://uat.simple-spot.biz/lp/jars/';
+    landingUrl = jarsInfoLanding;
 
     isBannerClosed =
         bool.tryParse(await getIt.get<LocalStorageService>().getValue(isJarsLandingClosed) ?? 'false') ?? false;
