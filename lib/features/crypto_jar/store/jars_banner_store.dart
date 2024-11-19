@@ -5,6 +5,7 @@ import 'package:jetwallet/core/services/remote_config/remote_config_values.dart'
 import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 part 'jars_banner_store.g.dart';
 
@@ -40,7 +41,7 @@ abstract class _JarsBannerStoreBase with Store {
 
   void openLanding(BuildContext context) {
     if (landingUrl.isNotEmpty) {
-      launchURL(context, landingUrl);
+      launchURL(context, landingUrl, launchMode: LaunchMode.platformDefault);
     }
   }
 }
