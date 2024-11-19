@@ -188,7 +188,7 @@ class _ChooseAssetToSend extends StatelessObserverWidget {
                   Navigator.pop(context);
 
                   if (isGlobalSend) {
-                    _globalSendFlow(currency);
+                    _globalSendFlow(context, currency);
                   } else if (isUahBankTransfer) {
                     final methods = sSignalRModules.globalSendMethods?.methods
                             ?.where((method) => method.type == 10 && (method.countryCodes?.contains('UA') ?? true))
@@ -223,9 +223,9 @@ class _ChooseAssetToSend extends StatelessObserverWidget {
     );
   }
 
-  void _globalSendFlow(CurrencyModel currency) {
+  void _globalSendFlow(BuildContext context, CurrencyModel currency) {
     showSendGlobally(
-      getIt<AppRouter>().navigatorKey.currentContext!,
+      context,
       currency,
     );
   }
@@ -265,7 +265,7 @@ class _ChooseAssetToSend extends StatelessObserverWidget {
           Navigator.pop(context);
 
           if (isGlobalSend) {
-            _globalSendFlow(eurCurrency);
+            _globalSendFlow(context, eurCurrency);
           } else if (isUahBankTransfer) {
             final methods = sSignalRModules.globalSendMethods?.methods
                     ?.where((method) => method.type == 10 && (method.countryCodes?.contains('UA') ?? true))
@@ -307,7 +307,7 @@ class _ChooseAssetToSend extends StatelessObserverWidget {
           Navigator.pop(context);
 
           if (isGlobalSend) {
-            _globalSendFlow(eurCurrency);
+            _globalSendFlow(context, eurCurrency);
           } else if (isUahBankTransfer) {
             final methods = sSignalRModules.globalSendMethods?.methods
                     ?.where((method) => method.type == 10 && (method.countryCodes?.contains('UA') ?? true))
@@ -354,7 +354,7 @@ class _ChooseAssetToSend extends StatelessObserverWidget {
               Navigator.pop(context);
 
               if (isGlobalSend) {
-                _globalSendFlow(eurCurrency);
+                _globalSendFlow(context, eurCurrency);
               } else if (isUahBankTransfer) {
                 final methods = sSignalRModules.globalSendMethods?.methods
                         ?.where((method) => method.type == 10 && (method.countryCodes?.contains('UA') ?? true))
