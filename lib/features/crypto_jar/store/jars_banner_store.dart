@@ -41,7 +41,7 @@ abstract class _JarsBannerStoreBase with Store {
 
   void openLanding(BuildContext context) {
     if (landingUrl.isNotEmpty) {
-      launchURL(context, landingUrl, launchMode: LaunchMode.platformDefault);
+      launchURL(context, landingUrl, launchMode: LaunchMode.externalApplication);
     }
   }
 }

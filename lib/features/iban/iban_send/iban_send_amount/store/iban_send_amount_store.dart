@@ -231,7 +231,12 @@ abstract class _IbanSendAmountStoreBase with Store {
     contact = value;
     isCJAcc = isCJ;
 
-    account = bankingAccount;
+    if (isCJAcc ?? false) {
+      account = sSignalRModules.bankingProfileData!.simple?.account;
+    } else {
+      account = sSignalRModules.bankingProfileData!.banking?.accounts
+          ?.firstWhere((acc) => acc.status == AccountStatus.active);
+    }
     currency = currencyModel;
 
     requestId = const Uuid().v1();
