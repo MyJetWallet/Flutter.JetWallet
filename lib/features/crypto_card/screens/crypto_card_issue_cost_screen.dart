@@ -1,5 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
@@ -10,6 +12,7 @@ class CryptoCardIssueCostScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = SColorsLight();
+    const amoumt = '4 EUR';
 
     return SPageFrame(
       loaderText: '',
@@ -31,12 +34,12 @@ class CryptoCardIssueCostScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Card issue',
+                        intl.crypto_card_card_issue,
                         style: STStyles.header5,
                       ),
                       const SpaceH12(),
                       Text(
-                        'Awesome! You are one step closer to the release of Simple Crypto Card',
+                        intl.crypto_card_card_issue_awesome,
                         style: STStyles.subtitle2.copyWith(
                           color: colors.gray10,
                         ),
@@ -46,8 +49,8 @@ class CryptoCardIssueCostScreen extends StatelessWidget {
                   ),
                 ),
                 SCopyable(
-                  label: 'Card issue cost',
-                  value: '4 EUR',
+                  label: intl.crypto_card_card_issue_cost,
+                  value: amoumt,
                   onIconTap: () {},
                   icon: const SizedBox(),
                 ),
@@ -58,8 +61,10 @@ class CryptoCardIssueCostScreen extends StatelessWidget {
           const Spacer(),
           SPaddingH24(
             child: SButton.black(
-              text: 'Pay',
-              callback: () {},
+              text: intl.crypto_card_card_issue_pay,
+              callback: () {
+                sRouter.push(const CryptoCardNameRoute());
+              },
             ),
           ),
           SafeArea(
@@ -72,11 +77,12 @@ class CryptoCardIssueCostScreen extends StatelessWidget {
                 bottom: 16 + MediaQuery.of(context).padding.top <= 24 ? 24 : 16,
               ),
               child: Text(
-                'The issue of the card costs 4 EUR. Its maintenance is completely free, and the commission for calculations is 0%. The validity period of the Simple card is 5 years.',
+                intl.crypto_card_card_issue_footer(amoumt),
                 style: STStyles.captionMedium.copyWith(
                   color: colors.gray10,
                 ),
                 maxLines: 5,
+                textAlign: TextAlign.center,
               ),
             ),
           ),
