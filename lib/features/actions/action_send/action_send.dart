@@ -510,8 +510,12 @@ void showBankTransferTo(BuildContext context, [CurrencyModel? currency]) {
             if (simpleAccounts != null && simpleAccounts.status == AccountStatus.inCreation) {
               return;
             } else {
-              Navigator.pop(context);
-              context.pushRoute(const GetPersonalIbanRouter());
+              if (simpleAccounts == null) {
+                return;
+              } else {
+                Navigator.pop(context);
+                context.pushRoute(const GetPersonalIbanRouter());
+              }
             }
           } else if (bankingShowState == BankingClientStatus.kycInProgress) {
             if (activeAccounts.isNotEmpty) {
