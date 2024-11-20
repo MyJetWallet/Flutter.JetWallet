@@ -9,22 +9,31 @@ import 'package:jetwallet/utils/constants.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'CryptoCardNameRoute')
-class CryptoCardNameScreen extends StatelessWidget {
+class CryptoCardNameScreen extends StatefulWidget {
   const CryptoCardNameScreen({super.key});
 
   @override
+  State<CryptoCardNameScreen> createState() => _CryptoCardNameScreenState();
+}
+
+class _CryptoCardNameScreenState extends State<CryptoCardNameScreen> {
+  final TextEditingController controller = TextEditingController();
+
+  @override
   Widget build(BuildContext context) {
+    final colors = SColorsLight();
     final store = getIt.get<CreateCryptoCardStore>();
 
     return Observer(
       builder: (context) {
         return SPageFrame(
           loaderText: '',
+          color: colors.gray2,
           header: GlobalBasicAppBar(
             rightIcon: Text(
               intl.crypto_card_name_skip,
               style: STStyles.button.copyWith(
-                color: SColorsLight().blue,
+                color: colors.blue,
               ),
             ),
             onLeftIconTap: () {
@@ -36,30 +45,37 @@ class CryptoCardNameScreen extends StatelessWidget {
           ),
           child: Column(
             children: [
-              SizedBox(
-                height: 172,
-                child: Image.asset(
-                  cryptoCardPreviewSmall,
-                ),
-              ),
-              SPaddingH24(
+              ColoredBox(
+                color: colors.white,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      intl.crypto_card_name_your_card,
-                      style: STStyles.header5,
+                    SizedBox(
+                      height: 172,
+                      child: Image.asset(
+                        cryptoCardPreviewSmall,
+                      ),
+                    ),
+                    SPaddingH24(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            intl.crypto_card_name_your_card,
+                            style: STStyles.header5,
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SpaceH32(),
+                    SInput(
+                      label: intl.crypto_card_name_card_name,
+                      controller: controller,
+                      onChanged: (name) {
+                        store.setCryptoCardName(name);
+                      },
                     ),
                   ],
                 ),
-              ),
-              const SpaceH32(),
-              SInput(
-                label: intl.crypto_card_name_card_name,
-                hasCloseIcon: true,
-                onChanged: (name) {
-                  store.setCryptoCardName(name);
-                },
               ),
               const Spacer(),
               SafeArea(
