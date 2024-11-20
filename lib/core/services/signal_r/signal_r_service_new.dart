@@ -227,7 +227,12 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
             return element.symbol == marketReference.associateAsset;
           },
         );
-      } catch (_) {
+      } catch (e, stackTrace) {
+        getIt.get<SimpleLoggerService>().log(
+          level: Level.error,
+          place: '[SignalRService] setMarketItems',
+          message: 'Error: $e, $stackTrace',
+        );
         continue;
       }
 
@@ -1055,7 +1060,12 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
           currency.currentPrice.toDouble(),
         ),
       );
-    } catch (e) {
+    } catch (e, stackTrace) {
+      getIt.get<SimpleLoggerService>().log(
+        level: Level.error,
+        place: '[SignalRServiceNew] getReturnRates',
+        message: 'Error: $e, $stackTrace',
+      );
       return null;
     }
   }

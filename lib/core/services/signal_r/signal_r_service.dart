@@ -48,7 +48,12 @@ class SignalRService {
         );
         final service = getIt<SignalRModuleNew>(instanceName: signalRSingletinName);
         await service.openConnection();
-      } catch (e) {
+      } catch (e, stackTrace) {
+        getIt.get<SimpleLoggerService>().log(
+          level: Level.error,
+          place: '[SignalRService]',
+          message: 'Error: $e, $stackTrace',
+        );
         await forceReconnectSignalR();
       }
     } else {

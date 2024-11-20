@@ -22,17 +22,19 @@ class SimpleLoggerService {
     required String place,
     required String message,
   }) {
-    if (logBuffer.length == bufferSize) {
-      logBuffer.removeFirst();
-    }
+    if (level != Level.info) {
+      if (logBuffer.length == bufferSize) {
+        logBuffer.removeFirst();
+      }
 
-    logBuffer.add(
-      logging.LogRecord(
-        convertLog(level),
-        message,
-        place,
-      ),
-    );
+      logBuffer.add(
+        logging.LogRecord(
+          convertLog(level),
+          message,
+          place,
+        ),
+      );
+    }
 
     final time = DateTime.now();
 
