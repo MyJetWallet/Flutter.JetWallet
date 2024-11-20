@@ -1884,5 +1884,6 @@
     "crypto_card_name_skip": "Skip",
     "crypto_card_name_your_card": "Name your card",
     "crypto_card_name_card_name": "Card name",
-    "crypto_card_name_create_card": "Create card"
+    "crypto_card_name_create_card": "Create card",
+    "crypto_card_on_the_way": "Your virtual card is on the way! You'll be notified when the card becomes available."
 }

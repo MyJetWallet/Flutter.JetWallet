@@ -32,6 +32,9 @@ class CreateCryptoCardStore extends _CreateCryptoCardStoreBase with _$CreateCryp
 
 abstract class _CreateCryptoCardStoreBase with Store {
   @observable
+  bool cardIsCreating = false;
+
+  @observable
   PriceCryptoCardResponseModel? price;
 
   @observable
@@ -160,6 +163,7 @@ abstract class _CreateCryptoCardStoreBase with Store {
 
   @action
   Future<void> createCryptoCard() async {
+    cardIsCreating = true;
     sRouter.popUntilRoot();
   }
 }
