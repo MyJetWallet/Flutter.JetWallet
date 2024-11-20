@@ -1,5 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:jetwallet/features/crypto_card/store/main_crypto_card_store.dart';
+import 'package:provider/provider.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'CryptoCardMainRoute')
 class CryptoCardMainScreen extends StatelessWidget {
@@ -7,6 +10,30 @@ class CryptoCardMainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Provider(
+      create: (context) => MainCryptoCardStore(),
+      child: const _CryptoCardMainScreenBody(),
+    );
+  }
+}
+
+class _CryptoCardMainScreenBody extends StatelessWidget {
+  const _CryptoCardMainScreenBody();
+
+  @override
+  Widget build(BuildContext context) {
+    const cardLable = 'My card';
+    return const SPageFrame(
+      loaderText: '',
+      header: GlobalBasicAppBar(
+        title: 'Simple virtual card',
+        subtitle: cardLable,
+        hasLeftIcon: false,
+        hasRightIcon: false,
+      ),
+      child: Center(
+        child: Text('Main screen'),
+      ),
+    );
   }
 }
