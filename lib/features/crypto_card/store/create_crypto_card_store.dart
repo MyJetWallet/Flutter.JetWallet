@@ -5,6 +5,7 @@ import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/sumsub_service/sumsub_service.dart';
@@ -14,6 +15,7 @@ import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/kyc_verify_your_profile/utils/get_kuc_aid_plan.dart';
 import 'package:jetwallet/features/kyc/kyc_verify_your_profile/utils/start_kyc_aid_flow.dart';
+import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/price_crypto_card_response_model.dart';
@@ -32,19 +34,24 @@ abstract class _CreateCryptoCardStoreBase with Store {
   @observable
   PriceCryptoCardResponseModel? price;
 
+  @observable
+  String? cardLable;
+
+  @computed
+  CurrencyModel get defaultAsset => getIt<FormatService>().findCurrency(
+        assetSymbol: 'USDT',
+      );
+
+  @computed
+  bool get isLableValid => cardLable?.isNotEmpty ?? false;
+
   @action
   Future<void> startCreatingFlow() async {
     unawaited(_getPrice());
 
-    bool? acknowledgmentResult = false;
     await _checkKycState(
       onKycAllowed: () async {
-        final context = sRouter.navigatorKey.currentContext;
-        if (context == null) return;
-        acknowledgmentResult = await showCryptoCardAcknowledgmentBottomSheet(context);
-        if (acknowledgmentResult == true) {
-          await sRouter.push(const CryptoCardDefaultAssetRoute());
-        }
+        await _showAcknowledgmentBottomSheet();
       },
     );
   }
@@ -110,5 +117,49 @@ abstract class _CreateCryptoCardStoreBase with Store {
         id: 1,
       );
     }
+  }
+
+  Future<void> _showAcknowledgmentBottomSheet() async {
+    final context = sRouter.navigatorKey.currentContext;
+    if (context == null) return;
+    final acknowledgmentResult = await showCryptoCardAcknowledgmentBottomSheet(context);
+    if (acknowledgmentResult == true) {
+      await routCryptoCardDefaultAsseScreen();
+    }
+  }
+
+  @action
+  Future<void> routCryptoCardDefaultAsseScreen() async {
+    await sRouter.push(const CryptoCardDefaultAssetRoute());
+  }
+
+  @action
+  Future<void> routCardIssueCostSheetScreen() async {
+    await sRouter.push(const CryptoCardIssueCostRoute());
+
+    if (price == null) {
+      await _getPrice();
+    }
+  }
+
+  @action
+  Future<void> routCryptoCardNameScreen() async {
+    await sRouter.push(const CryptoCardNameRoute());
+  }
+
+  @action
+  void skipCryptoCardNameSteep() {
+    cardLable = null;
+    createCryptoCard();
+  }
+
+  @action
+  void setCryptoCardName(String name) {
+    cardLable = name;
+  }
+
+  @action
+  Future<void> createCryptoCard() async {
+    sRouter.popUntilRoot();
   }
 }
