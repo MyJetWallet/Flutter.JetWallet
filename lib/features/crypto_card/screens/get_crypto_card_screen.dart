@@ -1,7 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/features/crypto_card/utils/start_get_crypto_card_flow.dart';
+import 'package:jetwallet/features/crypto_card/store/create_crypto_card_store.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
@@ -62,7 +63,7 @@ class GetCryptoCardScreen extends StatelessWidget {
               margin: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
               child: SButton.black(
                 text: intl.crypto_card_get_your_virtual_card_now,
-                callback: startGetCryptoCardFlow,
+                callback: getIt.get<CreateCryptoCardStore>().startCreatingFlow,
               ),
             ),
           ),

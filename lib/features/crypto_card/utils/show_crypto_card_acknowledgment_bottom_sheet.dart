@@ -6,8 +6,9 @@ import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
-Future<void> showCryptoCardAcknowledgmentBottomSheet(BuildContext context) async {
-  await showBasicBottomSheet(
+/// Returns true if the user has agreed to the terms
+Future<bool?> showCryptoCardAcknowledgmentBottomSheet(BuildContext context) async {
+  final result = await showBasicBottomSheet(
     context: context,
     header: BasicBottomSheetHeaderWidget(
       title: intl.crypto_card_acknowledgment,
@@ -16,6 +17,8 @@ Future<void> showCryptoCardAcknowledgmentBottomSheet(BuildContext context) async
       const _AcknowledgmentBody(),
     ],
   );
+
+  return result is bool? ? result : false;
 }
 
 class _AcknowledgmentBody extends StatefulWidget {
@@ -82,7 +85,7 @@ class _AcknowledgmentBodyState extends State<_AcknowledgmentBody> {
               text: intl.register_continue,
               callback: isAgreed
                   ? () {
-                      sRouter.popAndPush(const CryptoCardDefaultAssetRoute());
+                      sRouter.maybePop(true);
                     }
                   : null,
             ),

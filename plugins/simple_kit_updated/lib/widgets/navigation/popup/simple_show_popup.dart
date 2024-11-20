@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
-Future<void> sShowAlertPopup(
+Future<T?> sShowAlertPopup<T>(
   BuildContext context, {
   Function()? onWillPop,
   Function()? onSecondaryButtonTap,
@@ -22,7 +22,7 @@ Future<void> sShowAlertPopup(
   required String primaryButtonName,
   required Function() onPrimaryButtonTap,
 }) async {
-  await showDialog(
+  final result = await showDialog(
     context: context,
     barrierDismissible: barrierDismissible,
     useSafeArea: false,
@@ -128,4 +128,5 @@ Future<void> sShowAlertPopup(
       );
     },
   );
+  return result;
 }
