@@ -70,10 +70,10 @@ class StartupService {
       storageService = getIt.get<LocalStorageService>();
     } catch (e, stackTrace) {
       getIt.get<SimpleLoggerService>().log(
-        level: Level.error,
-        place: '[StartupService]',
-        message: 'Error: $e, $stackTrace',
-      );
+            level: Level.error,
+            place: '[StartupService]',
+            message: 'Error: $e, $stackTrace',
+          );
       getIt.get<SentryService>().captureException(e, stackTrace);
       throw SplashErrorException(1, e, stackTrace);
     }
@@ -84,10 +84,10 @@ class StartupService {
       parsedEmail = email ?? '<${intl.appInitFpod_emailNotFound}>';
     } catch (e, stackTrace) {
       getIt.get<SimpleLoggerService>().log(
-        level: Level.error,
-        place: '[StartupService]',
-        message: 'Error: $e, $stackTrace',
-      );
+            level: Level.error,
+            place: '[StartupService]',
+            message: 'Error: $e, $stackTrace',
+          );
       token = null;
       email = null;
       parsedEmail = '<${intl.appInitFpod_emailNotFound}>';
@@ -133,10 +133,10 @@ class StartupService {
       getIt<AppStore>().generateNewSessionID();
     } catch (e, stackTrace) {
       getIt.get<SimpleLoggerService>().log(
-        level: Level.error,
-        place: '[StartupService]',
-        message: 'Error: $e, $stackTrace',
-      );
+            level: Level.error,
+            place: '[StartupService]',
+            message: 'Error: $e, $stackTrace',
+          );
       getIt.get<SentryService>().captureException(e, stackTrace);
       throw SplashErrorException(7, e, stackTrace);
     }
@@ -149,10 +149,10 @@ class StartupService {
       authStatus = await checkIsUserAuthorized(token);
     } catch (e, stackTrace) {
       getIt.get<SimpleLoggerService>().log(
-        level: Level.error,
-        place: '[StartupService]',
-        message: 'Error: $e, $stackTrace',
-      );
+            level: Level.error,
+            place: '[StartupService]',
+            message: 'Error: $e, $stackTrace',
+          );
       getIt.get<SentryService>().captureException(e, stackTrace);
       throw SplashErrorException(8, e, stackTrace);
     }
@@ -164,10 +164,10 @@ class StartupService {
       await getIt.get<SNetwork>().init(getIt<AppStore>().sessionID);
     } catch (e, stackTrace) {
       getIt.get<SimpleLoggerService>().log(
-        level: Level.error,
-        place: '[StartupService]',
-        message: 'Error: $e, $stackTrace',
-      );
+            level: Level.error,
+            place: '[StartupService]',
+            message: 'Error: $e, $stackTrace',
+          );
       getIt.get<SentryService>().captureException(e, stackTrace);
       throw SplashErrorException(9, e, stackTrace);
     }
@@ -181,10 +181,10 @@ class StartupService {
       }
     } catch (e, stackTrace) {
       getIt.get<SimpleLoggerService>().log(
-        level: Level.error,
-        place: '[StartupService]',
-        message: 'Error: $e, $stackTrace',
-      );
+            level: Level.error,
+            place: '[StartupService]',
+            message: 'Error: $e, $stackTrace',
+          );
       getIt.get<SentryService>().captureException(e, stackTrace);
       throw SplashErrorException(11, e, stackTrace);
     }
@@ -253,10 +253,10 @@ class StartupService {
       );
     } catch (e, stackTrace) {
       getIt.get<SimpleLoggerService>().log(
-        level: Level.error,
-        place: '[StartupService]',
-        message: 'Error: $e, $stackTrace',
-      );
+            level: Level.error,
+            place: '[StartupService]',
+            message: 'Error: $e, $stackTrace',
+          );
       getIt.get<SentryService>().captureException(e, stackTrace);
       throw SplashErrorException(10, e, stackTrace);
     }
@@ -272,10 +272,10 @@ class StartupService {
         );
       } catch (e, stackTrace) {
         getIt.get<SimpleLoggerService>().log(
-          level: Level.error,
-          place: '[StartupService]',
-          message: 'Error: $e, $stackTrace',
-        );
+              level: Level.error,
+              place: '[StartupService]',
+              message: 'Error: $e, $stackTrace',
+            );
         getIt.get<SentryService>().captureException(e, stackTrace);
         throw SplashErrorException(12, e, stackTrace);
       }
@@ -292,20 +292,20 @@ class StartupService {
           }
         } catch (e, stackTrace) {
           getIt.get<SimpleLoggerService>().log(
-            level: Level.error,
-            place: '[StartupService]',
-            message: 'Error: $e, $stackTrace',
-          );
+                level: Level.error,
+                place: '[StartupService]',
+                message: 'Error: $e, $stackTrace',
+              );
           throw SplashErrorException(13, e, stackTrace);
         }
 
         await secondAction();
       } catch (e, stackTrace) {
         getIt.get<SimpleLoggerService>().log(
-          level: Level.error,
-          place: '[StartupService]',
-          message: 'Error: $e, $stackTrace',
-        );
+              level: Level.error,
+              place: '[StartupService]',
+              message: 'Error: $e, $stackTrace',
+            );
         getIt.get<SimpleLoggerService>().log(
               level: Level.error,
               place: 'StartupService',
@@ -347,10 +347,10 @@ class StartupService {
       );
     } catch (e, stackTrace) {
       getIt.get<SimpleLoggerService>().log(
-        level: Level.error,
-        place: '[StartupService]',
-        message: 'Error: $e, $stackTrace',
-      );
+            level: Level.error,
+            place: '[StartupService]',
+            message: 'Error: $e, $stackTrace',
+          );
       getIt.get<SentryService>().captureException(e, stackTrace);
       throw SplashErrorException(14, e, stackTrace);
     }
@@ -366,10 +366,10 @@ class StartupService {
       }
     } catch (e, stackTrace) {
       getIt.get<SimpleLoggerService>().log(
-        level: Level.error,
-        place: '[StartupService]',
-        message: 'Error: $e, $stackTrace',
-      );
+            level: Level.error,
+            place: '[StartupService]',
+            message: 'Error: $e, $stackTrace',
+          );
       getIt.get<SentryService>().captureException(e, stackTrace);
       throw SplashErrorException(15, e, stackTrace);
     }
@@ -389,10 +389,10 @@ class StartupService {
       );
     } catch (e, stackTrace) {
       getIt.get<SimpleLoggerService>().log(
-        level: Level.error,
-        place: '[StartupService]',
-        message: 'Error: $e, $stackTrace',
-      );
+            level: Level.error,
+            place: '[StartupService]',
+            message: 'Error: $e, $stackTrace',
+          );
       getIt.get<SentryService>().captureException(e, stackTrace);
       throw SplashErrorException(16, e, stackTrace);
     }
@@ -421,10 +421,10 @@ class StartupService {
       }
     } catch (e, stackTrace) {
       getIt.get<SimpleLoggerService>().log(
-        level: Level.error,
-        place: '[StartupService]',
-        message: 'Error: $e, $stackTrace',
-      );
+            level: Level.error,
+            place: '[StartupService]',
+            message: 'Error: $e, $stackTrace',
+          );
       throw SplashErrorException(17, e, stackTrace);
     }
 
@@ -435,10 +435,10 @@ class StartupService {
       unawaited(getIt.get<PushNotification>().registerToken());
     } catch (e, stackTrace) {
       getIt.get<SimpleLoggerService>().log(
-        level: Level.error,
-        place: '[StartupService]',
-        message: 'Error: $e, $stackTrace',
-      );
+            level: Level.error,
+            place: '[StartupService]',
+            message: 'Error: $e, $stackTrace',
+          );
       getIt.get<SentryService>().captureException(e, stackTrace);
       throw SplashErrorException(18, e, stackTrace);
     }
@@ -476,10 +476,10 @@ class StartupService {
       sAnalytics.setKYCDepositStatus = analyticsKyc;
     } catch (e, stackTrace) {
       getIt.get<SimpleLoggerService>().log(
-        level: Level.error,
-        place: '[StartupService]',
-        message: 'Error: $e, $stackTrace',
-      );
+            level: Level.error,
+            place: '[StartupService]',
+            message: 'Error: $e, $stackTrace',
+          );
       getIt.get<SentryService>().captureException(e, stackTrace);
       throw SplashErrorException(20, e, stackTrace);
     }
@@ -551,42 +551,54 @@ class StartupService {
 
   Future<void> startingServices() async {
     try {
-      getIt.registerSingleton<KycService>(
-        KycService(),
-      );
+      if (!getIt.isRegistered<KycService>()) {
+        getIt.registerSingleton<KycService>(
+          KycService(),
+        );
+      }
 
-      getIt.registerSingletonAsync<InternetCheckerService>(
-        () async => InternetCheckerService().initialise(),
-      );
+      if (!getIt.isRegistered<InternetCheckerService>()) {
+        getIt.registerSingletonAsync<InternetCheckerService>(
+          () async => InternetCheckerService().initialise(),
+        );
+      }
 
-      getIt.registerSingletonAsync<KycProfileCountries>(
-        () async => KycProfileCountries().init(),
-      );
+      if (!getIt.isRegistered<KycProfileCountries>()) {
+        getIt.registerSingletonAsync<KycProfileCountries>(
+          () async => KycProfileCountries().init(),
+        );
+      }
 
-      getIt.registerSingletonAsync<FormatService>(
-        () async => FormatService(),
-      );
+      if (!getIt.isRegistered<FormatService>()) {
+        getIt.registerSingletonAsync<FormatService>(
+          () async => FormatService(),
+        );
+      }
 
       await getIt.isReady<KycProfileCountries>();
       await getIt.isReady<ProfileGetUserCountry>();
 
-      getIt.registerSingleton<IbanStore>(
-        IbanStore(),
-      );
+      if (!getIt.isRegistered<IbanStore>()) {
+        getIt.registerSingleton<IbanStore>(
+          IbanStore(),
+        );
+      }
 
-      getIt.registerLazySingleton<SumsubService>(
-        () => SumsubService(),
-      );
+      if (!getIt.isRegistered<SumsubService>()) {
+        getIt.registerLazySingleton<SumsubService>(
+          () => SumsubService(),
+        );
+      }
 
       userInfo.updateServicesRegistred(true);
 
       return;
     } catch (e, stackTrace) {
       getIt.get<SimpleLoggerService>().log(
-        level: Level.error,
-        place: '[StartupService]',
-        message: 'Error: $e, $stackTrace',
-      );
+            level: Level.error,
+            place: '[StartupService]',
+            message: 'Error: $e, $stackTrace',
+          );
       _logger.log(
         level: Level.error,
         place: _loggerValue,
@@ -608,10 +620,10 @@ class StartupService {
       }
     } catch (e, stackTrace) {
       getIt.get<SimpleLoggerService>().log(
-        level: Level.error,
-        place: '[StartupService]',
-        message: 'Error: $e, $stackTrace',
-      );
+            level: Level.error,
+            place: '[StartupService]',
+            message: 'Error: $e, $stackTrace',
+          );
       _logger.log(
         level: Level.error,
         place: _loggerValue,
@@ -654,10 +666,10 @@ class StartupService {
           );
     } catch (e, stackTrace) {
       getIt.get<SimpleLoggerService>().log(
-        level: Level.error,
-        place: '[StartupService]',
-        message: 'Error: $e, $stackTrace',
-      );
+            level: Level.error,
+            place: '[StartupService]',
+            message: 'Error: $e, $stackTrace',
+          );
       _logger.log(
         level: Level.error,
         place: _loggerValue,
@@ -682,10 +694,10 @@ class StartupService {
       );
     } catch (e, stackTrace) {
       getIt.get<SimpleLoggerService>().log(
-        level: Level.error,
-        place: '[StartupService]',
-        message: 'Error: $e, $stackTrace',
-      );
+            level: Level.error,
+            place: '[StartupService]',
+            message: 'Error: $e, $stackTrace',
+          );
       getIt.get<SentryService>().captureException(e, stackTrace);
       throw SplashErrorException(5, e, stackTrace);
     }
@@ -699,10 +711,10 @@ class StartupService {
       await appsFlyerService.updateServerUninstallToken();
     } catch (e, stackTrace) {
       getIt.get<SimpleLoggerService>().log(
-        level: Level.error,
-        place: '[StartupService]',
-        message: 'Error: $e, $stackTrace',
-      );
+            level: Level.error,
+            place: '[StartupService]',
+            message: 'Error: $e, $stackTrace',
+          );
       getIt.get<SentryService>().captureException(e, stackTrace);
       throw SplashErrorException(6, e, stackTrace);
     }
@@ -786,10 +798,10 @@ Future<void> launchSift() async {
     );
   } catch (e, stackTrace) {
     getIt.get<SimpleLoggerService>().log(
-      level: Level.error,
-      place: '[StartupService]',
-      message: 'Error: $e, $stackTrace',
-    );
+          level: Level.error,
+          place: '[StartupService]',
+          message: 'Error: $e, $stackTrace',
+        );
     getIt.get<SentryService>().captureException(e, stackTrace);
     throw SplashErrorException(4, e, stackTrace);
   }
