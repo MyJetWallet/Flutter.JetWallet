@@ -245,7 +245,7 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
                     );
 
                     try {
-                      AnchorsHelper().addCryptoDepositAnchor(deposit.currency.symbol);
+                      unawaited(AnchorsHelper().addCryptoDepositAnchor(deposit.currency.symbol));
 
                       Share.share(
                         '${intl.cryptoDeposit_my} ${deposit.currency.symbol}'

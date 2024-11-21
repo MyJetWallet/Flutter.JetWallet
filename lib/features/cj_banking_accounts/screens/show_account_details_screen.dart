@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
@@ -75,7 +77,8 @@ class _AccountDetailsBody extends StatelessWidget {
                         name: intl.iban_benificiary,
                         text: sSignalRModules.bankingProfileData?.simple?.account?.bankName ?? 'Simple Europe UAB',
                         afterCopy: () {
-                          AnchorsHelper().addBankingAccountDetailsAnchor(sSignalRModules.bankingProfileData?.simple?.account?.accountId ?? '');
+                          unawaited(AnchorsHelper().addBankingAccountDetailsAnchor(
+                              sSignalRModules.bankingProfileData?.simple?.account?.accountId ?? ''));
 
                           sAnalytics.eurWalletTapCopyDeposit(
                             isCJ: true,
@@ -89,7 +92,10 @@ class _AccountDetailsBody extends StatelessWidget {
                         name: intl.iban_iban,
                         text: sSignalRModules.bankingProfileData?.simple?.account?.iban ?? '',
                         afterCopy: () {
-                          AnchorsHelper().addBankingAccountDetailsAnchor(sSignalRModules.bankingProfileData?.simple?.account?.accountId ?? '');
+                          unawaited(
+                            AnchorsHelper().addBankingAccountDetailsAnchor(
+                                sSignalRModules.bankingProfileData?.simple?.account?.accountId ?? ''),
+                          );
 
                           sAnalytics.eurWalletTapCopyDeposit(
                             isCJ: true,
@@ -103,7 +109,8 @@ class _AccountDetailsBody extends StatelessWidget {
                         name: intl.iban_bic,
                         text: sSignalRModules.bankingProfileData?.simple?.account?.bic ?? '',
                         afterCopy: () {
-                          AnchorsHelper().addBankingAccountDetailsAnchor(sSignalRModules.bankingProfileData?.simple?.account?.accountId ?? '');
+                          AnchorsHelper().addBankingAccountDetailsAnchor(
+                              sSignalRModules.bankingProfileData?.simple?.account?.accountId ?? '');
 
                           sAnalytics.eurWalletTapCopyDeposit(
                             isCJ: true,
@@ -117,7 +124,8 @@ class _AccountDetailsBody extends StatelessWidget {
                         name: intl.iban_address,
                         text: sSignalRModules.bankingProfileData?.simple?.account?.address ?? '',
                         afterCopy: () {
-                          AnchorsHelper().addBankingAccountDetailsAnchor(sSignalRModules.bankingProfileData?.simple?.account?.accountId ?? '');
+                          AnchorsHelper().addBankingAccountDetailsAnchor(
+                              sSignalRModules.bankingProfileData?.simple?.account?.accountId ?? '');
 
                           sAnalytics.eurWalletTapCopyDeposit(
                             isCJ: true,

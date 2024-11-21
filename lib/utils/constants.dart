@@ -163,3 +163,9 @@ const cryptopanicLogo = 'assets/images/cryptopanic_logo.svg';
 
 // Market
 const addAssetsBannerBg = 'assets/images/add_assets_banner_bg.png';
+
+// List of request paths excluded from 500 error handling
+const List<String> pathsBypass500Error = [
+  '/api/v1/analytic-records/add-anchor',
+  '/api/v1/analytic-records/add-analytic-record-v2',
+];

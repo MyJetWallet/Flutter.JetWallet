@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
@@ -73,10 +75,10 @@ class _ConvertConfirmationScreenBody extends StatelessObserverWidget {
         loaderText: intl.register_pleaseWait,
         customLoader: store.showProcessing
             ? WaitingScreen(
-          onSkip: () {
-            store.skipProcessing();
-          },
-        )
+                onSkip: () {
+                  store.skipProcessing();
+                },
+              )
             : null,
         header: SSmallHeader(
           title: intl.buy_confirmation_title,
@@ -167,12 +169,14 @@ class _ConvertConfirmationScreenBody extends StatelessObserverWidget {
   }
 
   void setAnchor() {
-    AnchorsHelper().addConvertConfirmAnchor(
-      fromAsset: convertConfirmationModel.fromAsset,
-      toAsset: convertConfirmationModel.toAsset,
-      fromAmount: convertConfirmationModel.fromAmount,
-      toAmount: convertConfirmationModel.toAmount,
-      isFromFixed: convertConfirmationModel.isFromFixed,
+    unawaited(
+      AnchorsHelper().addConvertConfirmAnchor(
+        fromAsset: convertConfirmationModel.fromAsset,
+        toAsset: convertConfirmationModel.toAsset,
+        fromAmount: convertConfirmationModel.fromAmount,
+        toAmount: convertConfirmationModel.toAmount,
+        isFromFixed: convertConfirmationModel.isFromFixed,
+      ),
     );
   }
 }
