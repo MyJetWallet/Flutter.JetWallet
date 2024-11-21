@@ -70,6 +70,7 @@ class _CryptoCardNameScreenState extends State<CryptoCardNameScreen> {
                     SInput(
                       label: intl.crypto_card_name_card_name,
                       controller: controller,
+                      autofocus: true,
                       onChanged: (name) {
                         store.setCryptoCardName(name);
                       },
