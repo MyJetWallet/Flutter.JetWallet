@@ -12,35 +12,34 @@ class CreatingCryptoCardScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SPageFrame(
       loaderText: '',
-      header: const GlobalBasicAppBar(
-        hasLeftIcon: false,
-        hasRightIcon: false,
-      ),
-      child: Center(
-        child: Column(
-          children: [
-            const SpaceH100(),
-            SizedBox(
-              width: 233,
-              height: 211,
-              child: Image.asset(
-                cryptoCardAlmostTher,
-              ),
-            ),
-            const SpaceH23(),
-            SizedBox(
-              width: 185,
-              child: Text(
-                intl.crypto_card_on_the_way,
-                style: STStyles.body2Semibold.copyWith(
-                  color: SColorsLight().gray10,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 233,
+                height: 211,
+                child: Image.asset(
+                  cryptoCardAlmostTher,
                 ),
-                maxLines: 5,
-                textAlign: TextAlign.center,
               ),
-            ),
-          ],
-        ),
+              const SpaceH23(),
+              SizedBox(
+                width: 185,
+                child: Text(
+                  intl.crypto_card_on_the_way,
+                  style: STStyles.body2Semibold.copyWith(
+                    color: SColorsLight().gray10,
+                  ),
+                  maxLines: 5,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

@@ -16,6 +16,7 @@ class SBottomItemModel {
     required this.icon,
     required this.text,
     this.notification,
+    this.hasWarning = false,
   });
 
   final BottomItemType type;
@@ -23,4 +24,5 @@ class SBottomItemModel {
   final String text;
 
   final int? notification;
+  final bool hasWarning;
 }

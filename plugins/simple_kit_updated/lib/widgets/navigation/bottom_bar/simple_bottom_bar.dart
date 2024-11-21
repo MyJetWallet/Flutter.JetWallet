@@ -45,6 +45,7 @@ class SBottomBar extends StatelessWidget {
                     onChanged: () {
                       onChanged(index);
                     },
+                    hasWarning: item.hasWarning,
                   ),
                 )
                 .toList(),

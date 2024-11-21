@@ -107,6 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     type: BottomItemType.cryptoCard,
                     text: intl.bottom_bar_card,
                     icon: Assets.svg.large.card,
+                    hasWarning: sSignalRModules.cryptoCardProfile.cards.isEmpty,
                   ),
                 if (bottomBarItems.contains(BottomItemType.rewards))
                   SBottomItemModel(
