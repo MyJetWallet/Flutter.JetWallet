@@ -28,7 +28,7 @@ class AnchorsService {
   static const _tag = '[AnchorsService]';
 
   Future<void> setAnchor(AnchorRecordModel anchorRecord) async {
-    await getIt.get<SNetwork>().simpleNetworking.getAnalyticApiModule().postAddAnchor(anchorRecord);
+    // await getIt.get<SNetwork>().simpleNetworking.getAnalyticApiModule().postAddAnchor(anchorRecord);
   }
 
   Future<void> handleDeeplink({
