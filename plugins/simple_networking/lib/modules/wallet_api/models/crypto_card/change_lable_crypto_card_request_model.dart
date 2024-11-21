@@ -6,8 +6,10 @@ part 'change_lable_crypto_card_request_model.g.dart';
 @freezed
 class ChangeLableCryptoCardRequestModel with _$ChangeLableCryptoCardRequestModel {
   const factory ChangeLableCryptoCardRequestModel({
+    required String cardId,
     required String label,
   }) = _ChangeLableCryptoCardRequestModel;
 
-  factory ChangeLableCryptoCardRequestModel.fromJson(Map<String, dynamic> json) => _$ChangeLableCryptoCardRequestModelFromJson(json);
+  factory ChangeLableCryptoCardRequestModel.fromJson(Map<String, dynamic> json) =>
+      _$ChangeLableCryptoCardRequestModelFromJson(json);
 }

@@ -9,6 +9,7 @@ import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/sumsub_service/sumsub_service.dart';
+import 'package:jetwallet/features/app/store/global_loader.dart';
 import 'package:jetwallet/features/crypto_card/utils/show_crypto_card_acknowledgment_bottom_sheet.dart';
 import 'package:jetwallet/features/crypto_card/utils/show_please_verify_account_popup.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
@@ -18,6 +19,8 @@ import 'package:jetwallet/features/kyc/kyc_verify_your_profile/utils/start_kyc_a
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_networking/helpers/models/server_reject_exception.dart';
+import 'package:simple_networking/modules/wallet_api/models/crypto_card/create_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/price_crypto_card_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/kyc/kyc_plan_responce_model.dart';
 
@@ -163,7 +166,37 @@ abstract class _CreateCryptoCardStoreBase with Store {
 
   @action
   Future<void> createCryptoCard() async {
-    cardIsCreating = true;
-    sRouter.popUntilRoot();
+    try {
+      getIt.get<GlobalLoader>().setLoading(true);
+      final model = CreateCryptoCardRequestModel(
+        label: cardLable,
+      );
+
+      final response = await sNetwork.getWalletModule().createCryptoCard(model);
+
+      response.pick(
+        onData: (data) {},
+        onError: (error) {
+          sNotification.showError(
+            error.cause,
+            id: 1,
+          );
+        },
+      );
+    } on ServerRejectException catch (error) {
+      sNotification.showError(
+        error.cause,
+        id: 1,
+      );
+    } catch (error) {
+      sNotification.showError(
+        intl.something_went_wrong_try_again2,
+        id: 1,
+        needFeedback: true,
+      );
+    } finally {
+      getIt.get<GlobalLoader>().setLoading(false);
+      sRouter.popUntilRoot();
+    }
   }
 }

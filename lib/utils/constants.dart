@@ -168,3 +168,4 @@ const addAssetsBannerBg = 'assets/images/add_assets_banner_bg.png';
 const cryptoCardPreview = 'assets/images/crypto_card_preview.png';
 const cryptoCardPreviewSmall = 'assets/images/crypto_card_preview_small.png';
 const cryptoCardAlmostTher = 'assets/images/crypto_card_almost_ther.png';
+const cryptoCardPreview2 = 'assets/images/crypto_card_preview_2.png';
