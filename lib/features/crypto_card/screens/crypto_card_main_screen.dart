@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/features/crypto_card/store/main_crypto_card_store.dart';
+import 'package:jetwallet/features/crypto_card/utils/show_card_settings_bootom_sheet.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
@@ -23,16 +24,21 @@ class _CryptoCardMainScreenBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const cardLable = 'My card';
-    return const SPageFrame(
+    return SPageFrame(
       loaderText: '',
-      header: GlobalBasicAppBar(
+      header: const GlobalBasicAppBar(
         title: 'Simple virtual card',
         subtitle: cardLable,
         hasLeftIcon: false,
         hasRightIcon: false,
       ),
       child: Center(
-        child: Text('Main screen'),
+        child: ElevatedButton(
+          onPressed: () {
+            showCardSettingsBootomSheet(context);
+          },
+          child: const Text('Settings'),
+        ),
       ),
     );
   }
