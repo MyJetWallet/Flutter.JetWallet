@@ -63,13 +63,13 @@ class CryptoCardAmountWidget extends StatelessWidget {
                 intl.crypto_card_asset_linked(1),
                 style: STStyles.body2Semibold,
               ),
-              const SizedBox(
-                width: 4.0,
-              ),
-              Assets.svg.medium.shevronRight.simpleSvg(
-                height: 16.0,
-                width: 16.0,
-              ),
+              // const SizedBox(
+              //   width: 4.0,
+              // ),
+              // Assets.svg.medium.shevronRight.simpleSvg(
+              //   height: 16.0,
+              //   width: 16.0,
+              // ),
               const Spacer(),
             ],
           ),
