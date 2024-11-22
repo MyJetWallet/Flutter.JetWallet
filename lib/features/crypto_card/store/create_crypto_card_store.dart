@@ -23,6 +23,7 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
+import 'package:simple_networking/modules/signal_r/models/crypto_card_message_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/create_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/price_crypto_card_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/kyc/kyc_plan_responce_model.dart';
@@ -198,7 +199,38 @@ abstract class _CreateCryptoCardStoreBase with Store {
       final response = await sNetwork.getWalletModule().createCryptoCard(model);
 
       response.pick(
-        onData: (data) {},
+        onNoError: (data) async {
+          // TODO (Yaroslav): remove this code
+          sSignalRModules.cryptoCardProfile = CryptoCardProfile(
+            associateAssetList: ['USDT'],
+            cards: [
+              CryptoCardModel(
+                cardId: 'mock',
+                label: cardLable ?? '',
+                last4: '5555',
+                status: CryptoCardStatus.inCreation,
+              ),
+            ],
+          );
+          unawaited(
+            Future.delayed(
+              const Duration(seconds: 3),
+              () {
+                sSignalRModules.cryptoCardProfile = CryptoCardProfile(
+                  associateAssetList: ['USDT'],
+                  cards: [
+                    CryptoCardModel(
+                      cardId: 'mock',
+                      label: cardLable ?? '',
+                      last4: '5555',
+                      status: CryptoCardStatus.active,
+                    ),
+                  ],
+                );
+              },
+            ),
+          );
+        },
         onError: (error) {
           sNotification.showError(
             error.cause,
