@@ -27,54 +27,68 @@ class CryptoCardDefaultAssetScreen extends StatelessWidget {
         builder: (context) {
           final asset = store.defaultAsset;
 
-          return Column(
+          return Stack(
             children: [
-              Image.asset(
-                cryptoCardPreview,
-              ),
-              SPaddingH24(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      intl.crypto_card_account_title,
-                      style: STStyles.header5,
+              CustomScrollView(
+                physics: const ClampingScrollPhysics(),
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: Column(
+                      children: [
+                        Image.asset(
+                          cryptoCardPreview,
+                        ),
+                        SPaddingH24(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                intl.crypto_card_account_title,
+                                style: STStyles.header5,
+                              ),
+                              const SpaceH12(),
+                              Text(
+                                intl.crypto_card_account_description,
+                                style: STStyles.subtitle2.copyWith(
+                                  color: colors.gray10,
+                                ),
+                                maxLines: 4,
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SpaceH16(),
+                        SuggestionButtonWidget(
+                          subTitle: intl.crypto_card_account_crypto,
+                          title: asset.description,
+                          trailing: asset.volumeAssetBalance,
+                          showArrow: false,
+                          icon: NetworkIconWidget(
+                            asset.iconUrl,
+                          ),
+                          onTap: () {},
+                        ),
+                        const SpaceH100(),
+                      ],
                     ),
-                    const SpaceH12(),
-                    Text(
-                      intl.crypto_card_account_description,
-                      style: STStyles.subtitle2.copyWith(
-                        color: colors.gray10,
-                      ),
-                      maxLines: 4,
-                    ),
-                  ],
-                ),
-              ),
-              const SpaceH16(),
-              SuggestionButtonWidget(
-                subTitle: intl.crypto_card_account_crypto,
-                title: asset.description,
-                trailing: asset.volumeAssetBalance,
-                showArrow: false,
-                icon: NetworkIconWidget(
-                  asset.iconUrl,
-                ),
-                onTap: () {},
-              ),
-              const Spacer(),
-              SafeArea(
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    left: 24,
-                    right: 24,
-                    bottom: MediaQuery.of(context).padding.top <= 24 ? 24 : 16,
                   ),
-                  child: SButton.black(
-                    text: intl.register_continue,
-                    callback: () {
-                      store.routCardIssueCostSheetScreen();
-                    },
+                ],
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: SafeArea(
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      left: 24,
+                      right: 24,
+                      bottom: MediaQuery.of(context).padding.top <= 24 ? 24 : 16,
+                    ),
+                    child: SButton.black(
+                      text: intl.register_continue,
+                      callback: () {
+                        store.routCardIssueCostSheetScreen();
+                      },
+                    ),
                   ),
                 ),
               ),
