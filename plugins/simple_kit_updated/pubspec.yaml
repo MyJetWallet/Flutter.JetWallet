@@ -59,6 +59,7 @@ flutter:
     - assets/svg/small/
     - assets/svg/payment_methods_cards/simple/
     - assets/svg/other/
+    - assets/svg/card/
     - assets/svg/other/large/
     - assets/svg/other/medium/
     - assets/svg/other/small/

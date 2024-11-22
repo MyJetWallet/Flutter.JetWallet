@@ -47,6 +47,9 @@ class $AssetsSvgGen {
   /// Directory path: assets/svg/brand
   $AssetsSvgBrandGen get brand => const $AssetsSvgBrandGen();
 
+  /// Directory path: assets/svg/card
+  $AssetsSvgCardGen get card => const $AssetsSvgCardGen();
+
   /// Directory path: assets/svg/invest
   $AssetsSvgInvestGen get invest => const $AssetsSvgInvestGen();
 
@@ -100,6 +103,19 @@ class $AssetsSvgBrandGen {
 
   /// Directory path: assets/svg/brand/small
   $AssetsSvgBrandSmallGen get small => const $AssetsSvgBrandSmallGen();
+}
+
+class $AssetsSvgCardGen {
+  const $AssetsSvgCardGen();
+
+  /// File path: assets/svg/card/simple_crypto_card.svg
+  SvgGenImage get simpleCryptoCard => const SvgGenImage('assets/svg/card/simple_crypto_card.svg');
+
+  /// File path: assets/svg/card/simple_logo.svg
+  SvgGenImage get simpleLogo => const SvgGenImage('assets/svg/card/simple_logo.svg');
+
+  /// List of all assets
+  List<SvgGenImage> get values => [simpleCryptoCard, simpleLogo];
 }
 
 class $AssetsSvgInvestGen {

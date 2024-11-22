@@ -1885,5 +1885,13 @@
     "crypto_card_name_your_card": "Name your card",
     "crypto_card_name_card_name": "Card name",
     "crypto_card_name_create_card": "Create card",
-    "crypto_card_on_the_way": "Your virtual card is on the way! You'll be notified when the card becomes available."
+    "crypto_card_on_the_way": "Your virtual card is on the way! You'll be notified when the card becomes available.",
+    "crypto_card_freeze": "Freeze",
+    "crypto_card_change_pin": "Change PIN",
+    "crypto_card_settings": "Settings",
+    "crypto_card_card_number": "Card number",
+    "crypto_card_valid_thru": "Valid thru",
+    "crypto_card_cvv": "CVV",
+    "crypto_card_show": "Show",
+    "crypto_card_asset_linked": "{count} asset linked"
 }
