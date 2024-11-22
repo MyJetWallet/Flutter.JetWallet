@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/features/crypto_card/utils/show_card_settings_bootom_sheet.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class CryptoCardActionButtons extends StatelessWidget {
@@ -32,7 +33,9 @@ class CryptoCardActionButtons extends StatelessWidget {
             icon: Assets.svg.medium.settings.simpleSvg(
               color: SColorsLight().white,
             ),
-            onTap: () {},
+            onTap: () {
+              showCardSettingsBootomSheet(context);
+            },
           ),
         ],
       ),
