@@ -8,6 +8,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/anchors/anchors_helper.dart';
 import 'package:jetwallet/core/services/anchors/models/convert_confirmation_model/convert_confirmation_model.dart';
 import 'package:jetwallet/core/services/anchors/models/crypto_deposit/crypto_deposit_model.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/remote_config/models/remote_config_union.dart';
 import 'package:jetwallet/core/services/route_query_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
@@ -20,6 +21,7 @@ import 'package:jetwallet/features/home/store/bottom_bar_store.dart';
 import 'package:jetwallet/features/wallet/helper/market_item_from.dart';
 import 'package:jetwallet/features/withdrawal_banking/helpers/show_bank_transfer_select.dart';
 import 'package:jetwallet/utils/helpers/currency_from.dart';
+import 'package:logger/logger.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/analytic_records/models/anchor_record.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
@@ -28,7 +30,15 @@ class AnchorsService {
   static const _tag = '[AnchorsService]';
 
   Future<void> setAnchor(AnchorRecordModel anchorRecord) async {
-    await getIt.get<SNetwork>().simpleNetworking.getAnalyticApiModule().postAddAnchor(anchorRecord);
+    try {
+      await getIt.get<SNetwork>().simpleNetworking.getAnalyticApiModule().postAddAnchor(anchorRecord);
+    } catch (e) {
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.info,
+            place: 'AnchorsService',
+            message: 'setAnchor error: $e',
+          );
+    }
   }
 
   Future<void> handleDeeplink({

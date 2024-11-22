@@ -106,6 +106,7 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
 
   @observable
   BaseCurrencyModel baseCurrency = const BaseCurrencyModel();
+
   @action
   void setBaseCurrency(BaseCurrencyModel value) {
     baseCurrency = value;
@@ -130,6 +131,7 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
 
   @observable
   bool initFinished = false;
+
   @action
   void setInitFinished(bool value) {
     initFinished = value;
@@ -138,21 +140,25 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
 
   @observable
   CardsModel cards = const CardsModel(now: 0, cardInfos: []);
+
   @action
   void setCards(CardsModel value) => cards = value;
 
   @observable
   CardLimitsModel? cardLimitsModel;
+
   @action
   void setCardLimitModel(CardLimitsModel value) => cardLimitsModel = value;
 
   @observable
   GlobalSendMethodsModel? globalSendMethods;
+
   @action
   void setGlobalSendMethods(GlobalSendMethodsModel value) => globalSendMethods = value;
 
   @observable
   ObservableList<KycCountryModel> kycCountries = ObservableList.of([]);
+
   @action
   void setKYCCountries(KycCountriesResponseModel data) {
     final value = <KycCountryModel>[];
@@ -195,16 +201,19 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
 
   @observable
   Decimal marketInfo = Decimal.zero;
+
   @action
   void setMarketInfo(TotalMarketInfoModel value) => marketInfo = value.marketCapChange24H.round(scale: 2);
 
   @observable
   ObservableList<CampaignModel> marketCampaigns = ObservableList.of([]);
+
   @action
   void setMarketCampaigns(CampaignResponseModel value) => marketCampaigns = ObservableList.of(value.campaigns);
 
   @observable
   ObservableList<ReferralStatsModel> referralStats = ObservableList.of([]);
+
   @action
   void setReferralStats(ReferralStatsResponseModel value) => referralStats = ObservableList.of(value.referralStats);
 
@@ -212,6 +221,7 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
   ObservableList<MarketItemModel> marketItems = ObservableList.of([]);
   @observable
   MarketReferencesModel? marketReferencesModel;
+
   @action
   void setMarketItems(MarketReferencesModel value) {
     marketReferencesModel = value;
@@ -220,41 +230,48 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
     final items = <MarketItemModel>[];
 
     for (final marketReference in value.references) {
-      late CurrencyModel currency;
+      CurrencyModel? currency;
 
       try {
-        currency = currenciesList.firstWhere(
+        currency = currenciesList.firstWhereOrNull(
           (element) {
             return element.symbol == marketReference.associateAsset;
           },
         );
-      } catch (_) {
+      } catch (e, stackTrace) {
+        getIt.get<SimpleLoggerService>().log(
+              level: Level.error,
+              place: '[SignalRService] setMarketItems',
+              message: 'Error item ${marketReference.associateAsset} ${marketReference.id}: $e, $stackTrace',
+            );
         continue;
       }
 
-      if (currency.symbol != baseCurrency.symbol) {
-        items.add(
-          MarketItemModel(
-            iconUrl: iconUrlFrom(assetSymbol: currency.symbol),
-            weight: marketReference.weight,
-            associateAsset: marketReference.associateAsset,
-            associateAssetPair: marketReference.associateAssetPair,
-            symbol: currency.symbol,
-            name: currency.description,
-            dayPriceChange: currency.dayPriceChange,
-            dayPercentChange: currency.dayPercentChange,
-            lastPrice: currency.currentPrice,
-            assetBalance: currency.assetBalance,
-            baseBalance: currency.baseBalance,
-            prefixSymbol: currency.prefixSymbol,
-            assetAccuracy: currency.accuracy,
-            priceAccuracy: marketReference.priceAccuracy,
-            startMarketTime: marketReference.startMarketTime,
-            type: currency.type,
-            sectorIds: marketReference.sectorIds,
-            marketCap: marketReference.marketCap,
-          ),
-        );
+      if (currency != null) {
+        if (currency.symbol != baseCurrency.symbol) {
+          items.add(
+            MarketItemModel(
+              iconUrl: iconUrlFrom(assetSymbol: currency.symbol),
+              weight: marketReference.weight,
+              associateAsset: marketReference.associateAsset,
+              associateAssetPair: marketReference.associateAssetPair,
+              symbol: currency.symbol,
+              name: currency.description,
+              dayPriceChange: currency.dayPriceChange,
+              dayPercentChange: currency.dayPercentChange,
+              lastPrice: currency.currentPrice,
+              assetBalance: currency.assetBalance,
+              baseBalance: currency.baseBalance,
+              prefixSymbol: currency.prefixSymbol,
+              assetAccuracy: currency.accuracy,
+              priceAccuracy: marketReference.priceAccuracy,
+              startMarketTime: marketReference.startMarketTime,
+              type: currency.type,
+              sectorIds: marketReference.sectorIds,
+              marketCap: marketReference.marketCap,
+            ),
+          );
+        }
       }
     }
 
@@ -272,6 +289,7 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
     walletCreationDate: DateTime.now().toString(),
     recivedAt: DateTime.now(),
   );
+
   @action
   void setClientDetail(ClientDetailModel value) {
     clientDetail = value;
@@ -324,6 +342,7 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
     now: 0,
     keys: [],
   );
+
   @action
   void setKeyValue(KeyValueModel value) {
     keyValue = value;
@@ -331,11 +350,13 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
 
   @observable
   ObservableList<IndexModel> indicesDetails = ObservableList.of([]);
+
   @action
   void setIndicesDetails(IndicesModel value) => indicesDetails = ObservableList.of(value.indices);
 
   @observable
   ObservableList<PriceAccuracy> priceAccuracies = ObservableList.of([]);
+
   @action
   void setPriceAccuracies(PriceAccuracies value) => priceAccuracies = ObservableList.of(value.accuracies);
 
@@ -347,6 +368,7 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
     referralTerms: [],
     referralCode: '',
   );
+
   @action
   void setReferralInfo(ReferralInfoModel value) => referralInfo = value;
 
@@ -538,6 +560,7 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
   }
 
   BalancesModel? balancesModel;
+
   void updateBalances(BalancesModel value) {
     balancesModel = value;
 
@@ -588,6 +611,7 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
 
   @observable
   BlockchainsModel? blockchainsModel;
+
   @action
   void updateBlockchains(BlockchainsModel data) {
     blockchainsModel = data;
@@ -659,6 +683,7 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
 
   @observable
   BasePricesModel? basePricesModel;
+
   @action
   Future<void> updateBasePrices(BasePricesModel value) async {
     basePricesModel = value;
@@ -762,6 +787,7 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
   }
 
   AssetWithdrawalFeeModel? assetsWithdrawalFees;
+
   void updateAssetsWithdrawalFees(AssetWithdrawalFeeModel value) {
     assetsWithdrawalFees = value;
 
@@ -799,6 +825,7 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
 
   @observable
   RewardsProfileModel? rewardsData;
+
   @action
   void rewardsProfileMethods(RewardsProfileModel data) => rewardsData = data;
 
@@ -807,6 +834,7 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
 
   @observable
   BankingProfileModel? bankingProfileData;
+
   @action
   void setBankingProfileData(BankingProfileModel data) {
     /*bankingProfileData = BankingProfileModel(
@@ -856,11 +884,13 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
 
   @observable
   int pendingOperationCount = 0;
+
   @action
   void setPendingOperationCount(int count) => pendingOperationCount = count;
 
   @observable
   InvestPositionsModel? investPositionsData;
+
   @action
   void setInvestPositionsData(InvestPositionsModel data) {
     investPositionsData = data;
@@ -868,6 +898,7 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
 
   @observable
   InvestInstrumentsModel? investInstrumentsData;
+
   @action
   void setInvestInstrumentsData(InvestInstrumentsModel data) {
     investInstrumentsData = data;
@@ -875,6 +906,7 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
 
   @observable
   InvestPricesModel? investPricesData;
+
   @action
   void setInvestPricesData(InvestPricesModel data) {
     if (investPricesData != null && investPricesData!.prices.isNotEmpty) {
@@ -901,6 +933,7 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
 
   @observable
   InvestSectorsModel? investSectorsData;
+
   @action
   void setInvestSectorsData(InvestSectorsModel data) {
     investSectorsData = data;
@@ -908,6 +941,7 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
 
   @observable
   InvestWalletModel? investWalletData;
+
   @action
   void setInvestWalletData(InvestWalletModel data) {
     investWalletData = data;
@@ -915,6 +949,7 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
 
   @observable
   InvestBaseDailyPriceModel? investBaseDailyPriceData;
+
   @action
   void setInvestBaseDailyPriceData(InvestBaseDailyPriceModel data) {
     if (investBaseDailyPriceData != null && investBaseDailyPriceData!.dailyPrices.isNotEmpty) {
@@ -1024,6 +1059,7 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
 
   @observable
   PeriodPricesModel? periodPrices;
+
   @action
   void setPeriodPrices(PeriodPricesModel value) => periodPrices = value;
 
@@ -1056,7 +1092,12 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
           currency.currentPrice.toDouble(),
         ),
       );
-    } catch (e) {
+    } catch (e, stackTrace) {
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.error,
+            place: '[SignalRServiceNew] getReturnRates',
+            message: 'Error: $e, $stackTrace',
+          );
       return null;
     }
   }
@@ -1089,6 +1130,7 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
 
   @observable
   ActiveEarnOffersMessage? activeEarnOffersMessage;
+
   @action
   void setEarnOffersData(ActiveEarnOffersMessage data) {
     activeEarnOffersMessage = data;
@@ -1096,6 +1138,7 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
 
   @observable
   ActiveEarnPositionsMessage? activeEarnPositionsMessage;
+
   @action
   void setEarnPositionsData(ActiveEarnPositionsMessage data) {
     activeEarnPositionsMessage = data;
@@ -1103,6 +1146,7 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
 
   @observable
   BanersListMessage banersListMessage = const BanersListMessage();
+
   @action
   void setBanersListData(BanersListMessage data) {
     banersListMessage = data;

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -221,8 +223,10 @@ class _BodyAddressBookSimpleState extends State<_BodyAddressBookSimple> {
 
                                     if (result) {
                                       if (!store.isEditMode) {
-                                        await AnchorsHelper().addAddExternalIbanAnchor(
-                                          widget.bankingAccount?.accountId ?? 'clearjuction_account',
+                                        unawaited(
+                                          AnchorsHelper().addAddExternalIbanAnchor(
+                                            widget.bankingAccount?.accountId ?? 'clearjuction_account',
+                                          ),
                                         );
                                       }
 

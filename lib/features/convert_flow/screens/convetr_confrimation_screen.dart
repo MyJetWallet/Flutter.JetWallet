@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
@@ -166,12 +168,14 @@ class _ConvertConfirmationScreenBody extends StatelessObserverWidget {
   }
 
   void setAnchor() {
-    AnchorsHelper().addConvertConfirmAnchor(
-      fromAsset: convertConfirmationModel.fromAsset,
-      toAsset: convertConfirmationModel.toAsset,
-      fromAmount: convertConfirmationModel.fromAmount,
-      toAmount: convertConfirmationModel.toAmount,
-      isFromFixed: convertConfirmationModel.isFromFixed,
+    unawaited(
+      AnchorsHelper().addConvertConfirmAnchor(
+        fromAsset: convertConfirmationModel.fromAsset,
+        toAsset: convertConfirmationModel.toAsset,
+        fromAmount: convertConfirmationModel.fromAmount,
+        toAmount: convertConfirmationModel.toAmount,
+        isFromFixed: convertConfirmationModel.isFromFixed,
+      ),
     );
   }
 }
