@@ -124,10 +124,12 @@ void setAuthInterceptor(
             handler.reject(dioError);
           }
         } else if (code == 500 || code == 504) {
-          sNotification.showError(
-            intl.something_went_wrong_try_again,
-            id: 1,
-          );
+          if (!pathsBypass500Error.contains(dioError.requestOptions.uri.path)) {
+            sNotification.showError(
+              intl.something_went_wrong_try_again,
+              id: 1,
+            );
+          }
 
           handler.reject(dioError);
         } else {
