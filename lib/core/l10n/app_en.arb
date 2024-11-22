@@ -1899,4 +1899,12 @@
     "crypto_card_settings_documents": "Documents",
     "crypto_card_settings_privacy_policy": "Privacy Policy, Terms of Use",
     "crypto_card_settings_delete_card": "Delete card"
+    "crypto_card_freeze": "Freeze",
+    "crypto_card_change_pin": "Change PIN",
+    "crypto_card_settings": "Settings",
+    "crypto_card_card_number": "Card number",
+    "crypto_card_valid_thru": "Valid thru",
+    "crypto_card_cvv": "CVV",
+    "crypto_card_show": "Show",
+    "crypto_card_asset_linked": "{count} asset linked"
 }

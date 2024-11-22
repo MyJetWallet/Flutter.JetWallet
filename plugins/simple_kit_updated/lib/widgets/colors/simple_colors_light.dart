@@ -12,6 +12,8 @@ class SColorsLight implements SColors {
   Color blackAlfa12 = const Color(0xFF000000).withOpacity(.12);
   @override
   Color blackAlfa52 = const Color(0xFF000000).withOpacity(.52);
+  @override
+  Color violet50 = const Color(0xFF9575F3);
 
   @override
   Color gray10 = const Color(0xFF777C85);
