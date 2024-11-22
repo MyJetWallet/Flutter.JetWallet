@@ -266,7 +266,9 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
 
   void _onTimerComplete() {
     if (mounted) {
-      AnchorsHelper().addMarketDetailsAnchor(widget.marketItem.symbol);
+      unawaited(
+        AnchorsHelper().addMarketDetailsAnchor(widget.marketItem.symbol),
+      );
     }
   }
 }

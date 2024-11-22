@@ -1,12 +1,12 @@
 // ignore_for_file: constant_identifier_names
 
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:collection/collection.dart';
 import 'package:decimal/decimal.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
@@ -46,9 +46,11 @@ import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
 import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:logger/logger.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/p2p_methods/p2p_methods_responce_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_create_response.dart';
 
 import '../../features/app/timer_service.dart';
@@ -130,12 +132,19 @@ const _jw_sector_id = 'jw_sector_id';
 //Card Preorder
 const _card_preorder = 'card_preorder';
 
+//Crypto card
+const _crypto_card = 'crypto_card';
+
 // Unfinished operation
-const _unfinishedOperation = 'jw_unfinished_operation';
+const _unfinishedOperation = 'UnfinishedOperation';
 const _fromAsset = 'jw_fromAsset';
 const _toAsset = 'jw_toAsset';
-const _amount = 'jw_amount';
-const _side = 'jw_side';
+const _fromAmount = 'jw_fromAmount';
+const _toAmount = 'jw_toAmount';
+const _isFromFixed = 'jw_isFromFixed';
+const _operation = 'jw_operation';
+const _cardId = 'jw_cardId';
+const _receiveMethodId = 'jw_receiveMethodId';
 
 enum SourceScreen {
   bannerOnMarket,
@@ -253,6 +262,8 @@ class DeepLinkService {
       await openCardPreorderTab(parameters);
     } else if (command == _unfinishedOperation) {
       await _pushUnfinishedOperationFlow(parameters);
+    } else if (command == _crypto_card) {
+      await openCryptoCardTab(parameters);
     } else {
       if (parameters.containsKey('jw_operation_id')) {
         await pushCryptoHistory(parameters);
@@ -344,44 +355,192 @@ class DeepLinkService {
   Future<void> _pushUnfinishedOperationFlow(
     Map<String, String> parameters,
   ) async {
+    final operation = parameters[_operation];
+
     final fromAsset = parameters[_fromAsset];
     final toAsset = parameters[_toAsset];
-    final amount = parameters[_amount];
-    final side = parameters[_side];
+    final fromAmountValue = parameters[_fromAmount];
+    final toAmountValue = parameters[_toAmount];
+    final isFromFixed = bool.tryParse(parameters[_isFromFixed] ?? '');
 
-    if (fromAsset == null || toAsset == null || amount == null || side == null) {
+    if (fromAsset == null ||
+        toAsset == null ||
+        isFromFixed == null ||
+        (fromAmountValue == null && toAmountValue == null)) {
       return;
     }
 
-    Future<void> navigation() async {
-      var fromAmount = Decimal.zero;
-      var toAmount = Decimal.zero;
-      var isFromFixed = false;
-      if (side == 'sell') {
-        fromAmount = Decimal.parse(amount);
-        toAmount = Decimal.zero;
-        isFromFixed = true;
-      } else if (side == 'buy') {
-        fromAmount = Decimal.zero;
-        toAmount = Decimal.parse(amount);
-        isFromFixed = false;
-      }
-      sRouter.popUntilRoot();
+    var navigation = () async {};
 
-      final isPageRouterNow = sRouter.stack.any((rout) => rout.name == ConvertConfirmationRoute.name);
-      if (!isPageRouterNow) {
-        await sRouter.push(
-          ConvertConfirmationRoute(
-            convertConfirmationModel: ConvertConfirmationModel(
-              fromAsset: fromAsset,
-              toAsset: toAsset,
-              fromAmount: fromAmount,
-              toAmount: toAmount,
-              isFromFixed: isFromFixed,
-            ),
-          ),
-        );
+    if (operation == null) {
+      return;
+    } else if (operation == 'buyCard') {
+      final cardId = parameters[_cardId];
+      if (cardId == null) {
+        return;
       }
+
+      navigation = () async {
+        try {
+          final fromCurrency = sSignalRModules.currenciesList.firstWhereOrNull((e) => e.symbol == fromAsset);
+          final toCurrency = sSignalRModules.currenciesList.firstWhereOrNull((e) => e.symbol == toAsset);
+
+          final cards = sSignalRModules.cards.cardInfos;
+          final card = cards.firstWhereOrNull((element) => element.id == cardId);
+
+          sRouter.popUntilRoot();
+
+          final isPageRouterNow = sRouter.stack.any((rout) => rout.name == BuyConfirmationRoute.name);
+          if (!isPageRouterNow) {
+            await sRouter.push(
+              BuyConfirmationRoute(
+                paymentCurrency: fromCurrency!,
+                asset: toCurrency!,
+                isFromFixed: isFromFixed,
+                fromAmount: fromAmountValue,
+                toAmount: toAmountValue,
+                card: card,
+              ),
+            );
+          }
+        } catch (e) {
+          if (kDebugMode) {
+            print('[DeepLinkService] buySimpleAccount error $e');
+          }
+        }
+      };
+    } else if (operation == 'buyP2P') {
+      final receiveMethodId = parameters[_receiveMethodId];
+      if (receiveMethodId == null) {
+        return;
+      }
+
+      navigation = () async {
+        try {
+          final toCurrency = sSignalRModules.currenciesList.firstWhereOrNull((e) => e.symbol == toAsset);
+
+          final p2pBuyMethod =
+              toCurrency!.buyMethods.firstWhereOrNull((buyMethod) => buyMethod.id == PaymentMethodType.paymeP2P);
+          final paymentAsset = p2pBuyMethod?.paymentAssets?.firstWhereOrNull((element) => element.asset == fromAsset);
+          if (paymentAsset == null) {
+            return;
+          }
+
+          final p2pMethods = <P2PMethodModel>[];
+          final response = await sNetwork.getWalletModule().getP2PMethods();
+          final result = response.data?.methods ?? [];
+          p2pMethods.addAll(result);
+          final p2pMethod = p2pMethods.firstWhereOrNull(
+            (method) => method.methodId == receiveMethodId,
+          );
+
+          if (p2pMethod == null) {
+            return;
+          }
+
+          sRouter.popUntilRoot();
+
+          final isPageRouterNow = sRouter.stack.any((rout) => rout.name == BuyP2PConfirmationRoute.name);
+          if (!isPageRouterNow) {
+            await sRouter.push(
+              BuyP2PConfirmationRoute(
+                asset: toCurrency,
+                paymentAsset: paymentAsset,
+                isFromFixed: isFromFixed,
+                fromAmount: fromAmountValue,
+                toAmount: toAmountValue,
+                p2pMethod: p2pMethod,
+              ),
+            );
+          }
+        } catch (e) {
+          if (kDebugMode) {
+            print('[DeepLinkService] buySimpleAccount error $e');
+          }
+        }
+      };
+    } else if (operation == 'buySimpleAccount') {
+      navigation = () async {
+        try {
+          final fromCurrency = sSignalRModules.currenciesList.firstWhereOrNull((e) => e.symbol == fromAsset);
+          final toCurrency = sSignalRModules.currenciesList.firstWhereOrNull((e) => e.symbol == toAsset);
+          final simpleAccount = sSignalRModules.bankingProfileData?.simple!.account;
+
+          if (simpleAccount == null) {
+            return;
+          }
+
+          sRouter.popUntilRoot();
+
+          final isPageRouterNow = sRouter.stack.any((rout) => rout.name == BuyConfirmationRoute.name);
+          if (!isPageRouterNow) {
+            await sRouter.push(
+              BuyConfirmationRoute(
+                paymentCurrency: fromCurrency!,
+                asset: toCurrency!,
+                isFromFixed: isFromFixed,
+                fromAmount: fromAmountValue,
+                toAmount: toAmountValue,
+                account: simpleAccount,
+              ),
+            );
+          }
+        } catch (e) {
+          if (kDebugMode) {
+            print('[DeepLinkService] buySimpleAccount error $e');
+          }
+        }
+      };
+    } else if (operation == 'convert') {
+      navigation = () async {
+        try {
+          sRouter.popUntilRoot();
+
+          if (toAsset == 'EUR') {
+            final fromCurrency =
+                sSignalRModules.currenciesWithHiddenList.firstWhereOrNull((e) => e.symbol == fromAsset);
+            final toCurrency = sSignalRModules.currenciesWithHiddenList.firstWhereOrNull((e) => e.symbol == toAsset);
+            final simpleAccount = sSignalRModules.bankingProfileData?.simple!.account;
+
+            if (simpleAccount == null) {
+              return;
+            }
+
+            final isPageRouterNow = sRouter.stack.any((rout) => rout.name == SellConfirmationRoute.name);
+            if (!isPageRouterNow) {
+              await sRouter.push(
+                SellConfirmationRoute(
+                  paymentCurrency: toCurrency!,
+                  asset: fromCurrency!,
+                  isFromFixed: isFromFixed,
+                  fromAmount: Decimal.parse(fromAmountValue ?? '0'),
+                  toAmount: Decimal.parse(toAmountValue ?? '0'),
+                  account: simpleAccount,
+                ),
+              );
+            }
+          } else {
+            final isPageRouterNow = sRouter.stack.any((rout) => rout.name == ConvertConfirmationRoute.name);
+            if (!isPageRouterNow) {
+              await sRouter.push(
+                ConvertConfirmationRoute(
+                  convertConfirmationModel: ConvertConfirmationModel(
+                    fromAsset: fromAsset,
+                    toAsset: toAsset,
+                    fromAmount: Decimal.parse(fromAmountValue ?? '0'),
+                    toAmount: Decimal.parse(toAmountValue ?? '0'),
+                    isFromFixed: isFromFixed,
+                  ),
+                ),
+              );
+            }
+          }
+        } catch (e) {
+          if (kDebugMode) {
+            print('[DeepLinkService] convert error $e');
+          }
+        }
+      };
     }
 
     if (getIt.isRegistered<AppStore>() &&
@@ -1364,6 +1523,36 @@ class DeepLinkService {
             if (isPreorderAvaible) {
               sRouter.popUntilRoot();
               getIt<BottomBarStore>().setHomeTab(BottomItemType.card);
+            }
+          },
+        ),
+      );
+    }
+  }
+
+  Future<void> openCryptoCardTab(
+    Map<String, String> parameters,
+  ) async {
+    if (getIt.isRegistered<AppStore>() &&
+        getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home &&
+        getIt<TimerService>().isPinScreenOpen == false) {
+      // TODO (Yaroslav): SPU-4804 add product method check
+      const isCryptoCardAvaible = true;
+      if (isCryptoCardAvaible) {
+        await Future.delayed(const Duration(milliseconds: 100));
+        sRouter.popUntilRoot();
+        getIt<BottomBarStore>().setHomeTab(BottomItemType.cryptoCard);
+      }
+    } else {
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          func: () async {
+            // TODO (Yaroslav): SPU-4804 add product method check
+            const isCryptoCardAvaible = true;
+            if (isCryptoCardAvaible) {
+              sRouter.popUntilRoot();
+              getIt<BottomBarStore>().setHomeTab(BottomItemType.cryptoCard);
             }
           },
         ),

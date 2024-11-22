@@ -7,6 +7,7 @@ import 'package:jetwallet/features/crypto_card/screens/widgets/crypto_card_amoun
 import 'package:jetwallet/features/crypto_card/screens/widgets/crypto_card_transactions.dart';
 import 'package:jetwallet/features/crypto_card/screens/widgets/crypto_card_widget.dart';
 import 'package:jetwallet/features/crypto_card/store/main_crypto_card_store.dart';
+import 'package:jetwallet/features/crypto_card/utils/show_card_settings_bootom_sheet.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 

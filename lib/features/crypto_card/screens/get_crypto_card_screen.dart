@@ -34,7 +34,7 @@ class GetCryptoCardScreen extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 32),
                         child: Image.asset(
-                          preorderCardAsset,
+                          cryptoCardPreview2,
                         ),
                       ),
                       Text(

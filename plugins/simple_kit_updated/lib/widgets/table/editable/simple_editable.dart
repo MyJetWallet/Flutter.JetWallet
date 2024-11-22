@@ -12,10 +12,15 @@ class SEditable extends HookWidget {
     this.rightIcon,
     this.onRightIconTap,
     this.onCardTap,
+    this.lableStyle,
+    this.supplementStyle,
   });
 
   final String lable;
   final String? supplement;
+
+  final TextStyle? lableStyle;
+  final TextStyle? supplementStyle;
 
   final Widget? leftIcon;
   final VoidCallback? onLeftIconTap;
@@ -57,14 +62,15 @@ class SEditable extends HookWidget {
                 children: [
                   Text(
                     lable,
-                    style: STStyles.subtitle1,
+                    style: lableStyle ?? STStyles.subtitle1,
                   ),
                   if (supplement != null)
                     Text(
                       supplement ?? '',
-                      style: STStyles.body2Medium.copyWith(
-                        color: colors.gray10,
-                      ),
+                      style: supplementStyle ??
+                          STStyles.body2Medium.copyWith(
+                            color: colors.gray10,
+                          ),
                     ),
                 ],
               ),

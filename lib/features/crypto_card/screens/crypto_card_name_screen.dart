@@ -43,57 +43,67 @@ class _CryptoCardNameScreenState extends State<CryptoCardNameScreen> {
               store.skipCryptoCardNameSteep();
             },
           ),
-          child: Column(
-            children: [
-              ColoredBox(
-                color: colors.white,
+          child: CustomScrollView(
+            physics: const ClampingScrollPhysics(),
+            slivers: [
+              SliverFillRemaining(
+                hasScrollBody: false,
                 child: Column(
                   children: [
-                    SizedBox(
-                      height: 172,
-                      child: Image.asset(
-                        cryptoCardPreviewSmall,
-                      ),
-                    ),
-                    SPaddingH24(
+                    ColoredBox(
+                      color: colors.white,
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            intl.crypto_card_name_your_card,
-                            style: STStyles.header5,
+                          SizedBox(
+                            height: 172,
+                            child: Image.asset(
+                              cryptoCardPreviewSmall,
+                            ),
+                          ),
+                          SPaddingH24(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  intl.crypto_card_name_your_card,
+                                  style: STStyles.header5,
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SpaceH32(),
+                          SInput(
+                            label: intl.crypto_card_name_card_name,
+                            controller: controller,
+                            autofocus: true,
+                            onChanged: (name) {
+                              store.setCryptoCardName(name);
+                            },
                           ),
                         ],
                       ),
                     ),
                     const SpaceH32(),
-                    SInput(
-                      label: intl.crypto_card_name_card_name,
-                      controller: controller,
-                      onChanged: (name) {
-                        store.setCryptoCardName(name);
-                      },
+                    const Spacer(),
+                    SafeArea(
+                      top: false,
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          left: 24,
+                          right: 24,
+                          bottom: 16 + MediaQuery.of(context).padding.top <= 24 ? 24 : 16,
+                        ),
+                        child: SButton.black(
+                          text: intl.crypto_card_name_create_card,
+                          callback: store.isLableValid
+                              ? () {
+                                  store.createCryptoCard();
+                                }
+                              : null,
+                        ),
+                      ),
                     ),
                   ],
-                ),
-              ),
-              const Spacer(),
-              SafeArea(
-                top: false,
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    left: 24,
-                    right: 24,
-                    bottom: 16 + MediaQuery.of(context).padding.top <= 24 ? 24 : 16,
-                  ),
-                  child: SButton.black(
-                    text: intl.crypto_card_name_create_card,
-                    callback: store.isLableValid
-                        ? () {
-                            store.createCryptoCard();
-                          }
-                        : null,
-                  ),
                 ),
               ),
             ],

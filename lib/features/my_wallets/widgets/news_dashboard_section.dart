@@ -147,17 +147,29 @@ class NewsItem extends HookWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          news.source,
-                          style: STStyles.subtitle1,
-                          maxLines: 3,
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
                           news.topic,
                           style: STStyles.body1Medium.copyWith(
                             color: colors.gray10,
                           ),
                           maxLines: 5,
+                        ),
+                        const SizedBox(height: 8),
+                        Row(
+                          children: [
+                            Assets.svg.medium.global.simpleSvg(
+                              height: 16.0,
+                              width: 16.0,
+                              color: colors.gray8,
+                            ),
+                            const SizedBox(
+                              width: 6.0,
+                            ),
+                            Text(
+                              news.source,
+                              style: STStyles.body2Semibold,
+                              maxLines: 3,
+                            ),
+                          ],
                         ),
                       ],
                     ),

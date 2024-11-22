@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -7,9 +8,12 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/sumsub_service/sumsub_service.dart';
+import 'package:jetwallet/features/app/store/global_loader.dart';
 import 'package:jetwallet/features/crypto_card/utils/show_crypto_card_acknowledgment_bottom_sheet.dart';
+import 'package:jetwallet/features/crypto_card/utils/show_insufficient_balance_account_popup.dart';
 import 'package:jetwallet/features/crypto_card/utils/show_please_verify_account_popup.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
@@ -18,6 +22,9 @@ import 'package:jetwallet/features/kyc/kyc_verify_your_profile/utils/start_kyc_a
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_networking/helpers/models/server_reject_exception.dart';
+import 'package:simple_networking/modules/signal_r/models/crypto_card_message_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/crypto_card/create_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/price_crypto_card_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/kyc/kyc_plan_responce_model.dart';
 
@@ -47,6 +54,22 @@ abstract class _CreateCryptoCardStoreBase with Store {
 
   @computed
   bool get isLableValid => cardLable?.isNotEmpty ?? false;
+
+  @computed
+  bool get isIsEnoughBalanceToPay {
+    final needToPay = price?.userPrice ?? Decimal.zero;
+
+    final formatService = getIt.get<FormatService>();
+    final avaibleBalance = formatService.convertOneCurrencyToAnotherOne(
+      fromCurrency: defaultAsset.symbol,
+      fromCurrencyAmmount: defaultAsset.assetBalance,
+      toCurrency: price?.assetSymbol ?? 'EUR',
+      baseCurrency: sSignalRModules.baseCurrency.symbol,
+      isMin: true,
+    );
+
+    return needToPay < avaibleBalance;
+  }
 
   @action
   Future<void> startCreatingFlow() async {
@@ -138,14 +161,18 @@ abstract class _CreateCryptoCardStoreBase with Store {
 
   @action
   Future<void> routCardIssueCostSheetScreen() async {
-    await sRouter.push(const CryptoCardIssueCostRoute());
-
     if (price == null) {
       await _getPrice();
     }
+    if (isIsEnoughBalanceToPay) {
+      await sRouter.push(const CryptoCardIssueCostRoute());
+    } else {
+      final context = sRouter.navigatorKey.currentContext;
+      if (context == null) return;
+      await showInsufficientBalanceAccountPopup(context: context);
+    }
   }
 
-  @action
   Future<void> routCryptoCardNameScreen() async {
     await sRouter.push(const CryptoCardNameRoute());
   }
@@ -163,7 +190,68 @@ abstract class _CreateCryptoCardStoreBase with Store {
 
   @action
   Future<void> createCryptoCard() async {
-    cardIsCreating = true;
-    sRouter.popUntilRoot();
+    try {
+      getIt.get<GlobalLoader>().setLoading(true);
+      final model = CreateCryptoCardRequestModel(
+        label: cardLable,
+      );
+
+      final response = await sNetwork.getWalletModule().createCryptoCard(model);
+
+      response.pick(
+        onNoError: (data) async {
+          // TODO (Yaroslav): remove this code
+          sSignalRModules.cryptoCardProfile = CryptoCardProfile(
+            associateAssetList: ['USDT'],
+            cards: [
+              CryptoCardModel(
+                cardId: 'mock',
+                label: cardLable ?? '',
+                last4: '5555',
+                status: CryptoCardStatus.inCreation,
+              ),
+            ],
+          );
+          unawaited(
+            Future.delayed(
+              const Duration(seconds: 3),
+              () {
+                sSignalRModules.cryptoCardProfile = CryptoCardProfile(
+                  associateAssetList: ['USDT'],
+                  cards: [
+                    CryptoCardModel(
+                      cardId: 'mock',
+                      label: cardLable ?? '',
+                      last4: '5555',
+                      status: CryptoCardStatus.active,
+                    ),
+                  ],
+                );
+              },
+            ),
+          );
+        },
+        onError: (error) {
+          sNotification.showError(
+            error.cause,
+            id: 1,
+          );
+        },
+      );
+    } on ServerRejectException catch (error) {
+      sNotification.showError(
+        error.cause,
+        id: 1,
+      );
+    } catch (error) {
+      sNotification.showError(
+        intl.something_went_wrong_try_again2,
+        id: 1,
+        needFeedback: true,
+      );
+    } finally {
+      getIt.get<GlobalLoader>().setLoading(false);
+      sRouter.popUntilRoot();
+    }
   }
 }
