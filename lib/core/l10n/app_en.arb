@@ -1889,5 +1889,21 @@
     "crypto_card_insufficient_balance_title": "Insufficient balance",
     "crypto_card_insufficient_balance_description": "Please deposit your crypto wallet or choose another wallet and try again",
     "crypto_card_insufficient_balance_deposit": "Deposit",
-    "crypto_card_insufficient_balance_back": "Back to home page"
+    "crypto_card_insufficient_balance_back": "Back to home page",
+    "crypto_card_settings": "Settings",
+    "crypto_card_settings_change_design": "Change design",
+    "crypto_card_settings_limit_settings": "Limit settings",
+    "crypto_card_linked_assets": "Linked assets",
+    "crypto_card_settings_change_pin": "Change PIN",
+    "crypto_card_settings_card_statements": "Card Statements",
+    "crypto_card_settings_documents": "Documents",
+    "crypto_card_settings_privacy_policy": "Privacy Policy, Terms of Use",
+    "crypto_card_settings_delete_card": "Delete card",
+    "crypto_card_freeze": "Freeze",
+    "crypto_card_change_pin": "Change PIN",
+    "crypto_card_card_number": "Card number",
+    "crypto_card_valid_thru": "Valid thru",
+    "crypto_card_cvv": "CVV",
+    "crypto_card_show": "Show",
+    "crypto_card_asset_linked": "{count} asset linked"
 }
