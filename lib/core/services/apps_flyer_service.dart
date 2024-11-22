@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/deep_link_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
@@ -36,6 +37,8 @@ class AppsFlyerService {
       registerOnDeepLinkingCallback: true,
     );
 
+    appsflyerSdk.addPushNotificationDeepLinkPath(['af_push']);
+
     appsflyerSdk.onInstallConversionData((value) async {
       installConversionDataTemp = value.toString();
       final prevInstallConversionData = await storage.getValue(installConversionDataKey);
@@ -67,16 +70,29 @@ class AppsFlyerService {
               final deepLinkValue = data['deep_link_value'] as String?;
 
               if (deepLinkValue != null) {
-                await Future.delayed(const Duration(seconds: 3));
-                await getIt.get<DeepLinkService>().handleOneLinkAction(deepLinkValue);
+                if (deepLinkValue.contains('ReferralRedirect')) {
+                  try {
+                    final temp = deepLinkValue.split('jw_code/');
+                    if (temp.length > 1) {
+                      final referralCode = temp[1];
+                      await storage.setString(referralCodeKey, referralCode);
+                    }
+                  } catch (e) {
+                    if (kDebugMode) {
+                      print('[AppsFlyerService] ReferralRedirect error: $e');
+                    }
+                  }
+                } else {
+                  await getIt.get<DeepLinkService>().handleOneLinkAction(deepLinkValue);
+                }
               }
             }
           }
         }
       } catch (e) {
-        ///
-        /// TODO: Add sentry log
-        ///
+        if (kDebugMode) {
+          print('[AppsFlyerService] OnInstallConversionData Error: $e');
+        }
       }
     });
 
