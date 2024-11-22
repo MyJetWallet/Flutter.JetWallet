@@ -1905,5 +1905,20 @@
     "crypto_card_valid_thru": "Valid thru",
     "crypto_card_cvv": "CVV",
     "crypto_card_show": "Show",
-    "crypto_card_asset_linked": "{count} asset linked"
+    "crypto_card_asset_linked": "{count} asset linked",
+    "crypto_card_limits": "Limits",
+    "crypto_card_limits_card_payments": "Card payments",
+    "crypto_card_limits_daily": "Daily",
+    "crypto_card_limits_left": "Left {amounty}",
+    "@crypto_card_limits_left": {
+        "placeholders": {
+            "amounty": {
+                "type": "String",
+                "example": "1 000 EUR"
+            }
+        }
+    },
+    "crypto_card_limits_weekly": "Weekly",
+    "crypto_card_monthly": "Monthly",
+    "crypto_card_limits_atm_withdrawals": "ATM withdrawals"
 }
