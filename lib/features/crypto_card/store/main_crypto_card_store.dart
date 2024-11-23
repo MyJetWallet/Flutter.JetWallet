@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
@@ -22,10 +23,19 @@ class MainCryptoCardStore extends _MainCryptoCardStoreBase with _$MainCryptoCard
 
 abstract class _MainCryptoCardStoreBase with Store {
   @observable
+  bool showAddToWalletBanner = false;
+
+  @observable
   SensitiveInfoCryptoCardResponseModel? sensitiveInfo;
 
   @action
   Future<void> init() async {
+    final bannerClosed = bool.tryParse(
+          await sLocalStorageService.getValue(isCryptoCardAddToWalletBannerClosed) ?? 'false',
+        ) ??
+        false;
+    showAddToWalletBanner = !bannerClosed;
+
     try {
       final cardId = sSignalRModules.cryptoCardProfile.cards.first.cardId;
       final model = SensitiveInfoCryptoCardRequestModel(cardId: cardId);
@@ -59,5 +69,11 @@ abstract class _MainCryptoCardStoreBase with Store {
             message: 'init error: $error',
           );
     }
+  }
+
+  @action
+  Future<void> closeBanner() async {
+    showAddToWalletBanner = false;
+    await sLocalStorageService.setString(isCryptoCardAddToWalletBannerClosed, 'true');
   }
 }

@@ -22,7 +22,7 @@ class CryptoCardRootScreen extends StatelessWidget {
             ? const GetCryptoCardScreen()
             : cryptoCard?.status == CryptoCardStatus.inCreation
                 ? const CreatingCryptoCardScreen()
-                : const CryptoCardMainScreen();
+                : CryptoCardMainScreen(cryptoCard: cryptoCard!);
       },
     );
   }

@@ -232,62 +232,62 @@ class _CryptoCardSensitiveDataWidgetState extends State<_CryptoCardSensitiveData
             color: colors.white,
           ),
         ),
-        Row(
-          children: [
-            if (widget.value == '')
-              SSkeletonLoader(
-                height: 28,
-                width: widget.loaderWidth,
-                borderRadius: BorderRadius.circular(4),
-              )
-            else if (widget.withSecure)
-              SizedBox(
-                height: 28.0,
-                child: AnimatedCrossFade(
-                  firstChild: Padding(
-                    padding: const EdgeInsets.only(
-                      top: 1.0,
+        SafeGesture(
+          onTap: () {
+            if (widget.withSecure && isHided) {
+              setState(() {
+                isHided = false;
+              });
+            } else {
+              widget.onTap(widget.value);
+            }
+          },
+          child: Row(
+            children: [
+              if (widget.value == '')
+                SSkeletonLoader(
+                  height: 28,
+                  width: widget.loaderWidth,
+                  borderRadius: BorderRadius.circular(4),
+                )
+              else if (widget.withSecure)
+                SizedBox(
+                  height: 28.0,
+                  child: AnimatedCrossFade(
+                    firstChild: Padding(
+                      padding: const EdgeInsets.only(
+                        top: 1.0,
+                      ),
+                      child: Text(
+                        intl.crypto_card_show,
+                        style: STStyles.body1Bold.copyWith(
+                          color: colors.white,
+                        ),
+                      ),
                     ),
-                    child: Text(
-                      intl.crypto_card_show,
-                      style: STStyles.body1Bold.copyWith(
+                    secondChild: Text(
+                      widget.value,
+                      style: STStyles.header6.copyWith(
                         color: colors.white,
                       ),
                     ),
+                    crossFadeState: isHided ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+                    duration: const Duration(milliseconds: 300),
                   ),
-                  secondChild: Text(
+                )
+              else
+                SizedBox(
+                  height: 28.0,
+                  child: Text(
                     widget.value,
                     style: STStyles.header6.copyWith(
                       color: colors.white,
                     ),
                   ),
-                  crossFadeState: isHided ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-                  duration: const Duration(milliseconds: 300),
                 ),
-              )
-            else
-              SizedBox(
-                height: 28.0,
-                child: Text(
-                  widget.value,
-                  style: STStyles.header6.copyWith(
-                    color: colors.white,
-                  ),
-                ),
-              ),
-            if (widget.showCopy) ...[
-              const SpaceW4(),
-              SafeGesture(
-                onTap: () {
-                  if (widget.withSecure && isHided) {
-                    setState(() {
-                      isHided = false;
-                    });
-                  } else {
-                    widget.onTap(widget.value);
-                  }
-                },
-                child: AnimatedCrossFade(
+              if (widget.showCopy) ...[
+                const SpaceW4(),
+                AnimatedCrossFade(
                   firstChild: Assets.svg.medium.show.simpleSvg(
                     color: colors.white,
                     width: 16,
@@ -301,9 +301,9 @@ class _CryptoCardSensitiveDataWidgetState extends State<_CryptoCardSensitiveData
                   crossFadeState: widget.withSecure && isHided ? CrossFadeState.showFirst : CrossFadeState.showSecond,
                   duration: const Duration(milliseconds: 300),
                 ),
-              ),
+              ],
             ],
-          ],
+          ),
         ),
       ],
     );

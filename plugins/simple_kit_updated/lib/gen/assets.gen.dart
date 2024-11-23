@@ -108,6 +108,12 @@ class $AssetsSvgBrandGen {
 class $AssetsSvgCardGen {
   const $AssetsSvgCardGen();
 
+  /// File path: assets/svg/card/apple_wallet.svg
+  SvgGenImage get appleWallet => const SvgGenImage('assets/svg/card/apple_wallet.svg');
+
+  /// File path: assets/svg/card/google_wallet.svg
+  SvgGenImage get googleWallet => const SvgGenImage('assets/svg/card/google_wallet.svg');
+
   /// File path: assets/svg/card/simple_crypto_card.svg
   SvgGenImage get simpleCryptoCard => const SvgGenImage('assets/svg/card/simple_crypto_card.svg');
 
@@ -115,7 +121,7 @@ class $AssetsSvgCardGen {
   SvgGenImage get simpleLogo => const SvgGenImage('assets/svg/card/simple_logo.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values => [simpleCryptoCard, simpleLogo];
+  List<SvgGenImage> get values => [appleWallet, googleWallet, simpleCryptoCard, simpleLogo];
 }
 
 class $AssetsSvgInvestGen {

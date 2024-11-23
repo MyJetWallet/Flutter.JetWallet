@@ -68,6 +68,7 @@ const earnTermsAndConditionsWasChecked = 'earnTermsAndConditionsWasChecked';
 const isPerapaidCardBannerClosed = 'isPerapaidCardBannerClosed';
 const isJarTermsConfirmed = 'isJarTermsConfirmed';
 const isJarsLandingClosed = 'isJarsLandingClosed';
+const isCryptoCardAddToWalletBannerClosed = 'isCryptoCardAddToWalletBannerClosed';
 
 final sLocalStorageService = getIt.get<LocalStorageService>();
 
