@@ -1909,5 +1909,11 @@
     "crypto_card_add_to_apple_wallet_title": "Add card to Apple Wallet",
     "crypto_card_add_to_apple_wallet_description": "Open Wallet App, tap “Add” button, and follow the prompts.",
     "crypto_card_add_to_google_wallet_title": "Add card to Google Wallet",
-    "crypto_card_add_to_google_wallet_description": "Open the Google Wallet App, tap “Add to Wallet,” and follow the prompts."
+    "crypto_card_add_to_google_wallet_description": "Open the Google Wallet App, tap “Add to Wallet,” and follow the prompts.",
+    "crypto_card_freeze_title": "Freeze this card?",
+    "crypto_card_freeze_description": "Once the card is frozen, payments and withdrawals will be declined. You can unfreeze your card anytime.",
+    "crypto_card_cancel": "Cancel",
+    "crypto_card_freeze_toast": "Card transactions will be declined until you unfreeze the card",
+    "crypto_card_unfreeze": "Unfreeze",
+    "crypto_card_unfreeze_toast": "Success"
 }

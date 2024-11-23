@@ -42,9 +42,11 @@ import 'package:simple_networking/modules/wallet_api/models/create_payment/creat
 import 'package:simple_networking/modules/wallet_api/models/create_payment/create_payment_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/change_lable_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/create_crypto_card_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/crypto_card/freeze_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/price_crypto_card_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/sensitive_info_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/sensitive_info_crypto_card_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/crypto_card/unfreeze_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/delete_card/delete_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/delete_card/delete_card_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/deposit_address/deposit_address_request_model.dart';
@@ -1451,5 +1453,17 @@ class WalletApiRepository {
 
   Future<DC<ServerRejectException, PriceCryptoCardResponseModel>> getPriceCryptoCard() async {
     return _walletApiDataSources.getPriceCryptoCardRequest();
+  }
+
+  Future<DC<ServerRejectException, void>> freezeCard(
+    FreezeCryptoCardRequestModel model,
+  ) async {
+    return _walletApiDataSources.freezeCardRequest(model);
+  }
+
+  Future<DC<ServerRejectException, void>> unfreezeCard(
+    UnfreezeCryptoCardRequestModel model,
+  ) async {
+    return _walletApiDataSources.unfreezeCardRequest(model);
   }
 }

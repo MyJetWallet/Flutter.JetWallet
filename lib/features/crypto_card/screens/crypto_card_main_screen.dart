@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/crypto_card/store/main_crypto_card_store.dart';
 import 'package:jetwallet/features/crypto_card/widgets/crypto_card_action_buttons.dart';
 import 'package:jetwallet/features/crypto_card/widgets/crypto_card_add_to_wallet_banner.dart';
@@ -39,8 +40,13 @@ class _CryptoCardMainScreenBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final store = Provider.of<MainCryptoCardStore>(context);
+
+    final cardIsFrozen = cryptoCard.status == CryptoCardStatus.frozen;
+
     return SPageFrame(
-      loaderText: '',
+      loaderText: intl.register_pleaseWait,
+      loading: store.loader,
       header: GlobalBasicAppBar(
         title: 'Simple virtual card',
         subtitle: cryptoCard.label,
@@ -51,11 +57,15 @@ class _CryptoCardMainScreenBody extends StatelessWidget {
         child: Column(
           children: [
             CryptoCardWidget(
+              isFrozen: cardIsFrozen,
               last4: cryptoCard.last4,
-              sensitiveInfo: Provider.of<MainCryptoCardStore>(context).sensitiveInfo,
+              sensitiveInfo: store.sensitiveInfo,
             ),
             const CryptoCardAmountWidget(),
-            const CryptoCardActionButtons(),
+            CryptoCardActionButtons(
+              store: store,
+              cardIsFrozen: cardIsFrozen,
+            ),
             const CryptoCardAddToWalletBanner(),
             const CryptoCardTransactions(),
           ],

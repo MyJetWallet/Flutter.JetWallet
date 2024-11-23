@@ -12,16 +12,16 @@ Future<void> showWalletRedirectingPopup(BuildContext context) {
 
   return sShowAlertPopup(
     context,
-    textAlign: TextAlign.start,
-    primaryText: intl.wallets_redirecting,
-    secondaryText: intl.wallets_modal_info(
-      isIos ? intl.wallets_add_to_apple_wallet : intl.wallets_add_to_google_wallet,
-    ),
-    primaryButtonName: intl.wallets_continue,
     image: Assets.svg.brand.small.infoBlue.simpleSvg(
       height: 80.0,
       width: 80.0,
     ),
+    primaryText: intl.wallets_redirecting,
+    secondaryText: intl.wallets_modal_info(
+      isIos ? intl.wallets_add_to_apple_wallet : intl.wallets_add_to_google_wallet,
+    ),
+    textAlign: TextAlign.start,
+    primaryButtonName: intl.wallets_continue,
     onPrimaryButtonTap: () async {
       Navigator.pop(context);
 

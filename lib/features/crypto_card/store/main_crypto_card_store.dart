@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -9,11 +11,17 @@ import 'package:jetwallet/core/services/simple_networking/simple_networking.dart
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
+import 'package:simple_networking/modules/signal_r/models/crypto_card_message_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/crypto_card/freeze_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/sensitive_info_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/sensitive_info_crypto_card_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/crypto_card/unfreeze_crypto_card_request_model.dart';
 
 part 'main_crypto_card_store.g.dart';
+
+const String _tag = 'MainCryptoCardStore';
 
 class MainCryptoCardStore extends _MainCryptoCardStoreBase with _$MainCryptoCardStore {
   MainCryptoCardStore() : super();
@@ -23,6 +31,11 @@ class MainCryptoCardStore extends _MainCryptoCardStoreBase with _$MainCryptoCard
 
 abstract class _MainCryptoCardStoreBase with Store {
   @observable
+  StackLoaderStore loader = StackLoaderStore();
+
+  late CryptoCardModel _cryptoCard;
+
+  @observable
   bool showAddToWalletBanner = false;
 
   @observable
@@ -30,15 +43,36 @@ abstract class _MainCryptoCardStoreBase with Store {
 
   @action
   Future<void> init() async {
-    final bannerClosed = bool.tryParse(
-          await sLocalStorageService.getValue(isCryptoCardAddToWalletBannerClosed) ?? 'false',
-        ) ??
-        false;
-    showAddToWalletBanner = !bannerClosed;
-
     try {
-      final cardId = sSignalRModules.cryptoCardProfile.cards.first.cardId;
-      final model = SensitiveInfoCryptoCardRequestModel(cardId: cardId);
+      ///
+      /// getCryptoCard
+      ///
+      _cryptoCard = sSignalRModules.cryptoCardProfile.cards.first;
+
+      ///
+      /// getSensitiveInfo
+      ///
+      unawaited(getSensitiveInfo());
+
+      ///
+      /// Load banner state
+      ///
+      final bannerClosed = bool.tryParse(
+            await sLocalStorageService.getValue(isCryptoCardAddToWalletBannerClosed) ?? 'false',
+          ) ??
+          false;
+      showAddToWalletBanner = !bannerClosed;
+    } catch (error) {
+      logError(
+        message: 'init error: $error',
+      );
+    }
+  }
+
+  @action
+  Future<void> getSensitiveInfo() async {
+    try {
+      final model = SensitiveInfoCryptoCardRequestModel(cardId: _cryptoCard.cardId);
 
       final response = await sNetwork.getWalletModule().sensitiveInfoCryptoCard(model);
 
@@ -63,17 +97,105 @@ abstract class _MainCryptoCardStoreBase with Store {
         intl.something_went_wrong_try_again2,
         id: 1,
       );
-      getIt.get<SimpleLoggerService>().log(
-            level: Level.error,
-            place: 'MainCryptoCardStore',
-            message: 'init error: $error',
-          );
+      logError(
+        message: 'getSensitiveInfo error: $error',
+      );
     }
+  }
+
+  @action
+  Future<void> freezeCard() async {
+    loader.startLoadingImmediately();
+    try {
+      final model = FreezeCryptoCardRequestModel(cardId: _cryptoCard.cardId);
+
+      final response = await sNetwork.getWalletModule().freezeCard(model);
+
+      response.pick(
+        onError: (error) {
+          sNotification.showError(
+            error.cause,
+            id: 1,
+          );
+        },
+      );
+      final freezeCard = _cryptoCard.copyWith(status: CryptoCardStatus.frozen);
+      sSignalRModules.setCryptoCardModelData(
+        sSignalRModules.cryptoCardProfile.copyWith(
+          cards: [freezeCard],
+        ),
+      );
+
+      sNotification.showError(intl.crypto_card_freeze_toast, id: 1, isError: false);
+    } on ServerRejectException catch (error) {
+      sNotification.showError(
+        error.cause,
+        id: 1,
+      );
+    } catch (error) {
+      sNotification.showError(
+        intl.something_went_wrong_try_again2,
+        id: 1,
+      );
+      logError(
+        message: 'freezeCard error: $error',
+      );
+    }
+    loader.finishLoadingImmediately();
+  }
+
+  @action
+  Future<void> unfreezeCard() async {
+    loader.startLoadingImmediately();
+    try {
+      final model = UnfreezeCryptoCardRequestModel(cardId: _cryptoCard.cardId);
+
+      final response = await sNetwork.getWalletModule().unfreezeCard(model);
+
+      response.pick(
+        onError: (error) {
+          sNotification.showError(
+            error.cause,
+            id: 1,
+          );
+        },
+      );
+      final unfreezeCard = _cryptoCard.copyWith(status: CryptoCardStatus.active);
+      sSignalRModules.setCryptoCardModelData(
+        sSignalRModules.cryptoCardProfile.copyWith(
+          cards: [unfreezeCard],
+        ),
+      );
+
+      sNotification.showError(intl.crypto_card_unfreeze_toast, id: 1, isError: false);
+    } on ServerRejectException catch (error) {
+      sNotification.showError(
+        error.cause,
+        id: 1,
+      );
+    } catch (error) {
+      sNotification.showError(
+        intl.something_went_wrong_try_again2,
+        id: 1,
+      );
+      logError(
+        message: 'unfreezeCard error: $error',
+      );
+    }
+    loader.finishLoadingImmediately();
   }
 
   @action
   Future<void> closeBanner() async {
     showAddToWalletBanner = false;
     await sLocalStorageService.setString(isCryptoCardAddToWalletBannerClosed, 'true');
+  }
+
+  void logError({required String message}) {
+    getIt.get<SimpleLoggerService>().log(
+          level: Level.error,
+          place: _tag,
+          message: message,
+        );
   }
 }
