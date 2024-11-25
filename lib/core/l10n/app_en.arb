@@ -1916,4 +1916,19 @@
     "crypto_card_freeze_toast": "Card transactions will be declined until you unfreeze the card",
     "crypto_card_unfreeze": "Unfreeze",
     "crypto_card_unfreeze_toast": "Success"
+    "crypto_card_limits": "Limits",
+    "crypto_card_limits_card_payments": "Card payments",
+    "crypto_card_limits_daily": "Daily",
+    "crypto_card_limits_left": "Left {amounty}",
+    "@crypto_card_limits_left": {
+        "placeholders": {
+            "amounty": {
+                "type": "String",
+                "example": "1 000 EUR"
+            }
+        }
+    },
+    "crypto_card_limits_weekly": "Weekly",
+    "crypto_card_monthly": "Monthly",
+    "crypto_card_limits_atm_withdrawals": "ATM withdrawals"
 }

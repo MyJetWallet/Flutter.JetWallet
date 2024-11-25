@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
@@ -36,7 +37,9 @@ class _SettingsBody extends StatelessWidget {
           leftIcon: Assets.svg.medium.document.simpleSvg(
             color: colors.blue,
           ),
-          onCardTap: () {},
+          onCardTap: () {
+            sRouter.popAndPush(const CryptoCardLimitsRoute());
+          },
         ),
         SEditable(
           lable: intl.crypto_card_linked_assets,
