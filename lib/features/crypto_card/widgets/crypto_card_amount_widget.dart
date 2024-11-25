@@ -39,10 +39,10 @@ class CryptoCardAmountWidget extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            '~${availableBalance.toFormatSum(
+            availableBalance.toFormatSum(
               accuracy: eurCurrency.accuracy,
               symbol: eurCurrency.symbol,
-            )}',
+            ),
             style: STStyles.header3,
           ),
           const SizedBox(

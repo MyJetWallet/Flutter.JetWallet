@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_flip_card/flutter_flip_card.dart';
@@ -9,7 +11,7 @@ import '../../../../core/l10n/i10n.dart';
 import '../../../../core/services/notification_service.dart';
 import '../../../../utils/constants.dart';
 
-class CryptoCardWidget extends StatelessWidget {
+class CryptoCardWidget extends StatefulWidget {
   const CryptoCardWidget({
     super.key,
     this.isFrozen = false,
@@ -22,8 +24,41 @@ class CryptoCardWidget extends StatelessWidget {
   final SensitiveInfoCryptoCardResponseModel? sensitiveInfo;
 
   @override
+  State<CryptoCardWidget> createState() => _CryptoCardWidgetState();
+}
+
+class _CryptoCardWidgetState extends State<CryptoCardWidget> {
+  final FlipCardController flipController = FlipCardController();
+
+  bool isFlippingEnd = true;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      flipController.state!.animationController.addListener(
+        () {
+          if (flipController.state!.animationController.value > 0.95) {
+            setState(() {
+              isFlippingEnd = true;
+            });
+          } else {
+            setState(() {
+              isFlippingEnd = false;
+            });
+          }
+        },
+      );
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final flipController = FlipCardController();
+    if (widget.isFrozen) {
+      if (!(flipController.state?.isFront ?? false)) {
+        flipController.flipcard();
+      }
+    }
 
     final colors = SColorsLight();
 
@@ -45,96 +80,121 @@ class CryptoCardWidget extends StatelessWidget {
         vertical: 16.0,
         horizontal: 24.0,
       ),
-      child: Center(
-        child: Stack(
-          children: [
-            FlipCard(
-              onTapFlipping: true,
-              controller: flipController,
-              rotateSide: RotateSide.right,
-              frontWidget: _buildCardView(
-                child: Container(
-                  clipBehavior: Clip.antiAlias,
-                  decoration: const BoxDecoration(),
-                  child: Stack(
-                    children: [
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Assets.svg.card.simpleCryptoCard.simpleSvg(
-                          height: 151.8,
-                          width: 247.43,
+      child: Stack(
+        children: [
+          FlipCard(
+            onTapFlipping: !widget.isFrozen,
+            controller: flipController,
+            rotateSide: RotateSide.right,
+            frontWidget: _buildCardView(
+              child: Container(
+                clipBehavior: Clip.antiAlias,
+                decoration: const BoxDecoration(),
+                child: Stack(
+                  children: [
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Assets.svg.card.simpleCryptoCard.simpleSvg(
+                        height: 151.8,
+                        width: 247.43,
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomLeft,
+                      child: Text(
+                        '\u2022\u2022\u2022\u2022 ${widget.last4}',
+                        style: STStyles.body2Bold.copyWith(
+                          color: colors.white,
                         ),
                       ),
-                      Align(
-                        alignment: Alignment.bottomLeft,
-                        child: Text(
-                          '\u2022\u2022\u2022\u2022 $last4',
-                          style: STStyles.body2Bold.copyWith(
-                            color: colors.white,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              backWidget: _buildCardView(
-                child: Container(
-                  clipBehavior: Clip.antiAlias,
-                  decoration: const BoxDecoration(),
-                  margin: const EdgeInsets.only(
-                    left: 6.22,
-                    bottom: 3.0,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Spacer(),
-                      _CryptoCardSensitiveDataWidget(
-                        name: intl.crypto_card_card_number,
-                        value: sensitiveInfo != null ? formatCardNumber(sensitiveInfo!.cardNumber) : '',
-                        onTap: onCopyAction,
-                        loaderWidth: 177,
-                      ),
-                      const SpaceH12(),
-                      Row(
-                        children: [
-                          _CryptoCardSensitiveDataWidget(
-                            showCopy: false,
-                            name: intl.crypto_card_valid_thru,
-                            value: sensitiveInfo?.expDate ?? '',
-                            onTap: onCopyAction,
-                            loaderWidth: 56,
-                          ),
-                          const SizedBox(
-                            width: 32.0,
-                          ),
-                          _CryptoCardSensitiveDataWidget(
-                            name: intl.crypto_card_cvv,
-                            value: sensitiveInfo?.cvv ?? '',
-                            onTap: onCopyAction,
-                            loaderWidth: 41,
-                            withSecure: true,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
-            if (isFrozen)
-              Positioned(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12.0),
-                  child: Image.asset(
-                    simpleCardMask,
-                    width: double.infinity,
-                    height: 206,
-                  ),
+            backWidget: _buildCardView(
+              child: Container(
+                clipBehavior: Clip.antiAlias,
+                decoration: const BoxDecoration(),
+                margin: const EdgeInsets.only(
+                  left: 6.22,
+                  bottom: 3.0,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Spacer(),
+                    _CryptoCardSensitiveDataWidget(
+                      name: intl.crypto_card_card_number,
+                      value: widget.sensitiveInfo != null ? formatCardNumber(widget.sensitiveInfo!.cardNumber) : '',
+                      onTap: onCopyAction,
+                      loaderWidth: 177,
+                    ),
+                    const SpaceH12(),
+                    Row(
+                      children: [
+                        _CryptoCardSensitiveDataWidget(
+                          showCopy: false,
+                          name: intl.crypto_card_valid_thru,
+                          value: widget.sensitiveInfo?.expDate ?? '',
+                          onTap: onCopyAction,
+                          loaderWidth: 56,
+                        ),
+                        const SizedBox(
+                          width: 32.0,
+                        ),
+                        _CryptoCardSensitiveDataWidget(
+                          name: intl.crypto_card_cvv,
+                          value: widget.sensitiveInfo?.cvv ?? '',
+                          onTap: onCopyAction,
+                          loaderWidth: 41,
+                          withSecure: true,
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
-          ],
+            ),
+          ),
+          _buildCardMask(
+            child: AnimatedOpacity(
+              opacity: (widget.isFrozen && isFlippingEnd) ? 1 : 0,
+              duration: const Duration(milliseconds: 300),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(
+                  sigmaX: 8.0,
+                  sigmaY: 8.0,
+                ),
+                child: Container(
+                  color: Colors.black.withOpacity(0.1),
+                ),
+              ),
+            ),
+          ),
+          _buildCardMask(
+            child: AnimatedOpacity(
+              opacity: (widget.isFrozen && isFlippingEnd) ? 0.5 : 0.0,
+              duration: const Duration(milliseconds: 300),
+              child: Image.asset(
+                simpleCardMask,
+                height: 206.0,
+                width: double.infinity,
+                fit: BoxFit.fill,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCardMask({required Widget child}) {
+    return Positioned.fill(
+      child: IgnorePointer(
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(16.0),
+          child: child,
         ),
       ),
     );
@@ -232,62 +292,62 @@ class _CryptoCardSensitiveDataWidgetState extends State<_CryptoCardSensitiveData
             color: colors.white,
           ),
         ),
-        Row(
-          children: [
-            if (widget.value == '')
-              SSkeletonLoader(
-                height: 28,
-                width: widget.loaderWidth,
-                borderRadius: BorderRadius.circular(4),
-              )
-            else if (widget.withSecure)
-              SizedBox(
-                height: 28.0,
-                child: AnimatedCrossFade(
-                  firstChild: Padding(
-                    padding: const EdgeInsets.only(
-                      top: 1.0,
+        SafeGesture(
+          onTap: () {
+            if (widget.withSecure && isHided) {
+              setState(() {
+                isHided = false;
+              });
+            } else {
+              widget.onTap(widget.value);
+            }
+          },
+          child: Row(
+            children: [
+              if (widget.value == '')
+                SSkeletonLoader(
+                  height: 28,
+                  width: widget.loaderWidth,
+                  borderRadius: BorderRadius.circular(4),
+                )
+              else if (widget.withSecure)
+                SizedBox(
+                  height: 28.0,
+                  child: AnimatedCrossFade(
+                    firstChild: Padding(
+                      padding: const EdgeInsets.only(
+                        top: 1.0,
+                      ),
+                      child: Text(
+                        intl.crypto_card_show,
+                        style: STStyles.body1Bold.copyWith(
+                          color: colors.white,
+                        ),
+                      ),
                     ),
-                    child: Text(
-                      intl.crypto_card_show,
-                      style: STStyles.body1Bold.copyWith(
+                    secondChild: Text(
+                      widget.value,
+                      style: STStyles.header6.copyWith(
                         color: colors.white,
                       ),
                     ),
+                    crossFadeState: isHided ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+                    duration: const Duration(milliseconds: 300),
                   ),
-                  secondChild: Text(
+                )
+              else
+                SizedBox(
+                  height: 28.0,
+                  child: Text(
                     widget.value,
                     style: STStyles.header6.copyWith(
                       color: colors.white,
                     ),
                   ),
-                  crossFadeState: isHided ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-                  duration: const Duration(milliseconds: 300),
                 ),
-              )
-            else
-              SizedBox(
-                height: 28.0,
-                child: Text(
-                  widget.value,
-                  style: STStyles.header6.copyWith(
-                    color: colors.white,
-                  ),
-                ),
-              ),
-            if (widget.showCopy) ...[
-              const SpaceW4(),
-              SafeGesture(
-                onTap: () {
-                  if (widget.withSecure && isHided) {
-                    setState(() {
-                      isHided = false;
-                    });
-                  } else {
-                    widget.onTap(widget.value);
-                  }
-                },
-                child: AnimatedCrossFade(
+              if (widget.showCopy) ...[
+                const SpaceW4(),
+                AnimatedCrossFade(
                   firstChild: Assets.svg.medium.show.simpleSvg(
                     color: colors.white,
                     width: 16,
@@ -301,9 +361,9 @@ class _CryptoCardSensitiveDataWidgetState extends State<_CryptoCardSensitiveData
                   crossFadeState: widget.withSecure && isHided ? CrossFadeState.showFirst : CrossFadeState.showSecond,
                   duration: const Duration(milliseconds: 300),
                 ),
-              ),
+              ],
             ],
-          ],
+          ),
         ),
       ],
     );
