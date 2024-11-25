@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/crypto_card/store/main_crypto_card_store.dart';
 import 'package:jetwallet/features/crypto_card/utils/show_card_settings_bootom_sheet.dart';
+import 'package:jetwallet/features/crypto_card/utils/show_crypto_card_change_pin_popup.dart';
 import 'package:jetwallet/features/crypto_card/utils/show_freeze_crypto_card_popup.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
@@ -66,7 +67,9 @@ class CryptoCardActionButtons extends StatelessWidget {
           icon: Assets.svg.medium.pin.simpleSvg(
             color: SColorsLight().white,
           ),
-          onTap: () {},
+          onTap: () {
+            showCryptoCardChangePinPopup(context);
+          },
         ),
         SActionButton(
           lable: intl.crypto_card_settings,

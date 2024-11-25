@@ -41,6 +41,7 @@ import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:simple_networking/modules/wallet_api/models/create_payment/create_payment_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/create_payment/create_payment_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/change_lable_crypto_card_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/crypto_card/change_pin_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/create_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/freeze_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/price_crypto_card_response_model.dart';
@@ -1465,5 +1466,11 @@ class WalletApiRepository {
     UnfreezeCryptoCardRequestModel model,
   ) async {
     return _walletApiDataSources.unfreezeCardRequest(model);
+  }
+
+  Future<DC<ServerRejectException, void>> changePinCryptoCard(
+      ChangePinCryptoCardRequestModel model,
+      ) async {
+    return _walletApiDataSources.changePinCryptoCardRequest(model);
   }
 }

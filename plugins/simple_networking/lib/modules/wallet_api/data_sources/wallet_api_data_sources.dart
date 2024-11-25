@@ -39,6 +39,7 @@ import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:simple_networking/modules/wallet_api/models/create_payment/create_payment_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/create_payment/create_payment_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/change_lable_crypto_card_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/crypto_card/change_pin_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/create_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/freeze_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/price_crypto_card_response_model.dart';
@@ -4361,8 +4362,8 @@ class WalletApiDataSources {
   }
 
   Future<DC<ServerRejectException, void>> freezeCardRequest(
-      FreezeCryptoCardRequestModel model,
-      ) async {
+    FreezeCryptoCardRequestModel model,
+  ) async {
     try {
       final response = await _apiClient.post(
         '${_apiClient.options.walletApi}/crypto-card/freeze',
@@ -4386,11 +4387,36 @@ class WalletApiDataSources {
   }
 
   Future<DC<ServerRejectException, void>> unfreezeCardRequest(
-      UnfreezeCryptoCardRequestModel model,
-      ) async {
+    UnfreezeCryptoCardRequestModel model,
+  ) async {
     try {
       final response = await _apiClient.post(
         '${_apiClient.options.walletApi}/crypto-card/unfreeze',
+        data: model.toJson(),
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+
+        handleFullResponse<Map>(
+          responseData,
+        );
+
+        return DC.data(null);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, void>> changePinCryptoCardRequest(
+    ChangePinCryptoCardRequestModel model,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/crypto-card/change-pin',
         data: model.toJson(),
       );
 
