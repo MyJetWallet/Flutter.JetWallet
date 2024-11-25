@@ -59,7 +59,6 @@ class _CryptoCardMainScreenBody extends StatelessWidget {
             CryptoCardWidget(
               isFrozen: cardIsFrozen,
               last4: cryptoCard.last4,
-              sensitiveInfo: store.sensitiveInfo,
             ),
             const CryptoCardAmountWidget(),
             CryptoCardActionButtons(
