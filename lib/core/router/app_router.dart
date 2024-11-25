@@ -34,6 +34,7 @@ import 'package:jetwallet/features/crypto_card/screens/creating_crypto_card_scre
 import 'package:jetwallet/features/crypto_card/screens/crypto_card_change_pin_screen.dart';
 import 'package:jetwallet/features/crypto_card/screens/crypto_card_default_asset_screen.dart';
 import 'package:jetwallet/features/crypto_card/screens/crypto_card_issue_cost_screen.dart';
+import 'package:jetwallet/features/crypto_card/screens/crypto_card_limits_screen.dart';
 import 'package:jetwallet/features/crypto_card/screens/crypto_card_main_screen.dart';
 import 'package:jetwallet/features/crypto_card/screens/crypto_card_name_screen.dart';
 import 'package:jetwallet/features/crypto_card/screens/crypto_card_root_screen.dart';
@@ -771,6 +772,10 @@ class AppRouter extends RootStackRouter {
     AutoRoute(
       path: '/creating_crypto_card',
       page: CreatingCryptoCardRoute.page,
+    ),
+    AutoRoute(
+      path: '/crypto_card_limits',
+      page: CryptoCardLimitsRoute.page,
     ),
   ];
 }

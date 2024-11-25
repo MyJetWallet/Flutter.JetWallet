@@ -1925,4 +1925,19 @@
     "crypto_card_change_pin_success": "Your PIN has been successfully updated. You can change it again at any time.",
     "crypto_card_here_your_pin": "Here is your PIN",
     "crypto_card_hiding_pin": "Hiding PIN in {value} seconds"
+    "crypto_card_limits": "Limits",
+    "crypto_card_limits_card_payments": "Card payments",
+    "crypto_card_limits_daily": "Daily",
+    "crypto_card_limits_left": "Left {amounty}",
+    "@crypto_card_limits_left": {
+        "placeholders": {
+            "amounty": {
+                "type": "String",
+                "example": "1 000 EUR"
+            }
+        }
+    },
+    "crypto_card_limits_weekly": "Weekly",
+    "crypto_card_monthly": "Monthly",
+    "crypto_card_limits_atm_withdrawals": "ATM withdrawals"
 }
