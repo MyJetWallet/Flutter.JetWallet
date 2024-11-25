@@ -1915,7 +1915,7 @@
     "crypto_card_cancel": "Cancel",
     "crypto_card_freeze_toast": "Card transactions will be declined until you unfreeze the card",
     "crypto_card_unfreeze": "Unfreeze",
-    "crypto_card_unfreeze_toast": "Success"
+    "crypto_card_unfreeze_toast": "Success",
     "crypto_card_limits": "Limits",
     "crypto_card_limits_card_payments": "Card payments",
     "crypto_card_limits_daily": "Daily",
