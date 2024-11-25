@@ -1924,7 +1924,7 @@
     "crypto_card_pin_not_strong": "Choose a stronger PIN",
     "crypto_card_change_pin_success": "Your PIN has been successfully updated. You can change it again at any time.",
     "crypto_card_here_your_pin": "Here is your PIN",
-    "crypto_card_hiding_pin": "Hiding PIN in {value} seconds"
+    "crypto_card_hiding_pin": "Hiding PIN in {value} seconds",
     "crypto_card_limits": "Limits",
     "crypto_card_limits_card_payments": "Card payments",
     "crypto_card_limits_daily": "Daily",
