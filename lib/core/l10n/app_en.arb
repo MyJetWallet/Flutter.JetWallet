@@ -1939,5 +1939,16 @@
     },
     "crypto_card_limits_weekly": "Weekly",
     "crypto_card_monthly": "Monthly",
-    "crypto_card_limits_atm_withdrawals": "ATM withdrawals"
+    "crypto_card_limits_atm_withdrawals": "ATM withdrawals",
+    "crypto_card_delete_card": "Delete card?",
+    "crypto_card_delete_description": "You're about to delete card **{cardLast4}. Once deleted, all future transactions will be declined, and this action cannot be undone.",
+    "@crypto_card_delete_description": {
+        "placeholders": {
+            "cardLast4": {
+                "type": "String",
+                "example": "1234"
+            }
+        }
+    },
+    "crypto_card_delete_confirm": "Confirm and delete"
 }

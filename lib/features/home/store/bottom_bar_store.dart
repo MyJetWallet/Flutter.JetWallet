@@ -49,11 +49,9 @@ abstract class _BottomBarStoreBase with Store {
         )) ...[
           BottomItemType.earn,
         ],
-        if ((sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
-            .where(
-              (element) => element.id == AssetPaymentProductsEnum.investProgram,
-            )
-            .isNotEmpty) ...[
+        if ((sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
+          (element) => element.id == AssetPaymentProductsEnum.investProgram,
+        )) ...[
           BottomItemType.invest,
         ],
         if ((sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
@@ -61,13 +59,14 @@ abstract class _BottomBarStoreBase with Store {
         )) ...[
           BottomItemType.card,
         ],
-        // TODO (Yaroslav): SPU-4804 add product method check
-        BottomItemType.cryptoCard,
-        if ((sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
-            .where(
-              (element) => element.id == AssetPaymentProductsEnum.rewardsOnboardingProgram,
-            )
-            .isNotEmpty) ...[
+        if ((sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
+          (element) => element.id == AssetPaymentProductsEnum.cryptoCard,
+        )) ...[
+          BottomItemType.cryptoCard,
+        ],
+        if ((sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
+          (element) => element.id == AssetPaymentProductsEnum.rewardsOnboardingProgram,
+        )) ...[
           BottomItemType.rewards,
         ],
       ]);

@@ -1537,8 +1537,9 @@ class DeepLinkService {
         getIt.get<AppStore>().remoteConfigStatus is Success &&
         getIt.get<AppStore>().authorizedStatus is Home &&
         getIt<TimerService>().isPinScreenOpen == false) {
-      // TODO (Yaroslav): SPU-4804 add product method check
-      const isCryptoCardAvaible = true;
+      final isCryptoCardAvaible = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
+        (element) => element.id == AssetPaymentProductsEnum.cryptoCard,
+      );
       if (isCryptoCardAvaible) {
         await Future.delayed(const Duration(milliseconds: 100));
         sRouter.popUntilRoot();
@@ -1548,8 +1549,9 @@ class DeepLinkService {
       getIt<RouteQueryService>().addToQuery(
         RouteQueryModel(
           func: () async {
-            // TODO (Yaroslav): SPU-4804 add product method check
-            const isCryptoCardAvaible = true;
+            final isCryptoCardAvaible = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
+              (element) => element.id == AssetPaymentProductsEnum.cryptoCard,
+            );
             if (isCryptoCardAvaible) {
               sRouter.popUntilRoot();
               getIt<BottomBarStore>().setHomeTab(BottomItemType.cryptoCard);

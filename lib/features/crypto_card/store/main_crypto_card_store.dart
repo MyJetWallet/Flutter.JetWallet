@@ -33,13 +33,16 @@ abstract class _MainCryptoCardStoreBase with Store {
   @observable
   StackLoaderStore loader = StackLoaderStore();
 
-  late CryptoCardModel _cryptoCard;
+  CryptoCardModel _cryptoCard = const CryptoCardModel();
 
   @observable
   bool showAddToWalletBanner = false;
 
   @observable
   SensitiveInfoCryptoCardResponseModel? sensitiveInfo;
+
+  @computed
+  String get cardLast4 => _cryptoCard.last4;
 
   @action
   Future<void> init() async {
@@ -191,6 +194,36 @@ abstract class _MainCryptoCardStoreBase with Store {
   Future<void> closeBanner() async {
     showAddToWalletBanner = false;
     await sLocalStorageService.setString(isCryptoCardAddToWalletBannerClosed, 'true');
+  }
+
+  @action
+  Future<void> deleteCard() async {
+    try {
+      loader.startLoadingImmediately();
+
+      // TODO (Yaroslav): Replace with a real network request
+      await Future.delayed(const Duration(seconds: 1));
+      sSignalRModules.setCryptoCardModelData(
+        sSignalRModules.cryptoCardProfile.copyWith(
+          cards: [],
+        ),
+      );
+    } on ServerRejectException catch (error) {
+      sNotification.showError(
+        error.cause,
+        id: 1,
+      );
+    } catch (error) {
+      sNotification.showError(
+        intl.something_went_wrong_try_again2,
+        id: 1,
+      );
+      logError(
+        message: 'delete card error: $error',
+      );
+    } finally {
+      loader.finishLoadingImmediately();
+    }
   }
 
   void logError({required String message}) {

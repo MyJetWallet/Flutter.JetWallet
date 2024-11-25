@@ -2,23 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/crypto_card/utils/show_crypto_card_change_pin_popup.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/features/crypto_card/store/main_crypto_card_store.dart';
+import 'package:jetwallet/features/crypto_card/utils/show_delete_card_popup.dart';
 import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
-Future showCardSettingsBootomSheet(BuildContext context) async {
+Future showCardSettingsBootomSheet({
+  required BuildContext context,
+  required MainCryptoCardStore store,
+}) async {
   await showBasicBottomSheet(
     context: context,
     header: BasicBottomSheetHeaderWidget(
       title: intl.crypto_card_settings,
     ),
     children: [
-      const _SettingsBody(),
+      _SettingsBody(store),
     ],
   );
 }
 
 class _SettingsBody extends StatelessWidget {
-  const _SettingsBody();
+  const _SettingsBody(this.store);
+
+  final MainCryptoCardStore store;
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +88,13 @@ class _SettingsBody extends StatelessWidget {
           lableStyle: STStyles.subtitle1.copyWith(
             color: colors.red,
           ),
-          onCardTap: () {},
+          onCardTap: () async {
+            Navigator.pop(context);
+            final result = await showDeleteCardPopUp(context: context, cardLast4: store.cardLast4);
+            if (result == true) {
+              await store.deleteCard();
+            }
+          },
         ),
         const SpaceH58(),
       ],
