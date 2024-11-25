@@ -119,6 +119,7 @@ abstract class _MainCryptoCardStoreBase with Store {
           );
         },
       );
+      // TODO remove this when SignalR will be implemented
       final freezeCard = _cryptoCard.copyWith(status: CryptoCardStatus.frozen);
       sSignalRModules.setCryptoCardModelData(
         sSignalRModules.cryptoCardProfile.copyWith(
@@ -160,6 +161,7 @@ abstract class _MainCryptoCardStoreBase with Store {
           );
         },
       );
+      // TODO remove this when SignalR will be implemented
       final unfreezeCard = _cryptoCard.copyWith(status: CryptoCardStatus.active);
       sSignalRModules.setCryptoCardModelData(
         sSignalRModules.cryptoCardProfile.copyWith(

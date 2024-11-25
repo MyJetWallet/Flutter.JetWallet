@@ -8,7 +8,6 @@ import 'package:jetwallet/features/crypto_card/store/main_crypto_card_store.dart
 import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/icons/custom/public/cards/simple_mastercard_big_icon.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
-import 'package:simple_networking/modules/wallet_api/models/crypto_card/sensitive_info_crypto_card_response_model.dart';
 
 import '../../../../core/l10n/i10n.dart';
 import '../../../../core/services/notification_service.dart';
@@ -114,52 +113,54 @@ class _CryptoCardWidgetState extends State<CryptoCardWidget> {
               ),
             ),
             backWidget: _buildCardView(
-              child: Observer(builder: (context) {
-                final sensitiveInfo = Provider.of<MainCryptoCardStore>(context).sensitiveInfo;
+              child: Observer(
+                builder: (context) {
+                  final sensitiveInfo = Provider.of<MainCryptoCardStore>(context).sensitiveInfo;
 
-                return Container(
-                  clipBehavior: Clip.antiAlias,
-                  decoration: const BoxDecoration(),
-                  margin: const EdgeInsets.only(
-                    left: 6.22,
-                    bottom: 3.0,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Spacer(),
-                      _CryptoCardSensitiveDataWidget(
-                        name: intl.crypto_card_card_number,
-                        value: sensitiveInfo != null ? formatCardNumber(sensitiveInfo.cardNumber) : '',
-                        onTap: onCopyAction,
-                        loaderWidth: 177,
-                      ),
-                      const SpaceH12(),
-                      Row(
-                        children: [
-                          _CryptoCardSensitiveDataWidget(
-                            showCopy: false,
-                            name: intl.crypto_card_valid_thru,
-                            value: sensitiveInfo?.expDate ?? '',
-                            onTap: onCopyAction,
-                            loaderWidth: 56,
-                          ),
-                          const SizedBox(
-                            width: 32.0,
-                          ),
-                          _CryptoCardSensitiveDataWidget(
-                            name: intl.crypto_card_cvv,
-                            value: sensitiveInfo?.cvv ?? '',
-                            onTap: onCopyAction,
-                            loaderWidth: 41,
-                            withSecure: true,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                );
-              },),
+                  return Container(
+                    clipBehavior: Clip.antiAlias,
+                    decoration: const BoxDecoration(),
+                    margin: const EdgeInsets.only(
+                      left: 6.22,
+                      bottom: 3.0,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Spacer(),
+                        _CryptoCardSensitiveDataWidget(
+                          name: intl.crypto_card_card_number,
+                          value: sensitiveInfo != null ? formatCardNumber(sensitiveInfo.cardNumber) : '',
+                          onTap: onCopyAction,
+                          loaderWidth: 177,
+                        ),
+                        const SpaceH12(),
+                        Row(
+                          children: [
+                            _CryptoCardSensitiveDataWidget(
+                              showCopy: false,
+                              name: intl.crypto_card_valid_thru,
+                              value: sensitiveInfo?.expDate ?? '',
+                              onTap: onCopyAction,
+                              loaderWidth: 56,
+                            ),
+                            const SizedBox(
+                              width: 32.0,
+                            ),
+                            _CryptoCardSensitiveDataWidget(
+                              name: intl.crypto_card_cvv,
+                              value: sensitiveInfo?.cvv ?? '',
+                              onTap: onCopyAction,
+                              loaderWidth: 41,
+                              withSecure: true,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
             ),
           ),
           _buildCardMask(
