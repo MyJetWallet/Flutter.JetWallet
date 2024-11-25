@@ -160,6 +160,8 @@ enum AssetPaymentProductsEnum {
   jar,
   @JsonValue('CardPreorder')
   cardPreorder,
+  @JsonValue('CryptoCard')
+  cryptoCard,
   @JsonValue('Unknows')
   unknown,
 }
