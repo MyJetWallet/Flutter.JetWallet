@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/features/crypto_card/utils/show_crypto_card_change_pin_popup.dart';
 import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
@@ -50,7 +51,9 @@ class _SettingsBody extends StatelessWidget {
           leftIcon: Assets.svg.medium.pin.simpleSvg(
             color: colors.blue,
           ),
-          onCardTap: () {},
+          onCardTap: () {
+            showCryptoCardChangePinPopup(context);
+          },
         ),
         SEditable(
           lable: intl.crypto_card_settings_card_statements,

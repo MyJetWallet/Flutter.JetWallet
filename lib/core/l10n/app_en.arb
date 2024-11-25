@@ -1915,5 +1915,14 @@
     "crypto_card_cancel": "Cancel",
     "crypto_card_freeze_toast": "Card transactions will be declined until you unfreeze the card",
     "crypto_card_unfreeze": "Unfreeze",
-    "crypto_card_unfreeze_toast": "Success"
+    "crypto_card_unfreeze_toast": "Success",
+    "crypto_card_change_your_pin": "Change your PIN",
+    "crypto_card_confirm_your_pin": "Confirm your PIN",
+    "crypto_card_change_your_pin_description": "You can update your PIN anytime, as long as this device is registered.",
+    "crypto_card_continue": "Continue",
+    "crypto_card_pin_does_not_match": "The PIN does not match",
+    "crypto_card_pin_not_strong": "Choose a stronger PIN",
+    "crypto_card_change_pin_success": "Your PIN has been successfully updated. You can change it again at any time.",
+    "crypto_card_here_your_pin": "Here is your PIN",
+    "crypto_card_hiding_pin": "Hiding PIN in {value} seconds"
 }

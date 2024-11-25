@@ -31,6 +31,7 @@ import 'package:jetwallet/features/cj_banking_accounts/screens/cj_account_label_
 import 'package:jetwallet/features/cj_banking_accounts/screens/cj_account_screen.dart';
 import 'package:jetwallet/features/convert_flow/screens/convetr_confrimation_screen.dart';
 import 'package:jetwallet/features/crypto_card/screens/creating_crypto_card_screen.dart';
+import 'package:jetwallet/features/crypto_card/screens/crypto_card_change_pin_screen.dart';
 import 'package:jetwallet/features/crypto_card/screens/crypto_card_default_asset_screen.dart';
 import 'package:jetwallet/features/crypto_card/screens/crypto_card_issue_cost_screen.dart';
 import 'package:jetwallet/features/crypto_card/screens/crypto_card_main_screen.dart';
@@ -746,6 +747,10 @@ class AppRouter extends RootStackRouter {
     AutoRoute(
       path: '/crypto_card_main',
       page: CryptoCardMainRoute.page,
+    ),
+    AutoRoute(
+      path: '/crypto_card_change_pin',
+      page: CryptoCardChangePinRoute.page,
     ),
     AutoRoute(
       path: '/пet_сrypto_сard',
