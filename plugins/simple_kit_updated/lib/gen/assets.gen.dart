@@ -761,14 +761,8 @@ class $AssetsSvgBrandSmallGen {
   /// File path: assets/svg/brand/small/card.svg
   SvgGenImage get card => const SvgGenImage('assets/svg/brand/small/card.svg');
 
-  /// File path: assets/svg/brand/small/checkmark.svg
-  SvgGenImage get checkmark => const SvgGenImage('assets/svg/brand/small/checkmark.svg');
-
   /// File path: assets/svg/brand/small/error.svg
   SvgGenImage get error => const SvgGenImage('assets/svg/brand/small/error.svg');
-
-  /// File path: assets/svg/brand/small/iban.svg
-  SvgGenImage get iban => const SvgGenImage('assets/svg/brand/small/iban.svg');
 
   /// File path: assets/svg/brand/small/info_blue.svg
   SvgGenImage get infoBlue => const SvgGenImage('assets/svg/brand/small/info_blue.svg');
@@ -777,7 +771,7 @@ class $AssetsSvgBrandSmallGen {
   SvgGenImage get infoYellow => const SvgGenImage('assets/svg/brand/small/info_yellow.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values => [card, checkmark, error, iban, infoBlue, infoYellow];
+  List<SvgGenImage> get values => [card, error, infoBlue, infoYellow];
 }
 
 class $AssetsSvgOtherLargeGen {
