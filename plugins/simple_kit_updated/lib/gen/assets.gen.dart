@@ -47,6 +47,9 @@ class $AssetsSvgGen {
   /// Directory path: assets/svg/brand
   $AssetsSvgBrandGen get brand => const $AssetsSvgBrandGen();
 
+  /// Directory path: assets/svg/brand_icons
+  $AssetsSvgBrandIconsGen get brandIcons => const $AssetsSvgBrandIconsGen();
+
   /// Directory path: assets/svg/card
   $AssetsSvgCardGen get card => const $AssetsSvgCardGen();
 
@@ -103,6 +106,13 @@ class $AssetsSvgBrandGen {
 
   /// Directory path: assets/svg/brand/small
   $AssetsSvgBrandSmallGen get small => const $AssetsSvgBrandSmallGen();
+}
+
+class $AssetsSvgBrandIconsGen {
+  const $AssetsSvgBrandIconsGen();
+
+  /// Directory path: assets/svg/brand_icons/small
+  $AssetsSvgBrandIconsSmallGen get small => const $AssetsSvgBrandIconsSmallGen();
 }
 
 class $AssetsSvgCardGen {
@@ -772,6 +782,25 @@ class $AssetsSvgBrandSmallGen {
 
   /// List of all assets
   List<SvgGenImage> get values => [card, error, infoBlue, infoYellow];
+}
+
+class $AssetsSvgBrandIconsSmallGen {
+  const $AssetsSvgBrandIconsSmallGen();
+
+  /// File path: assets/svg/brand_icons/small/checkmark.svg
+  SvgGenImage get checkmark => const SvgGenImage('assets/svg/brand_icons/small/checkmark.svg');
+
+  /// File path: assets/svg/brand_icons/small/done.svg
+  SvgGenImage get done => const SvgGenImage('assets/svg/brand_icons/small/done.svg');
+
+  /// File path: assets/svg/brand_icons/small/error.svg
+  SvgGenImage get error => const SvgGenImage('assets/svg/brand_icons/small/error.svg');
+
+  /// File path: assets/svg/brand_icons/small/iban.svg
+  SvgGenImage get iban => const SvgGenImage('assets/svg/brand_icons/small/iban.svg');
+
+  /// List of all assets
+  List<SvgGenImage> get values => [checkmark, done, error, iban];
 }
 
 class $AssetsSvgOtherLargeGen {
