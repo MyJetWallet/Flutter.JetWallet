@@ -1,3 +1,5 @@
+-dontwarn com.google.**
+-keep class com.google.** { *; }
 -keep class go.** { *; }
 -keep class rsa.** { *; }
 -keep class com.sumsub.idensic.mobile.sdk.plugin.** { *; }
