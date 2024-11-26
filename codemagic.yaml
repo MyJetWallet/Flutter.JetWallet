@@ -113,13 +113,6 @@ definitions:
     - name: Decode keystore
       script: echo $FCI_KEYSTORE | base64 --decode > $FCI_KEYSTORE_PATH
 
-    - name: Add swapfile
-      script: |
-        sudo fallocate -l 4G /swapfile
-        sudo chmod 600 /swapfile
-        sudo mkswap /swapfile
-        sudo swapon /swapfile
-
     - name: Build Android (APK)
       script: |
         flutter build apk --dart-define=INTERCOM_APP_ID=$INTERCOM_APP_ID --dart-define=INTERCOM_ANDROID_KEY=$INTERCOM_ANDROID_KEY --dart-define=INTERCOM_IOS_KEY=$INTERCOM_IOS_KEY --release --target=$MAIN_TARGET --flavor=$FLAVOR \
