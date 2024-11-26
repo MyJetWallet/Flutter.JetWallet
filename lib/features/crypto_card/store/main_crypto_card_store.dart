@@ -1,13 +1,17 @@
 import 'dart:async';
 
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/utils/helpers/currency_from.dart';
+import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
@@ -34,6 +38,51 @@ abstract class _MainCryptoCardStoreBase with Store {
   StackLoaderStore loader = StackLoaderStore();
 
   CryptoCardModel _cryptoCard = const CryptoCardModel();
+
+  @computed
+  List<String> get _linkedAssetSymbols {
+    return sSignalRModules.cryptoCardProfile.associateAssetList;
+  }
+
+  @computed
+  List<CurrencyModel> get linkedAssets {
+    final result = <CurrencyModel>[];
+    for (final symbol in _linkedAssetSymbols) {
+      final asset = getIt<FormatService>().findCurrency(
+        assetSymbol: symbol,
+      );
+      result.add(asset);
+    }
+
+    return result;
+  }
+
+  @computed
+  Decimal get cardBalance {
+    var result = Decimal.zero;
+
+    for (final asset in linkedAssets) {
+      final formatService = getIt.get<FormatService>();
+      final availableBalance = formatService.convertOneCurrencyToAnotherOne(
+        fromCurrency: asset.symbol,
+        fromCurrencyAmmount: asset.assetBalance,
+        toCurrency: cardBaseAsset.symbol,
+        baseCurrency: sSignalRModules.baseCurrency.symbol,
+        isMin: false,
+      );
+      result += availableBalance;
+    }
+
+    return result;
+  }
+
+  @computed
+  CurrencyModel get cardBaseAsset {
+    return currencyFrom(
+      sSignalRModules.currenciesList,
+      'EUR',
+    );
+  }
 
   @observable
   bool showAddToWalletBanner = false;

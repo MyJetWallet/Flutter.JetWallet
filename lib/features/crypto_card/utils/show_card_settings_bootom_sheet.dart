@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/features/crypto_card/utils/show_crypto_card_change_pin_popup.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/crypto_card/store/main_crypto_card_store.dart';
+import 'package:jetwallet/features/crypto_card/utils/show_crypto_card_change_pin_popup.dart';
 import 'package:jetwallet/features/crypto_card/utils/show_delete_card_popup.dart';
 import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
@@ -52,9 +52,11 @@ class _SettingsBody extends StatelessWidget {
         SEditable(
           lable: intl.crypto_card_linked_assets,
           leftIcon: Assets.svg.medium.crypto.simpleSvg(
-            color: colors.gray6,
+            color: colors.blue,
           ),
-          onCardTap: () {},
+          onCardTap: () {
+            sRouter.popAndPush(const CryptoCardLinkedAssetsRoute());
+          },
         ),
         SEditable(
           lable: intl.crypto_card_settings_change_pin,

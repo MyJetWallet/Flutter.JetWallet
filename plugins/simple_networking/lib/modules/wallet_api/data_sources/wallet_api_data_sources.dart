@@ -38,6 +38,8 @@ import 'package:simple_networking/modules/wallet_api/models/card_remove/card_rem
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:simple_networking/modules/wallet_api/models/create_payment/create_payment_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/create_payment/create_payment_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/crypto_card/asset_list_crypto_card_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/crypto_card/change_asset_list_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/change_lable_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/change_pin_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/create_crypto_card_request_model.dart';
@@ -4417,6 +4419,53 @@ class WalletApiDataSources {
     try {
       final response = await _apiClient.post(
         '${_apiClient.options.walletApi}/crypto-card/change-pin',
+        data: model.toJson(),
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+
+        handleFullResponse<Map>(
+          responseData,
+        );
+
+        return DC.data(null);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, AssetListCryptoCardResponseModel>> getAssetListCryptoCardRequest() async {
+    try {
+      final response = await _apiClient.get(
+        '${_apiClient.options.walletApi}/crypto-card/asset-list',
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+
+        final data = handleFullResponse<Map>(
+          responseData,
+        );
+
+        return DC.data(AssetListCryptoCardResponseModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, void>> setAssetsCryptoCardRequest(
+    ChangeAssetListRequestModel model,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/crypto-card/set-assets',
         data: model.toJson(),
       );
 
