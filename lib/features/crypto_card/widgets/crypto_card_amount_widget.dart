@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
@@ -48,30 +49,35 @@ class CryptoCardAmountWidget extends StatelessWidget {
           const SizedBox(
             height: 4.0,
           ),
-          Row(
-            children: [
-              const Spacer(),
-              NetworkIconWidget(
-                usdtCurrency.iconUrl,
-                height: 20.0,
-                width: 20.0,
-              ),
-              const SizedBox(
-                width: 8.0,
-              ),
-              Text(
-                intl.crypto_card_asset_linked(1),
-                style: STStyles.body2Semibold,
-              ),
-              // const SizedBox(
-              //   width: 4.0,
-              // ),
-              // Assets.svg.medium.shevronRight.simpleSvg(
-              //   height: 16.0,
-              //   width: 16.0,
-              // ),
-              const Spacer(),
-            ],
+          SafeGesture(
+            onTap: () {
+              sRouter.push(const CryptoCardLinkedAssetsRoute());
+            },
+            child: Row(
+              children: [
+                const Spacer(),
+                NetworkIconWidget(
+                  usdtCurrency.iconUrl,
+                  height: 20.0,
+                  width: 20.0,
+                ),
+                const SizedBox(
+                  width: 8.0,
+                ),
+                Text(
+                  intl.crypto_card_asset_linked(1),
+                  style: STStyles.body2Semibold,
+                ),
+                const SizedBox(
+                  width: 4.0,
+                ),
+                Assets.svg.medium.shevronRight.simpleSvg(
+                  height: 16.0,
+                  width: 16.0,
+                ),
+                const Spacer(),
+              ],
+            ),
           ),
         ],
       ),
