@@ -48,7 +48,7 @@ class _CryptoCardMainScreenBody extends StatelessWidget {
       loaderText: intl.register_pleaseWait,
       loading: store.loader,
       header: GlobalBasicAppBar(
-        title: 'Simple virtual card',
+        title: intl.crypto_card_main_title,
         subtitle: cryptoCard.label,
         hasLeftIcon: false,
         hasRightIcon: false,

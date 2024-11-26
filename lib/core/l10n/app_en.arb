@@ -1905,7 +1905,7 @@
     "crypto_card_valid_thru": "Valid thru",
     "crypto_card_cvv": "CVV",
     "crypto_card_show": "Show",
-    "crypto_card_asset_linked": "{count} asset linked",
+    "crypto_card_asset_linked": "{count, plural, =1{1 asset} other{{count} assets}} linked",
     "crypto_card_add_to_apple_wallet_title": "Add card to Apple Wallet",
     "crypto_card_add_to_apple_wallet_description": "Open Wallet App, tap “Add” button, and follow the prompts.",
     "crypto_card_add_to_google_wallet_title": "Add card to Google Wallet",
@@ -1952,5 +1952,6 @@
     },
     "crypto_card_delete_confirm": "Confirm and delete",
     "crypto_card_linked_asset": "Linked asset",
-    "crypto_card_choose_asset": "Choose asset"
+    "crypto_card_choose_asset": "Choose asset",
+    "crypto_card_main_title": "Simple virtual card"
 }
