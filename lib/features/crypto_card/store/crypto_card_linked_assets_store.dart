@@ -12,6 +12,7 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 
 part 'crypto_card_linked_assets_store.g.dart';
@@ -25,6 +26,9 @@ class CryptoCardlinkedAssetsStore extends _CryptoCardlinkedAssetsStoreBase with 
 }
 
 abstract class _CryptoCardlinkedAssetsStoreBase with Store {
+  @observable
+  StackLoaderStore loader = StackLoaderStore();
+
   @observable
   ObservableList<String> _avaibleAssetsSymbols = ObservableList.of([]);
 
@@ -86,19 +90,21 @@ abstract class _CryptoCardlinkedAssetsStoreBase with Store {
   @action
   Future<void> onChooseAsset(CurrencyModel asset) async {
     try {
-      final response = await sNetwork.getWalletModule().getAssetListCryptoCard();
+      loader.startLoadingImmediately();
+      // final response = await sNetwork.getWalletModule().getAssetListCryptoCard();
+      // response.pick(
+      //   onData: (data) {
 
-      response.pick(
-        onData: (data) {
-          _avaibleAssetsSymbols = ObservableList.of(data.assets);
-        },
-        onError: (error) {
-          sNotification.showError(
-            error.cause,
-            id: 1,
-          );
-        },
-      );
+      //   },
+      //   onError: (error) {
+      //     sNotification.showError(
+      //       error.cause,
+      //       id: 1,
+      //     );
+      //   },
+      // );
+
+      await Future.delayed(Durations.extralong4);
     } on ServerRejectException catch (error) {
       sNotification.showError(
         error.cause,
@@ -112,6 +118,8 @@ abstract class _CryptoCardlinkedAssetsStoreBase with Store {
       logError(
         message: 'onChooseAsset error: $error',
       );
+    } finally {
+      loader.finishLoadingImmediately();
     }
   }
 

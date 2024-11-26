@@ -1950,5 +1950,7 @@
             }
         }
     },
-    "crypto_card_delete_confirm": "Confirm and delete"
+    "crypto_card_delete_confirm": "Confirm and delete",
+    "crypto_card_linked_asset": "Linked asset",
+    "crypto_card_choose_asset": "Choose asset"
 }

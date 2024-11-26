@@ -14,7 +14,7 @@ Future<void> showChooseLinkedAssetBottomSheet({
     context: context,
     expanded: store.showSearch,
     header: BasicBottomSheetHeaderWidget(
-      title: intl.crypto_card_acknowledgment,
+      title: intl.crypto_card_choose_asset,
       searchOptions: store.showSearch
           ? SearchOptions(
               hint: intl.actionBottomSheetHeader_search,
@@ -58,6 +58,7 @@ class _LinkedAssetBody extends StatelessWidget {
                   ),
                 ),
                 onTableAssetTap: () {
+                  Navigator.of(context).pop();
                   store.onChooseAsset(asset);
                 },
               ),

@@ -37,8 +37,9 @@ class _LinkedAssetsBody extends StatelessWidget {
       builder: (context) {
         return SPageFrame(
           loaderText: intl.loader_please_wait,
-          header: const GlobalBasicAppBar(
-            title: 'Linked assets',
+          loading: store.loader,
+          header: GlobalBasicAppBar(
+            title: intl.crypto_card_linked_assets,
             hasRightIcon: false,
           ),
           child: Column(
@@ -46,7 +47,7 @@ class _LinkedAssetsBody extends StatelessWidget {
               const SpaceH7(),
               SuggestionButtonWidget(
                 title: store.selectedAsset.description,
-                subTitle: 'Linked asset',
+                subTitle: intl.crypto_card_linked_asset,
                 trailing: getIt<AppStore>().isBalanceHide
                     ? '**** ${store.selectedAsset.symbol}'
                     : store.selectedAsset.volumeAssetBalance,
