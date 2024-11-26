@@ -248,6 +248,6 @@ eval "set -- $(
 
 exec "$JAVACMD" "$@"
 
-set -- "-Dorg.gradle.jvmargs=-Xmx4096M" "$@"
+set -- "-Dorg.gradle.jvmargs=-Xmx6144m" "$@"
 
 exec "$JAVACMD" "$@"
