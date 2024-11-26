@@ -114,9 +114,10 @@ definitions:
       script: echo $FCI_KEYSTORE | base64 --decode > $FCI_KEYSTORE_PATH
 
     - name: Add swapfile
-      script: sudo fallocate -l 4G /swapfile \
-        sudo chmod 600 /swapfile \
-        sudo mkswap /swapfile \
+      script: |
+        sudo fallocate -l 4G /swapfile
+        sudo chmod 600 /swapfile
+        sudo mkswap /swapfile
         sudo swapon /swapfile
 
     - name: Build Android (APK)
