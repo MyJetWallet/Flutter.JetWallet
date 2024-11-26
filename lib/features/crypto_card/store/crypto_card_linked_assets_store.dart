@@ -14,6 +14,7 @@ import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
+import 'package:simple_networking/modules/wallet_api/models/crypto_card/change_asset_list_request_model.dart';
 
 part 'crypto_card_linked_assets_store.g.dart';
 
@@ -91,18 +92,27 @@ abstract class _CryptoCardlinkedAssetsStoreBase with Store {
   Future<void> onChooseAsset(CurrencyModel asset) async {
     try {
       loader.startLoadingImmediately();
-      // final response = await sNetwork.getWalletModule().getAssetListCryptoCard();
-      // response.pick(
-      //   onData: (data) {
+      final cryptoCardProfile = sSignalRModules.cryptoCardProfile;
+      final cryptoCard = cryptoCardProfile.cards.firstOrNull;
+      final cardId = cryptoCard?.cardId;
 
-      //   },
-      //   onError: (error) {
-      //     sNotification.showError(
-      //       error.cause,
-      //       id: 1,
-      //     );
-      //   },
-      // );
+      if (cardId == null) throw Exception();
+
+      final model = ChangeAssetListRequestModel(
+        cardId: cardId,
+        assets: [asset.symbol],
+      );
+
+      final response = await sNetwork.getWalletModule().setAssetsCryptoCard(model);
+      response.pick(
+        onData: (data) {},
+        onError: (error) {
+          sNotification.showError(
+            error.cause,
+            id: 1,
+          );
+        },
+      );
 
       await Future.delayed(Durations.extralong4);
     } on ServerRejectException catch (error) {

@@ -41,6 +41,7 @@ import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:simple_networking/modules/wallet_api/models/create_payment/create_payment_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/create_payment/create_payment_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/asset_list_crypto_card_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/crypto_card/change_asset_list_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/change_lable_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/change_pin_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/create_crypto_card_request_model.dart';
@@ -1477,5 +1478,11 @@ class WalletApiRepository {
 
   Future<DC<ServerRejectException, AssetListCryptoCardResponseModel>> getAssetListCryptoCard() async {
     return _walletApiDataSources.getAssetListCryptoCardRequest();
+  }
+
+  Future<DC<ServerRejectException, void>> setAssetsCryptoCard(
+    ChangeAssetListRequestModel model,
+  ) async {
+    return _walletApiDataSources.setAssetsCryptoCardRequest(model);
   }
 }
