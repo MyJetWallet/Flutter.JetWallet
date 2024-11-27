@@ -210,6 +210,7 @@ workflows:
 
     environment:
       vars:
+        JAVA_TOOL_OPTIONS: "-Xmx5g"
         MAIN_TARGET: "lib/main_production.dart"
         <<: *flavor_production_vars
 
@@ -231,6 +232,7 @@ workflows:
 
     environment:
       vars:
+        JAVA_TOOL_OPTIONS: "-Xmx5g"
         MAIN_TARGET: "lib/main_stage.dart"
         <<: *flavor_staging_vars
 
