@@ -1912,6 +1912,8 @@
     "crypto_card_add_to_google_wallet_description": "Open the Google Wallet App, tap “Add to Wallet,” and follow the prompts.",
     "crypto_card_freeze_title": "Freeze this card?",
     "crypto_card_freeze_description": "Once the card is frozen, payments and withdrawals will be declined. You can unfreeze your card anytime.",
+    "crypto_card_unfreeze_title": "Unfreeze this card?",
+    "crypto_card_unfreeze_description": "Once unfrozen, your card will be active and can be used for purchases and other transactions. If you're confident this is what you want to do, tap “Unfreeze”. You can always freeze it again later if needed.",
     "crypto_card_cancel": "Cancel",
     "crypto_card_freeze_toast": "Card transactions will be declined until you unfreeze the card",
     "crypto_card_unfreeze": "Unfreeze",

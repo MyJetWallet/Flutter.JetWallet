@@ -46,7 +46,6 @@ class _CryptoCardMainScreenBody extends StatelessWidget {
 
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
-      loading: store.loader,
       header: GlobalBasicAppBar(
         title: intl.crypto_card_main_title,
         subtitle: cryptoCard.label,

@@ -4,6 +4,7 @@ import 'package:jetwallet/features/crypto_card/store/main_crypto_card_store.dart
 import 'package:jetwallet/features/crypto_card/utils/show_card_settings_bootom_sheet.dart';
 import 'package:jetwallet/features/crypto_card/utils/show_crypto_card_change_pin_popup.dart';
 import 'package:jetwallet/features/crypto_card/utils/show_freeze_crypto_card_popup.dart';
+import 'package:jetwallet/features/crypto_card/utils/show_unfreeze_crypto_card_popup.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class CryptoCardActionButtons extends StatelessWidget {
@@ -22,19 +23,24 @@ class CryptoCardActionButtons extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 20.0),
       child: AnimatedCrossFade(
         firstChild: _buildUnfreezeButtons(context),
-        secondChild: _buildFreezeButtons(),
+        secondChild: _buildFreezeButtons(context),
         crossFadeState: cardIsFrozen ? CrossFadeState.showSecond : CrossFadeState.showFirst,
         duration: const Duration(milliseconds: 200),
       ),
     );
   }
 
-  Widget _buildFreezeButtons() {
+  Widget _buildFreezeButtons(BuildContext context) {
     return ActionPannel(
       actionButtons: [
         SActionButton(
           onTap: () {
-            store.unfreezeCard();
+            showUnfreezeCryptoCardPopup(
+              context: context,
+              onUnfreezePressed: () {
+                store.unfreezeCard();
+              },
+            );
           },
           lable: intl.crypto_card_unfreeze,
           icon: Assets.svg.medium.freeze.simpleSvg(
