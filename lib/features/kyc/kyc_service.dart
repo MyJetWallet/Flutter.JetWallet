@@ -76,6 +76,13 @@ abstract class _KycServiceBase with Store {
       : manualUpdateKycStatus;
 
   @computed
+  bool get verificationRequired => checkKycRequired(
+        sSignalRModules.clientDetail.depositStatus,
+        sSignalRModules.clientDetail.tradeStatus,
+        sSignalRModules.clientDetail.withdrawalStatus,
+      );
+
+  @computed
   bool get inVerificationProgress => verificationInProgress;
 
   @action

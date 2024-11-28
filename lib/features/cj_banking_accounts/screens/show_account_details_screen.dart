@@ -76,8 +76,11 @@ class _AccountDetailsBody extends StatelessWidget {
                         name: intl.iban_benificiary,
                         text: sSignalRModules.bankingProfileData?.simple?.account?.bankName ?? 'Simple Europe UAB',
                         afterCopy: () {
-                          unawaited(AnchorsHelper().addBankingAccountDetailsAnchor(
-                              sSignalRModules.bankingProfileData?.simple?.account?.accountId ?? ''));
+                          unawaited(
+                            AnchorsHelper().addBankingAccountDetailsAnchor(
+                              sSignalRModules.bankingProfileData?.simple?.account?.accountId ?? '',
+                            ),
+                          );
 
                           sAnalytics.eurWalletTapCopyDeposit(
                             isCJ: true,
@@ -93,7 +96,8 @@ class _AccountDetailsBody extends StatelessWidget {
                         afterCopy: () {
                           unawaited(
                             AnchorsHelper().addBankingAccountDetailsAnchor(
-                                sSignalRModules.bankingProfileData?.simple?.account?.accountId ?? ''),
+                              sSignalRModules.bankingProfileData?.simple?.account?.accountId ?? '',
+                            ),
                           );
 
                           sAnalytics.eurWalletTapCopyDeposit(
@@ -109,7 +113,8 @@ class _AccountDetailsBody extends StatelessWidget {
                         text: sSignalRModules.bankingProfileData?.simple?.account?.bic ?? '',
                         afterCopy: () {
                           AnchorsHelper().addBankingAccountDetailsAnchor(
-                              sSignalRModules.bankingProfileData?.simple?.account?.accountId ?? '');
+                            sSignalRModules.bankingProfileData?.simple?.account?.accountId ?? '',
+                          );
 
                           sAnalytics.eurWalletTapCopyDeposit(
                             isCJ: true,
@@ -124,7 +129,8 @@ class _AccountDetailsBody extends StatelessWidget {
                         text: sSignalRModules.bankingProfileData?.simple?.account?.address ?? '',
                         afterCopy: () {
                           AnchorsHelper().addBankingAccountDetailsAnchor(
-                              sSignalRModules.bankingProfileData?.simple?.account?.accountId ?? '');
+                            sSignalRModules.bankingProfileData?.simple?.account?.accountId ?? '',
+                          );
 
                           sAnalytics.eurWalletTapCopyDeposit(
                             isCJ: true,

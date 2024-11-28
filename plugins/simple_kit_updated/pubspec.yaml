@@ -59,12 +59,14 @@ flutter:
     - assets/svg/small/
     - assets/svg/payment_methods_cards/simple/
     - assets/svg/other/
+    - assets/svg/card/
     - assets/svg/other/large/
     - assets/svg/other/medium/
     - assets/svg/other/small/
     - assets/svg/assets/fiat/
     - assets/svg/assets/crypto/
     - assets/svg/brand/small/
+    - assets/svg/brand_icons/small/
     - assets/images/
     - assets/images/jar/
     - assets/animations/

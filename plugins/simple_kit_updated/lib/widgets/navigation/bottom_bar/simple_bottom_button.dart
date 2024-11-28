@@ -12,6 +12,7 @@ class SBottomButton extends StatelessWidget {
     required this.onChanged,
     required this.width,
     required this.notification,
+    this.hasWarning = false,
   });
 
   final SvgGenImage icon;
@@ -21,6 +22,7 @@ class SBottomButton extends StatelessWidget {
   final double width;
 
   final int notification;
+  final bool hasWarning;
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +55,23 @@ class SBottomButton extends StatelessWidget {
               ),
             ),
           ),
-          if (notification != 0)
+          if (hasWarning)
+            Positioned(
+              right: 7,
+              top: 0,
+              child: Container(
+                width: 16,
+                height: 16,
+                decoration: BoxDecoration(
+                    color: SColorsLight().blue,
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      color: SColorsLight().white,
+                      width: 2,
+                    )),
+              ),
+            )
+          else if (notification != 0)
             Positioned(
               right: 0,
               top: -5,

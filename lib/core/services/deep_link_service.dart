@@ -132,6 +132,9 @@ const _jw_sector_id = 'jw_sector_id';
 //Card Preorder
 const _card_preorder = 'card_preorder';
 
+//Crypto card
+const _crypto_card = 'crypto_card';
+
 // Unfinished operation
 const _unfinishedOperation = 'UnfinishedOperation';
 const _fromAsset = 'jw_fromAsset';
@@ -259,6 +262,8 @@ class DeepLinkService {
       await openCardPreorderTab(parameters);
     } else if (command == _unfinishedOperation) {
       await _pushUnfinishedOperationFlow(parameters);
+    } else if (command == _crypto_card) {
+      await openCryptoCardTab(parameters);
     } else {
       if (parameters.containsKey('jw_operation_id')) {
         await pushCryptoHistory(parameters);
@@ -1518,6 +1523,38 @@ class DeepLinkService {
             if (isPreorderAvaible) {
               sRouter.popUntilRoot();
               getIt<BottomBarStore>().setHomeTab(BottomItemType.card);
+            }
+          },
+        ),
+      );
+    }
+  }
+
+  Future<void> openCryptoCardTab(
+    Map<String, String> parameters,
+  ) async {
+    if (getIt.isRegistered<AppStore>() &&
+        getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home &&
+        getIt<TimerService>().isPinScreenOpen == false) {
+      final isCryptoCardAvaible = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
+        (element) => element.id == AssetPaymentProductsEnum.cryptoCard,
+      );
+      if (isCryptoCardAvaible) {
+        await Future.delayed(const Duration(milliseconds: 100));
+        sRouter.popUntilRoot();
+        getIt<BottomBarStore>().setHomeTab(BottomItemType.cryptoCard);
+      }
+    } else {
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          func: () async {
+            final isCryptoCardAvaible = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
+              (element) => element.id == AssetPaymentProductsEnum.cryptoCard,
+            );
+            if (isCryptoCardAvaible) {
+              sRouter.popUntilRoot();
+              getIt<BottomBarStore>().setHomeTab(BottomItemType.cryptoCard);
             }
           },
         ),

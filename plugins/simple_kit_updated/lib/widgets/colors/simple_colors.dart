@@ -7,6 +7,7 @@ abstract class SColors {
   abstract Color blackAlfa12;
   abstract Color grayAlfa;
   abstract Color white;
+  abstract Color violet50;
 
   // Grayscale
   abstract Color gray10;

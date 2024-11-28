@@ -164,6 +164,12 @@ const cryptopanicLogo = 'assets/images/cryptopanic_logo.svg';
 // Market
 const addAssetsBannerBg = 'assets/images/add_assets_banner_bg.png';
 
+//Crypto card
+const cryptoCardPreview = 'assets/images/crypto_card_preview.png';
+const cryptoCardPreviewSmall = 'assets/images/crypto_card_preview_small.png';
+const cryptoCardAlmostTher = 'assets/images/crypto_card_almost_ther.png';
+const cryptoCardPreview2 = 'assets/images/crypto_card_preview_2.png';
+
 // List of request paths excluded from 500 error handling
 const List<String> pathsBypass500Error = [
   '/api/v1/analytic-records/add-anchor',

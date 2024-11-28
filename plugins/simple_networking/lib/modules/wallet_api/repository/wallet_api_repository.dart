@@ -40,6 +40,16 @@ import 'package:simple_networking/modules/wallet_api/models/card_remove/card_rem
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:simple_networking/modules/wallet_api/models/create_payment/create_payment_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/create_payment/create_payment_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/crypto_card/asset_list_crypto_card_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/crypto_card/change_asset_list_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/crypto_card/change_lable_crypto_card_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/crypto_card/change_pin_crypto_card_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/crypto_card/create_crypto_card_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/crypto_card/freeze_crypto_card_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/crypto_card/price_crypto_card_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/crypto_card/sensitive_info_crypto_card_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/crypto_card/sensitive_info_crypto_card_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/crypto_card/unfreeze_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/delete_card/delete_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/delete_card/delete_card_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/deposit_address/deposit_address_request_model.dart';
@@ -616,9 +626,9 @@ class WalletApiRepository {
   }
 
   Future<DC<ServerRejectException, void>> postEmailVerifyRequest(
-      String verificationToken,
-      String code,
-      ) async {
+    String verificationToken,
+    String code,
+  ) async {
     final data = {
       'verificationToken': verificationToken,
       'code': code,
@@ -1423,5 +1433,56 @@ class WalletApiRepository {
 
   Future<DC<ServerRejectException, FeePreviewRepsonseModel>> postFeeInfo(FeePreviewRequestModel model) async {
     return _walletApiDataSources.postFeeInfoRequest(model);
+  }
+
+  //Crypto card
+  Future<DC<ServerRejectException, void>> createCryptoCard(
+    CreateCryptoCardRequestModel model,
+  ) async {
+    return _walletApiDataSources.createCryptoCardRequest(model);
+  }
+
+  Future<DC<ServerRejectException, void>> changeLableCryptoCard(
+    ChangeLableCryptoCardRequestModel model,
+  ) async {
+    return _walletApiDataSources.changeLableCryptoCardRequest(model);
+  }
+
+  Future<DC<ServerRejectException, SensitiveInfoCryptoCardResponseModel>> sensitiveInfoCryptoCard(
+    SensitiveInfoCryptoCardRequestModel model,
+  ) async {
+    return _walletApiDataSources.sensitiveInfoCryptoCardRequest(model);
+  }
+
+  Future<DC<ServerRejectException, PriceCryptoCardResponseModel>> getPriceCryptoCard() async {
+    return _walletApiDataSources.getPriceCryptoCardRequest();
+  }
+
+  Future<DC<ServerRejectException, void>> freezeCard(
+    FreezeCryptoCardRequestModel model,
+  ) async {
+    return _walletApiDataSources.freezeCardRequest(model);
+  }
+
+  Future<DC<ServerRejectException, void>> unfreezeCard(
+    UnfreezeCryptoCardRequestModel model,
+  ) async {
+    return _walletApiDataSources.unfreezeCardRequest(model);
+  }
+
+  Future<DC<ServerRejectException, void>> changePinCryptoCard(
+    ChangePinCryptoCardRequestModel model,
+  ) async {
+    return _walletApiDataSources.changePinCryptoCardRequest(model);
+  }
+
+  Future<DC<ServerRejectException, AssetListCryptoCardResponseModel>> getAssetListCryptoCard() async {
+    return _walletApiDataSources.getAssetListCryptoCardRequest();
+  }
+
+  Future<DC<ServerRejectException, void>> setAssetsCryptoCard(
+    ChangeAssetListRequestModel model,
+  ) async {
+    return _walletApiDataSources.setAssetsCryptoCardRequest(model);
   }
 }

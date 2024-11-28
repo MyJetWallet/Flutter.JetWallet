@@ -98,7 +98,6 @@ class SInput extends HookWidget {
                       color: isDisabled ? SColorsLight().gray6 : SColorsLight().black,
                     ),
                     controller: controller2,
-                    initialValue: initialValue,
                     onChanged: onChanged,
                     maxLines: 1,
                     focusNode: focusNode,

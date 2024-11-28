@@ -46,6 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
           if (bottomBarItems.contains(BottomItemType.earn)) const EarnRouter(),
           if (bottomBarItems.contains(BottomItemType.invest)) const InvestPageRouter(),
           if (bottomBarItems.contains(BottomItemType.card)) const CardRouter(),
+          if (bottomBarItems.contains(BottomItemType.cryptoCard)) const CryptoCardRootRoute(),
           if (bottomBarItems.contains(BottomItemType.rewards)) const RewardsFlowRouter(),
         ];
 
@@ -100,6 +101,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     type: BottomItemType.card,
                     text: intl.bottom_bar_card,
                     icon: Assets.svg.large.card,
+                  ),
+                if (bottomBarItems.contains(BottomItemType.cryptoCard))
+                  SBottomItemModel(
+                    type: BottomItemType.cryptoCard,
+                    text: intl.bottom_bar_card,
+                    icon: Assets.svg.large.card,
+                    hasWarning: sSignalRModules.cryptoCardProfile.cards.isEmpty,
                   ),
                 if (bottomBarItems.contains(BottomItemType.rewards))
                   SBottomItemModel(

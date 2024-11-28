@@ -30,6 +30,8 @@ class SuccessScreen extends StatelessWidget {
     this.bottomWidget,
     this.time = 3,
     this.isJarFlow,
+    this.isCryptoCardChangePinFlow,
+    this.child,
   });
 
   final Function(BuildContext)? onSuccess;
@@ -41,13 +43,15 @@ class SuccessScreen extends StatelessWidget {
   final int time;
   final String? actionButtonName;
   final bool? isJarFlow;
+  final bool? isCryptoCardChangePinFlow;
+  final Widget? child;
 
   @override
   Widget build(BuildContext context) {
     return Provider<TimerStore>(
       create: (_) => TimerStore(time),
       dispose: (context, store) => store.dispose(),
-      builder: (context, child) => _SuccessScreenBody(
+      builder: (context, _) => _SuccessScreenBody(
         onSuccess: onSuccess,
         onActionButton: onActionButton,
         primaryText: primaryText,
@@ -57,6 +61,8 @@ class SuccessScreen extends StatelessWidget {
         actionButtonName: actionButtonName,
         onCloseButton: onCloseButton,
         isJarFlow: isJarFlow ?? false,
+        isCryptoCardChangePinFlow: isCryptoCardChangePinFlow ?? false,
+        child: child,
       ),
     );
   }
@@ -73,6 +79,8 @@ class _SuccessScreenBody extends StatefulWidget {
     this.actionButtonName,
     required this.time,
     this.isJarFlow,
+    this.isCryptoCardChangePinFlow,
+    this.child,
   });
 
   final Function(BuildContext)? onSuccess;
@@ -84,6 +92,8 @@ class _SuccessScreenBody extends StatefulWidget {
   final int time;
   final String? actionButtonName;
   final bool? isJarFlow;
+  final bool? isCryptoCardChangePinFlow;
+  final Widget? child;
 
   @override
   State<_SuccessScreenBody> createState() => _SuccessScreenBodyState();
@@ -184,6 +194,10 @@ class _SuccessScreenBodyState extends State<_SuccessScreenBody> with WidgetsBind
                         ],
                       ],
                     ),
+                    if (widget.child != null) ...[
+                      const SpaceH24(),
+                      widget.child ?? Container(),
+                    ],
                     const Spacer(
                       flex: 3,
                     ),
@@ -191,14 +205,16 @@ class _SuccessScreenBodyState extends State<_SuccessScreenBody> with WidgetsBind
                       const SpaceH24(),
                       bottomWidget,
                     ],
-                    const SpaceH24(),
-                    SizedBox(
-                      height: 2,
-                      width: MediaQuery.of(context).size.width,
-                      child: ProgressBar(
-                        time: widget.time,
+                    if (!(widget.isCryptoCardChangePinFlow ?? false)) ...[
+                      const SpaceH24(),
+                      SizedBox(
+                        height: 2,
+                        width: MediaQuery.of(context).size.width,
+                        child: ProgressBar(
+                          time: widget.time,
+                        ),
                       ),
-                    ),
+                    ],
                     const SpaceH24(),
                     if (actionButtonName != null) ...[
                       SButton.text(

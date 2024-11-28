@@ -54,99 +54,87 @@ class SimpleHistoryTable extends HookWidget {
       },
       child: SAccountTableBase(
         isHighlighted: isHighlighted.value,
-        child: SizedBox(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              if (icon != null) ...[
-                icon!,
-                const SizedBox(
-                  width: 12.0,
-                ),
-              ],
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: 28.0,
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              label,
-                              style: STStyles.subtitle1.copyWith(
-                                color: mainColor,
-                              ),
-                            ),
-                          ),
-                          if (labelIcon != null) ...[
-                            const SizedBox(
-                              width: 4.0,
-                            ),
-                            SizedBox(
-                              width: 16,
-                              height: 16,
-                              child: labelIcon!.simpleSvg(
-                                color: SColorsLight().gray8,
-                              ),
-                            ),
-                          ],
-                          if (value != null) ...[
-                            const SizedBox(
-                              width: 16.0,
-                            ),
-                            Text(
-                              value!,
-                              style: STStyles.subtitle1.copyWith(
-                                color: mainColor,
-                              ),
-                            ),
-                          ],
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20.0,
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: supplement != null
-                                ? Text(
-                                    supplement!,
-                                    style: STStyles.body2Medium.copyWith(
-                                      color: supplementColor,
-                                    ),
-                                  )
-                                : const SizedBox.expand(),
-                          ),
-                          if (rightSupplement != null) ...[
-                            const SizedBox(
-                              width: 16.0,
-                            ),
-                            Text(
-                              rightSupplement!,
-                              style: STStyles.body2Medium.copyWith(
-                                color: supplementColor,
-                              ),
-                            ),
-                          ],
-                          if (type != null) ...[
-                            const SizedBox(
-                              width: 16.0,
-                            ),
-                            _buildRightTypeButtonWidget(),
-                          ],
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+        child: Row(
+          children: [
+            if (icon != null) ...[
+              icon!,
+              const SizedBox(
+                width: 12.0,
               ),
             ],
-          ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Flexible(
+                        child: Text(
+                          label,
+                          style: STStyles.subtitle1.copyWith(
+                            color: mainColor,
+                          ),
+                        ),
+                      ),
+                      if (labelIcon != null) ...[
+                        const SizedBox(
+                          width: 4.0,
+                        ),
+                        SizedBox(
+                          width: 16,
+                          height: 16,
+                          child: labelIcon!.simpleSvg(
+                            color: SColorsLight().gray8,
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                  supplement != null
+                      ? Text(
+                          supplement!,
+                          style: STStyles.body2Medium.copyWith(
+                            color: supplementColor,
+                          ),
+                        )
+                      : const SizedBox(),
+                ],
+              ),
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                if (value != null) ...[
+                  const SizedBox(
+                    width: 16.0,
+                  ),
+                  Text(
+                    value!,
+                    style: STStyles.subtitle1.copyWith(
+                      color: mainColor,
+                    ),
+                  ),
+                ],
+                if (rightSupplement != null) ...[
+                  const SizedBox(
+                    width: 16.0,
+                  ),
+                  Text(
+                    rightSupplement!,
+                    style: STStyles.body2Medium.copyWith(
+                      color: supplementColor,
+                    ),
+                  ),
+                ],
+                if (type != null) ...[
+                  const SizedBox(
+                    width: 16.0,
+                  ),
+                  _buildRightTypeButtonWidget(),
+                ],
+              ],
+            ),
+          ],
         ),
       ),
     );
