@@ -77,9 +77,9 @@ abstract class _ChangePinCryptoCardStoreBase with Store {
     }
 
     try {
-      error = null;
-
       if (value == 'backspace') {
+        error = null;
+
         if (state == _ChangePinCryptoCardFlowState.enterPin) {
           if (enterPin.isNotEmpty) {
             enterPin = enterPin.substring(0, enterPin.length - 1);
@@ -94,6 +94,7 @@ abstract class _ChangePinCryptoCardStoreBase with Store {
           if (enterPin.length == 4) {
             return;
           }
+          error = null;
           enterPin += value;
           if (enterPin.length == 4) {
             ifFullPinFlow();
@@ -102,6 +103,7 @@ abstract class _ChangePinCryptoCardStoreBase with Store {
           if (confirmPin.length == 4) {
             return;
           }
+          error = null;
           confirmPin += value;
           if (confirmPin.length == 4) {
             ifFullPinFlow();
