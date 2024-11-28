@@ -31,7 +31,7 @@ Future<T?> showBasicBottomSheet<T>({
         title: title,
         expanded: expanded,
         topPadding: MediaQuery.of(context).padding.top,
-        bottomPadding: MediaQuery.of(sRouter.navigatorKey.currentContext!).padding.bottom,
+        bottomPadding: MediaQuery.of(sRouter.navigatorKey.currentContext ?? context).padding.bottom,
         children: children,
       );
     },
