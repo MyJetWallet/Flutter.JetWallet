@@ -52,22 +52,30 @@ class _CryptoCardMainScreenBody extends StatelessWidget {
         hasLeftIcon: false,
         hasRightIcon: false,
       ),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            CryptoCardWidget(
+      child: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(
+            child: CryptoCardWidget(
               isFrozen: cardIsFrozen,
               last4: cryptoCard.last4,
             ),
-            const CryptoCardAmountWidget(),
-            CryptoCardActionButtons(
+          ),
+          const SliverToBoxAdapter(
+            child: CryptoCardAmountWidget(),
+          ),
+          SliverToBoxAdapter(
+            child: CryptoCardActionButtons(
               store: store,
               cardIsFrozen: cardIsFrozen,
             ),
-            const CryptoCardAddToWalletBanner(),
-            const CryptoCardTransactions(),
-          ],
-        ),
+          ),
+          const SliverToBoxAdapter(
+            child: CryptoCardAddToWalletBanner(),
+          ),
+          const SliverToBoxAdapter(
+            child: CryptoCardTransactions(),
+          ),
+        ],
       ),
     );
   }

@@ -328,6 +328,11 @@ Set<oh_resp.OperationType> avaibleOperationTypes = {
   oh_resp.OperationType.p2pBuy,
   oh_resp.OperationType.jarDeposit,
   oh_resp.OperationType.jarWithdrawal,
+  oh_resp.OperationType.cryptoCardPurchase,
+  oh_resp.OperationType.cryptoCardRefund,
+  oh_resp.OperationType.cryptoCardWithdrawal,
+  oh_resp.OperationType.cryptoCardDeposit,
+  oh_resp.OperationType.cryptoCardOrder,
 };
 
 List<oh_resp.OperationHistoryItem> _filterUnusedOperationTypeItemsFrom(
