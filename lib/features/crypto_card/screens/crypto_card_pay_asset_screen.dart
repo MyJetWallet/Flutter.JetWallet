@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/suggestion_button_widget.dart';
 import 'package:jetwallet/features/crypto_card/store/create_crypto_card_store.dart';
 import 'package:jetwallet/features/crypto_card/utils/show_pay_with_asset_bottom_sheet.dart';
@@ -133,7 +132,7 @@ class CryptoCardPayAssetScreen extends StatelessWidget {
                           text: intl.crypto_card_pay_continue,
                           callback: store.isPayValid
                               ? () {
-                                  sRouter.push(const CryptoCardNameRoute());
+                                  store.onContinueTap();
                                 }
                               : null,
                         ),

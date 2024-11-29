@@ -65,7 +65,7 @@ abstract class _CreateCryptoCardStoreBase with Store {
   @observable
   CurrencyModel? selectedAsset;
 
-  @observable
+  @computed
   CurrencyModel get priceAsset => getIt<FormatService>().findCurrency(
         assetSymbol: price?.assetSymbol ?? 'EUR',
       );
@@ -269,6 +269,13 @@ abstract class _CreateCryptoCardStoreBase with Store {
     }
 
     await sRouter.push(const CryptoCardPayAssetRoute());
+  }
+
+  @action
+  void onContinueTap() {
+    if (isPayValid) {
+      sRouter.push(CryptoCardConfirmationRoute(fromAssetSymbol: selectedAsset?.symbol ?? ''));
+    }
   }
 
   @action

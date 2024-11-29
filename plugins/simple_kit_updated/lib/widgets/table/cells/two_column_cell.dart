@@ -96,7 +96,7 @@ class TwoColumnCell extends StatelessWidget {
                     Flexible(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           if (leftValueIcon != null) ...[
                             Padding(
