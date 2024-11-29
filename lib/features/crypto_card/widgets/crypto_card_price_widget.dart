@@ -27,7 +27,7 @@ class _CryptoCardPriceWidgetState extends State<CryptoCardPriceWidget> {
   void initState() {
     super.initState();
 
-    Future.delayed(const Duration(milliseconds: 500)).then((_) {
+    Future.delayed(const Duration(milliseconds: 650)).then((_) {
       setState(() {
         startAnimation = true;
       });
@@ -64,9 +64,8 @@ class _CryptoCardPriceWidgetState extends State<CryptoCardPriceWidget> {
                   ),
                   style: STStyles.header5,
                 ),
-                secondChild: SizedBox(
+                secondChild: const SizedBox(
                   height: 32.0,
-                  // width: 64.0,
                 ),
                 alignment: Alignment.centerLeft,
                 crossFadeState: startUserPriceAnimation ? CrossFadeState.showFirst : CrossFadeState.showSecond,
@@ -74,18 +73,6 @@ class _CryptoCardPriceWidgetState extends State<CryptoCardPriceWidget> {
               ),
             ),
             const SpaceW4(),
-            // static final subtitle2 = _basicTextStyle.copyWith(
-            // fontSize: 16.0,
-            // fontWeight: FontWeight.w600,
-            // height: 1.5,
-            // );
-            // static final header5 = _basicTextStyle.copyWith(
-            // fontSize: 24.0,
-            // fontWeight: FontWeight.w600,
-            // height: 1.28,
-            // );
-            //       color: SColorsLight().gray8,
-            //       decoration: TextDecoration.lineThrough,
             SizedBox(
               height: 32.0,
               child: AnimatedContainer(

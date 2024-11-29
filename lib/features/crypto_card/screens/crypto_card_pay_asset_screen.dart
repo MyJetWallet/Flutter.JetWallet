@@ -9,7 +9,6 @@ import 'package:jetwallet/features/crypto_card/store/create_crypto_card_store.da
 import 'package:jetwallet/features/crypto_card/utils/show_pay_with_asset_bottom_sheet.dart';
 import 'package:jetwallet/features/crypto_card/widgets/crypto_card_price_widget.dart';
 import 'package:jetwallet/utils/constants.dart';
-import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
