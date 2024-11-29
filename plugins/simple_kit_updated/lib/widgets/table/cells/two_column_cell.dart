@@ -61,23 +61,17 @@ class TwoColumnCell extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Flexible(
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 4),
-                          child: Text(
-                            label,
-                            style: STStyles.body2Medium.copyWith(color: SColorsLight().gray10),
-                          ),
+                        child: Text(
+                          label,
+                          style: STStyles.body2Medium.copyWith(color: SColorsLight().gray10),
                         ),
                       ),
                       if (haveInfoIcon) ...[
                         const Gap(4),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 4),
-                          child: Assets.svg.small.info.simpleSvg(
-                            width: 16,
-                            height: 16,
-                            color: SColorsLight().gray10,
-                          ),
+                        Assets.svg.small.info.simpleSvg(
+                          width: 16,
+                          height: 16,
+                          color: SColorsLight().gray10,
                         ),
                       ],
                     ],
@@ -86,10 +80,7 @@ class TwoColumnCell extends StatelessWidget {
                 const Gap(10),
                 if (type != TwoColumnCellType.loading) ...[
                   if (customRightIcon != null) ...[
-                    Padding(
-                      padding: const EdgeInsets.only(top: 4),
-                      child: customRightIcon!,
-                    ),
+                    customRightIcon!,
                     const Gap(8),
                   ],
                   if (value != null) ...[
@@ -99,10 +90,7 @@ class TwoColumnCell extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           if (leftValueIcon != null) ...[
-                            Padding(
-                              padding: const EdgeInsets.only(top: 4),
-                              child: leftValueIcon ?? const SizedBox(),
-                            ),
+                            leftValueIcon ?? const SizedBox(),
                             const Gap(8),
                           ],
                           Flexible(
@@ -116,10 +104,7 @@ class TwoColumnCell extends StatelessWidget {
                           ),
                           if (rightValueIcon != null) ...[
                             const Gap(8),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 3),
-                              child: rightValueIcon ?? const SizedBox(),
-                            ),
+                            rightValueIcon ?? const SizedBox(),
                           ],
                         ],
                       ),

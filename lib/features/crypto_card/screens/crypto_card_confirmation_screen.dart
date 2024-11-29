@@ -1,49 +1,43 @@
-import 'dart:async';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/format_service.dart';
-import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/crypto_card/store/crypto_card_confirmation_store.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
-import 'package:simple_networking/helpers/models/server_reject_exception.dart';
-import 'package:simple_networking/modules/signal_r/models/crypto_card_message_model.dart';
 
 @RoutePage(name: 'CryptoCardConfirmationRoute')
-class CryptoCardConfirmationScreen extends StatefulWidget {
+class CryptoCardConfirmationScreen extends StatelessWidget {
   const CryptoCardConfirmationScreen({super.key, required this.fromAssetSymbol});
 
   final String fromAssetSymbol;
 
   @override
-  State<CryptoCardConfirmationScreen> createState() => _CryptoCardConfirmationScreenState();
+  Widget build(BuildContext context) {
+    return Provider(
+      create: (context) => CryptoCardConfirmationStore(fromAssetSymbol: fromAssetSymbol)..loadPrewiev(),
+      child: const _ConfirmationBody(),
+    );
+  }
 }
 
-class _CryptoCardConfirmationScreenState extends State<CryptoCardConfirmationScreen> {
-  StackLoaderStore loader = StackLoaderStore();
-
-  bool isCreating = false;
+class _ConfirmationBody extends StatelessWidget {
+  const _ConfirmationBody();
 
   @override
   Widget build(BuildContext context) {
-    final asset = getIt<FormatService>().findCurrency(
-      assetSymbol: widget.fromAssetSymbol,
-    );
-    loader = StackLoaderStore();
+    final store = CryptoCardConfirmationStore.of(context);
     return Observer(
       builder: (context) {
         return SPageFrame(
           loaderText: intl.loader_please_wait,
-          loading: loader,
-          customLoader: isCreating
+          loading: store.loader,
+          customLoader: store.isPreviewLoaded
               ? WaitingScreen(
                   secondaryText: '',
                   onSkip: () {},
@@ -64,11 +58,17 @@ class _CryptoCardConfirmationScreenState extends State<CryptoCardConfirmationScr
                   children: [
                     SPaddingH24(
                       child: STransaction(
-                        isLoading: false,
-                        fromAssetIconUrl: asset.iconUrl,
-                        fromAssetDescription: asset.description,
-                        fromAssetValue: '4.12 USDT',
-                        fromAssetBaseAmount: '4 EUR',
+                        isLoading: !store.isPreviewLoaded,
+                        fromAssetIconUrl: store.fromAsset.iconUrl,
+                        fromAssetDescription: store.fromAsset.description,
+                        fromAssetValue: store.fromAmount.toFormatCount(
+                          symbol: store.fromAssetSymbol,
+                          accuracy: store.fromAsset.accuracy,
+                        ),
+                        fromAssetBaseAmount: store.toAmount.toFormatSum(
+                          symbol: store.toAssetSymbol,
+                          accuracy: store.toAsset.accuracy,
+                        ),
                         hasSecondAsset: false,
                       ),
                     ),
@@ -78,22 +78,26 @@ class _CryptoCardConfirmationScreenState extends State<CryptoCardConfirmationScr
                     const SpaceH8(),
                     TwoColumnCell(
                       label: 'Pay with',
-                      value: asset.description,
+                      value: store.fromAsset.description,
                       leftValueIcon: NetworkIconWidget(
-                        asset.iconUrl,
+                        store.fromAsset.iconUrl,
                       ),
+                      type: store.isPreviewLoaded ? TwoColumnCellType.def : TwoColumnCellType.loading,
                     ),
-                    const TwoColumnCell(
+                    TwoColumnCell(
                       label: 'Card issue cost',
-                      value: '8 EUR',
+                      value: '#####',
+                      type: store.isPreviewLoaded ? TwoColumnCellType.def : TwoColumnCellType.loading,
                     ),
-                    const TwoColumnCell(
-                      label: '50% discount',
-                      value: '-4 EUR',
+                    TwoColumnCell(
+                      label: '#####% discount',
+                      value: '#####',
+                      type: store.isPreviewLoaded ? TwoColumnCellType.def : TwoColumnCellType.loading,
                     ),
-                    const TwoColumnCell(
+                    TwoColumnCell(
                       label: 'Price',
-                      value: '1 USDT = 0.95 EUR',
+                      value: '##### = #####',
+                      type: store.isPreviewLoaded ? TwoColumnCellType.def : TwoColumnCellType.loading,
                     ),
                     const SpaceH16(),
                     const SDivider(
@@ -110,7 +114,7 @@ class _CryptoCardConfirmationScreenState extends State<CryptoCardConfirmationScr
                         activeText: '',
                         thirdText: '',
                         activeText2: '',
-                        onCheckboxTap: () {},
+                        onCheckboxTap: store.toggleCheckBox,
                         onUserAgreementTap: () {
                           launchURL(context, userAgreementLink);
                         },
@@ -119,7 +123,7 @@ class _CryptoCardConfirmationScreenState extends State<CryptoCardConfirmationScr
                         },
                         onActiveTextTap: () {},
                         onActiveText2Tap: () {},
-                        isChecked: true,
+                        isChecked: store.isCheckBoxSelected,
                       ),
                     ),
                     const SpaceH24(),
@@ -135,9 +139,11 @@ class _CryptoCardConfirmationScreenState extends State<CryptoCardConfirmationScr
                         ),
                         child: SButton.black(
                           text: intl.crypto_card_pay_continue,
-                          callback: () {
-                            createCryptoCard();
-                          },
+                          callback: store.isContinueAvaible
+                              ? () {
+                                  store.onContinueTap();
+                                }
+                              : null,
                         ),
                       ),
                     ),
@@ -149,74 +155,5 @@ class _CryptoCardConfirmationScreenState extends State<CryptoCardConfirmationScr
         );
       },
     );
-  }
-
-  Future<void> createCryptoCard() async {
-    try {
-      isCreating = true;
-      loader.startLoadingImmediately();
-      // const model = CreateCryptoCardRequestModel(
-      //   label: 'lable',
-      // );
-
-      // final response = await sNetwork.getWalletModule().createCryptoCard(model);
-
-      // TODO (Yaroslav): remove this code
-      sSignalRModules.cryptoCardProfile = const CryptoCardProfile(
-        associateAssetList: ['USDT'],
-        cards: [
-          CryptoCardModel(
-            cardId: 'mock',
-            label: 'lable',
-            last4: '5555',
-            status: CryptoCardStatus.inCreation,
-          ),
-        ],
-      );
-
-      unawaited(
-        Future.delayed(
-          const Duration(seconds: 3),
-          () {
-            sSignalRModules.cryptoCardProfile = const CryptoCardProfile(
-              associateAssetList: ['USDT'],
-              cards: [
-                CryptoCardModel(
-                  cardId: 'mock',
-                  label: 'lable',
-                  last4: '5555',
-                  status: CryptoCardStatus.active,
-                ),
-              ],
-            );
-          },
-        ),
-      );
-
-      await sRouter
-          .push(
-        SuccessScreenRouter(
-          secondaryText: 'You have successfully paid for the card.',
-          onCloseButton: () {},
-        ),
-      )
-          .then(
-        (value) {
-          sRouter.popUntilRoot();
-          sRouter.push(const CryptoCardNameRoute());
-        },
-      );
-    } on ServerRejectException catch (error) {
-      sNotification.showError(
-        error.cause,
-        id: 1,
-      );
-    } catch (error) {
-      sNotification.showError(
-        intl.something_went_wrong_try_again2,
-        id: 1,
-        needFeedback: true,
-      );
-    } finally {}
   }
 }
