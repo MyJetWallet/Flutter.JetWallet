@@ -93,11 +93,7 @@ class _CryptoCardNameScreenState extends State<CryptoCardNameScreen> {
                         ),
                         child: SButton.black(
                           text: intl.crypto_card_name_create_card,
-                          callback: store.isLableValid
-                              ? () {
-                                  store.createCryptoCard();
-                                }
-                              : null,
+                          callback: store.isLableValid ? () {} : null,
                         ),
                       ),
                     ),

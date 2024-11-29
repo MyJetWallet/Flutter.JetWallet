@@ -70,6 +70,10 @@ abstract class _CryptoCardConfirmationStoreBase with Store {
   @observable
   bool isCheckBoxSelected = false;
 
+  String operationId = '';
+
+  Decimal price = Decimal.zero;
+
   @computed
   bool get isContinueAvaible => isPreviewLoaded && isCheckBoxSelected;
 
@@ -85,10 +89,12 @@ abstract class _CryptoCardConfirmationStoreBase with Store {
       final response = await sNetwork.getWalletModule().cryptoCardPrewiev(model);
       response.pick(
         onData: (data) {
+          operationId = data.operationId;
           toAssetSymbol = data.toAsset;
           toAmount = data.toAssetVolume;
           fromAssetSymbol = data.fromAsset;
           fromAmount = data.fromAssetVolume;
+          price = data.price;
 
           isPreviewLoaded = true;
         },
@@ -121,84 +127,62 @@ abstract class _CryptoCardConfirmationStoreBase with Store {
   Future<void> onContinueTap() async {
     try {
       loader.startLoadingImmediately();
-      const model = CreateCryptoCardRequestModel(
-        label: 'lable',
+      final model = CreateCryptoCardRequestModel(
+        operationId: operationId,
+        price: price,
+        fromAsset: fromAssetSymbol,
+        fromAssetVolume: fromAmount,
       );
 
       final response = await sNetwork.getWalletModule().createCryptoCard(model);
 
       response.pick(
-        onData: (data) {
-          isPreviewLoaded = true;
+        onData: (data) async {
+          changeLocalState();
+          await showSuccessScreen();
         },
         onError: (error) {
-          sNotification.showError(
-            error.cause,
-            id: 1,
-          );
-        },
-      );
-
-      // TODO (Yaroslav): remove this code
-      sSignalRModules.cryptoCardProfile = const CryptoCardProfile(
-        associateAssetList: ['USDT'],
-        cards: [
-          CryptoCardModel(
-            cardId: 'mock',
-            label: 'lable',
-            last4: '5555',
-            status: CryptoCardStatus.inCreation,
-          ),
-        ],
-      );
-
-      unawaited(
-        Future.delayed(
-          const Duration(seconds: 3),
-          () {
-            sSignalRModules.cryptoCardProfile = const CryptoCardProfile(
-              associateAssetList: ['USDT'],
-              cards: [
-                CryptoCardModel(
-                  cardId: 'mock',
-                  label: 'lable',
-                  last4: '5555',
-                  status: CryptoCardStatus.active,
-                ),
-              ],
-            );
-          },
-        ),
-      );
-
-      await sRouter
-          .push(
-        SuccessScreenRouter(
-          secondaryText: 'You have successfully paid for the card.',
-          onCloseButton: () {},
-        ),
-      )
-          .then(
-        (value) {
-          sRouter.popUntilRoot();
-          sRouter.push(const CryptoCardNameRoute());
+           showFailureScreen(error.cause);
         },
       );
     } on ServerRejectException catch (error) {
-      sNotification.showError(
-        error.cause,
-        id: 1,
-      );
+      await showFailureScreen(error.cause);
     } catch (error) {
-      sNotification.showError(
-        intl.something_went_wrong_try_again2,
-        id: 1,
-        needFeedback: true,
-      );
+      await showFailureScreen(intl.something_went_wrong_try_again2);
       logError(
         message: 'onContinueTap error: $error',
       );
-    } finally {}
+    }
+  }
+
+  Future<void> showSuccessScreen() async {
+    await sRouter
+        .push(
+      SuccessScreenRouter(
+        secondaryText: 'You have successfully paid for the card.',
+      ),
+    )
+        .then(
+      (value) {
+        sRouter.popUntilRoot();
+        sRouter.push(const CryptoCardNameRoute());
+      },
+    );
+  }
+
+  @action
+  Future<void> showFailureScreen(String error) async {
+    loader.finishLoadingImmediately();
+
+    unawaited(
+      sRouter.push(
+        FailureScreenRouter(
+          primaryText: intl.previewBuyWithAsset_failure,
+          secondaryText: error,
+          onPrimaryButtonTap: () {},
+        ),
+      ),
+    );
   }
 
   void logError({required String message}) {
@@ -207,5 +191,39 @@ abstract class _CryptoCardConfirmationStoreBase with Store {
           place: _tag,
           message: message,
         );
+  }
+
+  // TODO (Yaroslav): remove this function
+  void changeLocalState() {
+    sSignalRModules.cryptoCardProfile = const CryptoCardProfile(
+      associateAssetList: ['USDT'],
+      cards: [
+        CryptoCardModel(
+          cardId: 'mock',
+          label: 'lable',
+          last4: '5555',
+          status: CryptoCardStatus.inCreation,
+        ),
+      ],
+    );
+
+    unawaited(
+      Future.delayed(
+        const Duration(seconds: 3),
+        () {
+          sSignalRModules.cryptoCardProfile = const CryptoCardProfile(
+            associateAssetList: ['USDT'],
+            cards: [
+              CryptoCardModel(
+                cardId: 'mock',
+                label: 'lable',
+                last4: '5555',
+                status: CryptoCardStatus.active,
+              ),
+            ],
+          );
+        },
+      ),
+    );
   }
 }

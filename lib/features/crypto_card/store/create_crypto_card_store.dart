@@ -11,7 +11,6 @@ import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/sumsub_service/sumsub_service.dart';
-import 'package:jetwallet/features/app/store/global_loader.dart';
 import 'package:jetwallet/features/crypto_card/utils/show_please_verify_account_popup.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
@@ -22,8 +21,6 @@ import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
-import 'package:simple_networking/modules/signal_r/models/crypto_card_message_model.dart';
-import 'package:simple_networking/modules/wallet_api/models/crypto_card/create_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/price_crypto_card_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/kyc/kyc_plan_responce_model.dart';
 
@@ -286,78 +283,10 @@ abstract class _CreateCryptoCardStoreBase with Store {
   @action
   void skipCryptoCardNameSteep() {
     cardLable = null;
-    createCryptoCard();
   }
 
   @action
   void setCryptoCardName(String name) {
     cardLable = name;
-  }
-
-  @action
-  Future<void> createCryptoCard() async {
-    try {
-      getIt.get<GlobalLoader>().setLoading(true);
-      final model = CreateCryptoCardRequestModel(
-        label: cardLable,
-      );
-
-      final response = await sNetwork.getWalletModule().createCryptoCard(model);
-
-      response.pick(
-        onNoError: (data) async {
-          // TODO (Yaroslav): remove this code
-          sSignalRModules.cryptoCardProfile = CryptoCardProfile(
-            associateAssetList: ['USDT'],
-            cards: [
-              CryptoCardModel(
-                cardId: 'mock',
-                label: cardLable ?? '',
-                last4: '5555',
-                status: CryptoCardStatus.inCreation,
-              ),
-            ],
-          );
-          unawaited(
-            Future.delayed(
-              const Duration(seconds: 3),
-              () {
-                sSignalRModules.cryptoCardProfile = CryptoCardProfile(
-                  associateAssetList: ['USDT'],
-                  cards: [
-                    CryptoCardModel(
-                      cardId: 'mock',
-                      label: cardLable ?? '',
-                      last4: '5555',
-                      status: CryptoCardStatus.active,
-                    ),
-                  ],
-                );
-              },
-            ),
-          );
-        },
-        onError: (error) {
-          sNotification.showError(
-            error.cause,
-            id: 1,
-          );
-        },
-      );
-    } on ServerRejectException catch (error) {
-      sNotification.showError(
-        error.cause,
-        id: 1,
-      );
-    } catch (error) {
-      sNotification.showError(
-        intl.something_went_wrong_try_again2,
-        id: 1,
-        needFeedback: true,
-      );
-    } finally {
-      getIt.get<GlobalLoader>().setLoading(false);
-      sRouter.popUntilRoot();
-    }
   }
 }
