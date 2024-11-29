@@ -36,12 +36,10 @@ class _CryptoCardNameScreenState extends State<CryptoCardNameScreen> {
                 color: colors.blue,
               ),
             ),
-            onLeftIconTap: () {
+            onRightIconTap: () {
               sRouter.popUntilRoot();
             },
-            onRightIconTap: () {
-              store.skipCryptoCardNameSteep();
-            },
+            hasLeftIcon: false,
           ),
           child: CustomScrollView(
             physics: const ClampingScrollPhysics(),
