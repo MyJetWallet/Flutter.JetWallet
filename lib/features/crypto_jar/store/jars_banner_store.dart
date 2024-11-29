@@ -49,7 +49,6 @@ abstract class _JarsBannerStoreBase with Store {
       } else if (languageCode == 'pl') {
         url = addLocaleToUrl('pl');
       }
-      print('#@#@#@ $languageCode $url');
     }
     if (url.isNotEmpty) {
       launchURL(context, url, launchMode: LaunchMode.externalApplication);
