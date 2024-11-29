@@ -96,6 +96,7 @@ class _BasicBottomSheetState extends State<BasicBottomSheet> {
                 children: [
                   BasicBottomSheetHeaderWidget(
                     title: widget.title ?? widget.header.title,
+                    withPadding: widget.header.withPadding,
                     searchOptions: widget.header.searchOptions,
                   ),
                   if (contentTooBig)
