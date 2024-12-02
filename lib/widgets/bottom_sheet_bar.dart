@@ -14,6 +14,9 @@ Future<T?> showBasicBottomSheet<T>({
   String? title,
   bool expanded = false,
 }) async {
+  final topPadding = MediaQuery.of(context).padding.top;
+  final bottomPadding = MediaQuery.of(sRouter.navigatorKey.currentContext ?? context).padding.bottom;
+
   return showModalBottomSheet(
     context: context,
     backgroundColor: Colors.transparent,
@@ -30,8 +33,8 @@ Future<T?> showBasicBottomSheet<T>({
         color: color ?? SColorsLight().white,
         title: title,
         expanded: expanded,
-        topPadding: MediaQuery.of(context).padding.top,
-        bottomPadding: MediaQuery.of(sRouter.navigatorKey.currentContext ?? context).padding.bottom,
+        topPadding: topPadding,
+        bottomPadding: bottomPadding,
         children: children,
       );
     },
