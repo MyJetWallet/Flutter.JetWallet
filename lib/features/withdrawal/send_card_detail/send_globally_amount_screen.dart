@@ -7,6 +7,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/suggestion_button_widget.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/store/send_globally_amount_store.dart';
+import 'package:jetwallet/features/withdrawal/store/withdrawal_store.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
@@ -102,12 +103,49 @@ class _SendGloballyAmountScreenBodyState extends State<SendGloballyAmountScreenB
       ),
       child: Column(
         children: [
+          Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Wrap(
+                  spacing: 4,
+                  runSpacing: 8,
+                  children: [
+                    STagButton(
+                      lable: intl.withdrawal_you_send,
+                      state: store.inputMode == WithdrawalInputMode.youSend
+                          ? TagButtonState.selected
+                          : TagButtonState.defaultt,
+                      onTap: () {
+                        if (store.inputMode == WithdrawalInputMode.recepientGets) {
+                          store.setInputMode(WithdrawalInputMode.youSend);
+                        }
+                      },
+                    ),
+                    STagButton(
+                      lable: intl.withdrawal_recipient_gets,
+                      state: store.inputMode == WithdrawalInputMode.recepientGets
+                          ? TagButtonState.selected
+                          : TagButtonState.defaultt,
+                      onTap: () {
+                        if (store.inputMode == WithdrawalInputMode.youSend) {
+                          store.setInputMode(WithdrawalInputMode.recepientGets);
+                        }
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
           const Spacer(),
           SNumericLargeInput(
             primaryAmount: formatCurrencyStringAmount(
               value: store.withAmount,
             ),
-            primarySymbol: store.sendCurrency!.symbol,
+            primarySymbol: store.inputMode == WithdrawalInputMode.youSend
+                ? store.sendCurrency!.symbol
+                : store.receiveCurrencyAsset ?? '',
             onSwap: () {},
             showSwopButton: false,
             showMaxButton: true,

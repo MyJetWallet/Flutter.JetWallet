@@ -1911,5 +1911,14 @@
     "deleteProfileConditions_delete_anyway": "Usuń mimo wszystko",
     "crypto_jar_banner_description": "Dowiedz się więcej",
     "crypto_jar_banner_title": "Simple Crypto Jars ułatwia odbieranie kryptowalut.",
-    "payment_method_current_limits": "Aktualny limit: {value}"
+    "payment_method_current_limits": "Aktualny limit: {value}",
+    "crypto_card_freeze": "",
+    "crypto_card_change_pin": "",
+    "crypto_card_settings": "",
+    "crypto_card_card_number": "",
+    "crypto_card_valid_thru": "",
+    "crypto_card_cvv": "",
+    "crypto_card_asset_linked": "",
+    "crypto_card_show": "",
+    "pinScreen_tryAgainLater": "Spróbuj później"
 }

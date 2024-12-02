@@ -290,7 +290,9 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                   Text(
                     (pin.screenUnion == const ConfirmPin() || pin.screenUnion == const NewPin())
                         ? intl.pinScreen_pinDontMatch
-                        : intl.pinScreen_incorrectPIN,
+                        : pin.error != null && pin.error == 'WrongPinCodeBlocked'
+                            ? intl.pinScreen_tryAgainLater
+                            : intl.pinScreen_incorrectPIN,
                     style: STStyles.subtitle2.copyWith(color: colors.red),
                   ),
                   const SpaceH53(),

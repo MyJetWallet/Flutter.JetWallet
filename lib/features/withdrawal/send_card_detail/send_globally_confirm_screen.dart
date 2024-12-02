@@ -28,15 +28,17 @@ class SendGloballyConfirmScreen extends StatelessWidget {
     super.key,
     required this.data,
     required this.method,
+    required this.inLocalCurrency,
   });
 
   final SendToBankCardResponse data;
   final GlobalSendMethodsModelMethods method;
+  final bool inLocalCurrency;
 
   @override
   Widget build(BuildContext context) {
     return Provider<SendGloballyConfirmStore>(
-      create: (context) => SendGloballyConfirmStore()..init(data, method),
+      create: (context) => SendGloballyConfirmStore()..init(data, method, inLocalCurrency),
       builder: (context, child) => SendGloballyConfirmScreenBody(
         data: data,
         method: method,

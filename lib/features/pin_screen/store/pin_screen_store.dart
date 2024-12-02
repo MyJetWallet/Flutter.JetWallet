@@ -121,6 +121,9 @@ abstract class _PinScreenStoreBase with Store {
   @observable
   ObservableList<String> confirmPin = ObservableList.of([]);
 
+  @observable
+  String? error;
+
   @action
   PinBoxEnum boxState(int boxId, PinBoxEnum state) {
     return screenUnion.when(
@@ -289,6 +292,7 @@ abstract class _PinScreenStoreBase with Store {
 
       response.pick(
         onData: (data) async {
+          error = null;
           await flowUnion.maybeWhen(
             disable: () async {
               await sUserInfo.disablePin();
@@ -345,6 +349,7 @@ abstract class _PinScreenStoreBase with Store {
             orElse: () {},
           );
 
+          this.error = response.error?.errorCode ?? '';
           await _errorFlow();
           _updateNewPin('');
           _updateConfirmPin('');

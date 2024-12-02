@@ -5967,5 +5967,14 @@
     "deleteProfileConditions_delete_anyway": "Видалити все одно",
     "crypto_jar_banner_description": "Дізнатися більше",
     "crypto_jar_banner_title": "Simple Crypto Jars зроблять отримання криптовалюти надзвичайно простим.",
-    "payment_method_current_limits": "Поточний ліміт: {value}"
+    "payment_method_current_limits": "Поточний ліміт: {value}",
+    "crypto_card_freeze": "",
+    "crypto_card_change_pin": "",
+    "crypto_card_settings": "",
+    "crypto_card_card_number": "",
+    "crypto_card_valid_thru": "",
+    "crypto_card_cvv": "",
+    "crypto_card_asset_linked": "",
+    "crypto_card_show": "",
+    "pinScreen_tryAgainLater": "Спробуйте пізніше"
 }
