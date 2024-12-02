@@ -44,6 +44,7 @@ import 'package:simple_networking/modules/wallet_api/models/crypto_card/change_l
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/change_pin_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/create_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/freeze_crypto_card_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/crypto_card/limits_crypto_card_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/preview_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/preview_crypto_card_responce_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/price_crypto_card_response_model.dart';
@@ -4501,6 +4502,25 @@ class WalletApiDataSources {
         final data = handleFullResponse<Map>(responseData);
 
         return DC.data(PreviewCryptoCardResponceModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, LimitsCryptoCardResponseModel>> cryptoCardLimitsRequest() async {
+    try {
+      final response = await _apiClient.get(
+        '${_apiClient.options.walletApi}/crypto-card/limits',
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(LimitsCryptoCardResponseModel.fromJson(data));
       } catch (e) {
         rethrow;
       }

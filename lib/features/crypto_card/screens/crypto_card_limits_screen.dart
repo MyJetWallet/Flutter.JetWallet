@@ -1,7 +1,15 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/format_service.dart';
+import 'package:jetwallet/features/crypto_card/store/crypto_card_limits_store.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'package:simple_networking/modules/wallet_api/models/crypto_card/limits_crypto_card_response_model.dart';
 
 @RoutePage(name: 'CryptoCardLimitsRoute')
 class CryptoCardLimitsScreen extends StatelessWidget {
@@ -9,56 +17,101 @@ class CryptoCardLimitsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SPageFrame(
-      loaderText: '',
-      header: GlobalBasicAppBar(
-        hasRightIcon: false,
-        title: intl.crypto_card_limits,
-      ),
-      child: CustomScrollView(
-        physics: const ClampingScrollPhysics(),
-        slivers: [
-          SliverToBoxAdapter(
-            child: Column(
-              children: [
-                STextDivider(intl.crypto_card_limits_card_payments),
-                // TODO (Yaroslav): SPU-4804 add real data
-                SimpleHistoryTable(
-                  label: intl.crypto_card_limits_daily,
-                  value: '1 000 EUR',
-                  rightSupplement: intl.crypto_card_limits_left('1 000 EUR'),
-                ),
-                SimpleHistoryTable(
-                  label: intl.crypto_card_limits_weekly,
-                  value: '3 000 EUR',
-                  rightSupplement: intl.crypto_card_limits_left('2 000 EUR'),
-                ),
-                SimpleHistoryTable(
-                  label: intl.crypto_card_monthly,
-                  value: '5 000 EUR',
-                  rightSupplement: intl.crypto_card_limits_left('4 000 EUR'),
-                ),
-                STextDivider(intl.crypto_card_limits_atm_withdrawals),
-                SimpleHistoryTable(
-                  label: intl.crypto_card_limits_daily,
-                  value: '500 EUR',
-                  rightSupplement: intl.crypto_card_limits_left('0 EUR'),
-                ),
-                SimpleHistoryTable(
-                  label: intl.crypto_card_limits_weekly,
-                  value: '1 000 EUR',
-                  rightSupplement: intl.crypto_card_limits_left('500 EUR'),
-                ),
-                SimpleHistoryTable(
-                  label: intl.crypto_card_monthly,
-                  value: '2 000 EUR',
-                  rightSupplement: intl.crypto_card_limits_left('1 500 EUR'),
-                ),
-              ],
-            ),
+    return Provider(
+      create: (context) => CryptoCardLimitsStore()..loadLimits(),
+      builder: (context, child) {
+        final store = CryptoCardLimitsStore.of(context);
+
+        return SPageFrame(
+          loaderText: '',
+          header: GlobalBasicAppBar(
+            hasRightIcon: false,
+            title: intl.crypto_card_limits,
           ),
-        ],
-      ),
+          child: Observer(
+            builder: (context) {
+              return CustomScrollView(
+                physics: const ClampingScrollPhysics(),
+                slivers: [
+                  SliverToBoxAdapter(
+                    child:
+                        store.limits != null ? _CryptoCardLoadedLimits(limits: store.limits!) : const _LoadingState(),
+                  ),
+                ],
+              );
+            },
+          ),
+        );
+      },
     );
+  }
+}
+
+class _CryptoCardLoadedLimits extends StatelessWidget {
+  _CryptoCardLoadedLimits({required this.limits});
+
+  final LimitsCryptoCardResponseModel limits;
+
+  final asset = getIt.get<FormatService>().findCurrency(
+        assetSymbol: 'EUR',
+      );
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        STextDivider(intl.crypto_card_limits_card_payments),
+        SimpleHistoryTable(
+          label: intl.crypto_card_limits_daily,
+          value: _formatAmount(limits.purchaseDailyLimit),
+          rightSupplement:
+              intl.crypto_card_limits_left(_formatAmount(limits.purchaseDailyLimit - limits.purchaseDailyUsed)),
+        ),
+        SimpleHistoryTable(
+          label: intl.crypto_card_limits_weekly,
+          value: _formatAmount(limits.purchaseWeeklyLimit),
+          rightSupplement:
+              intl.crypto_card_limits_left(_formatAmount(limits.purchaseWeeklyLimit - limits.purchaseWeeklyUsed)),
+        ),
+        SimpleHistoryTable(
+          label: intl.crypto_card_monthly,
+          value: _formatAmount(limits.purchaseMonthlyLimit),
+          rightSupplement:
+              intl.crypto_card_limits_left(_formatAmount(limits.purchaseMonthlyLimit - limits.purchaseMonthlyUsed)),
+        ),
+        STextDivider(intl.crypto_card_limits_atm_withdrawals),
+        SimpleHistoryTable(
+          label: intl.crypto_card_limits_daily,
+          value: _formatAmount(limits.atmDailyLimit),
+          rightSupplement: intl.crypto_card_limits_left(_formatAmount(limits.atmDailyLimit - limits.atmDailyUsed)),
+        ),
+        SimpleHistoryTable(
+          label: intl.crypto_card_limits_weekly,
+          value: _formatAmount(limits.atmWeeklyLimit),
+          rightSupplement: intl.crypto_card_limits_left(_formatAmount(limits.atmWeeklyLimit - limits.atmWeeklyUsed)),
+        ),
+        SimpleHistoryTable(
+          label: intl.crypto_card_monthly,
+          value: _formatAmount(limits.atmMonthlyLimit),
+          rightSupplement: intl.crypto_card_limits_left(_formatAmount(limits.atmMonthlyLimit - limits.atmMonthlyUsed)),
+        ),
+      ],
+    );
+  }
+
+  String _formatAmount(Decimal amount) {
+    return amount.toFormatCount(
+      symbol: asset.symbol,
+      accuracy: asset.accuracy,
+    );
+  }
+}
+
+class _LoadingState extends StatelessWidget {
+  const _LoadingState();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(child: CircularProgressIndicator());
   }
 }
