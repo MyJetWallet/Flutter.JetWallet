@@ -1955,5 +1955,25 @@
     "crypto_card_delete_confirm": "Confirm and delete",
     "crypto_card_linked_asset": "Linked asset",
     "crypto_card_choose_asset": "Choose asset",
-    "crypto_card_main_title": "Simple virtual card"
+    "crypto_card_main_title": "Simple virtual card",
+    "crypto_card_pay_title": "Virtual Simple Card",
+    "crypto_card_pay_description": "Its maintenance is completely free, and the commission for calculations is 0%. The validity period of the Simple card is 5 years.",
+    "crypto_card_pay_payment_method": "Payment method",
+    "crypto_card_pay_pay_with": "Pay with",
+    "crypto_card_pay_continue": "Continue",
+    "crypto_card_confirmation_success_description": "You have successfully paid for the card.",
+    "crypto_card_confirmation_order_summary": "Order summary",
+    "crypto_card_confirmation_card_issue": "Card issue",
+    "crypto_card_confirmation_pay_with": "Pay with",
+    "crypto_card_confirmation_card_issue_cost": "Card issue cost",
+    "crypto_card_confirmation_discount": "{value} discount",
+    "@crypto_card_confirmation_discount": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "50%$"
+            }
+        }
+    },
+    "crypto_card_confirmation_price": "Price"
 }

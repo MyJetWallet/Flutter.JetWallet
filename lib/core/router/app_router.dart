@@ -32,12 +32,12 @@ import 'package:jetwallet/features/cj_banking_accounts/screens/cj_account_screen
 import 'package:jetwallet/features/convert_flow/screens/convetr_confrimation_screen.dart';
 import 'package:jetwallet/features/crypto_card/screens/creating_crypto_card_screen.dart';
 import 'package:jetwallet/features/crypto_card/screens/crypto_card_change_pin_screen.dart';
-import 'package:jetwallet/features/crypto_card/screens/crypto_card_default_asset_screen.dart';
-import 'package:jetwallet/features/crypto_card/screens/crypto_card_issue_cost_screen.dart';
+import 'package:jetwallet/features/crypto_card/screens/crypto_card_confirmation_screen.dart';
 import 'package:jetwallet/features/crypto_card/screens/crypto_card_limits_screen.dart';
 import 'package:jetwallet/features/crypto_card/screens/crypto_card_linked_assets_screen.dart';
 import 'package:jetwallet/features/crypto_card/screens/crypto_card_main_screen.dart';
 import 'package:jetwallet/features/crypto_card/screens/crypto_card_name_screen.dart';
+import 'package:jetwallet/features/crypto_card/screens/crypto_card_pay_asset_screen.dart';
 import 'package:jetwallet/features/crypto_card/screens/crypto_card_root_screen.dart';
 import 'package:jetwallet/features/crypto_card/screens/get_crypto_card_screen.dart';
 import 'package:jetwallet/features/crypto_deposit/crypto_deposit_screen.dart';
@@ -157,6 +157,7 @@ import 'package:simple_networking/modules/wallet_api/models/address_book/address
 import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_preview_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_preview_response.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
+import 'package:simple_networking/modules/wallet_api/models/crypto_card/price_crypto_card_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/jar/jar_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/p2p_methods/p2p_methods_responce_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/prepaid_card/buy_prepaid_card_intention_dto_list_response_model.dart';
@@ -759,12 +760,8 @@ class AppRouter extends RootStackRouter {
       page: GetCryptoCardRoute.page,
     ),
     AutoRoute(
-      path: '/crypto_card_default_asset',
-      page: CryptoCardDefaultAssetRoute.page,
-    ),
-    AutoRoute(
-      path: '/crypto_card_issue_cost',
-      page: CryptoCardIssueCostRoute.page,
+      path: '/crypto_card_pay_asset',
+      page: CryptoCardPayAssetRoute.page,
     ),
     AutoRoute(
       path: '/crypto_card_name',
@@ -781,6 +778,10 @@ class AppRouter extends RootStackRouter {
     AutoRoute(
       path: '/crypto_card_linked_assets',
       page: CryptoCardLinkedAssetsRoute.page,
+    ),
+    AutoRoute(
+      path: '/crypto_card_confirmation',
+      page: CryptoCardConfirmationRoute.page,
     ),
   ];
 }

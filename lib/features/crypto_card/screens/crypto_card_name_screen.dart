@@ -1,33 +1,41 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/features/crypto_card/store/create_crypto_card_store.dart';
+import 'package:jetwallet/features/crypto_card/store/crypto_card_name_store.dart';
 import 'package:jetwallet/utils/constants.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'CryptoCardNameRoute')
-class CryptoCardNameScreen extends StatefulWidget {
-  const CryptoCardNameScreen({super.key});
+class CryptoCardNameScreen extends StatelessWidget {
+  const CryptoCardNameScreen({super.key, required this.cardId});
+
+  final String cardId;
 
   @override
-  State<CryptoCardNameScreen> createState() => _CryptoCardNameScreenState();
+  Widget build(BuildContext context) {
+    return Provider(
+      create: (context) => CryptoCardNameStore(cardId: cardId),
+      child: const _CardNameBody(),
+    );
+  }
 }
 
-class _CryptoCardNameScreenState extends State<CryptoCardNameScreen> {
-  final TextEditingController controller = TextEditingController();
+class _CardNameBody extends StatelessWidget {
+  const _CardNameBody();
 
   @override
   Widget build(BuildContext context) {
     final colors = SColorsLight();
-    final store = getIt.get<CreateCryptoCardStore>();
+    final store = CryptoCardNameStore.of(context);
 
     return Observer(
       builder: (context) {
         return SPageFrame(
-          loaderText: '',
+          loaderText: intl.loader_please_wait,
+          loading: store.loader,
           color: colors.gray2,
           header: GlobalBasicAppBar(
             rightIcon: Text(
@@ -36,12 +44,10 @@ class _CryptoCardNameScreenState extends State<CryptoCardNameScreen> {
                 color: colors.blue,
               ),
             ),
-            onLeftIconTap: () {
+            onRightIconTap: () {
               sRouter.popUntilRoot();
             },
-            onRightIconTap: () {
-              store.skipCryptoCardNameSteep();
-            },
+            hasLeftIcon: false,
           ),
           child: CustomScrollView(
             physics: const ClampingScrollPhysics(),
@@ -74,11 +80,12 @@ class _CryptoCardNameScreenState extends State<CryptoCardNameScreen> {
                           const SpaceH32(),
                           SInput(
                             label: intl.crypto_card_name_card_name,
-                            controller: controller,
+                            controller: store.controller,
                             autofocus: true,
                             onChanged: (name) {
                               store.setCryptoCardName(name);
                             },
+                            maxLength: store.nameMaxLength,
                           ),
                         ],
                       ),
@@ -95,11 +102,7 @@ class _CryptoCardNameScreenState extends State<CryptoCardNameScreen> {
                         ),
                         child: SButton.black(
                           text: intl.crypto_card_name_create_card,
-                          callback: store.isLableValid
-                              ? () {
-                                  store.createCryptoCard();
-                                }
-                              : null,
+                          callback: store.isNameValid ? store.changeCardName : null,
                         ),
                       ),
                     ),

@@ -14,6 +14,8 @@ class GetCryptoCardScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = SColorsLight();
 
+    getIt.get<CreateCryptoCardStore>().init();
+
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
       header: const GlobalBasicAppBar(

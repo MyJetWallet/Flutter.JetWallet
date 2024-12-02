@@ -11,9 +11,6 @@ import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/sumsub_service/sumsub_service.dart';
-import 'package:jetwallet/features/app/store/global_loader.dart';
-import 'package:jetwallet/features/crypto_card/utils/show_crypto_card_acknowledgment_bottom_sheet.dart';
-import 'package:jetwallet/features/crypto_card/utils/show_insufficient_balance_account_popup.dart';
 import 'package:jetwallet/features/crypto_card/utils/show_please_verify_account_popup.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
@@ -22,9 +19,8 @@ import 'package:jetwallet/features/kyc/kyc_verify_your_profile/utils/start_kyc_a
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
-import 'package:simple_networking/modules/signal_r/models/crypto_card_message_model.dart';
-import 'package:simple_networking/modules/wallet_api/models/crypto_card/create_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/price_crypto_card_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/kyc/kyc_plan_responce_model.dart';
 
@@ -39,30 +35,49 @@ class CreateCryptoCardStore extends _CreateCryptoCardStoreBase with _$CreateCryp
 
 abstract class _CreateCryptoCardStoreBase with Store {
   @observable
-  bool cardIsCreating = false;
+  StackLoaderStore loader = StackLoaderStore();
 
   @observable
   PriceCryptoCardResponseModel? price;
 
   @observable
-  String? cardLable;
+  ObservableList<String> _avaibleAssetsSymbols = ObservableList.of([]);
 
   @computed
-  CurrencyModel get defaultAsset => getIt<FormatService>().findCurrency(
-        assetSymbol: 'USDT',
+  ObservableList<CurrencyModel> get avaibleAssets {
+    final result = ObservableList<CurrencyModel>.of([]);
+    for (final symbol in _avaibleAssetsSymbols) {
+      final asset = getIt<FormatService>().findCurrency(
+        assetSymbol: symbol,
+      );
+      result.add(asset);
+    }
+
+    return result;
+  }
+
+  @observable
+  CurrencyModel? selectedAsset;
+
+  @computed
+  CurrencyModel get priceAsset => getIt<FormatService>().findCurrency(
+        assetSymbol: price?.assetSymbol ?? 'EUR',
       );
 
   @computed
-  bool get isLableValid => cardLable?.isNotEmpty ?? false;
+  bool get isPayValid => selectedAsset != null && isEnoughBalanceToPay;
 
   @computed
-  bool get isIsEnoughBalanceToPay {
-    final needToPay = price?.userPrice ?? Decimal.zero;
+  bool get isEnoughBalanceToPay {
+    if (selectedAsset == null) return false;
+
+    final userPrice = price?.userPrice ?? Decimal.zero;
+    final needToPay = userPrice * Decimal.parse('1.05');
 
     final formatService = getIt.get<FormatService>();
     final avaibleBalance = formatService.convertOneCurrencyToAnotherOne(
-      fromCurrency: defaultAsset.symbol,
-      fromCurrencyAmmount: defaultAsset.assetBalance,
+      fromCurrency: selectedAsset?.symbol ?? '',
+      fromCurrencyAmmount: selectedAsset?.assetBalance ?? Decimal.zero,
       toCurrency: price?.assetSymbol ?? 'EUR',
       baseCurrency: sSignalRModules.baseCurrency.symbol,
       isMin: true,
@@ -72,12 +87,58 @@ abstract class _CreateCryptoCardStoreBase with Store {
   }
 
   @action
-  Future<void> startCreatingFlow() async {
+  Future<void> init() async {
     unawaited(_getPrice());
+    unawaited(_getAssetsListCryptoCard());
+  }
 
+  @computed
+  bool get showSearch => avaibleAssets.length > 7;
+
+  @observable
+  String searchValue = '';
+
+  @computed
+  ObservableList<CurrencyModel> get filterdAssets {
+    final result = avaibleAssets.where((element) {
+      return element.description.toLowerCase().contains(searchValue) ||
+          element.symbol.toLowerCase().contains(searchValue);
+    }).toList();
+
+    result.sort((a, b) => b.baseBalance.compareTo(a.baseBalance));
+
+    if (result.any((asset) => asset.symbol == 'USDT')) {
+      final usdtAsset = result.firstWhere((asset) => asset.symbol == 'USDT');
+      result.removeWhere((asset) => asset.symbol == 'USDT');
+      result.insert(0, usdtAsset);
+    }
+
+    return ObservableList.of(result);
+  }
+
+  @action
+  void onCahngeSearch(String value) {
+    searchValue = value;
+  }
+
+  @action
+  Future<void> onChooseAsset(CurrencyModel asset) async {
+    selectedAsset = asset;
+    if (!isEnoughBalanceToPay) {
+      // TODO (Yaroslav): Replace the error when the design is ready
+      sNotification.showError(
+        'Not enough balance',
+        id: 1,
+        isError: false,
+      );
+    }
+  }
+
+  @action
+  Future<void> startCreatingFlow() async {
     await _checkKycState(
       onKycAllowed: () async {
-        await _showAcknowledgmentBottomSheet();
+        await routCryptoCardPayAssetScreen();
       },
     );
   }
@@ -123,8 +184,12 @@ abstract class _CreateCryptoCardStoreBase with Store {
   }
 
   @action
-  Future<void> _getPrice() async {
+  Future<void> _getPrice({bool showLoader = false}) async {
     try {
+      if (showLoader) {
+        loader.startLoadingImmediately();
+      }
+
       final response = await sNetwork.getWalletModule().getPriceCryptoCard();
       response.pick(
         onData: (data) {
@@ -142,94 +207,24 @@ abstract class _CreateCryptoCardStoreBase with Store {
         intl.something_went_wrong_try_again,
         id: 1,
       );
-    }
-  }
-
-  Future<void> _showAcknowledgmentBottomSheet() async {
-    final context = sRouter.navigatorKey.currentContext;
-    if (context == null) return;
-    final acknowledgmentResult = await showCryptoCardAcknowledgmentBottomSheet(context);
-    if (acknowledgmentResult == true) {
-      await routCryptoCardDefaultAsseScreen();
+    } finally {
+      if (showLoader) {
+        loader.finishLoadingImmediately();
+      }
     }
   }
 
   @action
-  Future<void> routCryptoCardDefaultAsseScreen() async {
-    await sRouter.push(const CryptoCardDefaultAssetRoute());
-  }
-
-  @action
-  Future<void> routCardIssueCostSheetScreen() async {
-    if (price == null) {
-      await _getPrice();
-    }
-    if (isIsEnoughBalanceToPay) {
-      await sRouter.push(const CryptoCardIssueCostRoute());
-    } else {
-      final context = sRouter.navigatorKey.currentContext;
-      if (context == null) return;
-      await showInsufficientBalanceAccountPopup(context: context);
-    }
-  }
-
-  Future<void> routCryptoCardNameScreen() async {
-    await sRouter.push(const CryptoCardNameRoute());
-  }
-
-  @action
-  void skipCryptoCardNameSteep() {
-    cardLable = null;
-    createCryptoCard();
-  }
-
-  @action
-  void setCryptoCardName(String name) {
-    cardLable = name;
-  }
-
-  @action
-  Future<void> createCryptoCard() async {
+  Future<void> _getAssetsListCryptoCard({bool showLoader = false}) async {
     try {
-      getIt.get<GlobalLoader>().setLoading(true);
-      final model = CreateCryptoCardRequestModel(
-        label: cardLable,
-      );
-
-      final response = await sNetwork.getWalletModule().createCryptoCard(model);
+      if (showLoader) {
+        loader.startLoadingImmediately();
+      }
+      final response = await sNetwork.getWalletModule().getAssetListCryptoCard();
 
       response.pick(
-        onNoError: (data) async {
-          // TODO (Yaroslav): remove this code
-          sSignalRModules.cryptoCardProfile = CryptoCardProfile(
-            associateAssetList: ['USDT'],
-            cards: [
-              CryptoCardModel(
-                cardId: 'mock',
-                label: cardLable ?? '',
-                last4: '5555',
-                status: CryptoCardStatus.inCreation,
-              ),
-            ],
-          );
-          unawaited(
-            Future.delayed(
-              const Duration(seconds: 3),
-              () {
-                sSignalRModules.cryptoCardProfile = CryptoCardProfile(
-                  associateAssetList: ['USDT'],
-                  cards: [
-                    CryptoCardModel(
-                      cardId: 'mock',
-                      label: cardLable ?? '',
-                      last4: '5555',
-                      status: CryptoCardStatus.active,
-                    ),
-                  ],
-                );
-              },
-            ),
-          );
+        onData: (data) {
+          _avaibleAssetsSymbols = ObservableList.of(data.assets);
         },
         onError: (error) {
           sNotification.showError(
@@ -247,11 +242,35 @@ abstract class _CreateCryptoCardStoreBase with Store {
       sNotification.showError(
         intl.something_went_wrong_try_again2,
         id: 1,
-        needFeedback: true,
       );
     } finally {
-      getIt.get<GlobalLoader>().setLoading(false);
-      sRouter.popUntilRoot();
+      if (showLoader) {
+        loader.finishLoadingImmediately();
+      }
+    }
+  }
+
+  @action
+  Future<void> routCryptoCardPayAssetScreen() async {
+    if (price == null) {
+      unawaited(_getPrice(showLoader: true));
+    }
+    if (avaibleAssets.isEmpty) {
+      unawaited(_getAssetsListCryptoCard(showLoader: true));
+    }
+
+    await sRouter.push(const CryptoCardPayAssetRoute());
+  }
+
+  @action
+  void onContinueTap() {
+    if (isPayValid) {
+      sRouter.push(
+        CryptoCardConfirmationRoute(
+          fromAssetSymbol: selectedAsset?.symbol ?? '',
+          discount: price!,
+        ),
+      );
     }
   }
 }
