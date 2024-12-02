@@ -11,7 +11,7 @@ import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
-Future showCardSettingsBootomSheet({
+Future<void> showCardSettingsBootomSheet({
   required BuildContext context,
   required MainCryptoCardStore store,
 }) async {

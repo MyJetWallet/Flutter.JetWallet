@@ -5,7 +5,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/suggestion_button_widget.dart';
-import 'package:jetwallet/features/crypto_card/store/create_crypto_card_store.dart';
+import 'package:jetwallet/features/crypto_card/store/crypto_card_pay_asset_store.dart';
 import 'package:jetwallet/features/crypto_card/utils/show_pay_with_asset_bottom_sheet.dart';
 import 'package:jetwallet/features/crypto_card/widgets/crypto_card_price_widget.dart';
 import 'package:jetwallet/utils/constants.dart';
@@ -19,7 +19,7 @@ class CryptoCardPayAssetScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = SColorsLight();
-    final store = getIt.get<CreateCryptoCardStore>();
+    final store = getIt.get<CryptoCardPayAssetStore>();
 
     return SPageFrame(
       loaderText: intl.loader_please_wait,

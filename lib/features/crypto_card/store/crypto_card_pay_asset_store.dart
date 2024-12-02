@@ -24,16 +24,16 @@ import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/price_crypto_card_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/kyc/kyc_plan_responce_model.dart';
 
-part 'create_crypto_card_store.g.dart';
+part 'crypto_card_pay_asset_store.g.dart';
 
 @lazySingleton
-class CreateCryptoCardStore extends _CreateCryptoCardStoreBase with _$CreateCryptoCardStore {
-  CreateCryptoCardStore() : super();
+class CryptoCardPayAssetStore extends _CryptoCardPayAssetStoreBase with _$CryptoCardPayAssetStore {
+  CryptoCardPayAssetStore() : super();
 
-  _CreateCryptoCardStoreBase of(BuildContext context) => Provider.of<CreateCryptoCardStore>(context);
+  _CryptoCardPayAssetStoreBase of(BuildContext context) => Provider.of<CryptoCardPayAssetStore>(context);
 }
 
-abstract class _CreateCryptoCardStoreBase with Store {
+abstract class _CryptoCardPayAssetStoreBase with Store {
   @observable
   StackLoaderStore loader = StackLoaderStore();
 
