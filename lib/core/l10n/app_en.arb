@@ -8,6 +8,7 @@
     "pinScreen_setPin": "Set PIN",
     "pinScreen_changePin": "Change PIN",
     "pinScreen_weNeedYouToConfirmYourIdentity": "Please confirm your identity",
+    "pinScreen_tryAgainLater": "Try again later",
     "accountSecurity_accountCategoryButtonTitle1": "Face / Touch ID",
     "register_enterYourEmail": "Enter your email",
     "register_invalidEmail": "Invalid email. Ensure there are no spaces and the address is correct.",
