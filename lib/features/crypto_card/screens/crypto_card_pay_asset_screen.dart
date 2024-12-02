@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -6,8 +7,8 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/suggestion_button_widget.dart';
 import 'package:jetwallet/features/crypto_card/store/create_crypto_card_store.dart';
 import 'package:jetwallet/features/crypto_card/utils/show_pay_with_asset_bottom_sheet.dart';
+import 'package:jetwallet/features/crypto_card/widgets/crypto_card_price_widget.dart';
 import 'package:jetwallet/utils/constants.dart';
-import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
@@ -46,38 +47,10 @@ class CryptoCardPayAssetScreen extends StatelessWidget {
                       style: STStyles.header6,
                     ),
                     const SpaceH4(),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        if (store.price != null) ...[
-                          Text(
-                            store.price?.userPrice.toFormatSum(
-                                  symbol: store.price?.assetSymbol,
-                                ) ??
-                                '',
-                            style: STStyles.header5,
-                          ),
-                          const SpaceW4(),
-                          if (store.price?.regularPrice != store.price?.userPrice)
-                            Text(
-                              store.price?.regularPrice.toFormatSum(
-                                    symbol: store.price?.assetSymbol,
-                                  ) ??
-                                  '',
-                              style: STStyles.subtitle2.copyWith(
-                                color: SColorsLight().gray8,
-                                decoration: TextDecoration.lineThrough,
-                              ),
-                            ),
-                        ] else ...[
-                          SSkeletonLoader(
-                            height: 32,
-                            width: 100,
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                        ],
-                      ],
+                    CryptoCardPriceWidget(
+                      userPrice: store.price?.userPrice ?? Decimal.zero,
+                      regularPrice: store.price?.regularPrice ?? Decimal.zero,
+                      assetSymbol: store.price?.assetSymbol ?? 'EUR',
                     ),
                     const SpaceH24(),
                     SPaddingH24(
