@@ -11,17 +11,22 @@ import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'package:simple_networking/modules/wallet_api/models/crypto_card/price_crypto_card_response_model.dart';
 
 @RoutePage(name: 'CryptoCardConfirmationRoute')
 class CryptoCardConfirmationScreen extends StatelessWidget {
-  const CryptoCardConfirmationScreen({super.key, required this.fromAssetSymbol});
+  const CryptoCardConfirmationScreen({super.key, required this.fromAssetSymbol, required this.discount});
 
   final String fromAssetSymbol;
+  final PriceCryptoCardResponseModel discount;
 
   @override
   Widget build(BuildContext context) {
     return Provider(
-      create: (context) => CryptoCardConfirmationStore(fromAssetSymbol: fromAssetSymbol)..loadPrewiev(),
+      create: (context) => CryptoCardConfirmationStore(
+        fromAssetSymbol: fromAssetSymbol,
+        discount: discount,
+      )..loadPrewiev(),
       child: const _ConfirmationBody(),
     );
   }
@@ -87,13 +92,28 @@ class _ConfirmationBody extends StatelessWidget {
                     ),
                     TwoColumnCell(
                       label: intl.crypto_card_confirmation_card_issue_cost,
-                      value: '#####',
+                      value: store.discount.regularPrice.toFormatCount(
+                        symbol: store.toAsset.symbol,
+                        accuracy: store.toAsset.accuracy,
+                      ),
                       type: store.isPreviewLoaded ? TwoColumnCellType.def : TwoColumnCellType.loading,
                     ),
-                    TwoColumnCell(
-                      label: intl.crypto_card_confirmation_discount('####'),
-                      value: '#####',
-                      type: store.isPreviewLoaded ? TwoColumnCellType.def : TwoColumnCellType.loading,
+                    Builder(
+                      builder: (context) {
+                        final discount = ((store.discount.regularPrice - store.toAmount) / store.discount.regularPrice)
+                                .toDecimal(scaleOnInfinitePrecision: 2) *
+                            Decimal.fromInt(100);
+                        return discount != Decimal.zero && store.isPreviewLoaded
+                            ? TwoColumnCell(
+                                label: intl.crypto_card_confirmation_discount(discount.toFormatPercentCount()),
+                                value: (store.toAmount - store.discount.regularPrice).toFormatCount(
+                                  symbol: store.toAsset.symbol,
+                                  accuracy: store.toAsset.accuracy,
+                                ),
+                                type: store.isPreviewLoaded ? TwoColumnCellType.def : TwoColumnCellType.loading,
+                              )
+                            : const SizedBox();
+                      },
                     ),
                     TwoColumnCell(
                       label: intl.crypto_card_confirmation_price,

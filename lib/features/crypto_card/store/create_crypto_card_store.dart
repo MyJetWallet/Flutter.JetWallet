@@ -265,7 +265,12 @@ abstract class _CreateCryptoCardStoreBase with Store {
   @action
   void onContinueTap() {
     if (isPayValid) {
-      sRouter.push(CryptoCardConfirmationRoute(fromAssetSymbol: selectedAsset?.symbol ?? ''));
+      sRouter.push(
+        CryptoCardConfirmationRoute(
+          fromAssetSymbol: selectedAsset?.symbol ?? '',
+          discount: price!,
+        ),
+      );
     }
   }
 }

@@ -157,6 +157,7 @@ import 'package:simple_networking/modules/wallet_api/models/address_book/address
 import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_preview_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_preview_response.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
+import 'package:simple_networking/modules/wallet_api/models/crypto_card/price_crypto_card_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/jar/jar_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/p2p_methods/p2p_methods_responce_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/prepaid_card/buy_prepaid_card_intention_dto_list_response_model.dart';

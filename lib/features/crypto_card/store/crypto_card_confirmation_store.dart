@@ -19,6 +19,7 @@ import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/crypto_card_message_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/create_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/preview_crypto_card_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/crypto_card/price_crypto_card_response_model.dart';
 
 part 'crypto_card_confirmation_store.g.dart';
 
@@ -27,6 +28,7 @@ const String _tag = 'CryptoCardConfirmationStore';
 class CryptoCardConfirmationStore extends _CryptoCardConfirmationStoreBase with _$CryptoCardConfirmationStore {
   CryptoCardConfirmationStore({
     required super.fromAssetSymbol,
+    required super.discount,
   }) : super();
 
   static _CryptoCardConfirmationStoreBase of(BuildContext context) => Provider.of<CryptoCardConfirmationStore>(context);
@@ -35,12 +37,15 @@ class CryptoCardConfirmationStore extends _CryptoCardConfirmationStoreBase with 
 abstract class _CryptoCardConfirmationStoreBase with Store {
   _CryptoCardConfirmationStoreBase({
     required this.fromAssetSymbol,
+    required this.discount,
   });
 
   final formatService = getIt.get<FormatService>();
 
   @observable
   String fromAssetSymbol = '';
+
+  final PriceCryptoCardResponseModel discount;
 
   @observable
   String toAssetSymbol = 'EUR';
