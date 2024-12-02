@@ -1863,33 +1863,11 @@
     "crypto_card_order_title": "Your virtual Simple Card is almost here!",
     "crypto_card_order_description": "Pay contactless in stores with your phone or use it online like any other Mastercard. Fill in the final details and start using your card instantly.",
     "crypto_card_get_your_virtual_card_now": "Get your virtual card now",
-    "crypto_card_acknowledgment": "Acknowledgment",
-    "crypto_card_description": "Before proceeding, please confirm that you have read and agreed to the Terms and Conditions and Privacy Policy.",
-    "crypto_card_account_title": "Account",
-    "crypto_card_account_description": "In case of a shortage of euros, the crypto will be automatically charged.",
-    "crypto_card_account_crypto": "Crypto",
-    "crypto_card_card_issue": "Card issue",
-    "crypto_card_card_issue_awesome": "Awesome! You are one step closer to the release of Simple Crypto Card",
-    "crypto_card_card_issue_cost": "Card issue cost",
-    "crypto_card_card_issue_pay": "Pay",
-    "crypto_card_card_issue_footer": "The issue of the card costs {amounty}. Its maintenance is completely free, and the commission for calculations is 0%. The validity period of the Simple card is 5 years.",
-    "@crypto_card_card_issue_footer": {
-        "placeholders": {
-            "amounty": {
-                "type": "String",
-                "example": "4 EUR"
-            }
-        }
-    },
     "crypto_card_name_skip": "Skip",
     "crypto_card_name_your_card": "Name your card",
     "crypto_card_name_card_name": "Card name",
     "crypto_card_name_create_card": "Create card",
     "crypto_card_on_the_way": "Your virtual card is on the way! You'll be notified when the card becomes available.",
-    "crypto_card_insufficient_balance_title": "Insufficient balance",
-    "crypto_card_insufficient_balance_description": "Please deposit your crypto wallet or choose another wallet and try again",
-    "crypto_card_insufficient_balance_deposit": "Deposit",
-    "crypto_card_insufficient_balance_back": "Back to home page",
     "crypto_card_settings": "Settings",
     "crypto_card_settings_change_design": "Change design",
     "crypto_card_settings_limits": "Limits",
