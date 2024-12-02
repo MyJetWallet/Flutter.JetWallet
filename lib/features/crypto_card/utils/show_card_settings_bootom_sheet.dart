@@ -7,6 +7,7 @@ import 'package:jetwallet/features/crypto_card/store/main_crypto_card_store.dart
 import 'package:jetwallet/features/crypto_card/utils/show_crypto_card_change_pin_popup.dart';
 import 'package:jetwallet/features/crypto_card/utils/show_delete_card_popup.dart';
 import 'package:jetwallet/features/crypto_card/utils/show_wallet_redirecting_popup.dart';
+import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
@@ -109,7 +110,20 @@ class _SettingsBody extends StatelessWidget {
             Navigator.pop(context);
             final result = await showDeleteCardPopUp(context: context, cardLast4: store.cardLast4);
             if (result == true) {
-              await store.deleteCard();
+              var isPinValid = false;
+              await sRouter.push(
+                PinScreenRoute(
+                  union: const Change(),
+                  isChangePhone: true,
+                  onChangePhone: (String newPin) async {
+                    isPinValid = true;
+                    await sRouter.maybePop();
+                  },
+                ),
+              );
+              if (isPinValid) {
+                await store.deleteCard();
+              }
             }
           },
         ),

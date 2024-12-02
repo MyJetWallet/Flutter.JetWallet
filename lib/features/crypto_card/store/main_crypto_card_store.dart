@@ -251,10 +251,13 @@ abstract class _MainCryptoCardStoreBase with Store {
 
       // TODO (Yaroslav): Replace with a real network request
       await Future.delayed(const Duration(seconds: 1));
-      sSignalRModules.setCryptoCardModelData(
-        sSignalRModules.cryptoCardProfile.copyWith(
-          cards: [],
-        ),
+
+      sSignalRModules.cryptoCardProfile = const CryptoCardProfile();
+
+      sNotification.showError(
+        intl.crypto_card_delete_terminated_toast(cardLast4),
+        id: 1,
+        isError: false,
       );
     } on ServerRejectException catch (error) {
       sNotification.showError(

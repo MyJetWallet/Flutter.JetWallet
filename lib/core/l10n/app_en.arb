@@ -1984,5 +1984,14 @@
                 "example": "AppleWallet"
             }
         }
+    },
+    "crypto_card_delete_terminated_toast": "The card •• {last4} has been terminated",
+    "@crypto_card_delete_terminated_toast": {
+        "placeholders": {
+            "last4": {
+                "type": "String",
+                "example": "8800"
+            }
+        }
     }
 }
