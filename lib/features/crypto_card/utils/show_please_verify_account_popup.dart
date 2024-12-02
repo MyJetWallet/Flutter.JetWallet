@@ -10,8 +10,8 @@ Future<bool?> showPleaseVerifyAccountPopUp({
   final result = await sShowAlertPopup(
     context,
     primaryText: '',
-    secondaryText: intl.simple_card_account_verification,
-    primaryButtonName: intl.simple_card_verify_account,
+    secondaryText: intl.crypto_card_creat_please_verify_your_account,
+    primaryButtonName: intl.crypto_card_creat_verify_account,
     onPrimaryButtonTap: () async {
       await sRouter.maybePop(true);
     },

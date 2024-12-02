@@ -19,7 +19,7 @@ Future<void> showPayWithAssetBottomSheet({
     context: context,
     expanded: store.showSearch,
     header: BasicBottomSheetHeaderWidget(
-      title: intl.crypto_card_choose_asset,
+      title: intl.crypto_card_creat_choose_asset_to_buy_card,
       searchOptions: store.showSearch
           ? SearchOptions(
               hint: intl.actionBottomSheetHeader_search,

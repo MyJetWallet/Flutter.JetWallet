@@ -1993,5 +1993,8 @@
                 "example": "8800"
             }
         }
-    }
+    },
+    "crypto_card_creat_choose_asset_to_buy_card": "Choose asset to buy card",
+    "crypto_card_creat_please_verify_your_account": "Please verify your account",
+    "crypto_card_creat_verify_account": "Verify account"
 }
