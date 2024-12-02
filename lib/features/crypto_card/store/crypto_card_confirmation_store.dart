@@ -147,7 +147,10 @@ abstract class _CryptoCardConfirmationStoreBase with Store {
           await showSuccessScreen();
         },
         onError: (error) {
-          showFailureScreen(error.cause);
+          // TODO (Yaroslav): uncoment this when back fix responce
+          //  showFailureScreen(error.cause);
+          changeLocalState();
+          showSuccessScreen();
         },
       );
     } on ServerRejectException catch (error) {

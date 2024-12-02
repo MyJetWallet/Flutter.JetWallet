@@ -1892,7 +1892,7 @@
     "crypto_card_insufficient_balance_back": "Back to home page",
     "crypto_card_settings": "Settings",
     "crypto_card_settings_change_design": "Change design",
-    "crypto_card_settings_limit_settings": "Limit settings",
+    "crypto_card_settings_limits": "Limits",
     "crypto_card_linked_assets": "Linked assets",
     "crypto_card_settings_change_pin": "Change PIN",
     "crypto_card_settings_card_statements": "Card Statements",
@@ -1971,9 +1971,18 @@
         "placeholders": {
             "value": {
                 "type": "String",
-                "example": "50%$"
+                "example": "50%"
             }
         }
     },
-    "crypto_card_confirmation_price": "Price"
+    "crypto_card_confirmation_price": "Price",
+    "crypto_card_settings_add_to_wallet": "Add to {value}",
+    "@crypto_card_settings_add_to_wallet": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "AppleWallet"
+            }
+        }
+    }
 }

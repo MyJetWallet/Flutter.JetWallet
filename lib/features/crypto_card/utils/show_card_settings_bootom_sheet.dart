@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/crypto_card/store/main_crypto_card_store.dart';
 import 'package:jetwallet/features/crypto_card/utils/show_crypto_card_change_pin_popup.dart';
 import 'package:jetwallet/features/crypto_card/utils/show_delete_card_popup.dart';
+import 'package:jetwallet/features/crypto_card/utils/show_wallet_redirecting_popup.dart';
 import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
@@ -35,14 +38,14 @@ class _SettingsBody extends StatelessWidget {
       children: [
         SEditable(
           lable: intl.crypto_card_settings_change_design,
-          leftIcon: Assets.svg.medium.document.simpleSvg(
+          leftIcon: Assets.svg.medium.changeDesign.simpleSvg(
             color: colors.gray6,
           ),
           onCardTap: () {},
         ),
         SEditable(
-          lable: intl.crypto_card_settings_limit_settings,
-          leftIcon: Assets.svg.medium.document.simpleSvg(
+          lable: intl.crypto_card_settings_limits,
+          leftIcon: Assets.svg.medium.limits.simpleSvg(
             color: colors.blue,
           ),
           onCardTap: () {
@@ -73,6 +76,18 @@ class _SettingsBody extends StatelessWidget {
             color: colors.gray6,
           ),
           onCardTap: () {},
+        ),
+        SEditable(
+          lable: intl.crypto_card_settings_add_to_wallet(
+            Platform.isIOS ? intl.wallets_add_to_apple_wallet : intl.wallets_add_to_google_wallet,
+          ),
+          leftIcon: Assets.svg.medium.add.simpleSvg(
+            color: colors.blue,
+          ),
+          onCardTap: () {
+            Navigator.pop(context);
+            showWalletRedirectingPopup(context);
+          },
         ),
         SEditable(
           lable: intl.crypto_card_settings_documents,

@@ -1191,10 +1191,10 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
   @action
   void setCryptoCardModelData(CryptoCardProfile data) {
     // TODO (Yaroslav): remove copyWith
-    cryptoCardProfile = data.copyWith(
-      cards: [],
-      availableCardsCount: 1,
-    );
+    // cryptoCardProfile = data.copyWith(
+    //   cards: [],
+    //   availableCardsCount: 1,
+    // );
     // cryptoCardProfile = data;
   }
 
