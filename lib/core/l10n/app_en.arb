@@ -7,7 +7,6 @@
     "pinScreen_enterPin": "Enter PIN",
     "pinScreen_setPin": "Set PIN",
     "pinScreen_changePin": "Change PIN",
-    "pinScreen_tryAgainLater": "Try again later",
     "pinScreen_weNeedYouToConfirmYourIdentity": "Please confirm your identity",
     "accountSecurity_accountCategoryButtonTitle1": "Face / Touch ID",
     "register_enterYourEmail": "Enter your email",
@@ -1861,98 +1860,13 @@
     "crypto_jar_banner_description": "Learn more",
     "crypto_jar_banner_title": "Simple Crypto Jars makes receiving cryptocurrency a breeze.",
     "payment_method_current_limits": "Current limit: {value}",
-    "crypto_card_order_title": "Your virtual Simple Card is almost here!",
-    "crypto_card_order_description": "Pay contactless in stores with your phone or use it online like any other Mastercard. Fill in the final details and start using your card instantly.",
-    "crypto_card_get_your_virtual_card_now": "Get your virtual card now",
-    "crypto_card_acknowledgment": "Acknowledgment",
-    "crypto_card_description": "Before proceeding, please confirm that you have read and agreed to the Terms and Conditions and Privacy Policy.",
-    "crypto_card_account_title": "Account",
-    "crypto_card_account_description": "In case of a shortage of euros, the crypto will be automatically charged.",
-    "crypto_card_account_crypto": "Crypto",
-    "crypto_card_card_issue": "Card issue",
-    "crypto_card_card_issue_awesome": "Awesome! You are one step closer to the release of Simple Crypto Card",
-    "crypto_card_card_issue_cost": "Card issue cost",
-    "crypto_card_card_issue_pay": "Pay",
-    "crypto_card_card_issue_footer": "The issue of the card costs {amounty}. Its maintenance is completely free, and the commission for calculations is 0%. The validity period of the Simple card is 5 years.",
-    "@crypto_card_card_issue_footer": {
-        "placeholders": {
-            "amounty": {
-                "type": "String",
-                "example": "4 EUR"
-            }
-        }
-    },
-    "crypto_card_name_skip": "Skip",
-    "crypto_card_name_your_card": "Name your card",
-    "crypto_card_name_card_name": "Card name",
-    "crypto_card_name_create_card": "Create card",
-    "crypto_card_on_the_way": "Your virtual card is on the way! You'll be notified when the card becomes available.",
-    "crypto_card_insufficient_balance_title": "Insufficient balance",
-    "crypto_card_insufficient_balance_description": "Please deposit your crypto wallet or choose another wallet and try again",
-    "crypto_card_insufficient_balance_deposit": "Deposit",
-    "crypto_card_insufficient_balance_back": "Back to home page",
-    "crypto_card_settings": "Settings",
-    "crypto_card_settings_change_design": "Change design",
-    "crypto_card_settings_limit_settings": "Limit settings",
-    "crypto_card_linked_assets": "Linked assets",
-    "crypto_card_settings_change_pin": "Change PIN",
-    "crypto_card_settings_card_statements": "Card Statements",
-    "crypto_card_settings_documents": "Documents",
-    "crypto_card_settings_privacy_policy": "Privacy Policy, Terms of Use",
-    "crypto_card_settings_delete_card": "Delete card",
     "crypto_card_freeze": "Freeze",
     "crypto_card_change_pin": "Change PIN",
+    "crypto_card_settings": "Settings",
     "crypto_card_card_number": "Card number",
     "crypto_card_valid_thru": "Valid thru",
     "crypto_card_cvv": "CVV",
+    "crypto_card_asset_linked": "{count} asset linked",
     "crypto_card_show": "Show",
-    "crypto_card_asset_linked": "{count, plural, =1{1 asset} other{{count} assets}} linked",
-    "crypto_card_add_to_apple_wallet_title": "Add card to Apple Wallet",
-    "crypto_card_add_to_apple_wallet_description": "Open Wallet App, tap “Add” button, and follow the prompts.",
-    "crypto_card_add_to_google_wallet_title": "Add card to Google Wallet",
-    "crypto_card_add_to_google_wallet_description": "Open the Google Wallet App, tap “Add to Wallet,” and follow the prompts.",
-    "crypto_card_freeze_title": "Freeze this card?",
-    "crypto_card_freeze_description": "Once the card is frozen, payments and withdrawals will be declined. You can unfreeze your card anytime.",
-    "crypto_card_cancel": "Cancel",
-    "crypto_card_freeze_toast": "Card transactions will be declined until you unfreeze the card",
-    "crypto_card_unfreeze": "Unfreeze",
-    "crypto_card_unfreeze_toast": "Success",
-    "crypto_card_change_your_pin": "Change your PIN",
-    "crypto_card_confirm_your_pin": "Confirm your PIN",
-    "crypto_card_change_your_pin_description": "You can update your PIN anytime, as long as this device is registered.",
-    "crypto_card_continue": "Continue",
-    "crypto_card_pin_does_not_match": "The PIN does not match",
-    "crypto_card_pin_not_strong": "Choose a stronger PIN",
-    "crypto_card_change_pin_success": "Your PIN has been successfully updated. You can change it again at any time.",
-    "crypto_card_here_your_pin": "Here is your PIN",
-    "crypto_card_hiding_pin": "Hiding PIN in {value} seconds",
-    "crypto_card_limits": "Limits",
-    "crypto_card_limits_card_payments": "Card payments",
-    "crypto_card_limits_daily": "Daily",
-    "crypto_card_limits_left": "Left {amounty}",
-    "@crypto_card_limits_left": {
-        "placeholders": {
-            "amounty": {
-                "type": "String",
-                "example": "1 000 EUR"
-            }
-        }
-    },
-    "crypto_card_limits_weekly": "Weekly",
-    "crypto_card_monthly": "Monthly",
-    "crypto_card_limits_atm_withdrawals": "ATM withdrawals",
-    "crypto_card_delete_card": "Delete card?",
-    "crypto_card_delete_description": "You're about to delete card **{cardLast4}. Once deleted, all future transactions will be declined, and this action cannot be undone.",
-    "@crypto_card_delete_description": {
-        "placeholders": {
-            "cardLast4": {
-                "type": "String",
-                "example": "1234"
-            }
-        }
-    },
-    "crypto_card_delete_confirm": "Confirm and delete",
-    "crypto_card_linked_asset": "Linked asset",
-    "crypto_card_choose_asset": "Choose asset",
-    "crypto_card_main_title": "Simple virtual card"
+    "pinScreen_tryAgainLater": "Try again later"
 }
