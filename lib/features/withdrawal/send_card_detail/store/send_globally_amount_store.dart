@@ -265,7 +265,7 @@ abstract class _SendGloballyAmountStoreBase with Store {
     withAmount = '0';
     withAmount = responseOnInputAction(
       oldInput: withAmount,
-      newInput: sendAllValue.toString(),
+      newInput: inputMode == WithdrawalInputMode.youSend ? sendAllValue.toString() : sendAllValue.toStringAsFixed(2),
       accuracy: inputMode == WithdrawalInputMode.youSend ? sendCurrency!.accuracy : 2,
     );
 
@@ -311,13 +311,18 @@ abstract class _SendGloballyAmountStoreBase with Store {
 
   @action
   void _validateAmount() {
-    final balance = getIt<FormatService>().convertOneCurrencyToAnotherOne(
-      fromCurrency: method!.receiveAsset!,
-      fromCurrencyAmmount: Decimal.parse(withAmount),
-      toCurrency: sendCurrency!.symbol,
-      baseCurrency: baseCurrency.symbol,
-      isMin: false,
-    );
+    Decimal balance;
+    if (inputMode == WithdrawalInputMode.youSend) {
+      balance = Decimal.parse(withAmount);
+    } else {
+      balance = getIt<FormatService>().convertOneCurrencyToAnotherOne(
+        fromCurrency: method!.receiveAsset!,
+        fromCurrencyAmmount: Decimal.parse(withAmount),
+        toCurrency: sendCurrency!.symbol,
+        baseCurrency: baseCurrency.symbol,
+        isMin: false,
+      );
+    }
 
     final error = onGloballyWithdrawInputErrorHandler(balance.toString(), sendCurrency!, null);
 
