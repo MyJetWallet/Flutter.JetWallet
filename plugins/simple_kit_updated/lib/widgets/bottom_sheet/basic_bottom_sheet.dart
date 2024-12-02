@@ -58,7 +58,7 @@ class _BasicBottomSheetState extends State<BasicBottomSheet> {
     Widget buttonPlaceholder = const SizedBox();
     if (contentTooBig) {
       buttonPlaceholder = SizedBox(
-        height: buttonBottomPadding + buttonHeight + 32.0,
+        height: buttonBottomPadding + (widget.button != null ? buttonHeight : 0),
       );
     } else {
       buttonPlaceholder = const SizedBox();
@@ -185,9 +185,9 @@ class _BasicBottomSheetState extends State<BasicBottomSheet> {
 
   double _getHeaderHeight() {
     final double titleHeight = (widget.title != null
-        ? (31 + 24)
+        ? (31 + (widget.header.withPadding ? 24 : 0))
         : widget.header.title != null
-            ? (31 + 24)
+            ? (31 + (widget.header.withPadding ? 24 : 0))
             : 0);
     final double searchHeight = (widget.header.searchOptions != null ? (60) : 0);
 
