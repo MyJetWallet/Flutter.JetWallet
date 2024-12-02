@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -44,10 +45,10 @@ class _ConfirmationBody extends StatelessWidget {
                   isCanClouse: false,
                 )
               : null,
-          header: const GlobalBasicAppBar(
+          header: GlobalBasicAppBar(
             hasRightIcon: false,
-            title: 'Order summary',
-            subtitle: 'Card issue',
+            title: intl.crypto_card_confirmation_order_summary,
+            subtitle: intl.crypto_card_confirmation_card_issue,
           ),
           child: CustomScrollView(
             physics: const ClampingScrollPhysics(),
@@ -77,7 +78,7 @@ class _ConfirmationBody extends StatelessWidget {
                     ),
                     const SpaceH8(),
                     TwoColumnCell(
-                      label: 'Pay with',
+                      label: intl.crypto_card_confirmation_pay_with,
                       value: store.fromAsset.description,
                       leftValueIcon: NetworkIconWidget(
                         store.fromAsset.iconUrl,
@@ -85,18 +86,19 @@ class _ConfirmationBody extends StatelessWidget {
                       type: store.isPreviewLoaded ? TwoColumnCellType.def : TwoColumnCellType.loading,
                     ),
                     TwoColumnCell(
-                      label: 'Card issue cost',
+                      label: intl.crypto_card_confirmation_card_issue_cost,
                       value: '#####',
                       type: store.isPreviewLoaded ? TwoColumnCellType.def : TwoColumnCellType.loading,
                     ),
                     TwoColumnCell(
-                      label: '#####% discount',
+                      label: intl.crypto_card_confirmation_discount('####'),
                       value: '#####',
                       type: store.isPreviewLoaded ? TwoColumnCellType.def : TwoColumnCellType.loading,
                     ),
                     TwoColumnCell(
-                      label: 'Price',
-                      value: '##### = #####',
+                      label: intl.crypto_card_confirmation_price,
+                      value:
+                          '${Decimal.one.toFormatCount(symbol: store.toAssetSymbol)} = ${store.price.toFormatCount(symbol: store.fromAssetSymbol)}',
                       type: store.isPreviewLoaded ? TwoColumnCellType.def : TwoColumnCellType.loading,
                     ),
                     const SpaceH16(),

@@ -4276,7 +4276,7 @@ class WalletApiDataSources {
   ) async {
     try {
       final responce = await _apiClient.post(
-        '${_apiClient.options.walletApi}/crypto-card/create',
+        '${_apiClient.options.walletApi}/crypto-card/card-create',
         data: model.toJson(),
       );
 
@@ -4498,9 +4498,9 @@ class WalletApiDataSources {
 
       try {
         final responseData = response.data as Map<String, dynamic>;
-       // final data = handleFullResponse<Map>(responseData);
+        final data = handleFullResponse<Map>(responseData);
 
-        return DC.data(PreviewCryptoCardResponceModel.fromJson(responseData));
+        return DC.data(PreviewCryptoCardResponceModel.fromJson(data));
       } catch (e) {
         rethrow;
       }

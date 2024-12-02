@@ -41,9 +41,6 @@ abstract class _CreateCryptoCardStoreBase with Store {
   PriceCryptoCardResponseModel? price;
 
   @observable
-  String? cardLable;
-
-  @observable
   ObservableList<String> _avaibleAssetsSymbols = ObservableList.of([]);
 
   @computed
@@ -69,9 +66,6 @@ abstract class _CreateCryptoCardStoreBase with Store {
 
   @computed
   bool get isPayValid => selectedAsset != null && isEnoughBalanceToPay;
-
-  @computed
-  bool get isLableValid => cardLable?.isNotEmpty ?? false;
 
   @computed
   bool get isEnoughBalanceToPay {
@@ -273,20 +267,5 @@ abstract class _CreateCryptoCardStoreBase with Store {
     if (isPayValid) {
       sRouter.push(CryptoCardConfirmationRoute(fromAssetSymbol: selectedAsset?.symbol ?? ''));
     }
-  }
-
-  @action
-  Future<void> routCryptoCardNameScreen() async {
-    await sRouter.push(const CryptoCardNameRoute());
-  }
-
-  @action
-  void skipCryptoCardNameSteep() {
-    cardLable = null;
-  }
-
-  @action
-  void setCryptoCardName(String name) {
-    cardLable = name;
   }
 }

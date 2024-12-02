@@ -142,7 +142,7 @@ abstract class _CryptoCardConfirmationStoreBase with Store {
           await showSuccessScreen();
         },
         onError: (error) {
-           showFailureScreen(error.cause);
+          showFailureScreen(error.cause);
         },
       );
     } on ServerRejectException catch (error) {
@@ -159,13 +159,14 @@ abstract class _CryptoCardConfirmationStoreBase with Store {
     await sRouter
         .push(
       SuccessScreenRouter(
-        secondaryText: 'You have successfully paid for the card.',
+        secondaryText: intl.crypto_card_confirmation_success_description,
       ),
     )
         .then(
       (value) {
-        sRouter.popUntilRoot();
-        sRouter.push(const CryptoCardNameRoute());
+        sRouter.push(
+          CryptoCardNameRoute(cardId: ''),
+        );
       },
     );
   }
@@ -173,6 +174,10 @@ abstract class _CryptoCardConfirmationStoreBase with Store {
   @action
   Future<void> showFailureScreen(String error) async {
     loader.finishLoadingImmediately();
+
+    if (sRouter.currentPath != '/crypto_card_confirmation') {
+      return;
+    }
 
     unawaited(
       sRouter.push(
@@ -209,7 +214,7 @@ abstract class _CryptoCardConfirmationStoreBase with Store {
 
     unawaited(
       Future.delayed(
-        const Duration(seconds: 3),
+        const Duration(seconds: 10),
         () {
           sSignalRModules.cryptoCardProfile = const CryptoCardProfile(
             associateAssetList: ['USDT'],

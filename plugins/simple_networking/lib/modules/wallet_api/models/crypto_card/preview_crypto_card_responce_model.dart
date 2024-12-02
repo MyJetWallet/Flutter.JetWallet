@@ -14,10 +14,6 @@ class PreviewCryptoCardResponceModel with _$PreviewCryptoCardResponceModel {
     @DecimalSerialiser() required Decimal fromAssetVolume,
     required String toAsset,
     @DecimalSerialiser() required Decimal toAssetVolume,
-    required int actualTimeInSecond,
-    @DecimalSerialiser() required Decimal feePercentage,
-    @DecimalSerialiser() required Decimal feeAmount,
-    required String feeAsset,
   }) = _PreviewCryptoCardResponceModel;
 
   factory PreviewCryptoCardResponceModel.fromJson(Map<String, dynamic> json) =>
