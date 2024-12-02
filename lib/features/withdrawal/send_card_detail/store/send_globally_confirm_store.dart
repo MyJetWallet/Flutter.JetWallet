@@ -1,3 +1,4 @@
+import 'package:data_channel/data_channel.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -14,6 +15,7 @@ import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_card_response.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_request_model.dart';
@@ -48,6 +50,9 @@ abstract class _SendGloballyConfirmStoreBase with Store {
 
   @observable
   String? sendCurrencyAsset;
+
+  bool inLocalCurrency = false;
+
   @computed
   CurrencyModel? get sendCurrency => sendCurrencyAsset != null
       ? currencyFrom(
@@ -57,7 +62,11 @@ abstract class _SendGloballyConfirmStoreBase with Store {
       : null;
 
   @action
-  void init(SendToBankCardResponse val, GlobalSendMethodsModelMethods m) {
+  void init(
+    SendToBankCardResponse val,
+    GlobalSendMethodsModelMethods m,
+    bool inLocalCurrency,
+  ) {
     sAnalytics.globalSendOrderSV(
       asset: val.asset ?? '',
       sendMethodType: '1',
@@ -69,6 +78,7 @@ abstract class _SendGloballyConfirmStoreBase with Store {
 
     data = val;
     method = m;
+    this.inLocalCurrency = inLocalCurrency;
 
     sendCurrencyAsset = val.asset;
 
@@ -141,7 +151,7 @@ abstract class _SendGloballyConfirmStoreBase with Store {
     final model = SendToBankRequestModel(
       countryCode: data?.countryCode,
       asset: data?.asset,
-      amount: data?.amount,
+      amount: inLocalCurrency ? data?.estimatedReceiveAmount : data?.amount,
       methodId: method!.methodId ?? '',
       cardNumber: data?.cardNumber,
       iban: data?.iban,
@@ -156,13 +166,21 @@ abstract class _SendGloballyConfirmStoreBase with Store {
       bankAccount: data?.bankAccount,
       wise: data?.wise,
       tin: data?.tin,
+      receiveAsset: inLocalCurrency ? method?.receiveAsset ?? '' : null,
       pin: newPin,
     );
 
     try {
-      final response = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().sendToBankCard(
-            model,
-          );
+      DC<ServerRejectException, void> response;
+      if (inLocalCurrency) {
+        response = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().sendToBankCardInLocalCurrency(
+              model,
+            );
+      } else {
+        response = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().sendToBankCard(
+              model,
+            );
+      }
 
       loader.finishLoadingImmediately();
 
@@ -218,8 +236,8 @@ abstract class _SendGloballyConfirmStoreBase with Store {
       SuccessScreenRouter(
         primaryText: intl.send_globally_success,
         secondaryText: '${intl.send_globally_success_secondary} ${(model.amount ?? Decimal.zero).toFormatCount(
-          accuracy: sendCurrency!.accuracy,
-          symbol: sendCurrency!.symbol,
+          accuracy: inLocalCurrency ? 2 : sendCurrency!.accuracy,
+          symbol: inLocalCurrency ? method?.receiveAsset ?? '' : sendCurrency!.symbol,
         )}'
             '\n${intl.send_globally_success_secondary_2}',
         bottomWidget: Row(

@@ -4,6 +4,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
+
 part 'global_loader.g.dart';
 
 class GlobalLoader = _GlobalLoaderBase with _$GlobalLoader;
@@ -11,6 +12,7 @@ class GlobalLoader = _GlobalLoaderBase with _$GlobalLoader;
 abstract class _GlobalLoaderBase with Store {
   @observable
   bool isLoading = false;
+
   @action
   void setLoading(bool value) => isLoading = value;
 }
