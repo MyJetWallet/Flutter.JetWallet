@@ -24,6 +24,7 @@ Future<void> main() async {
       );
     },
     (error, stackTrace) {
+      print('#@#@#@ error $error, $stackTrace');
       Logger.root.log(Level.SEVERE, 'ZonedGuarded', error, stackTrace);
       FirebaseCrashlytics.instance.recordError(error, stackTrace);
       getIt.get<SentryService>().captureException(error, stackTrace);

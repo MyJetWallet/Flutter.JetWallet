@@ -105,6 +105,7 @@ class RemoteConfig {
 
       await pingRemoutConfig();
     } catch (e, stackTrace) {
+      print('#@#@#@ error $e, $stackTrace');
       getIt.get<SentryService>().captureException(e, stackTrace);
 
       if (e is DioException) {
