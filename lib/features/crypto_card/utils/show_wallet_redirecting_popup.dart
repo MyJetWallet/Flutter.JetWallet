@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:logger/logger.dart';
@@ -25,7 +26,7 @@ Future<void> showWalletRedirectingPopup(BuildContext context) {
     textAlign: TextAlign.start,
     primaryButtonName: intl.wallets_continue,
     onPrimaryButtonTap: () async {
-      Navigator.pop(context);
+      await sRouter.maybePop();
 
       try {
         isIos
