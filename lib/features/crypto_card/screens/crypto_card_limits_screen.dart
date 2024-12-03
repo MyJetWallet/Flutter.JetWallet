@@ -112,6 +112,75 @@ class _LoadingState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: CircularProgressIndicator());
+    return const Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _TextLoader(),
+        _ItemLoader(),
+        _ItemLoader(),
+        _ItemLoader(),
+        _TextLoader(),
+        _ItemLoader(),
+        _ItemLoader(),
+        _ItemLoader(),
+      ],
+    );
+  }
+}
+
+class _TextLoader extends StatelessWidget {
+  const _TextLoader();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(
+        top: 12,
+        left: 24,
+        bottom: 4,
+      ),
+      child: SSkeletonLoader(
+        width: 132,
+        height: 12,
+        borderRadius: BorderRadius.circular(4),
+      ),
+    );
+  }
+}
+
+class _ItemLoader extends StatelessWidget {
+  const _ItemLoader();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+      child: Row(
+        children: [
+          SSkeletonLoader(
+            width: 80,
+            height: 24,
+            borderRadius: BorderRadius.circular(4),
+          ),
+          const Spacer(),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              SSkeletonLoader(
+                width: 80,
+                height: 24,
+                borderRadius: BorderRadius.circular(4),
+              ),
+              const SpaceH8(),
+              SSkeletonLoader(
+                width: 48,
+                height: 16,
+                borderRadius: BorderRadius.circular(4),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }
