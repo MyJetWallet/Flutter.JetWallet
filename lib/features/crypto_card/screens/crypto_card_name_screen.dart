@@ -10,21 +10,32 @@ import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'CryptoCardNameRoute')
 class CryptoCardNameScreen extends StatelessWidget {
-  const CryptoCardNameScreen({super.key, required this.cardId});
+  const CryptoCardNameScreen({
+    super.key,
+    required this.cardId,
+    this.initialLabel,
+    this.isCreateFlow = true,
+  });
 
   final String cardId;
+  final String? initialLabel;
+  final bool isCreateFlow;
 
   @override
   Widget build(BuildContext context) {
     return Provider(
       create: (context) => CryptoCardNameStore(cardId: cardId),
-      child: const _CardNameBody(),
+      child: _CardNameBody(isCreateFlow: isCreateFlow),
     );
   }
 }
 
 class _CardNameBody extends StatelessWidget {
-  const _CardNameBody();
+  const _CardNameBody({
+    this.isCreateFlow = true,
+  });
+
+  final bool isCreateFlow;
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +49,7 @@ class _CardNameBody extends StatelessWidget {
           loading: store.loader,
           color: colors.gray2,
           header: GlobalBasicAppBar(
+            hasRightIcon: isCreateFlow,
             rightIcon: Text(
               intl.crypto_card_name_skip,
               style: STStyles.button.copyWith(
@@ -47,7 +59,7 @@ class _CardNameBody extends StatelessWidget {
             onRightIconTap: () {
               sRouter.popUntilRoot();
             },
-            hasLeftIcon: false,
+            hasLeftIcon: !isCreateFlow,
           ),
           child: CustomScrollView(
             physics: const ClampingScrollPhysics(),
@@ -101,7 +113,7 @@ class _CardNameBody extends StatelessWidget {
                           bottom: 16 + MediaQuery.of(context).padding.bottom <= 24 ? 24 : 16,
                         ),
                         child: SButton.black(
-                          text: intl.crypto_card_name_create_card,
+                          text: isCreateFlow ? intl.crypto_card_continue : intl.crypto_card_lable_save,
                           callback: store.isNameValid ? store.changeCardName : null,
                         ),
                       ),

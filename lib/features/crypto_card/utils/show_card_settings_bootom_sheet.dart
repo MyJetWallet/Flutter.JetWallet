@@ -72,6 +72,21 @@ class _SettingsBody extends StatelessWidget {
           },
         ),
         SEditable(
+          lable: intl.crypto_card_settings_label_card,
+          leftIcon: Assets.svg.medium.edit.simpleSvg(
+            color: colors.blue,
+          ),
+          onCardTap: () {
+            sRouter.popAndPush(
+              CryptoCardNameRoute(
+                cardId: store.cryptoCard.cardId,
+                initialLabel: store.cryptoCard.label,
+                isCreateFlow: false,
+              ),
+            );
+          },
+        ),
+        SEditable(
           lable: intl.crypto_card_settings_card_statements,
           leftIcon: Assets.svg.medium.bank.simpleSvg(
             color: colors.gray6,

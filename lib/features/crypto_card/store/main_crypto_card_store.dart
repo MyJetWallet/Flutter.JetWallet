@@ -36,7 +36,7 @@ class MainCryptoCardStore extends _MainCryptoCardStoreBase with _$MainCryptoCard
 abstract class _MainCryptoCardStoreBase with Store {
   final globalLoader = getIt.get<GlobalLoader>();
 
-  CryptoCardModel _cryptoCard = const CryptoCardModel();
+  CryptoCardModel cryptoCard = const CryptoCardModel();
 
   @computed
   List<String> get _linkedAssetSymbols {
@@ -90,7 +90,7 @@ abstract class _MainCryptoCardStoreBase with Store {
   SensitiveInfoCryptoCardResponseModel? sensitiveInfo;
 
   @computed
-  String get cardLast4 => _cryptoCard.last4;
+  String get cardLast4 => cryptoCard.last4;
 
   @action
   Future<void> init() async {
@@ -98,7 +98,7 @@ abstract class _MainCryptoCardStoreBase with Store {
       ///
       /// getCryptoCard
       ///
-      _cryptoCard = sSignalRModules.cryptoCardProfile.cards.first;
+      cryptoCard = sSignalRModules.cryptoCardProfile.cards.first;
 
       ///
       /// getSensitiveInfo
@@ -123,7 +123,7 @@ abstract class _MainCryptoCardStoreBase with Store {
   @action
   Future<void> getSensitiveInfo() async {
     try {
-      final model = SensitiveInfoCryptoCardRequestModel(cardId: _cryptoCard.cardId);
+      final model = SensitiveInfoCryptoCardRequestModel(cardId: cryptoCard.cardId);
 
       final response = await sNetwork.getWalletModule().sensitiveInfoCryptoCard(model);
 
@@ -158,7 +158,7 @@ abstract class _MainCryptoCardStoreBase with Store {
   Future<void> freezeCard() async {
     globalLoader.setLoading(true);
     try {
-      final model = FreezeCryptoCardRequestModel(cardId: _cryptoCard.cardId);
+      final model = FreezeCryptoCardRequestModel(cardId: cryptoCard.cardId);
 
       final response = await sNetwork.getWalletModule().freezeCard(model);
 
@@ -171,7 +171,7 @@ abstract class _MainCryptoCardStoreBase with Store {
         },
       );
       // TODO remove this when SignalR will be implemented
-      final freezeCard = _cryptoCard.copyWith(status: CryptoCardStatus.frozen);
+      final freezeCard = cryptoCard.copyWith(status: CryptoCardStatus.frozen);
       sSignalRModules.setCryptoCardModelData(
         sSignalRModules.cryptoCardProfile.copyWith(
           cards: [freezeCard],
@@ -200,7 +200,7 @@ abstract class _MainCryptoCardStoreBase with Store {
   Future<void> unfreezeCard() async {
     globalLoader.setLoading(true);
     try {
-      final model = UnfreezeCryptoCardRequestModel(cardId: _cryptoCard.cardId);
+      final model = UnfreezeCryptoCardRequestModel(cardId: cryptoCard.cardId);
 
       final response = await sNetwork.getWalletModule().unfreezeCard(model);
 
@@ -213,7 +213,7 @@ abstract class _MainCryptoCardStoreBase with Store {
         },
       );
       // TODO remove this when SignalR will be implemented
-      final unfreezeCard = _cryptoCard.copyWith(status: CryptoCardStatus.active);
+      final unfreezeCard = cryptoCard.copyWith(status: CryptoCardStatus.active);
       sSignalRModules.setCryptoCardModelData(
         sSignalRModules.cryptoCardProfile.copyWith(
           cards: [unfreezeCard],

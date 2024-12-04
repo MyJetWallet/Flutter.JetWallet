@@ -1988,5 +1988,7 @@
                 "example": "50%"
             }
         }
-    }
+    },
+    "crypto_card_lable_save": "Save",
+    "crypto_card_settings_label_card": "Label card"
 }

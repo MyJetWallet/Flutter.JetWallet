@@ -172,6 +172,7 @@ abstract class _CryptoCardConfirmationStoreBase with Store {
     )
         .then(
       (value) {
+        // TODO (Yaroslav): add card id
         sRouter.push(
           CryptoCardNameRoute(cardId: ''),
         );

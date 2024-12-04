@@ -16,17 +16,26 @@ part 'crypto_card_name_store.g.dart';
 const String _tag = 'CryptoCardNameStore';
 
 class CryptoCardNameStore extends _CryptoCardNameStoreBase with _$CryptoCardNameStore {
-  CryptoCardNameStore({required super.cardId}) : super();
+  CryptoCardNameStore({required super.cardId, super.initialLabel}) : super();
 
   static _CryptoCardNameStoreBase of(BuildContext context) => Provider.of<CryptoCardNameStore>(context);
 }
 
 abstract class _CryptoCardNameStoreBase with Store {
-  _CryptoCardNameStoreBase({required this.cardId});
+  _CryptoCardNameStoreBase({
+    required this.cardId,
+    this.initialLabel,
+  }) {
+    if (initialLabel != null) {
+      controller = TextEditingController(text: initialLabel);
+      cardName = initialLabel;
+    }
+  }
 
   final String cardId;
+  final String? initialLabel;
 
-  final TextEditingController controller = TextEditingController();
+  TextEditingController controller = TextEditingController();
 
   final int nameMaxLength = 25;
 
