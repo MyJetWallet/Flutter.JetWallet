@@ -32,6 +32,7 @@ abstract class _StackLoaderStoreBase with Store {
     });
   }
 
+  // export PATH=/Users/user/Downloads/flutter_new/bin/cache/dart-sdk/bin:$PATH
   @action
   void finishLoading({VoidCallback? onFinish}) {
     if (_timer.tick >= 3) {

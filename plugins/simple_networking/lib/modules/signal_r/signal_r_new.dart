@@ -150,6 +150,8 @@ class SignalRModuleNew {
             HttpConnectionOptions(
               client: signalRClient,
               logMessageContent: true,
+              skipNegotiation: true,
+              transport: HttpTransportType.webSockets,
             ),
           )
           .build();
@@ -181,6 +183,11 @@ class SignalRModuleNew {
   }
 
   Future<void> sendInitMessage(String from) async {
+    log(
+      level: lg.Level.info,
+      place: _loggerValue,
+      message: 'SIIIIIGNALAAAA',
+    );
     if (_hubConnection?.state == HubConnectionState.connected) {
       try {
         final token = await getToken();

@@ -3,6 +3,7 @@
 import 'dart:async';
 
 import 'package:amplitude_flutter/amplitude.dart';
+import 'package:flutter/foundation.dart';
 
 typedef LogEventFunc = Future<bool> Function({
   required String name,
@@ -12,7 +13,7 @@ typedef LogEventFunc = Future<bool> Function({
 });
 
 class SendEventsService {
-  final _amplitude = Amplitude.getInstance();
+  // final _amplitude = Amplitude.getInstance();
 
   late LogEventFunc _logEventFunc;
 
@@ -32,17 +33,17 @@ class SendEventsService {
     _allowedSendEventsToAmplitude = allowedSendEventsToAmplitude;
 
     _logEventFunc = logEventFunc;
-    _useAmplitude = useAmplitude;
+    _useAmplitude = useAmplitude && !kIsWeb;
 
     if (_useAmplitude) {
-      await _amplitude.setServerZone('EU');
-      await _amplitude.init(apiKey);
+      // await _amplitude.setServerZone('EU');
+      // await _amplitude.init(apiKey);
     }
   }
 
   Future<void> setUserId(String? userId, {bool? startNewSession}) async {
     if (_useAmplitude) {
-      await _amplitude.setUserId(userId?.toLowerCase());
+      // await _amplitude.setUserId(userId?.toLowerCase());
     }
   }
 
@@ -60,10 +61,10 @@ class SendEventsService {
       final localOrderIndex = orderIndex;
       if (_useAmplitude) {
         if (_allowedSendEventsToAmplitude) {
-          await _amplitude.logEvent(
-            eventType,
-            eventProperties: eventProperties,
-          );
+          // await _amplitude.logEvent(
+          //   eventType,
+          //   eventProperties: eventProperties,
+          // );
         }
       }
 

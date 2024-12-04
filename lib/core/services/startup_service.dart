@@ -21,7 +21,7 @@ import 'package:jetwallet/core/services/refresh_token_service.dart';
 import 'package:jetwallet/core/services/remote_config/models/remote_config_union.dart' as rcu;
 import 'package:jetwallet/core/services/remote_config/remote_config.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
-import 'package:jetwallet/core/services/sentry_service.dart';
+// import 'package:jetwallet/core/services/sentry_service.dart';
 import 'package:jetwallet/core/services/session_check_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
@@ -74,7 +74,7 @@ class StartupService {
             place: '[StartupService]',
             message: 'Error: $e, $stackTrace',
           );
-      getIt.get<SentryService>().captureException(e, stackTrace);
+      // // getIt.get<SentryService>().captureException(e, stackTrace);
       throw SplashErrorException(1, e, stackTrace);
     }
 
@@ -137,7 +137,7 @@ class StartupService {
             place: '[StartupService]',
             message: 'Error: $e, $stackTrace',
           );
-      getIt.get<SentryService>().captureException(e, stackTrace);
+      // getIt.get<SentryService>().captureException(e, stackTrace);
       throw SplashErrorException(7, e, stackTrace);
     }
 
@@ -153,7 +153,7 @@ class StartupService {
             place: '[StartupService]',
             message: 'Error: $e, $stackTrace',
           );
-      getIt.get<SentryService>().captureException(e, stackTrace);
+      // getIt.get<SentryService>().captureException(e, stackTrace);
       throw SplashErrorException(8, e, stackTrace);
     }
 
@@ -168,7 +168,7 @@ class StartupService {
             place: '[StartupService]',
             message: 'Error: $e, $stackTrace',
           );
-      getIt.get<SentryService>().captureException(e, stackTrace);
+      // getIt.get<SentryService>().captureException(e, stackTrace);
       throw SplashErrorException(9, e, stackTrace);
     }
 
@@ -185,7 +185,7 @@ class StartupService {
             place: '[StartupService]',
             message: 'Error: $e, $stackTrace',
           );
-      getIt.get<SentryService>().captureException(e, stackTrace);
+      // getIt.get<SentryService>().captureException(e, stackTrace);
       throw SplashErrorException(11, e, stackTrace);
     }
 
@@ -257,7 +257,7 @@ class StartupService {
             place: '[StartupService]',
             message: 'Error: $e, $stackTrace',
           );
-      getIt.get<SentryService>().captureException(e, stackTrace);
+      // getIt.get<SentryService>().captureException(e, stackTrace);
       throw SplashErrorException(10, e, stackTrace);
     }
 
@@ -276,7 +276,7 @@ class StartupService {
               place: '[StartupService]',
               message: 'Error: $e, $stackTrace',
             );
-        getIt.get<SentryService>().captureException(e, stackTrace);
+        // getIt.get<SentryService>().captureException(e, stackTrace);
         throw SplashErrorException(12, e, stackTrace);
       }
 
@@ -351,7 +351,7 @@ class StartupService {
             place: '[StartupService]',
             message: 'Error: $e, $stackTrace',
           );
-      getIt.get<SentryService>().captureException(e, stackTrace);
+      // getIt.get<SentryService>().captureException(e, stackTrace);
       throw SplashErrorException(14, e, stackTrace);
     }
 
@@ -370,7 +370,7 @@ class StartupService {
             place: '[StartupService]',
             message: 'Error: $e, $stackTrace',
           );
-      getIt.get<SentryService>().captureException(e, stackTrace);
+      // getIt.get<SentryService>().captureException(e, stackTrace);
       throw SplashErrorException(15, e, stackTrace);
     }
 
@@ -393,7 +393,7 @@ class StartupService {
             place: '[StartupService]',
             message: 'Error: $e, $stackTrace',
           );
-      getIt.get<SentryService>().captureException(e, stackTrace);
+      // getIt.get<SentryService>().captureException(e, stackTrace);
       throw SplashErrorException(16, e, stackTrace);
     }
 
@@ -439,7 +439,7 @@ class StartupService {
             place: '[StartupService]',
             message: 'Error: $e, $stackTrace',
           );
-      getIt.get<SentryService>().captureException(e, stackTrace);
+      // getIt.get<SentryService>().captureException(e, stackTrace);
       throw SplashErrorException(18, e, stackTrace);
     }
 
@@ -480,7 +480,7 @@ class StartupService {
             place: '[StartupService]',
             message: 'Error: $e, $stackTrace',
           );
-      getIt.get<SentryService>().captureException(e, stackTrace);
+      // getIt.get<SentryService>().captureException(e, stackTrace);
       throw SplashErrorException(20, e, stackTrace);
     }
 
@@ -652,7 +652,7 @@ class StartupService {
         deviceUid: getIt.get<DeviceInfo>().deviceUid,
         version: packageInfo.version,
         lang: intl.localeName,
-        appsflyerId: await getIt.get<AppsFlyerService>().appsflyerSdk.getAppsFlyerUID() ?? '',
+        appsflyerId: '',
         idfa: await AppTrackingTransparency.getAdvertisingIdentifier(),
         idfv: sDeviceInfo.deviceUid,
         adid: '',
@@ -698,7 +698,7 @@ class StartupService {
             place: '[StartupService]',
             message: 'Error: $e, $stackTrace',
           );
-      getIt.get<SentryService>().captureException(e, stackTrace);
+      // getIt.get<SentryService>().captureException(e, stackTrace);
       throw SplashErrorException(5, e, stackTrace);
     }
   }
@@ -715,7 +715,7 @@ class StartupService {
             place: '[StartupService]',
             message: 'Error: $e, $stackTrace',
           );
-      getIt.get<SentryService>().captureException(e, stackTrace);
+      // getIt.get<SentryService>().captureException(e, stackTrace);
       throw SplashErrorException(6, e, stackTrace);
     }
   }
@@ -802,7 +802,7 @@ Future<void> launchSift() async {
           place: '[StartupService]',
           message: 'Error: $e, $stackTrace',
         );
-    getIt.get<SentryService>().captureException(e, stackTrace);
+    // getIt.get<SentryService>().captureException(e, stackTrace);
     throw SplashErrorException(4, e, stackTrace);
   }
 }

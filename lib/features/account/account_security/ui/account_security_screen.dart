@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -72,7 +73,8 @@ class _AccountSecurityState extends State<AccountSecurity> {
                     final auth = LocalAuthentication();
                     var biometricStatusInfo = BiometricStatus.none;
 
-                    final availableBio = await auth.getAvailableBiometrics();
+                    // final availableBio = await auth.getAvailableBiometrics();
+                    final availableBio = kIsWeb ? [] : await auth.getAvailableBiometrics();
 
                     if (availableBio.contains(BiometricType.face)) {
                       biometricStatusInfo = BiometricStatus.face;

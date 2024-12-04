@@ -36,10 +36,25 @@ class SignalRService {
       await _getSignalRModule();
     }
 
+
+    getIt.get<SimpleLoggerService>().log(
+      level: Level.warning,
+      place: 'getIt.isRegistered',
+      message: '${!getIt.isRegistered<SignalRModuleNew>(
+        instanceName: signalRSingletinName,
+      ) &&
+          !isRegisterSingleton}',
+    );
+
     if (!getIt.isRegistered<SignalRModuleNew>(
           instanceName: signalRSingletinName,
         ) &&
         !isRegisterSingleton) {
+      getIt.get<SimpleLoggerService>().log(
+        level: Level.warning,
+        place: 'getIt.isRegistered',
+        message: '1',
+      );
       try {
         isRegisterSingleton = true;
         getIt.registerSingleton<SignalRModuleNew>(
@@ -57,6 +72,11 @@ class SignalRService {
         await forceReconnectSignalR();
       }
     } else {
+      getIt.get<SimpleLoggerService>().log(
+        level: Level.warning,
+        place: 'getIt.isRegistered',
+        message: '2',
+      );
       await forceReconnectSignalR();
     }
   }

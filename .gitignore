@@ -42,7 +42,6 @@
 !plugins/simple_kit/lib/**/*.g.dart
 
 # Web related
-lib/generated_plugin_registrant.dart
 
 # Symbolication related
 app.*.symbols
