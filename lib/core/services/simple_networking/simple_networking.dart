@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/simple_networking/helpers/add_logger.dart';
@@ -72,7 +73,9 @@ Future<Dio> setupDio() async {
   );
 
   setAuthInterceptor(dio, isImage: false);
-  await addProxy(dio);
+  if (!kIsWeb) {
+    await addProxy(dio);
+  }
   addLogger(dio);
 
   return dio;
@@ -87,7 +90,9 @@ Future<Dio> setupImageDio() async {
   );
 
   setAuthInterceptor(dio, isImage: true);
-  await addProxy(dio);
+  if (!kIsWeb) {
+    await addProxy(dio);
+  }
 
   return dio;
 }
@@ -101,7 +106,9 @@ Future<Dio> setupDioWithoutInterceptors() async {
   );
 
   setGuestInterceptor(dio);
-  await addProxy(dio);
+  if (!kIsWeb) {
+    await addProxy(dio);
+  }
 
   return dio;
 }

@@ -1,4 +1,5 @@
 import 'package:event_bus/event_bus.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/router/app_router.dart';
@@ -149,9 +150,11 @@ Future<GetIt> getItInit({
     () => GlobalLoader(),
   );
 
-  getIt.registerSingletonAsync<IntercomService>(
-    () async => IntercomService().init(),
-  );
+  if (!kIsWeb) {
+    getIt.registerSingletonAsync<IntercomService>(
+          () async => IntercomService().init(),
+    );
+  }
 
   getIt.registerLazySingleton<BottomBarStore>(
     () => BottomBarStore(),

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -108,27 +109,29 @@ abstract class _SingleSingInStoreBase with Store {
       /// AppsFlyerService - 2
       ///
       var appsFlyerID = '';
-      try {
-        step = 2;
-        final appsFlyerService = getIt.get<AppsFlyerService>();
+      if (!kIsWeb) {
+        try {
+          step = 2;
+          final appsFlyerService = getIt.get<AppsFlyerService>();
 
-        _logger.log(
-          level: Level.info,
-          place: 'Sign in',
-          message: appsFlyerService.toString(),
-        );
+          _logger.log(
+            level: Level.info,
+            place: 'Sign in',
+            message: appsFlyerService.toString(),
+          );
 
-        appsFlyerID = await appsFlyerService.appsflyerSdk.getAppsFlyerUID() ?? '';
+          appsFlyerID = await appsFlyerService.appsflyerSdk.getAppsFlyerUID() ?? '';
 
-        _logger.log(
-          level: Level.info,
-          place: 'Sign in',
-          message: appsFlyerID,
-        );
-      } catch (e, stackTrace) {
-        unawaited(
-          serverLog(step, e, stackTrace),
-        );
+          _logger.log(
+            level: Level.info,
+            place: 'Sign in',
+            message: appsFlyerID,
+          );
+        } catch (e, stackTrace) {
+          unawaited(
+            serverLog(step, e, stackTrace),
+          );
+        }
       }
 
       /// ------
@@ -229,17 +232,20 @@ abstract class _SingleSingInStoreBase with Store {
       ///
       step = 6;
       if (credentials != null && deviceInfoModel != null && authInfoN != null) {
+        print('#@#@#@ 0');
         final model = StartEmailLoginRequestModel(
           email: credentials.email,
           platform: currentPlatform,
           deviceUid: deviceInfoModel.deviceUid,
           lang: intl.localeName,
           application: currentAppPlatform,
-          appsflyerId: appsFlyerID,
+          appsflyerId: 'appsFlyerID',
           //adid: _advertisingId,
           idfv: adId,
           idfa: advID,
         );
+        print(
+            '#@#@#@ 00 email: ${credentials.email} currentPlatform: ${currentPlatform} deviceUid: ${deviceInfoModel.deviceUid} localeName: ${intl.localeName} currentAppPlatform: $currentAppPlatform appsFlyerID: $appsFlyerID adId: $adId advID: $advID');
 
         _logger.log(
           level: Level.info,
@@ -247,18 +253,22 @@ abstract class _SingleSingInStoreBase with Store {
           message: model.toString(),
         );
 
+        print('#@#@#@ 01');
         final response =
             await getIt.get<SNetwork>().simpleNetworkingUnathorized.getAuthModule().postStartEmailLogin(model);
         sAnalytics.updateUserId(credentials.email);
 
+        print('#@#@#@ 02');
         _logger.log(
           level: Level.info,
           place: 'Sign in',
           message: response.toString(),
         );
 
+        print('#@#@#@ 03');
         response.pick(
           onData: (data) {
+            print('#@#@#@ 04');
             _logger.log(
               level: Level.info,
               place: 'Sign in',
@@ -273,6 +283,7 @@ abstract class _SingleSingInStoreBase with Store {
             );
             authInfoN.updateVerificationToken(data.verificationToken);
 
+            print('#@#@#@ 05');
             _logger.log(
               level: Level.info,
               place: 'Sign in',
@@ -285,6 +296,7 @@ abstract class _SingleSingInStoreBase with Store {
                     data.rejectDetail.toString(),
                   );
 
+            print('#@#@#@ 06');
             _logger.log(
               level: Level.info,
               place: 'Sign in',
@@ -293,6 +305,7 @@ abstract class _SingleSingInStoreBase with Store {
 
             credentials.clearData();
 
+            print('#@#@#@ 07');
             _logger.log(
               level: Level.info,
               place: 'Sign in',
@@ -300,6 +313,7 @@ abstract class _SingleSingInStoreBase with Store {
             );
           },
           onError: (error) {
+            print('#@#@#@ 08');
             _logger.log(
               level: Level.info,
               place: 'singleSingIn',
@@ -313,12 +327,15 @@ abstract class _SingleSingInStoreBase with Store {
             unawaited(
               serverLog(step, error, StackTrace.empty),
             );
+            print('#@#@#@ 09');
           },
         );
       } else {
+        print('#@#@#@ 1');
         union = SingleSingInStateUnion.error('${intl.something_went_wrong_try_again} ($step)');
       }
     } on ServerRejectException catch (error, stackTrace) {
+      print('#@#@#@ error $error $stackTrace');
       _logger.log(
         level: Level.info,
         place: 'singleSingIn',

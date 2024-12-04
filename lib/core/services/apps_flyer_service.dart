@@ -13,6 +13,9 @@ class AppsFlyerService {
     required String iosAppId,
     required String androidAppId,
   }) {
+    if (kIsWeb) {
+      return;
+    }
     final options = AppsFlyerOptions(
       afDevKey: devKey,
       appId: Platform.isIOS ? iosAppId : androidAppId,
@@ -31,6 +34,10 @@ class AppsFlyerService {
   String installConversionDataTemp = '';
 
   Future<void> init() async {
+    if (kIsWeb) {
+      return;
+    }
+
     await appsflyerSdk.initSdk(
       registerConversionDataCallback: true,
       registerOnAppOpenAttributionCallback: true,
@@ -106,6 +113,10 @@ class AppsFlyerService {
   }
 
   Future<void> updateServerUninstallToken() async {
+    if (kIsWeb) {
+      return;
+    }
+
     final token = await FirebaseMessaging.instance.getToken();
     if (token != null) {
       appsflyerSdk.updateServerUninstallToken(token);

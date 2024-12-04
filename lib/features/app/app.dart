@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/router/app_router.dart';
@@ -43,11 +44,19 @@ class _AppScreenState extends State<AppScreen> {
         signalsReady: false,
       );
 
-      getIt.registerSingletonWithDependencies<DynamicLinkService>(
-        () => DynamicLinkService()..initDynamicLinks(),
-        dependsOn: [DeviceInfo],
-        signalsReady: false,
-      );
+      if (kIsWeb) {
+        getIt.registerSingletonWithDependencies<DynamicLinkService>(
+          () => DynamicLinkService(),
+          dependsOn: [DeviceInfo],
+          signalsReady: false,
+        );
+      } else {
+        getIt.registerSingletonWithDependencies<DynamicLinkService>(
+          () => DynamicLinkService()..initDynamicLinks(),
+          dependsOn: [DeviceInfo],
+          signalsReady: false,
+        );
+      }
 
       getIt.registerSingleton<PushNotification>(
         PushNotification(),

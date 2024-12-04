@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
@@ -32,8 +33,24 @@ Future<void> appInitialization(String environment) async {
   /// register all dependecy injection
   await getItInit(env: environment);
 
-  await Firebase.initializeApp();
-  await PushNotificationService().initialize(); // doesn't work on web
+  if (kIsWeb) {
+    await Firebase.initializeApp(
+      options: const FirebaseOptions(
+        apiKey: 'AIzaSyCc-F7HOf8dTbB7mMHm6UeSCcOybmvNq8Y',
+        authDomain: 'jetwallet-uat.firebaseapp.com',
+        projectId: 'jetwallet-uat',
+        storageBucket: 'jetwallet-uat.firebasestorage.app',
+        messagingSenderId: '709845370864',
+        appId: '1:709845370864:web:9059ad52740d1acc81ff35',
+        measurementId: 'G-WTLQKCK1F9',
+      ),
+    );
+  } else {
+    await Firebase.initializeApp();
+  }
+  if (!kIsWeb) {
+    await PushNotificationService().initialize(); // doesn't work on web
+  }
 
   if (Platform.isAndroid) {
     await FlutterDisplayMode.setHighRefreshRate();

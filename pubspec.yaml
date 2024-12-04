@@ -180,6 +180,14 @@ dev_dependencies:
   mobx_codegen: 2.6.2
   auto_route_generator: ^9.0.0
 
+dependency_overrides:
+  share_plus: 10.0.2
+
+platforms:
+  web:
+    exclude:
+      - share_plus
+
 flutter:
   generate: true
   uses-material-design: true
