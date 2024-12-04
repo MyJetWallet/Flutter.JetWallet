@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/suggestion_button_widget.dart';
 import 'package:jetwallet/features/crypto_card/store/crypto_card_pay_asset_store.dart';
@@ -10,6 +9,7 @@ import 'package:jetwallet/features/crypto_card/utils/show_pay_with_asset_bottom_
 import 'package:jetwallet/features/crypto_card/widgets/crypto_card_price_widget.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'CryptoCardPayAssetRoute')
@@ -18,8 +18,20 @@ class CryptoCardPayAssetScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Provider(
+      create: (context) => CryptoCardPayAssetStore()..init(),
+      child: const _CryptoCardPayAssetBody(),
+    );
+  }
+}
+
+class _CryptoCardPayAssetBody extends StatelessWidget {
+  const _CryptoCardPayAssetBody();
+
+  @override
+  Widget build(BuildContext context) {
     final colors = SColorsLight();
-    final store = getIt.get<CryptoCardPayAssetStore>();
+    final store = CryptoCardPayAssetStore.of(context);
 
     final discount = (((store.price?.regularPrice ?? Decimal.zero) - (store.price?.userPrice ?? Decimal.zero)) /
                 (store.price?.regularPrice ?? Decimal.fromInt(1)))
@@ -52,12 +64,19 @@ class CryptoCardPayAssetScreen extends StatelessWidget {
                       style: STStyles.header6,
                     ),
                     const SpaceH4(),
-                    CryptoCardPriceWidget(
-                      userPrice: store.price?.userPrice ?? Decimal.zero,
-                      regularPrice: store.price?.regularPrice ?? Decimal.zero,
-                      assetSymbol: store.price?.assetSymbol ?? 'EUR',
-                      discount: discount,
-                    ),
+                    if (store.price != null)
+                      CryptoCardPriceWidget(
+                        userPrice: store.price?.userPrice ?? Decimal.zero,
+                        regularPrice: store.price?.regularPrice ?? Decimal.zero,
+                        assetSymbol: store.price?.assetSymbol ?? 'EUR',
+                        discount: discount,
+                      )
+                    else
+                      SSkeletonLoader(
+                        height: 31,
+                        width: 80,
+                        borderRadius: BorderRadius.circular(6),
+                      ),
                     const SpaceH24(),
                     SPaddingH24(
                       child: Text(
@@ -96,7 +115,7 @@ class CryptoCardPayAssetScreen extends StatelessWidget {
                       onTap: () {
                         showPayWithAssetBottomSheet(
                           context: context,
-                          store: store,
+                          store: store as CryptoCardPayAssetStore,
                         );
                       },
                     ),
