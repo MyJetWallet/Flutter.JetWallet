@@ -90,6 +90,12 @@ class CryptoCardPayAssetScreen extends StatelessWidget {
                         );
                       },
                     ),
+                    if (!store.isEnoughBalanceToPay && store.selectedAsset != null)
+                      OneColumnCell(
+                        icon: Assets.svg.small.warning,
+                        text: intl.crypto_card_creat_insufficient_funds,
+                        color: colors.red,
+                      ),
                     const SpaceH24(),
                     const Spacer(),
                     SafeArea(

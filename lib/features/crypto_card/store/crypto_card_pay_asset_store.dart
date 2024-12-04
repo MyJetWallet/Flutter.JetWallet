@@ -12,6 +12,7 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/sumsub_service/sumsub_service.dart';
 import 'package:jetwallet/features/crypto_card/utils/show_please_verify_account_popup.dart';
+import 'package:jetwallet/features/crypto_card/utils/show_upload_international_passport_popup.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/kyc_verify_your_profile/utils/get_kuc_aid_plan.dart';
@@ -124,18 +125,14 @@ abstract class _CryptoCardPayAssetStoreBase with Store {
   @action
   Future<void> onChooseAsset(CurrencyModel asset) async {
     selectedAsset = asset;
-    if (!isEnoughBalanceToPay) {
-      // TODO (Yaroslav): Replace the error when the design is ready
-      sNotification.showError(
-        'Not enough balance',
-        id: 1,
-        isError: false,
-      );
-    }
   }
 
   @action
   Future<void> startCreatingFlow() async {
+    final context = sRouter.navigatorKey.currentContext;
+    if (context == null) return;
+    // TODO (Yaroslav): add status check
+    await showUploadInternationalPassportPopup(context: context);
     await _checkKycState(
       onKycAllowed: () async {
         await routCryptoCardPayAssetScreen();

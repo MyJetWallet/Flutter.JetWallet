@@ -1974,5 +1974,8 @@
     },
     "crypto_card_creat_choose_asset_to_buy_card": "Choose asset to buy card",
     "crypto_card_creat_please_verify_your_account": "Please verify your account",
-    "crypto_card_creat_verify_account": "Verify account"
+    "crypto_card_creat_verify_account": "Verify account",
+    "crypto_card_creat_insufficient_funds": "Insufficient funds. Select another asset.",
+    "crypto_card_creat_upload_your_international_passport": "Please upload your international passport",
+    "crypto_card_creat_upload_your_international_passport_description": "Earlier you passed KYC with internal passport, to get a card you need additionally upload an international passport"
 }
