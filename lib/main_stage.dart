@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:isolate';
 
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/sentry_service.dart';
@@ -24,16 +25,19 @@ Future<void> main() async {
       );
     },
     (error, stackTrace) {
-      print('#@#@#@ error $error, $stackTrace');
       Logger.root.log(Level.SEVERE, 'ZonedGuarded', error, stackTrace);
-      FirebaseCrashlytics.instance.recordError(error, stackTrace);
+      if (!kIsWeb) {
+        FirebaseCrashlytics.instance.recordError(error, stackTrace);
+      }
       getIt.get<SentryService>().captureException(error, stackTrace);
     },
   );
 
-  Isolate.current.addErrorListener(
-    RawReceivePort((pair) async {}).sendPort,
-  );
+  if (!kIsWeb) {
+    Isolate.current.addErrorListener(
+      RawReceivePort((pair) async {}).sendPort,
+    );
+  }
 
   //await OneSignal.shared.setAppId('e192e9ee-288c-46fd-942f-a2f1b479f4b8');
 }

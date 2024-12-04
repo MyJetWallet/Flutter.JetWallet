@@ -408,15 +408,18 @@ class AuthApiDataSources {
     StartEmailLoginRequestModel model,
   ) async {
     try {
+      print('#@#@#@ 012');
       final response = await _apiClient.post(
         '${_apiClient.options.authApi}/signin/StartEmailLogin',
         data: model.toJson(),
       );
 
       try {
+        print('#@#@#@ 013');
         final responseData = response.data as Map<String, dynamic>;
         final data = handleFullResponse<Map>(responseData);
 
+        print('#@#@#@ 014');
         return DC.data(StartEmailLoginResponseModel.fromJson(data));
       } catch (e) {
         rethrow;

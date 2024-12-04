@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/apps_flyer_service.dart';
 import 'package:jetwallet/core/services/flavor_service.dart';
@@ -105,7 +106,6 @@ class RemoteConfig {
 
       await pingRemoutConfig();
     } catch (e, stackTrace) {
-      print('#@#@#@ error $e, $stackTrace');
       getIt.get<SentryService>().captureException(e, stackTrace);
 
       if (e is DioException) {
@@ -270,18 +270,20 @@ class RemoteConfig {
   }
 
   void overrideAppsFlyerValues() {
-    appsFlyerKey = remoteConfig!.appsFlyer.devKey;
-    iosAppId = remoteConfig!.appsFlyer.iosAppId;
-    androidAppId = remoteConfig!.appsFlyer.androidAppId;
+    if (!kIsWeb) {
+      appsFlyerKey = remoteConfig!.appsFlyer.devKey;
+      iosAppId = remoteConfig!.appsFlyer.iosAppId;
+      androidAppId = remoteConfig!.appsFlyer.androidAppId;
 
-    if (!getIt.isRegistered<AppsFlyerService>()) {
-      getIt.registerSingleton<AppsFlyerService>(
-        AppsFlyerService.create(
-          devKey: appsFlyerKey,
-          iosAppId: iosAppId,
-          androidAppId: androidAppId,
-        ),
-      );
+      if (!getIt.isRegistered<AppsFlyerService>()) {
+        getIt.registerSingleton<AppsFlyerService>(
+          AppsFlyerService.create(
+            devKey: appsFlyerKey,
+            iosAppId: iosAppId,
+            androidAppId: androidAppId,
+          ),
+        );
+      }
     }
   }
 

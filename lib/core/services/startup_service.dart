@@ -113,7 +113,9 @@ class StartupService {
     ///
     /// SplashErrorException - 4
     ///
-    unawaited(launchSift());
+    if (!kIsWeb) {
+      unawaited(launchSift());
+    }
 
     ///
     /// SplashErrorException - 5
@@ -123,7 +125,9 @@ class StartupService {
     ///
     /// SplashErrorException - 6
     ///
-    unawaited(initAppsFlyer());
+    if (!kIsWeb) {
+      unawaited(initAppsFlyer());
+    }
 
     ///
     /// SplashErrorException - 7
@@ -166,7 +170,7 @@ class StartupService {
       getIt.get<SimpleLoggerService>().log(
             level: Level.error,
             place: '[StartupService]',
-            message: 'Error: $e, $stackTrace',
+            message: 'Error 9: $e, $stackTrace',
           );
       getIt.get<SentryService>().captureException(e, stackTrace);
       throw SplashErrorException(9, e, stackTrace);
@@ -201,8 +205,13 @@ class StartupService {
 
       await getIt.isReady<ProfileGetUserCountry>();
 
-      final useAmplitude =
-          amplitudeAllowCountryList.contains(getIt.get<ProfileGetUserCountry>().profileUserCountry.countryCode);
+      bool useAmplitude;
+      if (kIsWeb) {
+        useAmplitude = false;
+      } else {
+        useAmplitude =
+            amplitudeAllowCountryList.contains(getIt.get<ProfileGetUserCountry>().profileUserCountry.countryCode);
+      }
 
       var allowedSendEventsToAmplitude = false;
       if (useAmplitude) {
