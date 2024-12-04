@@ -404,11 +404,6 @@ class StartupService {
     try {
       if (!userInfo.isSignalRInited) {
         await getIt.get<SignalRService>().start();
-        getIt.get<SimpleLoggerService>().log(
-          level: Level.info,
-          place: '???',
-          message: '?????',
-        );
 
         userInfo.updateSignalRStatus(true);
 
