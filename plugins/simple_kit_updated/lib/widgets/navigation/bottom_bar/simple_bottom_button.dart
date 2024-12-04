@@ -56,19 +56,27 @@ class SBottomButton extends StatelessWidget {
             ),
           ),
           if (hasWarning)
-            Positioned(
-              right: 7,
-              top: 0,
-              child: Container(
-                width: 16,
-                height: 16,
-                decoration: BoxDecoration(
-                    color: SColorsLight().blue,
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(
-                      color: SColorsLight().white,
-                      width: 2,
-                    )),
+            Positioned.fill(
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    SizedBox(width: 24),
+                    Container(
+                      width: 16,
+                      height: 16,
+                      decoration: BoxDecoration(
+                          color: SColorsLight().blue,
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            color: SColorsLight().white,
+                            width: 2,
+                          )),
+                    ),
+                  ],
+                ),
               ),
             )
           else if (notification != 0)
