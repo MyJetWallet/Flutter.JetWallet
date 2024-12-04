@@ -110,20 +110,20 @@ abstract class _SingleSingInStoreBase with Store {
       var appsFlyerID = '';
       try {
         step = 2;
-        final appsFlyerService = getIt.get<AppsFlyerService>();
+        // final appsFlyerService = getIt.get<AppsFlyerService>();
 
         _logger.log(
           level: Level.info,
           place: 'Sign in',
-          message: appsFlyerService.toString(),
+          message: '',
         );
 
-        appsFlyerID = await appsFlyerService.appsflyerSdk.getAppsFlyerUID() ?? '';
+        // appsFlyerID = await appsFlyerService.appsflyerSdk.getAppsFlyerUID() ?? '';
 
         _logger.log(
           level: Level.info,
           place: 'Sign in',
-          message: appsFlyerID,
+          message: 'appsFlyerID',
         );
       } catch (e, stackTrace) {
         unawaited(
@@ -235,7 +235,7 @@ abstract class _SingleSingInStoreBase with Store {
           deviceUid: deviceInfoModel.deviceUid,
           lang: intl.localeName,
           application: currentAppPlatform,
-          appsflyerId: appsFlyerID,
+          appsflyerId: 'appsFlyerID',
           //adid: _advertisingId,
           idfv: adId,
           idfa: advID,
@@ -316,7 +316,7 @@ abstract class _SingleSingInStoreBase with Store {
           },
         );
       } else {
-        union = SingleSingInStateUnion.error('${intl.something_went_wrong_try_again} ($step)');
+        union = SingleSingInStateUnion.error('${intl.something_went_wrong_try_again} (222$step)');
       }
     } on ServerRejectException catch (error, stackTrace) {
       _logger.log(
@@ -326,7 +326,7 @@ abstract class _SingleSingInStoreBase with Store {
       );
 
       union = error.cause.contains('50') || error.cause.contains('40')
-          ? SingleSingInStateUnion.error('${intl.something_went_wrong_try_again} ($step)')
+          ? SingleSingInStateUnion.error('${intl.something_went_wrong_try_again} (333$step)')
           : SingleSingInStateUnion.error(error.cause);
 
       unawaited(
@@ -340,8 +340,8 @@ abstract class _SingleSingInStoreBase with Store {
       );
 
       union = e.toString().contains('50') || e.toString().contains('40')
-          ? SingleSingInStateUnion.error('${intl.something_went_wrong_try_again} ($step)')
-          : SingleSingInStateUnion.error('${intl.something_went_wrong} ($step)');
+          ? SingleSingInStateUnion.error('${intl.something_went_wrong_try_again} (444$step)')
+          : SingleSingInStateUnion.error('${intl.something_went_wrong} (555$step)');
 
       unawaited(
         serverLog(step, e, stackTrace),

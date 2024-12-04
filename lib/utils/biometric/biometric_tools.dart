@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:local_auth/local_auth.dart';
 
 /// Returns [true] if BioAuth was successful else [false]
@@ -5,7 +6,7 @@ Future<bool> makeAuthWithBiometrics(String localizedReasonText) async {
   try {
     final auth = LocalAuthentication();
 
-    final availableBio = await auth.getAvailableBiometrics();
+    final availableBio = kIsWeb ? [] : await auth.getAvailableBiometrics();
 
     final face = availableBio.contains(BiometricType.face);
     final fingerprint = availableBio.contains(BiometricType.fingerprint) ||
@@ -35,7 +36,7 @@ enum BiometricStatus { face, fingerprint, none }
 Future<BiometricStatus> biometricStatus() async {
   final auth = LocalAuthentication();
 
-  final availableBio = await auth.getAvailableBiometrics();
+  final availableBio = kIsWeb ? [] : await auth.getAvailableBiometrics();
 
   if (availableBio.contains(BiometricType.face)) {
     return BiometricStatus.face;

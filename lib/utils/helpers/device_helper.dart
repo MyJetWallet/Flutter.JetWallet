@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:android_id/android_id.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:device_marketing_names/device_marketing_names.dart';
+import 'package:flutter/foundation.dart';
 import 'package:jetwallet/core/services/device_info/models/device_info_model.dart';
 import 'package:jetwallet/core/services/device_size/models/device_size_union.dart';
 
@@ -10,7 +11,9 @@ import '../../core/di/di.dart';
 import '../../core/services/local_storage_service.dart';
 
 String get deviceType {
-  if (Platform.isAndroid) {
+  if (kIsWeb) {
+    return 'web';
+  } else if (Platform.isAndroid) {
     return 'android';
   } else if (Platform.isIOS) {
     return 'ios';

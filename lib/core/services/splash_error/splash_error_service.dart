@@ -65,7 +65,7 @@ class SplashErrorService {
         await sShowAlertPopup(
           sRouter.navigatorKey.currentContext!,
           willPopScope: false,
-          primaryText: error == 22 ? intl.noInternetConnection_header : '${intl.something_went_wrong} ($error)',
+          primaryText: error == 22 ? intl.noInternetConnection_header : '${intl.something_went_wrong} (ssss$error)',
           secondaryText: error == 22 ? intl.noInternetConnection_descr : null,
           primaryButtonName: intl.transactionsList_retry,
           onPrimaryButtonTap: () async {
