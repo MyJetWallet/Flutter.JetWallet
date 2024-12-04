@@ -21,6 +21,11 @@ class CryptoCardPayAssetScreen extends StatelessWidget {
     final colors = SColorsLight();
     final store = getIt.get<CryptoCardPayAssetStore>();
 
+    final discount = (((store.price?.regularPrice ?? Decimal.zero) - (store.price?.userPrice ?? Decimal.zero)) /
+                (store.price?.regularPrice ?? Decimal.fromInt(1)))
+            .toDecimal(scaleOnInfinitePrecision: 2) *
+        Decimal.fromInt(100);
+
     return SPageFrame(
       loaderText: intl.loader_please_wait,
       loading: store.loader,
@@ -51,11 +56,16 @@ class CryptoCardPayAssetScreen extends StatelessWidget {
                       userPrice: store.price?.userPrice ?? Decimal.zero,
                       regularPrice: store.price?.regularPrice ?? Decimal.zero,
                       assetSymbol: store.price?.assetSymbol ?? 'EUR',
+                      discount: discount,
                     ),
                     const SpaceH24(),
                     SPaddingH24(
                       child: Text(
-                        intl.crypto_card_pay_description,
+                        discount == Decimal.zero
+                            ? intl.crypto_card_pay_description_0
+                            : discount == Decimal.fromInt(100)
+                                ? intl.crypto_card_pay_description_100
+                                : intl.crypto_card_pay_description_50,
                         style: STStyles.subtitle2.copyWith(
                           color: colors.gray10,
                         ),

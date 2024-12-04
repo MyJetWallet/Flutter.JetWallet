@@ -1935,7 +1935,9 @@
     "crypto_card_choose_asset": "Choose asset",
     "crypto_card_main_title": "Simple virtual card",
     "crypto_card_pay_title": "Virtual Simple Card",
-    "crypto_card_pay_description": "Its maintenance is completely free, and the commission for calculations is 0%. The validity period of the Simple card is 5 years.",
+    "crypto_card_pay_description_0": "Your Simple Card is just a step away! Enjoy ease of use and zero maintenance fees. Start using your card right away!",
+    "crypto_card_pay_description_50": "Lucky you! You’re getting the Simple Card for half the price. Grab it now and start making seamless transactions.",
+    "crypto_card_pay_description_100": "You’re in luck! Today, your Simple Card is absolutely free. No fees, no hassle—just activate and start using!",
     "crypto_card_pay_payment_method": "Payment method",
     "crypto_card_pay_pay_with": "Pay with",
     "crypto_card_pay_continue": "Continue",
@@ -1977,5 +1979,14 @@
     "crypto_card_creat_verify_account": "Verify account",
     "crypto_card_creat_insufficient_funds": "Insufficient funds. Select another asset.",
     "crypto_card_creat_upload_your_international_passport": "Please upload your international passport",
-    "crypto_card_creat_upload_your_international_passport_description": "Earlier you passed KYC with internal passport, to get a card you need additionally upload an international passport"
+    "crypto_card_creat_upload_your_international_passport_description": "Earlier you passed KYC with internal passport, to get a card you need additionally upload an international passport",
+    "crypto_card_create_save": "Save {value}",
+    "@crypto_card_create_save": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "50%"
+            }
+        }
+    }
 }
