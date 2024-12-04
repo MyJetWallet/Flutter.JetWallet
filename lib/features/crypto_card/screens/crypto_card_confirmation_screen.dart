@@ -157,7 +157,7 @@ class _ConfirmationBody extends StatelessWidget {
                           left: 24,
                           right: 24,
                           top: 16,
-                          bottom: 16 + MediaQuery.of(context).padding.top <= 24 ? 24 : 16,
+                          bottom: 16 + MediaQuery.of(context).padding.bottom <= 24 ? 24 : 16,
                         ),
                         child: SButton.black(
                           text: intl.crypto_card_pay_continue,

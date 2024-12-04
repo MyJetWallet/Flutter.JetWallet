@@ -66,7 +66,7 @@ class CryptoCardPayAssetScreen extends StatelessWidget {
                             : discount == Decimal.fromInt(100)
                                 ? intl.crypto_card_pay_description_100
                                 : intl.crypto_card_pay_description_50,
-                        style: STStyles.subtitle2.copyWith(
+                        style: STStyles.body2Semibold.copyWith(
                           color: colors.gray10,
                         ),
                         maxLines: 4,
@@ -115,7 +115,7 @@ class CryptoCardPayAssetScreen extends StatelessWidget {
                           left: 24,
                           right: 24,
                           top: 16,
-                          bottom: 16 + MediaQuery.of(context).padding.top <= 24 ? 24 : 16,
+                          bottom: 16 + MediaQuery.of(context).padding.bottom <= 24 ? 24 : 16,
                         ),
                         child: SButton.black(
                           text: intl.crypto_card_pay_continue,

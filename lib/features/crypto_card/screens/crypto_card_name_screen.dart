@@ -98,7 +98,7 @@ class _CardNameBody extends StatelessWidget {
                         padding: EdgeInsets.only(
                           left: 24,
                           right: 24,
-                          bottom: 16 + MediaQuery.of(context).padding.top <= 24 ? 24 : 16,
+                          bottom: 16 + MediaQuery.of(context).padding.bottom <= 24 ? 24 : 16,
                         ),
                         child: SButton.black(
                           text: intl.crypto_card_name_create_card,

@@ -106,6 +106,7 @@ abstract class _CryptoCardPayAssetStoreBase with Store {
           element.symbol.toLowerCase().contains(searchValue);
     }).toList();
 
+    result.sort((a, b) => a.weight.compareTo(b.weight));
     result.sort((a, b) => b.baseBalance.compareTo(a.baseBalance));
 
     if (result.any((asset) => asset.symbol == 'USDT')) {
