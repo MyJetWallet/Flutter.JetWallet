@@ -1823,5 +1823,137 @@
     "deleteProfileConditions_delete_anyway": "Supprimer quand même",
     "crypto_jar_banner_description": "En savoir plus",
     "crypto_jar_banner_title": "Simple Crypto Jars rend la réception de cryptomonnaies très facile.",
-    "payment_method_current_limits": "Limite actuelle: {value}"
+    "payment_method_current_limits": "Limite actuelle: {value}",
+    "crypto_card_freeze": "Geler",
+    "crypto_card_change_pin": "Changer le PIN",
+    "crypto_card_settings": "Paramètres",
+    "crypto_card_card_number": "Numéro de carte",
+    "crypto_card_valid_thru": "Valide jusqu'à",
+    "crypto_card_cvv": "CVV",
+    "crypto_card_asset_linked": "{count, plural, =1{1 actif} other{{count} actifs}} lié",
+    "crypto_card_show": "Afficher",
+    "pinScreen_tryAgainLater": "Réessayer plus tard",
+    "crypto_card_order_title": "Votre carte Simple virtuelle est presque là!",
+    "crypto_card_order_description": "Payez sans contact en magasin avec votre téléphone ou utilisez-la en ligne comme n'importe quelle autre Mastercard. Remplissez les derniers détails et commencez à utiliser votre carte instantanément.",
+    "crypto_card_get_your_virtual_card_now": "Obtenez votre carte virtuelle maintenant",
+    "crypto_card_name_skip": "Passer",
+    "crypto_card_name_your_card": "Nommez votre carte",
+    "crypto_card_name_card_name": "Nom de la carte",
+    "crypto_card_name_create_card": "Créer une carte",
+    "crypto_card_on_the_way": "Votre carte virtuelle est en route ! Vous serez notifié lorsque la carte sera disponible.",
+    "crypto_card_settings_change_design": "Changer de design",
+    "crypto_card_settings_limits": "Limites",
+    "crypto_card_linked_assets": "Actifs liés",
+    "crypto_card_settings_change_pin": "Changer le PIN",
+    "crypto_card_settings_card_statements": "Relevés de cartes",
+    "crypto_card_settings_documents": "Документи",
+    "crypto_card_settings_privacy_policy": "Політика конфіденційності, Умови використання",
+    "crypto_card_settings_delete_card": "Видалити картку",
+    "crypto_card_add_to_apple_wallet_title": "Додати картку до Apple Wallet",
+    "crypto_card_add_to_apple_wallet_description": "Відкрийте Wallet додаток, натисніть “Додати” та слідкуйте за підказками.",
+    "crypto_card_add_to_google_wallet_title": "Додати картку до Google Wallet",
+    "crypto_card_add_to_google_wallet_description": "Відкрийте додаток Google Wallet, натисніть “Додати до гаманця” та слідкуйте за підказками.",
+    "crypto_card_freeze_title": "Заморозити цю картку?",
+    "crypto_card_freeze_description": "Якщо картку заморожено, платежі та зняття коштів будуть відхилені. Ви можете розморозити вашу картку в будь-який час.",
+    "crypto_card_unfreeze_title": "Розморозити картку?",
+    "crypto_card_unfreeze_description": "Після розмороження ваша картка буде активна і може використовуватися для покупок та інших транзакцій. Якщо ви впевнені, що хочете це зробити, натисніть “Розморозити”. Ви завжди можете знову заморозити її пізніше, якщо це буде необхідно.",
+    "crypto_card_cancel": "Скасувати",
+    "crypto_card_freeze_toast": "Транзакції карткою будуть відхилені, поки ви не розморозите картку",
+    "crypto_card_unfreeze": "Розморозити",
+    "crypto_card_unfreeze_toast": "Успіх",
+    "crypto_card_change_your_pin": "Змінити ваш PIN",
+    "crypto_card_confirm_your_pin": "Підтвердити ваш PIN",
+    "crypto_card_change_your_pin_description": "Ви можете оновити ваш PIN в будь-який час, якщо цей пристрій зареєстрований.",
+    "crypto_card_continue": "Продовжити",
+    "crypto_card_pin_does_not_match": "PIN не співпадає",
+    "crypto_card_pin_not_strong": "Choisissez un PIN plus fort",
+    "crypto_card_change_pin_success": "Votre PIN a été mis à jour avec succès. Vous pouvez le changer à tout moment.",
+    "crypto_card_here_your_pin": "Voici votre PIN",
+    "crypto_card_hiding_pin": "Masquage du PIN dans {value} secondes",
+    "crypto_card_limits": "Limites",
+    "crypto_card_limits_card_payments": "Paiements par carte",
+    "crypto_card_limits_daily": "Quotidien",
+    "crypto_card_limits_left": "Reste {amounty}",
+    "@crypto_card_limits_left": {
+        "placeholders": {
+            "amounty": {
+                "type": "String",
+                "example": "1 000 EUR"
+            }
+        }
+    },
+    "crypto_card_limits_weekly": "Hebdomadaire",
+    "crypto_card_monthly": "Mensuel",
+    "crypto_card_limits_atm_withdrawals": "Retraits aux DAB",
+    "crypto_card_delete_card": "Supprimer la carte?",
+    "crypto_card_delete_description": "Vous êtes sur le point de supprimer la carte **{cardLast4}. Une fois supprimée, toutes les transactions futures seront refusées, et cette action est irréversible.",
+    "@crypto_card_delete_description": {
+        "placeholders": {
+            "cardLast4": {
+                "type": "String",
+                "example": "1234"
+            }
+        }
+    },
+    "crypto_card_delete_confirm": "Confirmer et supprimer",
+    "crypto_card_linked_asset": "Actif lié",
+    "crypto_card_choose_asset": "Choisir un actif",
+    "crypto_card_main_title": "Carte virtuelle Simple",
+    "crypto_card_pay_title": "Carte Simple Virtuelle",
+    "crypto_card_pay_payment_method": "Méthode de paiement",
+    "crypto_card_pay_pay_with": "Payer avec",
+    "crypto_card_pay_continue": "Continuer",
+    "crypto_card_confirmation_success_description": "Vous avez payé avec succès pour la carte.",
+    "crypto_card_confirmation_order_summary": "Résumé de la commande",
+    "crypto_card_confirmation_card_issue": "Émission de la carte",
+    "crypto_card_confirmation_pay_with": "Payer avec",
+    "crypto_card_confirmation_card_issue_cost": "Coût d'émission de la carte",
+    "crypto_card_confirmation_discount": "Réduction de {value}",
+    "@crypto_card_confirmation_discount": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "50%"
+            }
+        }
+    },
+    "crypto_card_confirmation_price": "Prix",
+    "crypto_card_settings_add_to_wallet": "Ajouter à {value}",
+    "@crypto_card_settings_add_to_wallet": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "AppleWallet"
+            }
+        }
+    },
+    "crypto_card_delete_terminated_toast": "La carte •• {last4} a été résiliée",
+    "@crypto_card_delete_terminated_toast": {
+        "placeholders": {
+            "last4": {
+                "type": "String",
+                "example": "8800"
+            }
+        }
+    },
+    "crypto_card_creat_choose_asset_to_buy_card": "Choisissez un actif pour acheter la carte",
+    "crypto_card_creat_please_verify_your_account": "Veuillez vérifier votre compte",
+    "crypto_card_creat_verify_account": "Vérifier le compte",
+    "crypto_card_pay_description_0": "Votre Simple Card est à un pas! Profitez de la facilité d'utilisation et de l'absence de frais de maintenance. Commencez à utiliser votre carte tout de suite!",
+    "crypto_card_pay_description_50": "Chanceux! Vous obtenez la Simple Card à moitié prix. Profitez-en maintenant et commencez à effectuer des transactions en toute simplicité.",
+    "crypto_card_pay_description_100": "Vous avez de la chance! Aujourd'hui, votre Simple Card est absolument gratuite. Pas de frais, pas de tracas - activez et commencez à utiliser!",
+    "crypto_card_creat_insufficient_funds": "Fonds insuffisants. Sélectionnez un autre actif.",
+    "crypto_card_creat_upload_your_international_passport": "Veuillez télécharger votre passeport international.",
+    "crypto_card_creat_upload_your_international_passport_description": "Auparavant, vous avez passé la KYC avec un passeport interne, pour obtenir une carte vous devez également télécharger un passeport international.",
+    "crypto_card_create_save": "Sauvegarder {value}",
+    "@crypto_card_create_save": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "50%"
+            }
+        }
+    },
+    "crypto_card_lable_save": "Sauvegarder",
+    "crypto_card_settings_label_card": "Étiqueter la carte"
 }
