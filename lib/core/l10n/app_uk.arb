@@ -3408,7 +3408,7 @@
         "description": "Добавить аккаунт",
         "type": "text"
     },
-    "iban_label": "Лейбл",
+    "iban_label": "Назва",
     "@iban_label": {
         "description": "Лейбл",
         "type": "text"
@@ -3701,7 +3701,7 @@
         "description": "Данные карточки",
         "type": "text"
     },
-    "addCircleCard_label": "Лейбл",
+    "addCircleCard_label": "Назва",
     "@addCircleCard_label": {
         "description": "Лейбл",
         "type": "text"
@@ -4295,12 +4295,12 @@
         "description": "Ваши транзакции отобразятся здесь",
         "type": "text"
     },
-    "wallet_account_label": "Лейбл",
+    "wallet_account_label": "Назва",
     "@wallet_account_label": {
         "description": "Лейбл",
         "type": "text"
     },
-    "wallet_account_label_input": "Лейбл акаунту",
+    "wallet_account_label_input": "Назва акаунту",
     "@wallet_account_label_input": {
         "description": "Лейбл аккаунта",
         "type": "text"
@@ -5970,7 +5970,7 @@
     "payment_method_current_limits": "Поточний ліміт: {value}",
     "crypto_card_freeze": "Заморозити",
     "crypto_card_change_pin": "Змінити PIN",
-    "crypto_card_settings": "Налаштування",
+    "crypto_card_settings": "Параметри",
     "crypto_card_card_number": "Номер картки",
     "crypto_card_valid_thru": "Термін дії",
     "crypto_card_cvv": "CVV",
@@ -5979,7 +5979,7 @@
     "pinScreen_tryAgainLater": "Спробуйте пізніше",
     "crypto_card_order_title": "Ваша віртуальна карта Simple майже готова!",
     "crypto_card_order_description": "Сплачуйте безконтактно в магазинах за допомогою телефону або використовуйте онлайн як звичайну картку Mastercard. Заповніть деталі та починайте користуватися карткою негайно.",
-    "crypto_card_get_your_virtual_card_now": "Отримайте свою віртуальну картку зараз",
+    "crypto_card_get_your_virtual_card_now": "Отримайте картку зараз",
     "crypto_card_name_skip": "Пропустити",
     "crypto_card_name_your_card": "Назвіть свою картку",
     "crypto_card_name_card_name": "Назва картки",
@@ -6099,5 +6099,5 @@
         }
     },
     "crypto_card_lable_save": "Зберегти",
-    "crypto_card_settings_label_card": "Маркувати картку"
+    "crypto_card_settings_label_card": "Назвати картку"
 }
