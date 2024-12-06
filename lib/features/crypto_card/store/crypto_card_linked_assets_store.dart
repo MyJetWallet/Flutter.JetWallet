@@ -119,9 +119,7 @@ abstract class _CryptoCardlinkedAssetsStoreBase with Store {
 
       final response = await sNetwork.getWalletModule().setAssetsCryptoCard(model);
       response.pick(
-        onNoError: (data) {
-          changeLocalData(asset.symbol);
-        },
+        onNoError: (data) {},
         onError: (error) {
           sNotification.showError(
             error.cause,
@@ -187,14 +185,5 @@ abstract class _CryptoCardlinkedAssetsStoreBase with Store {
           place: _tag,
           message: message,
         );
-  }
-
-  // TODO (Yaroslav): remove this function
-  void changeLocalData(String asset) {
-    sSignalRModules.cryptoCardProfile = sSignalRModules.cryptoCardProfile.copyWith(
-      associateAssetList: [
-        asset,
-      ],
-    );
   }
 }

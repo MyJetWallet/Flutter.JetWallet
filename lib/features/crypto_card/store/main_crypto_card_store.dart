@@ -163,19 +163,18 @@ abstract class _MainCryptoCardStoreBase with Store {
       final response = await sNetwork.getWalletModule().freezeCard(model);
 
       response.pick(
+        onNoError: (_) {
+          sSignalRModules.localSetCryptoCardStatus(
+            cardId: cryptoCard.cardId,
+            status: CryptoCardStatus.frozen,
+          );
+        },
         onError: (error) {
           sNotification.showError(
             error.cause,
             id: 1,
           );
         },
-      );
-      // TODO remove this when SignalR will be implemented
-      final freezeCard = cryptoCard.copyWith(status: CryptoCardStatus.frozen);
-      sSignalRModules.setCryptoCardModelData(
-        sSignalRModules.cryptoCardProfile.copyWith(
-          cards: [freezeCard],
-        ),
       );
 
       sNotification.showError(intl.crypto_card_freeze_toast, id: 1, isError: false);
@@ -205,19 +204,18 @@ abstract class _MainCryptoCardStoreBase with Store {
       final response = await sNetwork.getWalletModule().unfreezeCard(model);
 
       response.pick(
+        onNoError: (_) {
+          sSignalRModules.localSetCryptoCardStatus(
+            cardId: cryptoCard.cardId,
+            status: CryptoCardStatus.active,
+          );
+        },
         onError: (error) {
           sNotification.showError(
             error.cause,
             id: 1,
           );
         },
-      );
-      // TODO remove this when SignalR will be implemented
-      final unfreezeCard = cryptoCard.copyWith(status: CryptoCardStatus.active);
-      sSignalRModules.setCryptoCardModelData(
-        sSignalRModules.cryptoCardProfile.copyWith(
-          cards: [unfreezeCard],
-        ),
       );
 
       sNotification.showError(intl.crypto_card_unfreeze_toast, id: 1, isError: false);
@@ -251,8 +249,7 @@ abstract class _MainCryptoCardStoreBase with Store {
 
       // TODO (Yaroslav): Replace with a real network request
       await Future.delayed(const Duration(seconds: 1));
-
-      sSignalRModules.cryptoCardProfile = const CryptoCardProfile();
+      sSignalRModules.localDeleteCryptoCard(cryptoCard.cardId);
 
       sNotification.showError(
         intl.crypto_card_delete_terminated_toast(cardLast4),

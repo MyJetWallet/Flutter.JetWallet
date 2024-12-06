@@ -1,4 +1,3 @@
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -52,22 +51,6 @@ abstract class _CryptoCardLimitsStoreBase with Store {
       );
       logError(
         message: 'loadLimits error: $error',
-      );
-
-      // TODO (Yaroslav): remove this code
-      limits = LimitsCryptoCardResponseModel(
-        atmDailyLimit: Decimal.fromInt(1000),
-        atmDailyUsed: Decimal.fromInt(1000),
-        atmWeeklyUsed: Decimal.fromInt(1000),
-        atmWeeklyLimit: Decimal.fromInt(1000),
-        atmMonthlyUsed: Decimal.fromInt(1000),
-        atmMonthlyLimit: Decimal.fromInt(1000),
-        purchaseDailyUsed: Decimal.fromInt(1000),
-        purchaseDailyLimit: Decimal.fromInt(1000),
-        purchaseWeeklyUsed: Decimal.fromInt(1000),
-        purchaseWeeklyLimit: Decimal.fromInt(1000),
-        purchaseMonthlyUsed: Decimal.fromInt(1000),
-        purchaseMonthlyLimit: Decimal.fromInt(1000),
       );
     }
   }

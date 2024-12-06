@@ -8,7 +8,6 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:logger/logger.dart';
@@ -16,7 +15,6 @@ import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
-import 'package:simple_networking/modules/signal_r/models/crypto_card_message_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/create_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/preview_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/price_crypto_card_response_model.dart';
@@ -143,14 +141,10 @@ abstract class _CryptoCardConfirmationStoreBase with Store {
 
       response.pick(
         onData: (data) async {
-          changeLocalState();
           await showSuccessScreen();
         },
         onError: (error) {
-          // TODO (Yaroslav): uncoment this when back fix responce
-          //  showFailureScreen(error.cause);
-          changeLocalState();
-          showSuccessScreen();
+          showFailureScreen(error.cause);
         },
       );
     } on ServerRejectException catch (error) {
@@ -205,39 +199,5 @@ abstract class _CryptoCardConfirmationStoreBase with Store {
           place: _tag,
           message: message,
         );
-  }
-
-  // TODO (Yaroslav): remove this function
-  void changeLocalState() {
-    sSignalRModules.cryptoCardProfile = const CryptoCardProfile(
-      associateAssetList: ['USDT'],
-      cards: [
-        CryptoCardModel(
-          cardId: 'mock',
-          label: 'lable',
-          last4: '5555',
-          status: CryptoCardStatus.inCreation,
-        ),
-      ],
-    );
-
-    unawaited(
-      Future.delayed(
-        const Duration(seconds: 10),
-        () {
-          sSignalRModules.cryptoCardProfile = const CryptoCardProfile(
-            associateAssetList: ['USDT'],
-            cards: [
-              CryptoCardModel(
-                cardId: 'mock',
-                label: 'lable',
-                last4: '5555',
-                status: CryptoCardStatus.active,
-              ),
-            ],
-          );
-        },
-      ),
-    );
   }
 }

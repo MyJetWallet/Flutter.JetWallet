@@ -1185,17 +1185,39 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
     marketSectors = list;
   }
 
+  @computed
+  CryptoCardProfile get cryptoCardProfile => _cryptoCardProfile;
+
   @observable
-  CryptoCardProfile cryptoCardProfile = const CryptoCardProfile();
+  CryptoCardProfile _cryptoCardProfile = const CryptoCardProfile();
 
   @action
   void setCryptoCardModelData(CryptoCardProfile data) {
-    // TODO (Yaroslav): remove copyWith
-    // cryptoCardProfile = data.copyWith(
-    //   cards: [],
-    //   availableCardsCount: 1,
-    // );
-    // cryptoCardProfile = data;
+    _cryptoCardProfile = data;
+  }
+
+  @action
+  void localDeleteCryptoCard(String cardId) {
+    final cards = [..._cryptoCardProfile.cards];
+    cards.removeWhere((card) => card.cardId == cardId);
+
+    sSignalRModules.setCryptoCardModelData(
+      sSignalRModules.cryptoCardProfile.copyWith(
+        cards: cards,
+      ),
+    );
+  }
+
+  @action
+  void localSetCryptoCardStatus({required String cardId, required CryptoCardStatus status}) {
+    final cryptoCard = _cryptoCardProfile.cards.firstWhereOrNull((card) => card.cardId == cardId);
+    if (cryptoCard == null) return;
+
+    final cardWithNewStatus = cryptoCard.copyWith(status: CryptoCardStatus.frozen);
+
+    _cryptoCardProfile = _cryptoCardProfile.copyWith(
+      cards: [cardWithNewStatus],
+    );
   }
 
   @action
