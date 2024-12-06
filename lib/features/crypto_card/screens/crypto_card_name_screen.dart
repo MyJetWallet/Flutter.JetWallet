@@ -24,7 +24,10 @@ class CryptoCardNameScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Provider(
-      create: (context) => CryptoCardNameStore(cardId: cardId),
+      create: (context) => CryptoCardNameStore(
+        cardId: cardId,
+        initialLabel: initialLabel,
+      ),
       child: _CardNameBody(isCreateFlow: isCreateFlow),
     );
   }
@@ -84,12 +87,12 @@ class _CardNameBody extends StatelessWidget {
                               children: [
                                 Text(
                                   intl.crypto_card_name_your_card,
-                                  style: STStyles.header5,
+                                  style: STStyles.header6,
                                 ),
                               ],
                             ),
                           ),
-                          const SpaceH32(),
+                          const SpaceH16(),
                           SInput(
                             label: intl.crypto_card_name_card_name,
                             controller: store.controller,

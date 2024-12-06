@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/crypto_card/store/main_crypto_card_store.dart';
 import 'package:jetwallet/features/crypto_card/widgets/crypto_card_action_buttons.dart';
@@ -24,51 +25,50 @@ class CryptoCardMainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Provider(
       create: (context) => MainCryptoCardStore()..init(),
-      child: _CryptoCardMainScreenBody(
-        cryptoCard: cryptoCard,
-      ),
+      child: const _CryptoCardMainScreenBody(),
     );
   }
 }
 
 class _CryptoCardMainScreenBody extends StatelessWidget {
-  const _CryptoCardMainScreenBody({
-    required this.cryptoCard,
-  });
-
-  final CryptoCardModel cryptoCard;
+  const _CryptoCardMainScreenBody();
 
   @override
   Widget build(BuildContext context) {
     final store = Provider.of<MainCryptoCardStore>(context);
 
-    final cardIsFrozen = cryptoCard.status == CryptoCardStatus.frozen;
+    return Observer(
+      builder: (context) {
+        final cryptoCard = store.cryptoCard;
+        final cardIsFrozen = cryptoCard.status == CryptoCardStatus.frozen;
 
-    return SPageFrame(
-      loaderText: intl.register_pleaseWait,
-      header: GlobalBasicAppBar(
-        title: intl.crypto_card_main_title,
-        subtitle: cryptoCard.label,
-        hasLeftIcon: false,
-        hasRightIcon: false,
-      ),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            CryptoCardWidget(
-              isFrozen: cardIsFrozen,
-              last4: cryptoCard.last4,
+        return SPageFrame(
+          loaderText: intl.register_pleaseWait,
+          header: GlobalBasicAppBar(
+            title: intl.crypto_card_main_title,
+            subtitle: cryptoCard.label,
+            hasLeftIcon: false,
+            hasRightIcon: false,
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                CryptoCardWidget(
+                  isFrozen: cardIsFrozen,
+                  last4: cryptoCard.last4,
+                ),
+                const CryptoCardAmountWidget(),
+                CryptoCardActionButtons(
+                  store: store,
+                  cardIsFrozen: cardIsFrozen,
+                ),
+                const CryptoCardAddToWalletBanner(),
+                const CryptoCardTransactions(),
+              ],
             ),
-            const CryptoCardAmountWidget(),
-            CryptoCardActionButtons(
-              store: store,
-              cardIsFrozen: cardIsFrozen,
-            ),
-            const CryptoCardAddToWalletBanner(),
-            const CryptoCardTransactions(),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

@@ -36,7 +36,8 @@ class MainCryptoCardStore extends _MainCryptoCardStoreBase with _$MainCryptoCard
 abstract class _MainCryptoCardStoreBase with Store {
   final globalLoader = getIt.get<GlobalLoader>();
 
-  CryptoCardModel cryptoCard = const CryptoCardModel();
+  @computed
+  CryptoCardModel get cryptoCard => sSignalRModules.cryptoCardProfile.cards.first;
 
   @computed
   List<String> get _linkedAssetSymbols {
@@ -95,11 +96,6 @@ abstract class _MainCryptoCardStoreBase with Store {
   @action
   Future<void> init() async {
     try {
-      ///
-      /// getCryptoCard
-      ///
-      cryptoCard = sSignalRModules.cryptoCardProfile.cards.first;
-
       ///
       /// getSensitiveInfo
       ///

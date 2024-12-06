@@ -49,7 +49,9 @@ abstract class _CryptoCardNameStoreBase with Store {
   bool get isNameValid {
     if (cardName == null) return false;
 
-    return cardName!.isNotEmpty && cardName!.length <= nameMaxLength;
+    return (cardName ?? '').trim().isNotEmpty &&
+        cardName!.length <= nameMaxLength &&
+        (cardName ?? '').trim() != initialLabel;
   }
 
   @action
@@ -69,7 +71,7 @@ abstract class _CryptoCardNameStoreBase with Store {
 
       final response = await sNetwork.getWalletModule().changeLableCryptoCard(model);
       response.pick(
-        onData: (data) {
+        onNoError: (data) {
           sRouter.popUntilRoot();
         },
         onError: (error) {
