@@ -46,7 +46,7 @@ class _CryptoCardPriceWidgetState extends State<CryptoCardPriceWidget> {
   Widget build(BuildContext context) {
     final colors = SColorsLight();
 
-    if (widget.regularPrice == widget.userPrice) {
+    if (widget.discount == Decimal.zero) {
       return Text(
         widget.userPrice.toFormatSum(
           symbol: widget.assetSymbol,

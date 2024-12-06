@@ -33,11 +33,6 @@ class _CryptoCardPayAssetBody extends StatelessWidget {
     final colors = SColorsLight();
     final store = CryptoCardPayAssetStore.of(context);
 
-    final discount = (((store.price?.regularPrice ?? Decimal.zero) - (store.price?.userPrice ?? Decimal.zero)) /
-                (store.price?.regularPrice ?? Decimal.fromInt(1)))
-            .toDecimal(scaleOnInfinitePrecision: 2) *
-        Decimal.fromInt(100);
-
     return SPageFrame(
       loaderText: intl.loader_please_wait,
       loading: store.loader,
@@ -69,7 +64,7 @@ class _CryptoCardPayAssetBody extends StatelessWidget {
                         userPrice: store.price?.userPrice ?? Decimal.zero,
                         regularPrice: store.price?.regularPrice ?? Decimal.zero,
                         assetSymbol: store.price?.assetSymbol ?? 'EUR',
-                        discount: discount,
+                        discount: store.price?.userDiscount ?? Decimal.zero,
                       )
                     else
                       SSkeletonLoader(
@@ -81,11 +76,11 @@ class _CryptoCardPayAssetBody extends StatelessWidget {
                     if (store.price != null)
                       SPaddingH24(
                         child: Text(
-                          discount == Decimal.zero
-                              ? intl.crypto_card_pay_description_0
-                              : discount == Decimal.fromInt(100)
-                                  ? intl.crypto_card_pay_description_100
-                                  : intl.crypto_card_pay_description_50,
+                          (store.price?.userDiscount ?? Decimal.zero) == Decimal.fromInt(100)
+                              ? intl.crypto_card_pay_description_100
+                              : (store.price?.userDiscount ?? Decimal.zero) == Decimal.fromInt(50)
+                                  ? intl.crypto_card_pay_description_50
+                                  : intl.crypto_card_pay_description_0,
                           style: STStyles.body2Semibold.copyWith(
                             color: colors.gray10,
                           ),

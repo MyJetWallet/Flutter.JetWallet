@@ -100,13 +100,16 @@ class _ConfirmationBody extends StatelessWidget {
                     ),
                     Builder(
                       builder: (context) {
-                        final discount = ((store.discount.regularPrice - store.toAmount) / store.discount.regularPrice)
-                                .toDecimal(scaleOnInfinitePrecision: 2) *
-                            Decimal.fromInt(100);
-                        return discount != Decimal.zero && store.isPreviewLoaded
+                        return store.discount.userDiscount != Decimal.zero && store.isPreviewLoaded
                             ? TwoColumnCell(
-                                label: intl.crypto_card_confirmation_discount(discount.toFormatPercentCount()),
-                                value: (store.toAmount - store.discount.regularPrice).toFormatCount(
+                                label: intl.crypto_card_confirmation_discount(
+                                  store.discount.userDiscount.toFormatPercentCount(),
+                                ),
+                                value: ((store.discount.userDiscount / Decimal.fromInt(100)).toDecimal(
+                                          scaleOnInfinitePrecision: store.toAsset.accuracy,
+                                        ) *
+                                        store.discount.regularPrice)
+                                    .toFormatCount(
                                   symbol: store.toAsset.symbol,
                                   accuracy: store.toAsset.accuracy,
                                 ),
