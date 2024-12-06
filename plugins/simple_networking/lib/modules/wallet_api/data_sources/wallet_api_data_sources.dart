@@ -44,6 +44,7 @@ import 'package:simple_networking/modules/wallet_api/models/crypto_card/change_l
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/change_pin_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/create_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/freeze_crypto_card_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/crypto_card/limits_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/limits_crypto_card_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/preview_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/preview_crypto_card_responce_model.dart';
@@ -4510,10 +4511,13 @@ class WalletApiDataSources {
     }
   }
 
-  Future<DC<ServerRejectException, LimitsCryptoCardResponseModel>> cryptoCardLimitsRequest() async {
+  Future<DC<ServerRejectException, LimitsCryptoCardResponseModel>> cryptoCardLimitsRequest(
+    LimitsCryptoCardRequestModel model,
+  ) async {
     try {
-      final response = await _apiClient.get(
+      final response = await _apiClient.post(
         '${_apiClient.options.walletApi}/crypto-card/limits',
+        data: model.toJson(),
       );
 
       try {

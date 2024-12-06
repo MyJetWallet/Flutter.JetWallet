@@ -50,7 +50,11 @@ class _SettingsBody extends StatelessWidget {
             color: colors.blue,
           ),
           onCardTap: () {
-            sRouter.popAndPush(const CryptoCardLimitsRoute());
+            sRouter.popAndPush(
+              CryptoCardLimitsRoute(
+                cardId: store.cryptoCard.cardId,
+              ),
+            );
           },
         ),
         SEditable(

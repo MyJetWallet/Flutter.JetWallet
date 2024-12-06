@@ -8,6 +8,7 @@ import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
+import 'package:simple_networking/modules/wallet_api/models/crypto_card/limits_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/limits_crypto_card_response_model.dart';
 
 part 'crypto_card_limits_store.g.dart';
@@ -15,19 +16,25 @@ part 'crypto_card_limits_store.g.dart';
 const String _tag = 'CryptoCardLimitsStore';
 
 class CryptoCardLimitsStore extends _CryptoCardLimitsStoreBase with _$CryptoCardLimitsStore {
-  CryptoCardLimitsStore() : super();
+  CryptoCardLimitsStore({required super.cardId}) : super();
 
   static _CryptoCardLimitsStoreBase of(BuildContext context) => Provider.of<CryptoCardLimitsStore>(context);
 }
 
 abstract class _CryptoCardLimitsStoreBase with Store {
+  _CryptoCardLimitsStoreBase({required this.cardId});
+
+  final String cardId;
+
   @observable
   LimitsCryptoCardResponseModel? limits;
 
   @action
   Future<void> loadLimits() async {
     try {
-      final response = await sNetwork.getWalletModule().cryptoCardLimits();
+      final model = LimitsCryptoCardRequestModel(cardId: cardId);
+
+      final response = await sNetwork.getWalletModule().cryptoCardLimits(model);
       response.pick(
         onData: (data) {
           limits = data;

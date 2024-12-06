@@ -13,12 +13,14 @@ import 'package:simple_networking/modules/wallet_api/models/crypto_card/limits_c
 
 @RoutePage(name: 'CryptoCardLimitsRoute')
 class CryptoCardLimitsScreen extends StatelessWidget {
-  const CryptoCardLimitsScreen({super.key});
+  const CryptoCardLimitsScreen({super.key, required this.cardId});
+
+  final String cardId;
 
   @override
   Widget build(BuildContext context) {
     return Provider(
-      create: (context) => CryptoCardLimitsStore()..loadLimits(),
+      create: (context) => CryptoCardLimitsStore(cardId: cardId)..loadLimits(),
       builder: (context, child) {
         final store = CryptoCardLimitsStore.of(context);
 
