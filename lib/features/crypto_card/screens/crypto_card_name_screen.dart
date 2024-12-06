@@ -105,7 +105,7 @@ class _CardNameBody extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const SpaceH32(),
+                    const SpaceH26(),
                     const Spacer(),
                     SafeArea(
                       top: false,
