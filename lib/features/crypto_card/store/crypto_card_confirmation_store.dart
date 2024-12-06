@@ -140,7 +140,7 @@ abstract class _CryptoCardConfirmationStoreBase with Store {
       final response = await sNetwork.getWalletModule().createCryptoCard(model);
 
       response.pick(
-        onData: (data) async {
+        onNoError: (data) async {
           await showSuccessScreen();
         },
         onError: (error) {
