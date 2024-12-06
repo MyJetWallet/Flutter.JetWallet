@@ -119,7 +119,9 @@ abstract class _CryptoCardlinkedAssetsStoreBase with Store {
 
       final response = await sNetwork.getWalletModule().setAssetsCryptoCard(model);
       response.pick(
-        onNoError: (data) {},
+        onNoError: (data) {
+          sNotification.showError(intl.crypto_card_unfreeze_toast, id: 1, isError: false);
+        },
         onError: (error) {
           sNotification.showError(
             error.cause,

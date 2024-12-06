@@ -45,22 +45,29 @@ class _LinkedAssetsBody extends StatelessWidget {
           child: Column(
             children: [
               const SpaceH7(),
-              SuggestionButtonWidget(
-                title: store.selectedAsset.description,
-                subTitle: intl.crypto_card_linked_asset,
-                trailing: getIt<AppStore>().isBalanceHide
-                    ? '**** ${store.selectedAsset.symbol}'
-                    : store.selectedAsset.volumeAssetBalance,
-                icon: NetworkIconWidget(
-                  store.selectedAsset.iconUrl,
+              if (store.avaibleAssets.isNotEmpty)
+                SuggestionButtonWidget(
+                  title: store.selectedAsset.description,
+                  subTitle: intl.crypto_card_linked_asset,
+                  trailing: getIt<AppStore>().isBalanceHide
+                      ? '**** ${store.selectedAsset.symbol}'
+                      : store.selectedAsset.volumeAssetBalance,
+                  icon: NetworkIconWidget(
+                    store.selectedAsset.iconUrl,
+                  ),
+                  onTap: () {
+                    showChooseLinkedAssetBottomSheet(
+                      context: context,
+                      store: store,
+                    );
+                  },
+                )
+              else
+                SSkeletonLoader(
+                  width: MediaQuery.of(context).size.width - 48,
+                  height: 56,
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                onTap: () {
-                  showChooseLinkedAssetBottomSheet(
-                    context: context,
-                    store: store,
-                  );
-                },
-              ),
             ],
           ),
         );
