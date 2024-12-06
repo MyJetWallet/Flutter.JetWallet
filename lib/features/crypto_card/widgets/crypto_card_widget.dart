@@ -311,6 +311,7 @@ class _CryptoCardSensitiveDataWidgetState extends State<_CryptoCardSensitiveData
             }
           },
           child: Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
               if (widget.value == '')
                 SSkeletonLoader(

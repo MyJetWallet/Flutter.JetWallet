@@ -3,15 +3,15 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
-/// Returns true if the "Verify account" button is pressed
-Future<bool?> showPleaseVerifyAccountPopUp({
+/// Returns true if the "Continue" button is pressed
+Future<bool?> showUploadInternationalPassportPopup({
   required BuildContext context,
 }) async {
   final result = await sShowAlertPopup(
     context,
-    primaryText: '',
-    secondaryText: intl.crypto_card_creat_please_verify_your_account,
-    primaryButtonName: intl.crypto_card_creat_verify_account,
+    primaryText: intl.crypto_card_creat_upload_your_international_passport,
+    secondaryText: intl.crypto_card_creat_upload_your_international_passport_description,
+    primaryButtonName: intl.crypto_card_continue,
     onPrimaryButtonTap: () async {
       await sRouter.maybePop(true);
     },

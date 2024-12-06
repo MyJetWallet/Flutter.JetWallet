@@ -1,52 +1,38 @@
 import 'dart:async';
 
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/format_service.dart';
-import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
-import 'package:simple_networking/modules/wallet_api/models/crypto_card/change_asset_list_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/crypto_card/price_crypto_card_response_model.dart';
 
-part 'crypto_card_linked_assets_store.g.dart';
+part 'crypto_card_pay_asset_store.g.dart';
 
-const String _tag = 'CryptoCardlinkedAssetsStore';
+class CryptoCardPayAssetStore extends _CryptoCardPayAssetStoreBase with _$CryptoCardPayAssetStore {
+  CryptoCardPayAssetStore() : super();
 
-class CryptoCardlinkedAssetsStore extends _CryptoCardlinkedAssetsStoreBase with _$CryptoCardlinkedAssetsStore {
-  CryptoCardlinkedAssetsStore() : super();
-
-  _CryptoCardlinkedAssetsStoreBase of(BuildContext context) => Provider.of<CryptoCardlinkedAssetsStore>(context);
+  static _CryptoCardPayAssetStoreBase of(BuildContext context) => Provider.of<CryptoCardPayAssetStore>(context);
 }
 
-abstract class _CryptoCardlinkedAssetsStoreBase with Store {
+abstract class _CryptoCardPayAssetStoreBase with Store {
   @observable
   StackLoaderStore loader = StackLoaderStore();
 
   @observable
+  PriceCryptoCardResponseModel? price;
+
+  @observable
   ObservableList<String> _avaibleAssetsSymbols = ObservableList.of([]);
-
-  @computed
-  List<String> get _associateAssetList {
-    return sSignalRModules.cryptoCardProfile.associateAssetList;
-  }
-
-  @computed
-  CurrencyModel get selectedAsset => getIt<FormatService>().findCurrency(
-        assetSymbol: _associateAssetList.firstOrNull ?? '',
-      );
-
-  @computed
-  CurrencyModel get cardBaseAsset => getIt<FormatService>().findCurrency(
-        assetSymbol: 'EUR',
-      );
 
   @computed
   ObservableList<CurrencyModel> get avaibleAssets {
@@ -59,6 +45,42 @@ abstract class _CryptoCardlinkedAssetsStoreBase with Store {
     }
 
     return result;
+  }
+
+  @observable
+  CurrencyModel? selectedAsset;
+
+  @computed
+  CurrencyModel get priceAsset => getIt<FormatService>().findCurrency(
+        assetSymbol: price?.assetSymbol ?? 'EUR',
+      );
+
+  @computed
+  bool get isPayValid => selectedAsset != null && isEnoughBalanceToPay;
+
+  @computed
+  bool get isEnoughBalanceToPay {
+    if (selectedAsset == null) return false;
+
+    final userPrice = price?.userPrice ?? Decimal.zero;
+    final needToPay = userPrice * Decimal.parse('1.05');
+
+    final formatService = getIt.get<FormatService>();
+    final avaibleBalance = formatService.convertOneCurrencyToAnotherOne(
+      fromCurrency: selectedAsset?.symbol ?? '',
+      fromCurrencyAmmount: selectedAsset?.assetBalance ?? Decimal.zero,
+      toCurrency: price?.assetSymbol ?? 'EUR',
+      baseCurrency: sSignalRModules.baseCurrency.symbol,
+      isMin: true,
+    );
+
+    return needToPay < avaibleBalance;
+  }
+
+  @action
+  Future<void> init() async {
+    unawaited(_getPrice());
+    unawaited(_getAssetsListCryptoCard());
   }
 
   @computed
@@ -87,40 +109,26 @@ abstract class _CryptoCardlinkedAssetsStoreBase with Store {
   }
 
   @action
-  Future<void> init() async {
-    try {
-      unawaited(getAssetListCryptoCard());
-    } catch (error) {
-      logError(
-        message: 'init error: $error',
-      );
-    }
-  }
-
-  @action
   void onCahngeSearch(String value) {
     searchValue = value;
   }
 
   @action
   Future<void> onChooseAsset(CurrencyModel asset) async {
+    selectedAsset = asset;
+  }
+
+  @action
+  Future<void> _getPrice({bool showLoader = false}) async {
     try {
-      loader.startLoadingImmediately();
-      final cryptoCardProfile = sSignalRModules.cryptoCardProfile;
-      final cryptoCard = cryptoCardProfile.cards.firstOrNull;
-      final cardId = cryptoCard?.cardId;
+      if (showLoader) {
+        loader.startLoadingImmediately();
+      }
 
-      if (cardId == null) throw Exception();
-
-      final model = ChangeAssetListRequestModel(
-        cardId: cardId,
-        assets: [asset.symbol],
-      );
-
-      final response = await sNetwork.getWalletModule().setAssetsCryptoCard(model);
+      final response = await sNetwork.getWalletModule().getPriceCryptoCard();
       response.pick(
-        onNoError: (data) {
-          sNotification.showError(intl.crypto_card_unfreeze_toast, id: 1, isError: false);
+        onData: (data) {
+          price = data;
         },
         onError: (error) {
           sNotification.showError(
@@ -129,29 +137,24 @@ abstract class _CryptoCardlinkedAssetsStoreBase with Store {
           );
         },
       );
-
-      await Future.delayed(Durations.extralong4);
-    } on ServerRejectException catch (error) {
+    } catch (e) {
       sNotification.showError(
-        error.cause,
+        intl.something_went_wrong_try_again,
         id: 1,
-      );
-    } catch (error) {
-      sNotification.showError(
-        intl.something_went_wrong_try_again2,
-        id: 1,
-      );
-      logError(
-        message: 'onChooseAsset error: $error',
       );
     } finally {
-      loader.finishLoadingImmediately();
+      if (showLoader) {
+        loader.finishLoadingImmediately();
+      }
     }
   }
 
   @action
-  Future<void> getAssetListCryptoCard() async {
+  Future<void> _getAssetsListCryptoCard({bool showLoader = false}) async {
     try {
+      if (showLoader) {
+        loader.startLoadingImmediately();
+      }
       final response = await sNetwork.getWalletModule().getAssetListCryptoCard();
 
       response.pick(
@@ -175,17 +178,22 @@ abstract class _CryptoCardlinkedAssetsStoreBase with Store {
         intl.something_went_wrong_try_again2,
         id: 1,
       );
-      logError(
-        message: 'getAssetListCryptoCard error: $error',
-      );
+    } finally {
+      if (showLoader) {
+        loader.finishLoadingImmediately();
+      }
     }
   }
 
-  void logError({required String message}) {
-    getIt.get<SimpleLoggerService>().log(
-          level: Level.error,
-          place: _tag,
-          message: message,
-        );
+  @action
+  void onContinueTap() {
+    if (isPayValid) {
+      sRouter.push(
+        CryptoCardConfirmationRoute(
+          fromAssetSymbol: selectedAsset?.symbol ?? '',
+          discount: price!,
+        ),
+      );
+    }
   }
 }

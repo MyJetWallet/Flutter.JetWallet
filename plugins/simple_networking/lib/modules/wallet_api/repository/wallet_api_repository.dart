@@ -46,6 +46,10 @@ import 'package:simple_networking/modules/wallet_api/models/crypto_card/change_l
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/change_pin_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/create_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/freeze_crypto_card_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/crypto_card/limits_crypto_card_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/crypto_card/limits_crypto_card_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/crypto_card/preview_crypto_card_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/crypto_card/preview_crypto_card_responce_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/price_crypto_card_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/sensitive_info_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/sensitive_info_crypto_card_response_model.dart';
@@ -1484,5 +1488,17 @@ class WalletApiRepository {
     ChangeAssetListRequestModel model,
   ) async {
     return _walletApiDataSources.setAssetsCryptoCardRequest(model);
+  }
+
+  Future<DC<ServerRejectException, PreviewCryptoCardResponceModel>> cryptoCardPrewiev(
+    PreviewCryptoCardRequestModel model,
+  ) async {
+    return _walletApiDataSources.cryptoCardPrewievRequest(model);
+  }
+
+  Future<DC<ServerRejectException, LimitsCryptoCardResponseModel>> cryptoCardLimits(
+    LimitsCryptoCardRequestModel model,
+  ) async {
+    return _walletApiDataSources.cryptoCardLimitsRequest(model);
   }
 }
