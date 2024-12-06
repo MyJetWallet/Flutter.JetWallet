@@ -78,19 +78,26 @@ class _CryptoCardPayAssetBody extends StatelessWidget {
                         borderRadius: BorderRadius.circular(6),
                       ),
                     const SpaceH24(),
-                    SPaddingH24(
-                      child: Text(
-                        discount == Decimal.zero
-                            ? intl.crypto_card_pay_description_0
-                            : discount == Decimal.fromInt(100)
-                                ? intl.crypto_card_pay_description_100
-                                : intl.crypto_card_pay_description_50,
-                        style: STStyles.body2Semibold.copyWith(
-                          color: colors.gray10,
+                    if (store.price != null)
+                      SPaddingH24(
+                        child: Text(
+                          discount == Decimal.zero
+                              ? intl.crypto_card_pay_description_0
+                              : discount == Decimal.fromInt(100)
+                                  ? intl.crypto_card_pay_description_100
+                                  : intl.crypto_card_pay_description_50,
+                          style: STStyles.body2Semibold.copyWith(
+                            color: colors.gray10,
+                          ),
+                          maxLines: 4,
                         ),
-                        maxLines: 4,
+                      )
+                    else
+                      SSkeletonLoader(
+                        height: 60,
+                        width: MediaQuery.of(context).size.width - 48,
+                        borderRadius: BorderRadius.circular(6),
                       ),
-                    ),
                     const SpaceH32(),
                     Row(
                       children: [
@@ -118,6 +125,7 @@ class _CryptoCardPayAssetBody extends StatelessWidget {
                           store: store as CryptoCardPayAssetStore,
                         );
                       },
+                      isDisabled: store.avaibleAssets.isEmpty,
                     ),
                     if (!store.isEnoughBalanceToPay && store.selectedAsset != null)
                       OneColumnCell(
