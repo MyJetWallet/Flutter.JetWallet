@@ -4,13 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/sumsub_service/sumsub_service.dart';
+import 'package:jetwallet/features/app/store/global_loader.dart';
 import 'package:jetwallet/features/crypto_card/utils/show_please_verify_account_popup.dart';
 import 'package:jetwallet/features/crypto_card/utils/show_upload_international_passport_popup.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/kyc_verify_your_profile/utils/get_kuc_aid_plan.dart';
 import 'package:jetwallet/features/kyc/kyc_verify_your_profile/utils/start_kyc_aid_flow.dart';
+import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_networking/modules/wallet_api/models/kyc/kyc_plan_responce_model.dart';
@@ -65,7 +68,18 @@ abstract class _GetCryptoCardStoreBase with Store {
 
   @action
   Future<void> _startKycVereficationFlow() async {
-    final kycPlan = await getKYCAidPlan();
+    KycPlanResponceModel? kycPlan;
+    try {
+      getIt.get<GlobalLoader>().setLoading(true);
+      kycPlan = await getKYCAidPlan();
+    } catch (error) {
+      logError(
+        message: '_startKycVereficationFlow error: $error',
+      );
+    } finally {
+      getIt.get<GlobalLoader>().setLoading(false);
+    }
+
     if (kycPlan == null) return;
 
     if (kycPlan.provider == KycProvider.sumsub) {
@@ -75,5 +89,13 @@ abstract class _GetCryptoCardStoreBase with Store {
     } else if (kycPlan.provider == KycProvider.kycAid) {
       await startKycAidFlow(kycPlan);
     }
+  }
+
+  void logError({required String message}) {
+    getIt.get<SimpleLoggerService>().log(
+          level: Level.error,
+          place: 'GetCryptoCardStore',
+          message: message,
+        );
   }
 }
