@@ -37,3 +37,7 @@ class ShowMarketGainers {
 class UnfocusTextField {
   UnfocusTextField();
 }
+
+class FlipCryptoCard {
+  FlipCryptoCard();
+}

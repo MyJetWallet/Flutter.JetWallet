@@ -1,10 +1,14 @@
 import 'dart:ui';
 
+import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_flip_card/flutter_flip_card.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:intl/intl.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/features/crypto_card/store/main_crypto_card_store.dart';
+import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/icons/custom/public/cards/simple_mastercard_big_icon.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
@@ -49,6 +53,10 @@ class _CryptoCardWidgetState extends State<CryptoCardWidget> {
           }
         },
       );
+    });
+
+    getIt<EventBus>().on<FlipCryptoCard>().listen((event) {
+      flipController.flipcard();
     });
   }
 
@@ -140,7 +148,7 @@ class _CryptoCardWidgetState extends State<CryptoCardWidget> {
                             _CryptoCardSensitiveDataWidget(
                               showCopy: false,
                               name: intl.crypto_card_valid_thru,
-                              value: sensitiveInfo?.expDate ?? '',
+                              value: DateFormat('MM/yyyy').format(sensitiveInfo?.expDate ?? DateTime.now()),
                               onTap: onCopyAction,
                               loaderWidth: 56,
                             ),

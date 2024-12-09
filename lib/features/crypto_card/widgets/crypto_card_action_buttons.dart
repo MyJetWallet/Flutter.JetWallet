@@ -1,10 +1,12 @@
+import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/crypto_card/store/main_crypto_card_store.dart';
 import 'package:jetwallet/features/crypto_card/utils/show_card_settings_bootom_sheet.dart';
-import 'package:jetwallet/features/crypto_card/utils/show_crypto_card_change_pin_popup.dart';
 import 'package:jetwallet/features/crypto_card/utils/show_freeze_crypto_card_popup.dart';
 import 'package:jetwallet/features/crypto_card/utils/show_unfreeze_crypto_card_popup.dart';
+import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class CryptoCardActionButtons extends StatelessWidget {
@@ -55,6 +57,15 @@ class CryptoCardActionButtons extends StatelessWidget {
     return ActionPannel(
       actionButtons: [
         SActionButton(
+          lable: intl.crypto_card_show_details,
+          icon: Assets.svg.medium.show.simpleSvg(
+            color: SColorsLight().white,
+          ),
+          onTap: () {
+            getIt.get<EventBus>().fire(FlipCryptoCard());
+          },
+        ),
+        SActionButton(
           onTap: () {
             showFreezeCryptoCardPopup(
               context: context,
@@ -67,15 +78,6 @@ class CryptoCardActionButtons extends StatelessWidget {
           icon: Assets.svg.medium.freeze.simpleSvg(
             color: SColorsLight().white,
           ),
-        ),
-        SActionButton(
-          lable: intl.crypto_card_change_pin,
-          icon: Assets.svg.medium.pin.simpleSvg(
-            color: SColorsLight().white,
-          ),
-          onTap: () {
-            showCryptoCardChangePinPopup(context);
-          },
         ),
         SActionButton(
           lable: intl.crypto_card_settings,

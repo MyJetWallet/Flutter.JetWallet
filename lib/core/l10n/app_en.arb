@@ -1880,7 +1880,7 @@
     "crypto_card_settings_change_design": "Change design",
     "crypto_card_settings_limits": "Limits",
     "crypto_card_linked_assets": "Linked assets",
-    "crypto_card_settings_change_pin": "Change PIN",
+    "crypto_card_settings_change_pin": "Set/Change PIN",
     "crypto_card_settings_card_statements": "Card Statements",
     "crypto_card_settings_documents": "Documents",
     "crypto_card_settings_privacy_policy": "Privacy Policy, Terms of Use",
@@ -1991,5 +1991,6 @@
         }
     },
     "crypto_card_lable_save": "Save",
-    "crypto_card_settings_label_card": "Label card"
+    "crypto_card_settings_label_card": "Label card",
+    "crypto_card_show_details": "Show details"
 }
