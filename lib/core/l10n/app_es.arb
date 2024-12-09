@@ -1850,7 +1850,7 @@
     "payment_method_current_limits": "Límite actual: {value}",
     "crypto_card_freeze": "Congelar",
     "crypto_card_change_pin": "Cambiar PIN",
-    "crypto_card_settings": "Configuración",
+    "crypto_card_settings": "Ajustes",
     "crypto_card_card_number": "Número de tarjeta",
     "crypto_card_valid_thru": "Válido hasta",
     "crypto_card_cvv": "CVV",
