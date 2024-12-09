@@ -129,8 +129,6 @@ abstract class _CryptoCardlinkedAssetsStoreBase with Store {
           );
         },
       );
-
-      await Future.delayed(Durations.extralong4);
     } on ServerRejectException catch (error) {
       sNotification.showError(
         error.cause,
