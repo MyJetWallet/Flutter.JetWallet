@@ -313,6 +313,9 @@ class $AssetsSvgMediumGen {
   /// File path: assets/svg/medium/change.svg
   SvgGenImage get change => const SvgGenImage('assets/svg/medium/change.svg');
 
+  /// File path: assets/svg/medium/change_design.svg
+  SvgGenImage get changeDesign => const SvgGenImage('assets/svg/medium/change_design.svg');
+
   /// File path: assets/svg/medium/chat.svg
   SvgGenImage get chat => const SvgGenImage('assets/svg/medium/chat.svg');
 
@@ -399,6 +402,9 @@ class $AssetsSvgMediumGen {
 
   /// File path: assets/svg/medium/jar.svg
   SvgGenImage get jar => const SvgGenImage('assets/svg/medium/jar.svg');
+
+  /// File path: assets/svg/medium/limits.svg
+  SvgGenImage get limits => const SvgGenImage('assets/svg/medium/limits.svg');
 
   /// File path: assets/svg/medium/linkedin.svg
   SvgGenImage get linkedin => const SvgGenImage('assets/svg/medium/linkedin.svg');
@@ -531,6 +537,7 @@ class $AssetsSvgMediumGen {
         card,
         cash,
         change,
+        changeDesign,
         chat,
         checkmark,
         checkmarkAlt,
@@ -560,6 +567,7 @@ class $AssetsSvgMediumGen {
         hide,
         history,
         jar,
+        limits,
         linkedin,
         loading,
         lock,

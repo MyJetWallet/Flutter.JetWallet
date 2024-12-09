@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/features/crypto_card/store/create_crypto_card_store.dart';
+import 'package:jetwallet/features/crypto_card/store/get_crypto_card_store.dart';
 import 'package:jetwallet/utils/constants.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'GetCryptoCardRoute')
@@ -12,7 +12,21 @@ class GetCryptoCardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Provider(
+      create: (context) => GetCryptoCardStore(),
+      child: const _GetCryptoCardBody(),
+    );
+  }
+}
+
+class _GetCryptoCardBody extends StatelessWidget {
+  const _GetCryptoCardBody();
+
+  @override
+  Widget build(BuildContext context) {
     final colors = SColorsLight();
+
+    final store = GetCryptoCardStore.of(context);
 
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
@@ -63,7 +77,7 @@ class GetCryptoCardScreen extends StatelessWidget {
               margin: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
               child: SButton.black(
                 text: intl.crypto_card_get_your_virtual_card_now,
-                callback: getIt.get<CreateCryptoCardStore>().startCreatingFlow,
+                callback: store.startCreatingFlow,
               ),
             ),
           ),

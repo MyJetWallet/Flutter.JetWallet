@@ -86,6 +86,7 @@ class CryptoCardAmountWidget extends StatelessWidget {
                     Assets.svg.medium.shevronRight.simpleSvg(
                       height: 16.0,
                       width: 16.0,
+                      color: colors.gray8,
                     ),
                     const Spacer(),
                   ],

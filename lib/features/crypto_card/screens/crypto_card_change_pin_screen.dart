@@ -55,8 +55,10 @@ class _CryptoCardChangePinBody extends StatelessWidget {
           child: Column(
             children: [
               const Spacer(),
-              AnimatedCrossFade(
-                firstChild: Column(
+              AnimatedOpacity(
+                opacity: store.error != null ? 1 : 0,
+                duration: const Duration(milliseconds: 200),
+                child: Column(
                   children: [
                     Text(
                       store.error ?? '',
@@ -65,9 +67,6 @@ class _CryptoCardChangePinBody extends StatelessWidget {
                     const SpaceH40(),
                   ],
                 ),
-                secondChild: Container(),
-                crossFadeState: store.error != null ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-                duration: const Duration(milliseconds: 200),
               ),
               ShakeWidget(
                 key: store.shakePinKey,
@@ -82,6 +81,7 @@ class _CryptoCardChangePinBody extends StatelessWidget {
                   ],
                 ),
               ),
+              const SpaceH64(),
               const Spacer(),
               SNumericKeyboard(
                 type: NumericKeyboardType.none,

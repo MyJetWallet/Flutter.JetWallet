@@ -37,7 +37,7 @@ class OneColumnCell extends StatelessWidget {
             color: color ?? SColorsLight().black,
           ),
           const Gap(12),
-          Flexible(
+          Expanded(
             child: customTextWidget ??
                 Text(
                   text,

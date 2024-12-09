@@ -10,6 +10,7 @@ class PriceCryptoCardResponseModel with _$PriceCryptoCardResponseModel {
   const factory PriceCryptoCardResponseModel({
     @DecimalSerialiser() required Decimal regularPrice,
     @DecimalSerialiser() required Decimal userPrice,
+    @DecimalSerialiser() required Decimal userDiscount,
     required String assetSymbol,
   }) = _PriceCryptoCardResponseModel;
 

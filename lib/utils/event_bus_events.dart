@@ -33,3 +33,11 @@ class EndReordering {
 class ShowMarketGainers {
   ShowMarketGainers();
 }
+
+class UnfocusTextField {
+  UnfocusTextField();
+}
+
+class FlipCryptoCard {
+  FlipCryptoCard();
+}
