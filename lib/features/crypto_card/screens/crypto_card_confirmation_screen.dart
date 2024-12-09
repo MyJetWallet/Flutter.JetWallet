@@ -105,14 +105,14 @@ class _ConfirmationBody extends StatelessWidget {
                                 label: intl.crypto_card_confirmation_discount(
                                   store.discount.userDiscount.toFormatPercentCount(),
                                 ),
-                                value: ((store.discount.userDiscount / Decimal.fromInt(100)).toDecimal(
+                                value: '-${((store.discount.userDiscount / Decimal.fromInt(100)).toDecimal(
                                           scaleOnInfinitePrecision: store.toAsset.accuracy,
                                         ) *
                                         store.discount.regularPrice)
                                     .toFormatCount(
                                   symbol: store.toAsset.symbol,
                                   accuracy: store.toAsset.accuracy,
-                                ),
+                                )}',
                                 type: store.isPreviewLoaded ? TwoColumnCellType.def : TwoColumnCellType.loading,
                               )
                             : const SizedBox();

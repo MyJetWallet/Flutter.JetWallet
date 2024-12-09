@@ -77,25 +77,20 @@ class _CryptoCardPriceWidgetState extends State<CryptoCardPriceWidget> {
               ),
             ),
             const SpaceW6(),
-            SizedBox(
-              height: 32.0,
-              child: AnimatedContainer(
-                padding: EdgeInsets.only(top: startAnimation ? 3.0 : 0.0),
-                alignment: Alignment.centerLeft,
+            AnimatedContainer(
+              alignment: Alignment.centerLeft,
+              duration: const Duration(milliseconds: 400),
+              child: AnimatedDefaultTextStyle(
+                style: STStyles.header5.copyWith(
+                  fontSize: startAnimation ? 20.0 : 24.0,
+                  height: 1.5,
+                  color: startAnimation ? SColorsLight().gray8 : SColorsLight().black,
+                  decoration: startAnimation ? TextDecoration.lineThrough : null,
+                ),
                 duration: const Duration(milliseconds: 400),
-                child: AnimatedDefaultTextStyle(
-                  style: STStyles.header5.copyWith(
-                    fontSize: startAnimation ? 16.0 : 24.0,
-                    height: 1.5,
-                    // height: startAnimation ? 1.5 : 1.28,
-                    color: startAnimation ? SColorsLight().gray8 : SColorsLight().black,
-                    decoration: startAnimation ? TextDecoration.lineThrough : null,
-                  ),
-                  duration: const Duration(milliseconds: 400),
-                  child: Text(
-                    widget.regularPrice.toFormatSum(
-                      symbol: widget.assetSymbol,
-                    ),
+                child: Text(
+                  widget.regularPrice.toFormatSum(
+                    symbol: widget.assetSymbol,
                   ),
                 ),
               ),
@@ -113,10 +108,13 @@ class _CryptoCardPriceWidgetState extends State<CryptoCardPriceWidget> {
                     borderRadius: BorderRadius.circular(4),
                   ),
                 ),
-                child: Text(
-                  intl.crypto_card_create_save(widget.discount.toFormatPercentCount()),
-                  style: STStyles.body2Semibold.copyWith(
-                    color: colors.red,
+                child: Center(
+                  child: Text(
+                    intl.crypto_card_create_save(widget.discount.toFormatPercentCount()),
+                    style: STStyles.body2Semibold.copyWith(
+                      color: colors.red,
+                      height: 1,
+                    ),
                   ),
                 ),
               ),
