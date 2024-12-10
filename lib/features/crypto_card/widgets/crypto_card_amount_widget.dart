@@ -6,6 +6,7 @@ import 'package:jetwallet/features/crypto_card/store/main_crypto_card_store.dart
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class CryptoCardAmountWidget extends StatelessWidget {
@@ -39,6 +40,7 @@ class CryptoCardAmountWidget extends StatelessWidget {
               ),
               SafeGesture(
                 onTap: () {
+                  sAnalytics.tapLinkedAssets();
                   sRouter.push(const CryptoCardLinkedAssetsRoute());
                 },
                 child: Row(

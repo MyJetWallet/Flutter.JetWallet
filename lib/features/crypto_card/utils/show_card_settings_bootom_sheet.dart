@@ -65,6 +65,7 @@ class _SettingsBody extends StatelessWidget {
             color: colors.blue,
           ),
           onCardTap: () {
+            sAnalytics.tapLinkedAssetsSettings();
             sRouter.popAndPush(const CryptoCardLinkedAssetsRoute());
           },
         ),

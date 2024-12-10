@@ -6750,4 +6750,72 @@ class SimpleAnalytics {
       },
     );
   }
+
+  void tapLinkedAssets() {
+    _analytics.logEvent(
+      'Tap Linked Assets',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '730',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void tapLinkedAssetsSettings() {
+    _analytics.logEvent(
+      'Tap Linked Assets',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '704',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void viewLinkedAssetsScreen() {
+    _analytics.logEvent(
+      'View Linked Assets Screen',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '705',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void viewChooseAssetScreen() {
+    _analytics.logEvent(
+      'View Choose Asset Screen',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '706',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void tapAssetItem({
+    required String chosenAsset,
+  }) {
+    _analytics.logEvent(
+      'Tap Asset Item',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '707',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+        PropertyType.chosenAsset: chosenAsset,
+      },
+    );
+  }
 }
