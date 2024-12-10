@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/cj_banking_accounts/widgets/actions_account_row_widget.dart';
 import 'package:jetwallet/features/transaction_history/widgets/transaction_list_item.dart';
 import 'package:jetwallet/features/transaction_history/widgets/transactions_list.dart';
@@ -19,7 +20,7 @@ import '../../../utils/models/currency_model.dart';
 import '../../app/store/app_store.dart';
 
 @RoutePage(name: 'CJAccountRouter')
-class CJAccountScreen extends StatefulObserverWidget {
+class CJAccountScreen extends StatefulWidget {
   const CJAccountScreen({
     super.key,
     required this.bankingAccount,
@@ -66,79 +67,84 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
   Widget build(BuildContext context) {
     return SPageFrame(
       loaderText: '',
-      child: Column(
-        children: [
-          CollapsedAccountAppbar(
-            mainBlockCenter: true,
-            scrollController: _controller,
-            showTicker: false,
-            mainTitle: getIt<AppStore>().isBalanceHide
-                ? '**** ${widget.eurCurrency.symbol}'
-                : (widget.bankingAccount.balance ?? Decimal.zero).toFormatSum(
-                    accuracy: widget.eurCurrency.accuracy,
-                    symbol: widget.eurCurrency.symbol,
-                  ),
-            mainHeaderTitle: label,
-            mainHeaderSubtitle: widget.isCJAccount ? intl.wallet_simple_account : intl.eur_wallet_personal_account,
-            mainHeaderCollapsedTitle: getIt<AppStore>().isBalanceHide
-                ? '**** ${widget.eurCurrency.symbol}'
-                : (widget.bankingAccount.balance ?? Decimal.zero).toFormatSum(
-                    accuracy: widget.eurCurrency.accuracy,
-                    symbol: widget.eurCurrency.symbol,
-                  ),
-            mainHeaderCollapsedSubtitle:
-                widget.isCJAccount ? intl.wallet_simple_account : intl.eur_wallet_personal_account,
-            hasRightIcon: false,
-          ),
-          Expanded(
-            child: CustomScrollView(
-              controller: _controller,
-              slivers: [
-                if (!silverCollapsed)
-                  SliverToBoxAdapter(
-                    child: ActionsAccountRowWidget(
-                      bankingAccount: widget.bankingAccount.copyWith(
-                        label: label,
+      child: Observer(
+        builder: (context) {
+          final bankingAccount = sSignalRModules.bankingProfileData!.simple!.account!;
+          return Column(
+            children: [
+              CollapsedAccountAppbar(
+                mainBlockCenter: true,
+                scrollController: _controller,
+                showTicker: false,
+                mainTitle: getIt<AppStore>().isBalanceHide
+                    ? '**** ${widget.eurCurrency.symbol}'
+                    : (bankingAccount.balance ?? Decimal.zero).toFormatSum(
+                        accuracy: widget.eurCurrency.accuracy,
+                        symbol: widget.eurCurrency.symbol,
                       ),
-                      onChangeLableTap: () {
-                        sRouter
-                            .push(
-                          CJAccountLabelRouter(
-                            initLabel: label,
-                            accountId: widget.bankingAccount.accountId ?? '',
+                mainHeaderTitle: label,
+                mainHeaderSubtitle: widget.isCJAccount ? intl.wallet_simple_account : intl.eur_wallet_personal_account,
+                mainHeaderCollapsedTitle: getIt<AppStore>().isBalanceHide
+                    ? '**** ${widget.eurCurrency.symbol}'
+                    : (bankingAccount.balance ?? Decimal.zero).toFormatSum(
+                        accuracy: widget.eurCurrency.accuracy,
+                        symbol: widget.eurCurrency.symbol,
+                      ),
+                mainHeaderCollapsedSubtitle:
+                    widget.isCJAccount ? intl.wallet_simple_account : intl.eur_wallet_personal_account,
+                hasRightIcon: false,
+              ),
+              Expanded(
+                child: CustomScrollView(
+                  controller: _controller,
+                  slivers: [
+                    if (!silverCollapsed)
+                      SliverToBoxAdapter(
+                        child: ActionsAccountRowWidget(
+                          bankingAccount: bankingAccount.copyWith(
+                            label: label,
                           ),
-                        )
-                            .then((value) {
-                          if (value != null) {
-                            try {
-                              setState(() {
-                                label = value as String;
-                              });
-                            } catch (e) {
-                              log(e.toString());
-                            }
-                          }
-                        });
-                      },
+                          onChangeLableTap: () {
+                            sRouter
+                                .push(
+                              CJAccountLabelRouter(
+                                initLabel: label,
+                                accountId: bankingAccount.accountId ?? '',
+                              ),
+                            )
+                                .then((value) {
+                              if (value != null) {
+                                try {
+                                  setState(() {
+                                    label = value as String;
+                                  });
+                                } catch (e) {
+                                  log(e.toString());
+                                }
+                              }
+                            });
+                          },
+                        ),
+                      ),
+                    SliverToBoxAdapter(
+                      child: STableHeader(
+                        size: SHeaderSize.m,
+                        title: intl.wallet_transactions,
+                      ),
                     ),
-                  ),
-                SliverToBoxAdapter(
-                  child: STableHeader(
-                    size: SHeaderSize.m,
-                    title: intl.wallet_transactions,
-                  ),
+                    TransactionsList(
+                      scrollController: _controller,
+                      symbol: 'EUR',
+                      fromCJAccount: true,
+                      accountId: bankingAccount.accountId,
+                      source: TransactionItemSource.eurAccount,
+                    ),
+                  ],
                 ),
-                TransactionsList(
-                  scrollController: _controller,
-                  symbol: 'EUR',
-                  fromCJAccount: true,
-                  accountId: widget.bankingAccount.accountId,
-                  source: TransactionItemSource.eurAccount,
-                ),
-              ],
-            ),
-          ),
-        ],
+              ),
+            ],
+          );
+        },
       ),
     );
   }
