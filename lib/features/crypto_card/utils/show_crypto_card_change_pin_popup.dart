@@ -2,9 +2,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 Future<void> showCryptoCardChangePinPopup(BuildContext context) {
+  sAnalytics.viewChangePINDialog();
+
   return sShowAlertPopup(
     context,
     image: Assets.svg.brand.small.infoYellow.simpleSvg(
@@ -15,8 +18,8 @@ Future<void> showCryptoCardChangePinPopup(BuildContext context) {
     secondaryText: intl.crypto_card_change_your_pin_description,
     primaryButtonName: intl.crypto_card_continue,
     onPrimaryButtonTap: () {
+      sAnalytics.tapContinueChangePIN();
       Navigator.pop(context);
-
       context.router.push(
         const CryptoCardChangePinRoute(),
       );
@@ -24,6 +27,7 @@ Future<void> showCryptoCardChangePinPopup(BuildContext context) {
     isNeedCancelButton: true,
     cancelText: intl.crypto_card_cancel,
     onCancelButtonTap: () {
+      sAnalytics.tapCancelChangePIN();
       Navigator.pop(context);
     },
   );

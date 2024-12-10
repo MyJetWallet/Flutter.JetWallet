@@ -75,6 +75,7 @@ class _SettingsBody extends StatelessWidget {
             color: colors.blue,
           ),
           onCardTap: () {
+            sAnalytics.tapChangePIN();
             showCryptoCardChangePinPopup(context);
           },
         ),
