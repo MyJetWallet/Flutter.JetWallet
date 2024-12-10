@@ -129,6 +129,7 @@ class _SettingsBody extends StatelessWidget {
             color: colors.red,
           ),
           onCardTap: () async {
+            sAnalytics.tapDeleteCard();
             Navigator.pop(context);
             final result = await showDeleteCardPopUp(context: context, cardLast4: store.cardLast4);
             if (result == true) {

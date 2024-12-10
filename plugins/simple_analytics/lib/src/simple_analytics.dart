@@ -6818,4 +6818,56 @@ class SimpleAnalytics {
       },
     );
   }
+
+  void tapDeleteCard() {
+    _analytics.logEvent(
+      'Tap Delete Card',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '709',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void viewDeleteCardDialog() {
+    _analytics.logEvent(
+      'View Delete Card Dialog',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '710',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void tapConfirmDeleteCard() {
+    _analytics.logEvent(
+      'Tap Confirm Delete Card',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '711',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void tapCancelDeleteCard() {
+    _analytics.logEvent(
+      'Tap Cancel Delete Card',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '712',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
 }
