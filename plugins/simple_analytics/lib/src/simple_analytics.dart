@@ -6987,4 +6987,100 @@ class SimpleAnalytics {
       },
     );
   }
+
+  void viewAddToWalletCard({
+    required String walletType,
+  }) {
+    _analytics.logEvent(
+      'Tap Asset Item',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '732',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+        PropertyType.walletType: walletType,
+      },
+    );
+  }
+
+  void tapAddToWallet({
+    required String walletType,
+  }) {
+    _analytics.logEvent(
+      'Tap Add to Wallet',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '733',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+        PropertyType.walletType: walletType,
+      },
+    );
+  }
+
+  void tapCloseAddToWalletBanner({
+    required String walletType,
+  }) {
+    _analytics.logEvent(
+      'Tap Close Add to Wallet Banner',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '734',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+        PropertyType.walletType: walletType,
+      },
+    );
+  }
+
+  void viewRedirectingToWallet({
+    required String walletType,
+  }) {
+    _analytics.logEvent(
+      'View ‘Redirecting to Wallet’',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '735',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+        PropertyType.walletType: walletType,
+      },
+    );
+  }
+
+  void tapContinueAtRedirectingDialog({
+    required String walletType,
+  }) {
+    _analytics.logEvent(
+      'Tap ‘Continue’ at `Redirecting` Dialog',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '736',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+        PropertyType.walletType: walletType,
+      },
+    );
+  }
+
+  void tapCloseAtRedirectingDialog({
+    required String walletType,
+  }) {
+    _analytics.logEvent(
+      'Tap ‘Close’ at `Redirecting` Dialog',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '737',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+        PropertyType.walletType: walletType,
+      },
+    );
+  }
 }

@@ -86,4 +86,5 @@ class PropertyType {
   static const language = 'Language';
   static const jarName = 'Jar Name';
   static const chosenAsset = 'ChosenAsset';
+  static const walletType = 'WalletType';
 }
