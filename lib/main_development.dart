@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:isolate';
 
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/features/app/app.dart';
 import 'package:jetwallet/features/app/app_initialization.dart';
@@ -15,9 +16,11 @@ Future<void> main() async {
     FirebaseCrashlytics.instance.recordError(error, stackTrace);
   });
 
-  Isolate.current.addErrorListener(
-    RawReceivePort((pair) async {}).sendPort,
-  );
+  // if (!kIsWeb) {
+  //   Isolate.current.addErrorListener(
+  //     RawReceivePort((pair) async {}).sendPort,
+  //   );
+  // }
 
   //await OneSignal.shared.setAppId('e192e9ee-288c-46fd-942f-a2f1b479f4b8');
 }

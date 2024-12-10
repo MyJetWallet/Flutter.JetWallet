@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
@@ -38,8 +39,10 @@ Future<void> appInitialization(String environment) async {
   );
   await PushNotificationService().initialize(); // doesn't work on web
 
-  if (Platform.isAndroid) {
-    await FlutterDisplayMode.setHighRefreshRate();
+  if (!kIsWeb) {
+    if (Platform.isAndroid) {
+      await FlutterDisplayMode.setHighRefreshRate();
+    }
   }
 
   await getIt.get<AppStore>().initLocale();

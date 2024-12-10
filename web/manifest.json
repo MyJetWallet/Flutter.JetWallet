@@ -1,6 +1,6 @@
 {
-    "name": "flutter_jet_wallet",
-    "short_name": "flutter_jet_wallet",
+    "name": "jet_wallet",
+    "short_name": "jet_wallet",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
