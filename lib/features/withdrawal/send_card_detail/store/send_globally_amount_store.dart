@@ -279,7 +279,7 @@ abstract class _SendGloballyAmountStoreBase with Store {
     withAmount = responseOnInputAction(
       oldInput: withAmount,
       newInput: value,
-      accuracy: sendCurrency!.accuracy,
+      accuracy: inputMode == WithdrawalInputMode.youSend ? sendCurrency!.accuracy : 2,
     );
 
     _validateAmount();
