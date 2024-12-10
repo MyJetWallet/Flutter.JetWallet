@@ -6709,4 +6709,45 @@ class SimpleAnalytics {
       },
     );
   }
+
+  // Crypto card
+
+  void viewCardPrelaunchScreen() {
+    _analytics.logEvent(
+      'View Card Prelaunch Screen',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '669',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void tapLimits() {
+    _analytics.logEvent(
+      'Tap Limits',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '702',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void viewLimitsScreen() {
+    _analytics.logEvent(
+      'View Limits Screen',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '703',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
 }

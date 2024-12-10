@@ -9,6 +9,7 @@ import 'package:jetwallet/features/crypto_card/utils/show_delete_card_popup.dart
 import 'package:jetwallet/features/crypto_card/utils/show_wallet_redirecting_popup.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 Future<void> showCardSettingsBootomSheet({
@@ -50,6 +51,7 @@ class _SettingsBody extends StatelessWidget {
             color: colors.blue,
           ),
           onCardTap: () {
+            sAnalytics.tapLimits();
             sRouter.popAndPush(
               CryptoCardLimitsRoute(
                 cardId: store.cryptoCard.cardId,
