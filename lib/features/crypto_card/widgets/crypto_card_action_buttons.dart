@@ -7,6 +7,7 @@ import 'package:jetwallet/features/crypto_card/utils/show_card_settings_bootom_s
 import 'package:jetwallet/features/crypto_card/utils/show_freeze_crypto_card_popup.dart';
 import 'package:jetwallet/features/crypto_card/utils/show_unfreeze_crypto_card_popup.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class CryptoCardActionButtons extends StatelessWidget {
@@ -37,6 +38,7 @@ class CryptoCardActionButtons extends StatelessWidget {
       actionButtons: [
         SActionButton(
           onTap: () {
+            sAnalytics.tapCardUnfreezeButton();
             showUnfreezeCryptoCardPopup(
               context: context,
               onUnfreezePressed: () {
@@ -67,6 +69,7 @@ class CryptoCardActionButtons extends StatelessWidget {
         ),
         SActionButton(
           onTap: () {
+            sAnalytics.tapFreezeCardCrypto();
             showFreezeCryptoCardPopup(
               context: context,
               onFreezePressed: () {
