@@ -16,6 +16,7 @@ Future<void> showCardSettingsBootomSheet({
   required BuildContext context,
   required MainCryptoCardStore store,
 }) async {
+  sAnalytics.viewCryptoCardSettings();
   await showBasicBottomSheet(
     context: context,
     header: BasicBottomSheetHeaderWidget(
@@ -119,7 +120,9 @@ class _SettingsBody extends StatelessWidget {
           leftIcon: Assets.svg.medium.document.simpleSvg(
             color: colors.blue,
           ),
-          onCardTap: () {},
+          onCardTap: () {
+            sAnalytics.tapDocuments();
+          },
         ),
         SEditable(
           lable: intl.crypto_card_settings_delete_card,

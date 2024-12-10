@@ -52,6 +52,13 @@ class _CryptoCardWidgetState extends State<CryptoCardWidget> {
               isFlippingEnd = false;
             });
           }
+          if (flipController.state!.animationController.value == 1) {
+            sAnalytics.tapFlipCard();
+
+            if (!flipController.state!.isFront) {
+              sAnalytics.viewCardDetailsScreen();
+            }
+          }
         },
       );
     });
@@ -143,7 +150,10 @@ class _CryptoCardWidgetState extends State<CryptoCardWidget> {
                         _CryptoCardSensitiveDataWidget(
                           name: intl.crypto_card_card_number,
                           value: sensitiveInfo != null ? formatCardNumber(sensitiveInfo.cardNumber) : '',
-                          onTap: onCopyAction,
+                          onTap: (value) {
+                            sAnalytics.tapCopyNumber();
+                            onCopyAction(value);
+                          },
                           loaderWidth: 177,
                         ),
                         const SpaceH12(),
@@ -162,7 +172,10 @@ class _CryptoCardWidgetState extends State<CryptoCardWidget> {
                             _CryptoCardSensitiveDataWidget(
                               name: intl.crypto_card_cvv,
                               value: sensitiveInfo?.cvv ?? '',
-                              onTap: onCopyAction,
+                              onTap: (value) {
+                                sAnalytics.tapCopyCVV();
+                                onCopyAction(value);
+                              },
                               loaderWidth: 41,
                               withSecure: true,
                             ),
@@ -316,6 +329,7 @@ class _CryptoCardSensitiveDataWidgetState extends State<_CryptoCardSensitiveData
               setState(() {
                 isHided = false;
               });
+              sAnalytics.tapShowCVV();
             } else {
               if (widget.value != '') {
                 widget.onTap(widget.value);

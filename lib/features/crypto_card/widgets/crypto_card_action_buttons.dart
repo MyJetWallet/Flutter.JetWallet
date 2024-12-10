@@ -88,6 +88,7 @@ class CryptoCardActionButtons extends StatelessWidget {
             color: SColorsLight().white,
           ),
           onTap: () {
+            sAnalytics.tapSettings();
             showCardSettingsBootomSheet(context: context, store: store);
           },
         ),

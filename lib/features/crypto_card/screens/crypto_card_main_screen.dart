@@ -9,17 +9,29 @@ import 'package:jetwallet/features/crypto_card/widgets/crypto_card_amount_widget
 import 'package:jetwallet/features/crypto_card/widgets/crypto_card_transactions.dart';
 import 'package:jetwallet/features/crypto_card/widgets/crypto_card_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/crypto_card_message_model.dart';
 
 @RoutePage(name: 'CryptoCardMainRoute')
-class CryptoCardMainScreen extends StatelessWidget {
+class CryptoCardMainScreen extends StatefulWidget {
   const CryptoCardMainScreen({
     required this.cryptoCard,
     super.key,
   });
 
   final CryptoCardModel cryptoCard;
+
+  @override
+  State<CryptoCardMainScreen> createState() => _CryptoCardMainScreenState();
+}
+
+class _CryptoCardMainScreenState extends State<CryptoCardMainScreen> {
+  @override
+  void initState() {
+    super.initState();
+    sAnalytics.viewMainCardScreen();
+  }
 
   @override
   Widget build(BuildContext context) {
