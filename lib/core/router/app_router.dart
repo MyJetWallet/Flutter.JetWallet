@@ -39,6 +39,7 @@ import 'package:jetwallet/features/crypto_card/screens/crypto_card_main_screen.d
 import 'package:jetwallet/features/crypto_card/screens/crypto_card_name_screen.dart';
 import 'package:jetwallet/features/crypto_card/screens/crypto_card_pay_asset_screen.dart';
 import 'package:jetwallet/features/crypto_card/screens/crypto_card_root_screen.dart';
+import 'package:jetwallet/features/crypto_card/screens/crypto_card_transaction_history_screen.dart';
 import 'package:jetwallet/features/crypto_card/screens/get_crypto_card_screen.dart';
 import 'package:jetwallet/features/crypto_deposit/crypto_deposit_screen.dart';
 import 'package:jetwallet/features/crypto_jar/ui/all_jars_screen.dart';
@@ -782,6 +783,10 @@ class AppRouter extends RootStackRouter {
     AutoRoute(
       path: '/crypto_card_confirmation',
       page: CryptoCardConfirmationRoute.page,
+    ),
+    AutoRoute(
+      path: '/crypto_card_transaction_history',
+      page: CryptoCardTransactionHistoryRoute.page,
     ),
   ];
 }

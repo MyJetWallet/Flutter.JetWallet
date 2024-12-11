@@ -28,6 +28,7 @@ enum TransactionItemSource {
   cryptoAccount,
   eurAccount,
   simpleCard,
+  cryptoCard,
 }
 
 class TransactionListItem extends StatelessWidget {

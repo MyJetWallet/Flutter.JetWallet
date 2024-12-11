@@ -2,12 +2,15 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/crypto_card/store/main_crypto_card_store.dart';
 import 'package:jetwallet/features/crypto_card/widgets/crypto_card_action_buttons.dart';
 import 'package:jetwallet/features/crypto_card/widgets/crypto_card_add_to_wallet_banner.dart';
 import 'package:jetwallet/features/crypto_card/widgets/crypto_card_amount_widget.dart';
-import 'package:jetwallet/features/crypto_card/widgets/crypto_card_transactions.dart';
 import 'package:jetwallet/features/crypto_card/widgets/crypto_card_widget.dart';
+import 'package:jetwallet/features/earn/widgets/basic_header.dart';
+import 'package:jetwallet/features/transaction_history/widgets/transaction_list_item.dart';
+import 'package:jetwallet/features/transaction_history/widgets/transactions_list.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
@@ -42,8 +45,15 @@ class _CryptoCardMainScreenState extends State<CryptoCardMainScreen> {
   }
 }
 
-class _CryptoCardMainScreenBody extends StatelessWidget {
+class _CryptoCardMainScreenBody extends StatefulWidget {
   const _CryptoCardMainScreenBody();
+
+  @override
+  State<_CryptoCardMainScreenBody> createState() => _CryptoCardMainScreenBodyState();
+}
+
+class _CryptoCardMainScreenBodyState extends State<_CryptoCardMainScreenBody> {
+  bool showViewAllButtonOnHistory = false;
 
   @override
   Widget build(BuildContext context) {
@@ -62,22 +72,57 @@ class _CryptoCardMainScreenBody extends StatelessWidget {
             hasLeftIcon: false,
             hasRightIcon: false,
           ),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                CryptoCardWidget(
+          child: CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(
+                child: CryptoCardWidget(
                   isFrozen: cardIsFrozen,
                   last4: cryptoCard.last4,
                 ),
-                const CryptoCardAmountWidget(),
-                CryptoCardActionButtons(
+              ),
+              const SliverToBoxAdapter(
+                child: CryptoCardAmountWidget(),
+              ),
+              SliverToBoxAdapter(
+                child: CryptoCardActionButtons(
                   store: store,
                   cardIsFrozen: cardIsFrozen,
                 ),
-                const CryptoCardAddToWalletBanner(),
-                const CryptoCardTransactions(),
-              ],
-            ),
+              ),
+              const SliverToBoxAdapter(
+                child: CryptoCardAddToWalletBanner(),
+              ),
+              SliverToBoxAdapter(
+                child: SBasicHeader(
+                  title: intl.crypto_card_history_transactions,
+                  buttonTitle: intl.crypto_card_history_view_all,
+                  showLinkButton: showViewAllButtonOnHistory,
+                  onTap: () {
+                    sRouter.push(
+                      CryptoCardTransactionHistoryRoute(
+                        cardId: cryptoCard.cardId,
+                      ),
+                    );
+                  },
+                ),
+              ),
+              TransactionsList(
+                scrollController: ScrollController(),
+                symbol: '_DEBUG_',
+                onItemTapLisener: (symbol) {},
+                source: TransactionItemSource.cryptoCard,
+                mode: TransactionListMode.preview,
+                onData: (items) {
+                  if (items.length >= 5) {
+                    if (!showViewAllButtonOnHistory) {
+                      setState(() {
+                        showViewAllButtonOnHistory = true;
+                      });
+                    }
+                  }
+                },
+              ),
+            ],
           ),
         );
       },
