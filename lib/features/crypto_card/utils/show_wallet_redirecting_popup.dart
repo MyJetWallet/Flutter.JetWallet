@@ -7,10 +7,15 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:logger/logger.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 Future<void> showWalletRedirectingPopup(BuildContext context) {
+  sAnalytics.viewRedirectingToWallet(
+    walletType: Platform.isAndroid ? 'Google Wallet' : 'Apple Wallet',
+  );
+
   final isIos = Platform.isIOS;
 
   return sShowAlertPopup(
@@ -26,6 +31,10 @@ Future<void> showWalletRedirectingPopup(BuildContext context) {
     textAlign: TextAlign.start,
     primaryButtonName: intl.wallets_continue,
     onPrimaryButtonTap: () async {
+      sAnalytics.tapContinueAtRedirectingDialog(
+        walletType: Platform.isAndroid ? 'Google Wallet' : 'Apple Wallet',
+      );
+
       await sRouter.maybePop();
 
       try {

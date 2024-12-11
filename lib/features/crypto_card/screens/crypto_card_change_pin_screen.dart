@@ -6,13 +6,25 @@ import 'package:jetwallet/features/crypto_card/store/change_pin_crypto_card_stor
 import 'package:jetwallet/features/pin_screen/ui/widgets/pin_box.dart';
 import 'package:jetwallet/features/pin_screen/ui/widgets/shake_widget/shake_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'CryptoCardChangePinRoute')
-class CryptoCardChangePinScreen extends StatelessWidget {
+class CryptoCardChangePinScreen extends StatefulWidget {
   const CryptoCardChangePinScreen({
     super.key,
   });
+
+  @override
+  State<CryptoCardChangePinScreen> createState() => _CryptoCardChangePinScreenState();
+}
+
+class _CryptoCardChangePinScreenState extends State<CryptoCardChangePinScreen> {
+  @override
+  void initState() {
+    super.initState();
+    sAnalytics.viewCreatePINScreen();
+  }
 
   @override
   Widget build(BuildContext context) {

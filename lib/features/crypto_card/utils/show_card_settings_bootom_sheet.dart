@@ -9,12 +9,14 @@ import 'package:jetwallet/features/crypto_card/utils/show_delete_card_popup.dart
 import 'package:jetwallet/features/crypto_card/utils/show_wallet_redirecting_popup.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 Future<void> showCardSettingsBootomSheet({
   required BuildContext context,
   required MainCryptoCardStore store,
 }) async {
+  sAnalytics.viewCryptoCardSettings();
   await showBasicBottomSheet(
     context: context,
     header: BasicBottomSheetHeaderWidget(
@@ -50,6 +52,7 @@ class _SettingsBody extends StatelessWidget {
             color: colors.blue,
           ),
           onCardTap: () {
+            sAnalytics.tapLimits();
             sRouter.popAndPush(
               CryptoCardLimitsRoute(
                 cardId: store.cryptoCard.cardId,
@@ -63,6 +66,7 @@ class _SettingsBody extends StatelessWidget {
             color: colors.blue,
           ),
           onCardTap: () {
+            sAnalytics.tapLinkedAssetsSettings();
             sRouter.popAndPush(const CryptoCardLinkedAssetsRoute());
           },
         ),
@@ -72,6 +76,7 @@ class _SettingsBody extends StatelessWidget {
             color: colors.blue,
           ),
           onCardTap: () {
+            sAnalytics.tapChangePIN();
             showCryptoCardChangePinPopup(context);
           },
         ),
@@ -115,7 +120,9 @@ class _SettingsBody extends StatelessWidget {
           leftIcon: Assets.svg.medium.document.simpleSvg(
             color: colors.blue,
           ),
-          onCardTap: () {},
+          onCardTap: () {
+            sAnalytics.tapDocuments();
+          },
         ),
         SEditable(
           lable: intl.crypto_card_settings_delete_card,
@@ -126,6 +133,7 @@ class _SettingsBody extends StatelessWidget {
             color: colors.red,
           ),
           onCardTap: () async {
+            sAnalytics.tapDeleteCard();
             Navigator.pop(context);
             final result = await showDeleteCardPopUp(context: context, cardLast4: store.cardLast4);
             if (result == true) {

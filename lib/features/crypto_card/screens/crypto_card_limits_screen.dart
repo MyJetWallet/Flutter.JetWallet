@@ -8,19 +8,31 @@ import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/features/crypto_card/store/crypto_card_limits_store.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/limits_crypto_card_response_model.dart';
 
 @RoutePage(name: 'CryptoCardLimitsRoute')
-class CryptoCardLimitsScreen extends StatelessWidget {
+class CryptoCardLimitsScreen extends StatefulWidget {
   const CryptoCardLimitsScreen({super.key, required this.cardId});
 
   final String cardId;
 
   @override
+  State<CryptoCardLimitsScreen> createState() => _CryptoCardLimitsScreenState();
+}
+
+class _CryptoCardLimitsScreenState extends State<CryptoCardLimitsScreen> {
+  @override
+  void initState() {
+    super.initState();
+    sAnalytics.viewLimitsScreen();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Provider(
-      create: (context) => CryptoCardLimitsStore(cardId: cardId)..loadLimits(),
+      create: (context) => CryptoCardLimitsStore(cardId: widget.cardId)..loadLimits(),
       builder: (context, child) {
         final store = CryptoCardLimitsStore.of(context);
 
