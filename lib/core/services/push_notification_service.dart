@@ -221,9 +221,7 @@ class PushNotificationService {
 /// background message handler must be a top-level function
 /// (e.g. not a class method which requires initialization)
 Future<void> messagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp(
-    name: '[DEFAULT]',
-  );
+  await Firebase.initializeApp();
 
   await getIt.get<DeepLinkService>().handlePushNotificationLink(message);
 
@@ -236,9 +234,7 @@ Future<void> messagingBackgroundHandler(RemoteMessage message) async {
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp(
-    name: '[DEFAULT]',
-  );
+  await Firebase.initializeApp();
 
   await getIt.get<DeepLinkService>().handlePushNotificationLink(message, true);
 
