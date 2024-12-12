@@ -15,7 +15,7 @@ class SentryService {
   void init() {
     const dsn = String.fromEnvironment(
       'SENTRY_DSN',
-      defaultValue: 'https://d10c24c9a3d1164f4660fc8299c615a5@o4508448859881472.ingest.de.sentry.io/4508449688977488',
+      defaultValue: 'https://9fabc8f80d101446661894ba55095845@o4507774924685312.ingest.de.sentry.io/4507774969380944',
     );
 
     SentryFlutter.init((options) {
