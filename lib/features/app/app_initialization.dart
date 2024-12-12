@@ -32,7 +32,9 @@ Future<void> appInitialization(String environment) async {
   /// register all dependecy injection
   await getItInit(env: environment);
 
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    name: '[DEFAULT]',
+  );
   await PushNotificationService().initialize(); // doesn't work on web
 
   if (Platform.isAndroid) {
