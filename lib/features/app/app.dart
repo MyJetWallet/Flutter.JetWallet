@@ -11,7 +11,7 @@ import 'package:jetwallet/features/app/route_observer.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
+//import 'package:sentry_flutter/sentry_flutter.dart';
 
 class AppScreen extends StatefulWidget {
   const AppScreen({
@@ -64,32 +64,29 @@ class _AppScreenState extends State<AppScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultAssetBundle(
-      bundle: SentryAssetBundle(),
-      child: CupertinoApp.router(
-        restorationScopeId: 'app',
-        debugShowCheckedModeBanner: widget.debugShowCheckedModeBanner,
-        locale: getIt.get<AppStore>().locale,
-        title: 'Simple',
-        supportedLocales: const [
-          Locale('en'),
-          Locale('pl'),
-          Locale('uk'),
-          Locale('es'),
-          Locale('fr'),
+    return CupertinoApp.router(
+      restorationScopeId: 'app',
+      debugShowCheckedModeBanner: widget.debugShowCheckedModeBanner,
+      locale: getIt.get<AppStore>().locale,
+      title: 'Simple',
+      supportedLocales: const [
+        Locale('en'),
+        Locale('pl'),
+        Locale('uk'),
+        Locale('es'),
+        Locale('fr'),
+      ],
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      routeInformationParser: getIt.get<AppRouter>().defaultRouteParser(),
+      //routerDelegate: getIt.get<AppRouter>().delegate(),
+      routerDelegate: AutoRouterDelegate(
+        getIt.get<AppRouter>(),
+        navigatorObservers: () => [
+          SimpleRouteObserver(),
+         // SentryNavigatorObserver(),
         ],
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        routeInformationParser: getIt.get<AppRouter>().defaultRouteParser(),
-        //routerDelegate: getIt.get<AppRouter>().delegate(),
-        routerDelegate: AutoRouterDelegate(
-          getIt.get<AppRouter>(),
-          navigatorObservers: () => [
-            SimpleRouteObserver(),
-            SentryNavigatorObserver(),
-          ],
-        ),
-        builder: (_, child) => AppBuilder(child),
       ),
+      builder: (_, child) => AppBuilder(child),
     );
   }
 }
