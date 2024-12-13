@@ -22,6 +22,10 @@ enum CryptoCardProfileStatus {
   active,
   @JsonValue(1)
   blocked,
+  @JsonValue(2)
+  kycRequired,
+  @JsonValue(3)
+  kycInProgress,
   @JsonValue(-1)
   undefined,
 }

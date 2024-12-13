@@ -1193,7 +1193,9 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
 
   @action
   void setCryptoCardModelData(CryptoCardProfile data) {
-    _cryptoCardProfile = data;
+    _cryptoCardProfile = data.copyWith(
+      cards: [],
+    );
   }
 
   @action

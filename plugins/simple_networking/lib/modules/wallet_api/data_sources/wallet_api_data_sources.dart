@@ -79,6 +79,7 @@ import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_
 import 'package:simple_networking/modules/wallet_api/models/kyc/apply_country_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/kyc/apply_country_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/kyc/check_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/kyc/kyc_plan_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/kyc/kyc_plan_responce_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/limits/buy_limits_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/limits/buy_limits_response_model.dart';
@@ -1512,11 +1513,11 @@ class WalletApiDataSources {
     }
   }
 
-  Future<DC<ServerRejectException, KycPlanResponceModel>> postKycPlanRequest() async {
+  Future<DC<ServerRejectException, KycPlanResponceModel>> postKycPlanRequest(KycPlanRequesModel model) async {
     try {
       final response = await _apiClient.post(
         '${_apiClient.options.walletApi}/kyc/verification/kyc_plan',
-        data: {},
+        data: model.toJson(),
       );
 
       try {
