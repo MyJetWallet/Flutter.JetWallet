@@ -9,6 +9,9 @@ import 'package:jetwallet/features/transaction_history/widgets/transaction_detai
 import 'package:jetwallet/features/transaction_history/widgets/transaction_details/card_refund_details.dart';
 import 'package:jetwallet/features/transaction_history/widgets/transaction_details/card_withdrawal_details.dart';
 import 'package:jetwallet/features/transaction_history/widgets/transaction_details/crypto_card_deposit_details.dart';
+import 'package:jetwallet/features/transaction_history/widgets/transaction_details/crypto_card_order_details.dart';
+import 'package:jetwallet/features/transaction_history/widgets/transaction_details/crypto_card_purchase_details.dart';
+import 'package:jetwallet/features/transaction_history/widgets/transaction_details/crypto_card_refund_details.dart';
 import 'package:jetwallet/features/transaction_history/widgets/transaction_details/deposit_details.dart';
 import 'package:jetwallet/features/transaction_history/widgets/transaction_details/earn_send_details.dart';
 import 'package:jetwallet/features/transaction_history/widgets/transaction_details/gift_receive_details.dart';
@@ -430,6 +433,51 @@ class _TransactionItemState extends State<TransactionItem> with SingleTickerProv
                   Material(
                     color: colors.white,
                     child: CryptoCardDepositDetails(
+                      transactionListItem: widget.transactionListItem,
+                      onCopyAction: (String text) {
+                        setState(() {
+                          copiedText = text;
+                        });
+
+                        onCopyAction();
+                      },
+                    ),
+                  ),
+                ],
+                if (widget.transactionListItem.operationType == OperationType.cryptoCardPurchase) ...[
+                  Material(
+                    color: colors.white,
+                    child: CryptoCardPurchaseDetails(
+                      transactionListItem: widget.transactionListItem,
+                      onCopyAction: (String text) {
+                        setState(() {
+                          copiedText = text;
+                        });
+
+                        onCopyAction();
+                      },
+                    ),
+                  ),
+                ],
+                if (widget.transactionListItem.operationType == OperationType.cryptoCardRefund) ...[
+                  Material(
+                    color: colors.white,
+                    child: CryptoCardRefundDetails(
+                      transactionListItem: widget.transactionListItem,
+                      onCopyAction: (String text) {
+                        setState(() {
+                          copiedText = text;
+                        });
+
+                        onCopyAction();
+                      },
+                    ),
+                  ),
+                ],
+                if (widget.transactionListItem.operationType == OperationType.cryptoCardOrder) ...[
+                  Material(
+                    color: colors.white,
+                    child: CryptoCardOrderDetails(
                       transactionListItem: widget.transactionListItem,
                       onCopyAction: (String text) {
                         setState(() {
