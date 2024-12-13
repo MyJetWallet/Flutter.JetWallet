@@ -82,6 +82,9 @@
                 <data
                     android:host="simplepromo.onelink.me"
                     android:scheme="https" />
+                <data
+                    android:host="uat-simple.onelink.me"
+                    android:scheme="https" />
             </intent-filter>
 
 

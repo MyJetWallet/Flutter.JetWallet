@@ -12,6 +12,7 @@
 		<string>applinks:mytestlink.onelink.me</string>
 		<string>applinks:simplepromo.onelink.me</string>
 		<string>applinks:promo.simple.app</string>
+		<string>applinks:uat-simple.onelink.me</string>
 	</array>
 	<key>com.apple.security.app-sandbox</key>
 	<true/>
