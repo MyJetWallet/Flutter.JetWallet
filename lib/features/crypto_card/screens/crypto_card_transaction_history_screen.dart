@@ -10,9 +10,11 @@ class CryptoCardTransactionHistoryScreen extends StatelessWidget {
   const CryptoCardTransactionHistoryScreen({
     super.key,
     required this.cardId,
+    this.operationId,
   });
 
   final String cardId;
+  final String? operationId;
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +32,7 @@ class CryptoCardTransactionHistoryScreen extends StatelessWidget {
             symbol: '_DEBUG_',
             onItemTapLisener: (symbol) {},
             source: TransactionItemSource.cryptoCard,
+            jwOperationId: operationId,
           ),
         ],
       ),

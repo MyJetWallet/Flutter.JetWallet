@@ -8,7 +8,7 @@ import 'package:jetwallet/features/transaction_history/widgets/transaction_detai
 import 'package:jetwallet/features/transaction_history/widgets/transaction_details/card_purchase_details.dart';
 import 'package:jetwallet/features/transaction_history/widgets/transaction_details/card_refund_details.dart';
 import 'package:jetwallet/features/transaction_history/widgets/transaction_details/card_withdrawal_details.dart';
-import 'package:jetwallet/features/transaction_history/widgets/transaction_details/components/common_transaction_details_block.dart';
+import 'package:jetwallet/features/transaction_history/widgets/transaction_details/crypto_card_deposit_details.dart';
 import 'package:jetwallet/features/transaction_history/widgets/transaction_details/deposit_details.dart';
 import 'package:jetwallet/features/transaction_history/widgets/transaction_details/earn_send_details.dart';
 import 'package:jetwallet/features/transaction_history/widgets/transaction_details/gift_receive_details.dart';
@@ -29,7 +29,6 @@ import 'package:url_launcher/url_launcher_string.dart';
 import '../../../core/services/device_size/device_size.dart';
 import '../../../core/services/notification_service.dart';
 import '../../../utils/helpers/widget_size_from.dart';
-import '../../wallet/helper/is_operation_support_copy.dart';
 import 'transaction_details/bank_transfer_details.dart';
 import 'transaction_details/iban_send_details.dart';
 import 'transaction_details/send_globally_details.dart';
@@ -90,7 +89,6 @@ class _TransactionItemState extends State<TransactionItem> with SingleTickerProv
     final colors = SColorsLight();
 
     final cancelTransfer = TransactionCancelStore();
-    final deviceSize = sDeviceSize;
 
     void onCopyAction() {
       sNotification.showError(
@@ -102,65 +100,10 @@ class _TransactionItemState extends State<TransactionItem> with SingleTickerProv
 
     return Column(
       children: [
-        CommonTransactionDetailsBlock(
-          transactionListItem: widget.transactionListItem,
-          source: widget.source,
-        ),
         Stack(
           children: [
             Column(
               children: [
-                if (widget.transactionListItem.operationType == OperationType.bankingAccountWithdrawal ||
-                    widget.transactionListItem.operationType == OperationType.bankingBuy ||
-                    widget.transactionListItem.operationType == OperationType.cryptoBuy ||
-                    widget.transactionListItem.operationType == OperationType.swapBuy ||
-                    widget.transactionListItem.operationType == OperationType.swapSell ||
-                    widget.transactionListItem.operationType == OperationType.bankingSell ||
-                    widget.transactionListItem.operationType == OperationType.bankingAccountDeposit ||
-                    widget.transactionListItem.operationType == OperationType.withdraw ||
-                    widget.transactionListItem.operationType == OperationType.giftSend ||
-                    widget.transactionListItem.operationType == OperationType.giftReceive ||
-                    widget.transactionListItem.operationType == OperationType.rewardPayment ||
-                    widget.transactionListItem.operationType == OperationType.deposit ||
-                    widget.transactionListItem.operationType == OperationType.sendGlobally ||
-                    widget.transactionListItem.operationType == OperationType.cardPurchase ||
-                    widget.transactionListItem.operationType == OperationType.cardWithdrawal ||
-                    widget.transactionListItem.operationType == OperationType.cardRefund ||
-                    widget.transactionListItem.operationType == OperationType.bankingTransfer ||
-                    widget.transactionListItem.operationType == OperationType.cardBankingSell ||
-                    widget.transactionListItem.operationType == OperationType.earnReserve ||
-                    widget.transactionListItem.operationType == OperationType.earnSend ||
-                    widget.transactionListItem.operationType == OperationType.earnDeposit ||
-                    widget.transactionListItem.operationType == OperationType.earnPayroll ||
-                    widget.transactionListItem.operationType == OperationType.earnWithdrawal ||
-                    widget.transactionListItem.operationType == OperationType.cardTransfer ||
-                    widget.transactionListItem.operationType == OperationType.buyPrepaidCard ||
-                    widget.transactionListItem.operationType == OperationType.p2pBuy ||
-                    widget.transactionListItem.operationType == OperationType.jarDeposit ||
-                    widget.transactionListItem.operationType == OperationType.jarWithdrawal ||
-                    widget.transactionListItem.operationType == OperationType.bankingSellWithWithdrawal) ...[
-                  const SizedBox.shrink(),
-                ] else if (widget.transactionListItem.operationType != OperationType.sendGlobally) ...[
-                  if (isOperationSupportCopy(widget.transactionListItem))
-                    Transform.translate(
-                      offset: scaleAnimation.value,
-                      child: Container(
-                        color: colors.greenLight,
-                        height: widgetSizeFrom(deviceSize) == SWidgetSize.small ? 40.0 : 60.0,
-                        width: double.infinity,
-                        child: Center(
-                          child: Text(
-                            '$copiedText ${intl.transactionItem_copied}',
-                            style: STStyles.body1Medium.copyWith(
-                              color: Colors.green,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                ] else ...[
-                  const SpaceH32(),
-                ],
                 if (widget.transactionListItem.operationType == OperationType.deposit ||
                     widget.transactionListItem.operationType == OperationType.jarDeposit) ...[
                   Material(
@@ -472,6 +415,21 @@ class _TransactionItemState extends State<TransactionItem> with SingleTickerProv
                   Material(
                     color: colors.white,
                     child: BankTransferDetails(
+                      transactionListItem: widget.transactionListItem,
+                      onCopyAction: (String text) {
+                        setState(() {
+                          copiedText = text;
+                        });
+
+                        onCopyAction();
+                      },
+                    ),
+                  ),
+                ],
+                if (widget.transactionListItem.operationType == OperationType.cryptoCardDeposit) ...[
+                  Material(
+                    color: colors.white,
+                    child: CryptoCardDepositDetails(
                       transactionListItem: widget.transactionListItem,
                       onCopyAction: (String text) {
                         setState(() {

@@ -307,6 +307,9 @@ class $AssetsSvgMediumGen {
   /// File path: assets/svg/medium/card.svg
   SvgGenImage get card => const SvgGenImage('assets/svg/medium/card.svg');
 
+  /// File path: assets/svg/medium/card_alt.svg
+  SvgGenImage get cardAlt => const SvgGenImage('assets/svg/medium/card_alt.svg');
+
   /// File path: assets/svg/medium/cash.svg
   SvgGenImage get cash => const SvgGenImage('assets/svg/medium/cash.svg');
 
@@ -427,6 +430,9 @@ class $AssetsSvgMediumGen {
   /// File path: assets/svg/medium/more.svg
   SvgGenImage get more => const SvgGenImage('assets/svg/medium/more.svg');
 
+  /// File path: assets/svg/medium/more_2.svg
+  SvgGenImage get more2 => const SvgGenImage('assets/svg/medium/more_2.svg');
+
   /// File path: assets/svg/medium/percent.svg
   SvgGenImage get percent => const SvgGenImage('assets/svg/medium/percent.svg');
 
@@ -535,6 +541,7 @@ class $AssetsSvgMediumGen {
         bank,
         business,
         card,
+        cardAlt,
         cash,
         change,
         changeDesign,
@@ -575,6 +582,7 @@ class $AssetsSvgMediumGen {
         mobile,
         mobileUnavailable,
         more,
+        more2,
         percent,
         phone,
         pin,

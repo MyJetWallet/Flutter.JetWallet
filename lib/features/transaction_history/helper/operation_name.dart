@@ -86,6 +86,14 @@ String operationName(
       return intl.operationName_sent;
     case OperationType.bankingSellWithWithdrawal:
       return intl.history_withdrawn;
+    case OperationType.cryptoCardDeposit:
+      return intl.crypto_card_history_deposit;
+    case OperationType.cryptoCardPurchase:
+      return intl.crypto_card_history_card_purchase;
+    case OperationType.cryptoCardRefund:
+      return intl.crypto_card_history_refund;
+    case OperationType.cryptoCardOrder:
+      return intl.crypto_card_history_card_issue;
     default:
       return 'Unknown';
   }
