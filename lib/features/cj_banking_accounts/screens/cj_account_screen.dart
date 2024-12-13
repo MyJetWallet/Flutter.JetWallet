@@ -69,7 +69,14 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
       loaderText: '',
       child: Observer(
         builder: (context) {
-          final bankingAccount = sSignalRModules.bankingProfileData!.simple!.account!;
+          SimpleBankingAccount bankingAccount;
+          if (widget.bankingAccount.accountId == sSignalRModules.bankingProfileData!.simple!.account!.accountId) {
+            bankingAccount = sSignalRModules.bankingProfileData!.simple!.account!;
+          } else {
+            bankingAccount = sSignalRModules.bankingProfileData!.banking!.accounts!.firstWhere(
+              (element) => element.accountId == widget.bankingAccount.accountId,
+            );
+          }
           return Column(
             children: [
               CollapsedAccountAppbar(
