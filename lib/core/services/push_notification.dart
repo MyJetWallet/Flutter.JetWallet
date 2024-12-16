@@ -2,11 +2,11 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/app/store/models/authorization_union.dart';
-import 'package:jetwallet/utils/logging.dart';
-import 'package:logging/logging.dart';
+import 'package:logger/logger.dart';
 import 'package:simple_networking/modules/wallet_api/models/notification/register_token_request_model.dart';
 
 class PushNotification {
@@ -18,14 +18,16 @@ class PushNotification {
     });
   }
 
-  final _logger = Logger('');
-
   Future<String?> getToken() async {
     if (!kIsWeb) {
       try {
         return FirebaseMessaging.instance.getToken();
       } catch (e) {
-        _logger.log(pushNotifications, 'getToken Failed', e);
+        getIt.get<SimpleLoggerService>().log(
+          level: Level.error,
+          place: 'PushNotification',
+          message: e.toString(),
+        );
 
         return Future.value();
       }
@@ -41,13 +43,23 @@ class PushNotification {
       await _registerToken(gToken);
     }
   }
+
+  Future<void> deletePushToken() async {
+    try {
+      await FirebaseMessaging.instance.deleteToken();
+    } catch (e) {
+      getIt.get<SimpleLoggerService>().log(
+        level: Level.error,
+        place: 'PushNotification',
+        message: e.toString(),
+      );
+    }
+  }
 }
 
 Future<void> _registerToken(
   String? token,
 ) async {
-  final logger = Logger('');
-
   if (token != null) {
     final model = RegisterTokenRequestModel(
       token: token,
@@ -57,7 +69,11 @@ Future<void> _registerToken(
     try {
       await sNetwork.getWalletModule().postRegisterToken(model);
     } catch (e) {
-      logger.log(pushNotifications, 'registerToken Failed', e);
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.error,
+            place: 'PushNotification',
+            message: e.toString(),
+          );
     }
   }
 }
