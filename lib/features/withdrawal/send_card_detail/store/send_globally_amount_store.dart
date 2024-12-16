@@ -106,6 +106,9 @@ abstract class _SendGloballyAmountStoreBase with Store {
   @observable
   bool isMaxActive = false;
 
+  @observable
+  bool onMaxPressed = false;
+
   @action
   void setInputMode(WithdrawalInputMode value) {
     inputMode = value;
@@ -224,6 +227,9 @@ abstract class _SendGloballyAmountStoreBase with Store {
       );
     }
     limitsLoading = false;
+    if (onMaxPressed) {
+      onSendAll();
+    }
   }
 
   @action
@@ -308,6 +314,10 @@ abstract class _SendGloballyAmountStoreBase with Store {
   @action
   void onSendAll() {
     isMaxActive = true;
+    onMaxPressed = true;
+    if (limitsLoading) {
+      return;
+    }
     withAmount = '0';
     withAmount = responseOnInputAction(
       oldInput: withAmount,
