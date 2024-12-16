@@ -53,6 +53,9 @@ class $AssetsSvgGen {
   /// Directory path: assets/svg/card
   $AssetsSvgCardGen get card => const $AssetsSvgCardGen();
 
+  /// Directory path: assets/svg/categories
+  $AssetsSvgCategoriesGen get categories => const $AssetsSvgCategoriesGen();
+
   /// Directory path: assets/svg/invest
   $AssetsSvgInvestGen get invest => const $AssetsSvgInvestGen();
 
@@ -135,6 +138,13 @@ class $AssetsSvgCardGen {
 
   /// List of all assets
   List<SvgGenImage> get values => [appleWallet, cardMask, googleWallet, simpleCryptoCard, simpleLogo];
+}
+
+class $AssetsSvgCategoriesGen {
+  const $AssetsSvgCategoriesGen();
+
+  /// Directory path: assets/svg/categories/icons
+  $AssetsSvgCategoriesIconsGen get icons => const $AssetsSvgCategoriesIconsGen();
 }
 
 class $AssetsSvgInvestGen {
@@ -817,6 +827,25 @@ class $AssetsSvgBrandIconsSmallGen {
 
   /// List of all assets
   List<SvgGenImage> get values => [checkmark, done, error, iban];
+}
+
+class $AssetsSvgCategoriesIconsGen {
+  const $AssetsSvgCategoriesIconsGen();
+
+  /// File path: assets/svg/categories/icons/card_issuance.svg
+  SvgGenImage get cardIssuance => const SvgGenImage('assets/svg/categories/icons/card_issuance.svg');
+
+  /// File path: assets/svg/categories/icons/deposit.svg
+  SvgGenImage get deposit => const SvgGenImage('assets/svg/categories/icons/deposit.svg');
+
+  /// File path: assets/svg/categories/icons/games.svg
+  SvgGenImage get games => const SvgGenImage('assets/svg/categories/icons/games.svg');
+
+  /// File path: assets/svg/categories/icons/refund.svg
+  SvgGenImage get refund => const SvgGenImage('assets/svg/categories/icons/refund.svg');
+
+  /// List of all assets
+  List<SvgGenImage> get values => [cardIssuance, deposit, games, refund];
 }
 
 class $AssetsSvgOtherLargeGen {

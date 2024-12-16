@@ -2000,5 +2000,6 @@
     "crypto_card_history_deposit": "Deposit",
     "crypto_card_history_card_purchase": "Card purchase",
     "crypto_card_history_refund": "Refund",
-    "crypto_card_history_card_issue": "Card issue"
+    "crypto_card_history_card_issue": "Card issue",
+    "crypto_card_history_details": "Details"
 }
