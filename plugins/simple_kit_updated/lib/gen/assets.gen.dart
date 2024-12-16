@@ -301,6 +301,9 @@ class $AssetsSvgMediumGen {
   /// File path: assets/svg/medium/bank.svg
   SvgGenImage get bank => const SvgGenImage('assets/svg/medium/bank.svg');
 
+  /// File path: assets/svg/medium/blue_right_arrow.svg
+  SvgGenImage get blueRightArrow => const SvgGenImage('assets/svg/medium/blue_right_arrow.svg');
+
   /// File path: assets/svg/medium/business.svg
   SvgGenImage get business => const SvgGenImage('assets/svg/medium/business.svg');
 
@@ -527,6 +530,7 @@ class $AssetsSvgMediumGen {
         arrowRight,
         arrowUp,
         bank,
+        blueRightArrow,
         business,
         card,
         cash,

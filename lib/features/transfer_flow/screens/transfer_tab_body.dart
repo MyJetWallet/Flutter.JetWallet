@@ -5,7 +5,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
-import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/suggestion_button_widget.dart';
 import 'package:jetwallet/features/transfer_flow/store/transfer_amount_store.dart';
 import 'package:jetwallet/features/transfer_flow/widgets/show_transfer_from_to_bottom_sheet.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
@@ -225,7 +224,7 @@ class _AsssetWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SuggestionButtonWidget(
+    return SuggestionButton(
       title: account?.label ?? card?.label,
       subTitle: isFrom ? intl.from : intl.to1,
       trailing: account == null && card == null

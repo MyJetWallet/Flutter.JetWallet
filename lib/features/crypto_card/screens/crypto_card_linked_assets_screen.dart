@@ -4,7 +4,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
-import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/suggestion_button_widget.dart';
 import 'package:jetwallet/features/crypto_card/store/crypto_card_linked_assets_store.dart';
 import 'package:jetwallet/features/crypto_card/utils/show_choose_linked_asset_bottom_sheet.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
@@ -45,7 +44,7 @@ class _LinkedAssetsBody extends StatelessWidget {
           child: Column(
             children: [
               const SpaceH7(),
-              SuggestionButtonWidget(
+              SuggestionButton(
                 title: store.selectedAsset.description,
                 subTitle: intl.crypto_card_linked_asset,
                 trailing: getIt<AppStore>().isBalanceHide

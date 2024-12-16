@@ -7,7 +7,6 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
-import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/suggestion_button_widget.dart';
 import 'package:jetwallet/features/iban/iban_send/iban_send_amount/helpers/show_reference_sheet.dart';
 import 'package:jetwallet/features/iban/iban_send/iban_send_amount/store/iban_send_amount_store.dart';
 import 'package:jetwallet/features/withdrawal/store/withdrawal_store.dart';
@@ -175,7 +174,7 @@ class IbanSendAmountBody extends StatelessObserverWidget {
             onSwap: () {},
           ),
           const Spacer(),
-          SuggestionButtonWidget(
+          SuggestionButton(
             subTitle: intl.withdrawOptions_sendTo,
             trailing: shortIbanFormTwo(store.contact?.iban ?? ''),
             title: store.contact?.name ?? '',

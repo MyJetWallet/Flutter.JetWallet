@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
+import '../shared/simple_safe_button_padding.dart';
 import 'components/numeric_keyboard_frame.dart';
 import 'components/numeric_keyboard_row.dart';
 
@@ -56,14 +57,18 @@ class SNumericKeyboard extends StatelessWidget {
               onKeyPressed: onKeyPressed,
             ),
             if (button != null)
-              Padding(
-                padding: EdgeInsets.only(
-                  left: 24,
-                  right: 24,
-                  bottom: MediaQuery.of(context).padding.bottom <= 24 ? 24 : 8,
+              SSafeButtonPadding(
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    left: 24,
+                    right: 24,
+                    bottom: 8, // отступ кнопки (8)
+                  ),
+                  child: button,
                 ),
-                child: button,
-              ) else SizedBox(
+              )
+            else
+              SizedBox(
                 height: MediaQuery.of(context).padding.bottom <= 24 ? 16 : 0,
               )
           ],
