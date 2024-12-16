@@ -6878,7 +6878,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '721',
-        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventType: EventType.tap.name,
         PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
       },
     );

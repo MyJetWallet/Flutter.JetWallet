@@ -16,6 +16,7 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/crypto_card_message_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/freeze_crypto_card_request_model.dart';
@@ -166,6 +167,7 @@ abstract class _MainCryptoCardStoreBase with Store {
             cardId: cryptoCard.cardId,
             status: CryptoCardStatus.frozen,
           );
+          sAnalytics.viewFrozenCardState();
         },
         onError: (error) {
           sNotification.showError(
