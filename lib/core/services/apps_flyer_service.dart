@@ -6,6 +6,8 @@ import 'package:flutter/foundation.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/deep_link_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
+import 'package:logger/logger.dart';
 
 class AppsFlyerService {
   AppsFlyerService.create({
@@ -75,9 +77,19 @@ class AppsFlyerService {
                     final temp = deepLinkValue.split('jw_code/');
                     if (temp.length > 1) {
                       final referralCode = temp[1];
+                      getIt.get<SimpleLoggerService>().log(
+                            level: Level.error,
+                            place: 'AppsFlyerService',
+                            message: 'Set referralCode: $referralCode',
+                          );
                       await storage.setString(referralCodeKey, referralCode);
                     }
-                  } catch (e) {
+                  } catch (e, stackTrace) {
+                    getIt.get<SimpleLoggerService>().log(
+                          level: Level.error,
+                          place: 'AppsFlyerService',
+                          message: 'ReferralRedirect error $e, stackTrace: $stackTrace',
+                        );
                     if (kDebugMode) {
                       print('[AppsFlyerService] ReferralRedirect error: $e');
                     }
@@ -89,7 +101,12 @@ class AppsFlyerService {
             }
           }
         }
-      } catch (e) {
+      } catch (e, stackTrace) {
+        getIt.get<SimpleLoggerService>().log(
+              level: Level.error,
+              place: 'AppsFlyerService',
+              message: 'onInstallConversionData error $e, stackTrace: $stackTrace',
+            );
         if (kDebugMode) {
           print('[AppsFlyerService] OnInstallConversionData Error: $e');
         }
