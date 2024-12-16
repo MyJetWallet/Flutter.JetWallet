@@ -3,11 +3,13 @@ part of '../basic_bottom_sheet.dart';
 class BasicBottomSheetHeaderWidget extends StatefulWidget {
   const BasicBottomSheetHeaderWidget({
     this.title,
+    this.withPadding = true,
     this.searchOptions,
     super.key,
   });
 
   final String? title;
+  final bool withPadding;
   final SearchOptions? searchOptions;
 
   @override
@@ -74,22 +76,22 @@ class _BasicBottomSheetHeaderWidgetState extends State<BasicBottomSheetHeaderWid
                 ),
               ),
             ),
-            const SizedBox(
-              height: 24.0,
-            ),
+            if (widget.withPadding)
+              const SizedBox(
+                height: 24.0,
+              ),
           ],
           if (widget.searchOptions != null) ...[
             SInput(
-              height: 44.0,
-              hasCloseIcon: showCloseSearchButton,
-              hint: widget.searchOptions?.hint,
-              withoutVerticalPadding: true,
-              onCloseIconTap: () {
-                searchController.clear();
-              },
-              controller: searchController,
-              keyboardType: TextInputType.name
-            ),
+                height: 44.0,
+                hasCloseIcon: showCloseSearchButton,
+                hint: widget.searchOptions?.hint,
+                withoutVerticalPadding: true,
+                onCloseIconTap: () {
+                  searchController.clear();
+                },
+                controller: searchController,
+                keyboardType: TextInputType.name),
           ],
         ],
       ),
