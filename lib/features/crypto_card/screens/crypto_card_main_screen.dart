@@ -1,8 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/prevent_duplication_events_servise.dart';
 import 'package:jetwallet/features/crypto_card/store/main_crypto_card_store.dart';
 import 'package:jetwallet/features/crypto_card/widgets/crypto_card_action_buttons.dart';
 import 'package:jetwallet/features/crypto_card/widgets/crypto_card_add_to_wallet_banner.dart';
@@ -15,9 +17,10 @@ import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/crypto_card_message_model.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 @RoutePage(name: 'CryptoCardMainRoute')
-class CryptoCardMainScreen extends StatefulWidget {
+class CryptoCardMainScreen extends StatelessWidget {
   const CryptoCardMainScreen({
     required this.cryptoCard,
     super.key,
@@ -26,21 +29,21 @@ class CryptoCardMainScreen extends StatefulWidget {
   final CryptoCardModel cryptoCard;
 
   @override
-  State<CryptoCardMainScreen> createState() => _CryptoCardMainScreenState();
-}
-
-class _CryptoCardMainScreenState extends State<CryptoCardMainScreen> {
-  @override
-  void initState() {
-    super.initState();
-    sAnalytics.viewMainCardScreen();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Provider(
-      create: (context) => MainCryptoCardStore()..init(),
-      child: const _CryptoCardMainScreenBody(),
+    return VisibilityDetector(
+      key: const Key('crypto-card-screen-key'),
+      onVisibilityChanged: (info) {
+        if (info.visibleFraction == 1) {
+          getIt.get<PreventDuplicationEventsService>().sendEvent(
+                id: 'crypto-card-screen-key',
+                event: sAnalytics.viewMainCardScreen,
+              );
+        }
+      },
+      child: Provider(
+        create: (context) => MainCryptoCardStore()..init(),
+        child: const _CryptoCardMainScreenBody(),
+      ),
     );
   }
 }
