@@ -99,7 +99,9 @@ abstract class _MainCryptoCardStoreBase with Store {
       ///
       /// getSensitiveInfo
       ///
-      unawaited(getSensitiveInfo());
+      if (cryptoCard.status == CryptoCardStatus.active) {
+        unawaited(getSensitiveInfo());
+      }
 
       ///
       /// Load banner state
@@ -205,6 +207,7 @@ abstract class _MainCryptoCardStoreBase with Store {
             cardId: cryptoCard.cardId,
             status: CryptoCardStatus.active,
           );
+          getSensitiveInfo();
         },
         onError: (error) {
           sNotification.showError(
