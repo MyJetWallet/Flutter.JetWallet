@@ -266,7 +266,7 @@ abstract class _ChangePinCryptoCardStoreBase with Store {
             child: CryptoCardYourPinWidget(
               pin: enterPin,
             ),
-            onActionButton: () {
+            onCloseButton: () {
               sAnalytics.tapDonePINChange();
             },
           ),
