@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
@@ -112,6 +113,11 @@ abstract class _MainCryptoCardStoreBase with Store {
           ) ??
           false;
       showAddToWalletBanner = !bannerClosed;
+      if (showAddToWalletBanner) {
+        sAnalytics.viewAddToWalletCard(
+          walletType: Platform.isAndroid ? 'Google Wallet' : 'Apple Wallet',
+        );
+      }
     } catch (error) {
       logError(
         message: 'init error: $error',

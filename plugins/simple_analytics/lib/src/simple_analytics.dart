@@ -6992,7 +6992,7 @@ class SimpleAnalytics {
     required String walletType,
   }) {
     _analytics.logEvent(
-      'Tap Asset Item',
+      'View Add to Wallet Card',
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
