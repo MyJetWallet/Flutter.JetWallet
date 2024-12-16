@@ -6082,7 +6082,7 @@
     },
     "crypto_card_creat_choose_asset_to_buy_card": "Оберіть актив для купівлі картки",
     "crypto_card_creat_please_verify_your_account": "Будь ласка, перевірте свій обліковий запис",
-    "crypto_card_creat_verify_account": "Перевірка облікового запису",
+    "crypto_card_creat_verify_account": "Розпочати",
     "crypto_card_pay_description_0": "Ваша Simple Card майже готова! Насолоджуйтеся простотою використання та відсутністю комісій за обслуговування. Почніть використовувати свою картку вже зараз!",
     "crypto_card_pay_description_50": "Вам пощастило! Ви отримуєте Simple Card за половину ціни. Заберіть її зараз і почніть здійснювати платежі без затримок.",
     "crypto_card_pay_description_100": "Вам щастить! Сьогодні ваша Simple Card надається абсолютно безкоштовно. Без комісій, без клопоту — активуйте і починайте використовувати!",
@@ -6099,5 +6099,6 @@
         }
     },
     "crypto_card_lable_save": "Зберегти",
-    "crypto_card_settings_label_card": "Назвати картку"
+    "crypto_card_settings_label_card": "Назвати картку",
+    "crypto_card_show_details": "Показати деталі"
 }
