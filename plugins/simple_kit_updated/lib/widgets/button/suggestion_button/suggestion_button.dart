@@ -91,7 +91,7 @@ class SuggestionButton extends StatelessWidget {
                   SizedBox(
                     width: 20,
                     height: 20,
-                    child: Assets.svg.medium.blueRightArrow.simpleSvg(
+                    child: Assets.svg.medium.shevronRight.simpleSvg(
                       color: isDisabled ? greyDisabled : colors.black,
                       width: 24,
                       height: 24,
