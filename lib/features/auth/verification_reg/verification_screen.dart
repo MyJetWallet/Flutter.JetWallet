@@ -9,6 +9,7 @@ import 'package:jetwallet/features/kyc/kyc_verify_your_profile/ui/widgets/verify
 import 'package:jetwallet/utils/constants.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'package:simple_kit_updated/widgets/shared/simple_safe_button_padding.dart';
 
 import '../../../core/di/di.dart';
 
@@ -111,15 +112,15 @@ class _VerificationScreenState extends State<VerificationScreen> {
                   ),
                   const Spacer(),
                   SafeArea(
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                        bottom: MediaQuery.of(context).padding.top <= 24 ? 24 : 16,
-                      ),
-                      child: SButton.blue(
-                        text: intl.provide_information,
-                        callback: () {
-                          getIt<AppRouter>().maybePop();
-                        },
+                    child: SSafeButtonPadding(
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 8), // отступ кнопки (8)
+                        child: SButton.blue(
+                          text: intl.provide_information,
+                          callback: () {
+                            getIt<AppRouter>().maybePop();
+                          },
+                        ),
                       ),
                     ),
                   ),

@@ -6,7 +6,6 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/anchors/models/convert_confirmation_model/convert_confirmation_model.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
-import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/suggestion_button_widget.dart';
 import 'package:jetwallet/features/convert_flow/store/convert_amount_store.dart';
 import 'package:jetwallet/features/convert_flow/widgets/convert_from_choose_asset_bottom_sheet.dart';
 import 'package:jetwallet/features/convert_flow/widgets/convert_to_choose_asset_bottom_sheet.dart';
@@ -128,7 +127,7 @@ class ConvertAmountScreenBodyState extends State<ConvertAmountTabBody> with Auto
                                   Column(
                                     children: [
                                       if (store.fromAsset != null)
-                                        SuggestionButtonWidget(
+                                        SuggestionButton(
                                           title: store.fromAsset?.description,
                                           subTitle: intl.amount_screen_convert,
                                           trailing: getIt<AppStore>().isBalanceHide
@@ -157,7 +156,7 @@ class ConvertAmountScreenBodyState extends State<ConvertAmountTabBody> with Auto
                                           isDisabled: store.isNoCurrencies,
                                         )
                                       else
-                                        SuggestionButtonWidget(
+                                        SuggestionButton(
                                           subTitle: intl.amount_screen_convert,
                                           icon: const SCryptoIcon(),
                                           onTap: () {
@@ -181,7 +180,7 @@ class ConvertAmountScreenBodyState extends State<ConvertAmountTabBody> with Auto
                                         ),
                                       const SpaceH4(),
                                       if (store.toAsset != null)
-                                        SuggestionButtonWidget(
+                                        SuggestionButton(
                                           title: store.toAsset?.description,
                                           subTitle: intl.convert_amount_convert_to,
                                           trailing: getIt<AppStore>().isBalanceHide
@@ -205,7 +204,7 @@ class ConvertAmountScreenBodyState extends State<ConvertAmountTabBody> with Auto
                                           },
                                         )
                                       else
-                                        SuggestionButtonWidget(
+                                        SuggestionButton(
                                           subTitle: intl.convert_amount_convert_to,
                                           icon: const SCryptoIcon(),
                                           onTap: () {

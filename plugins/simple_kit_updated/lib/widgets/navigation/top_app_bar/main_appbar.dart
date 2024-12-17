@@ -46,85 +46,87 @@ class SimpleMainAppbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(
-        top: 53 + 8, //отступ шторки (53) + отступ аппбара (8)
-        bottom: 10,
-        left: 24,
-        right: 24,
-      ),
-      child: Column(
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (hasLeftIcon) ...[
-                leftIcon ?? Assets.svg.medium.user.simpleSvg(),
-              ],
-              const Spacer(),
-              if (hasSecondIcon) ...[
-                const Gap(24),
-                secondIcon ?? Assets.svg.medium.user.simpleSvg(),
-              ],
-              if (hasRightIcon) ...[
-                const Gap(24),
-                Padding(
-                  padding: const EdgeInsets.only(top: 5.5),
-                  child: rightIcon ?? Assets.svg.medium.user.simpleSvg(),
-                ),
-              ]
-            ],
-          ),
-          const SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        title,
-                        style: STStyles.header5.copyWith(
-                          color: SColorsLight().black,
-                        ),
-                      ),
-                      if (showLabelIcon) ...[
-                        const Gap(8),
-                        SafeGesture(
-                          onTap: hasRightIcon
-                              ? onLabelIconTap != null
-                                  ? () => onLabelIconTap!()
-                                  : null
-                              : null,
-                          child: labelIcon ?? Assets.svg.medium.show.simpleSvg(),
-                        ),
-                      ],
-                    ],
-                  ),
-                  if (value != null) ...[
-                    const Gap(4),
-                    isLoading
-                        ? SSkeletonLoader(
-                            width: 160,
-                            height: 40,
-                            borderRadius: BorderRadius.circular(4),
-                          )
-                        : Text(
-                            value ?? '',
-                            style: STStyles.header3.copyWith(
-                              color: SColorsLight().black,
-                            ),
-                          ),
-                  ] else
-                    const Gap(8),
+    return SafeArea(
+      child: Padding(
+        padding: EdgeInsets.only(
+          top: (MediaQuery.of(context).padding.top <= 24 ? 16 : 0) + 8, //отступ шторки + отступ аппбара (8)
+          bottom: 10,
+          left: 24,
+          right: 24,
+        ),
+        child: Column(
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (hasLeftIcon) ...[
+                  leftIcon ?? Assets.svg.medium.user.simpleSvg(),
                 ],
-              ),
-            ],
-          ),
-        ],
+                const Spacer(),
+                if (hasSecondIcon) ...[
+                  const Gap(24),
+                  secondIcon ?? Assets.svg.medium.user.simpleSvg(),
+                ],
+                if (hasRightIcon) ...[
+                  const Gap(24),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 5.5),
+                    child: rightIcon ?? Assets.svg.medium.user.simpleSvg(),
+                  ),
+                ]
+              ],
+            ),
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          title,
+                          style: STStyles.header5.copyWith(
+                            color: SColorsLight().black,
+                          ),
+                        ),
+                        if (showLabelIcon) ...[
+                          const Gap(8),
+                          SafeGesture(
+                            onTap: hasRightIcon
+                                ? onLabelIconTap != null
+                                    ? () => onLabelIconTap!()
+                                    : null
+                                : null,
+                            child: labelIcon ?? Assets.svg.medium.show.simpleSvg(),
+                          ),
+                        ],
+                      ],
+                    ),
+                    if (value != null) ...[
+                      const Gap(4),
+                      isLoading
+                          ? SSkeletonLoader(
+                              width: 160,
+                              height: 40,
+                              borderRadius: BorderRadius.circular(4),
+                            )
+                          : Text(
+                              value ?? '',
+                              style: STStyles.header3.copyWith(
+                                color: SColorsLight().black,
+                              ),
+                            ),
+                    ] else
+                      const Gap(8),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

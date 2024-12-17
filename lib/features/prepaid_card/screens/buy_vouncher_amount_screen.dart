@@ -8,7 +8,6 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
-import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/suggestion_button_widget.dart';
 import 'package:jetwallet/features/phone_verification/utils/simple_number.dart';
 import 'package:jetwallet/features/prepaid_card/store/buy_vouncher_amount_store.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
@@ -92,7 +91,7 @@ class _EarnWithdrawalAmountBody extends StatelessWidget {
               },
             ),
             const Spacer(),
-            SuggestionButtonWidget(
+            SuggestionButton(
               title: store.currency.description,
               subTitle: intl.prepaid_card_pay_with,
               trailing:

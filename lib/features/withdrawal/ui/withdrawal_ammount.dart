@@ -7,7 +7,6 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
-import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/suggestion_button_widget.dart';
 
 import 'package:jetwallet/features/withdrawal/store/withdrawal_store.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
@@ -70,10 +69,10 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
           title: '''${intl.withdrawal_send_verb} ${store.withdrawalInputModel!.currency!.description}''',
           hasRightIcon: false,
           subtitle:
-          '${intl.withdrawalAmount_available}: ${getIt<AppStore>().isBalanceHide ? '**** ${store.withdrawalInputModel!.currency!.symbol}' : ((store.maxLimit ?? Decimal.zero) < Decimal.zero ? Decimal.zero : store.maxLimit)?.toFormatCount(
-            accuracy: store.withdrawalInputModel!.currency!.accuracy,
-            symbol: store.withdrawalInputModel!.currency!.symbol,
-          )}',
+              '${intl.withdrawalAmount_available}: ${getIt<AppStore>().isBalanceHide ? '**** ${store.withdrawalInputModel!.currency!.symbol}' : ((store.maxLimit ?? Decimal.zero) < Decimal.zero ? Decimal.zero : store.maxLimit)?.toFormatCount(
+                  accuracy: store.withdrawalInputModel!.currency!.accuracy,
+                  symbol: store.withdrawalInputModel!.currency!.symbol,
+                )}',
         ),
         child: Column(
           children: [
@@ -142,7 +141,7 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
                           },
                         ),
                         const Spacer(),
-                        SuggestionButtonWidget(
+                        SuggestionButton(
                           subTitle: intl.withdrawOptions_sendTo,
                           trailing: shortAddressFormThree(store.address),
                           title: '${store.currency.symbol} ${intl.withdrawal_wallet}',
@@ -209,18 +208,18 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
                                     TextSpan(
                                       text: store.inputMode == WithdrawalInputMode.youSend
                                           ? store.recepientGetsAmount.toFormatCount(
-                                        symbol: store.currency.symbol,
-                                        accuracy: store.currency.accuracy,
-                                      )
+                                              symbol: store.currency.symbol,
+                                              accuracy: store.currency.accuracy,
+                                            )
                                           : store.youSendAmount.toFormatCount(
-                                        symbol: store.currency.symbol,
-                                        accuracy: store.currency.accuracy,
-                                      ),
+                                              symbol: store.currency.symbol,
+                                              accuracy: store.currency.accuracy,
+                                            ),
                                       style: STStyles.body2Semibold,
                                     ),
                                     TextSpan(
                                       text:
-                                      ' ${store.inputMode == WithdrawalInputMode.youSend ? intl.withdrawal_recipient_gets : intl.withdrawal_you_send}',
+                                          ' ${store.inputMode == WithdrawalInputMode.youSend ? intl.withdrawal_recipient_gets : intl.withdrawal_you_send}',
                                       style: STStyles.body2Semibold.copyWith(
                                         color: colors.gray10,
                                       ),
@@ -246,19 +245,19 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
                 text: intl.withdraw_continue,
                 callback: store.withValid
                     ? () async {
-                  if (store.withdrawalType != WithdrawalType.jar) {
-                    sAnalytics.cryptoSendTapContinueAmountScreen(
-                      asset: store.withdrawalInputModel!.currency!.symbol,
-                      network: store.network.description,
-                      sendMethodType: '0',
-                      totalSendAmount: store.withAmount,
-                    );
-                  }
+                        if (store.withdrawalType != WithdrawalType.jar) {
+                          sAnalytics.cryptoSendTapContinueAmountScreen(
+                            asset: store.withdrawalInputModel!.currency!.symbol,
+                            network: store.network.description,
+                            sendMethodType: '0',
+                            totalSendAmount: store.withAmount,
+                          );
+                        }
 
-                  await store.getWithdrawalFeeByPreview();
+                        await store.getWithdrawalFeeByPreview();
 
-                  store.withdrawalPush(WithdrawStep.preview);
-                }
+                        store.withdrawalPush(WithdrawStep.preview);
+                      }
                     : null,
               ),
             ),

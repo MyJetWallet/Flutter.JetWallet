@@ -3,7 +3,6 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/suggestion_button_widget.dart';
 import 'package:jetwallet/features/send_gift/model/send_gift_info_model.dart';
 import 'package:jetwallet/features/send_gift/store/receiver_datails_store.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
@@ -88,7 +87,7 @@ class _GiftAmountState extends State<GiftAmount> {
             },
           ),
           const Spacer(),
-          SuggestionButtonWidget(
+          SuggestionButton(
             title: widget.sendGiftInfo.selectedContactType == ReceiverContacrType.email
                 ? widget.sendGiftInfo.email
                 : '${widget.sendGiftInfo.phoneCountryCode} ${widget.sendGiftInfo.phoneBody}',

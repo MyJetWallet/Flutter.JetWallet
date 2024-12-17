@@ -11,7 +11,6 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/anchors/anchors_helper.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
-import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/suggestion_button_widget.dart';
 import 'package:jetwallet/features/earn/store/earn_top_up_amount_store.dart';
 import 'package:jetwallet/features/wallet/helper/navigate_to_wallet.dart';
 import 'package:jetwallet/utils/constants.dart';
@@ -162,7 +161,7 @@ class _EarnWithdrawalAmountBody extends StatelessWidget {
                           },
                         ),
                         const Spacer(),
-                        SuggestionButtonWidget(
+                        SuggestionButton(
                           title: store.currency.description,
                           subTitle: intl.earn_from_crypto_wallet,
                           trailing: getIt<AppStore>().isBalanceHide
@@ -175,7 +174,7 @@ class _EarnWithdrawalAmountBody extends StatelessWidget {
                           showArrow: false,
                         ),
                         const SpaceH4(),
-                        SuggestionButtonWidget(
+                        SuggestionButton(
                           title: store.offer.name,
                           subTitle: intl.earn_to_earn,
                           trailing: getIt<AppStore>().isBalanceHide

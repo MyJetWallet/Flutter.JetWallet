@@ -7,6 +7,7 @@ import 'package:jetwallet/features/crypto_card/store/crypto_card_name_store.dart
 import 'package:jetwallet/utils/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'package:simple_kit_updated/widgets/shared/simple_safe_button_padding.dart';
 
 @RoutePage(name: 'CryptoCardNameRoute')
 class CryptoCardNameScreen extends StatelessWidget {
@@ -109,15 +110,17 @@ class _CardNameBody extends StatelessWidget {
                     const Spacer(),
                     SafeArea(
                       top: false,
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                          left: 24,
-                          right: 24,
-                          bottom: 16 + MediaQuery.of(context).padding.bottom <= 24 ? 24 : 16,
-                        ),
-                        child: SButton.black(
-                          text: isCreateFlow ? intl.crypto_card_continue : intl.crypto_card_lable_save,
-                          callback: store.isNameValid ? store.changeCardName : null,
+                      child: SSafeButtonPadding(
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            left: 24,
+                            right: 24,
+                            bottom: 8, // отступ кнопки (8)
+                          ),
+                          child: SButton.black(
+                            text: isCreateFlow ? intl.crypto_card_continue : intl.crypto_card_lable_save,
+                            callback: store.isNameValid ? store.changeCardName : null,
+                          ),
                         ),
                       ),
                     ),

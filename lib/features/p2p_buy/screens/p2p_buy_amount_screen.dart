@@ -7,7 +7,6 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/core/services/prevent_duplication_events_servise.dart';
-import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/suggestion_button_widget.dart';
 import 'package:jetwallet/features/p2p_buy/store/buy_p2p_amount_store.dart';
 import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
@@ -118,7 +117,7 @@ class P2PBuyAmountScreen extends StatelessWidget {
                                   },
                                 ),
                                 const Spacer(),
-                                SuggestionButtonWidget(
+                                SuggestionButton(
                                   title: store.asset?.description,
                                   subTitle: intl.amount_screen_buy,
                                   icon: NetworkIconWidget(
@@ -128,7 +127,7 @@ class P2PBuyAmountScreen extends StatelessWidget {
                                   onTap: () {},
                                 ),
                                 const SpaceH4(),
-                                SuggestionButtonWidget(
+                                SuggestionButton(
                                   title: store.p2pMethod?.name,
                                   subTitle: intl.p2p_buy_with,
                                   icon: NetworkIconWidget(

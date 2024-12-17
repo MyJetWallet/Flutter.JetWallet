@@ -20,35 +20,37 @@ class SBottomBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: SColorsLight().white,
-      child: Padding(
-        padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
-        child: Container(
-          height: 73,
-          decoration: BoxDecoration(
-            color: SColorsLight().white,
-            border: Border(
-              top: BorderSide(width: 1, color: SColorsLight().gray4),
+      child: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.only(bottom: (MediaQuery.of(context).padding.bottom <= 24 ? 8 : 0)), //отступ шторки
+          child: Container(
+            height: 73,
+            decoration: BoxDecoration(
+              color: SColorsLight().white,
+              border: Border(
+                top: BorderSide(width: 1, color: SColorsLight().gray4),
+              ),
             ),
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-          //margin: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: items
-                .mapIndexed(
-                  (index, item) => SBottomButton(
-                    icon: item.icon,
-                    text: item.text,
-                    isActive: selectedIndex == index,
-                    width: (MediaQuery.of(context).size.width - 48) / items.length,
-                    notification: item.notification ?? 0,
-                    onChanged: () {
-                      onChanged(index);
-                    },
-                    hasWarning: item.hasWarning,
-                  ),
-                )
-                .toList(),
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+            //margin: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: items
+                  .mapIndexed(
+                    (index, item) => SBottomButton(
+                      icon: item.icon,
+                      text: item.text,
+                      isActive: selectedIndex == index,
+                      width: (MediaQuery.of(context).size.width - 48) / items.length,
+                      notification: item.notification ?? 0,
+                      onChanged: () {
+                        onChanged(index);
+                      },
+                      hasWarning: item.hasWarning,
+                    ),
+                  )
+                  .toList(),
+            ),
           ),
         ),
       ),
