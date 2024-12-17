@@ -169,10 +169,7 @@ dependencies:
   flutter_ui_kit:
     git:
       url: git@github.com:MyJetWallet/flutter_ui_kit.git
-      ref: 0.0.4
-
-  # flutter_ui_kit:
-  #   path: ../flutter_ui_kit
+      ref: 0.0.6
 
 dev_dependencies:
   flutter_test:
