@@ -66,6 +66,9 @@ class _HomeScreenState extends State<HomeScreen> {
             store.setTabsRouter(tabsRouter);
 
             if (tabsRouter.activeIndex != store.cerrentIndex) {
+              if (store.cerrentIndex == -1) {
+                store.setHomeTab(bottomBarItems[tabsRouter.activeIndex]);
+              }
               tabsRouter.setActiveIndex(store.cerrentIndex);
             }
 
