@@ -2,12 +2,16 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/kyc/kyc_verify_your_profile/ui/kyc_aid_webview_screen.dart';
+import 'package:simple_networking/modules/wallet_api/models/kyc/kyc_plan_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/kyc/kyc_plan_responce_model.dart';
 
-Future<KycPlanResponceModel?> getKYCAidPlan() async {
+Future<KycPlanResponceModel?> getKYCAidPlan({bool isCardFlow = false}) async {
   KycPlanResponceModel? kycPlan;
   try {
-    final response = await sNetwork.getWalletModule().postKycPlan();
+    final model = KycPlanRequesModel(
+      isCardFlow: isCardFlow,
+    );
+    final response = await sNetwork.getWalletModule().postKycPlan(model);
     response.pick(
       onData: (data) {
         kycPlan = data;

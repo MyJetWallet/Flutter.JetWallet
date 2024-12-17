@@ -82,6 +82,7 @@ import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_
 import 'package:simple_networking/modules/wallet_api/models/kyc/apply_country_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/kyc/apply_country_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/kyc/check_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/kyc/kyc_plan_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/kyc/kyc_plan_responce_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/limits/buy_limits_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/limits/buy_limits_response_model.dart';
@@ -545,8 +546,8 @@ class WalletApiRepository {
     );
   }
 
-  Future<DC<ServerRejectException, KycPlanResponceModel>> postKycPlan() async {
-    return _walletApiDataSources.postKycPlanRequest();
+  Future<DC<ServerRejectException, KycPlanResponceModel>> postKycPlan(KycPlanRequesModel model) async {
+    return _walletApiDataSources.postKycPlanRequest(model);
   }
 
   Future<DC<ServerRejectException, ApplyCountryResponseModel>> postKYCAplyCountry(

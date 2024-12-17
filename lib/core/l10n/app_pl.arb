@@ -2043,5 +2043,6 @@
         }
     },
     "crypto_card_lable_save": "Zapisz",
-    "crypto_card_settings_label_card": "Oznacz kartę"
+    "crypto_card_settings_label_card": "Oznacz kartę",
+    "crypto_card_show_details": "Pokaż szczegóły"
 }

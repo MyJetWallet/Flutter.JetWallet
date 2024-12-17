@@ -52,6 +52,11 @@ class OperationHistoryItem with _$OperationHistoryItem {
     EarnOperationInfo? earnOperationInfo,
     MobileGiftCardOperationInfo? mobileGiftCardOperationInfo,
     JarOperationInfo? jarOperationInfo,
+    CryptoCardPurchaseOperationInfo? cryptoCardPurchaseInfo,
+    CryptoCardWithdrawalOperationInfo? cryptoCardWithdrawalInfo,
+    CryptoCardRefundOperationInfo? cryptoCardRefundInfo,
+    CryptoCardDepositOperationInfo? cryptoCardDepositInfo,
+    CryptoCardOrderOperationInfo? cryptoCardOrderInfo,
   }) = _OperationHistoryItem;
 
   factory OperationHistoryItem.fromJson(Map<String, dynamic> json) => _$OperationHistoryItemFromJson(json);
@@ -118,7 +123,12 @@ enum OperationType {
   earnPayroll,
   buyPrepaidCard,
   jarDeposit,
-  jarWithdrawal
+  jarWithdrawal,
+  cryptoCardPurchase,
+  cryptoCardRefund,
+  cryptoCardWithdrawal,
+  cryptoCardDeposit,
+  cryptoCardOrder,
 }
 
 extension _OperationTypeExtension on OperationType {
@@ -244,6 +254,16 @@ extension _OperationTypeExtension on OperationType {
         return 170;
       case OperationType.jarWithdrawal:
         return 171;
+      case OperationType.cryptoCardPurchase:
+        return 110;
+      case OperationType.cryptoCardRefund:
+        return 111;
+      case OperationType.cryptoCardWithdrawal:
+        return 112;
+      case OperationType.cryptoCardDeposit:
+        return 115;
+      case OperationType.cryptoCardOrder:
+        return 118;
       default:
         return 0;
     }
@@ -379,6 +399,16 @@ class OperationTypeSerialiser implements JsonConverter<OperationType, dynamic> {
       return OperationType.jarDeposit;
     } else if (value == '171') {
       return OperationType.jarWithdrawal;
+    } else if (value == '110') {
+      return OperationType.cryptoCardPurchase;
+    } else if (value == '111') {
+      return OperationType.cryptoCardRefund;
+    } else if (value == '112') {
+      return OperationType.cryptoCardWithdrawal;
+    } else if (value == '115') {
+      return OperationType.cryptoCardDeposit;
+    } else if (value == '118') {
+      return OperationType.cryptoCardOrder;
     } else {
       return OperationType.unknown;
     }
@@ -926,4 +956,137 @@ class JarOperationInfo with _$JarOperationInfo {
   }) = _JarOperationInfo;
 
   factory JarOperationInfo.fromJson(Map<String, dynamic> json) => _$JarOperationInfoFromJson(json);
+}
+
+@freezed
+class HistoryPaymentDto with _$HistoryPaymentDto {
+  const factory HistoryPaymentDto({
+    String? asset,
+    @DecimalNullSerialiser() Decimal? amount,
+  }) = _HistoryPaymentDto;
+
+  factory HistoryPaymentDto.fromJson(Map<String, dynamic> json) => _$HistoryPaymentDtoFromJson(json);
+}
+
+@freezed
+class HistoryRatesDto with _$HistoryRatesDto {
+  const factory HistoryRatesDto({
+    String? fromAsset,
+    String? toAsset,
+    @DecimalNullSerialiser() Decimal? rate,
+  }) = _HistoryRatesDto;
+
+  factory HistoryRatesDto.fromJson(Map<String, dynamic> json) => _$HistoryRatesDtoFromJson(json);
+}
+
+@freezed
+class CryptoCardPurchaseOperationInfo with _$CryptoCardPurchaseOperationInfo {
+  const factory CryptoCardPurchaseOperationInfo({
+    String? description,
+    @DecimalNullSerialiser() Decimal? rate,
+    String? cardLabel,
+    String? cardType,
+    String? cardLast4,
+    String? cardId,
+    String? transactionId,
+    String? paymentFeeAssetId,
+    @DecimalNullSerialiser() Decimal? paymentFeeAmount,
+    List<HistoryPaymentDto>? payments,
+    List<HistoryRatesDto>? rates,
+    String? paymentAssetId,
+    @DecimalNullSerialiser() Decimal? paymentAmount,
+    String? rateBaseAsset,
+    String? rateQuoteAsset,
+  }) = _CryptoCardPurchaseOperationInfo;
+
+  factory CryptoCardPurchaseOperationInfo.fromJson(Map<String, dynamic> json) =>
+      _$CryptoCardPurchaseOperationInfoFromJson(json);
+}
+
+@freezed
+class CryptoCardWithdrawalOperationInfo with _$CryptoCardWithdrawalOperationInfo {
+  const factory CryptoCardWithdrawalOperationInfo({
+    String? description,
+    @DecimalNullSerialiser() Decimal? rate,
+    String? cardLabel,
+    String? cardType,
+    String? cardLast4,
+    String? cardId,
+    String? transactionId,
+    String? paymentFeeAssetId,
+    @DecimalNullSerialiser() Decimal? paymentFeeAmount,
+    List<HistoryPaymentDto>? payments,
+    List<HistoryRatesDto>? rates,
+    String? paymentAssetId,
+    @DecimalNullSerialiser() Decimal? paymentAmount,
+    String? rateBaseAsset,
+    String? rateQuoteAsset,
+  }) = _CryptoCardWithdrawalOperationInfo;
+
+  factory CryptoCardWithdrawalOperationInfo.fromJson(Map<String, dynamic> json) =>
+      _$CryptoCardWithdrawalOperationInfoFromJson(json);
+}
+
+@freezed
+class CryptoCardRefundOperationInfo with _$CryptoCardRefundOperationInfo {
+  const factory CryptoCardRefundOperationInfo({
+    String? description,
+    @DecimalNullSerialiser() Decimal? rate,
+    String? cardLabel,
+    String? cardType,
+    String? cardLast4,
+    String? cardId,
+    String? transactionId,
+    String? paymentFeeAssetId,
+    @DecimalNullSerialiser() Decimal? paymentFeeAmount,
+    String? paymentAssetId,
+    @DecimalNullSerialiser() Decimal? paymentAmount,
+    String? rateBaseAsset,
+    String? rateQuoteAsset,
+  }) = _CryptoCardRefundOperationInfo;
+
+  factory CryptoCardRefundOperationInfo.fromJson(Map<String, dynamic> json) =>
+      _$CryptoCardRefundOperationInfoFromJson(json);
+}
+
+@freezed
+class CryptoCardDepositOperationInfo with _$CryptoCardDepositOperationInfo {
+  const factory CryptoCardDepositOperationInfo({
+    String? description,
+    @DecimalNullSerialiser() Decimal? rate,
+    String? cardLabel,
+    String? cardType,
+    String? cardLast4,
+    String? cardId,
+    String? transactionId,
+    String? depositFeeAssetId,
+    @DecimalNullSerialiser() Decimal? depositFeeAmount,
+    String? receiveAssetId,
+    @DecimalNullSerialiser() Decimal? receiveAmount,
+  }) = _CryptoCardDepositOperationInfo;
+
+  factory CryptoCardDepositOperationInfo.fromJson(Map<String, dynamic> json) =>
+      _$CryptoCardDepositOperationInfoFromJson(json);
+}
+
+@freezed
+class CryptoCardOrderOperationInfo with _$CryptoCardOrderOperationInfo {
+  const factory CryptoCardOrderOperationInfo({
+    String? description,
+    @DecimalNullSerialiser() Decimal? rate,
+    String? cardLabel,
+    String? cardType,
+    String? cardLast4,
+    String? cardId,
+    String? transactionId,
+    String? paymentFeeAssetId,
+    @DecimalNullSerialiser() Decimal? paymentFeeAmount,
+    String? paymentAssetId,
+    @DecimalNullSerialiser() Decimal? paymentAmount,
+    String? rateBaseAsset,
+    String? rateQuoteAsset,
+  }) = _CryptoCardOrderOperationInfo;
+
+  factory CryptoCardOrderOperationInfo.fromJson(Map<String, dynamic> json) =>
+      _$CryptoCardOrderOperationInfoFromJson(json);
 }

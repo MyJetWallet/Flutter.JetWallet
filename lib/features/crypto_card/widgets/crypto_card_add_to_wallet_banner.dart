@@ -34,23 +34,10 @@ class CryptoCardAddToWalletBanner extends StatelessWidget {
   }
 }
 
-class _BannerWidget extends StatefulWidget {
+class _BannerWidget extends StatelessWidget {
   const _BannerWidget({this.onCloseBanner});
 
   final void Function()? onCloseBanner;
-
-  @override
-  State<_BannerWidget> createState() => _BannerWidgetState();
-}
-
-class _BannerWidgetState extends State<_BannerWidget> {
-  @override
-  void initState() {
-    super.initState();
-    sAnalytics.viewAddToWalletCard(
-      walletType: Platform.isAndroid ? 'Google Wallet' : 'Apple Wallet',
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +84,7 @@ class _BannerWidgetState extends State<_BannerWidget> {
                     sAnalytics.tapCloseAddToWalletBanner(
                       walletType: Platform.isAndroid ? 'Google Wallet' : 'Apple Wallet',
                     );
-                    widget.onCloseBanner?.call();
+                    onCloseBanner?.call();
                   },
                   child: Assets.svg.medium.close.simpleSvg(
                     height: 20.0,

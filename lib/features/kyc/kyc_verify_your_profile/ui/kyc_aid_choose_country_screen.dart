@@ -17,9 +17,10 @@ import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'KycAidChooseCountryRouter')
 class KycAidChooseCountryScreen extends StatefulWidget {
-  const KycAidChooseCountryScreen({required this.initCountryCode});
+  const KycAidChooseCountryScreen({required this.initCountryCode, this.isCardFlow = false});
 
   final String initCountryCode;
+  final bool isCardFlow;
 
   @override
   State<KycAidChooseCountryScreen> createState() => __ChooseCountryState();
@@ -31,7 +32,7 @@ class __ChooseCountryState extends State<KycAidChooseCountryScreen> {
     final colors = SColorsLight();
 
     return Provider(
-      create: (context) => KycAidCountriesStore(),
+      create: (context) => KycAidCountriesStore(isCardFlow: widget.isCardFlow),
       builder: (context, child) {
         final store = KycAidCountriesStore.of(context);
         return Observer(

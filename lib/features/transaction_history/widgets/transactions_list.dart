@@ -32,6 +32,7 @@ class TransactionsList extends StatelessWidget {
     this.onError,
     this.onData,
     this.mode = TransactionListMode.full,
+    this.jwOperationId,
   });
 
   final ScrollController scrollController;
@@ -46,6 +47,7 @@ class TransactionsList extends StatelessWidget {
   final bool isSimpleCard;
   final TransactionItemSource source;
   final TransactionListMode mode;
+  final String? jwOperationId;
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +61,7 @@ class TransactionsList extends StatelessWidget {
         onData: onData,
         mode: mode,
         jarId: jarId,
+        jwOperationId: jwOperationId,
       )..initOperationHistory(),
       builder: (context, child) => _TransactionsListBody(
         scrollController: scrollController,

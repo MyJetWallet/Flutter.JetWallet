@@ -16,14 +16,14 @@ import 'package:simple_networking/modules/wallet_api/models/kyc/apply_country_re
 part 'kyc_aid_countries_store.g.dart';
 
 class KycAidCountriesStore extends _KycAidCountriesStoreBase with _$KycAidCountriesStore {
-  KycAidCountriesStore() : super();
+  KycAidCountriesStore({super.isCardFlow= false}) : super();
 
   static _KycAidCountriesStoreBase of(BuildContext context) =>
       Provider.of<KycAidCountriesStore>(context, listen: false);
 }
 
 abstract class _KycAidCountriesStoreBase with Store {
-  _KycAidCountriesStoreBase() {
+  _KycAidCountriesStoreBase({this.isCardFlow = false}) {
     final countriesList = getIt.get<KycProfileCountries>().profileCountries;
     final value = <KycProfileCountryModel>[];
 
@@ -45,6 +45,8 @@ abstract class _KycAidCountriesStoreBase with Store {
     final userCountry = getIt.get<ProfileGetUserCountry>();
     _identifyCountryByUserRegister(userCountry.profileUserCountry.countryCode);
   }
+
+  final bool isCardFlow;
 
   static final _logger = Logger('KycAidCountriesStore');
 

@@ -109,6 +109,6 @@ Future<void> _launchKycFlow({
       needPush: false,
     );
   } else if (kycPlan.provider == KycProvider.kycAid) {
-    await startKycAidFlow(kycPlan);
+    await startKycAidFlow(kycPlan: kycPlan);
   }
 }

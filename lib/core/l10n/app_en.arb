@@ -1992,5 +1992,14 @@
     },
     "crypto_card_lable_save": "Save",
     "crypto_card_settings_label_card": "Label card",
-    "crypto_card_show_details": "Show details"
+    "crypto_card_show_details": "Show details",
+    "crypto_card_history_transactions": "Transactions",
+    "crypto_card_history_view_all": "View all",
+    "crypto_card_history_transaction_history": "Transaction history",
+    "crypto_card_history_view_full_details": "View full details",
+    "crypto_card_history_deposit": "Deposit",
+    "crypto_card_history_card_purchase": "Card purchase",
+    "crypto_card_history_refund": "Refund",
+    "crypto_card_history_card_issue": "Card issue",
+    "crypto_card_history_details": "Details"
 }

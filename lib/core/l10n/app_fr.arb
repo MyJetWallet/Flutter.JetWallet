@@ -1863,9 +1863,9 @@
     "crypto_card_unfreeze_toast": "Succès",
     "crypto_card_change_your_pin": "Changez votre code PIN",
     "crypto_card_confirm_your_pin": "Confirmez votre code PIN",
-    "crypto_card_change_your_pin_description": "Ви можете оновити ваш PIN в будь-який час, якщо цей пристрій зареєстрований.",
+    "crypto_card_change_your_pin_description": "Vous pouvez mettre à jour votre code PIN à tout moment, tant que l'appareil est enregistré.",
     "crypto_card_continue": "Continuer",
-    "crypto_card_pin_does_not_match": "PIN не співпадає",
+    "crypto_card_pin_does_not_match": "Le PIN ne correspond pas",
     "crypto_card_pin_not_strong": "Choisissez un PIN plus fort",
     "crypto_card_change_pin_success": "Votre PIN a été mis à jour avec succès. Vous pouvez le changer à tout moment.",
     "crypto_card_here_your_pin": "Voici votre PIN",
@@ -1955,5 +1955,6 @@
         }
     },
     "crypto_card_lable_save": "Sauvegarder",
-    "crypto_card_settings_label_card": "Étiqueter la carte"
+    "crypto_card_settings_label_card": "Étiqueter la carte",
+    "crypto_card_show_details": "Voir détails"
 }

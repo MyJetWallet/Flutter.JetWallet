@@ -77,7 +77,7 @@ class _KycVerificationState extends State<KycVerification> {
                 );
               } else if (kycPlan?.provider == KycProvider.kycAid) {
                 unawaited(
-                  startKycAidFlow(kycPlan!).then((_) {
+                  startKycAidFlow(kycPlan: kycPlan!).then((_) {
                     getKYCPlan();
                   }),
                 );
@@ -97,7 +97,7 @@ class _KycVerificationState extends State<KycVerification> {
           );
         } else if (kycPlan?.provider == KycProvider.kycAid) {
           unawaited(
-            startKycAidFlow(kycPlan!).then((_) {
+            startKycAidFlow(kycPlan: kycPlan!).then((_) {
               getKYCPlan();
             }),
           );

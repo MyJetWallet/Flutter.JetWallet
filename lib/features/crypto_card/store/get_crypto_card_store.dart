@@ -5,6 +5,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/sumsub_service/sumsub_service.dart';
 import 'package:jetwallet/features/app/store/global_loader.dart';
 import 'package:jetwallet/features/crypto_card/utils/show_please_verify_account_popup.dart';
@@ -16,6 +17,7 @@ import 'package:jetwallet/features/kyc/kyc_verify_your_profile/utils/start_kyc_a
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_networking/modules/signal_r/models/crypto_card_message_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/kyc/kyc_plan_responce_model.dart';
 
 part 'get_crypto_card_store.g.dart';
@@ -31,11 +33,17 @@ abstract class _GetCryptoCardStoreBase with Store {
   Future<void> startCreatingFlow() async {
     final context = sRouter.navigatorKey.currentContext;
     if (context == null) return;
-    // TODO (Yaroslav): add status check
-    await showUploadInternationalPassportPopup(context: context);
+
     await _checkKycState(
       onKycAllowed: () async {
-        await sRouter.push(const CryptoCardPayAssetRoute());
+        if (sSignalRModules.cryptoCardProfile.status == CryptoCardProfileStatus.kycRequired) {
+          final result = await showUploadInternationalPassportPopup(context: context);
+          if (result == true) {
+            await _startKycVereficationFlow();
+          }
+        } else {
+          await sRouter.push(const CryptoCardPayAssetRoute());
+        }
       },
     );
   }
@@ -71,7 +79,7 @@ abstract class _GetCryptoCardStoreBase with Store {
     KycPlanResponceModel? kycPlan;
     try {
       getIt.get<GlobalLoader>().setLoading(true);
-      kycPlan = await getKYCAidPlan();
+      kycPlan = await getKYCAidPlan(isCardFlow: true);
     } catch (error) {
       logError(
         message: '_startKycVereficationFlow error: $error',
@@ -87,7 +95,7 @@ abstract class _GetCryptoCardStoreBase with Store {
         isBanking: false,
       );
     } else if (kycPlan.provider == KycProvider.kycAid) {
-      await startKycAidFlow(kycPlan);
+      await startKycAidFlow(kycPlan: kycPlan, isCardFlow: true);
     }
   }
 

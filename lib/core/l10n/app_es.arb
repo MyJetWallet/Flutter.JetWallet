@@ -1979,5 +1979,6 @@
         }
     },
     "crypto_card_lable_save": "Guardar",
-    "crypto_card_settings_label_card": "Etiquetar tarjeta"
+    "crypto_card_settings_label_card": "Etiquetar tarjeta",
+    "crypto_card_show_details": "Más detalles"
 }

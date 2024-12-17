@@ -28,6 +28,7 @@ enum TransactionItemSource {
   cryptoAccount,
   eurAccount,
   simpleCard,
+  cryptoCard,
 }
 
 class TransactionListItem extends StatelessWidget {
@@ -263,6 +264,26 @@ class TransactionListItem extends StatelessWidget {
         return SWithdrawalIcon(
           color: isFailed ? failedColor : colors.red,
         );
+      case OperationType.cryptoCardDeposit:
+        return Assets.svg.medium.arrowDown.simpleSvg(
+          width: 24,
+          color: isFailed ? failedColor : colors.green,
+        );
+      case OperationType.cryptoCardPurchase:
+        return Assets.svg.medium.arrowUp.simpleSvg(
+          width: 24,
+          color: isFailed ? failedColor : colors.red,
+        );
+      case OperationType.cryptoCardRefund:
+        return Assets.svg.medium.arrowDown.simpleSvg(
+          width: 24,
+          color: isFailed ? failedColor : colors.green,
+        );
+      case OperationType.cryptoCardOrder:
+        return Assets.svg.medium.arrowUp.simpleSvg(
+          width: 24,
+          color: isFailed ? failedColor : colors.red,
+        );
       default:
         return SPlusIcon(color: isFailed ? failedColor : null);
     }
@@ -277,6 +298,14 @@ class TransactionListItem extends StatelessWidget {
         return const SGiftHistoryIcon();
       case OperationType.rewardPayment:
         return const SRewardHistoryIcon();
+      case OperationType.cryptoCardDeposit:
+      case OperationType.cryptoCardPurchase:
+      case OperationType.cryptoCardRefund:
+      case OperationType.cryptoCardOrder:
+        return Assets.svg.medium.cardAlt.simpleSvg(
+          width: 16,
+          color: SColorsLight().gray8,
+        );
       default:
         return null;
     }
@@ -293,7 +322,10 @@ class TransactionListItem extends StatelessWidget {
             ((transactionListItem.operationType == OperationType.bankingTransfer) &&
                 (source == TransactionItemSource.history)))
         ? transactionListItem.balanceChange.abs()
-        : transactionListItem.balanceChange;
+        : (transactionListItem.operationType == OperationType.cryptoCardPurchase ||
+                transactionListItem.operationType == OperationType.cryptoCardOrder)
+            ? transactionListItem.balanceChange.negative
+            : transactionListItem.balanceChange;
 
     return amount.toFormatCount(
       accuracy: accuracy,
@@ -434,7 +466,7 @@ class TransactionBaseItem extends StatelessWidget {
                         ),
                         if (labelIcon != null) ...[
                           Padding(
-                            padding: const EdgeInsets.only(left: 4, top: 1.5),
+                            padding: const EdgeInsets.only(left: 4),
                             child: SizedBox(
                               height: 16,
                               child: labelIcon,

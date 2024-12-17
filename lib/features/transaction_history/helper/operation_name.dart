@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/features/transaction_history/widgets/transaction_list_item.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 
 String operationName(
@@ -7,6 +8,7 @@ String operationName(
   BuildContext context, {
   bool? isToppedUp,
   String? asset,
+  required TransactionItemSource source,
 }) {
   switch (type) {
     case OperationType.deposit:
@@ -86,6 +88,22 @@ String operationName(
       return intl.operationName_sent;
     case OperationType.bankingSellWithWithdrawal:
       return intl.history_withdrawn;
+    case OperationType.cryptoCardDeposit:
+      return source != TransactionItemSource.cryptoCard
+          ? intl.crypto_card_history_deposit
+          : intl.crypto_card_history_details;
+    case OperationType.cryptoCardPurchase:
+      return source != TransactionItemSource.cryptoCard
+          ? intl.crypto_card_history_card_purchase
+          : intl.crypto_card_history_details;
+    case OperationType.cryptoCardRefund:
+      return source != TransactionItemSource.cryptoCard
+          ? intl.crypto_card_history_refund
+          : intl.crypto_card_history_details;
+    case OperationType.cryptoCardOrder:
+      return source != TransactionItemSource.cryptoCard
+          ? intl.crypto_card_history_card_issue
+          : intl.crypto_card_history_details;
     default:
       return 'Unknown';
   }
