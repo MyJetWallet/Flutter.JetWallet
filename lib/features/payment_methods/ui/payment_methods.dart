@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/bank_card/edit_bank_card.dart';
 import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/components/market_separator.dart';
@@ -9,7 +10,6 @@ import 'package:jetwallet/features/payment_methods/ui/widgets/payment_card_item.
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/helpers/is_card_expired.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'PaymentMethodsRouter')
 class PaymentMethods extends StatelessWidget {

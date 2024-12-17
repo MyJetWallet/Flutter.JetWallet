@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 
 final _baseButtonRadius = BorderRadius.circular(12.0);
 
@@ -97,7 +97,7 @@ class _SimpleInvestButtonState extends State<SIButton> {
                       Text(
                         widget.name,
                         style: widget.isSecondary
-                            ?  STStyles.body1InvestSM.copyWith(
+                            ? STStyles.body1InvestSM.copyWith(
                                 color: currentNameColor,
                               )
                             : STStyles.header4MInvest.copyWith(

@@ -1,6 +1,7 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/format_service.dart';
@@ -12,7 +13,6 @@ import 'package:jetwallet/widgets/confirm_timer/simple_confirm_action_timer.dart
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class BuyP2PConfirmationInfoGrid extends StatefulObserverWidget {
   const BuyP2PConfirmationInfoGrid({

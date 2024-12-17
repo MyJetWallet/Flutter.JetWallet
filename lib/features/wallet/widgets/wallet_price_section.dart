@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
@@ -12,7 +13,6 @@ import 'package:jetwallet/features/market/market_details/helper/period_change.da
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class WalletPriceSection extends HookWidget {
   const WalletPriceSection({super.key, required this.currency});

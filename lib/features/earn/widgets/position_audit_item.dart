@@ -1,10 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:jetwallet/features/transaction_history/widgets/transaction_list_item_header_text.dart';
 import 'package:jetwallet/features/transaction_history/widgets/transaction_list_item_text.dart';
 import 'package:simple_kit/modules/icons/24x24/public/history_completed/simple_history_completed_icon.dart';
 import 'package:simple_kit/modules/icons/24x24/public/history_declined/simple_history_declined_icon.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 
 class PositionAuditItem extends StatelessWidget {

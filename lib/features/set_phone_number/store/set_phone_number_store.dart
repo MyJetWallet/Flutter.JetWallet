@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
@@ -16,12 +17,12 @@ import 'package:jetwallet/utils/logging.dart';
 import 'package:logger/logger.dart';
 import 'package:logging/logging.dart' as logging;
 import 'package:mobx/mobx.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/validation_api/models/phone_verification/phone_verification_request_model.dart';
 
 import '../../../core/di/di.dart';
 import '../../../core/services/logger_service/logger_service.dart';
+
 part 'set_phone_number_store.g.dart';
 
 class SetPhoneNumberStore = _SetPhoneNumberStoreBase with _$SetPhoneNumberStore;

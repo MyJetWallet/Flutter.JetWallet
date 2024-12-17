@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/router/app_router.dart';
@@ -10,7 +11,6 @@ import 'package:jetwallet/features/app/store/models/authorized_union.dart';
 import 'package:jetwallet/features/home/store/bottom_bar_store.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../core/services/route_query_service.dart';
 

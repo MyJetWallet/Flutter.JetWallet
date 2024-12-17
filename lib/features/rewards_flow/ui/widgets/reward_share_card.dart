@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_flip_card/flutter_flip_card.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/logs/helpers/encode_query_parameters.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
@@ -14,7 +15,6 @@ import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/remote_config/models/rewards_asset_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 

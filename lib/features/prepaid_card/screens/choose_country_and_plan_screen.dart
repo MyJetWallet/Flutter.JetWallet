@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/phone_verification/utils/simple_number.dart';
@@ -10,7 +11,6 @@ import 'package:jetwallet/features/prepaid_card/store/choose_country_and_plan_st
 import 'package:jetwallet/features/prepaid_card/utils/show_choose_countre_bottom_shet.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/widgets/flag_item.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/prepaid_card/purchase_card_brand_list_response_model.dart';
 
 class ChooseCountryAndPlanScreen extends StatelessWidget {

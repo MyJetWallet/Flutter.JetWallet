@@ -4,6 +4,10 @@ import 'package:charts/simple_chart.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
+import 'package:flutter_ui_kit/widgets/navigation/segment_control/models/segment_control_data.dart';
+import 'package:flutter_ui_kit/widgets/navigation/segment_control/segment_control.dart';
+import 'package:flutter_ui_kit/widgets/table/divider/simple_divider.dart' as divider;
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
@@ -19,10 +23,6 @@ import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
-import 'package:simple_kit_updated/widgets/navigation/segment_control/models/segment_control_data.dart';
-import 'package:simple_kit_updated/widgets/navigation/segment_control/segment_control.dart';
-import 'package:simple_kit_updated/widgets/table/divider/simple_divider.dart' as divider;
 import 'package:simple_networking/modules/signal_r/models/market_sectors_message_model.dart';
 
 @RoutePage(name: 'MarketSectorDetailsRouter')

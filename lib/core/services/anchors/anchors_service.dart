@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:collection/collection.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/anchors/anchors_helper.dart';
@@ -22,7 +23,6 @@ import 'package:jetwallet/features/wallet/helper/market_item_from.dart';
 import 'package:jetwallet/features/withdrawal_banking/helpers/show_bank_transfer_select.dart';
 import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:logger/logger.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/analytic_records/models/anchor_record.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 

@@ -1,5 +1,6 @@
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/crypto_card/store/main_crypto_card_store.dart';
@@ -8,7 +9,6 @@ import 'package:jetwallet/features/crypto_card/utils/show_freeze_crypto_card_pop
 import 'package:jetwallet/features/crypto_card/utils/show_unfreeze_crypto_card_popup.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class CryptoCardActionButtons extends StatelessWidget {
   const CryptoCardActionButtons({

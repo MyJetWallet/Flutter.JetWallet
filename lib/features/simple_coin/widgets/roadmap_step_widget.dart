@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:jetwallet/features/simple_coin/models/road_map_steep_model.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class RoadmapStepWidget extends StatelessWidget {
   const RoadmapStepWidget({required this.event});

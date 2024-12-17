@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
@@ -10,13 +11,12 @@ import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/kyc/apply_country_request_model.dart';
 
 part 'kyc_aid_countries_store.g.dart';
 
 class KycAidCountriesStore extends _KycAidCountriesStoreBase with _$KycAidCountriesStore {
-  KycAidCountriesStore({super.isCardFlow= false}) : super();
+  KycAidCountriesStore({super.isCardFlow = false}) : super();
 
   static _KycAidCountriesStoreBase of(BuildContext context) =>
       Provider.of<KycAidCountriesStore>(context, listen: false);

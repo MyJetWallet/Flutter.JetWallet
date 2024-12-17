@@ -1,9 +1,9 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:jetwallet/features/withdrawal/store/withdrawal_store.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage()
 class ScannerScreen extends StatelessWidget {

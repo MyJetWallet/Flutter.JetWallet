@@ -3,12 +3,12 @@ import 'dart:math';
 
 import 'package:decimal/decimal.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/invest/stores/dashboard/invest_positions_store.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:mobx/mobx.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/config/constants.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_base_daily_price_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';

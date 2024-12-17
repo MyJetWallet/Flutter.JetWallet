@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/features/simple_coin/models/road_map_steep_model.dart';
 import 'package:jetwallet/features/simple_coin/widgets/roadmap_step_widget.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class SimpleCoinRoadmap extends StatefulWidget {
   const SimpleCoinRoadmap({super.key});

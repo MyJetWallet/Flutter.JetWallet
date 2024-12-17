@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
@@ -9,7 +10,6 @@ import 'package:jetwallet/features/auth/biometric/store/biometric_store.dart';
 import 'package:jetwallet/features/kyc/allow_camera/store/allow_camera_store.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'AllowBiometricRoute')
 class AllowBiometric extends StatelessWidget {

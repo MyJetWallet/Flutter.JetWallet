@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/transaction_history/store/transaction_cancel_store.dart';
 import 'package:jetwallet/features/transaction_history/widgets/transaction_details/add_cash_details.dart';
@@ -25,7 +26,6 @@ import 'package:jetwallet/features/transaction_history/widgets/transaction_detai
 import 'package:jetwallet/features/transaction_history/widgets/transaction_details/withdraw_details.dart';
 import 'package:jetwallet/features/transaction_history/widgets/transaction_list_item.dart';
 import 'package:jetwallet/utils/helpers/find_blockchain_by_descr.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 

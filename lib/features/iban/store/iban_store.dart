@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_bool_literals_in_conditional_expressions
 import 'package:flutter/material.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
@@ -9,7 +10,6 @@ import 'package:jetwallet/features/phone_verification/utils/simple_phone_numbers
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/iban_info/iban_info_response_model.dart';
@@ -20,6 +20,7 @@ import '../../../core/di/di.dart';
 import '../../../core/router/app_router.dart';
 import '../../../core/services/kyc_profile_countries.dart';
 import '../../auth/user_data/ui/widgets/country/model/kyc_profile_country_model.dart';
+
 part 'iban_store.g.dart';
 
 class IbanStore = IbanStoreBase with _$IbanStore;

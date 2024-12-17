@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:simple_kit/modules/icons/20x20/public/checkmark/simple_checkmark_icon.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 
 class SEarnPositionBadge extends StatelessWidget {

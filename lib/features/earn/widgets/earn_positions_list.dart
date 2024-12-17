@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ui_kit/widgets/table/placeholder/simple_placeholder.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
@@ -8,7 +9,6 @@ import 'package:jetwallet/features/earn/widgets/basic_header.dart';
 import 'package:jetwallet/features/earn/widgets/deposit_card.dart';
 import 'package:jetwallet/features/earn/widgets/earn_active_position_badge.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit_updated/widgets/table/placeholder/simple_placeholder.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 
 class EarnPositionsListWidget extends StatelessWidget {

@@ -3,13 +3,13 @@ import 'dart:async';
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/core/services/sumsub_service/sumsub_service.dart';
 import 'package:jetwallet/features/face_check/store/face_check_store.dart';
 import 'package:simple_kit/modules/icons/40x40/public/user/simple_user_icon.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage()
 class FaceCheckScreen extends StatefulWidget {

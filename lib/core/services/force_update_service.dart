@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
@@ -9,7 +10,6 @@ import 'package:jetwallet/core/services/package_info_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/utils/helpers/compare_version.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:store_redirect/store_redirect.dart';
 
 class ForceServiceUpdate {

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/bank_card/helper/masked_text_input_formatter.dart';
 import 'package:jetwallet/features/bank_card/store/bank_card_store.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class BankCardDateLabel extends StatelessObserverWidget {
   const BankCardDateLabel({

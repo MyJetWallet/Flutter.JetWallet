@@ -1,4 +1,5 @@
 import 'package:decimal/decimal.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/features/send_gift/model/send_gift_info_model.dart';
 import 'package:jetwallet/features/send_gift/store/receiver_datails_store.dart';
@@ -6,8 +7,8 @@ import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/decompose_phone_number.dart';
 import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
 import 'package:mobx/mobx.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/simple_networking.dart';
+
 import '../../../core/di/di.dart';
 import '../../../core/l10n/i10n.dart';
 import '../../../core/router/app_router.dart';

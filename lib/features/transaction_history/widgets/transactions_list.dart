@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:grouped_list/sliver_grouped_list.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/market/market_details/model/operation_history_union.dart';
@@ -8,7 +9,6 @@ import 'package:jetwallet/features/transaction_history/widgets/transaction_list_
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart' as rive;
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 
 import '../../wallet/helper/format_date.dart';

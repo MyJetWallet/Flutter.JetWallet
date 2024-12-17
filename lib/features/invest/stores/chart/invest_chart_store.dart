@@ -1,7 +1,7 @@
 import 'package:charts/simple_chart.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/candles_api/models/candles_request_model.dart';
 
 import '../../../../core/di/di.dart';

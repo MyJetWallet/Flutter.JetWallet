@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:jetwallet/features/bank_card/helper/masked_text_input_formatter.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/store/send_card_detail_store.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 
 // ignore: avoid_classes_with_only_static_members

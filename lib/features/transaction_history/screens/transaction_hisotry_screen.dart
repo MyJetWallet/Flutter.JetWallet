@@ -1,11 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
+import 'package:flutter_ui_kit/widgets/navigation/segment_control/models/segment_control_data.dart';
+import 'package:flutter_ui_kit/widgets/navigation/segment_control/segment_control.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
-import 'package:simple_kit_updated/widgets/navigation/segment_control/models/segment_control_data.dart';
-import 'package:simple_kit_updated/widgets/navigation/segment_control/segment_control.dart';
 
 import '../../wallet/helper/nft_types.dart';
 import '../widgets/transactions_main_list.dart';

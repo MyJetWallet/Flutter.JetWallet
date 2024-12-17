@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:jetwallet/features/phone_verification/utils/simple_number.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import 'flag_item.dart';
 

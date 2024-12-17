@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/features/auth/register/store/referral_code_store.dart';
 import 'package:jetwallet/features/auth/register/ui/widgets/referral_code/components/entered_valid_referal_code.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import 'components/invalid_referral_code.dart';
 import 'components/loading_referral_code.dart';

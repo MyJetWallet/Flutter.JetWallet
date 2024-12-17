@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:simple_kit/modules/icons/20x20/public/list_checkmark/simple_check_list_icon.dart';
 import 'package:simple_kit/modules/icons/20x20/public/list_checkmark/simple_minus_list_icon.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class PasswordRequirement extends StatelessWidget {
   const PasswordRequirement({

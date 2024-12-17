@@ -3,11 +3,11 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:jetwallet/features/invest/ui/dashboard/active_invest_line.dart';
 import 'package:jetwallet/features/invest/ui/widgets/small_chart.dart';
 import 'package:jetwallet/utils/formatting/base/format_percent.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 
 import '../../../../utils/helpers/icon_url_from.dart';

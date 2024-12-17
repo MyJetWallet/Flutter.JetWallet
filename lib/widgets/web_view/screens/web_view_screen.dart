@@ -1,12 +1,11 @@
 import 'package:auto_route/auto_route.dart';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/widgets/web_view/store/web_veiw_store.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 @RoutePage(name: 'WebViewRouter')

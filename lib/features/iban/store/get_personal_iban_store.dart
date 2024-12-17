@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
@@ -9,7 +10,6 @@ import 'package:jetwallet/features/my_wallets/helper/show_create_personal_accoun
 import 'package:jetwallet/features/my_wallets/helper/show_wallet_verify_account.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:uuid/uuid.dart';
 
 part 'get_personal_iban_store.g.dart';

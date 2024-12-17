@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class TransactionMonthSeparator extends StatelessObserverWidget {
   const TransactionMonthSeparator({

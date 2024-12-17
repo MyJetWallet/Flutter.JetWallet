@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
@@ -10,7 +11,6 @@ import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:jetwallet/widgets/flag_item.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class LangItem {
   LangItem(this.countryCode, this.langCode, this.label);

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
-
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class HistoryCopyIcon extends StatelessWidget {
   const HistoryCopyIcon(this.text);

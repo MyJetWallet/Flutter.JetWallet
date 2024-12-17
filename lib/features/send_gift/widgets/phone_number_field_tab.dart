@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:jetwallet/features/send_gift/widgets/show_country_phone_number_picker.dart';
 import 'package:simple_kit/modules/icons/24x24/public/erase/simple_erase_icon.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../core/l10n/i10n.dart';
-
 import '../../set_phone_number/store/set_phone_number_store.dart';
 import '../store/receiver_datails_store.dart';
 

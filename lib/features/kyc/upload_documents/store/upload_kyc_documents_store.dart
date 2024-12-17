@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -16,7 +17,6 @@ import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_add/card_check_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_add/card_verification_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_add/card_verification_response_model.dart';

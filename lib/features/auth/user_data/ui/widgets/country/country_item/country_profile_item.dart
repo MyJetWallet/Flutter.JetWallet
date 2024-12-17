@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:jetwallet/widgets/flag_item.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import 'components/country_profile_name.dart';
 import 'components/country_profile_warning.dart';

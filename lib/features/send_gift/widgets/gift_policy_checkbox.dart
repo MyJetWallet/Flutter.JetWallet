@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:simple_kit/modules/icons/24x24/public/checkbox/simple_checkbox_icon.dart';
 import 'package:simple_kit/modules/icons/24x24/public/checkbox/simple_checkbox_selected_icon.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../core/l10n/i10n.dart';
 

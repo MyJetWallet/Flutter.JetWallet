@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/invest/ui/dashboard/active_invest_line.dart';
@@ -14,7 +15,6 @@ import 'package:jetwallet/features/invest/ui/widgets/invest_input.dart';
 import 'package:jetwallet/features/invest/ui/widgets/slider_thumb_shape.dart';
 import 'package:jetwallet/features/wallet/helper/format_date_to_hm.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/signalr_log.dart';
 import 'package:simple_networking/modules/wallet_api/models/invest/new_invest_request_model.dart';
 

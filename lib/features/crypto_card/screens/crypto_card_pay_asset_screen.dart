@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/crypto_card/store/crypto_card_pay_asset_store.dart';
 import 'package:jetwallet/features/crypto_card/utils/show_pay_with_asset_bottom_sheet.dart';
@@ -9,7 +10,6 @@ import 'package:jetwallet/features/crypto_card/widgets/crypto_card_price_widget.
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'CryptoCardPayAssetRoute')
 class CryptoCardPayAssetScreen extends StatelessWidget {
