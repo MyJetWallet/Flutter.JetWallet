@@ -8,6 +8,7 @@ import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/logout_service/logout_union.dart';
+import 'package:jetwallet/core/services/push_notification.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
@@ -175,6 +176,8 @@ abstract class _LogoutServiceBase with Store {
     // Clear all flutter_secure_storage and shared_preferences
     await sLocalStorageService.clearStorage();
     await getIt<LocalCacheService>().clearAllCache();
+
+    unawaited(getIt.get<PushNotification>().deletePushToken());
 
     if (getIt.isRegistered<AppStore>()) {
       getIt<AppStore>().resetAppStore();

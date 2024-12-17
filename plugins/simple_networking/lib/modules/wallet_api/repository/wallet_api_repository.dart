@@ -887,6 +887,16 @@ class WalletApiRepository {
     return _walletApiDataSources.sendToBankCardPreviewRequest(model);
   }
 
+  Future<DC<ServerRejectException, void>> sendToBankCardInLocalCurrency(
+      SendToBankRequestModel model,
+      ) async {
+    return _walletApiDataSources.sendToBankCardInLocalCurrencyRequest(model);
+  }
+
+  Future<DC<ServerRejectException, SendToBankCardResponse>> sendToBankCardInLocalCurrencyPreview(SendToBankRequestModel model) async {
+    return _walletApiDataSources.sendToBankCardInLocalCurrencyPreviewRequest(model);
+  }
+
   // Send gift
   Future<DC<ServerRejectException, void>> sendGiftByEmail(
     SendGiftByEmailRequestModel model,

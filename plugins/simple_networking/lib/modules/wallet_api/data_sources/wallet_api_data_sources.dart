@@ -2399,6 +2399,50 @@ class WalletApiDataSources {
     }
   }
 
+  Future<DC<ServerRejectException, SendToBankCardResponse>> sendToBankCardInLocalCurrencyPreviewRequest(
+      SendToBankRequestModel model,
+      ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/send-globally/Send-to-bank-card-in-local-currency-preview',
+        data: model,
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(SendToBankCardResponse.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, void>> sendToBankCardInLocalCurrencyRequest(
+      SendToBankRequestModel model,
+      ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/send-globally/Send-to-bank-card-in-local-currency',
+        data: model,
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        handleFullResponse(responseData);
+
+        return DC.data(null);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
   Future<DC<ServerRejectException, void>> sendGiftByEmailRequest(
     SendGiftByEmailRequestModel model,
   ) async {

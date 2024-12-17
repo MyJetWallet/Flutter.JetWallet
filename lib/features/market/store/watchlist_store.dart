@@ -107,12 +107,17 @@ abstract class _WatchlistStoreBase with Store {
     int oldIndex,
     int newIndex,
   ) async {
+    var newI = newIndex;
+    if (newIndex > 0 && oldIndex < newIndex) {
+      newI = newIndex - 1;
+    }
+
     _logger.log(notifier, 'changePosition');
 
     final list = List.of(state);
 
     final item = list.removeAt(oldIndex);
-    list.insert(newIndex, item);
+    list.insert(newI, item);
 
     state = ObservableList.of(list);
 

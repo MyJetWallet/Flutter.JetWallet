@@ -33,6 +33,7 @@ void showTransactionDetails({
   showBasicBottomSheet(
     header: BasicBottomSheetHeaderWidget(
       title: title,
+      withPadding: false,
     ),
     children: [
       TransactionItem(

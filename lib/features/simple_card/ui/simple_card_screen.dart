@@ -23,6 +23,7 @@ import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_create_response.dart';
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_sevsitive_response.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -87,6 +88,15 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
       (asset) => asset.symbol == 'EUR',
       orElse: () => CurrencyModel.empty(),
     );
+
+    CardDataModel? card;
+    final cards = sSignalRModules.bankingProfileData?.banking?.cards;
+    if (cards != null && cards.isNotEmpty) {
+      final activeCard = cards.where((element) => element.status != AccountStatusCard.inactive).toList();
+      if (activeCard.isNotEmpty) {
+        card = activeCard[activeCard.length - 1];
+      }
+    }
 
     return VisibilityDetector(
       key: const Key('earn-screen-key'),
@@ -159,7 +169,7 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                     child: Text(
                       getIt<AppStore>().isBalanceHide
                           ? '**** ${eurCurrency.symbol}'
-                          : (simpleCardStore.cardFull?.balance ?? Decimal.zero).toFormatSum(
+                          : (card?.balance ?? Decimal.zero).toFormatSum(
                               accuracy: eurCurrency.accuracy,
                               symbol: eurCurrency.symbol,
                             ),
