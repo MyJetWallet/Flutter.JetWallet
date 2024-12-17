@@ -58,6 +58,7 @@ export 'widgets/button/tag/simple_tag_button.dart';
 export 'widgets/button/chips/simple_command_bar.dart';
 export 'widgets/button/action_button/action_button.dart';
 export 'widgets/button/action_button/action_pannel.dart';
+export 'widgets/button/suggestion_button/suggestion_button.dart';
 
 export 'widgets/shared/icons/blue_bank_icon.dart';
 export 'widgets/shared/safe_gesture.dart';

@@ -6,7 +6,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
-import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/suggestion_button_widget.dart';
 import 'package:jetwallet/features/sell_flow/store/sell_amount_store.dart';
 import 'package:jetwallet/features/sell_flow/widgets/sell_choose_asset_bottom_sheet.dart';
 import 'package:jetwallet/features/sell_flow/widgets/sell_with_bottom_sheet.dart';
@@ -117,7 +116,7 @@ class _SellAmountScreenBodyState extends State<SellAmountTabBody> with Automatic
                               ),
                               const Spacer(),
                               if (store.asset != null)
-                                SuggestionButtonWidget(
+                                SuggestionButton(
                                   title: store.asset?.description,
                                   subTitle: intl.amount_screen_sell,
                                   trailing: getIt<AppStore>().isBalanceHide
@@ -142,7 +141,7 @@ class _SellAmountScreenBodyState extends State<SellAmountTabBody> with Automatic
                                   isDisabled: store.isNoCurrencies,
                                 )
                               else
-                                SuggestionButtonWidget(
+                                SuggestionButton(
                                   subTitle: intl.amount_screen_sell,
                                   icon: const SCryptoIcon(),
                                   onTap: () {
@@ -162,7 +161,7 @@ class _SellAmountScreenBodyState extends State<SellAmountTabBody> with Automatic
                                 ),
                               const SpaceH4(),
                               if (store.category == PaymentMethodCategory.account)
-                                SuggestionButtonWidget(
+                                SuggestionButton(
                                   title: store.account?.label,
                                   subTitle: intl.amount_screen_sell_to,
                                   trailing: getIt<AppStore>().isBalanceHide
@@ -212,7 +211,7 @@ class _SellAmountScreenBodyState extends State<SellAmountTabBody> with Automatic
                                   isDisabled: store.isNoAccounts,
                                 )
                               else if (store.category == PaymentMethodCategory.simpleCard)
-                                SuggestionButtonWidget(
+                                SuggestionButton(
                                   title: store.card?.label ?? 'Simple card',
                                   subTitle: intl.amount_screen_sell_to,
                                   trailing: getIt<AppStore>().isBalanceHide
@@ -251,7 +250,7 @@ class _SellAmountScreenBodyState extends State<SellAmountTabBody> with Automatic
                                   isDisabled: store.isNoAccounts,
                                 )
                               else
-                                SuggestionButtonWidget(
+                                SuggestionButton(
                                   subTitle: intl.amount_screen_sell_to,
                                   icon: Container(
                                     padding: const EdgeInsets.all(4),

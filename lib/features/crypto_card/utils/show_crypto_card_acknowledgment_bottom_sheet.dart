@@ -5,6 +5,7 @@ import 'package:jetwallet/core/services/remote_config/remote_config_values.dart'
 import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'package:simple_kit_updated/widgets/shared/simple_safe_button_padding.dart';
 
 /// Returns true if the user has agreed to the terms
 Future<bool?> showCryptoCardAcknowledgmentBottomSheet(BuildContext context) async {
@@ -74,20 +75,22 @@ class _AcknowledgmentBodyState extends State<_AcknowledgmentBody> {
           ),
         ),
         SafeArea(
-          child: Padding(
-            padding: EdgeInsets.only(
-              top: 32,
-              left: 24,
-              right: 24,
-              bottom: MediaQuery.of(context).padding.top <= 24 ? 24 : 16,
-            ),
-            child: SButton.black(
-              text: intl.register_continue,
-              callback: isAgreed
-                  ? () {
-                      sRouter.maybePop(true);
-                    }
-                  : null,
+          child: SSafeButtonPadding(
+            child: Padding(
+              padding: const EdgeInsets.only(
+                top: 32,
+                left: 24,
+                right: 24,
+                bottom: 8,
+              ),
+              child: SButton.black(
+                text: intl.register_continue,
+                callback: isAgreed
+                    ? () {
+                        sRouter.maybePop(true);
+                      }
+                    : null,
+              ),
             ),
           ),
         ),

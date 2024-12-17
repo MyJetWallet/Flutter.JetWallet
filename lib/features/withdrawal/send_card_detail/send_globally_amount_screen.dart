@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/suggestion_button_widget.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/store/send_globally_amount_store.dart';
 import 'package:jetwallet/features/withdrawal/store/withdrawal_store.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
@@ -167,7 +166,7 @@ class _SendGloballyAmountScreenBodyState extends State<SendGloballyAmountScreenB
             },
           ),
           const Spacer(),
-          SuggestionButtonWidget(
+          SuggestionButton(
             title: widget.method.name ?? '',
             subTitle: intl.iban_out_sent_to,
             icon: NetworkIconWidget(

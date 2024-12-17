@@ -129,3 +129,5 @@ gi
 
 # Release notes
 release_notes.json
+**/ios/build/ios
+ios/build/.last_build_id

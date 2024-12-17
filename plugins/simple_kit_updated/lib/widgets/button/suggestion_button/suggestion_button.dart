@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
-class SuggestionButtonWidget extends StatelessWidget {
-  const SuggestionButtonWidget({
+class SuggestionButton extends StatelessWidget {
+  const SuggestionButton({
     super.key,
     required this.icon,
     this.title,
@@ -92,8 +91,10 @@ class SuggestionButtonWidget extends StatelessWidget {
                   SizedBox(
                     width: 20,
                     height: 20,
-                    child: SBlueRightArrowIcon(
+                    child: Assets.svg.medium.shevronRight.simpleSvg(
                       color: isDisabled ? greyDisabled : colors.black,
+                      width: 24,
+                      height: 24,
                     ),
                   ),
                 ],

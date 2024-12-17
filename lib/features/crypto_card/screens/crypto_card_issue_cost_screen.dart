@@ -8,6 +8,7 @@ import 'package:jetwallet/features/crypto_card/store/create_crypto_card_store.da
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'package:simple_kit_updated/widgets/shared/simple_safe_button_padding.dart';
 
 @RoutePage(name: 'CryptoCardIssueCostRoute')
 class CryptoCardIssueCostScreen extends StatelessWidget {
@@ -86,20 +87,22 @@ class CryptoCardIssueCostScreen extends StatelessWidget {
                     ),
                     SafeArea(
                       top: false,
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                          left: 24,
-                          right: 24,
-                          top: 16,
-                          bottom: 16 + MediaQuery.of(context).padding.top <= 24 ? 24 : 16,
-                        ),
-                        child: Text(
-                          intl.crypto_card_card_issue_footer(amoumt),
-                          style: STStyles.captionMedium.copyWith(
-                            color: colors.gray10,
+                      child: SSafeButtonPadding(
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            left: 24,
+                            right: 24,
+                            top: 16,
+                            bottom: 8, // отступ кнопки (8)
                           ),
-                          maxLines: 5,
-                          textAlign: TextAlign.center,
+                          child: Text(
+                            intl.crypto_card_card_issue_footer(amoumt),
+                            style: STStyles.captionMedium.copyWith(
+                              color: colors.gray10,
+                            ),
+                            maxLines: 5,
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ),
                     ),

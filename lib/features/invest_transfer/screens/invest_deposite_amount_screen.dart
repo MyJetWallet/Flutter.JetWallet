@@ -8,7 +8,6 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
-import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/suggestion_button_widget.dart';
 import 'package:jetwallet/features/invest_transfer/store/invest_deposite_amount_store.dart';
 import 'package:jetwallet/features/wallet/helper/navigate_to_wallet.dart';
 import 'package:jetwallet/utils/constants.dart';
@@ -124,7 +123,7 @@ class _EarnWithdrawalAmountBody extends StatelessWidget {
                           },
                         ),
                         const Spacer(),
-                        SuggestionButtonWidget(
+                        SuggestionButton(
                           title: store.currency.description,
                           subTitle: intl.invest_transfer_from_crypto_wallet,
                           trailing: getIt<AppStore>().isBalanceHide
@@ -137,7 +136,7 @@ class _EarnWithdrawalAmountBody extends StatelessWidget {
                           showArrow: false,
                         ),
                         const SpaceH4(),
-                        SuggestionButtonWidget(
+                        SuggestionButton(
                           title: intl.invest_title,
                           subTitle: intl.invest_transfer_to_invest,
                           trailing: getIt<AppStore>().isBalanceHide
