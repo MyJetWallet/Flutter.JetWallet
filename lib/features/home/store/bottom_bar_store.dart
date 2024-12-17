@@ -13,6 +13,7 @@ class BottomBarStore = _BottomBarStoreBase with _$BottomBarStore;
 abstract class _BottomBarStoreBase with Store {
   @observable
   BottomItemType homeTab = BottomItemType.home;
+
   @action
   void setHomeTab(BottomItemType value) {
     homeTab = value;
@@ -30,6 +31,7 @@ abstract class _BottomBarStoreBase with Store {
 
   @observable
   TabsRouter? _tabsRouter;
+
   @action
   void setTabsRouter(TabsRouter value) {
     _tabsRouter = value;
