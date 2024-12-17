@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -7,7 +8,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
-import 'package:jetwallet/core/services/notification_service.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:logger/logger.dart';
@@ -16,7 +17,6 @@ import 'package:provider/provider.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/create_crypto_card_request_model.dart';
-import 'package:simple_networking/modules/wallet_api/models/crypto_card/preview_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/price_crypto_card_response_model.dart';
 
 part 'crypto_card_confirmation_store.g.dart';
@@ -36,7 +36,13 @@ abstract class _CryptoCardConfirmationStoreBase with Store {
   _CryptoCardConfirmationStoreBase({
     required this.fromAssetSymbol,
     required this.discount,
-  });
+  }) {
+    toAssetSymbol = discount.assetSymbol;
+    toAmount = discount.userPrice;
+
+    fromAmount =
+        discount.prices.firstWhereOrNull((asset) => asset.assetSymbol == fromAssetSymbol)?.userPrice ?? Decimal.zero;
+  }
 
   final formatService = getIt.get<FormatService>();
 
@@ -68,58 +74,22 @@ abstract class _CryptoCardConfirmationStoreBase with Store {
   StackLoaderStore loader = StackLoaderStore();
 
   @observable
-  bool isPreviewLoaded = false;
-
-  @observable
   bool isCheckBoxSelected = false;
 
-  String operationId = '';
-
-  Decimal price = Decimal.zero;
+  @computed
+  Decimal get price {
+    final amount = formatService.convertOneCurrencyToAnotherOne(
+      fromCurrency: fromAssetSymbol,
+      fromCurrencyAmmount: Decimal.one,
+      toCurrency: toAssetSymbol,
+      baseCurrency: sSignalRModules.baseCurrency.symbol,
+      isMin: false,
+    );
+    return amount;
+  }
 
   @computed
-  bool get isContinueAvaible => isPreviewLoaded && isCheckBoxSelected;
-
-  @action
-  Future<void> loadPrewiev() async {
-    try {
-      loader.startLoadingImmediately();
-
-      final model = PreviewCryptoCardRequestModel(
-        fromAsset: fromAssetSymbol,
-      );
-
-      final response = await sNetwork.getWalletModule().cryptoCardPrewiev(model);
-      response.pick(
-        onData: (data) {
-          operationId = data.operationId;
-          toAssetSymbol = data.toAsset;
-          toAmount = data.toAssetVolume;
-          fromAssetSymbol = data.fromAsset;
-          fromAmount = data.fromAssetVolume;
-          price = data.price;
-
-          isPreviewLoaded = true;
-        },
-        onError: (error) {
-          sNotification.showError(
-            error.cause,
-            id: 1,
-          );
-        },
-      );
-    } catch (e) {
-      sNotification.showError(
-        intl.something_went_wrong_try_again,
-        id: 1,
-      );
-      logError(
-        message: 'loadPrewiew error: $e',
-      );
-    } finally {
-      loader.finishLoadingImmediately();
-    }
-  }
+  bool get isContinueAvaible => isCheckBoxSelected;
 
   @action
   void toggleCheckBox() {
@@ -131,8 +101,6 @@ abstract class _CryptoCardConfirmationStoreBase with Store {
     try {
       loader.startLoadingImmediately();
       final model = CreateCryptoCardRequestModel(
-        operationId: operationId,
-        price: price,
         fromAsset: fromAssetSymbol,
         fromAssetVolume: fromAmount,
       );
@@ -140,8 +108,8 @@ abstract class _CryptoCardConfirmationStoreBase with Store {
       final response = await sNetwork.getWalletModule().createCryptoCard(model);
 
       response.pick(
-        onNoError: (data) async {
-          await showSuccessScreen();
+        onData: (data) async {
+          await showSuccessScreen(data.cardId);
         },
         onError: (error) {
           showFailureScreen(error.cause);
@@ -157,7 +125,7 @@ abstract class _CryptoCardConfirmationStoreBase with Store {
     }
   }
 
-  Future<void> showSuccessScreen() async {
+  Future<void> showSuccessScreen(String cardId) async {
     await sRouter
         .push(
       SuccessScreenRouter(
@@ -166,9 +134,8 @@ abstract class _CryptoCardConfirmationStoreBase with Store {
     )
         .then(
       (value) {
-        // TODO (Yaroslav): add card id
         sRouter.push(
-          CryptoCardNameRoute(cardId: ''),
+          CryptoCardNameRoute(cardId: cardId),
         );
       },
     );

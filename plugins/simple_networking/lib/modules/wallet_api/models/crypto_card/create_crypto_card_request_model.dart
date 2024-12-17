@@ -8,8 +8,6 @@ part 'create_crypto_card_request_model.g.dart';
 @freezed
 class CreateCryptoCardRequestModel with _$CreateCryptoCardRequestModel {
   const factory CreateCryptoCardRequestModel({
-    required String operationId,
-    @DecimalSerialiser() required Decimal price,
     required String fromAsset,
     @DecimalSerialiser() required Decimal fromAssetVolume,
   }) = _CreateCryptoCardRequestModel;

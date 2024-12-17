@@ -73,14 +73,10 @@ class _CryptoCardPayAssetBody extends StatelessWidget {
                         borderRadius: BorderRadius.circular(6),
                       ),
                     const SpaceH24(),
-                    if (store.price != null)
+                    if (store.price?.disclaimerText != null)
                       SPaddingH24(
                         child: Text(
-                          (store.price?.userDiscount ?? Decimal.zero) == Decimal.fromInt(100)
-                              ? intl.crypto_card_pay_description_100
-                              : (store.price?.userDiscount ?? Decimal.zero) == Decimal.fromInt(50)
-                                  ? intl.crypto_card_pay_description_50
-                                  : intl.crypto_card_pay_description_0,
+                          store.price?.disclaimerText ?? '',
                           style: STStyles.body2Semibold.copyWith(
                             color: colors.gray10,
                           ),

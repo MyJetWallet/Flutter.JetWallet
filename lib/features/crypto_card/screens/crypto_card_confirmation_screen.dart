@@ -26,7 +26,7 @@ class CryptoCardConfirmationScreen extends StatelessWidget {
       create: (context) => CryptoCardConfirmationStore(
         fromAssetSymbol: fromAssetSymbol,
         discount: discount,
-      )..loadPrewiev(),
+      ),
       child: const _ConfirmationBody(),
     );
   }
@@ -43,13 +43,11 @@ class _ConfirmationBody extends StatelessWidget {
         return SPageFrame(
           loaderText: intl.loader_please_wait,
           loading: store.loader,
-          customLoader: store.isPreviewLoaded
-              ? WaitingScreen(
-                  secondaryText: '',
-                  onSkip: () {},
-                  isCanClouse: false,
-                )
-              : null,
+          customLoader: WaitingScreen(
+            secondaryText: '',
+            onSkip: () {},
+            isCanClouse: false,
+          ),
           header: GlobalBasicAppBar(
             hasRightIcon: false,
             title: intl.crypto_card_confirmation_order_summary,
@@ -64,7 +62,7 @@ class _ConfirmationBody extends StatelessWidget {
                   children: [
                     SPaddingH24(
                       child: STransaction(
-                        isLoading: !store.isPreviewLoaded,
+                        isLoading: false,
                         fromAssetIconUrl: store.fromAsset.iconUrl,
                         fromAssetDescription: store.fromAsset.description,
                         fromAssetValue: store.fromAmount.toFormatCount(
@@ -88,7 +86,6 @@ class _ConfirmationBody extends StatelessWidget {
                       leftValueIcon: NetworkIconWidget(
                         store.fromAsset.iconUrl,
                       ),
-                      type: store.isPreviewLoaded ? TwoColumnCellType.def : TwoColumnCellType.loading,
                     ),
                     TwoColumnCell(
                       label: intl.crypto_card_confirmation_card_issue_cost,
@@ -96,24 +93,20 @@ class _ConfirmationBody extends StatelessWidget {
                         symbol: store.toAsset.symbol,
                         accuracy: store.toAsset.accuracy,
                       ),
-                      type: store.isPreviewLoaded ? TwoColumnCellType.def : TwoColumnCellType.loading,
                     ),
                     Builder(
                       builder: (context) {
-                        return store.discount.userDiscount != Decimal.zero && store.isPreviewLoaded
+                        return store.discount.userDiscount != Decimal.zero
                             ? TwoColumnCell(
                                 label: intl.crypto_card_confirmation_discount(
                                   store.discount.userDiscount.toFormatPercentCount(),
                                 ),
                                 value: '-${((store.discount.userDiscount / Decimal.fromInt(100)).toDecimal(
-                                          scaleOnInfinitePrecision: store.toAsset.accuracy,
-                                        ) *
-                                        store.discount.regularPrice)
-                                    .toFormatCount(
+                                      scaleOnInfinitePrecision: store.toAsset.accuracy,
+                                    ) * store.discount.regularPrice).toFormatCount(
                                   symbol: store.toAsset.symbol,
                                   accuracy: store.toAsset.accuracy,
                                 )}',
-                                type: store.isPreviewLoaded ? TwoColumnCellType.def : TwoColumnCellType.loading,
                               )
                             : const SizedBox();
                       },
@@ -121,8 +114,7 @@ class _ConfirmationBody extends StatelessWidget {
                     TwoColumnCell(
                       label: intl.crypto_card_confirmation_price,
                       value:
-                          '${Decimal.one.toFormatCount(symbol: store.toAssetSymbol)} = ${store.price.toFormatCount(symbol: store.fromAssetSymbol)}',
-                      type: store.isPreviewLoaded ? TwoColumnCellType.def : TwoColumnCellType.loading,
+                          '${Decimal.one.toFormatCount(symbol: store.fromAssetSymbol)} = ${store.price.toFormatCount(symbol: store.toAssetSymbol)}',
                     ),
                     const SpaceH16(),
                     const SDivider(

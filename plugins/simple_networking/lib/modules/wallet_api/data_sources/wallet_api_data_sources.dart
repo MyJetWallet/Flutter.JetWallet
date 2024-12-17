@@ -43,11 +43,10 @@ import 'package:simple_networking/modules/wallet_api/models/crypto_card/change_a
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/change_lable_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/change_pin_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/create_crypto_card_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/crypto_card/create_crypto_card_responce_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/freeze_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/limits_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/limits_crypto_card_response_model.dart';
-import 'package:simple_networking/modules/wallet_api/models/crypto_card/preview_crypto_card_request_model.dart';
-import 'package:simple_networking/modules/wallet_api/models/crypto_card/preview_crypto_card_responce_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/price_crypto_card_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/sensitive_info_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/sensitive_info_crypto_card_response_model.dart';
@@ -2400,8 +2399,8 @@ class WalletApiDataSources {
   }
 
   Future<DC<ServerRejectException, SendToBankCardResponse>> sendToBankCardInLocalCurrencyPreviewRequest(
-      SendToBankRequestModel model,
-      ) async {
+    SendToBankRequestModel model,
+  ) async {
     try {
       final response = await _apiClient.post(
         '${_apiClient.options.walletApi}/send-globally/Send-to-bank-card-in-local-currency-preview',
@@ -2422,8 +2421,8 @@ class WalletApiDataSources {
   }
 
   Future<DC<ServerRejectException, void>> sendToBankCardInLocalCurrencyRequest(
-      SendToBankRequestModel model,
-      ) async {
+    SendToBankRequestModel model,
+  ) async {
     try {
       final response = await _apiClient.post(
         '${_apiClient.options.walletApi}/send-globally/Send-to-bank-card-in-local-currency',
@@ -4318,7 +4317,7 @@ class WalletApiDataSources {
   }
 
   //Crypto card
-  Future<DC<ServerRejectException, void>> createCryptoCardRequest(
+  Future<DC<ServerRejectException, CreateCryptoCardResponceModel>> createCryptoCardRequest(
     CreateCryptoCardRequestModel model,
   ) async {
     try {
@@ -4330,11 +4329,9 @@ class WalletApiDataSources {
       try {
         final responseData = responce.data as Map<String, dynamic>;
 
-        handleFullResponse<Map>(
-          responseData,
-        );
+        final data = handleFullResponse<Map>(responseData);
 
-        return DC.data(null);
+        return DC.data(CreateCryptoCardResponceModel.fromJson(data));
       } catch (e) {
         rethrow;
       }
@@ -4526,28 +4523,6 @@ class WalletApiDataSources {
         );
 
         return DC.data(null);
-      } catch (e) {
-        rethrow;
-      }
-    } on ServerRejectException catch (e) {
-      return DC.error(e);
-    }
-  }
-
-  Future<DC<ServerRejectException, PreviewCryptoCardResponceModel>> cryptoCardPrewievRequest(
-    PreviewCryptoCardRequestModel model,
-  ) async {
-    try {
-      final response = await _apiClient.post(
-        '${_apiClient.options.walletApi}/crypto-card/card-preview',
-        data: model.toJson(),
-      );
-
-      try {
-        final responseData = response.data as Map<String, dynamic>;
-        final data = handleFullResponse<Map>(responseData);
-
-        return DC.data(PreviewCryptoCardResponceModel.fromJson(data));
       } catch (e) {
         rethrow;
       }

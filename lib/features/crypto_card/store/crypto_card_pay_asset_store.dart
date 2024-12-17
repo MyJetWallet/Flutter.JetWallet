@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -7,7 +8,6 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
@@ -62,19 +62,15 @@ abstract class _CryptoCardPayAssetStoreBase with Store {
   bool get isEnoughBalanceToPay {
     if (selectedAsset == null) return false;
 
-    final userPrice = price?.userPrice ?? Decimal.zero;
-    final needToPay = userPrice * Decimal.parse('1.05');
+    final userPrice = price?.prices.firstWhereOrNull((asset) => asset.assetSymbol == selectedAsset?.symbol);
 
-    final formatService = getIt.get<FormatService>();
-    final avaibleBalance = formatService.convertOneCurrencyToAnotherOne(
-      fromCurrency: selectedAsset?.symbol ?? '',
-      fromCurrencyAmmount: selectedAsset?.assetBalance ?? Decimal.zero,
-      toCurrency: price?.assetSymbol ?? 'EUR',
-      baseCurrency: sSignalRModules.baseCurrency.symbol,
-      isMin: true,
-    );
+    if (userPrice == null) return false;
 
-    return needToPay < avaibleBalance;
+    final needToPay = userPrice.userPrice;
+
+    final avaibleBalance = selectedAsset?.assetBalance ?? Decimal.zero;
+
+    return needToPay <= avaibleBalance;
   }
 
   @action
