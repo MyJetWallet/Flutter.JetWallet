@@ -3,7 +3,6 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/suggestion_button_widget.dart';
 import 'package:jetwallet/features/crypto_card/store/crypto_card_pay_asset_store.dart';
 import 'package:jetwallet/features/crypto_card/utils/show_pay_with_asset_bottom_sheet.dart';
 import 'package:jetwallet/features/crypto_card/widgets/crypto_card_price_widget.dart';
@@ -101,7 +100,7 @@ class _CryptoCardPayAssetBody extends StatelessWidget {
                       ],
                     ),
                     const SpaceH8(),
-                    SuggestionButtonWidget(
+                    SuggestionButton(
                       subTitle: intl.crypto_card_pay_pay_with,
                       title: store.selectedAsset?.description,
                       trailing: store.selectedAsset?.volumeAssetBalance,
