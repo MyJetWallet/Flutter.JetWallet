@@ -148,6 +148,7 @@ class _SendGloballyAmountScreenBodyState extends State<SendGloballyAmountScreenB
             onSwap: () {},
             showSwopButton: false,
             showMaxButton: true,
+            loadingMaxButton: store.limitsLoading && store.onMaxPressed,
             onMaxTap: store.onSendAll,
             errorText: store.withAmmountInputError.isActive
                 ? store.withAmmountInputError == InputError.limitError

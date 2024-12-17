@@ -128,6 +128,9 @@ import 'package:simple_networking/modules/wallet_api/models/sell/get_crypto_sell
 import 'package:simple_networking/modules/wallet_api/models/sell/get_crypto_sell_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_gift/gift_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_card_response.dart';
+import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_in_local_currency_limit_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_limit_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_limit_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/session_info/session_info_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_create_request.dart';
@@ -2368,6 +2371,50 @@ class WalletApiDataSources {
         handleFullResponse(responseData);
 
         return DC.data(null);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, SendToBankLimitResponseModel>> sendToBankLimitsRequest(
+    SendToBankLimitRequestModel model,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/send-globally/sent-to-bank-limits',
+        data: model,
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(SendToBankLimitResponseModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, SendToBankLimitResponseModel>> sendToBankInLocalCurrencyLimitsRequest(
+    SendToBankInLocalCurrencyLimitRequestModel model,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/send-globally/sent-to-bank-in-local-currency-limits',
+        data: model,
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(SendToBankLimitResponseModel.fromJson(data));
       } catch (e) {
         rethrow;
       }
