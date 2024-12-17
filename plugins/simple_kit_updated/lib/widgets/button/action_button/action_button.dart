@@ -30,6 +30,8 @@ class SActionButton extends HookWidget {
 
     return SafeGesture(
       onTap: () {
+        if (state == ActionButtonState.disabled) return;
+        if (state == ActionButtonState.skeleton) return;
         onTap!();
       },
       onHighlightChanged: (value) {
