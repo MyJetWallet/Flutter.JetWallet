@@ -14,7 +14,7 @@ extension GetSvg on SvgGenImage {
               color,
               BlendMode.srcIn,
             ),
-      package: kIsWeb ? null : 'simple_kit_updated',
+      package: 'simple_kit_updated',
     );
   }
 }

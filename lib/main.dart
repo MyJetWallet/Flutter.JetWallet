@@ -6,20 +6,18 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:jetwallet/core/di/di.dart';
-// import 'package:jetwallet/core/services/sentry_service.dart';
+import 'package:jetwallet/core/services/sentry_service.dart';
 import 'package:jetwallet/features/app/app.dart';
 import 'package:jetwallet/features/app/app_initialization.dart';
-import 'package:logger/logger.dart';
-// import 'package:logging/logging.dart';
-
-import 'core/services/logger_service/logger_service.dart';
+import 'package:logging/logging.dart';
 
 Future<void> main() async {
   await runZonedGuarded(
     () async {
       await appInitialization('stage');
 
-      // getIt.get<SentryService>().init();
+      getIt.get<SentryService>().init();
+
       setUrlStrategy(PathUrlStrategy());
       runApp(
         const AppScreen(
@@ -29,12 +27,12 @@ Future<void> main() async {
       );
     },
     (error, stackTrace) {
-      // Logger.root.log(Level.SEVERE, 'ZonedGuarded', error, stackTrace);
+      Logger.root.log(Level.SEVERE, 'ZonedGuarded', error, stackTrace);
       // FirebaseCrashlytics.instance.recordError(error, stackTrace);
-      // getIt.get<SentryService>().captureException(error, stackTrace);
+      getIt.get<SentryService>().captureException(error, stackTrace);
     },
   );
-  //
+
   // if (!kIsWeb) {
   //   Isolate.current.addErrorListener(
   //     RawReceivePort((pair) async {}).sendPort,

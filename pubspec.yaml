@@ -11,6 +11,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_web_plugins:
+    sdk: flutter
 
   # TOOLKIT
   cupertino_icons: ^1.0.8 # IOS icons

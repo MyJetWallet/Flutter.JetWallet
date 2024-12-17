@@ -12,6 +12,7 @@ import 'package:jetwallet/core/services/device_info/device_info.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/startup_service.dart';
+import 'package:jetwallet/firebase_options.dart';
 import 'package:logger/logger.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -225,6 +226,10 @@ Future<void> messagingBackgroundHandler(RemoteMessage message) async {
 
   await getIt.get<DeepLinkService>().handlePushNotificationLink(message);
 
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   getIt.get<SimpleLoggerService>().log(
     level: Level.info,
     place: _loggerService,
@@ -234,7 +239,10 @@ Future<void> messagingBackgroundHandler(RemoteMessage message) async {
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   await getIt.get<DeepLinkService>().handlePushNotificationLink(message, true);
 

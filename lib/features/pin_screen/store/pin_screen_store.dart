@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -164,7 +165,7 @@ abstract class _PinScreenStoreBase with Store {
     final auth = LocalAuthentication();
     var bioStatus = BiometricStatus.none;
 
-    final availableBio = await auth.getAvailableBiometrics();
+    final availableBio = kIsWeb ? [] : await auth.getAvailableBiometrics();
 
     if (availableBio.contains(BiometricType.face)) {
       bioStatus = BiometricStatus.face;

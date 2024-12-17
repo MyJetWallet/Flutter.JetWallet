@@ -1,6 +1,8 @@
 import 'dart:io';
 
 String get deviceType {
+  // if (bool.fromEnvironment('dart.library.js_util')) {
+    return 'web';
   if (Platform.isAndroid) {
     return 'android';
   } else if (Platform.isIOS) {
@@ -14,6 +16,6 @@ String get deviceType {
   } else if (Platform.isWindows) {
     return 'windows';
   } else {
-    return '';
+    return 'web';
   }
 }

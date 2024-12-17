@@ -8,7 +8,7 @@ import 'package:jetwallet/core/services/flavor_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/remote_config/models/remote_config_union.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
-import 'package:jetwallet/core/services/sentry_service.dart';
+// import 'package:jetwallet/core/services/sentry_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_conection_url_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/splash_error/splash_error_service.dart';
@@ -56,6 +56,7 @@ class RemoteConfig {
             ? 'https://wallet-api.simple.app/api/v1/remote-config/config'
             : 'https://wallet-api-uat.simple-spot.biz/api/v1/remote-config/config';
 
+
         final response = await Dio().get(remoteConfigURL);
 
         Map<String, dynamic> responseData;
@@ -90,7 +91,8 @@ class RemoteConfig {
         );
       }
 
-      remoteConfig = await getRemoteConfigFromCache();
+      /// Silent update from Server
+      remoteConfig = await getRemoteConfigFromServer();
 
       await overrideConfig();
 
@@ -98,14 +100,11 @@ class RemoteConfig {
             const RemoteConfigUnion.success(),
           );
 
-      /// Silent update from Server
-      remoteConfig = await getRemoteConfigFromServer();
-
       await overrideConfig();
 
       await pingRemoutConfig();
     } catch (e, stackTrace) {
-      getIt.get<SentryService>().captureException(e, stackTrace);
+      // getIt.get<SentryService>().captureException(e, stackTrace);
 
       if (e is DioException) {
         if (e.type == DioExceptionType.connectionError) {
@@ -150,7 +149,7 @@ class RemoteConfig {
 
       await Dio().get(pingRemoteConfigURL);
     } catch (e, stackTrace) {
-      getIt.get<SentryService>().captureException(e, stackTrace);
+      // getIt.get<SentryService>().captureException(e, stackTrace);
 
       getIt.get<SimpleLoggerService>().log(
             level: Level.error,
@@ -273,15 +272,15 @@ class RemoteConfig {
     iosAppId = remoteConfig!.appsFlyer.iosAppId;
     androidAppId = remoteConfig!.appsFlyer.androidAppId;
 
-    if (!getIt.isRegistered<AppsFlyerService>()) {
-      getIt.registerSingleton<AppsFlyerService>(
-        AppsFlyerService.create(
-          devKey: appsFlyerKey,
-          iosAppId: iosAppId,
-          androidAppId: androidAppId,
-        ),
-      );
-    }
+    // if (!getIt.isRegistered<AppsFlyerService>()) {
+    //   getIt.registerSingleton<AppsFlyerService>(
+    //     AppsFlyerService.create(
+    //       devKey: appsFlyerKey,
+    //       iosAppId: iosAppId,
+    //       androidAppId: androidAppId,
+    //     ),
+    //   );
+    // }
   }
 
   void overrideCircleValues() {
