@@ -1,9 +1,9 @@
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/phone_verification/ui/phone_verification.dart';
 import 'package:jetwallet/utils/helpers/country_code_by_user_register.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 Future<void> showDeviceBindingRequiredFlow({
   void Function()? onConfirmed,

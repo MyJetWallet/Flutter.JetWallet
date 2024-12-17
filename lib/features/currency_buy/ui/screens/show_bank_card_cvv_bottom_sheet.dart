@@ -2,11 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/currency_buy/models/preview_buy_with_bank_card_input.dart';
 import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 Future<void> showBankCardCvvBottomSheet({
   required BuildContext context,

@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:jetwallet/features/kyc/upload_documents/store/upload_kyc_documents_store.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../../../utils/constants.dart';
 import 'blank_document_first_side.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 
 class CardOption extends StatelessWidget {
   const CardOption({
@@ -31,7 +31,7 @@ class CardOption extends StatelessWidget {
             ? SColorsLight().gray8
             : SColorsLight().black;
 
-    final descriptionColor = isDisabled ? SColorsLight().gray8 :SColorsLight().gray6;
+    final descriptionColor = isDisabled ? SColorsLight().gray8 : SColorsLight().gray6;
 
     return InkWell(
       highlightColor: SColorsLight().gray2,

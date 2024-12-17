@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:simple_kit/modules/icons/24x24/light/star/simple_light_star_icon.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class TransactionListLoadingItem extends StatelessWidget {
   const TransactionListLoadingItem({

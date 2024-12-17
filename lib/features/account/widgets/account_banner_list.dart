@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/features/account/widgets/create_banners_list.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class AccountBannerList extends StatefulObserverWidget {

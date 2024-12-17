@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/market_info/market_info_response_model.dart';
 
 import '../../../helper/format_number.dart';
@@ -53,8 +53,8 @@ class MarketStatsBlock extends StatelessWidget {
         TwoColumnCell(
           label: intl.market_circulating_supply,
           value: '${baseCurrency.prefix ?? ''}'
-          ' ${formatNumber(marketInfo.supply.toDouble())}'
-          '''${baseCurrency.prefix == null ? ' ${baseCurrency.symbol}' : ''}''',
+              ' ${formatNumber(marketInfo.supply.toDouble())}'
+              '''${baseCurrency.prefix == null ? ' ${baseCurrency.symbol}' : ''}''',
           needHorizontalPadding: false,
         ),
       ],

@@ -3,10 +3,10 @@ import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/features/my_wallets/store/banners_store.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class ProductsBannersSection extends StatelessWidget {
   const ProductsBannersSection({super.key});

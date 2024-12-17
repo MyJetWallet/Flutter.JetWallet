@@ -1,9 +1,11 @@
 import 'dart:async';
+
 import 'package:charts/main.dart';
 import 'package:charts/simple_chart.dart';
 import 'package:charts/utils/data_feed_util.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
@@ -13,7 +15,6 @@ import 'package:jetwallet/features/chart/model/chart_union.dart';
 import 'package:jetwallet/features/invest/ui/invests/data_line.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:mobx/mobx.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/auth_api/models/asset_model.dart';
 import 'package:simple_networking/modules/candles_api/models/candles_request_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 
 class ReturnRateItem extends StatelessWidget {
   const ReturnRateItem({
@@ -24,7 +24,7 @@ class ReturnRateItem extends StatelessWidget {
           header,
           style: STStyles.body2Medium,
         ),
-         const SizedBox(height: 8),
+        const SizedBox(height: 8),
         Text(
           value,
           style: STStyles.subtitle1.copyWith(

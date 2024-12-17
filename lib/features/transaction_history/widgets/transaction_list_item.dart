@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
@@ -14,8 +15,8 @@ import 'package:simple_kit/modules/icons/24x24/public/add_cash/simple_add_cash_i
 import 'package:simple_kit/modules/icons/24x24/public/transfer/simple_transfer_icon.dart';
 import 'package:simple_kit/modules/icons/24x24/public/withdrawal/simple_withdrawal_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
+
 import '../../../core/di/di.dart';
 import '../../app/store/app_store.dart';
 import '../../wallet/helper/format_date_to_hm.dart';

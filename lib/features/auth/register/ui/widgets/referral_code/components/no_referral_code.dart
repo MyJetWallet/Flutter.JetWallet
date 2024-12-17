@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ui_kit/gen/assets.gen.dart';
+import 'package:flutter_ui_kit/helpers/icons_extension.dart';
+import 'package:flutter_ui_kit/widgets/button/context/simple_button_context.dart';
+import 'package:flutter_ui_kit/widgets/colors/simple_colors_light.dart';
+import 'package:flutter_ui_kit/widgets/table/actioned/simpe_actioned.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
-import 'package:simple_kit_updated/widgets/button/context/simple_button_context.dart';
-import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
-import 'package:simple_kit_updated/widgets/table/actioned/simpe_actioned.dart';
 
 class NoReferralCode extends StatelessWidget {
   const NoReferralCode({

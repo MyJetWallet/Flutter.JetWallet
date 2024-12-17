@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 
 class TransactionIconStack extends StatelessWidget {
   const TransactionIconStack({super.key});
@@ -12,7 +12,7 @@ class TransactionIconStack extends StatelessWidget {
       child: Stack(
         fit: StackFit.expand,
         children: [
-           Expanded(
+          Expanded(
             child: Assets.svg.categories.icons.deposit.simpleSvg(
               width: 40,
               height: 40,

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
@@ -13,7 +14,6 @@ import 'package:jetwallet/features/my_wallets/helper/show_wallet_verify_account.
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/icons/20x20/public/tick/simple_tick_icon.dart';
 import 'package:simple_kit/modules/icons/40x40/public/user/simple_user_icon.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:uuid/uuid.dart';
 
 @RoutePage(name: 'CreateBankingRoute')
@@ -131,24 +131,24 @@ class _CreateBankingScreenState extends State<CreateBankingScreen> {
                   isClicked = false;
                   try {
                     sAnalytics.eurWalletTapOnContinuePersonalEUR();
-        
+
                     final resp =
                         await getIt.get<SNetwork>().simpleNetworking.getWalletModule().postAccountCreate(requestId);
-        
+
                     if (resp.hasError) {
                       sNotification.showError(
                         intl.something_went_wrong_try_again,
                         id: 1,
                         needFeedback: true,
                       );
-        
+
                       loading.finishLoadingImmediately();
-        
+
                       sRouter.popUntilRoot();
                     } else {
                       if (resp.data!.simpleKycRequired || resp.data!.addressSetupRequired) {
                         sAnalytics.eurWalletVerifyYourAccount();
-        
+
                         showWalletVerifyAccount(
                           context,
                           after: _afterVerification,

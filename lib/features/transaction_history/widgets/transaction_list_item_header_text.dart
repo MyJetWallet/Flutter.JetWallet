@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'package:flutter_ui_kit/flutter_ui_kit.dart';
 
 class TransactionListItemHeaderText extends StatelessWidget {
   const TransactionListItemHeaderText({
