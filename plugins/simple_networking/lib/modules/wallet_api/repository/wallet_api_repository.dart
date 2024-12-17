@@ -124,6 +124,9 @@ import 'package:simple_networking/modules/wallet_api/models/sell/get_crypto_sell
 import 'package:simple_networking/modules/wallet_api/models/sell/get_crypto_sell_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_gift/gift_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_card_response.dart';
+import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_in_local_currency_limit_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_limit_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_limit_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/session_info/session_info_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_limits_request.dart';
@@ -878,17 +881,30 @@ class WalletApiRepository {
     return _walletApiDataSources.sendToBankCardRequest(model);
   }
 
+  Future<DC<ServerRejectException, SendToBankLimitResponseModel>> sendToBankLimits(
+    SendToBankLimitRequestModel model,
+  ) async {
+    return _walletApiDataSources.sendToBankLimitsRequest(model);
+  }
+
+  Future<DC<ServerRejectException, SendToBankLimitResponseModel>> sendToBankInLocalCurrencyLimits(
+    SendToBankInLocalCurrencyLimitRequestModel model,
+  ) async {
+    return _walletApiDataSources.sendToBankInLocalCurrencyLimitsRequest(model);
+  }
+
   Future<DC<ServerRejectException, SendToBankCardResponse>> sendToBankCardPreview(SendToBankRequestModel model) async {
     return _walletApiDataSources.sendToBankCardPreviewRequest(model);
   }
 
   Future<DC<ServerRejectException, void>> sendToBankCardInLocalCurrency(
-      SendToBankRequestModel model,
-      ) async {
+    SendToBankRequestModel model,
+  ) async {
     return _walletApiDataSources.sendToBankCardInLocalCurrencyRequest(model);
   }
 
-  Future<DC<ServerRejectException, SendToBankCardResponse>> sendToBankCardInLocalCurrencyPreview(SendToBankRequestModel model) async {
+  Future<DC<ServerRejectException, SendToBankCardResponse>> sendToBankCardInLocalCurrencyPreview(
+      SendToBankRequestModel model) async {
     return _walletApiDataSources.sendToBankCardInLocalCurrencyPreviewRequest(model);
   }
 

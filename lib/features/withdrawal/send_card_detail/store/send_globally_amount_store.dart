@@ -24,6 +24,8 @@ import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_card_response.dart';
+import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_in_local_currency_limit_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_limit_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_request_model.dart';
 
 part 'send_globally_amount_store.g.dart';
@@ -62,11 +64,38 @@ abstract class _SendGloballyAmountStoreBase with Store {
   @observable
   CircleCardNetwork cardNetwork = CircleCardNetwork.unsupported;
 
-  @observable
-  Decimal minLimitAmount = Decimal.zero;
+  @computed
+  Decimal get minLimitAmount {
+    if (inputMode == WithdrawalInputMode.youSend) {
+      return minLimitInAsset ?? Decimal.zero;
+    } else {
+      return minLimitInLocalCurrency ?? Decimal.zero;
+    }
+  }
+
+  @computed
+  Decimal get maxLimitAmount {
+    if (inputMode == WithdrawalInputMode.youSend) {
+      return maxLimitInAsset ?? Decimal.zero;
+    } else {
+      return maxLimitInLocalCurrency ?? Decimal.zero;
+    }
+  }
 
   @observable
-  Decimal maxLimitAmount = Decimal.zero;
+  Decimal? minLimitInAsset;
+
+  @observable
+  Decimal? maxLimitInAsset;
+
+  @observable
+  Decimal? minLimitInLocalCurrency;
+
+  @observable
+  Decimal? maxLimitInLocalCurrency;
+
+  @observable
+  bool limitsLoading = true;
 
   @observable
   String limitError = '';
@@ -110,51 +139,8 @@ abstract class _SendGloballyAmountStoreBase with Store {
     mainData = data;
     method = m;
 
-    if (inputMode == WithdrawalInputMode.youSend) {
-      final minLim = getIt<FormatService>().convertOneCurrencyToAnotherOne(
-        fromCurrency: method!.receiveAsset!,
-        fromCurrencyAmmount: method!.minAmount!,
-        toCurrency: sendCurrency!.symbol,
-        baseCurrency: baseCurrency.symbol,
-        isMin: true,
-      );
-      final maxLim = getIt<FormatService>().convertOneCurrencyToAnotherOne(
-        fromCurrency: method!.receiveAsset!,
-        fromCurrencyAmmount: method!.maxAmount!,
-        toCurrency: sendCurrency!.symbol,
-        baseCurrency: baseCurrency.symbol,
-        isMin: false,
-      );
-
-      final minLimRounded = getIt<FormatService>().smartRound(
-        number: minLim,
-        toCurrency: sendCurrency!.symbol,
-        isMin: true,
-      );
-      final maxLimRounded = getIt<FormatService>().smartRound(
-        number: maxLim,
-        toCurrency: sendCurrency!.symbol,
-        isMin: false,
-      );
-
-      if (minLimRounded >= maxLimRounded) {
-        minLimitAmount = minLim;
-        maxLimitAmount = maxLim;
-      } else {
-        minLimitAmount = getIt<FormatService>().smartRound(
-          number: minLim,
-          toCurrency: sendCurrency!.symbol,
-          isMin: true,
-        );
-        maxLimitAmount = getIt<FormatService>().smartRound(
-          number: maxLim,
-          toCurrency: sendCurrency!.symbol,
-          isMin: false,
-        );
-      }
-    } else {
-      minLimitAmount = method!.minAmount!;
-      maxLimitAmount = method!.maxAmount!;
+    if (limitsLoading && maxLimitInLocalCurrency == null) {
+      loadLimits();
     }
 
     if (data.cardNumber != null && data.cardNumber!.isNotEmpty) {
@@ -187,6 +173,58 @@ abstract class _SendGloballyAmountStoreBase with Store {
   Decimal get availableBalabce => Decimal.parse(
         '''${sendCurrency!.assetBalance.toDouble() - sendCurrency!.cardReserve.toDouble()}''',
       );
+
+  @action
+  Future<void> loadLimits() async {
+    limitsLoading = true;
+    try {
+      final limitRequestData = SendToBankLimitRequestModel(
+        countryCode: mainData!.countryCode,
+        asset: mainData!.asset,
+        methodId: method!.methodId,
+      );
+      final limitInLocalCurrencyRequestData = SendToBankInLocalCurrencyLimitRequestModel(
+        countryCode: mainData!.countryCode,
+        asset: mainData!.asset,
+        receiveAsset: mainData!.receiveAsset,
+        methodId: method!.methodId,
+      );
+
+      final response1 = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().sendToBankLimits(
+            limitRequestData,
+          );
+
+      final response2 = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().sendToBankInLocalCurrencyLimits(
+            limitInLocalCurrencyRequestData,
+          );
+
+      if (response1.hasError) {
+        sNotification.showError(
+          response1.error?.cause ?? intl.something_went_wrong,
+          id: 1,
+        );
+      } else {
+        minLimitInAsset = response1.data!.minAmount;
+        maxLimitInAsset = response1.data!.maxAmount;
+      }
+
+      if (response2.hasError) {
+        sNotification.showError(
+          response2.error?.cause ?? intl.something_went_wrong,
+          id: 1,
+        );
+      } else {
+        minLimitInLocalCurrency = response2.data!.minAmount;
+        maxLimitInLocalCurrency = response2.data!.maxAmount;
+      }
+    } catch (e) {
+      sNotification.showError(
+        intl.something_went_wrong,
+        id: 1,
+      );
+    }
+    limitsLoading = false;
+  }
 
   @action
   Future<void> loadPreview() async {
@@ -238,7 +276,11 @@ abstract class _SendGloballyAmountStoreBase with Store {
         balance = sSignalRModules.bankingProfileData?.simple?.account?.balance ?? Decimal.zero;
       }
 
-      return maxLimitAmount < balance ? maxLimitAmount : balance;
+      if (limitsLoading) {
+        return balance;
+      } else {
+        return maxLimitAmount < balance ? maxLimitAmount : balance;
+      }
     } else {
       Decimal availableBalance;
       if (sendCurrency?.symbol != 'EUR') {
@@ -255,7 +297,11 @@ abstract class _SendGloballyAmountStoreBase with Store {
         isMin: false,
       );
 
-      return maxLimitAmount < balance ? maxLimitAmount : balance;
+      if (limitsLoading) {
+        return balance;
+      } else {
+        return maxLimitAmount < balance ? maxLimitAmount : balance;
+      }
     }
   }
 
@@ -279,7 +325,7 @@ abstract class _SendGloballyAmountStoreBase with Store {
     withAmount = responseOnInputAction(
       oldInput: withAmount,
       newInput: value,
-      accuracy: sendCurrency!.accuracy,
+      accuracy: inputMode == WithdrawalInputMode.youSend ? sendCurrency!.accuracy : 2,
     );
 
     _validateAmount();
@@ -328,18 +374,20 @@ abstract class _SendGloballyAmountStoreBase with Store {
 
     final value = Decimal.parse(withAmount);
 
-    if (minLimitAmount > value) {
-      limitError = '${intl.currencyBuy_paymentInputErrorText1} ${minLimitAmount.toFormatCount(
-        accuracy: inputMode == WithdrawalInputMode.youSend ? sendCurrency!.accuracy : 2,
-        symbol: inputMode == WithdrawalInputMode.youSend ? sendCurrency!.symbol : receiveCurrencyAsset,
-      )}';
-    } else if (maxLimitAmount < value) {
-      limitError = '${intl.currencyBuy_paymentInputErrorText2} ${maxLimitAmount.toFormatCount(
-        accuracy: inputMode == WithdrawalInputMode.youSend ? sendCurrency!.accuracy : 2,
-        symbol: inputMode == WithdrawalInputMode.youSend ? sendCurrency!.symbol : receiveCurrencyAsset,
-      )}';
-    } else {
-      limitError = '';
+    if (!limitsLoading) {
+      if (minLimitAmount > value) {
+        limitError = '${intl.currencyBuy_paymentInputErrorText1} ${minLimitAmount.toFormatCount(
+          accuracy: inputMode == WithdrawalInputMode.youSend ? sendCurrency!.accuracy : 2,
+          symbol: inputMode == WithdrawalInputMode.youSend ? sendCurrency!.symbol : receiveCurrencyAsset,
+        )}';
+      } else if (maxLimitAmount < value) {
+        limitError = '${intl.currencyBuy_paymentInputErrorText2} ${maxLimitAmount.toFormatCount(
+          accuracy: inputMode == WithdrawalInputMode.youSend ? sendCurrency!.accuracy : 2,
+          symbol: inputMode == WithdrawalInputMode.youSend ? sendCurrency!.symbol : receiveCurrencyAsset,
+        )}';
+      } else {
+        limitError = '';
+      }
     }
 
     withAmmountInputError = double.parse(withAmount) != 0
