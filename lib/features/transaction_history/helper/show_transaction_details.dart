@@ -55,9 +55,9 @@ String _transactionHeader({
 }) {
   String title;
   if (transactionListItem.operationType == OperationType.simplexBuy) {
-    title = '${operationName(OperationType.swapBuy, context)} '
+    title = '${operationName(OperationType.swapBuy, context, source: source)} '
         '${currency.description} - '
-        '${operationName(transactionListItem.operationType, context)}';
+        '${operationName(transactionListItem.operationType, context, source: source)}';
   } else if (transactionListItem.operationType == OperationType.earningDeposit ||
       transactionListItem.operationType == OperationType.earningWithdrawal) {
     if (transactionListItem.earnInfo?.totalBalance != transactionListItem.balanceChange.abs() &&
@@ -66,35 +66,41 @@ String _transactionHeader({
         transactionListItem.operationType,
         context,
         isToppedUp: true,
+        source: source,
       );
     }
 
-    title = operationName(transactionListItem.operationType, context);
+    title = operationName(transactionListItem.operationType, context, source: source);
   } else if (transactionListItem.operationType == OperationType.swapBuy ||
       transactionListItem.operationType == OperationType.swapSell) {
     title = operationName(
       OperationType.swap,
       context,
+      source: source,
     );
   } else if (transactionListItem.operationType == OperationType.sendGlobally) {
     title = operationName(
       OperationType.sendGlobally,
       context,
+      source: source,
     );
   } else if (transactionListItem.operationType == OperationType.bankingAccountWithdrawal) {
     title = operationName(
       OperationType.bankingAccountWithdrawal,
       context,
+      source: source,
     );
   } else if (transactionListItem.operationType == OperationType.giftSend) {
     title = operationName(
       OperationType.giftSend,
       context,
+      source: source,
     );
   } else if (transactionListItem.operationType == OperationType.giftReceive) {
     title = operationName(
       OperationType.giftReceive,
       context,
+      source: source,
     );
   } else if (transactionListItem.operationType == OperationType.bankingTransfer) {
     if (source == TransactionItemSource.history) {
@@ -117,6 +123,7 @@ String _transactionHeader({
       transactionListItem.operationType,
       context,
       asset: transactionListItem.assetId,
+      source: source,
     );
   }
 

@@ -1,13 +1,21 @@
 import 'dart:io';
 
-import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:flutter/material.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
+import 'package:logger/logger.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 Future<void> showWalletRedirectingPopup(BuildContext context) {
+  sAnalytics.viewRedirectingToWallet(
+    walletType: Platform.isAndroid ? 'Google Wallet' : 'Apple Wallet',
+  );
+
   final isIos = Platform.isIOS;
 
   return sShowAlertPopup(
@@ -23,19 +31,29 @@ Future<void> showWalletRedirectingPopup(BuildContext context) {
     textAlign: TextAlign.start,
     primaryButtonName: intl.wallets_continue,
     onPrimaryButtonTap: () async {
-      Navigator.pop(context);
+      sAnalytics.tapContinueAtRedirectingDialog(
+        walletType: Platform.isAndroid ? 'Google Wallet' : 'Apple Wallet',
+      );
 
-      isIos
-          ? await LaunchApp.openApp(
-              androidPackageName: 'com.google.android.apps.walletnfcrel',
-              iosUrlScheme: 'shoebox://',
-              appStoreLink: 'https://apps.apple.com/us/app/apple-wallet/id1160481993',
-            )
-          : await launchURL(
-              context,
-              'https://wallet.google.com/gw/app/addfop',
-              launchMode: LaunchMode.platformDefault,
+      await sRouter.maybePop();
+
+      try {
+        isIos
+            ? await launchUrl(
+                Uri.parse('shoebox://'),
+              )
+            : await launchURL(
+                context,
+                'https://wallet.google.com/gw/app/addfop',
+                launchMode: LaunchMode.platformDefault,
+              );
+      } catch (e) {
+        getIt.get<SimpleLoggerService>().log(
+              level: Level.error,
+              place: 'ShowWalletRedirectingPopup',
+              message: 'Error while opening wallet: $e',
             );
+      }
     },
   );
 }

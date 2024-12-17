@@ -45,7 +45,10 @@ import 'package:simple_networking/modules/wallet_api/models/crypto_card/change_a
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/change_lable_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/change_pin_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/create_crypto_card_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/crypto_card/create_crypto_card_responce_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/freeze_crypto_card_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/crypto_card/limits_crypto_card_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/crypto_card/limits_crypto_card_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/price_crypto_card_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/sensitive_info_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/sensitive_info_crypto_card_response_model.dart';
@@ -78,6 +81,7 @@ import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_
 import 'package:simple_networking/modules/wallet_api/models/kyc/apply_country_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/kyc/apply_country_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/kyc/check_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/kyc/kyc_plan_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/kyc/kyc_plan_responce_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/limits/buy_limits_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/limits/buy_limits_response_model.dart';
@@ -541,8 +545,8 @@ class WalletApiRepository {
     );
   }
 
-  Future<DC<ServerRejectException, KycPlanResponceModel>> postKycPlan() async {
-    return _walletApiDataSources.postKycPlanRequest();
+  Future<DC<ServerRejectException, KycPlanResponceModel>> postKycPlan(KycPlanRequesModel model) async {
+    return _walletApiDataSources.postKycPlanRequest(model);
   }
 
   Future<DC<ServerRejectException, ApplyCountryResponseModel>> postKYCAplyCountry(
@@ -1446,7 +1450,7 @@ class WalletApiRepository {
   }
 
   //Crypto card
-  Future<DC<ServerRejectException, void>> createCryptoCard(
+  Future<DC<ServerRejectException, CreateCryptoCardResponceModel>> createCryptoCard(
     CreateCryptoCardRequestModel model,
   ) async {
     return _walletApiDataSources.createCryptoCardRequest(model);
@@ -1494,5 +1498,11 @@ class WalletApiRepository {
     ChangeAssetListRequestModel model,
   ) async {
     return _walletApiDataSources.setAssetsCryptoCardRequest(model);
+  }
+
+  Future<DC<ServerRejectException, LimitsCryptoCardResponseModel>> cryptoCardLimits(
+    LimitsCryptoCardRequestModel model,
+  ) async {
+    return _walletApiDataSources.cryptoCardLimitsRequest(model);
   }
 }

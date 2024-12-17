@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
@@ -10,12 +11,13 @@ import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/features/app/store/global_loader.dart';
 import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/crypto_card_message_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/freeze_crypto_card_request_model.dart';
@@ -34,10 +36,10 @@ class MainCryptoCardStore extends _MainCryptoCardStoreBase with _$MainCryptoCard
 }
 
 abstract class _MainCryptoCardStoreBase with Store {
-  @observable
-  StackLoaderStore loader = StackLoaderStore();
+  final globalLoader = getIt.get<GlobalLoader>();
 
-  CryptoCardModel _cryptoCard = const CryptoCardModel();
+  @computed
+  CryptoCardModel get cryptoCard => sSignalRModules.cryptoCardProfile.cards.first;
 
   @computed
   List<String> get _linkedAssetSymbols {
@@ -91,20 +93,17 @@ abstract class _MainCryptoCardStoreBase with Store {
   SensitiveInfoCryptoCardResponseModel? sensitiveInfo;
 
   @computed
-  String get cardLast4 => _cryptoCard.last4;
+  String get cardLast4 => cryptoCard.last4;
 
   @action
   Future<void> init() async {
     try {
       ///
-      /// getCryptoCard
-      ///
-      _cryptoCard = sSignalRModules.cryptoCardProfile.cards.first;
-
-      ///
       /// getSensitiveInfo
       ///
-      unawaited(getSensitiveInfo());
+      if (cryptoCard.status == CryptoCardStatus.active) {
+        unawaited(getSensitiveInfo());
+      }
 
       ///
       /// Load banner state
@@ -114,6 +113,11 @@ abstract class _MainCryptoCardStoreBase with Store {
           ) ??
           false;
       showAddToWalletBanner = !bannerClosed;
+      if (showAddToWalletBanner) {
+        sAnalytics.viewAddToWalletCard(
+          walletType: Platform.isAndroid ? 'Google Wallet' : 'Apple Wallet',
+        );
+      }
     } catch (error) {
       logError(
         message: 'init error: $error',
@@ -124,7 +128,7 @@ abstract class _MainCryptoCardStoreBase with Store {
   @action
   Future<void> getSensitiveInfo() async {
     try {
-      final model = SensitiveInfoCryptoCardRequestModel(cardId: _cryptoCard.cardId);
+      final model = SensitiveInfoCryptoCardRequestModel(cardId: cryptoCard.cardId);
 
       final response = await sNetwork.getWalletModule().sensitiveInfoCryptoCard(model);
 
@@ -157,26 +161,26 @@ abstract class _MainCryptoCardStoreBase with Store {
 
   @action
   Future<void> freezeCard() async {
-    loader.startLoadingImmediately();
+    globalLoader.setLoading(true);
     try {
-      final model = FreezeCryptoCardRequestModel(cardId: _cryptoCard.cardId);
+      final model = FreezeCryptoCardRequestModel(cardId: cryptoCard.cardId);
 
       final response = await sNetwork.getWalletModule().freezeCard(model);
 
       response.pick(
+        onNoError: (_) {
+          sSignalRModules.localSetCryptoCardStatus(
+            cardId: cryptoCard.cardId,
+            status: CryptoCardStatus.frozen,
+          );
+          sAnalytics.viewFrozenCardState();
+        },
         onError: (error) {
           sNotification.showError(
             error.cause,
             id: 1,
           );
         },
-      );
-      // TODO remove this when SignalR will be implemented
-      final freezeCard = _cryptoCard.copyWith(status: CryptoCardStatus.frozen);
-      sSignalRModules.setCryptoCardModelData(
-        sSignalRModules.cryptoCardProfile.copyWith(
-          cards: [freezeCard],
-        ),
       );
 
       sNotification.showError(intl.crypto_card_freeze_toast, id: 1, isError: false);
@@ -194,31 +198,31 @@ abstract class _MainCryptoCardStoreBase with Store {
         message: 'freezeCard error: $error',
       );
     }
-    loader.finishLoadingImmediately();
+    globalLoader.setLoading(false);
   }
 
   @action
   Future<void> unfreezeCard() async {
-    loader.startLoadingImmediately();
+    globalLoader.setLoading(true);
     try {
-      final model = UnfreezeCryptoCardRequestModel(cardId: _cryptoCard.cardId);
+      final model = UnfreezeCryptoCardRequestModel(cardId: cryptoCard.cardId);
 
       final response = await sNetwork.getWalletModule().unfreezeCard(model);
 
       response.pick(
+        onNoError: (_) {
+          sSignalRModules.localSetCryptoCardStatus(
+            cardId: cryptoCard.cardId,
+            status: CryptoCardStatus.active,
+          );
+          getSensitiveInfo();
+        },
         onError: (error) {
           sNotification.showError(
             error.cause,
             id: 1,
           );
         },
-      );
-      // TODO remove this when SignalR will be implemented
-      final unfreezeCard = _cryptoCard.copyWith(status: CryptoCardStatus.active);
-      sSignalRModules.setCryptoCardModelData(
-        sSignalRModules.cryptoCardProfile.copyWith(
-          cards: [unfreezeCard],
-        ),
       );
 
       sNotification.showError(intl.crypto_card_unfreeze_toast, id: 1, isError: false);
@@ -236,7 +240,7 @@ abstract class _MainCryptoCardStoreBase with Store {
         message: 'unfreezeCard error: $error',
       );
     }
-    loader.finishLoadingImmediately();
+    globalLoader.setLoading(false);
   }
 
   @action
@@ -248,14 +252,16 @@ abstract class _MainCryptoCardStoreBase with Store {
   @action
   Future<void> deleteCard() async {
     try {
-      loader.startLoadingImmediately();
+      globalLoader.setLoading(true);
 
       // TODO (Yaroslav): Replace with a real network request
       await Future.delayed(const Duration(seconds: 1));
-      sSignalRModules.setCryptoCardModelData(
-        sSignalRModules.cryptoCardProfile.copyWith(
-          cards: [],
-        ),
+      sSignalRModules.localDeleteCryptoCard(cryptoCard.cardId);
+
+      sNotification.showError(
+        intl.crypto_card_delete_terminated_toast(cardLast4),
+        id: 1,
+        isError: false,
       );
     } on ServerRejectException catch (error) {
       sNotification.showError(
@@ -271,7 +277,7 @@ abstract class _MainCryptoCardStoreBase with Store {
         message: 'delete card error: $error',
       );
     } finally {
-      loader.finishLoadingImmediately();
+      globalLoader.setLoading(false);
     }
   }
 

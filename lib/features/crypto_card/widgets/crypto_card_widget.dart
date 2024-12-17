@@ -1,11 +1,16 @@
 import 'dart:ui';
 
+import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_flip_card/flutter_flip_card.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:intl/intl.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/features/crypto_card/store/main_crypto_card_store.dart';
+import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/icons/custom/public/cards/simple_mastercard_big_icon.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
@@ -47,9 +52,23 @@ class _CryptoCardWidgetState extends State<CryptoCardWidget> {
               isFlippingEnd = false;
             });
           }
+          if (flipController.state!.animationController.value == 1) {
+            sAnalytics.tapFlipCard();
+
+            if (!flipController.state!.isFront) {
+              sAnalytics.viewCardDetailsScreen();
+            }
+          }
         },
       );
     });
+
+    getIt<EventBus>().on<FlipCryptoCard>().listen((event) {
+      flipController.flipcard();
+    });
+    if (widget.isFrozen) {
+      sAnalytics.viewFrozenCardState();
+    }
   }
 
   @override
@@ -131,7 +150,10 @@ class _CryptoCardWidgetState extends State<CryptoCardWidget> {
                         _CryptoCardSensitiveDataWidget(
                           name: intl.crypto_card_card_number,
                           value: sensitiveInfo != null ? formatCardNumber(sensitiveInfo.cardNumber) : '',
-                          onTap: onCopyAction,
+                          onTap: (value) {
+                            sAnalytics.tapCopyNumber();
+                            onCopyAction(value);
+                          },
                           loaderWidth: 177,
                         ),
                         const SpaceH12(),
@@ -140,7 +162,7 @@ class _CryptoCardWidgetState extends State<CryptoCardWidget> {
                             _CryptoCardSensitiveDataWidget(
                               showCopy: false,
                               name: intl.crypto_card_valid_thru,
-                              value: sensitiveInfo?.expDate ?? '',
+                              value: DateFormat('MM/yyyy').format(sensitiveInfo?.expDate ?? DateTime.now()),
                               onTap: onCopyAction,
                               loaderWidth: 56,
                             ),
@@ -150,7 +172,10 @@ class _CryptoCardWidgetState extends State<CryptoCardWidget> {
                             _CryptoCardSensitiveDataWidget(
                               name: intl.crypto_card_cvv,
                               value: sensitiveInfo?.cvv ?? '',
-                              onTap: onCopyAction,
+                              onTap: (value) {
+                                sAnalytics.tapCopyCVV();
+                                onCopyAction(value);
+                              },
                               loaderWidth: 41,
                               withSecure: true,
                             ),
@@ -304,6 +329,7 @@ class _CryptoCardSensitiveDataWidgetState extends State<_CryptoCardSensitiveData
               setState(() {
                 isHided = false;
               });
+              sAnalytics.tapShowCVV();
             } else {
               if (widget.value != '') {
                 widget.onTap(widget.value);
@@ -311,6 +337,7 @@ class _CryptoCardSensitiveDataWidgetState extends State<_CryptoCardSensitiveData
             }
           },
           child: Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
               if (widget.value == '')
                 SSkeletonLoader(

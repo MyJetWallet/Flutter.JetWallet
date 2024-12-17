@@ -44,6 +44,11 @@ abstract class _CryptoCardlinkedAssetsStoreBase with Store {
       );
 
   @computed
+  CurrencyModel get cardBaseAsset => getIt<FormatService>().findCurrency(
+        assetSymbol: 'EUR',
+      );
+
+  @computed
   ObservableList<CurrencyModel> get avaibleAssets {
     final result = ObservableList<CurrencyModel>.of([]);
     for (final symbol in _avaibleAssetsSymbols) {
@@ -67,7 +72,16 @@ abstract class _CryptoCardlinkedAssetsStoreBase with Store {
     final result = avaibleAssets.where((element) {
       return element.description.toLowerCase().contains(searchValue) ||
           element.symbol.toLowerCase().contains(searchValue);
-    });
+    }).toList();
+
+    result.sort((a, b) => a.weight.compareTo(b.weight));
+    result.sort((a, b) => b.baseBalance.compareTo(a.baseBalance));
+
+    if (result.any((asset) => asset.symbol == 'USDT')) {
+      final usdtAsset = result.firstWhere((asset) => asset.symbol == 'USDT');
+      result.removeWhere((asset) => asset.symbol == 'USDT');
+      result.insert(0, usdtAsset);
+    }
 
     return ObservableList.of(result);
   }
@@ -105,7 +119,9 @@ abstract class _CryptoCardlinkedAssetsStoreBase with Store {
 
       final response = await sNetwork.getWalletModule().setAssetsCryptoCard(model);
       response.pick(
-        onData: (data) {},
+        onNoError: (data) {
+          sNotification.showError(intl.crypto_card_unfreeze_toast, id: 1, isError: false);
+        },
         onError: (error) {
           sNotification.showError(
             error.cause,
@@ -113,8 +129,6 @@ abstract class _CryptoCardlinkedAssetsStoreBase with Store {
           );
         },
       );
-
-      await Future.delayed(Durations.extralong4);
     } on ServerRejectException catch (error) {
       sNotification.showError(
         error.cause,

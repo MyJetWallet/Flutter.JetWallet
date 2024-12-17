@@ -6709,4 +6709,599 @@ class SimpleAnalytics {
       },
     );
   }
+
+  // Crypto card
+
+  void viewCardPrelaunchScreen() {
+    _analytics.logEvent(
+      'View Card Prelaunch Screen',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '669',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void tapLimits() {
+    _analytics.logEvent(
+      'Tap Limits',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '702',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void viewLimitsScreen() {
+    _analytics.logEvent(
+      'View Limits Screen',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '703',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void tapLinkedAssets() {
+    _analytics.logEvent(
+      'Tap Linked Assets',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '730',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void tapLinkedAssetsSettings() {
+    _analytics.logEvent(
+      'Tap Linked Assets',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '704',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void viewLinkedAssetsScreen() {
+    _analytics.logEvent(
+      'View Linked Assets Screen',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '705',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void viewChooseAssetScreen() {
+    _analytics.logEvent(
+      'View Choose Asset Screen',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '706',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void tapAssetItem({
+    required String chosenAsset,
+  }) {
+    _analytics.logEvent(
+      'Tap Asset Item',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '707',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+        PropertyType.chosenAsset: chosenAsset,
+      },
+    );
+  }
+
+  void tapDeleteCard() {
+    _analytics.logEvent(
+      'Tap Delete Card',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '709',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void viewDeleteCardDialog() {
+    _analytics.logEvent(
+      'View Delete Card Dialog',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '710',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void tapConfirmDeleteCard() {
+    _analytics.logEvent(
+      'Tap Confirm Delete Card',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '711',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void tapCancelDeleteCard() {
+    _analytics.logEvent(
+      'Tap Cancel Delete Card',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '712',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void tapFreezeCardCrypto() {
+    _analytics.logEvent(
+      'Tap Freeze Card',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '721',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void viewFreezeCardDialog() {
+    _analytics.logEvent(
+      'View Freeze Card Dialog',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '722',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void tapFreezeCardButton() {
+    _analytics.logEvent(
+      'Tap Freeze Card',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '723',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void tapCancelFreezeButton() {
+    _analytics.logEvent(
+      'Tap Cancel Freeze',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '724',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void viewFrozenCardState() {
+    _analytics.logEvent(
+      'View Frozen Card State',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '725',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void tapCardUnfreezeButton() {
+    _analytics.logEvent(
+      'Tap Card Unfreeze Button',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '726',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void viewUnfreezeCardDialog() {
+    _analytics.logEvent(
+      'View Unfreeze Card Dialog',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '727',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void tapUnfreezeCard() {
+    _analytics.logEvent(
+      'Tap Unfreeze Card',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '728',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void tapCancelUnfreeze() {
+    _analytics.logEvent(
+      'Tap Cancel Unfreeze',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '729',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void viewAddToWalletCard({
+    required String walletType,
+  }) {
+    _analytics.logEvent(
+      'View Add to Wallet Card',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '732',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+        PropertyType.walletType: walletType,
+      },
+    );
+  }
+
+  void tapAddToWallet({
+    required String walletType,
+  }) {
+    _analytics.logEvent(
+      'Tap Add to Wallet',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '733',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+        PropertyType.walletType: walletType,
+      },
+    );
+  }
+
+  void tapCloseAddToWalletBanner({
+    required String walletType,
+  }) {
+    _analytics.logEvent(
+      'Tap Close Add to Wallet Banner',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '734',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+        PropertyType.walletType: walletType,
+      },
+    );
+  }
+
+  void viewRedirectingToWallet({
+    required String walletType,
+  }) {
+    _analytics.logEvent(
+      'View ‘Redirecting to Wallet’',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '735',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+        PropertyType.walletType: walletType,
+      },
+    );
+  }
+
+  void tapContinueAtRedirectingDialog({
+    required String walletType,
+  }) {
+    _analytics.logEvent(
+      'Tap ‘Continue’ at `Redirecting` Dialog',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '736',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+        PropertyType.walletType: walletType,
+      },
+    );
+  }
+
+  void tapCloseAtRedirectingDialog({
+    required String walletType,
+  }) {
+    _analytics.logEvent(
+      'Tap ‘Close’ at `Redirecting` Dialog',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '737',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+        PropertyType.walletType: walletType,
+      },
+    );
+  }
+
+  void tapChangePIN() {
+    _analytics.logEvent(
+      'Tap Change PIN',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '713',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void viewChangePINDialog() {
+    _analytics.logEvent(
+      'View Change PIN Dialog',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '714',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void tapContinueChangePIN() {
+    _analytics.logEvent(
+      'Tap Continue Change PIN',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '715',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void tapCancelChangePIN() {
+    _analytics.logEvent(
+      'Tap Cancel Change PIN',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '731',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void viewCreatePINScreen() {
+    _analytics.logEvent(
+      'View Create PIN Screen',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '716',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void viewConfirmPINScreen() {
+    _analytics.logEvent(
+      'View Confirm PIN Screen',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '717',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void viewPINSuccessScreen() {
+    _analytics.logEvent(
+      'View PIN Success Screen',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '719',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void tapDonePINChange() {
+    _analytics.logEvent(
+      'Tap Done PIN Change',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '720',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void viewMainCardScreen() {
+    _analytics.logEvent(
+      'View Main Card Screen',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '689',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void tapFlipCard() {
+    _analytics.logEvent(
+      'Tap Flip Card',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '690',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void viewCardDetailsScreen() {
+    _analytics.logEvent(
+      'View Card Details Screen',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '691',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void tapShowCVV() {
+    _analytics.logEvent(
+      'Tap Show CVV',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '692',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void tapCopyNumber() {
+    _analytics.logEvent(
+      'Tap Copy Number',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '693',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void tapCopyCVV() {
+    _analytics.logEvent(
+      'Tap Copy CVV',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '694',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void tapSettings() {
+    _analytics.logEvent(
+      'Tap Settings',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '700',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void viewCryptoCardSettings() {
+    _analytics.logEvent(
+      'View Card Settings',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '701',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void tapDocuments() {
+    _analytics.logEvent(
+      'Tap Documents',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '708',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
 }

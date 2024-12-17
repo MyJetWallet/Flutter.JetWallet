@@ -76,6 +76,7 @@ class SuggestionButton extends StatelessWidget {
                 ],
               ),
             ),
+            const SpaceW24(),
             Row(
               children: [
                 Text(

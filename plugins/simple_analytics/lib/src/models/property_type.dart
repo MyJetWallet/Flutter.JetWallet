@@ -85,4 +85,6 @@ class PropertyType {
   static const isOpen = 'isOpen';
   static const language = 'Language';
   static const jarName = 'Jar Name';
+  static const chosenAsset = 'ChosenAsset';
+  static const walletType = 'WalletType';
 }

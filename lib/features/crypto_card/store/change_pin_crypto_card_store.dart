@@ -12,6 +12,7 @@ import 'package:jetwallet/features/pin_screen/ui/widgets/shake_widget/shake_widg
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/change_pin_crypto_card_request_model.dart';
@@ -77,9 +78,9 @@ abstract class _ChangePinCryptoCardStoreBase with Store {
     }
 
     try {
-      error = null;
-
       if (value == 'backspace') {
+        error = null;
+
         if (state == _ChangePinCryptoCardFlowState.enterPin) {
           if (enterPin.isNotEmpty) {
             enterPin = enterPin.substring(0, enterPin.length - 1);
@@ -94,6 +95,7 @@ abstract class _ChangePinCryptoCardStoreBase with Store {
           if (enterPin.length == 4) {
             return;
           }
+          error = null;
           enterPin += value;
           if (enterPin.length == 4) {
             ifFullPinFlow();
@@ -102,6 +104,7 @@ abstract class _ChangePinCryptoCardStoreBase with Store {
           if (confirmPin.length == 4) {
             return;
           }
+          error = null;
           confirmPin += value;
           if (confirmPin.length == 4) {
             ifFullPinFlow();
@@ -147,6 +150,7 @@ abstract class _ChangePinCryptoCardStoreBase with Store {
           const Duration(milliseconds: 300),
           () {
             state = _ChangePinCryptoCardFlowState.confirmPin;
+            sAnalytics.viewConfirmPINScreen();
             updatePinStatus();
           },
         );
@@ -252,6 +256,8 @@ abstract class _ChangePinCryptoCardStoreBase with Store {
           ),
         );
 
+        sAnalytics.viewPINSuccessScreen();
+
         await sRouter.push(
           SuccessScreenRouter(
             secondaryText: intl.crypto_card_change_pin_success,
@@ -260,6 +266,9 @@ abstract class _ChangePinCryptoCardStoreBase with Store {
             child: CryptoCardYourPinWidget(
               pin: enterPin,
             ),
+            onCloseButton: () {
+              sAnalytics.tapDonePINChange();
+            },
           ),
         );
       }

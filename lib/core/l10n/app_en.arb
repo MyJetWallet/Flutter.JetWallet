@@ -1861,52 +1861,30 @@
     "crypto_jar_banner_description": "Learn more",
     "crypto_jar_banner_title": "Simple Crypto Jars makes receiving cryptocurrency a breeze.",
     "payment_method_current_limits": "Current limit: {value}",
+    "crypto_card_freeze": "Freeze",
+    "crypto_card_change_pin": "Change PIN",
+    "crypto_card_settings": "Settings",
+    "crypto_card_card_number": "Card number",
+    "crypto_card_valid_thru": "Valid thru",
+    "crypto_card_cvv": "CVV",
+    "crypto_card_asset_linked": "{count, plural, =1{1 asset} other{{count} assets}} linked",
+    "crypto_card_show": "Show",
     "crypto_card_order_title": "Your virtual Simple Card is almost here!",
     "crypto_card_order_description": "Pay contactless in stores with your phone or use it online like any other Mastercard. Fill in the final details and start using your card instantly.",
     "crypto_card_get_your_virtual_card_now": "Get your virtual card now",
-    "crypto_card_acknowledgment": "Acknowledgment",
-    "crypto_card_description": "Before proceeding, please confirm that you have read and agreed to the Terms and Conditions and Privacy Policy.",
-    "crypto_card_account_title": "Account",
-    "crypto_card_account_description": "In case of a shortage of euros, the crypto will be automatically charged.",
-    "crypto_card_account_crypto": "Crypto",
-    "crypto_card_card_issue": "Card issue",
-    "crypto_card_card_issue_awesome": "Awesome! You are one step closer to the release of Simple Crypto Card",
-    "crypto_card_card_issue_cost": "Card issue cost",
-    "crypto_card_card_issue_pay": "Pay",
-    "crypto_card_card_issue_footer": "The issue of the card costs {amounty}. Its maintenance is completely free, and the commission for calculations is 0%. The validity period of the Simple card is 5 years.",
-    "@crypto_card_card_issue_footer": {
-        "placeholders": {
-            "amounty": {
-                "type": "String",
-                "example": "4 EUR"
-            }
-        }
-    },
     "crypto_card_name_skip": "Skip",
     "crypto_card_name_your_card": "Name your card",
     "crypto_card_name_card_name": "Card name",
     "crypto_card_name_create_card": "Create card",
     "crypto_card_on_the_way": "Your virtual card is on the way! You'll be notified when the card becomes available.",
-    "crypto_card_insufficient_balance_title": "Insufficient balance",
-    "crypto_card_insufficient_balance_description": "Please deposit your crypto wallet or choose another wallet and try again",
-    "crypto_card_insufficient_balance_deposit": "Deposit",
-    "crypto_card_insufficient_balance_back": "Back to home page",
-    "crypto_card_settings": "Settings",
     "crypto_card_settings_change_design": "Change design",
-    "crypto_card_settings_limit_settings": "Limit settings",
+    "crypto_card_settings_limits": "Limits",
     "crypto_card_linked_assets": "Linked assets",
-    "crypto_card_settings_change_pin": "Change PIN",
+    "crypto_card_settings_change_pin": "Set/Change PIN",
     "crypto_card_settings_card_statements": "Card Statements",
     "crypto_card_settings_documents": "Documents",
     "crypto_card_settings_privacy_policy": "Privacy Policy, Terms of Use",
     "crypto_card_settings_delete_card": "Delete card",
-    "crypto_card_freeze": "Freeze",
-    "crypto_card_change_pin": "Change PIN",
-    "crypto_card_card_number": "Card number",
-    "crypto_card_valid_thru": "Valid thru",
-    "crypto_card_cvv": "CVV",
-    "crypto_card_show": "Show",
-    "crypto_card_asset_linked": "{count, plural, =1{1 asset} other{{count} assets}} linked",
     "crypto_card_add_to_apple_wallet_title": "Add card to Apple Wallet",
     "crypto_card_add_to_apple_wallet_description": "Open Wallet App, tap “Add” button, and follow the prompts.",
     "crypto_card_add_to_google_wallet_title": "Add card to Google Wallet",
@@ -1956,5 +1934,69 @@
     "crypto_card_delete_confirm": "Confirm and delete",
     "crypto_card_linked_asset": "Linked asset",
     "crypto_card_choose_asset": "Choose asset",
-    "crypto_card_main_title": "Simple virtual card"
+    "crypto_card_main_title": "Simple virtual card",
+    "crypto_card_pay_title": "Virtual Simple Card",
+    "crypto_card_pay_payment_method": "Payment method",
+    "crypto_card_pay_pay_with": "Pay with",
+    "crypto_card_pay_continue": "Continue",
+    "crypto_card_confirmation_success_description": "You have successfully paid for the card.",
+    "crypto_card_confirmation_order_summary": "Order summary",
+    "crypto_card_confirmation_card_issue": "Card issue",
+    "crypto_card_confirmation_pay_with": "Pay with",
+    "crypto_card_confirmation_card_issue_cost": "Card issue cost",
+    "crypto_card_confirmation_discount": "{value} discount",
+    "@crypto_card_confirmation_discount": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "50%"
+            }
+        }
+    },
+    "crypto_card_confirmation_price": "Price",
+    "crypto_card_settings_add_to_wallet": "Add to {value}",
+    "@crypto_card_settings_add_to_wallet": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "AppleWallet"
+            }
+        }
+    },
+    "crypto_card_delete_terminated_toast": "The card •• {last4} has been terminated",
+    "@crypto_card_delete_terminated_toast": {
+        "placeholders": {
+            "last4": {
+                "type": "String",
+                "example": "8800"
+            }
+        }
+    },
+    "crypto_card_creat_choose_asset_to_buy_card": "Choose asset to buy card",
+    "crypto_card_creat_please_verify_your_account": "Please verify your account",
+    "crypto_card_creat_verify_account": "Verify account",
+    "crypto_card_creat_insufficient_funds": "Insufficient funds. Select another asset.",
+    "crypto_card_creat_upload_your_international_passport": "Please upload your international passport",
+    "crypto_card_creat_upload_your_international_passport_description": "Earlier you passed KYC with internal passport, to get a card you need additionally upload an international passport",
+    "crypto_card_create_save": "Save {value}",
+    "@crypto_card_create_save": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "50%"
+            }
+        }
+    },
+    "crypto_card_lable_save": "Save",
+    "crypto_card_settings_label_card": "Label card",
+    "crypto_card_show_details": "Show details",
+    "crypto_card_history_transactions": "Transactions",
+    "crypto_card_history_view_all": "View all",
+    "crypto_card_history_transaction_history": "Transaction history",
+    "crypto_card_history_view_full_details": "View full details",
+    "crypto_card_history_deposit": "Deposit",
+    "crypto_card_history_card_purchase": "Card purchase",
+    "crypto_card_history_refund": "Refund",
+    "crypto_card_history_card_issue": "Card issue",
+    "crypto_card_history_details": "Details"
 }

@@ -53,6 +53,9 @@ class $AssetsSvgGen {
   /// Directory path: assets/svg/card
   $AssetsSvgCardGen get card => const $AssetsSvgCardGen();
 
+  /// Directory path: assets/svg/categories
+  $AssetsSvgCategoriesGen get categories => const $AssetsSvgCategoriesGen();
+
   /// Directory path: assets/svg/invest
   $AssetsSvgInvestGen get invest => const $AssetsSvgInvestGen();
 
@@ -135,6 +138,13 @@ class $AssetsSvgCardGen {
 
   /// List of all assets
   List<SvgGenImage> get values => [appleWallet, cardMask, googleWallet, simpleCryptoCard, simpleLogo];
+}
+
+class $AssetsSvgCategoriesGen {
+  const $AssetsSvgCategoriesGen();
+
+  /// Directory path: assets/svg/categories/icons
+  $AssetsSvgCategoriesIconsGen get icons => const $AssetsSvgCategoriesIconsGen();
 }
 
 class $AssetsSvgInvestGen {
@@ -307,11 +317,17 @@ class $AssetsSvgMediumGen {
   /// File path: assets/svg/medium/card.svg
   SvgGenImage get card => const SvgGenImage('assets/svg/medium/card.svg');
 
+  /// File path: assets/svg/medium/card_alt.svg
+  SvgGenImage get cardAlt => const SvgGenImage('assets/svg/medium/card_alt.svg');
+
   /// File path: assets/svg/medium/cash.svg
   SvgGenImage get cash => const SvgGenImage('assets/svg/medium/cash.svg');
 
   /// File path: assets/svg/medium/change.svg
   SvgGenImage get change => const SvgGenImage('assets/svg/medium/change.svg');
+
+  /// File path: assets/svg/medium/change_design.svg
+  SvgGenImage get changeDesign => const SvgGenImage('assets/svg/medium/change_design.svg');
 
   /// File path: assets/svg/medium/chat.svg
   SvgGenImage get chat => const SvgGenImage('assets/svg/medium/chat.svg');
@@ -400,6 +416,9 @@ class $AssetsSvgMediumGen {
   /// File path: assets/svg/medium/jar.svg
   SvgGenImage get jar => const SvgGenImage('assets/svg/medium/jar.svg');
 
+  /// File path: assets/svg/medium/limits.svg
+  SvgGenImage get limits => const SvgGenImage('assets/svg/medium/limits.svg');
+
   /// File path: assets/svg/medium/linkedin.svg
   SvgGenImage get linkedin => const SvgGenImage('assets/svg/medium/linkedin.svg');
 
@@ -420,6 +439,9 @@ class $AssetsSvgMediumGen {
 
   /// File path: assets/svg/medium/more.svg
   SvgGenImage get more => const SvgGenImage('assets/svg/medium/more.svg');
+
+  /// File path: assets/svg/medium/more_2.svg
+  SvgGenImage get more2 => const SvgGenImage('assets/svg/medium/more_2.svg');
 
   /// File path: assets/svg/medium/percent.svg
   SvgGenImage get percent => const SvgGenImage('assets/svg/medium/percent.svg');
@@ -529,8 +551,10 @@ class $AssetsSvgMediumGen {
         bank,
         business,
         card,
+        cardAlt,
         cash,
         change,
+        changeDesign,
         chat,
         checkmark,
         checkmarkAlt,
@@ -560,6 +584,7 @@ class $AssetsSvgMediumGen {
         hide,
         history,
         jar,
+        limits,
         linkedin,
         loading,
         lock,
@@ -567,6 +592,7 @@ class $AssetsSvgMediumGen {
         mobile,
         mobileUnavailable,
         more,
+        more2,
         percent,
         phone,
         pin,
@@ -801,6 +827,25 @@ class $AssetsSvgBrandIconsSmallGen {
 
   /// List of all assets
   List<SvgGenImage> get values => [checkmark, done, error, iban];
+}
+
+class $AssetsSvgCategoriesIconsGen {
+  const $AssetsSvgCategoriesIconsGen();
+
+  /// File path: assets/svg/categories/icons/card_issuance.svg
+  SvgGenImage get cardIssuance => const SvgGenImage('assets/svg/categories/icons/card_issuance.svg');
+
+  /// File path: assets/svg/categories/icons/deposit.svg
+  SvgGenImage get deposit => const SvgGenImage('assets/svg/categories/icons/deposit.svg');
+
+  /// File path: assets/svg/categories/icons/games.svg
+  SvgGenImage get games => const SvgGenImage('assets/svg/categories/icons/games.svg');
+
+  /// File path: assets/svg/categories/icons/refund.svg
+  SvgGenImage get refund => const SvgGenImage('assets/svg/categories/icons/refund.svg');
+
+  /// List of all assets
+  List<SvgGenImage> get values => [cardIssuance, deposit, games, refund];
 }
 
 class $AssetsSvgOtherLargeGen {

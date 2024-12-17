@@ -43,7 +43,10 @@ import 'package:simple_networking/modules/wallet_api/models/crypto_card/change_a
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/change_lable_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/change_pin_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/create_crypto_card_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/crypto_card/create_crypto_card_responce_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/freeze_crypto_card_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/crypto_card/limits_crypto_card_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/crypto_card/limits_crypto_card_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/price_crypto_card_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/sensitive_info_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/sensitive_info_crypto_card_response_model.dart';
@@ -75,6 +78,7 @@ import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_
 import 'package:simple_networking/modules/wallet_api/models/kyc/apply_country_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/kyc/apply_country_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/kyc/check_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/kyc/kyc_plan_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/kyc/kyc_plan_responce_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/limits/buy_limits_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/limits/buy_limits_response_model.dart';
@@ -1508,11 +1512,11 @@ class WalletApiDataSources {
     }
   }
 
-  Future<DC<ServerRejectException, KycPlanResponceModel>> postKycPlanRequest() async {
+  Future<DC<ServerRejectException, KycPlanResponceModel>> postKycPlanRequest(KycPlanRequesModel model) async {
     try {
       final response = await _apiClient.post(
         '${_apiClient.options.walletApi}/kyc/verification/kyc_plan',
-        data: {},
+        data: model.toJson(),
       );
 
       try {
@@ -2395,8 +2399,8 @@ class WalletApiDataSources {
   }
 
   Future<DC<ServerRejectException, SendToBankCardResponse>> sendToBankCardInLocalCurrencyPreviewRequest(
-      SendToBankRequestModel model,
-      ) async {
+    SendToBankRequestModel model,
+  ) async {
     try {
       final response = await _apiClient.post(
         '${_apiClient.options.walletApi}/send-globally/Send-to-bank-card-in-local-currency-preview',
@@ -2417,8 +2421,8 @@ class WalletApiDataSources {
   }
 
   Future<DC<ServerRejectException, void>> sendToBankCardInLocalCurrencyRequest(
-      SendToBankRequestModel model,
-      ) async {
+    SendToBankRequestModel model,
+  ) async {
     try {
       final response = await _apiClient.post(
         '${_apiClient.options.walletApi}/send-globally/Send-to-bank-card-in-local-currency',
@@ -4313,23 +4317,21 @@ class WalletApiDataSources {
   }
 
   //Crypto card
-  Future<DC<ServerRejectException, void>> createCryptoCardRequest(
+  Future<DC<ServerRejectException, CreateCryptoCardResponceModel>> createCryptoCardRequest(
     CreateCryptoCardRequestModel model,
   ) async {
     try {
       final responce = await _apiClient.post(
-        '${_apiClient.options.walletApi}/crypto-card/create',
+        '${_apiClient.options.walletApi}/crypto-card/card-create',
         data: model.toJson(),
       );
 
       try {
         final responseData = responce.data as Map<String, dynamic>;
 
-        handleFullResponse<Map>(
-          responseData,
-        );
+        final data = handleFullResponse<Map>(responseData);
 
-        return DC.data(null);
+        return DC.data(CreateCryptoCardResponceModel.fromJson(data));
       } catch (e) {
         rethrow;
       }
@@ -4521,6 +4523,28 @@ class WalletApiDataSources {
         );
 
         return DC.data(null);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, LimitsCryptoCardResponseModel>> cryptoCardLimitsRequest(
+    LimitsCryptoCardRequestModel model,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/crypto-card/limits',
+        data: model.toJson(),
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(LimitsCryptoCardResponseModel.fromJson(data));
       } catch (e) {
         rethrow;
       }

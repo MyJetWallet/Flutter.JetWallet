@@ -3408,7 +3408,7 @@
         "description": "Добавить аккаунт",
         "type": "text"
     },
-    "iban_label": "Лейбл",
+    "iban_label": "Назва",
     "@iban_label": {
         "description": "Лейбл",
         "type": "text"
@@ -3701,7 +3701,7 @@
         "description": "Данные карточки",
         "type": "text"
     },
-    "addCircleCard_label": "Лейбл",
+    "addCircleCard_label": "Назва",
     "@addCircleCard_label": {
         "description": "Лейбл",
         "type": "text"
@@ -4295,12 +4295,12 @@
         "description": "Ваши транзакции отобразятся здесь",
         "type": "text"
     },
-    "wallet_account_label": "Лейбл",
+    "wallet_account_label": "Назва",
     "@wallet_account_label": {
         "description": "Лейбл",
         "type": "text"
     },
-    "wallet_account_label_input": "Лейбл акаунту",
+    "wallet_account_label_input": "Назва акаунту",
     "@wallet_account_label_input": {
         "description": "Лейбл аккаунта",
         "type": "text"
@@ -5968,13 +5968,137 @@
     "crypto_jar_banner_description": "Дізнатися більше",
     "crypto_jar_banner_title": "Simple Crypto Jars зроблять отримання криптовалюти надзвичайно простим.",
     "payment_method_current_limits": "Поточний ліміт: {value}",
-    "crypto_card_freeze": "",
-    "crypto_card_change_pin": "",
-    "crypto_card_settings": "",
-    "crypto_card_card_number": "",
-    "crypto_card_valid_thru": "",
-    "crypto_card_cvv": "",
-    "crypto_card_asset_linked": "",
-    "crypto_card_show": "",
-    "pinScreen_tryAgainLater": "Спробуйте пізніше"
+    "crypto_card_freeze": "Заморозити",
+    "crypto_card_change_pin": "Змінити PIN",
+    "crypto_card_settings": "Параметри",
+    "crypto_card_card_number": "Номер картки",
+    "crypto_card_valid_thru": "Термін дії",
+    "crypto_card_cvv": "CVV",
+    "crypto_card_asset_linked": "{count, plural, =1{1 актив} other{{count} активів}} пов'язано",
+    "crypto_card_show": "Показати",
+    "pinScreen_tryAgainLater": "Спробуйте пізніше",
+    "crypto_card_order_title": "Ваша віртуальна карта Simple майже готова!",
+    "crypto_card_order_description": "Сплачуйте безконтактно в магазинах за допомогою телефону або використовуйте онлайн як звичайну картку Mastercard. Заповніть деталі та починайте користуватися карткою негайно.",
+    "crypto_card_get_your_virtual_card_now": "Отримайте картку зараз",
+    "crypto_card_name_skip": "Пропустити",
+    "crypto_card_name_your_card": "Назвіть свою картку",
+    "crypto_card_name_card_name": "Назва картки",
+    "crypto_card_name_create_card": "Створити картку",
+    "crypto_card_on_the_way": "Ваша віртуальна картка в дорозі! Ви будете сповіщені, коли карта стане доступною.",
+    "crypto_card_settings_change_design": "Змінити дизайн",
+    "crypto_card_settings_limits": "Ліміти",
+    "crypto_card_linked_assets": "Пов'язані активи",
+    "crypto_card_settings_change_pin": "Змінити PIN",
+    "crypto_card_settings_card_statements": "Виписки по картці",
+    "crypto_card_settings_documents": "Документи",
+    "crypto_card_settings_privacy_policy": "Політика конфіденційності, Умови використання",
+    "crypto_card_settings_delete_card": "Видалити картку",
+    "crypto_card_add_to_apple_wallet_title": "Додати картку до Apple Wallet",
+    "crypto_card_add_to_apple_wallet_description": "Відкрийте додаток Wallet, натисніть “Додати” та слідкуйте за підказками.",
+    "crypto_card_add_to_google_wallet_title": "Додати картку до Google Wallet",
+    "crypto_card_add_to_google_wallet_description": "Відкрийте додаток Google Wallet, натисніть “Додати до гаманця” та слідкуйте за підказками.",
+    "crypto_card_freeze_title": "Заморозити цю картку?",
+    "crypto_card_freeze_description": "Якщо картку заморожено, платежі та зняття коштів будуть відхилені. Ви можете розморозити вашу картку в будь-який час.",
+    "crypto_card_unfreeze_title": "Розморозити картку?",
+    "crypto_card_unfreeze_description": "Після розмороження ваша картка буде активна і може використовуватися для покупок та інших транзакцій. Якщо ви впевнені, що хочете це зробити, натисніть “Розморозити”. Ви завжди можете знову заморозити її пізніше, якщо це буде необхідно.",
+    "crypto_card_cancel": "Скасувати",
+    "crypto_card_freeze_toast": "Транзакції карткою будуть відхилені, поки ви не розморозите картку",
+    "crypto_card_unfreeze": "Розморозити",
+    "crypto_card_unfreeze_toast": "Успішно!",
+    "crypto_card_change_your_pin": "Змінити ваш PIN",
+    "crypto_card_confirm_your_pin": "Підтвердити ваш PIN",
+    "crypto_card_change_your_pin_description": "Ви можете оновити ваш PIN в будь-який час, якщо цей пристрій зареєстрований.",
+    "crypto_card_continue": "Продовжити",
+    "crypto_card_pin_does_not_match": "PIN не співпадає",
+    "crypto_card_pin_not_strong": "Оберіть складніший PIN",
+    "crypto_card_change_pin_success": "Ваш PIN успішно оновлено. Ви можете змінити його в будь-який час.",
+    "crypto_card_here_your_pin": "Ось ваш PIN",
+    "crypto_card_hiding_pin": "Приховування PIN через {value} секунд",
+    "crypto_card_limits": "Ліміти",
+    "crypto_card_limits_card_payments": "Карткові платежі",
+    "crypto_card_limits_daily": "Щоденно",
+    "crypto_card_limits_left": "Залишилося {amounty}",
+    "@crypto_card_limits_left": {
+        "placeholders": {
+            "amounty": {
+                "type": "String",
+                "example": "1 000 EUR"
+            }
+        }
+    },
+    "crypto_card_limits_weekly": "Щотижня",
+    "crypto_card_monthly": "Щомісяця",
+    "crypto_card_limits_atm_withdrawals": "Зняття готівки в банкоматах",
+    "crypto_card_delete_card": "Видалити картку?",
+    "crypto_card_delete_description": "Ви збираєтеся видалити картку **{cardLast4}. Після видалення всі майбутні транзакції будуть відхилені, і цю дію не можна буде скасувати.",
+    "@crypto_card_delete_description": {
+        "placeholders": {
+            "cardLast4": {
+                "type": "String",
+                "example": "1234"
+            }
+        }
+    },
+    "crypto_card_delete_confirm": "Підтвердити й видалити",
+    "crypto_card_linked_asset": "Пов'язаний актив",
+    "crypto_card_choose_asset": "Оберіть актив",
+    "crypto_card_main_title": "Віртуальна карта Simple",
+    "crypto_card_pay_title": "Віртуальна карта Simple",
+    "crypto_card_pay_payment_method": "Метод оплати",
+    "crypto_card_pay_pay_with": "Оплата за допомогою",
+    "crypto_card_pay_continue": "Продовжити",
+    "crypto_card_confirmation_success_description": "Ви успішно сплатили за картку.",
+    "crypto_card_confirmation_order_summary": "Підсумок замовлення",
+    "crypto_card_confirmation_card_issue": "Випуск картки",
+    "crypto_card_confirmation_pay_with": "Оплата за допомогою",
+    "crypto_card_confirmation_card_issue_cost": "Вартість випуску картки",
+    "crypto_card_confirmation_discount": "Знижка {value}",
+    "@crypto_card_confirmation_discount": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "50%"
+            }
+        }
+    },
+    "crypto_card_confirmation_price": "Ціна",
+    "crypto_card_settings_add_to_wallet": "Додати до {value}",
+    "@crypto_card_settings_add_to_wallet": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "AppleWallet"
+            }
+        }
+    },
+    "crypto_card_delete_terminated_toast": "Картка •• {last4} була анульована",
+    "@crypto_card_delete_terminated_toast": {
+        "placeholders": {
+            "last4": {
+                "type": "String",
+                "example": "8800"
+            }
+        }
+    },
+    "crypto_card_creat_choose_asset_to_buy_card": "Оберіть актив для купівлі картки",
+    "crypto_card_creat_please_verify_your_account": "Будь ласка, перевірте свій обліковий запис",
+    "crypto_card_creat_verify_account": "Розпочати",
+    "crypto_card_pay_description_0": "Ваша Simple Card майже готова! Насолоджуйтеся простотою використання та відсутністю комісій за обслуговування. Почніть використовувати свою картку вже зараз!",
+    "crypto_card_pay_description_50": "Вам пощастило! Ви отримуєте Simple Card за половину ціни. Заберіть її зараз і почніть здійснювати платежі без затримок.",
+    "crypto_card_pay_description_100": "Вам щастить! Сьогодні ваша Simple Card надається абсолютно безкоштовно. Без комісій, без клопоту — активуйте і починайте використовувати!",
+    "crypto_card_creat_insufficient_funds": "Недостатньо коштів. Оберіть інший актив.",
+    "crypto_card_creat_upload_your_international_passport": "Будь ласка, завантажте ваш закордонний паспорт.",
+    "crypto_card_creat_upload_your_international_passport_description": "Раніше ви пройшли KYC з внутрішнім паспортом, для отримання картки необхідно додатково завантажити закордонний паспорт.",
+    "crypto_card_create_save": "Зберегти {value}",
+    "@crypto_card_create_save": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "50%"
+            }
+        }
+    },
+    "crypto_card_lable_save": "Зберегти",
+    "crypto_card_settings_label_card": "Назвати картку",
+    "crypto_card_show_details": "Показати деталі"
 }

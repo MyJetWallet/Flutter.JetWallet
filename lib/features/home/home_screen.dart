@@ -131,6 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 }
 
                 getIt.get<EventBus>().fire(EndReordering());
+                getIt.get<EventBus>().fire(UnfocusTextField());
 
                 if (bottomBarItems[val] == store.homeTab) {
                   switch (bottomBarItems[val]) {

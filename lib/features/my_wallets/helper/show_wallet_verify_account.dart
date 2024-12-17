@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/sumsub_service/sumsub_service.dart';
 import 'package:jetwallet/features/app/store/global_loader.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/kyc_verify_your_profile/utils/get_kuc_aid_plan.dart';
 import 'package:jetwallet/features/kyc/kyc_verify_your_profile/utils/start_kyc_aid_flow.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
+import 'package:logger/logger.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
@@ -84,7 +86,19 @@ Future<void> _launchKycFlow({
   required Function() after,
   required bool isBanking,
 }) async {
-  final kycPlan = await getKYCAidPlan();
+  KycPlanResponceModel? kycPlan;
+  try {
+    getIt.get<GlobalLoader>().setLoading(true);
+    kycPlan = await getKYCAidPlan();
+  } catch (error) {
+    getIt.get<SimpleLoggerService>().log(
+          level: Level.error,
+          place: 'showWalletVerifyAccount',
+          message: error.toString(),
+        );
+  } finally {
+    getIt.get<GlobalLoader>().setLoading(false);
+  }
 
   if (kycPlan == null) return;
 
@@ -95,6 +109,6 @@ Future<void> _launchKycFlow({
       needPush: false,
     );
   } else if (kycPlan.provider == KycProvider.kycAid) {
-    await startKycAidFlow(kycPlan);
+    await startKycAidFlow(kycPlan: kycPlan);
   }
 }

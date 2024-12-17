@@ -27,6 +27,10 @@ abstract class _MarketInstrumentsListsStoreBase with Store {
     getIt<EventBus>().on<ShowMarketGainers>().listen((event) {
       setActiveMarketTab(MarketTab.gainers);
     });
+
+    getIt<EventBus>().on<UnfocusTextField>().listen((event) {
+      searchFocusNode.unfocus();
+    });
   }
   final searchContriller = TextEditingController();
 

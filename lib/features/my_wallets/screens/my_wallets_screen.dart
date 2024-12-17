@@ -53,9 +53,7 @@ import 'package:timezone/data/latest.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../core/services/signal_r/signal_r_service_new.dart';
-import '../../../core/services/user_info/user_info_service.dart';
-import '../../../utils/helpers/check_kyc_status.dart';
-import '../../kyc/kyc_service.dart';
+
 import '../../simple_card/store/simple_card_store.dart';
 
 @RoutePage(name: 'MyWalletsRouter')
@@ -119,25 +117,6 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
     initializeTimeZones();
 
     simpleCardStore.checkCardBanner();
-
-    Timer(
-      const Duration(seconds: 2),
-      () {
-        final userInfo = getIt.get<UserInfoService>();
-        final kycState = getIt.get<KycService>();
-
-        if (userInfo.isSimpleCardAvailable &&
-            (sSignalRModules.bankingProfileData?.banking?.cards?.length ?? 0) < 1 &&
-            !simpleCardStore.wasCardBannerClosed &&
-            checkKycPassed(
-              kycState.depositStatus,
-              kycState.tradeStatus,
-              kycState.withdrawalStatus,
-            )) {
-          sAnalytics.viewGetSimpleCard();
-        }
-      },
-    );
 
     store = MyWalletsSrore.of(context) as MyWalletsSrore;
     getIt.get<MyWalletsScrollStore>().init();

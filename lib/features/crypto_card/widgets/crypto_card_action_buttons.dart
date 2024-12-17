@@ -1,9 +1,13 @@
+import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/crypto_card/store/main_crypto_card_store.dart';
 import 'package:jetwallet/features/crypto_card/utils/show_card_settings_bootom_sheet.dart';
-import 'package:jetwallet/features/crypto_card/utils/show_crypto_card_change_pin_popup.dart';
 import 'package:jetwallet/features/crypto_card/utils/show_freeze_crypto_card_popup.dart';
+import 'package:jetwallet/features/crypto_card/utils/show_unfreeze_crypto_card_popup.dart';
+import 'package:jetwallet/utils/event_bus_events.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class CryptoCardActionButtons extends StatelessWidget {
@@ -22,19 +26,25 @@ class CryptoCardActionButtons extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 20.0),
       child: AnimatedCrossFade(
         firstChild: _buildUnfreezeButtons(context),
-        secondChild: _buildFreezeButtons(),
+        secondChild: _buildFreezeButtons(context),
         crossFadeState: cardIsFrozen ? CrossFadeState.showSecond : CrossFadeState.showFirst,
         duration: const Duration(milliseconds: 200),
       ),
     );
   }
 
-  Widget _buildFreezeButtons() {
+  Widget _buildFreezeButtons(BuildContext context) {
     return ActionPannel(
       actionButtons: [
         SActionButton(
           onTap: () {
-            store.unfreezeCard();
+            sAnalytics.tapCardUnfreezeButton();
+            showUnfreezeCryptoCardPopup(
+              context: context,
+              onUnfreezePressed: () {
+                store.unfreezeCard();
+              },
+            );
           },
           lable: intl.crypto_card_unfreeze,
           icon: Assets.svg.medium.freeze.simpleSvg(
@@ -49,7 +59,17 @@ class CryptoCardActionButtons extends StatelessWidget {
     return ActionPannel(
       actionButtons: [
         SActionButton(
+          lable: intl.crypto_card_show_details,
+          icon: Assets.svg.medium.show.simpleSvg(
+            color: SColorsLight().white,
+          ),
           onTap: () {
+            getIt.get<EventBus>().fire(FlipCryptoCard());
+          },
+        ),
+        SActionButton(
+          onTap: () {
+            sAnalytics.tapFreezeCardCrypto();
             showFreezeCryptoCardPopup(
               context: context,
               onFreezePressed: () {
@@ -63,20 +83,12 @@ class CryptoCardActionButtons extends StatelessWidget {
           ),
         ),
         SActionButton(
-          lable: intl.crypto_card_change_pin,
-          icon: Assets.svg.medium.pin.simpleSvg(
-            color: SColorsLight().white,
-          ),
-          onTap: () {
-            showCryptoCardChangePinPopup(context);
-          },
-        ),
-        SActionButton(
           lable: intl.crypto_card_settings,
           icon: Assets.svg.medium.settings.simpleSvg(
             color: SColorsLight().white,
           ),
           onTap: () {
+            sAnalytics.tapSettings();
             showCardSettingsBootomSheet(context: context, store: store);
           },
         ),

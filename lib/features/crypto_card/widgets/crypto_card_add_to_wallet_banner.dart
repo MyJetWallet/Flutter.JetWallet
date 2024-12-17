@@ -6,6 +6,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/crypto_card/store/main_crypto_card_store.dart';
 import 'package:jetwallet/features/crypto_card/utils/show_wallet_redirecting_popup.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class CryptoCardAddToWalletBanner extends StatelessWidget {
@@ -21,14 +22,25 @@ class CryptoCardAddToWalletBanner extends StatelessWidget {
         return AnimatedCrossFade(
           duration: const Duration(milliseconds: 300),
           crossFadeState: showAddToWalletBanner ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-          firstChild: _buildBanner(context, store),
+          firstChild: _BannerWidget(
+            onCloseBanner: () {
+              store.closeBanner();
+            },
+          ),
           secondChild: Container(),
         );
       },
     );
   }
+}
 
-  Widget _buildBanner(BuildContext context, MainCryptoCardStore store) {
+class _BannerWidget extends StatelessWidget {
+  const _BannerWidget({this.onCloseBanner});
+
+  final void Function()? onCloseBanner;
+
+  @override
+  Widget build(BuildContext context) {
     Widget icon = Container();
     var title = '';
     var description = '';
@@ -52,6 +64,9 @@ class CryptoCardAddToWalletBanner extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 24.0),
       child: SafeGesture(
         onTap: () {
+          sAnalytics.tapAddToWallet(
+            walletType: Platform.isAndroid ? 'Google Wallet' : 'Apple Wallet',
+          );
           showWalletRedirectingPopup(context);
         },
         child: Container(
@@ -66,7 +81,10 @@ class CryptoCardAddToWalletBanner extends StatelessWidget {
                 alignment: Alignment.topRight,
                 child: SafeGesture(
                   onTap: () {
-                    store.closeBanner();
+                    sAnalytics.tapCloseAddToWalletBanner(
+                      walletType: Platform.isAndroid ? 'Google Wallet' : 'Apple Wallet',
+                    );
+                    onCloseBanner?.call();
                   },
                   child: Assets.svg.medium.close.simpleSvg(
                     height: 20.0,

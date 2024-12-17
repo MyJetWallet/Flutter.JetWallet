@@ -7,7 +7,7 @@ part 'sensitive_info_crypto_card_response_model.g.dart';
 class SensitiveInfoCryptoCardResponseModel with _$SensitiveInfoCryptoCardResponseModel {
   const factory SensitiveInfoCryptoCardResponseModel({
     required String cvv,
-    required String expDate,
+    required DateTime expDate,
     required String cardNumber,
   }) = _SensitiveInfoCryptoCardResponseModel;
 

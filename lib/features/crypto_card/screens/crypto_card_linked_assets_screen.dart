@@ -8,13 +8,25 @@ import 'package:jetwallet/features/crypto_card/store/crypto_card_linked_assets_s
 import 'package:jetwallet/features/crypto_card/utils/show_choose_linked_asset_bottom_sheet.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'CryptoCardLinkedAssetsRoute')
-class CryptoCardLinkedAssetsScreen extends StatelessWidget {
+class CryptoCardLinkedAssetsScreen extends StatefulWidget {
   const CryptoCardLinkedAssetsScreen({
     super.key,
   });
+
+  @override
+  State<CryptoCardLinkedAssetsScreen> createState() => _CryptoCardLinkedAssetsScreenState();
+}
+
+class _CryptoCardLinkedAssetsScreenState extends State<CryptoCardLinkedAssetsScreen> {
+  @override
+  void initState() {
+    super.initState();
+    sAnalytics.viewLinkedAssetsScreen();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,22 +56,29 @@ class _LinkedAssetsBody extends StatelessWidget {
           child: Column(
             children: [
               const SpaceH7(),
-              SuggestionButton(
-                title: store.selectedAsset.description,
-                subTitle: intl.crypto_card_linked_asset,
-                trailing: getIt<AppStore>().isBalanceHide
-                    ? '**** ${store.selectedAsset.symbol}'
-                    : store.selectedAsset.volumeAssetBalance,
-                icon: NetworkIconWidget(
-                  store.selectedAsset.iconUrl,
+              if (store.avaibleAssets.isNotEmpty)
+                SuggestionButton(
+                  title: store.selectedAsset.description,
+                  subTitle: intl.crypto_card_linked_asset,
+                  trailing: getIt<AppStore>().isBalanceHide
+                      ? '**** ${store.selectedAsset.symbol}'
+                      : store.selectedAsset.volumeAssetBalance,
+                  icon: NetworkIconWidget(
+                    store.selectedAsset.iconUrl,
+                  ),
+                  onTap: () {
+                    showChooseLinkedAssetBottomSheet(
+                      context: context,
+                      store: store,
+                    );
+                  },
+                )
+              else
+                SSkeletonLoader(
+                  width: MediaQuery.of(context).size.width - 48,
+                  height: 56,
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                onTap: () {
-                  showChooseLinkedAssetBottomSheet(
-                    context: context,
-                    store: store,
-                  );
-                },
-              ),
             ],
           ),
         );
