@@ -1,13 +1,17 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/prevent_duplication_events_servise.dart';
 import 'package:jetwallet/features/crypto_card/store/crypto_card_name_store.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_kit_updated/widgets/shared/simple_safe_button_padding.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 @RoutePage(name: 'CryptoCardNameRoute')
 class CryptoCardNameScreen extends StatelessWidget {
@@ -46,91 +50,112 @@ class _CardNameBody extends StatelessWidget {
     final colors = SColorsLight();
     final store = CryptoCardNameStore.of(context);
 
-    return Observer(
-      builder: (context) {
-        return SPageFrame(
-          loaderText: intl.loader_please_wait,
-          loading: store.loader,
-          color: colors.gray2,
-          header: GlobalBasicAppBar(
-            hasRightIcon: isCreateFlow,
-            rightIcon: Text(
-              intl.crypto_card_name_skip,
-              style: STStyles.button.copyWith(
-                color: colors.blue,
+    return VisibilityDetector(
+      key: const Key('CryptoCardNameScreen'),
+      onVisibilityChanged: (info) {
+        if (info.visibleFraction == 1) {
+          getIt.get<PreventDuplicationEventsService>().sendEvent(
+                id: 'CryptoCardNameScreen',
+                event: () {
+                  sAnalytics.viewNameCardScreen();
+                },
+              );
+        }
+      },
+      child: Observer(
+        builder: (context) {
+          return SPageFrame(
+            loaderText: intl.loader_please_wait,
+            loading: store.loader,
+            color: colors.gray2,
+            header: GlobalBasicAppBar(
+              hasRightIcon: isCreateFlow,
+              rightIcon: Text(
+                intl.crypto_card_name_skip,
+                style: STStyles.button.copyWith(
+                  color: colors.blue,
+                ),
               ),
+              onRightIconTap: () {
+                sAnalytics.skipCardNameSubmission();
+                sRouter.popUntilRoot();
+              },
+              hasLeftIcon: !isCreateFlow,
             ),
-            onRightIconTap: () {
-              sRouter.popUntilRoot();
-            },
-            hasLeftIcon: !isCreateFlow,
-          ),
-          child: CustomScrollView(
-            physics: const ClampingScrollPhysics(),
-            slivers: [
-              SliverFillRemaining(
-                hasScrollBody: false,
-                child: Column(
-                  children: [
-                    ColoredBox(
-                      color: colors.white,
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: 172,
-                            child: Image.asset(
-                              cryptoCardPreviewSmall,
+            child: CustomScrollView(
+              physics: const ClampingScrollPhysics(),
+              slivers: [
+                SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: Column(
+                    children: [
+                      ColoredBox(
+                        color: colors.white,
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 172,
+                              child: Image.asset(
+                                cryptoCardPreviewSmall,
+                              ),
                             ),
-                          ),
-                          SPaddingH24(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  intl.crypto_card_name_your_card,
-                                  style: STStyles.header6,
-                                ),
-                              ],
+                            SPaddingH24(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    intl.crypto_card_name_your_card,
+                                    style: STStyles.header6,
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                          const SpaceH16(),
-                          SInput(
-                            label: intl.crypto_card_name_card_name,
-                            controller: store.controller,
-                            autofocus: true,
-                            onChanged: (name) {
-                              store.setCryptoCardName(name);
-                            },
-                            maxLength: store.nameMaxLength,
-                          ),
-                        ],
+                            const SpaceH16(),
+                            SInput(
+                              label: intl.crypto_card_name_card_name,
+                              controller: store.controller,
+                              autofocus: true,
+                              onChanged: (name) {
+                                store.setCryptoCardName(name);
+                              },
+                              maxLength: store.nameMaxLength,
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    const SpaceH26(),
-                    const Spacer(),
-                    SafeArea(
-                      top: false,
-                      child: SSafeButtonPadding(
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                            left: 24,
-                            right: 24,
-                            bottom: 8, // отступ кнопки (8)
-                          ),
-                          child: SButton.black(
-                            text: isCreateFlow ? intl.crypto_card_continue : intl.crypto_card_lable_save,
-                            callback: store.isNameValid ? store.changeCardName : null,
+                      const SpaceH26(),
+                      const Spacer(),
+                      SafeArea(
+                        top: false,
+                        child: SSafeButtonPadding(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                              left: 24,
+                              right: 24,
+                              bottom: 8, // отступ кнопки (8)
+                            ),
+                            child: SButton.black(
+                              text: isCreateFlow ? intl.crypto_card_continue : intl.crypto_card_lable_save,
+                              callback: store.isNameValid
+                                  ? () {
+                                      sAnalytics.submitCardName(
+                                        cardName: store.cardName ?? '',
+                                      );
+                                      store.changeCardName();
+                                    }
+                                  : null,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-        );
-      },
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 }

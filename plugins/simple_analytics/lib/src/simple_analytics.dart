@@ -6712,19 +6712,6 @@ class SimpleAnalytics {
 
   // Crypto card
 
-  void viewCardPrelaunchScreen() {
-    _analytics.logEvent(
-      'View Card Prelaunch Screen',
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '669',
-        PropertyType.eventType: EventType.screenView.name,
-        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
-      },
-    );
-  }
-
   void tapLimits() {
     _analytics.logEvent(
       'Tap Limits',
@@ -7300,6 +7287,308 @@ class SimpleAnalytics {
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '708',
         PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void viewCardPrelaunchScreen() {
+    _analytics.logEvent(
+      'View Card Prelaunch Screen',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '669',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void tapJoinWaitlist() {
+    _analytics.logEvent(
+      'Tap Join Waitlist',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '670',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void viewComingSoonScreen() {
+    _analytics.logEvent(
+      'View Coming Soon Screen',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '671',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void viewCreateCardScreen() {
+    _analytics.logEvent(
+      'View Create Card Screen',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '672',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void tapGetVirtualCard() {
+    _analytics.logEvent(
+      'Tap Get Virtual Card',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '673',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void viewChoosePaymentMethodScreen({
+    required String userCardPriceEUR,
+    required String fullCardPriceEUR,
+  }) {
+    _analytics.logEvent(
+      'View Choose Payment Method Screen',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '674',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+        PropertyType.userCardPriceEUR: userCardPriceEUR,
+        PropertyType.fullCardPriceEUR: fullCardPriceEUR,
+      },
+    );
+  }
+
+  void viewAssetSelectionScreen() {
+    _analytics.logEvent(
+      'View Asset Selection Screen',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '675',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void selectAsset({
+    required String paymentAsset,
+  }) {
+    _analytics.logEvent(
+      'Select Asset',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '676',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+        PropertyType.paymentAsset: paymentAsset,
+      },
+    );
+  }
+
+  void viewOrderSummary({
+    required String paymentAsset,
+    required String paymentAmountInCrypto,
+  }) {
+    _analytics.logEvent(
+      'View Order Summary',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '677',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+        PropertyType.paymentAsset: paymentAsset,
+        PropertyType.paymentAmountInCrypto: paymentAmountInCrypto,
+      },
+    );
+  }
+
+  void errorAtOrderSummary({
+    required String paymentAsset,
+    required String paymentAmountInCrypto,
+    required String errorMessage,
+  }) {
+    _analytics.logEvent(
+      'Error at Order Summary',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '678',
+        PropertyType.eventType: EventType.error.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+        PropertyType.paymentAsset: paymentAsset,
+        PropertyType.paymentAmountInCrypto: paymentAmountInCrypto,
+        PropertyType.errorMessage: errorMessage,
+      },
+    );
+  }
+
+  void tapConfirmPayment({
+    required String paymentAsset,
+    required String paymentAmountInCrypto,
+  }) {
+    _analytics.logEvent(
+      'Tap Confirm Payment',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '679',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+        PropertyType.paymentAsset: paymentAsset,
+        PropertyType.paymentAmountInCrypto: paymentAmountInCrypto,
+      },
+    );
+  }
+
+  void viewSuccessScreen({
+    required String paymentAsset,
+    required String paymentAmountInCrypto,
+  }) {
+    _analytics.logEvent(
+      'View Success Screen',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '680',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+        PropertyType.paymentAsset: paymentAsset,
+        PropertyType.paymentAmountInCrypto: paymentAmountInCrypto,
+      },
+    );
+  }
+
+  void viewErrorScreen({
+    required String paymentAsset,
+    required String paymentAmountInCrypto,
+    required String errorMessage,
+    required String userAssetBalance,
+  }) {
+    _analytics.logEvent(
+      'View Error Screen',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '681',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+        PropertyType.paymentAsset: paymentAsset,
+        PropertyType.paymentAmountInCrypto: paymentAmountInCrypto,
+        PropertyType.errorMessage: errorMessage,
+        PropertyType.userAssetBalance: userAssetBalance,
+      },
+    );
+  }
+
+  void viewVerifyAccountScreen() {
+    _analytics.logEvent(
+      'View Verify Account Screen',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '682',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void tapVerifyAccount() {
+    _analytics.logEvent(
+      'Tap Verify Account',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '683',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void tapCancelAtVerifyAccountDialog() {
+    _analytics.logEvent(
+      'Tap Cancel at "Verify account" dialog',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '684',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void viewNameCardScreen() {
+    _analytics.logEvent(
+      'View Name Card Screen',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '685',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void submitCardName({
+    required String cardName,
+  }) {
+    _analytics.logEvent(
+      'Submit Card Name',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '686',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+        PropertyType.cardName: cardName,
+      },
+    );
+  }
+
+  void skipCardNameSubmission() {
+    _analytics.logEvent(
+      'Skip Card Name Submission',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '687',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
+      },
+    );
+  }
+
+  void viewProcessingScreen() {
+    _analytics.logEvent(
+      'View Processing Screen',
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '688',
+        PropertyType.eventType: EventType.screenView.name,
         PropertyType.eventCategory: EventCategory.quickoCryptoCard.id,
       },
     );

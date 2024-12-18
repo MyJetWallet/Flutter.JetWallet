@@ -5,10 +5,13 @@ import 'package:confetti/confetti.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/services/prevent_duplication_events_servise.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../core/di/di.dart';
 import '../../core/l10n/i10n.dart';
@@ -58,103 +61,122 @@ class _CardScreenBodyState extends State<CardScreen> {
 
     final colors = SColorsLight();
 
-    return SPageFrame(
-      loaderText: intl.register_pleaseWait,
-      header: const GlobalBasicAppBar(
-        hasLeftIcon: false,
-        hasRightIcon: false,
-      ),
-      child: Stack(
-        children: [
-          CustomScrollView(
-            physics: const ClampingScrollPhysics(),
-            controller: controller,
-            slivers: [
-              SliverPadding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                sliver: SliverToBoxAdapter(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 32),
-                        child: Image.asset(
-                          preorderCardAsset,
-                        ),
-                      ),
-                      Text(
-                        intl.card_header,
-                        maxLines: 2,
-                        style: STStyles.header5,
-                      ),
-                      const SpaceH12(),
-                      if (userInfo.cardRequested) ...[
-                        Text(
-                          intl.card_preorder_joibed_description,
-                          maxLines: 3,
-                          style: STStyles.subtitle2.copyWith(
-                            color: colors.gray10,
+    return VisibilityDetector(
+      key: const Key('crypto-card-preorder-key'),
+      onVisibilityChanged: (info) {
+        if (info.visibleFraction == 1) {
+          getIt.get<PreventDuplicationEventsService>().sendEvent(
+                id: 'crypto-card-preorder-key',
+                event: () {
+                  if (userInfo.cardRequested) {
+                    sAnalytics.viewComingSoonScreen();
+                  } else {
+                    sAnalytics.viewCardPrelaunchScreen();
+                  }
+                },
+              );
+        }
+      },
+      child: SPageFrame(
+        loaderText: intl.register_pleaseWait,
+        header: const GlobalBasicAppBar(
+          hasLeftIcon: false,
+          hasRightIcon: false,
+        ),
+        child: Stack(
+          children: [
+            CustomScrollView(
+              physics: const ClampingScrollPhysics(),
+              controller: controller,
+              slivers: [
+                SliverPadding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  sliver: SliverToBoxAdapter(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 32),
+                          child: Image.asset(
+                            preorderCardAsset,
                           ),
                         ),
-                      ] else ...[
                         Text(
-                          intl.card_preorder_join_description,
-                          maxLines: 4,
-                          style: STStyles.subtitle2,
-                        ),
-                        const SpaceH8(),
-                        Text(
-                          intl.card_preorder_highlights,
-                          maxLines: 4,
-                          style: STStyles.subtitle2,
+                          intl.card_header,
+                          maxLines: 2,
+                          style: STStyles.header5,
                         ),
                         const SpaceH12(),
-                        OneColumnCell(
-                          icon: Assets.svg.small.check,
-                          text: intl.card_preorder_highlight_1,
-                          needHorizontalPading: false,
-                        ),
-                        OneColumnCell(
-                          icon: Assets.svg.small.check,
-                          text: intl.card_preorder_highlight_2,
-                          needHorizontalPading: false,
-                        ),
-                        OneColumnCell(
-                          icon: Assets.svg.small.check,
-                          text: intl.card_preorder_highlight_3,
-                          needHorizontalPading: false,
-                        ),
-                        OneColumnCell(
-                          icon: Assets.svg.small.check,
-                          text: intl.card_preorder_highlight_4,
-                          needHorizontalPading: false,
-                        ),
+                        if (userInfo.cardRequested) ...[
+                          Text(
+                            intl.card_preorder_joibed_description,
+                            maxLines: 3,
+                            style: STStyles.subtitle2.copyWith(
+                              color: colors.gray10,
+                            ),
+                          ),
+                        ] else ...[
+                          Text(
+                            intl.card_preorder_join_description,
+                            maxLines: 4,
+                            style: STStyles.subtitle2,
+                          ),
+                          const SpaceH8(),
+                          Text(
+                            intl.card_preorder_highlights,
+                            maxLines: 4,
+                            style: STStyles.subtitle2,
+                          ),
+                          const SpaceH12(),
+                          OneColumnCell(
+                            icon: Assets.svg.small.check,
+                            text: intl.card_preorder_highlight_1,
+                            needHorizontalPading: false,
+                          ),
+                          OneColumnCell(
+                            icon: Assets.svg.small.check,
+                            text: intl.card_preorder_highlight_2,
+                            needHorizontalPading: false,
+                          ),
+                          OneColumnCell(
+                            icon: Assets.svg.small.check,
+                            text: intl.card_preorder_highlight_3,
+                            needHorizontalPading: false,
+                          ),
+                          OneColumnCell(
+                            icon: Assets.svg.small.check,
+                            text: intl.card_preorder_highlight_4,
+                            needHorizontalPading: false,
+                          ),
+                        ],
+                        const SpaceH120(),
                       ],
-                      const SpaceH120(),
-                    ],
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              margin: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
-              child: SButton.black(
-                text: intl.join_the_waitlist,
-                callback: !userInfo.cardRequested ? onTap : null,
-                isLoading: isLoading,
+              ],
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                margin: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
+                child: SButton.black(
+                  text: intl.join_the_waitlist,
+                  callback: !userInfo.cardRequested ? onTap : null,
+                  isLoading: isLoading,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
   Future<void> onTap() async {
     try {
+      sAnalytics.tapJoinWaitlist();
+
       setState(() {
         isLoading = true;
       });

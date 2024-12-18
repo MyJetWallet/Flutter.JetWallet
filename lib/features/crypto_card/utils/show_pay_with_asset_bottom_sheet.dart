@@ -9,12 +9,15 @@ import 'package:jetwallet/features/crypto_card/store/crypto_card_pay_asset_store
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/widgets/bottom_sheet_bar.dart';
 import 'package:jetwallet/widgets/network_icon_widget.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 Future<void> showPayWithAssetBottomSheet({
   required BuildContext context,
   required CryptoCardPayAssetStore store,
 }) async {
+  sAnalytics.viewAssetSelectionScreen();
+
   await showBasicBottomSheet(
     context: context,
     expanded: store.showSearch,
@@ -75,6 +78,7 @@ class _LinkedAssetBody extends StatelessWidget {
                           accuracy: store.priceAsset.accuracy,
                         ),
                 onTableAssetTap: () {
+                  sAnalytics.selectAsset(paymentAsset: asset.symbol);
                   Navigator.of(context).pop();
                   store.onChooseAsset(asset);
                 },

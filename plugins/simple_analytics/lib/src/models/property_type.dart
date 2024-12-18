@@ -87,4 +87,11 @@ class PropertyType {
   static const jarName = 'Jar Name';
   static const chosenAsset = 'ChosenAsset';
   static const walletType = 'WalletType';
+  static const userCardPriceEUR = 'UserCardPriceEUR';
+  static const fullCardPriceEUR = 'FullCardPriceEUR';
+  static const paymentAsset = 'PaymentAsset';
+  static const paymentAmountInCrypto = 'PaymentAmountInCrypto';
+  static const errorMessage = 'ErrorMessage';
+  static const userAssetBalance = 'UserAssetBalance';
+  static const cardName = 'CardName';
 }

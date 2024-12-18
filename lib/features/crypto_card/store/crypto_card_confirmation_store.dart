@@ -14,6 +14,7 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/create_crypto_card_request_model.dart';
@@ -126,6 +127,10 @@ abstract class _CryptoCardConfirmationStoreBase with Store {
   }
 
   Future<void> showSuccessScreen(String cardId) async {
+    sAnalytics.viewSuccessScreen(
+      paymentAsset: fromAssetSymbol,
+      paymentAmountInCrypto: fromAmount.toString(),
+    );
     await sRouter
         .push(
       SuccessScreenRouter(
@@ -148,6 +153,18 @@ abstract class _CryptoCardConfirmationStoreBase with Store {
     if (sRouter.currentPath != '/crypto_card_confirmation') {
       return;
     }
+
+    sAnalytics.viewErrorScreen(
+      paymentAsset: fromAssetSymbol,
+      paymentAmountInCrypto: fromAmount.toString(),
+      errorMessage: error,
+      userAssetBalance: getIt<FormatService>()
+          .findCurrency(
+            assetSymbol: fromAssetSymbol,
+          )
+          .assetBalance
+          .toString(),
+    );
 
     unawaited(
       sRouter.push(
