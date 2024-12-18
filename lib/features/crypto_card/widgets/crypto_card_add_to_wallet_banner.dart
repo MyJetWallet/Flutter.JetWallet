@@ -2,12 +2,15 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/prevent_duplication_events_servise.dart';
 import 'package:jetwallet/features/crypto_card/store/main_crypto_card_store.dart';
 import 'package:jetwallet/features/crypto_card/utils/show_wallet_redirecting_popup.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 class CryptoCardAddToWalletBanner extends StatelessWidget {
   const CryptoCardAddToWalletBanner({super.key});
@@ -60,76 +63,91 @@ class _BannerWidget extends StatelessWidget {
       description = intl.crypto_card_add_to_apple_wallet_description;
     }
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-      child: SafeGesture(
-        onTap: () {
-          sAnalytics.tapAddToWallet(
-            walletType: Platform.isAndroid ? 'Google Wallet' : 'Apple Wallet',
-          );
-          showWalletRedirectingPopup(context);
-        },
-        child: Container(
-          padding: const EdgeInsets.all(16.0),
-          decoration: BoxDecoration(
-            color: SColorsLight().gray2,
-            borderRadius: BorderRadius.circular(16.0),
-          ),
-          child: Stack(
-            children: [
-              Align(
-                alignment: Alignment.topRight,
-                child: SafeGesture(
-                  onTap: () {
-                    sAnalytics.tapCloseAddToWalletBanner(
-                      walletType: Platform.isAndroid ? 'Google Wallet' : 'Apple Wallet',
-                    );
-                    onCloseBanner?.call();
-                  },
-                  child: Assets.svg.medium.close.simpleSvg(
-                    height: 20.0,
-                    width: 20.0,
+    return VisibilityDetector(
+      key: const Key('wallet-banner-key'),
+      onVisibilityChanged: (info) {
+        if (info.visibleFraction == 1) {
+          getIt.get<PreventDuplicationEventsService>().sendEvent(
+                id: 'wallet-banner-key',
+                event: () {
+                  sAnalytics.viewAddToWalletCard(
+                    walletType: Platform.isAndroid ? 'Google Wallet' : 'Apple Wallet',
+                  );
+                },
+              );
+        }
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0),
+        child: SafeGesture(
+          onTap: () {
+            sAnalytics.tapAddToWallet(
+              walletType: Platform.isAndroid ? 'Google Wallet' : 'Apple Wallet',
+            );
+            showWalletRedirectingPopup(context);
+          },
+          child: Container(
+            padding: const EdgeInsets.all(16.0),
+            decoration: BoxDecoration(
+              color: SColorsLight().gray2,
+              borderRadius: BorderRadius.circular(16.0),
+            ),
+            child: Stack(
+              children: [
+                Align(
+                  alignment: Alignment.topRight,
+                  child: SafeGesture(
+                    onTap: () {
+                      sAnalytics.tapCloseAddToWalletBanner(
+                        walletType: Platform.isAndroid ? 'Google Wallet' : 'Apple Wallet',
+                      );
+                      onCloseBanner?.call();
+                    },
+                    child: Assets.svg.medium.close.simpleSvg(
+                      height: 20.0,
+                      width: 20.0,
+                    ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 4.0,
-                  top: 4.0,
-                  bottom: 4.0,
-                  right: 36.0,
-                ),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        icon,
-                        const SizedBox(
-                          width: 8.0,
-                        ),
-                        Text(
-                          title,
-                          style: STStyles.subtitle2.copyWith(
-                            color: SColorsLight().black,
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: 4.0,
+                    top: 4.0,
+                    bottom: 4.0,
+                    right: 36.0,
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          icon,
+                          const SizedBox(
+                            width: 8.0,
                           ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 8.0,
-                    ),
-                    Text(
-                      description,
-                      softWrap: true,
-                      overflow: TextOverflow.visible,
-                      style: STStyles.body2Medium.copyWith(
-                        color: SColorsLight().gray10,
+                          Text(
+                            title,
+                            style: STStyles.subtitle2.copyWith(
+                              color: SColorsLight().black,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
+                      const SizedBox(
+                        height: 8.0,
+                      ),
+                      Text(
+                        description,
+                        softWrap: true,
+                        overflow: TextOverflow.visible,
+                        style: STStyles.body2Medium.copyWith(
+                          color: SColorsLight().gray10,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
