@@ -53,7 +53,7 @@ abstract class _GetCryptoCardStoreBase with Store {
     final kycState = getIt.get<KycService>();
     final kycAlertHandler = getIt.get<KycAlertHandler>();
 
-    if (kycState.verificationRequired) {
+    if (kycState.verificationRequired || kycState.isSimpleKyc) {
       final context = sRouter.navigatorKey.currentContext;
       if (context == null) return;
       final result = await showPleaseVerifyAccountPopUp(context: context);

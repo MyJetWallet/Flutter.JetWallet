@@ -124,6 +124,7 @@ abstract class _KycAidCountriesStoreBase with Store {
       loader.startLoadingImmediately();
       final model = ApplyCountryRequestModel(
         countryCode: activeCountry?.countryCode ?? '',
+        isCardFlow: isCardFlow,
       );
       final responce = await sNetwork.getWalletModule().postKYCAplyCountry(model);
 

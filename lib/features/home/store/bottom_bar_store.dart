@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/crypto_jar/store/jars_store.dart';
+import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
@@ -11,6 +12,8 @@ part 'bottom_bar_store.g.dart';
 class BottomBarStore = _BottomBarStoreBase with _$BottomBarStore;
 
 abstract class _BottomBarStoreBase with Store {
+  final kycState = getIt.get<KycService>();
+
   @observable
   BottomItemType homeTab = BottomItemType.home;
 
@@ -62,8 +65,9 @@ abstract class _BottomBarStoreBase with Store {
           BottomItemType.card,
         ],
         if ((sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
-          (element) => element.id == AssetPaymentProductsEnum.cryptoCard,
-        )) ...[
+              (element) => element.id == AssetPaymentProductsEnum.cryptoCard,
+            ) &&
+            kycState.earlyKycFlowAllowed) ...[
           BottomItemType.cryptoCard,
         ],
         if ((sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
