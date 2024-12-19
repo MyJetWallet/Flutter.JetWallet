@@ -1998,5 +1998,11 @@
     "crypto_card_history_card_purchase": "Card purchase",
     "crypto_card_history_refund": "Refund",
     "crypto_card_history_card_issue": "Card issue",
-    "crypto_card_history_details": "Details"
+    "crypto_card_history_details": "Details",
+    "crypto_card_otp_verification": "Verification",
+    "crypto_card_otp_your_verification_code": "Your verification code",
+    "crypto_card_otp_amount": "Amount",
+    "crypto_card_otp_merchant": "Merchant",
+    "crypto_card_otp_description": "Almost there! Copy the 3D Secure code above to confirm your purchase. The code expires in 10 minutes, works once, and is just for you – keep it safe.",
+    "crypto_card_otp_close": "Close"
 }

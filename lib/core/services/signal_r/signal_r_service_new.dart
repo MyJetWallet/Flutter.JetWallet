@@ -11,6 +11,7 @@ import 'package:jetwallet/core/services/signal_r/helpers/market_references.dart'
 import 'package:jetwallet/core/services/signal_r/signalr_backend.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
+import 'package:jetwallet/features/crypto_card/utils/push_crypto_card_otp_code_screen.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_country_model.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
@@ -45,6 +46,7 @@ import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart
 import 'package:simple_networking/modules/signal_r/models/cards_model.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 import 'package:simple_networking/modules/signal_r/models/crypto_card_message_model.dart';
+import 'package:simple_networking/modules/signal_r/models/crypto_card_otps_message_model.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
 import 'package:simple_networking/modules/signal_r/models/fireblock_events_model.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
@@ -1218,6 +1220,15 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
     _cryptoCardProfile = _cryptoCardProfile.copyWith(
       cards: [cardWithNewStatus],
     );
+  }
+
+  @observable
+  CryptoCardOtpsModel? cryptoCardOtps;
+
+  @action
+  void setCryptoCardOtpsModelData(CryptoCardOtpsModel data) {
+    cryptoCardOtps = data;
+    pushCryptoCardOtpCodeScreen(data);
   }
 
   @action

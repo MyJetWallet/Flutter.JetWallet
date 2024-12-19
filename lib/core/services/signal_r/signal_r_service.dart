@@ -208,6 +208,7 @@ class SignalRService {
       smplWalletModel: sSignalRModules.setSmplWalletModelData,
       marketSectorsMessage: sSignalRModules.setMarketSectorsModelData,
       cryptoCardMessage: sSignalRModules.setCryptoCardModelData,
+      cryptoCardOtpsMessage: sSignalRModules.setCryptoCardOtpsModelData,
 
       ///
       createNewSessionLog: () {

@@ -37,6 +37,7 @@ import 'package:jetwallet/features/crypto_card/screens/crypto_card_limits_screen
 import 'package:jetwallet/features/crypto_card/screens/crypto_card_linked_assets_screen.dart';
 import 'package:jetwallet/features/crypto_card/screens/crypto_card_main_screen.dart';
 import 'package:jetwallet/features/crypto_card/screens/crypto_card_name_screen.dart';
+import 'package:jetwallet/features/crypto_card/screens/crypto_card_otp_code_screen.dart';
 import 'package:jetwallet/features/crypto_card/screens/crypto_card_pay_asset_screen.dart';
 import 'package:jetwallet/features/crypto_card/screens/crypto_card_root_screen.dart';
 import 'package:jetwallet/features/crypto_card/screens/crypto_card_transaction_history_screen.dart';
@@ -149,6 +150,7 @@ import 'package:simple_networking/modules/signal_r/models/active_earn_positions_
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/signal_r/models/crypto_card_message_model.dart';
+import 'package:simple_networking/modules/signal_r/models/crypto_card_otps_message_model.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
@@ -787,6 +789,11 @@ class AppRouter extends RootStackRouter {
     AutoRoute(
       path: '/crypto_card_transaction_history',
       page: CryptoCardTransactionHistoryRoute.page,
+    ),
+    AutoRoute(
+      path: '/crypto_card_otp_code',
+      page: CryptoCardOtpCodeRoute.page,
+      fullscreenDialog: true,
     ),
   ];
 }

@@ -49,6 +49,7 @@ import 'package:simple_networking/modules/wallet_api/models/crypto_card/create_c
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/freeze_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/limits_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/limits_crypto_card_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/crypto_card/otp_used_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/price_crypto_card_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/sensitive_info_crypto_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/crypto_card/sensitive_info_crypto_card_response_model.dart';
@@ -1504,5 +1505,11 @@ class WalletApiRepository {
     LimitsCryptoCardRequestModel model,
   ) async {
     return _walletApiDataSources.cryptoCardLimitsRequest(model);
+  }
+
+  Future<DC<ServerRejectException, void>> otpUsedCryptoCard(
+    OtpUsedCryptoCardRequestModel model,
+  ) async {
+    return _walletApiDataSources.otpUsedCryptoCardRequest(model);
   }
 }

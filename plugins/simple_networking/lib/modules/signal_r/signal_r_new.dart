@@ -500,6 +500,11 @@ class SignalRModuleNew {
       cryptoCard,
       method: handler.cryptoCardMessageHandler,
     );
+
+    _hubConnection?.off(
+      cryptoCardOtps,
+      method: handler.cryptoCardOtpsMessageHandler,
+    );
   }
 
   Future<void> setupMessageHandler() async {
@@ -607,5 +612,7 @@ class SignalRModuleNew {
 
     // Crypto card
     _hubConnection?.on(cryptoCard, handler.cryptoCardMessageHandler);
+
+    _hubConnection?.on(cryptoCardOtps, handler.cryptoCardOtpsMessageHandler);
   }
 }

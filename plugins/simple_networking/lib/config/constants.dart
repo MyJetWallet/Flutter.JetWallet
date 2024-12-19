@@ -51,6 +51,7 @@ const bannerList = 'banner-list';
 const smplWalletProfile = 'smpl-wallet-profile';
 const marketSectors = 'market-sectors';
 const cryptoCard = 'crypto-card';
+const cryptoCardOtps = 'crypto-card-opts';
 
 // KeyValue
 const watchlistKey = 'watchlist';
